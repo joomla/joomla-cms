@@ -35,9 +35,9 @@ $form = $forms[0];
 ?>
 
 <div class="subform-wrapper">
-    <?php
-    if ($groupByFieldset) {
-        foreach ($form->getFieldsets() as $fieldSet) {
+    <?php if ($groupByFieldset) : ?>
+        <?php foreach ($form->getFieldsets() as $fieldSet) : ?>
+            <?php
             /*
              * Fieldset attributes (see https://docs.joomla.org/Advanced_form_guide)
              *  name                Element name
@@ -71,25 +71,19 @@ $form = $forms[0];
             ?>
             <div class="<?php echo $fieldSet->class ?? ''; ?>"
                  style="<?php echo implode('', $fieldsetStyle); ?>">
-                <?php
-                foreach ($fields as $field) {
-                    ?>
+                <?php foreach ($fields as $field) : ?>
                     <div class="<?php echo $fieldSet->name . '-fieldwrapper ' .
-                                           $fieldSet->name . '-' . $field->fieldname . '-fieldwrapper'; ?>"
+                        $fieldSet->name . '-' . $field->fieldname . '-fieldwrapper'; ?>"
                          style="<?php echo $fieldSet->fieldwrapperstyle ?? ''; ?>"
                     >
                         <?php echo $field->renderField(); ?>
                     </div>
-                    <?php
-                }
-                ?>
+                <?php endforeach; ?>
             </div>
-            <?php
-        }
-    } else {
-        foreach ($form->getGroup('') as $field) {
-            echo $field->renderField();
-        }
-    }
-    ?>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <?php foreach ($form->getGroup('') as $field) : ?>
+            <?php echo $field->renderField(); ?>
+        <?php endforeach; ?>
+    <?php endif ?>
 </div>
