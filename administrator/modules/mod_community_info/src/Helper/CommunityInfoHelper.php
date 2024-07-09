@@ -632,16 +632,27 @@ class CommunityInfoHelper
         }
 
         // Decode received data
-        try {
-            if ($format == 'json') {
-                $data = json_decode($response->body, true);
-            } elseif ($format == 'xml') {
-                $data = simplexml_load_string($response->body);
-            } else {
-                $data = $response->body;
+        if($response->body) {
+            try {
+                if ($format == 'json') {
+                    $data = json_decode($response->body, true, 512, JSON_THROW_ON_ERROR);
+                } elseif ($format == 'xml') {
+                    libxml_use_internal_errors(true);
+                    $data = simplexml_load_string($response->body);
+
+                    if ($data === false) {
+                        $errors = libxml_get_errors();
+                        [$xml_err_code, $xml_err_msg] = self::xmlError($errors);
+                        Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, $xml_err_code, 'Invalid XML.' . $xml_err_msg), 'warning');
+                        libxml_clear_errors();
+                    }
+                } else {
+                    $data = $response->body;
+                }
+            } catch (\Exception $e) {
+                $data = false;
+                Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, 200, $e->getMessage()), 'warning');
             }
-        } catch (\Exception $e) {
-            $data = false;
         }
 
         return $data;
@@ -662,5 +673,45 @@ class CommunityInfoHelper
         Text::script('MOD_COMMUNITY_MSG_NO_LOCATIONS_FOUND');
         Text::script('MOD_COMMUNITY_MSG_GEOLOCATION_NOT_SUPPORTED');
         Text::script('MOD_COMMUNITY_ERROR_GET_LOCATION');
+    }
+
+    /**
+     * Extract an error from libxml
+     *
+     * @param   array    $errors   Errors from libxml_get_errors()
+     * @param   integer  $limit    Max number of errors shown
+     *
+     * @return  array   [Error code, Error message]
+     *
+     * @since   4.5.0
+     */
+    protected static function xmlError($errors, $limit=1)
+    {
+        $return = '';
+
+        foreach ($errors as $i => $error) {
+            $return .= "\n";
+
+            switch ($error->level) {
+                case LIBXML_ERR_WARNING:
+                    $return .= "XML Warning $error->code: ";
+                    break;
+                case LIBXML_ERR_ERROR:
+                    $return .= "XML Error $error->code: ";
+                    break;
+                case LIBXML_ERR_FATAL:
+                    $return .= "XML Fatal Error $error->code: ";
+                    break;
+            }
+
+            $return .= trim($error->message) . " ($error->line, $error->column);";
+
+            if ($i == $limit-1) {
+                // We reached the limit
+                break;
+            }
+        }
+
+        return [$errors[0]->code, $return];
     }
 }
