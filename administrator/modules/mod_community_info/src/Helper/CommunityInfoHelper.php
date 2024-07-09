@@ -632,7 +632,7 @@ class CommunityInfoHelper
         }
 
         // Decode received data
-        if($response->body) {
+        if ($response->body) {
             try {
                 if ($format == 'json') {
                     $data = json_decode($response->body, true, 512, JSON_THROW_ON_ERROR);
@@ -685,7 +685,7 @@ class CommunityInfoHelper
      *
      * @since   4.5.0
      */
-    protected static function xmlError($errors, $limit=1)
+    protected static function xmlError($errors, $limit = 1)
     {
         $return = '';
 
