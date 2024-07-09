@@ -16,7 +16,13 @@ describe('Test in frontend that the content featured view', () => {
   });
 
   it('can navigate to the article', () => {
-    cy.db_createArticle({ title: 'automated test article', featured: 1, created: '2022-09-09 20:00:00', modified: '2022-09-09 20:00:00', publish_up: '2022-09-09 20:00:00' }).then(() => {
+    cy.db_createArticle({
+      title: 'automated test article',
+      featured: 1,
+      created: '2022-09-09 20:00:00',
+      modified: '2022-09-09 20:00:00',
+      publish_up: '2022-09-09 20:00:00',
+    }).then(() => {
       cy.visit('/');
       cy.get('.item-title > a').click();
 
@@ -25,11 +31,17 @@ describe('Test in frontend that the content featured view', () => {
   });
 
   it('can navigate to the category', () => {
-    cy.db_createArticle({ title: 'automated test article', featured: 1, created: '2022-09-09 20:00:00', modified: '2022-09-09 20:00:00', publish_up: '2022-09-09 20:00:00' }).then(() => {
+    cy.db_createArticle({
+      title: 'automated test article',
+      featured: 1,
+      created: '2022-09-09 20:00:00',
+      modified: '2022-09-09 20:00:00',
+      publish_up: '2022-09-09 20:00:00',
+    }).then(() => {
       cy.visit('/');
       cy.get('.category-name a').click();
 
       cy.contains('h1', 'Uncategorised');
     });
-  });  
+  });
 });
