@@ -52,6 +52,8 @@ $form = $forms[0];
              *                      Default: "1rem"
              *  style               Optional style properties for this field set.
              *                      Example: "border:1px dotted #ccc;padding:2px;box-shadow:2px 2px #888;"
+             *  fieldwrapperstyle   Optional style properties for wrapper around each field in thie field set.
+             *                      Example: "border: 1px solid #f00;padding:2px;"
              */
 
             $fields = $form->getFieldset($fieldSet->name);
@@ -72,11 +74,15 @@ $form = $forms[0];
             <div class="<?php echo $fieldSet->class ?? ''; ?>"
                  style="<?php echo implode('', $fieldsetStyle); ?>">
                 <?php foreach ($fields as $field) : ?>
-                    <div class="<?php echo $fieldSet->name . '-fieldwrapper ' .
-                        $fieldSet->name . '-' . $field->fieldname . '-fieldwrapper'; ?>"
-                         style="<?php echo $fieldSet->fieldwrapperstyle ?? ''; ?>"
-                    >
-                        <?php echo $field->renderField(); ?>
+                    <div style="<?php echo $fieldSet->fieldwrapperstyle ?? ''; ?>">
+                        <?php
+                        echo $field->renderField(
+                                [
+                                        'class' => $fieldSet->name . ' ' .
+                                                   $fieldSet->name . '-' . $field->fieldname,
+                                ]
+                        );
+                        ?>
                     </div>
                 <?php endforeach; ?>
             </div>
