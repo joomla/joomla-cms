@@ -21,14 +21,6 @@ describe('Test in frontend that the newsfeeds details view', () => {
           cy.contains('automated test feed 1');
           cy.get('.com-newsfeeds-newsfeed__items').should('exist');
           cy.get('.com-newsfeeds-newsfeed__items').children().should('have.length', 5);
-
-          // HACK, muhme, June-30-2024 - DO NOT UP-MERGE, no problem in 5.1 upwards
-          // Only avoided in System Tests, as the end of regular bugfix support for 4.x is 15 October 2024.
-          // However, if you prefer a real solution in view with down-merge, create a PR or let me know.
-          // To prevent: Warning: Attempt to read property "id" on null in
-          //             /components/com_newsfeeds/src/View/Newsfeed/HtmlView.php on line 264
-          // Workaround: Back to the home, as only the newsfeed view page contains the warning.
-          cy.visit('/');
         });
     });
   });
