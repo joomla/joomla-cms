@@ -472,7 +472,7 @@ class TasksModel extends ListModel
      * Check if we have right now any enabled due tasks and no locked tasks.
      *
      * @return boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public function getHasDueTasks()
     {
