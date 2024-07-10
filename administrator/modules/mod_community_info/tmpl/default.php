@@ -59,7 +59,7 @@ CommunityInfoHelper::addText();
           <?php foreach ($news as $n => $article) : ?>
             <tr>
               <td scope="row"><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></td>
-              <td style="text-align: right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>
+              <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
