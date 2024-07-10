@@ -14,12 +14,12 @@ use Joomla\CMS\Event\CustomFields\GetTypesEvent;
 use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
 use Joomla\CMS\Event\Model\PrepareFormEvent;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -201,7 +201,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @param   \stdclass  $item     The item.
      * @param   \stdclass  $field    The field.
      *
-     * @return  string
+     * @return  ?string
      *
      * @since   3.7.0
      */
@@ -235,7 +235,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @param   \DOMElement  $parent  The field node parent.
      * @param   Form         $form    The form.
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since   3.7.0
      */

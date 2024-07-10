@@ -53,13 +53,15 @@ const collectExternals = () => {
     return;
   }
 
-  // Joomla modules
+  // Joomla and Vendor modules
   externalModules.push(
     'cropper-module',
     'codemirror',
     'joomla.dialog',
     'editor-api',
     'editor-decorator',
+    'sa11y',
+    'sa11y-lang',
   );
 
   // Codemirror modules

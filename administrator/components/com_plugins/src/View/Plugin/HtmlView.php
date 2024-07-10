@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -33,7 +32,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item object for the newsfeed
      *
-     * @var   CMSObject
+     * @var   \stdClass
      */
     protected $item;
 
@@ -132,7 +131,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @throws  \Exception
      */
@@ -151,5 +150,7 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->cancel('plugin.cancel');
+
+        $toolbar->inlinehelp();
     }
 }

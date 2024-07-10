@@ -80,7 +80,7 @@ class HtmlView extends InstallerViewDefault
         if ($canDo->get('core.manage')) {
             $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE_LANGUAGES')
                 ->url('index.php?option=com_languages&view=installed');
-            $toolbar->linkButton('comments', 'COM_INSTALLER_TOOLBAR_MANAGE_CONTENT_LANGUAGES')
+            $toolbar->linkButton('comments', 'COM_INSTALLER_TOOLBAR_MANAGE_LANGUAGES_CONTENT')
                 ->url('index.php?option=com_languages&view=languages');
             $toolbar->divider();
         }

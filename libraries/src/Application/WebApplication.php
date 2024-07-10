@@ -49,6 +49,10 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @var    string
      * @since  4.3.0
+     *
+     * @deprecated 5.2.0 will be removed in 7.0
+     *             Use the Document getTitle() Method
+     *             Example: \Joomla\CMS\Factory::getApplication()->getDocument()->getTitle()
      */
     public $JComponentTitle;
 
@@ -193,7 +197,7 @@ abstract class WebApplication extends AbstractWebApplication
         }
 
         // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-        if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') !== 'ob_gzhandler')) {
+        if ($this->get('gzip') && !\ini_get('zlib.output_compression') && (\ini_get('output_handler') !== 'ob_gzhandler')) {
             $this->compress();
         }
 
@@ -404,7 +408,7 @@ abstract class WebApplication extends AbstractWebApplication
             $uri = Uri::getInstance($this->get('uri.request'));
 
             // If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-            if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
+            if (strpos(PHP_SAPI, 'cgi') !== false && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
                 // We aren't expecting PATH_INFO within PHP_SELF so this should work.
                 $path = \dirname($_SERVER['PHP_SELF']);
             } else {

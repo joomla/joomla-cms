@@ -32,7 +32,7 @@ class PluginController extends FormController
      *
      * @return  boolean  True if access level checks pass, false otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function cancel($key = null)
     {
@@ -59,7 +59,7 @@ class PluginController extends FormController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {

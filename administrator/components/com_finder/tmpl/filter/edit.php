@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Finder\Administrator\View\Filter\HtmlView $this */
+
 Text::script('COM_FINDER_FILTER_SHOW_ALL', true);
 Text::script('COM_FINDER_FILTER_HIDE_ALL', true);
 
@@ -24,7 +26,7 @@ $this->ignore_fieldsets = ['jbasic'];
 $this->useCoreUI = true;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_finder.finder-edit');

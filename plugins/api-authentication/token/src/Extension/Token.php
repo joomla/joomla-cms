@@ -15,7 +15,6 @@ use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
-use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -125,6 +124,11 @@ final class Token extends CMSPlugin implements SubscriberInterface
             if (\array_key_exists('authorization', $apacheHeaders)) {
                 $authHeader = $this->filter->clean($apacheHeaders['authorization'], 'STRING');
             }
+        }
+
+        // Another Apache specific fix. See https://github.com/symfony/symfony/issues/1813
+        if (empty($authHeader)) {
+            $authHeader  = $this->getApplication()->getInput()->server->get('REDIRECT_HTTP_AUTHORIZATION', '', 'string');
         }
 
         if (substr($authHeader, 0, 7) == 'Bearer ') {
@@ -327,7 +331,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
      */
     private function getPluginParameter(string $folder, string $plugin, string $param, $default = null)
     {
-        /** @var PluginModel $model */
+        /** @var \Joomla\Component\Plugins\Administrator\Model\PluginModel $model */
         $model = $this->getApplication()->bootComponent('plugins')
             ->getMVCFactory()->createModel('Plugin', 'Administrator', ['ignore_request' => true]);
 

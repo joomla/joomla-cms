@@ -62,6 +62,38 @@ class LanguageHelper
     }
 
     /**
+     * Builds a list of the system languages which can be used in a select option
+     * with both the native name and the english name
+     *
+     * @param   string   $actualLanguage  Client key for the area
+     * @param   string   $basePath        Base path to use
+     * @param   boolean  $caching         True if caching is used
+     * @param   boolean  $installed       Get only installed languages
+     *
+     * @return  array  List of system languages
+     *
+     * @since   5.1.0
+     */
+    public static function createLanguageListInstall($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
+    {
+        $list      = [];
+        $clientId  = $basePath === JPATH_ADMINISTRATOR ? 1 : 0;
+        $languages = $installed ? static::getInstalledLanguages($clientId, true) : self::getKnownLanguages($basePath);
+
+        foreach ($languages as $languageCode => $language) {
+            $metadata = $installed ? $language->metadata : $language;
+
+            $list[] = [
+                'text'     => $metadata['name'] . ' | ' . $metadata['nativeName'] ?? $metadata['name'],
+                'value'    => $languageCode,
+                'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
+            ];
+        }
+
+        return $list;
+    }
+
+    /**
      * Tries to detect the language.
      *
      * @return  string  locale or null if not found
@@ -412,7 +444,7 @@ class LanguageHelper
 
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
-        $disabledFunctions      = explode(',', ini_get('disable_functions'));
+        $disabledFunctions      = explode(',', \ini_get('disable_functions'));
         $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
         // Capture hidden PHP errors from the parsing.

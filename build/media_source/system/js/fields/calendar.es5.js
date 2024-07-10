@@ -509,45 +509,40 @@
 	/** Method to handle keyboard click events **/
 	JoomlaCalendar.prototype._handleCalKeyEvent = function (ev) {
 		var self = this,
-			K = ev.keyCode;
+			code = ev.code;
 
 		// Get value from input
-		if (ev.target === this.inputField && (K === 13 || K === 9)) {
+		if (ev.target === this.inputField && (code === 'Enter' || code === 'Tab')) {
 			this.close();
 		}
 
 		if (self.params.direction === 'rtl') {
-			if (K === 37) {
-				K = 39;
-			} else if (K === 39) {
-				K = 37;
+			if (code === 'ArrowLeft') {
+				code = 'ArrowRight';
+			} else if (code === 'ArrowRight') {
+				code = 'ArrowLeft';
 			}
 		}
 
-		if (K === 32) {                                // KEY Shift + space (now)
-			if (ev.shiftKey) {
-				ev.preventDefault();
-				this.cellClick(self._nav_now, ev);
-				self.close();
-			}
+		if (ev.shiftKey && code === 'Space') {
+			ev.preventDefault();
+			this.cellClick(self._nav_now, ev);
+			self.close();
 		}
-		if (K === 27) {                                // KEY esc (close);
+		if (code === 'Escape') {
 			this.close();
 		}
-		if (K === 38) {                                // KEY up (previous week)
+		if (code === 'ArrowUp') {
 			this.moveCursorBy(7);
 		}
-		if (K === 40) {                                // KEY down (next week)
-			this.moveCursorBy( -7);
+		if (code === 'ArrowDown') {
+			this.moveCursorBy(-7);
 		}
-		if (K === 37) {                                // KEY left (previous day)
+		if (code === 'ArrowLeft') {
 			this.moveCursorBy(1);
 		}
-		if (K === 39) {                                // KEY right (next day)
-			this.moveCursorBy( -1);
-		}
-		if (ev.target === this.inputField && !(K>48 || K<57 || K===186 || K===189 || K===190 || K===32)) {
-			return stopCalEvent(ev);
+		if (code === 'ArrowRight') {
+			this.moveCursorBy(-1);
 		}
 	};
 
@@ -746,8 +741,8 @@
 					hrs -= 12;
 				}
 
-				var H = makeTimePart("time time-hours", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
-					M = makeTimePart("time time-minutes", mins, 0, 59, cell2),
+				var H = makeTimePart("time time-hours form-control form-select", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
+					M = makeTimePart("time time-minutes form-control form-select", mins, 0, 59, cell2),
 					AP = null;
 
 

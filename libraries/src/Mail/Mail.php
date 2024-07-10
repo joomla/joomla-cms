@@ -511,7 +511,7 @@ class Mail extends PHPMailer implements MailerInterface
     public function isSendmail()
     {
         // Prefer the Joomla configured sendmail path and default to the configured PHP path otherwise
-        $sendmail = Factory::getApplication()->get('sendmail', ini_get('sendmail_path'));
+        $sendmail = Factory::getApplication()->get('sendmail', \ini_get('sendmail_path'));
 
         // And if we still don't have a path, then use the system default for Linux
         if (empty($sendmail)) {

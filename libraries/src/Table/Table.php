@@ -36,8 +36,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-#[\AllowDynamicProperties]
-abstract class Table implements TableInterface, DispatcherAwareInterface
+abstract class Table extends \stdClass implements TableInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
     use LegacyErrorHandlingTrait;
@@ -927,7 +926,7 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
                 $asset->rules = (string) $this->_rules;
             }
 
-            if (!$asset->check() || !$asset->store($updateNulls)) {
+            if (!$asset->check() || !$asset->store()) {
                 $this->setError($asset->getError());
 
                 return false;

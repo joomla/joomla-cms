@@ -614,7 +614,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function install($path = null)
     {
-        if ($path && Folder::exists($path)) {
+        if ($path && is_dir(Path::clean($path))) {
             $this->setPath('source', $path);
         } else {
             $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
@@ -803,7 +803,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function update($path = null)
     {
-        if ($path && Folder::exists($path)) {
+        if ($path && is_dir(Path::clean($path))) {
             $this->setPath('source', $path);
         } else {
             $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
@@ -1579,7 +1579,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 }
 
                 // If the language folder is not present, then the core pack hasn't been installed... ignore
-                if (!Folder::exists(\dirname($path['dest']))) {
+                if (!is_dir(Path::clean(\dirname($path['dest'])))) {
                     continue;
                 }
             } else {
@@ -1947,7 +1947,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 }
 
                 // If the language folder is not present, then the core pack hasn't been installed... ignore
-                if (!Folder::exists(\dirname($path))) {
+                if (!is_dir(Path::clean(\dirname($path)))) {
                     continue;
                 }
             } else {
@@ -2012,7 +2012,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function findManifest()
     {
         // Do nothing if folder does not exist for some reason
-        if (!Folder::exists($this->getPath('source'))) {
+        if (!is_dir(Path::clean($this->getPath('source')))) {
             return false;
         }
 

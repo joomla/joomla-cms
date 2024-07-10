@@ -18,8 +18,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('modal-content-select');
 

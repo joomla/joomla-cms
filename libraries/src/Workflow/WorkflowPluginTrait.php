@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Object\CMSObject;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -62,7 +61,7 @@ trait WorkflowPluginTrait
      *
      * @param   int|null $workflowId ID of the workflow
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */

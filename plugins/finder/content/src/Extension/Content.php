@@ -18,7 +18,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -374,7 +374,7 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @param   mixed  $query  A DatabaseQuery object or null.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   2.5
      */
@@ -383,7 +383,7 @@ final class Content extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
             ->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
             ->select('a.images')
             ->select('a.state, a.catid, a.created AS start_date, a.created_by')

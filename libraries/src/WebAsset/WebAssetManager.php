@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\WebAsset;
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
@@ -106,6 +107,16 @@ class WebAssetManager implements WebAssetManagerInterface
      * @since  4.0.0
      */
     protected $dependenciesIsActual = false;
+
+    /**
+     * A cache holder for list of sorted assets, used by getAssets() method
+     * This is emptied when dependencies actualised, see enableDependencies() method
+     *
+     * @var    array
+     *
+     * @since  5.1.0
+     */
+    protected $sortedAssets = [];
 
     /**
      * Class constructor
@@ -286,6 +297,9 @@ class WebAssetManager implements WebAssetManagerInterface
             $this->dependenciesIsActual = false;
         }
 
+        // To re-order assets
+        $this->sortedAssets[$type] = [];
+
         return $this;
     }
 
@@ -315,6 +329,9 @@ class WebAssetManager implements WebAssetManagerInterface
 
         // To re-check dependencies
         $this->dependenciesIsActual = false;
+
+        // To re-order assets
+        $this->sortedAssets[$type] = [];
 
         // For Preset case
         if ($type === 'preset') {
@@ -541,7 +558,7 @@ class WebAssetManager implements WebAssetManagerInterface
      * Get all active assets, optionally sort them to follow the dependency Graph
      *
      * @param   string  $type  The asset type, script or style
-     * @param   bool    $sort  Whether need to sort the assets to follow the dependency Graph
+     * @param   bool    $sort  Whether we need to sort the assets to follow the dependency Graph
      *
      * @return  WebAssetItem[]
      *
@@ -563,7 +580,19 @@ class WebAssetManager implements WebAssetManagerInterface
 
         // Apply Tree sorting for regular asset items, but return FIFO order for "preset"
         if ($sort && $type !== 'preset') {
-            $assets = $this->calculateOrderOfActiveAssets($type);
+            // Check previous calculations
+            if (!empty($this->sortedAssets[$type])) {
+                $assets = [];
+
+                foreach ($this->sortedAssets[$type] as $name) {
+                    $assets[$name] = $this->registry->get($type, $name);
+                }
+            } else {
+                $assets = $this->calculateOrderOfActiveAssets($type);
+
+                // Cache the result
+                $this->sortedAssets[$type] = array_keys($assets);
+            }
         } else {
             $assets = [];
 
@@ -772,7 +801,9 @@ class WebAssetManager implements WebAssetManagerInterface
                 }
             }
 
+            // Update state flag and clear sorting cache
             $this->dependenciesIsActual = true;
+            $this->sortedAssets         = [];
         }
 
         return $this;
@@ -990,5 +1021,34 @@ class WebAssetManager implements WebAssetManagerInterface
         }
 
         return $assets;
+    }
+
+    /**
+     * A helper method to call onAttachCallback for script assets that implements WebAssetAttachBehaviorInterface
+     *
+     * @param   array     $assets     Array of assets
+     * @param   Document  $document   Document instance to attach
+     * @param   array     $cache      Array of object ids which callback was already called
+     *
+     * @return  array  Array of object ids for which callback was called
+     *
+     * @since 5.1.0
+     */
+    public static function callOnAttachCallback(array $assets, Document $document, array $cache = []): array
+    {
+        foreach ($assets as $asset) {
+            if (!$asset instanceof WebAssetAttachBehaviorInterface) {
+                continue;
+            }
+
+            $oid = spl_object_id($asset);
+
+            if (empty($cache[$oid])) {
+                $asset->onAttachCallback($document);
+                $cache[$oid] = true;
+            }
+        }
+
+        return $cache;
     }
 }

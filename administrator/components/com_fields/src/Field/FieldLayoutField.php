@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Fields\Administrator\Field;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects

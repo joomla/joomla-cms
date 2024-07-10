@@ -212,7 +212,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
             if (
                 $table->load(
                     [
-                    'default' => '1',
+                    'default'   => '1',
                     'extension' => $this->extension,
                     ]
                 )
