@@ -9,3 +9,55 @@
   }
 }
 
+.page-item {
+  @media (max-width: 767.98px) {
+    /* Hide all list items by default */
+    display: none;
+
+    /* Display the first two list items */
+    &:nth-child(-n+2) {
+      display: block;
+    }
+
+    /* Display the list item immediately before the active list item if it is not disabled */
+    &:has(+ .active):not(.disabled) {
+      position: relative;
+      display: block;
+      padding-inline-start: 50px;
+
+      &::before {
+        position: absolute;
+        inset-block-end: 0;
+        inset-inline-end: 50px;
+        font-size: 1.5rem;
+        content: "\2026";
+      }
+    }
+
+    /* Display the active list item */
+    &.active {
+      display: block;
+    }
+
+    /* Display the list item immediately after the active list item if it is not disabled */
+    &.active + li:not(.disabled) {
+      position: relative;
+      display: block;
+      padding-inline-end: 50px;
+
+      &::after {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-start: 50px;
+        font-size: 1.5rem;
+        content: "\2026";
+      }
+    }
+
+    /* Display the last two list items */
+    &:nth-last-child(-n+2) {
+      display: block;
+    }
+
+  }
+}
