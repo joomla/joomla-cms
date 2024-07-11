@@ -45,7 +45,7 @@ CommunityInfoHelper::addText();
         <p><?php echo Text::_('MOD_COMMUNITY_INFO_NEWS_INTRO'); ?></p>
       </div>
       <a class="btn btn-primary btn-sm mt-1" href="<?php echo $links->get('newsletter'); ?>" target="_blank"><?php echo Text::_('MOD_COMMUNITY_INFO_NEWS_SUBSCRIBE'); ?></a>
-      <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNews<?php echo strval($module->id); ?>" aria-expanded="false" aria-controls="collapseNews"><i class="icon-arrow-down"></i></button>
+      <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNews<?php echo strval($module->id); ?>" aria-expanded="false" aria-controls="collapseNews"><span class="icon-arrow-down" aria-hidden="true"></span></button>
     </div>
     <?php if (empty($news)) : ?>
       <div id="collapseNews<?php echo strval($module->id); ?>" class="community-info-news collapse">
@@ -80,7 +80,7 @@ CommunityInfoHelper::addText();
         <h3><?php echo Text::_('MOD_COMMUNITY_INFO_EVENTS_TITLE'); ?></h3>
         <p><?php echo Text::_('MOD_COMMUNITY_INFO_EVENTS_INTRO'); ?></p>
       </div>
-      <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvents<?php echo strval($module->id); ?>" aria-expanded="false" aria-controls="collapseEvents"><i class="icon-arrow-down"></i></button>
+      <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvents<?php echo strval($module->id); ?>" aria-expanded="false" aria-controls="collapseEvents"><span class="icon-arrow-down" aria-hidden="true"></span></button>
     </div>
     <?php if (empty($events)) : ?>
       <div id="collapseEvents<?php echo strval($module->id); ?>" class="community-info-events collapse">
@@ -120,7 +120,7 @@ CommunityInfoHelper::addText();
 <template id="template-location-picker">
   <div class="select-location">
     <a href="#" data-modal-id="location-modal<?php echo strval($module->id); ?>" data-geolocation="<?php echo CommunityInfoHelper::getLocation($params, 'geolocation'); ?>">
-      <i class="icon-location"></i>
+      <span class="icon-location" aria-hidden="true"></span>
       <?php echo Text::_('MOD_COMMUNITY_INFO_CHOOSE_LOCATION'); ?>
     </a><span> (<?php echo Text::_('JCURRENT'); ?>: <?php echo CommunityInfoHelper::getLocation($params, 'label'); ?>)</span>
   </div>
