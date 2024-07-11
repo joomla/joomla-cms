@@ -55,6 +55,13 @@ CommunityInfoHelper::addText();
       </div>
     <?php else : ?>
       <table id="collapseNews<?php echo strval($module->id); ?>" class="table community-info-news collapse">
+        <caption class="hidden"><?php echo Text::_('MOD_COMMUNITY_INFO_NEWS_TITLE_FEED'); ?></caption>
+        <thead class="hidden">
+          <tr>
+            <th scope="col"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+            <th scope="col"><?php echo Text::_('JGLOBAL_PUBLISHED_DATE'); ?></th>
+          </tr>
+        </thead>
         <tbody>
           <?php foreach ($news as $n => $article) : ?>
             <tr>
@@ -83,11 +90,18 @@ CommunityInfoHelper::addText();
       </div>
     <?php else : ?>
       <table id="collapseEvents<?php echo strval($module->id); ?>" class="table table-sm community-info-events collapse">
+        <caption class="hidden"><?php echo Text::_('MOD_COMMUNITY_INFO_EVENTS_TITLE_FEED'); ?></caption>
+        <thead class="hidden">
+          <tr>
+            <th scope="col"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+            <th scope="col"><?php echo Text::_('JDATE'); ?></th>
+          </tr>
+        </thead>
         <tbody>        
           <?php foreach ($events as $e => $event) : ?>
             <tr>
               <td scope="row"><strong><a href="<?php echo $event->url; ?>" target="_blank"><?php echo $event->title; ?></a></strong><br /><span class="small"><?php echo $event->location; ?></span></td>
-              <td style="text-align: right"><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'D, M j, Y'); ?></span><br /><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'H:i T'); ?></span></td>
+              <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'D, M j, Y'); ?></span><br /><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'H:i T'); ?></span></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
