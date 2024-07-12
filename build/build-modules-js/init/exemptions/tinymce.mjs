@@ -1,11 +1,12 @@
 import { join } from 'node:path';
-import {
-  existsSync, copy, readFile, writeFile, mkdir,
-} from 'fs-extra';
-import LightningCSS from 'lightningcss';
+import { transform as transfromCss } from 'lightningcss';
 import { transform } from 'esbuild';
+import pkg from 'fs-extra';
+import { copyAllFiles } from '../common/copy-all-files.mjs';
 
-const { copyAllFiles } = require('../common/copy-all-files.mjs');
+const {
+  copy, existsSync, readFile, writeFile, mkdir,
+} = pkg;
 
 const RootPath = process.cwd();
 const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
@@ -70,7 +71,7 @@ const tinyMCE = async (packageName, version) => {
   /* Create the Highlighter plugin */
   // Get the css
   let cssContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.css', { encoding: 'utf8' });
-  cssContent = LightningCSS.transform({
+  cssContent = transfromCss({
     code: Buffer.from(cssContent),
     minify: true,
   }).code;
@@ -95,4 +96,4 @@ const tinyMCE = async (packageName, version) => {
   await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), { preserveTimestamps: true });
 };
 
-export default { tinyMCE };
+export { tinyMCE };

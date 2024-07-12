@@ -15,14 +15,10 @@ For some of these operations, conventions were established to simplify and speed
 
 ## Javascript
 There are three options here:
-- Modern Javascript files must have an extension `.es6.js`.
+- Modern Javascript files must have an extension `.mjs`.
   This allows ESLint to check the code style, Joomla is using the Airbnb preset https://github.com/airbnb/javascript.
   It also instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates both normal and minified files.
   Production code WILL NOT have the `.es6` part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones.
-
-- Web Component Javascript files must have an extension `.w-c.es6.js`.
-  This allows ESLint to check the code style and instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates normal and minified files. The difference with the `.es6` files is that the tools will automate the minification of the CSS (assuming that the appropriate SCSS file exists), which is then injected into the JS file in place of the placeholder `{{CSS_CONTENTS_PLACEHOLDER}}` (ie: `build/media_source/system/js/joomla-core-loader.w-c.es6.js`)
-  Production code WILL NOT have the `.w-c.es6` part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones.
 
 - Legacy Javascript files must have an extension `.es5.js`.
   This instructs ESLint to skip checking this file.

@@ -1,10 +1,13 @@
+import { dirname, sep } from 'node:path';
+import { transform } from 'lightningcss';
+
+import pkg from 'fs-extra';
+
 const {
   copy, readFile, writeFile, ensureDir,
-} = require('fs-extra');
-const { dirname, sep } = require('path');
-const LightningCSS = require('lightningcss');
+} = pkg;
 
-module.exports.handleCssFile = async (file) => {
+const handleCssFile = async (file) => {
   const outputFile = file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   try {
     // CSS file, we will copy the file and then minify it in place
@@ -16,7 +19,7 @@ module.exports.handleCssFile = async (file) => {
     }
 
     const content = await readFile(file, { encoding: 'utf8' });
-    const { code } = LightningCSS.transform({
+    const { code } = transform({
       code: Buffer.from(content),
       minify: true,
     });
@@ -31,3 +34,5 @@ module.exports.handleCssFile = async (file) => {
     console.log(err);
   }
 };
+
+export { handleCssFile };

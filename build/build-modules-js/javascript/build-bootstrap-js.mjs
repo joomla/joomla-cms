@@ -1,15 +1,18 @@
-const {
+import {
   readdir, readFile, writeFile, unlink,
-} = require('fs').promises;
-const { resolve } = require('path');
-const { transform } = require('esbuild');
-const rimraf = require('rimraf');
-const rollup = require('rollup');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const replace = require('@rollup/plugin-replace');
-const { babel } = require('@rollup/plugin-babel');
-const commonjs = require('@rollup/plugin-commonjs');
-const bsVersion = require('../../../package.json').dependencies.bootstrap.replace(/^\^|~/, '');
+} from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { transform } from 'esbuild';
+import rimraf from 'rimraf';
+import { rollup } from 'rollup';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import { babel } from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+
+const opts = JSON.parse(readFileSync(`${process.cwd()}/package.json`));
+const bsVersion = opts.dependencies.bootstrap.replace(/^\^|~/, '');
 
 const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
@@ -29,8 +32,8 @@ const build = async () => {
   const domImports = await readdir(resolve('node_modules/bootstrap', 'js/src/dom'));
   const utilImports = await readdir(resolve('node_modules/bootstrap', 'js/src/util'));
 
-  const bundle = await rollup.rollup({
-    input: resolve(inputFolder, 'index.es6.js'),
+  const bundle = await rollup({
+    input: resolve(inputFolder, 'index.mjs'),
     plugins: [
       nodeResolve(),
       replace({
@@ -58,17 +61,17 @@ const build = async () => {
       }),
     ],
     manualChunks: {
-      alert: ['build/media_source/vendor/bootstrap/js/alert.es6.js'],
-      button: ['build/media_source/vendor/bootstrap/js/button.es6.js'],
-      carousel: ['build/media_source/vendor/bootstrap/js/carousel.es6.js'],
-      collapse: ['build/media_source/vendor/bootstrap/js/collapse.es6.js'],
-      dropdown: ['build/media_source/vendor/bootstrap/js/dropdown.es6.js'],
-      modal: ['build/media_source/vendor/bootstrap/js/modal.es6.js'],
-      offcanvas: ['build/media_source/vendor/bootstrap/js/offcanvas.es6.js'],
-      popover: ['build/media_source/vendor/bootstrap/js/popover.es6.js'],
-      scrollspy: ['build/media_source/vendor/bootstrap/js/scrollspy.es6.js'],
-      tab: ['build/media_source/vendor/bootstrap/js/tab.es6.js'],
-      toast: ['build/media_source/vendor/bootstrap/js/toast.es6.js'],
+      alert: ['build/media_source/vendor/bootstrap/js/alert.mjs'],
+      button: ['build/media_source/vendor/bootstrap/js/button.mjs'],
+      carousel: ['build/media_source/vendor/bootstrap/js/carousel.mjs'],
+      collapse: ['build/media_source/vendor/bootstrap/js/collapse.mjs'],
+      dropdown: ['build/media_source/vendor/bootstrap/js/dropdown.mjs'],
+      modal: ['build/media_source/vendor/bootstrap/js/modal.mjs'],
+      offcanvas: ['build/media_source/vendor/bootstrap/js/offcanvas.mjs'],
+      popover: ['build/media_source/vendor/bootstrap/js/popover.mjs'],
+      scrollspy: ['build/media_source/vendor/bootstrap/js/scrollspy.mjs'],
+      tab: ['build/media_source/vendor/bootstrap/js/tab.mjs'],
+      toast: ['build/media_source/vendor/bootstrap/js/toast.mjs'],
       popper: ['@popperjs/core'],
       dom: [
         'node_modules/bootstrap/js/src/base-component.js',
@@ -93,8 +96,8 @@ const buildLegacy = async () => {
   // eslint-disable-next-line no-console
   console.log('Building Legacy...');
 
-  const bundle = await rollup.rollup({
-    input: resolve(inputFolder, 'index.es6.js'),
+  const bundle = await rollup({
+    input: resolve(inputFolder, 'index.mjs'),
     plugins: [
       commonjs(),
       nodeResolve(),
@@ -138,12 +141,12 @@ const buildLegacy = async () => {
   await bundle.close();
 };
 
-module.exports.bootstrapJs = async () => {
+const bootstrapJs = async () => {
   rimraf.sync(resolve(outputFolder));
 
   try {
-    await build(resolve(inputFolder, 'index.es6.js'));
-    await unlink(resolve(outputFolder, 'index.es6.js'));
+    await build(resolve(inputFolder, 'index.mjs'));
+    await unlink(resolve(outputFolder, 'index.js'));
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
@@ -159,7 +162,7 @@ module.exports.bootstrapJs = async () => {
     console.log('✅ ES6 components ready');
 
     try {
-      await buildLegacy(inputFolder, 'index.es6.js');
+      await buildLegacy(inputFolder, 'index.mjs');
       const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
       const mini = await transform(es5File, { minify: true });
       await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8', mode: 0o644 });
@@ -176,3 +179,5 @@ module.exports.bootstrapJs = async () => {
     process.exitCode = 1;
   });
 };
+
+export { bootstrapJs };

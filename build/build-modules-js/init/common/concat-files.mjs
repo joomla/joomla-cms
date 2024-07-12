@@ -1,4 +1,6 @@
-const { readFile, writeFile, existsSync } = require('fs-extra');
+import pkg from 'fs-extra';
+
+const { readFile, writeFile, existsSync } = pkg;
 
 const RootPath = process.cwd();
 
@@ -10,7 +12,7 @@ const RootPath = process.cwd();
  *
  * @returns {void}
  */
-module.exports.concatFiles = async (files, output) => {
+const concatFiles = async (files, output) => {
   const promises = [];
 
   // eslint-disable-next-line no-restricted-syntax
@@ -24,3 +26,5 @@ module.exports.concatFiles = async (files, output) => {
 
   await writeFile(`${RootPath}/${output}`, res.join(' '), { encoding: 'utf8', mode: 0o644 });
 };
+
+export { concatFiles };

@@ -1,10 +1,10 @@
 import { writeFile } from 'node:fs/promises';
-import { importants } from 'node:fs';
+import { constants } from 'node:fs';
 import { basename, sep, resolve } from 'node:path';
-import rollup from 'rollup';
+import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
-import { minifyJsCode } from './minify.mjs';
+import { minifyCode } from './minify.mjs';
 import { handleESMToLegacy } from './compile-to-es5.mjs';
 
 /**
@@ -50,7 +50,7 @@ const handleESMFile = async (file) => {
     sourcemap: false,
     file: resolve(`${newPath}.js`),
   })
-    .then((value) => minifyJsCode(value.output[0].code))
+    .then((value) => minifyCode(value.output[0].code))
     .then((content) => {
       // eslint-disable-next-line no-console
       console.log(`✅ ES2017 file: ${basename(file).replace('.mjs', '.js')}: transpiled`);
@@ -67,4 +67,4 @@ const handleESMFile = async (file) => {
   await bundle.close();
 };
 
-export default { handleESMFile };
+export { handleESMFile };

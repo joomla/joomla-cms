@@ -1,10 +1,12 @@
 import { join } from 'node:path';
-import {
-  existsSync, readFile, writeFile, mkdir,
-} from 'fs-extra';
+import pkg from 'fs-extra';
 
 import { concatFiles } from '../common/concat-files.mjs';
 import { copyAllFiles } from '../common/copy-all-files.mjs';
+
+const {
+  existsSync, readFile, writeFile, mkdir,
+} = pkg;
 
 const RootPath = process.cwd();
 const xmlVersionStr = /(<version>)(.+)(<\/version>)/;

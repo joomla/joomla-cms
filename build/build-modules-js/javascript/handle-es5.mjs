@@ -1,6 +1,6 @@
 import { basename, dirname, sep } from 'node:path';
 import FsExtra from 'fs-extra';
-import { minifyJs } from './minify.mjs';
+import { minifyFile } from './minify.mjs';
 
 const handleES5File = async (file) => {
   if (file.match(/\.es5\.js$/)) {
@@ -11,8 +11,8 @@ const handleES5File = async (file) => {
     // eslint-disable-next-line no-console
     console.log(`✅ Legacy js file: ${basename(file)}: copied`);
 
-    minifyJs(file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`).replace('.es5.js', '.js'));
+    minifyFile(file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`).replace('.es5.js', '.js'));
   }
 };
 
-export default { handleES5File };
+export { handleES5File };

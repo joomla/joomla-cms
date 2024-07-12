@@ -1,9 +1,9 @@
 import { basename, resolve } from 'node:path';
-import rollup from 'rollup';
+import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
-import { minifyJs } from './minify.mjs';
+import { minifyFile } from './minify.mjs';
 
 /**
  * Compiles es6 files to es5.
@@ -48,8 +48,8 @@ const handleESMToLegacy = async (file) => {
     // eslint-disable-next-line no-console
     console.log(`✅ ES5 file: ${basename(file).replace('.js', '-es5.js')}: transpiled`);
 
-    minifyJs(resolve(`${file.replace(/\.js$/, '')}-es5.js`));
+    minifyFile(resolve(`${file.replace(/\.js$/, '')}-es5.js`));
   });
 };
 
-export default { handleESMToLegacy };
+export { handleESMToLegacy };

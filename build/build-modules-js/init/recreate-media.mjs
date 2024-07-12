@@ -1,11 +1,11 @@
-const {
-  stat, copy, existsSync, emptyDirSync,
-} = require('fs-extra');
-const {
-  readFile, writeFile, readdir,
-} = require('fs').promises;
-const { join, extname } = require('path');
-const recursive = require('recursive-readdir');
+import { join, extname } from 'node:path';
+import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import recursive from 'recursive-readdir';
+
+import pkg from 'fs-extra';
+
+const { copy, emptyDirSync, stat } = pkg;
 
 const RootPath = process.cwd();
 const knownDirs = [
@@ -32,7 +32,7 @@ const updateSettings = async (options) => {
  *
  * @returns {Promise}
  */
-module.exports.recreateMediaFolder = async (options) => {
+const recreateMediaFolder = async (options) => {
   await updateSettings(options);
   const installedVendors = Object.keys(options.settings.vendors).map((vendor) => {
     if (vendor === 'choices.js') {
@@ -66,7 +66,7 @@ module.exports.recreateMediaFolder = async (options) => {
 
   const filterFunc = async (src) => {
     const fileStat = await stat(src);
-    if (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css')) {
+    if (fileStat.isFile() && ['.js', '.mjs', '.css'].includes(extname(src))) {
       return false;
     }
 
@@ -84,3 +84,5 @@ module.exports.recreateMediaFolder = async (options) => {
     await writeFile(SCSSMediafolders[file], contents.replace(/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/media\//g, '../../../../'));
   });
 };
+
+export { recreateMediaFolder };

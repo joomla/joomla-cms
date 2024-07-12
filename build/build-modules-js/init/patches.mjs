@@ -1,6 +1,7 @@
-const { readFile, writeFile } = require('fs-extra');
-const { join } = require('path');
+import { join } from 'node:path';
+import pkg from 'fs-extra';
 
+const { readFile, writeFile } = pkg;
 const RootPath = process.cwd();
 
 /**
@@ -10,7 +11,7 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-module.exports.patchPackages = async (options) => {
+const patchPackages = async (options) => {
   const mediaVendorPath = join(RootPath, 'media/vendor');
 
   // Joomla's hack to expose the chosen base classes so we can extend it ourselves
@@ -51,3 +52,5 @@ document.addEventListener("joomla:updated", (event) => [].slice.call(event.targe
   await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
   await writeFile(join(RootPath, 'node_modules/@fortawesome/fontawesome-free/scss/_variables.scss'), newScss, { encoding: 'utf8', mode: 0o644 });
 };
+
+export { patchPackages };

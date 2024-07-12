@@ -1,11 +1,11 @@
-const {
+import {
   access, mkdir, readFile, writeFile,
-} = require('fs').promises;
-const Ini = require('ini');
-const { dirname } = require('path');
-const Recurs = require('recursive-readdir');
-const { transform } = require('esbuild');
-const LightningCSS = require('lightningcss');
+} from 'node:fs/promises';
+import Ini from 'ini';
+import { dirname } from 'node:path';
+import Recurs from 'recursive-readdir';
+import { transform } from 'esbuild';
+import { transform as transformCss } from 'lightningcss';
 
 const RootPath = process.cwd();
 const dir = `${RootPath}/installation/language`;
@@ -21,7 +21,7 @@ const srcPath = `${RootPath}/build/warning_page`;
  * And also specific strings in the languages in the installation folder!
  * Also the base strings are held in build/build-modules-js/settings.json
  */
-module.exports.createErrorPages = async (options) => {
+async function createErrorPages(options) {
   const iniFilesProcess = [];
   const processPages = [];
   global.incompleteObj = {};
@@ -33,7 +33,7 @@ module.exports.createErrorPages = async (options) => {
   let cssContent = await readFile(`${srcPath}/template.css`, { encoding: 'utf8' });
   let jsContent = await readFile(`${srcPath}/template.js`, { encoding: 'utf8' });
 
-  const { code } = LightningCSS.transform({
+  const { code } = transformCss({
     code: Buffer.from(cssContent),
     minify: true,
   });
@@ -165,4 +165,6 @@ module.exports.createErrorPages = async (options) => {
     console.error(err);
     process.exitCode = -1;
   });
-};
+}
+
+export { createErrorPages };

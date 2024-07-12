@@ -18,4 +18,4 @@ class Timer {
   }
 }
 
-module.exports.Timer = Timer;
+export { Timer };

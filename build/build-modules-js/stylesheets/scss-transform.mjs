@@ -1,10 +1,10 @@
-const Fs = require('fs').promises;
-const FsExtra = require('fs-extra');
-const { dirname, sep } = require('path');
-const LightningCSS = require('lightningcss');
-const Sass = require('sass-embedded');
+import fs from 'node:fs/promises';
+import { dirname, sep } from 'node:path';
+import FsExtra from 'fs-extra';
+import LightningCSS from 'lightningcss';
+import * as Sass from 'sass-embedded';
 
-module.exports.compile = async (file) => {
+const compile = async (file) => {
   const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
     .replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
@@ -25,7 +25,7 @@ module.exports.compile = async (file) => {
 
   // Ensure the folder exists or create it
   await FsExtra.mkdirs(dirname(cssFile), {});
-  await Fs.writeFile(
+  await fs.writeFile(
     cssFile,
     `@charset "UTF-8";
 ${code}`,
@@ -40,7 +40,7 @@ ${code}`,
 
   // Ensure the folder exists or create it
   FsExtra.mkdirs(dirname(cssFile.replace('.css', '.min.css')), {});
-  await Fs.writeFile(
+  await fs.writeFile(
     cssFile.replace('.css', '.min.css'),
     `@charset "UTF-8";${cssMin.code}`,
     { encoding: 'utf8', mode: 0o644 },
@@ -49,3 +49,5 @@ ${code}`,
   // eslint-disable-next-line no-console
   console.log(`✅ SCSS File compiled: ${cssFile}`);
 };
+
+export default { compile };

@@ -1,6 +1,10 @@
-const { transform } = require('esbuild');
-const { readFile, writeFile } = require('fs-extra');
-const { basename } = require('path');
+import { basename } from 'node:path';
+import { transform } from 'esbuild';
+
+import pkg from 'fs-extra';
+
+const { readFile, writeFile } = pkg;
+
 /**
  * Minify a js file using Terser
  *
@@ -23,5 +27,4 @@ const minifyFile = async (file) => {
  */
 const minifyCode = async (code) => transform(code, { minify: true });
 
-module.exports.minifyJs = minifyFile;
-module.exports.minifyJsCode = minifyCode;
+export { minifyFile, minifyCode };

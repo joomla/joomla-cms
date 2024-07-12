@@ -1,9 +1,15 @@
+import { createRequire } from 'node:module';
+
 import { dirname, join } from 'node:path';
-import {
-  existsSync, copy, writeFile, mkdir, mkdirs, ensureDir,
-} from 'fs-extra';
+import { existsSync } from 'node:fs';
+import pkg from 'fs-extra';
 import { codeMirror } from './exemptions/codemirror.mjs';
 import { tinyMCE } from './exemptions/tinymce.mjs';
+
+const require = createRequire(import.meta.url);
+const {
+  copy, mkdirs, ensureDir, writeFile,
+} = pkg;
 
 const RootPath = process.cwd();
 
@@ -26,7 +32,9 @@ const copyFilesTo = async (files, srcDir, destDir) => {
   // Copy each file
   // eslint-disable-next-line no-restricted-syntax,guard-for-in
   for (const srcFile in files) {
-    copyPromises.push(doTheCopy(join(srcDir, srcFile), join(destDir, files[srcFile])));
+    copyPromises.push(
+      doTheCopy(join(srcDir, srcFile), join(destDir, files[srcFile])),
+    );
   }
 
   return Promise.all(copyPromises);
@@ -37,7 +45,13 @@ const copyFilesTo = async (files, srcDir, destDir) => {
  *
  * @returns {Promise}
  */
-const resolvePackage = async (vendor, packageName, mediaVendorPath, options, registry) => {
+const resolvePackage = async (
+  vendor,
+  packageName,
+  mediaVendorPath,
+  options,
+  registry,
+) => {
   const vendorName = vendor.name || packageName;
   const modulePathJson = require.resolve(`${packageName}/package.json`);
   const modulePathRoot = dirname(modulePathJson);
@@ -57,18 +71,30 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
       if (!vendor[type]) return;
 
       promises.push(
-        copyFilesTo(vendor[type], modulePathRoot, join(mediaVendorPath, vendorName), type),
+        copyFilesTo(
+          vendor[type],
+          modulePathRoot,
+          join(mediaVendorPath, vendorName),
+          type,
+        ),
       );
     });
   }
 
   // Copy the license if existsSync
-  if (options.settings.vendors[packageName].licenseFilename
-  && await existsSync(`${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`)
+  if (
+    options.settings.vendors[packageName].licenseFilename
+		&& (await existsSync(
+		  `${join(RootPath, `node_modules/${packageName}`)}/${
+		    options.settings.vendors[packageName].licenseFilename
+		  }`,
+		))
   ) {
     const dest = join(mediaVendorPath, vendorName);
     await copy(
-      `${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`,
+      `${join(RootPath, `node_modules/${packageName}`)}/${
+        options.settings.vendors[packageName].licenseFilename
+      }`,
       `${dest}/${options.settings.vendors[packageName].licenseFilename}`,
       { preserveTimestamps: true },
     );
@@ -89,11 +115,20 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
       const registryItem = Object.assign(assetInfo, registryItemBase);
 
       // Update path to file
-      if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) {
+      if (
+        assetInfo.uri
+				&& (assetInfo.type === 'script'
+					|| assetInfo.type === 'style'
+					|| assetInfo.type === 'webcomponent')
+      ) {
         let itemPath = assetInfo.uri;
 
         // Check for external path
-        if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+        if (
+          itemPath.indexOf('http://') !== 0
+					&& itemPath.indexOf('https://') !== 0
+					&& itemPath.indexOf('//') !== 0
+        ) {
           itemPath = `vendor/${vendorName}/${itemPath}`;
         }
 
@@ -127,7 +162,7 @@ const localisePackages = async (options) => {
   };
   const promises = [];
 
-  if (!await existsSync(mediaVendorPath)) {
+  if (!(await existsSync(mediaVendorPath))) {
     await mkdir(mediaVendorPath, { recursive: true, mode: 0o755 });
   }
 
@@ -136,7 +171,9 @@ const localisePackages = async (options) => {
   for (const packageName in options.settings.vendors) {
     const vendor = options.settings.vendors[packageName];
 
-    promises.push(resolvePackage(vendor, packageName, mediaVendorPath, options, registry));
+    promises.push(
+      resolvePackage(vendor, packageName, mediaVendorPath, options, registry),
+    );
   }
 
   await Promise.all(promises);
@@ -149,4 +186,4 @@ const localisePackages = async (options) => {
   );
 };
 
-export default { localisePackages };
+export { localisePackages };

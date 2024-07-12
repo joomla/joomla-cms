@@ -28,4 +28,4 @@ const compressFiles = async (enableBrotli = false) => {
   bench.stop();
 };
 
-export default { compressFiles };
+export { compressFiles };

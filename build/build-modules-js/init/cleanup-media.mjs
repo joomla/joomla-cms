@@ -1,7 +1,10 @@
+import { join } from 'node:path';
+
+import pkg from 'fs-extra';
+
 const {
-  stat, mkdir, copy, remove,
-} = require('fs-extra');
-const { join } = require('path');
+  copy, remove, stat, mkdir,
+} = pkg;
 
 const RootPath = process.cwd();
 
@@ -11,7 +14,7 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-module.exports.cleanVendors = async () => {
+const cleanVendors = async () => {
   if (process.env.SKIP_COMPOSER_CHECK === 'YES') {
     await mkdir('media/vendor/debugbar', { recursive: true, mode: 0o755 });
     // eslint-disable-next-line no-console
@@ -43,3 +46,5 @@ module.exports.cleanVendors = async () => {
     process.exitCode = 1;
   }
 };
+
+export { cleanVendors };

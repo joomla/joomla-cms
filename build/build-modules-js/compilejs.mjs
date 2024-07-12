@@ -1,5 +1,5 @@
+import { stat } from 'node:fs';
 import { sep } from 'node:path';
-import { stat } from 'fs-extra';
 import recursive from 'recursive-readdir';
 import { handleES5File } from './javascript/handle-es5.mjs';
 import { handleESMFile } from './javascript/compile-to-es2017.mjs';
@@ -71,4 +71,4 @@ const scripts = async (options, path) => {
   Promise.all([...jsFilesPromises, ...esmFilesPromises]);
 };
 
-export default { scripts };
+export { scripts };

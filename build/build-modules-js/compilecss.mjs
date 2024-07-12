@@ -1,8 +1,10 @@
 import { sep } from 'node:path';
-import { stat } from 'fs-extra';
 import recursive from 'recursive-readdir';
+import pkg from 'fs-extra';
 import { handleScssFile } from './stylesheets/handle-scss.mjs';
 import { handleCssFile } from './stylesheets/handle-css.mjs';
+
+const { stat } = pkg;
 
 const RootPath = process.cwd();
 
@@ -87,4 +89,4 @@ const stylesheets = async (options, path) => {
   return Promise.all([...cssFilesPromises, ...scssFilesPromises]);
 };
 
-export default { stylesheets };
+export { stylesheets };
