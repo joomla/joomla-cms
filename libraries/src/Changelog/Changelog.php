@@ -28,7 +28,6 @@ use Joomla\Registry\Registry;
  */
 class Changelog
 {
-    use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
 
     /**
