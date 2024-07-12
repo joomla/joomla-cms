@@ -1,12 +1,14 @@
 import {
   basename, dirname, resolve, sep,
 } from 'node:path';
-import pkg from "fs-extra";
+import pkg from 'fs-extra';
 
 import { createHashFromFile } from './utils/hashfromfile.mjs';
 import { Timer } from './utils/timer.mjs';
 
-const { lstat, readdir, readFile, writeFile } = pkg;
+const {
+  lstat, readdir, readFile, writeFile,
+} = pkg;
 const RootPath = process.cwd();
 const exclusion = [
   // We will skip these:
