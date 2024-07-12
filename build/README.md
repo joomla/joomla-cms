@@ -5,6 +5,8 @@ Joomla provides a set of tools for managing static assets and dependencies based
 ## Node Based Tools
 The responsibilities of these tools are:
 - To copy files from the `node-modules` folder to the `media` folder.
+- The configuration for the localization of any node packages is held inside the `package.json` on the root folder uder the key `settings`.
+- Build the static error pages (settings are in `package.json`).
 - Do any transformations on the copied files.
 - Update the version numbers on the XML files of the TinyMCE and CodeMirror editors.
 - Copy files from the `build/media_source` folder to the `media` folder.
@@ -16,7 +18,7 @@ For some of these operations, conventions were established to simplify and speed
 ## Javascript
 There are three options here:
 - Modern Javascript files must have an extension `.mjs`.
-  Filenames starting with `_` will be ignored.
+  Filenames starting with `_` will not become entry points for module bundling.
   This allows ESLint to check the code style, Joomla is using the Airbnb preset https://github.com/airbnb/javascript.
   It also instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates both normal and minified files.
   Production code WILL NOT have the `.es6` part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones.
