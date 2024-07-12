@@ -16,6 +16,7 @@ For some of these operations, conventions were established to simplify and speed
 ## Javascript
 There are three options here:
 - Modern Javascript files must have an extension `.mjs`.
+  Filenames starting with `_` will be ignored.
   This allows ESLint to check the code style, Joomla is using the Airbnb preset https://github.com/airbnb/javascript.
   It also instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates both normal and minified files.
   Production code WILL NOT have the `.es6` part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones.
