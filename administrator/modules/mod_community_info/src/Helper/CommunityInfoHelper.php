@@ -80,7 +80,7 @@ class CommunityInfoHelper
 
         // Load links from endpoint
         $vars = ['location' => self::getLocation($params, 'geolocation')];
-        $url  = $params->get('endpoint', 'http://www.example.com');
+        $url  = $params->get('endpoint', 'https://test.joomla.spuur.ch/joomla-community-api/links.php');
 
         if ($api_link_sets = self::fetchAPI($url, $vars)) {
             // Sort the returned data based on level with descending order

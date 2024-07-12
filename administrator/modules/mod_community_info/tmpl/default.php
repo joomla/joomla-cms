@@ -32,12 +32,12 @@ CommunityInfoHelper::addText();
 
 <div id="CommunityInfo<?php echo strval($module->id); ?>" class="mod-community-info px-3" data-autoloc="<?php echo $params->get('auto_location', '1'); ?>">
   <p><?php echo Text::_('MOD_COMMUNITY_INFO_JOOMLA_DESC'); ?></p>
-  <hr />
+  <hr>
   <div class="info-block contact">
     <h3><?php echo Text::_('MOD_COMMUNITY_INFO_CONTACT_TITLE'); ?></h3>
     <p><?php echo CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTACT_TEXT'), $links); ?></p>
   </div>
-  <hr />
+  <hr>
   <div class="info-block news">
     <div class="intro-txt">
       <div>
@@ -65,15 +65,15 @@ CommunityInfoHelper::addText();
         <tbody>
           <?php foreach ($news as $n => $article) : ?>
             <tr>
-              <td scope="row"><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></td>
+              <td><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></td>
               <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
       </table>
     <?php endif; ?>
-  </div>  
-  <hr />
+  </div>
+  <hr>
   <div class="info-block events">
     <div class="intro-txt">
       <div>
@@ -97,18 +97,18 @@ CommunityInfoHelper::addText();
             <th scope="col"><?php echo Text::_('JDATE'); ?></th>
           </tr>
         </thead>
-        <tbody>        
+        <tbody>
           <?php foreach ($events as $e => $event) : ?>
             <tr>
-              <td scope="row"><strong><a href="<?php echo $event->url; ?>" target="_blank"><?php echo $event->title; ?></a></strong><br /><span class="small"><?php echo $event->location; ?></span></td>
-              <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'D, M j, Y'); ?></span><br /><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'H:i T'); ?></span></td>
+              <td><strong><a href="<?php echo $event->url; ?>" target="_blank"><?php echo $event->title; ?></a></strong><br><span class="small"><?php echo $event->location; ?></span></td>
+              <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'D, M j, Y'); ?></span><br><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'H:i T'); ?></span></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
       </table>
     <?php endif; ?>
   </div>
-  <hr />
+  <hr>
   <div class="info-block contribute">
     <a class="no-link" href="https://magazine.joomla.org/all-issues/june-2024/holopin-is-ready-to-launch,-claim-your-digital-badge" target="_blank"><img class="float-right" src="<?php echo Uri::root(true) . '/media/mod_community_info/images/holopin-badge-board.png'; ?>" alt="joomla volunteer badge"></a>
     <h3><?php echo Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_TITLE'); ?></h3>
