@@ -472,9 +472,6 @@ JLoader::registerAlias('JFolder', '\\Joomla\\CMS\\Filesystem\\Folder', '6.0');
 JLoader::registerAlias('JFilesystemHelper', '\\Joomla\\CMS\\Filesystem\\FilesystemHelper', '6.0');
 JLoader::registerAlias('JFilesystemPatcher', '\\Joomla\\CMS\\Filesystem\\Patcher', '6.0');
 JLoader::registerAlias('JPath', '\\Joomla\\CMS\\Filesystem\\Path', '6.0');
-JLoader::registerAlias('JStream', '\\Joomla\\CMS\\Filesystem\\Stream', '6.0');
-JLoader::registerAlias('JStreamString', '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString', '6.0');
-JLoader::registerAlias('JStringController', '\\Joomla\\CMS\\Filesystem\\Support\\StringController', '6.0');
 
 JLoader::registerAlias('JClassLoader', '\\Joomla\\CMS\\Autoload\\ClassLoader', '6.0');
 
