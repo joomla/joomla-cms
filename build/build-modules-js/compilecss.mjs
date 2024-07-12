@@ -89,4 +89,4 @@ const stylesheets = async (options, path) => {
   return Promise.all([...cssFilesPromises, ...scssFilesPromises]);
 };
 
-export { stylesheets };
+export default stylesheets;

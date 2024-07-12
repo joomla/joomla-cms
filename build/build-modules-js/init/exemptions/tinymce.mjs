@@ -38,7 +38,7 @@ const copyArrayFiles = async (dirName, files, name, type) => {
 /**
  * tinyMCE needs special treatment
  */
-const tinyMCE = async (packageName, version) => {
+export const tinyMCE = async (packageName, version) => {
   const itemvendorPath = join(RootPath, `media/vendor/${packageName}`);
 
   if (!await existsSync(itemvendorPath)) {
@@ -95,5 +95,3 @@ const tinyMCE = async (packageName, version) => {
   // Restore our code on the vendor folders
   await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), { preserveTimestamps: true });
 };
-
-export { tinyMCE };

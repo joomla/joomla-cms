@@ -141,7 +141,7 @@ const buildLegacy = async () => {
   await bundle.close();
 };
 
-const bootstrapJs = async () => {
+export const bootstrapJs = async () => {
   rimraf.sync(resolve(outputFolder));
 
   try {
@@ -179,5 +179,3 @@ const bootstrapJs = async () => {
     process.exitCode = 1;
   });
 };
-
-export { bootstrapJs };

@@ -20,15 +20,15 @@ import { Command } from 'commander';
 import semver from 'semver';
 
 // Joomla Build modules
-import { createErrorPages } from './build-modules-js/error-pages.mjs';
-import { stylesheets } from './build-modules-js/compilecss.mjs';
-import { scripts } from './build-modules-js/compilejs.mjs';
+import createErrorPages from './build-modules-js/error-pages.mjs';
+import stylesheets from './build-modules-js/compilecss.mjs';
+import scripts from './build-modules-js/compilejs.mjs';
 import { bootstrapJs } from './build-modules-js/javascript/build-bootstrap-js.mjs';
 import { localisePackages } from './build-modules-js/init/localise-packages.mjs';
 import { minifyVendor } from './build-modules-js/init/minify-vendor.mjs';
 import { patchPackages } from './build-modules-js/init/patches.mjs';
 import { cleanVendors } from './build-modules-js/init/cleanup-media.mjs';
-import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs';
+import recreateMediaFolder from './build-modules-js/init/recreate-media.mjs';
 import { watching } from './build-modules-js/watch.mjs';
 import { mediaManager, watchMediaManager } from './build-modules-js/javascript/build-com_media-js.mjs';
 import { compressFiles } from './build-modules-js/compress.mjs';

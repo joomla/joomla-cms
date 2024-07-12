@@ -86,7 +86,7 @@ const minifyJS = async (file) => {
  *
  * @returns {Promise}
  */
-const minifyVendor = async () => {
+export const minifyVendor = async () => {
   const folderPromises = [];
   const filesPromises = [];
 
@@ -98,5 +98,3 @@ const minifyVendor = async () => {
 
   return Promise.all(filesPromises);
 };
-
-export { minifyVendor };

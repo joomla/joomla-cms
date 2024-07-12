@@ -14,7 +14,7 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-const cleanVendors = async () => {
+export const cleanVendors = async () => {
   if (process.env.SKIP_COMPOSER_CHECK === 'YES') {
     await mkdir('media/vendor/debugbar', { recursive: true, mode: 0o755 });
     // eslint-disable-next-line no-console
@@ -46,5 +46,3 @@ const cleanVendors = async () => {
     process.exitCode = 1;
   }
 };
-
-export { cleanVendors };

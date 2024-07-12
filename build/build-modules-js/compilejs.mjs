@@ -71,4 +71,4 @@ const scripts = async (options, path) => {
   Promise.all([...jsFilesPromises, ...esmFilesPromises]);
 };
 
-export { scripts };
+export default scripts;

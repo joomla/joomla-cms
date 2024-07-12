@@ -8,7 +8,7 @@ import { tinyMCE } from './exemptions/tinymce.mjs';
 
 const require = createRequire(import.meta.url);
 const {
-  copy, mkdirs, ensureDir, writeFile,
+  copy, mkdirs, mkdir, ensureDir, writeFile,
 } = pkg;
 
 const RootPath = process.cwd();
@@ -84,11 +84,11 @@ const resolvePackage = async (
   // Copy the license if existsSync
   if (
     options.settings.vendors[packageName].licenseFilename
-		&& (await existsSync(
-		  `${join(RootPath, `node_modules/${packageName}`)}/${
-		    options.settings.vendors[packageName].licenseFilename
-		  }`,
-		))
+    && (await existsSync(
+      `${join(RootPath, `node_modules/${packageName}`)}/${
+        options.settings.vendors[packageName].licenseFilename
+      }`,
+    ))
   ) {
     const dest = join(mediaVendorPath, vendorName);
     await copy(
@@ -117,17 +117,17 @@ const resolvePackage = async (
       // Update path to file
       if (
         assetInfo.uri
-				&& (assetInfo.type === 'script'
-					|| assetInfo.type === 'style'
-					|| assetInfo.type === 'webcomponent')
+        && (assetInfo.type === 'script'
+          || assetInfo.type === 'style'
+          || assetInfo.type === 'webcomponent')
       ) {
         let itemPath = assetInfo.uri;
 
         // Check for external path
         if (
           itemPath.indexOf('http://') !== 0
-					&& itemPath.indexOf('https://') !== 0
-					&& itemPath.indexOf('//') !== 0
+          && itemPath.indexOf('https://') !== 0
+          && itemPath.indexOf('//') !== 0
         ) {
           itemPath = `vendor/${vendorName}/${itemPath}`;
         }
@@ -150,7 +150,7 @@ const resolvePackage = async (
  *
  * @returns {Promise}
  */
-const localisePackages = async (options) => {
+export const localisePackages = async (options) => {
   const mediaVendorPath = join(RootPath, 'media/vendor');
   const registry = {
     $schema: 'https://developer.joomla.org/schemas/json-schema/web_assets.json',
@@ -185,5 +185,3 @@ const localisePackages = async (options) => {
     { encoding: 'utf8', mode: 0o644 },
   );
 };
-
-export { localisePackages };

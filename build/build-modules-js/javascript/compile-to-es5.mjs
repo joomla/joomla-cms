@@ -10,7 +10,7 @@ import { minifyFile } from './minify.mjs';
  *
  * @param file the full path to the file + filename + extension
  */
-const handleESMToLegacy = async (file) => {
+export const handleESMToLegacy = async (file) => {
   const bundleLegacy = await rollup({
     input: resolve(file),
     plugins: [
@@ -51,5 +51,3 @@ const handleESMToLegacy = async (file) => {
     minifyFile(resolve(`${file.replace(/\.js$/, '')}-es5.js`));
   });
 };
-
-export { handleESMToLegacy };

@@ -7,7 +7,7 @@ const {
   copy, readFile, writeFile, ensureDir,
 } = pkg;
 
-const handleCssFile = async (file) => {
+export const handleCssFile = async (file) => {
   const outputFile = file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   try {
     // CSS file, we will copy the file and then minify it in place
@@ -34,5 +34,3 @@ const handleCssFile = async (file) => {
     console.log(err);
   }
 };
-
-export { handleCssFile };

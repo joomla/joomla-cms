@@ -12,7 +12,7 @@ const RootPath = process.cwd();
  *
  * @returns {void}
  */
-const concatFiles = async (files, output) => {
+export const concatFiles = async (files, output) => {
   const promises = [];
 
   // eslint-disable-next-line no-restricted-syntax
@@ -26,5 +26,3 @@ const concatFiles = async (files, output) => {
 
   await writeFile(`${RootPath}/${output}`, res.join(' '), { encoding: 'utf8', mode: 0o644 });
 };
-
-export { concatFiles };

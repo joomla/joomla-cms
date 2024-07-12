@@ -5,7 +5,7 @@ import { ensureDir } from 'fs-extra';
 import { transform, Features } from 'lightningcss';
 import * as Sass from 'sass-embedded';
 
-const handleScssFile = async (file) => {
+export const handleScssFile = async (file) => {
   const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
     .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)
     .replace('.scss', '.css');
@@ -54,5 +54,3 @@ ${contents}`,
   // eslint-disable-next-line no-console
   console.log(`✅ SCSS File compiled: ${cssFile}`);
 };
-
-export { handleScssFile };

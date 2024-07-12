@@ -112,7 +112,7 @@ const fixVersion = async (directory) => {
  *
  * @returns {Promise<void>}
  */
-const versioning = async () => {
+export const versioning = async () => {
   const bench = new Timer('Versioning');
   const tasks = [];
   let mediaDirectories = await readdir(resolve(RootPath, 'media'));
@@ -127,5 +127,3 @@ const versioning = async () => {
 
   bench.stop();
 };
-
-export { versioning };

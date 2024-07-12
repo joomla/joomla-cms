@@ -12,7 +12,7 @@ const RootPath = process.cwd();
  *
  * @returns { void }
  */
-const copyAllFiles = async (dirName, name, type) => {
+export const copyAllFiles = async (dirName, name, type) => {
   const folderName = dirName === '/' ? '/' : `/${dirName}`;
   await copy(
     join(RootPath, `node_modules/${name}/${folderName}`),
@@ -22,5 +22,3 @@ const copyAllFiles = async (dirName, name, type) => {
     },
   );
 };
-
-export { copyAllFiles };

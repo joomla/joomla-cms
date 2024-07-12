@@ -30,7 +30,7 @@ const processFile = (file) => {
   }
 };
 
-const watching = (path) => {
+export const watching = (path) => {
   const watchingPath = path ? join(RootPath, path) : join(RootPath, 'build/media_source');
   const watcher = chokidar.watch(watchingPath, {
     ignored: /(^|[/\\])\../, // ignore dotfiles
@@ -43,5 +43,3 @@ const watching = (path) => {
   // @todo Handle this case as well
   // .on('unlink', path => log(`File ${path} has been removed`));
 };
-
-export { watching };

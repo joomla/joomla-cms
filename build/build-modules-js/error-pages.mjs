@@ -167,4 +167,4 @@ async function createErrorPages(options) {
   });
 }
 
-export { createErrorPages };
+export default createErrorPages;

@@ -1,5 +1,4 @@
 import { writeFile } from 'node:fs/promises';
-import { constants } from 'node:fs';
 import { basename, sep, resolve } from 'node:path';
 import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
@@ -12,7 +11,7 @@ import { handleESMToLegacy } from './compile-to-es5.mjs';
  *
  * @param file the full path to the file + filename + extension
  */
-const handleESMFile = async (file) => {
+export const handleESMFile = async (file) => {
   const newPath = file.replace(/\.mjs$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const bundle = await rollup({
     input: resolve(file),
@@ -66,5 +65,3 @@ const handleESMFile = async (file) => {
   // closes the bundle
   await bundle.close();
 };
-
-export { handleESMFile };

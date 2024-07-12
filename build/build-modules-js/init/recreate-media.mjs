@@ -85,4 +85,4 @@ const recreateMediaFolder = async (options) => {
   });
 };
 
-export { recreateMediaFolder };
+export default recreateMediaFolder;
