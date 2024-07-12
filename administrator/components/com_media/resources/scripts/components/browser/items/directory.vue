@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import navigable from '../../../mixins/navigable.es6';
+import navigable from '../../../mixins/navigable.mjs';
 import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {

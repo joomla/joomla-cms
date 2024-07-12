@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import api from '../../app/Api.es6';
-import * as types from '../../store/mutation-types.es6';
+import api from '../../app/Api.mjs';
+import * as types from '../../store/mutation-types.mjs';
 import MediaModal from './modal.vue';
 
 export default {

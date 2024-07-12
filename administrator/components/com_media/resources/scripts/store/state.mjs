@@ -1,4 +1,4 @@
-import persistedStateOptions from './plugins/persisted-state.es6';
+import persistedStateOptions from './plugins/persisted-state.mjs';
 
 // Get the disks from joomla option storage
 const options = Joomla.getOptions('com_media', {});

@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import navigable from '../../mixins/navigable.es6';
+import navigable from '../../mixins/navigable.mjs';
 import MediaTree from './tree.vue';
 
 export default {

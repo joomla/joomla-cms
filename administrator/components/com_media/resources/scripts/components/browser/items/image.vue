@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import api from '../../../app/Api.es6';
+import api from '../../../app/Api.mjs';
 import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {

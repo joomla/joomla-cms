@@ -1,7 +1,7 @@
-import api from '../app/Api.es6';
-import * as types from './mutation-types.es6';
-import translate from '../plugins/translate.es6';
-import notifications from '../app/Notifications.es6';
+import api from '../app/Api.mjs';
+import * as types from './mutation-types.mjs';
+import translate from '../plugins/translate.mjs';
+import notifications from '../app/Notifications.mjs';
 
 const updateUrlPath = (path) => {
   const currentPath = path === null ? '' : path;

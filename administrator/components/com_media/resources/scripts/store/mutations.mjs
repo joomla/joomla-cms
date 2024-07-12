@@ -1,5 +1,5 @@
-import * as types from './mutation-types.es6';
-import { dirname } from '../app/path';
+import * as types from './mutation-types.mjs';
+import { dirname } from '../app/path.mjs';
 
 // The only way to actually change state in a store is by committing a mutation.
 // Mutations are very similar to events: each mutation has a string type and a handler.

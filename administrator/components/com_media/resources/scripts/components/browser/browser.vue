@@ -72,9 +72,9 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.es6';
+import * as types from '../../store/mutation-types.mjs';
 import MediaBrowserTable from './table/table.vue';
-import MediaBrowserItem from './items/item.es6';
+import MediaBrowserItem from './items/item.mjs';
 import MediaInfobar from '../infobar/infobar.vue';
 
 function sortArray(array, by, direction) {

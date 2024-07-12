@@ -145,8 +145,8 @@
 </template>
 
 <script>
-import * as types from '../../../store/mutation-types.es6';
-import api from '../../../app/Api.es6';
+import * as types from '../../../store/mutation-types.mjs';
+import api from '../../../app/Api.mjs';
 
 import MediaBrowserActionItemEdit from './edit.vue';
 import MediaBrowserActionItemDelete from './delete.vue';

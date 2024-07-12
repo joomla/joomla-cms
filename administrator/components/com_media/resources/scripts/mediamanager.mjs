@@ -1,8 +1,8 @@
 import { createApp } from 'vue';
 import App from './components/app.vue';
-import Event from './app/Event.es6';
-import store from './store/store.es6';
-import translate from './plugins/translate.es6';
+import Event from './app/Event.mjs';
+import store from './store/store.mjs';
+import translate from './plugins/translate.mjs';
 
 // Register MediaManager namespace
 window.MediaManager = window.MediaManager || {};

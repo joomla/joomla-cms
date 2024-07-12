@@ -1,10 +1,10 @@
 import { createStore } from 'vuex';
 import VuexPersistence from 'vuex-persist';
-import state from './state.es6';
-import * as getters from './getters.es6';
-import * as actions from './actions.es6';
-import mutations from './mutations.es6';
-import persistedStateOptions from './plugins/persisted-state.es6.js';
+import state from './state.mjs';
+import * as getters from './getters.mjs';
+import * as actions from './actions.mjs';
+import mutations from './mutations.mjs';
+import persistedStateOptions from './plugins/persisted-state.mjs';
 // A Vuex instance is created by combining the state, mutations, actions, and getters.
 export default createStore({
   state,

@@ -74,8 +74,8 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.es6';
-import translate from '../../plugins/translate.es6';
+import * as types from '../../store/mutation-types.mjs';
+import translate from '../../plugins/translate.mjs';
 import MediaModal from './modal.vue';
 
 export default {

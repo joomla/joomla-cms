@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import navigable from '../../mixins/navigable.es6';
+import navigable from '../../mixins/navigable.mjs';
 
 export default {
   name: 'MediaBreadcrumb',

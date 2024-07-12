@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import * as types from '../../../store/mutation-types.es6';
+import * as types from '../../../store/mutation-types.mjs';
 import MediaBrowserItemRow from './row.vue';
 
 export default {

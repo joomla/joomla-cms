@@ -63,7 +63,7 @@
   </transition>
 </template>
 <script>
-import * as types from '../../store/mutation-types.es6';
+import * as types from '../../store/mutation-types.mjs';
 
 export default {
   name: 'MediaInfobar',

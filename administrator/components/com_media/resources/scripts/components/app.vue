@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.es6';
-import notifications from '../app/Notifications.es6';
+import * as types from '../store/mutation-types.mjs';
+import notifications from '../app/Notifications.mjs';
 import MediaBrowser from './browser/browser.vue';
 import MediaDisk from './tree/disk.vue';
 import MediaToolbar from './toolbar/toolbar.vue';

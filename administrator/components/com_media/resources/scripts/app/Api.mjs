@@ -1,5 +1,5 @@
-import notifications from './Notifications.es6';
-import { dirname } from './path';
+import notifications from './Notifications.mjs';
+import { dirname } from './path.mjs';
 
 /**
  * Normalize a single item

@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import * as types from '../../../store/mutation-types.es6';
-import navigable from '../../../mixins/navigable.es6';
+import * as types from '../../../store/mutation-types.mjs';
+import navigable from '../../../mixins/navigable.mjs';
 
 export default {
   name: 'MediaBrowserItemRow',
