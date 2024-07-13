@@ -195,14 +195,22 @@ trait AjaxHandlerLogin
         }
 
         // Run the user plugins. They CAN block login by returning boolean false and setting $response->error_message.
-        PluginHelper::importPlugin('user');
-        $eventClassName = self::getEventClassByEventName('onUserLogin');
-        $event          = new $eventClassName('onUserLogin', [(array) $response, $options]);
-        $result         = $this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+        $dispatcher = $this->getApplication()->getDispatcher();
+
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
+
+        $event          = new \Joomla\CMS\Event\User\LoginEvent(
+            'onUserLogin',
+            [
+                'options' => $options,
+                'subject' => (array) $response
+            ]
+        );
+        $result         = $dispatcher->dispatch('onUserLogin', $event);
         $results        = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 
         // If there is no boolean FALSE result from any plugin the login is successful.
-        if (in_array(false, $results, true) === false) {
+        if (\in_array(false, $results, true) === false) {
             // Set the user in the session, letting Joomla! know that we are logged in.
             $this->getApplication()->getSession()->set('user', $user);
 
@@ -211,17 +219,27 @@ trait AjaxHandlerLogin
             $options['responseType'] = $response->type;
 
             // The user is successfully logged in. Run the after login events
-            $eventClassName = self::getEventClassByEventName('onUserAfterLogin');
-            $event          = new $eventClassName('onUserAfterLogin', [$options]);
-            $this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+            $event          = new \Joomla\CMS\Event\User\AfterLoginEvent(
+                'onUserAfterLogin',
+                [
+                    'options' => $options,
+                    'subject' => (array) $response
+                ]
+            );
+            $dispatcher->dispatch($event->getName(), $event);
 
             return;
         }
 
         // If we are here the plugins marked a login failure. Trigger the onUserLoginFailure Event.
-        $eventClassName = self::getEventClassByEventName('onUserLoginFailure');
-        $event          = new $eventClassName('onUserLoginFailure', [(array) $response]);
-        $this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+        $event          = new \Joomla\CMS\Event\User\LoginFailureEvent(
+            'onUserLoginFailure',
+            [
+                'options' => $options,
+                'subject' => (array) $response
+            ]
+        );
+        $dispatcher->dispatch('onUserLoginFailure', $event);
 
         // Log the failure
         Log::add($response->error_message, Log::WARNING, 'jerror');
