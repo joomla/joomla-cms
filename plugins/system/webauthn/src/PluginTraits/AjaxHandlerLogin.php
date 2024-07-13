@@ -203,7 +203,7 @@ trait AjaxHandlerLogin
             'onUserLogin',
             [
                 'options' => $options,
-                'subject' => (array) $response
+                'subject' => (array) $response,
             ]
         );
         $result         = $dispatcher->dispatch('onUserLogin', $event);
