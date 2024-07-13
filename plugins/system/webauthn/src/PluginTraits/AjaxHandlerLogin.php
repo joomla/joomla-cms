@@ -236,7 +236,7 @@ trait AjaxHandlerLogin
             'onUserLoginFailure',
             [
                 'options' => $options,
-                'subject' => (array) $response
+                'subject' => (array) $response,
             ]
         );
         $dispatcher->dispatch('onUserLoginFailure', $event);
