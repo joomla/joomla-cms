@@ -442,8 +442,27 @@ class TaskModel extends AdminModel
             // Get the id of the next task in the task queue
             $idQuery = $db->getQuery(true)
                 ->from($db->quoteName(self::TASK_TABLE))
-                ->select($db->quoteName('id'))
-                ->where($db->quoteName('state') . ' = 1')
+                ->select($db->quoteName('id'));
+            // "Orphaned" tasks are not a part of the task queue!
+            $idQuery->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+
+            // If directed, exclude CLI exclusive tasks
+            if (!$options['includeCliExclusive']) {
+                $idQuery->where($db->quoteName('cli_exclusive') . ' = 0');
+            }
+
+            if (!$options['bypassScheduling']) {
+                $idQuery->where($db->quoteName('next_execution') . ' <= :now2')
+                    ->bind(':now2', $now);
+            }
+
+            if ($options['allowDisabled']) {
+                $idQuery->whereIn($db->quoteName('state'), [0, 1]);
+            } else {
+                $idQuery->where($db->quoteName('state') . ' = 1');
+            }
+
+            $idQuery->where($db->quoteName('next_execution') . ' IS NOT NULL')
                 ->order($db->quoteName('priority') . ' DESC')
                 ->order($db->quoteName('next_execution') . ' ASC')
                 ->setLimit(1);
