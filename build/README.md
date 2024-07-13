@@ -5,7 +5,7 @@ Joomla provides a set of tools for managing static assets and dependencies based
 ## Node Based Tools
 The responsibilities of these tools are:
 - To copy files from the `node-modules` folder to the `media` folder.
-- The configuration for the localization of any node packages is held inside the `package.json` on the root folder uder the key `settings`.
+- The configuration for the localization of any node packages is held inside the `package.json` on the root folder under the key `settings`.
 - Build the static error pages (settings are in `package.json`).
 - Do any transformations on the copied files.
 - Update the version numbers on the XML files of the TinyMCE and CodeMirror editors.
