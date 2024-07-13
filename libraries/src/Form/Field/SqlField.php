@@ -246,7 +246,9 @@ class SqlField extends ListField
 
                     $query->where("{$value} = {$escape}");
                 } elseif ($filterFieldValue !== null) {
-                    $query->where("{$value} = {$filterFieldValue}");
+                    $escape = $db->quote($db->escape($filterFieldValue), false);
+
+                    $query->where("{$value} = {$escape}");
                 } elseif (!empty($defaults[$value])) {
                     $escape = $db->quote($db->escape($defaults[$value]), false);
 
