@@ -90,5 +90,5 @@ $form = $forms[0];
         <?php foreach ($form->getGroup('') as $field) : ?>
             <?php echo $field->renderField(); ?>
         <?php endforeach; ?>
-    <?php endif ?>
+    <?php endif; ?>
 </div>
