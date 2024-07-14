@@ -672,8 +672,6 @@ ENDDATA;
         $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
-        $installer->setAdapter($installer->extension->type);
-
         $installer->setPath('manifest', JPATH_MANIFESTS . '/files/joomla.xml');
         $installer->setPath('source', JPATH_MANIFESTS . '/files');
         $installer->setPath('extension_root', JPATH_ROOT);
