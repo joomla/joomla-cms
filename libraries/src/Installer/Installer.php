@@ -2440,9 +2440,8 @@ class Installer implements DatabaseAwareInterface
      */
     public function getAdapters($options = [], array $custom = [])
     {
-        if (count($custom)) {
-            foreach ($custom as $adapter)
-            {
+        if (\count($custom)) {
+            foreach ($custom as $adapter) {
                 // Setup the class name
                 // @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
                 $class = $this->classprefix . ucfirst(trim($adapter));
@@ -2478,7 +2477,7 @@ class Installer implements DatabaseAwareInterface
             throw new \InvalidArgumentException(sprintf('The %s install adapter does not exist.', $name));
         }
 
-        if (is_string($this->adapters[$name])) {
+        if (\is_string($this->adapters[$name])) {
             $class = $this->adapters[$name];
 
             // Ensure the adapter type is part of the options array
