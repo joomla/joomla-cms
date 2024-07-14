@@ -55,7 +55,6 @@ $form = $forms[0];
              *  fieldwrapperstyle   Optional style properties for wrapper around each field in this field set.
              *                      Example: "border: 1px solid #f00;padding:2px;"
              */
-
             $fields = $form->getFieldset($fieldSet->name);
 
             $cols = implode(' ', array_fill(0, count($fields), '1fr'));
