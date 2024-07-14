@@ -52,7 +52,7 @@ $form = $forms[0];
              *                      Default: "1rem"
              *  style               Optional style properties for this field set.
              *                      Example: "border:1px dotted #ccc;padding:2px;box-shadow:2px 2px #888;"
-             *  fieldwrapperstyle   Optional style properties for wrapper around each field in thie field set.
+             *  fieldwrapperstyle   Optional style properties for wrapper around each field in this field set.
              *                      Example: "border: 1px solid #f00;padding:2px;"
              */
 
