@@ -296,7 +296,7 @@ class Updater implements DatabaseAwareInterface
         }
 
         $updateSite['minimum_stability'] = $minimumStability;
-        $update_result = $adapter->findUpdate($updateSite);
+        $update_result                   = $adapter->findUpdate($updateSite);
 
         // Version comparison operator.
         $operator = $includeCurrent ? 'ge' : 'gt';
