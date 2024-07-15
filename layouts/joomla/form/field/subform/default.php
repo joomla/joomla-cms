@@ -69,11 +69,26 @@ $form = $forms[0];
 
             $fieldsetStyle[] = $fieldSet->style ?? '';
 
+            $fieldSetOptions = '';
+
+            if (!empty($fieldSet->class)) {
+                $fieldSetOptions .= ' class="' . $fieldSet->class . '"';
+            }
+
+            if (!empty($fieldsetStyle)) {
+                $fieldSetOptions .= ' style="' . implode('', $fieldsetStyle) . '"';
+            }
+
+            $fieldWrapperOptions = '';
+
+            if (!empty($fieldSet->fieldwrapperstyle)) {
+                $fieldWrapperOptions = ' style="' . $fieldSet->fieldwrapperstyle . '"';
+            }
+
             ?>
-            <div class="<?php echo $fieldSet->class ?? ''; ?>"
-                 style="<?php echo implode('', $fieldsetStyle); ?>">
+            <div<?php echo $fieldSetOptions; ?>>
                 <?php foreach ($fields as $field) : ?>
-                    <div style="<?php echo $fieldSet->fieldwrapperstyle ?? ''; ?>">
+                    <div<?php echo $fieldWrapperOptions; ?>>
                         <?php
                         echo $field->renderField(
                             [
