@@ -1128,7 +1128,7 @@ class ItemModel extends AdminModel
                     ];
                     $metaPath = Path::find($metadataFolders, 'metadata.xml');
 
-                    if (is_file($path = Path::clean($metaPath))) {
+                    if ($metaPath !== false && is_file($path = Path::clean($metaPath))) {
                         $formFile = $path;
                     }
                 } elseif ($base) {
