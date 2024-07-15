@@ -546,8 +546,8 @@ class TaskModel extends AdminModel
         }
 
         $task->execution_rules = json_decode($task->execution_rules);
-        $task->cron_rules = json_decode($task->cron_rules);
-        $task->taskOption = SchedulerHelper::getTaskOptions()->findOption($task->type);
+        $task->cron_rules      = json_decode($task->cron_rules);
+        $task->taskOption      = SchedulerHelper::getTaskOptions()->findOption($task->type);
 
         return $task;
     }
