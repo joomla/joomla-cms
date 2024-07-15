@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,7 +28,7 @@ class StatisticsModel extends BaseDatabaseModel
     /**
      * Method to get the component statistics
      *
-     * @return  CMSObject The component statistics
+     * @return  \stdClass The component statistics
      *
      * @since   2.5
      */
@@ -38,7 +37,7 @@ class StatisticsModel extends BaseDatabaseModel
         // Initialise
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $data  = new CMSObject();
+        $data  = new \stdClass();
 
         $query->select('COUNT(term_id)')
             ->from($db->quoteName('#__finder_terms'));
