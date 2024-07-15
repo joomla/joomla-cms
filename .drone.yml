@@ -135,7 +135,7 @@ steps:
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.js cypress.config.js
+      - mv cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -272,7 +272,7 @@ volumes:
 
 services:
   - name: mysql
-    image: mysql:8
+    image: mysql:8.0
     command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
       MYSQL_USER: joomla_ut
@@ -405,7 +405,6 @@ steps:
       status:
         - failure
 
-
 trigger:
   event:
     - cron
@@ -415,6 +414,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 90d71e1cf5e5dcdb753ea1da6f8b6e571fc82a47994bd856e83c5f30bdd4a2af
+hmac: bd41423d85abadb875c8fc911f87596ead88b62d26fabf6a283737c5a7b4c5b9
 
 ...
