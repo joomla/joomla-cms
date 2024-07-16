@@ -172,7 +172,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
 
@@ -276,7 +276,6 @@ class Router extends RouterBase
 
         if (\count($ids)) {
             $vars['id']   = $ids;
-            $vars['view'] = 'tag';
             $vars['view'] = 'tag';
         }
 
