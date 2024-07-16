@@ -100,12 +100,12 @@ final class Categories extends Adapter implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return array_merge([
+        return array_merge(parent::getSubscribedEvents(), [
             'onFinderAfterDelete' => 'onFinderAfterDelete',
             'onFinderAfterSave'   => 'onFinderAfterSave',
             'onFinderBeforeSave'  => 'onFinderBeforeSave',
             'onFinderChangeState' => 'onFinderChangeState',
-        ], parent::getSubscribedEvents());
+        ]);
     }
 
     /**
