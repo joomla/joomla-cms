@@ -1,8 +1,8 @@
 import {
   readdir, readFile, writeFile, unlink,
 } from 'node:fs/promises';
-import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { createRequire } from 'node:module';
 import { transform } from 'esbuild';
 import rimraf from 'rimraf';
 import { rollup } from 'rollup';
@@ -11,7 +11,8 @@ import replace from '@rollup/plugin-replace';
 import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 
-const opts = JSON.parse(readFileSync(`${process.cwd()}/package.json`));
+const require = createRequire(import.meta.url);
+const opts = require('./package.json');
 const bsVersion = opts.dependencies.bootstrap.replace(/^\^|~/, '');
 
 const tasks = [];

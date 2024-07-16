@@ -15,7 +15,7 @@
  * node build.mjs --gzip             will create gzip files for all the minified stylesheets and scripts.
  * node build.mjs --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
-import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { Command } from 'commander';
 import semver from 'semver';
 
@@ -35,9 +35,11 @@ import { compressFiles } from './build-modules-js/compress.mjs';
 import { versioning } from './build-modules-js/versioning.mjs';
 import { Timer } from './build-modules-js/utils/timer.mjs';
 
+const require = createRequire(import.meta.url);
+
 // The settings
-const options = JSON.parse(readFileSync(`${process.cwd()}/package.json`));
-const { settings } = options;
+const options = require("../package.json");
+const settings = require("./build-modules-js/settings.json");
 
 const handleError = (err, terminateCode) => {
   console.error(err); // eslint-disable-line no-console
