@@ -38,8 +38,8 @@ import { Timer } from './build-modules-js/utils/timer.mjs';
 const require = createRequire(import.meta.url);
 
 // The settings
-const options = require("../package.json");
-const settings = require("./build-modules-js/settings.json");
+const options = require('../package.json');
+const settings = require('./build-modules-js/settings.json');
 
 const handleError = (err, terminateCode) => {
   console.error(err); // eslint-disable-line no-console

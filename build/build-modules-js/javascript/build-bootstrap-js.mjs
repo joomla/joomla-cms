@@ -12,7 +12,8 @@ import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 
 const require = createRequire(import.meta.url);
-const opts = require('./package.json');
+const opts = require('../../../package.json');
+
 const bsVersion = opts.dependencies.bootstrap.replace(/^\^|~/, '');
 
 const tasks = [];
