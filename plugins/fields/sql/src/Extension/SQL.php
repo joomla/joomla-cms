@@ -36,9 +36,9 @@ final class SQL extends FieldsListPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return array_merge([
+        return array_merge(parent::getSubscribedEvents(), [
             'onContentBeforeSave' => 'contentBeforeSave',
-        ], parent::getSubscribedEvents());
+        ]);
     }
 
     /**

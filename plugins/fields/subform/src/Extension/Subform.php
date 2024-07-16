@@ -55,9 +55,9 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return array_merge([
+        return array_merge(parent::getSubscribedEvents(), [
             'onCustomFieldsBeforePrepareField' => 'beforePrepareField',
-        ], parent::getSubscribedEvents());
+        ]);
     }
 
     /**
