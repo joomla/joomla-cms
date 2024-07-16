@@ -19,6 +19,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -231,7 +232,7 @@ class ItemsModel extends ListModel
     /**
      * Builds an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    A query object.
+     * @return  QueryInterface    A query object.
      *
      * @since   1.6
      */

@@ -15,8 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -88,7 +88,7 @@ class TagsModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery  An SQL query
+     * @return  QueryInterface  An SQL query
      *
      * @since   1.6
      */

@@ -305,7 +305,7 @@ class Updater extends Adapter
                                 'element'   => $current_update->get('element'),
                                 'type'      => $current_update->get('type'),
                                 'client_id' => $current_update->get('client_id'),
-                                'folder'    => $current_update->get('folder'),
+                                'folder'    => $current_update->get('folder', ''),
                             ]
                         );
 
@@ -315,7 +315,7 @@ class Updater extends Adapter
                                 'element'   => $current_update->get('element'),
                                 'type'      => $current_update->get('type'),
                                 'client_id' => $current_update->get('client_id'),
-                                'folder'    => $current_update->get('folder'),
+                                'folder'    => $current_update->get('folder', ''),
                             ]
                         );
 

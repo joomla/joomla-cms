@@ -27,7 +27,7 @@ Text::script('NOTICE');
 Text::script('MESSAGE');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('form.validate')
     ->useScript('keepalive');
 

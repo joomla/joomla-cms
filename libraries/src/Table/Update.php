@@ -26,7 +26,7 @@ use Joomla\Event\DispatcherInterface;
 class Update extends Table
 {
     /**
-     * Ensure the params in json encoded in the bind method
+     * Ensure the params are json encoded in the bind method
      *
      * @var    array
      * @since  4.0.0

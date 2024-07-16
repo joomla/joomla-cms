@@ -48,7 +48,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
     protected $_supportNullValue = true;
 
     /**
-     * Ensure the params and metadata in json encoded in the bind method
+     * Ensure the params and metadata are json encoded in the bind method
      *
      * @var    array
      * @since  3.3
