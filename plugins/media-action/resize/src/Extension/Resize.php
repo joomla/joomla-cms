@@ -35,9 +35,9 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return array_merge([
+        return array_merge(parent::getSubscribedEvents(), [
             'onContentBeforeSave' => 'onContentBeforeSave',
-        ], parent::getSubscribedEvents());
+        ]);
     }
 
     /**
