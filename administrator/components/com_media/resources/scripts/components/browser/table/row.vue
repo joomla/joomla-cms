@@ -113,7 +113,7 @@ export default {
       }
 
       // @todo remove the hardcoded extensions here
-      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mp3', 'pdf'];
+      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'mp4', 'mp3', 'pdf'];
 
       // Show preview
       if (this.item.extension

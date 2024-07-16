@@ -382,6 +382,23 @@ trait DisplayTrait
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
 
+        // Set default classes to empty
+        $linkClasses = [];
+
+        // Load the link classes list
+        if (isset($extraOptions->link_classes_list) && $extraOptions->link_classes_list) {
+            $linksClassesList = $extraOptions->link_classes_list;
+
+            if ($linksClassesList) {
+                $linkClasses = [['title' => TEXT::_('PLG_TINY_FIELD_LINK_CLASS_NONE'), 'value' => '']];
+
+                // Create an array for the link classes
+                foreach ($linksClassesList as $linksClassList) {
+                    array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
+                }
+            }
+        }
+
         // Build the final options set
         $scriptOptions   = array_merge(
             $scriptOptions,
@@ -424,6 +441,9 @@ trait DisplayTrait
                 'relative_urls'      => (bool) $levelParams->get('relative_urls', true),
                 'remove_script_host' => false,
 
+                // Link classes
+                'link_class_list' => $linkClasses,
+
                 // Drag and drop Images always FALSE, reverting this allows for inlining the images
                 'paste_data_images' => false,
 
@@ -458,6 +478,11 @@ trait DisplayTrait
                 // Disable TinyMCE Branding
                 'branding'  => false,
                 'promotion' => false,
+
+                // Hardened security
+                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
+                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
+                'convert_unsafe_embeds' => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',

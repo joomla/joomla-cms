@@ -23,30 +23,45 @@
     color: var(--state-info-text);
     background-color: var(--state-info-bg);
     border: var(--state-info-border);
+    a {
+      color: var(--state-info-text);
+    }
   }
 
   &.alert-warning {
     color: var(--state-warning-text);
     background-color: var(--state-warning-bg);
     border: var(--state-warning-border);
+    a {
+      color: var(--state-warning-text);
+    }
   }
 
   &.alert-success {
     color: var(--state-success-text);
     background-color: var(--state-success-bg);
     border: var(--state-success-border);
+    a {
+      color: var(--state-success-text);
+    }
   }
 
   &.alert-error {
     color: var(--state-error-text);
     background-color: var(--state-error-bg);
     border: var(--state-error-border);
+    a {
+      color: var(--state-error-text);
+    }
   }
 
   &.alert-danger {
     color: var(--state-danger-text);
     background-color: var(--state-danger-bg);
     border-color: var(--state-danger-border);
+    a {
+      color: var(--state-danger-text);
+    }
   }
 }
 

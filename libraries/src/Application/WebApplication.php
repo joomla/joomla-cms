@@ -49,6 +49,10 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @var    string
      * @since  4.3.0
+     *
+     * @deprecated 5.2.0 will be removed in 7.0
+     *             Use the Document getTitle() Method
+     *             Example: \Joomla\CMS\Factory::getApplication()->getDocument()->getTitle()
      */
     public $JComponentTitle;
 

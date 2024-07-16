@@ -1,13 +1,48 @@
+const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+const notForced = () => !('colorSchemeOs' in document.documentElement.dataset);
+const lightColor = 'rgba(255, 255, 255, 0.8)';
+const darkColor = 'rgba(0, 0, 0, 0.8)';
+const getColorScheme = () => {
+  if (notForced()) {
+    return darkModeMediaQuery.matches ? darkColor : lightColor;
+  }
+
+  if ('colorScheme' in document.documentElement.dataset) {
+    return document.documentElement.dataset.colorScheme === 'dark' ? darkColor : lightColor;
+  }
+
+  return darkModeMediaQuery.matches ? darkColor : lightColor;
+};
+
 /**
  * Creates a custom element with the default spinner of the Joomla logo
  */
 class JoomlaCoreLoader extends HTMLElement {
-  connectedCallback() {
-    this.style.backgroundColor = this.color;
+  get inline() { return this.hasAttribute('inline'); }
 
-    if (this.inline === 'false') {
-      this.classList.add('fullscreen');
+  set inline(value) {
+    if (value !== null) {
+      this.setAttribute('inline', '');
+    } else {
+      this.removeAttribute('inline');
     }
+  }
+
+  get size() { return this.getAttribute('size') || '345'; }
+
+  set size(value) { this.setAttribute('size', value); }
+
+  get color() { return this.getAttribute('color'); }
+
+  set color(value) { this.setAttribute('color', value); }
+
+  static get observedAttributes() {
+    return ['color', 'size', 'inline'];
+  }
+
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
 
     const template = document.createElement('template');
     template.innerHTML = `
@@ -21,31 +56,54 @@ class JoomlaCoreLoader extends HTMLElement {
       <path d="m104.3 92-15.6 15.6-14.8 14.8-2.9 2.9c-8.5 8.5-20.6 11.4-31.5 8.7-2 8.9-10 15.5-19.5 15.5-11.1 0-20-9-20-20 0-9.5 6.6-17.4 15.4-19.5-2.8-11 .1-23.1 8.7-31.7l1.1-1.1L40 92l-1.1 1.1c-4.8 4.8-4.8 12.6 0 17.4 4.8 4.8 12.6 4.8 17.4 0l2.9-2.9L74 92.8l15.6-15.6L104.3 92z" class="joomla-spinner" fill="#5091cd" />
     </svg>`;
 
-    this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
-  static get observedAttributes() {
-    return ['color'];
+  connectedCallback() {
+    this.style.backgroundColor = this.color ? this.color : getColorScheme();
+
+    darkModeMediaQuery.addEventListener('change', this.systemQuery);
+
+    if (!this.inline) {
+      this.classList.add('fullscreen');
+    }
   }
 
-  get inline() { return this.getAttribute('inline') || false; }
-
-  get size() { return this.getAttribute('size') || '345'; }
-
-  get color() { return this.getAttribute('color') || '#fff'; }
-
-  set color(value) { this.setAttribute('color', value); }
+  disconnectedCallback() {
+    darkModeMediaQuery.removeEventListener('change', this.systemQuery);
+  }
 
   attributeChangedCallback(attr, oldValue, newValue) {
     switch (attr) {
       case 'color':
         if (newValue && newValue !== oldValue) {
-          this.style.backgroundColor = this.color;
+          this.style.backgroundColor = newValue;
+        }
+        break;
+      case 'size':
+        if (newValue && newValue !== oldValue) {
+          const svg = this.shadowRoot.querySelector('svg');
+          svg.setAttribute('width', newValue);
+          svg.setAttribute('height', newValue);
+        }
+        break;
+      case 'inline':
+        if (this.hasAttribute('inline')) {
+          this.classList.remove('fullscreen');
+        } else {
+          this.classList.add('fullscreen');
         }
         break;
       default:
-      // Do nothing
+        break;
+    }
+  }
+
+  systemQuery(event) {
+    if (!notForced() || this.color) return;
+    const color = event.matches === true ? darkColor : lightColor;
+    if (this.style.backgroundColor !== color) {
+      this.style.backgroundColor = color;
     }
   }
 }
