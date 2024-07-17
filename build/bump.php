@@ -251,7 +251,7 @@ if (file_exists($rootPath . $antJobFile)) {
 }
 
 // Updates the version in the package.json file.
-foreach($packageJsonFiles as $packageJsonFile) {
+foreach ($packageJsonFiles as $packageJsonFile) {
     if (file_exists($rootPath . $packageJsonFile)) {
         $package          = json_decode(file_get_contents($rootPath . $packageJsonFile));
         $package->version = $version['release'];
