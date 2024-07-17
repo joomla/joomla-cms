@@ -29,8 +29,8 @@
     "versioning": "node build/build.js --versioning",
     "browserlist:update": "npx browserslist@latest --update-db",
     "cypress:install": "cypress install",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:open": "cypress open --config-file cypress.config.mjs",
+    "cypress:run": "cypress run --config-file cypress.config.mjs"
   },
   "browserslist": [
     "last 2 major version",
