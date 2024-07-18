@@ -21,8 +21,17 @@
   line-height: 1.5em;
 }
 
+.shepherd-cancel-icon::before {
+  line-height: normal;
+  font-size: 1rem;
+  margin: 0 8px 0 15px;
+  content: attr(aria-label);
+  vertical-align: middle;
+}
+
 .shepherd-progress {
-  margin: 0 15px;
+  margin-right: 15px;
+  line-height: 1em;
 }
 
 .shepherd-text {
