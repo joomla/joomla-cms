@@ -6,8 +6,8 @@
 @import "../../../../node_modules/shepherd.js/dist/css/shepherd";
 
 .shepherd-element {
-  max-width: min(600px, 90%);
   width: max-content;
+  max-width: min(600px, 90%);
 }
 
 .shepherd-element.shepherd-centered {
