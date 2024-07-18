@@ -20,6 +20,7 @@ use Tuf\Exception\Attack\RollbackAttackException;
 use Tuf\Exception\Attack\SignatureThresholdException;
 use Tuf\Exception\DownloadSizeException;
 use Tuf\Exception\MetadataException;
+use Tuf\Exception\TufException;
 use Tuf\Loader\SizeCheckingLoader;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -136,6 +137,8 @@ class TufFetcher
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), CMSApplicationInterface::MSG_ERROR);
         } catch (SignatureThresholdException $e) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), CMSApplicationInterface::MSG_ERROR);
+        } catch (TufException $e) {
+            $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ERROR_GENERIC'), CMSApplicationInterface::MSG_ERROR);
         }
 
         $this->rollBackTufMetadata();

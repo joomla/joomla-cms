@@ -12,7 +12,6 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
@@ -24,6 +23,7 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -489,7 +489,7 @@ class ApiModel extends BaseDatabaseModel
                     ',',
                     ComponentHelper::getParams('com_media')->get(
                         'image_extensions',
-                        'bmp,gif,jpg,jpeg,png,webp'
+                        'bmp,gif,jpg,jpeg,png,webp,avif'
                     )
                 )
             );

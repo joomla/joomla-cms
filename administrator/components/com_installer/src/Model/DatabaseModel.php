@@ -19,9 +19,9 @@ use Joomla\CMS\Schema\ChangeSet;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -320,7 +320,7 @@ class DatabaseModel extends InstallerModel
     /**
      * Method to get the database query
      *
-     * @return  DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   4.0.0
      */
@@ -527,7 +527,7 @@ class DatabaseModel extends InstallerModel
     /**
      * Get a message of the tables skipped and checked
      *
-     * @param   array  $status  status of of the update files
+     * @param   array  $status  status of the update files
      *
      * @return  array  Messages with the errors with the update version
      *

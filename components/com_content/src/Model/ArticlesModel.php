@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -181,7 +182,7 @@ class ArticlesModel extends ListModel
     /**
      * Get the master query for retrieving a list of articles subject to the model state.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -192,7 +193,6 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        /** @var \Joomla\Database\DatabaseQuery $query */
         $query = $db->getQuery(true);
 
         $nowDate = Factory::getDate()->toSql();
@@ -651,8 +651,8 @@ class ArticlesModel extends ListModel
         $items  = parent::getItems();
 
         $user   = $this->getCurrentUser();
-        $userId = $user->get('id');
-        $guest  = $user->get('guest');
+        $userId = $user->id;
+        $guest  = $user->guest;
         $groups = $user->getAuthorisedViewLevels();
         $input  = Factory::getApplication()->getInput();
 

@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 $wa->useScript('keepalive')
     ->useScript('form.validate')
