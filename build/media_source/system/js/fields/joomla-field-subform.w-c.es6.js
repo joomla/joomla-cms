@@ -313,7 +313,12 @@ class JoomlaFieldSubform extends HTMLElement {
 
         // Set the id for fieldset and group label
         if (!countMulti) {
-          // Look for <fieldset class="radio"></fieldset> or <fieldset><div class="radio"></div></fieldset> or <fieldset><div class="switcher"></div></fieldset>
+          /**
+           * Look for one of:
+           * - <fieldset class="radio"></fieldset>
+           * - <fieldset><div class="radio"></div></fieldset>
+           * - <fieldset><div class="switcher"></div></fieldset>
+           */
           let fieldset = $el.closest('.radio') ?? $el.closest('.switcher');
           // eslint-disable-next-line no-nested-ternary
           fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
