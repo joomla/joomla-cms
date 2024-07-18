@@ -22,11 +22,11 @@
 }
 
 .shepherd-cancel-icon::before {
-  line-height: normal;
-  font-size: 1rem;
   margin: 0 8px 0 15px;
-  content: attr(aria-label);
+  font-size: 1rem;
+  line-height: normal;
   vertical-align: middle;
+  content: attr(aria-label);
 }
 
 .shepherd-cancel-icon span {
