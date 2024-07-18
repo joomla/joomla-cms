@@ -257,7 +257,7 @@ foreach ($packageJsonFiles as $packageJsonFile) {
         $package->version = $version['release'];
 
         // @todo use a native formatter whenever https://github.com/php/php-src/issues/8864 is resolved
-        file_put_contents($rootPath . $packageJsonFile, str_replace('    ', '  ', json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) . '/n');
+        file_put_contents($rootPath . $packageJsonFile, str_replace('    ', '  ', json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) . "\n");
     }
 }
 
