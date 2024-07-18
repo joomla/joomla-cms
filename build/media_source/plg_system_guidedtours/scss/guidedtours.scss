@@ -5,6 +5,15 @@
 
 @import "../../../../node_modules/shepherd.js/dist/css/shepherd";
 
+.shepherd-element {
+  max-width: min(600px, 90%);
+  width: max-content;
+}
+
+.shepherd-element.shepherd-centered {
+  max-width: min(1200px, 90%);
+}
+
 .shepherd-content {
   border: 1px solid var(--border-color-translucent);
   border-radius: .3rem;
