@@ -18,7 +18,6 @@
 
 .shepherd-title {
   flex: 1 1 auto;
-  line-height: 1.5em;
 }
 
 .shepherd-cancel-icon::before {
@@ -26,6 +25,11 @@
   font-size: 1rem;
   margin: 0 8px 0 15px;
   content: attr(aria-label);
+  vertical-align: middle;
+}
+
+.shepherd-cancel-icon span {
+  font-size: 2rem;
   vertical-align: middle;
 }
 
