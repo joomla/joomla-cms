@@ -71,7 +71,7 @@ $attr .= $dataAttribute;
     <legend class="visually-hidden">
         <?php echo $label; ?>
     </legend>
-    <div class="switcher<?php echo ($readonly || $disabled ? ' disabled' : ''); ?>">
+    <div class="radio switcher<?php echo ($readonly || $disabled ? ' disabled' : ''); ?>">
     <?php foreach ($options as $i => $option) : ?>
         <?php
         // False value casting as string returns an empty string so assign it 0
