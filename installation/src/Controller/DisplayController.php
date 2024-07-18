@@ -28,7 +28,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached.
-     * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+     * @param   boolean  $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  \Joomla\CMS\MVC\Controller\BaseController  This object to support chaining.
      *
@@ -92,7 +93,7 @@ class DisplayController extends BaseController
      * @since   3.0
      * @throws  \Exception
      */
-    public function getView($name = '', $type = '', $prefix = '', $config = array())
+    public function getView($name = '', $type = '', $prefix = '', $config = [])
     {
         $view = parent::getView($name, $type, $prefix, $config);
 

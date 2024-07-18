@@ -14,44 +14,28 @@
 }
 
 .btn-secondary {
-  color: $gray-800;
-  background-color: $white;
-  border-color: $gray-400;
-
-  &:hover,
-  &:focus {
-    color: $gray-800;
-    background-color: $gray-100;
-  }
+  --btn-color: var(--gray-800);
+  --btn-bg: var(--white);
+  --btn-border-color: var(--gray-400);
+  --btn-hover-color: var(--gray-800);
+  --btn-hover-bg: var(--gray-100);
 }
 
 .article-info .association,
 .cat-list-association {
   .btn-secondary {
-    font-weight: 700;
-    color: $white;
-    background-color: $gray-600;
-    border-color: $gray-400;
-
-    &:hover,
-    &:focus {
-      color: $white;
-      background-color: $gray-800;
-    }
+    --btn-font-weight: 700;
+    --btn-color: var(--white);
+    --btn-bg: var(--gray-600);
+    --btn-border-color: var(--gray-400);
+    --btn-hover-color: var(--white);
+    --btn-hover-bg: var(--gray-800);
   }
 
   .btn-sm {
-    padding: 0 .25rem;
-    font-size: .8rem;
-    border-radius: .2rem;
-  }
-}
-
-@include media-breakpoint-down(lg) {
-  .btn {
-    margin-bottom: .25rem;
-  }
-  .input-group .btn {
-    margin-bottom: 0;
+    --btn-padding-y: 0;
+    --btn-padding-x: .25rem;
+    --btn-font-size: .8rem;
+    --btn-border-radius: var(--border-radius-sm);
   }
 }

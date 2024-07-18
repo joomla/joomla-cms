@@ -148,7 +148,7 @@ class Scheduler
         $duration          = $executionSnapshot['duration'] ?? 0;
 
         if (\array_key_exists($exitCode, self::LOG_TEXT)) {
-            $level = in_array($exitCode, [Status::OK, Status::WILL_RESUME]) ? 'info' : 'warning';
+            $level = \in_array($exitCode, [Status::OK, Status::WILL_RESUME]) ? 'info' : 'warning';
             $task->log(Text::sprintf(self::LOG_TEXT[$exitCode], $taskId, $duration, $netDuration), $level);
 
             return $task;
@@ -176,8 +176,8 @@ class Scheduler
     {
         $resolver->setDefaults(
             [
-                'id' => 0,
-                'allowDisabled' => false,
+                'id'              => 0,
+                'allowDisabled'   => false,
                 'allowConcurrent' => false,
             ]
         )

@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $user = $this->getCurrentUser();
+        $user                   = $this->getCurrentUser();
         $this->userIsSuperAdmin = $user->authorise('core.admin');
 
         // Access backend com_config
@@ -121,11 +121,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($params->get('page_title', ''));
 
         if ($params->get('menu-meta_description')) {
-            $this->document->setDescription($params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($params->get('menu-meta_description'));
         }
 
         if ($params->get('robots')) {
-            $this->document->setMetaData('robots', $params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $params->get('robots'));
         }
 
         // Escape strings for HTML output

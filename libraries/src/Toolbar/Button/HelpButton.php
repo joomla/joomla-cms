@@ -13,7 +13,7 @@ use Joomla\CMS\Help\Help;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,10 +43,14 @@ class HelpButton extends BasicButton
      */
     protected function prepareOptions(array &$options)
     {
-        $options['text'] = $options['text'] ?: 'JTOOLBAR_HELP';
-        $options['icon'] = $options['icon'] ?? 'icon-question';
-        $options['button_class'] = $options['button_class'] ?? 'btn btn-info';
-        $options['onclick'] = $options['onclick'] ?? $this->_getCommand();
+        $options['text']                      = $options['text'] ?: 'JTOOLBAR_HELP';
+        $options['icon']                      = $options['icon'] ?? 'icon-question';
+        $options['button_class']              = ($options['button_class'] ?? 'btn btn-info') . ' js-toolbar-help-btn';
+        $options['attributes']['data-url']    = $this->_getCommand();
+        $options['attributes']['data-title']  = Text::_('JHELP');
+        $options['attributes']['data-width']  = 700;
+        $options['attributes']['data-height'] = 500;
+        $options['attributes']['data-scroll'] = true;
 
         parent::prepareOptions($options);
     }
@@ -64,7 +68,8 @@ class HelpButton extends BasicButton
      *
      * @since   3.0
      *
-     * @deprecated  5.0 Use render() instead.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use render() instead.
      */
     public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)
     {
@@ -87,12 +92,7 @@ class HelpButton extends BasicButton
     protected function _getCommand()
     {
         // Get Help URL
-        $url = Help::createUrl($this->getRef(), $this->getUseComponent(), $this->getUrl(), $this->getComponent());
-        $url = json_encode(htmlspecialchars($url, ENT_QUOTES), JSON_HEX_APOS);
-        $url = substr($url, 1, -1);
-        $cmd = "Joomla.popupWindow('$url', '" . Text::_('JHELP', true) . "', 700, 500, 1)";
-
-        return $cmd;
+        return Help::createUrl($this->getRef(), $this->getUseComponent(), $this->getUrl(), $this->getComponent());
     }
 
     /**
@@ -110,7 +110,7 @@ class HelpButton extends BasicButton
                 'ref',
                 'useComponent',
                 'component',
-                'url'
+                'url',
             ]
         );
     }

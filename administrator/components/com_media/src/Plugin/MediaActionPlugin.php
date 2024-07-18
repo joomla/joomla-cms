@@ -77,7 +77,7 @@ class MediaActionPlugin extends CMSPlugin
             'script',
             'plg_media-action_' . $this->_name . '/' . $this->_name . '.js',
             ['version' => 'auto', 'relative' => true],
-            ['type' => 'module']
+            ['type'    => 'module']
         );
     }
 

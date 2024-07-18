@@ -149,6 +149,7 @@ if ($checkPath) {
         'modules',
         'plugins',
         'templates',
+        'tests',
     ];
 
     foreach ($baseFolders as $folder) {

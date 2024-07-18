@@ -37,7 +37,7 @@ class SiteStatusPluginTest extends UnitTestCase
      *
      * @var string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     private $tmpFolder;
 
@@ -267,6 +267,6 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
-        $this->assertFileNotExists('/proc/invalid/config.php');
+        $this->assertFileDoesNotExist('/proc/invalid/config.php');
     }
 }

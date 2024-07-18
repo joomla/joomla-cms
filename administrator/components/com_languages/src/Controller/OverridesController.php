@@ -46,7 +46,7 @@ class OverridesController extends AdminController
         $this->checkToken();
 
         // Get items to delete from the request.
-        $cid = (array) $this->input->get('cid', array(), 'string');
+        $cid = (array) $this->input->get('cid', [], 'string');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
@@ -59,7 +59,7 @@ class OverridesController extends AdminController
 
             // Remove the items.
             if ($model->delete($cid)) {
-                $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+                $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
             } else {
                 $this->setMessage($model->getError(), 'error');
             }

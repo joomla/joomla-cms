@@ -18,6 +18,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 // Create a shortcut for params.
 $params = $this->item->params;
 $canEdit = $this->item->params->get('access-edit');
@@ -42,7 +43,7 @@ $isUnpublished = ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED 
     <?php echo LayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item); ?>
 
     <?php if ($canEdit) : ?>
-        <?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item)); ?>
+        <?php echo LayoutHelper::render('joomla.content.icons', ['params' => $params, 'item' => $this->item]); ?>
     <?php endif; ?>
 
     <?php // @todo Not that elegant would be nice to group the params ?>
@@ -50,7 +51,7 @@ $isUnpublished = ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED 
         || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
     <?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
-        <?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
+        <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above']); ?>
     <?php endif; ?>
     <?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
         <?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
@@ -68,7 +69,7 @@ $isUnpublished = ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED 
 
     <?php if ($info == 1 || $info == 2) : ?>
         <?php if ($useDefList) : ?>
-            <?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+            <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'below']); ?>
         <?php endif; ?>
         <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
             <?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
@@ -86,7 +87,7 @@ $isUnpublished = ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED 
             $link->setVar('return', base64_encode(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
         endif; ?>
 
-        <?php echo LayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
+        <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $this->item, 'params' => $params, 'link' => $link]); ?>
 
     <?php endif; ?>
 

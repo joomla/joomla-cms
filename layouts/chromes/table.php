@@ -16,7 +16,7 @@ $module  = $displayData['module'];
 $params  = $displayData['params'];
 ?>
 <table
-    class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
+    class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8'); ?>">
     <?php if ((bool) $module->showtitle) : ?>
         <tr>
             <th>

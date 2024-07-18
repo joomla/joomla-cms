@@ -42,8 +42,8 @@ class TransitionButton extends ActionButton
     {
         parent::__construct($options);
 
-        $this->unknownState['icon'] = 'shuffle';
-        $this->unknownState['title'] = $options['title'] ?? Text::_('JLIB_HTML_UNKNOWN_STATE');
+        $this->unknownState['icon']        = 'shuffle';
+        $this->unknownState['title']       = $options['title'] ?? Text::_('JLIB_HTML_UNKNOWN_STATE');
         $this->unknownState['tip_content'] = $options['tip_content'] ?? $this->unknownState['title'];
     }
 

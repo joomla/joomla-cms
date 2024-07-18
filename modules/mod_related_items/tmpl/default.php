@@ -13,6 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+if (!$list) {
+    return;
+}
+
 ?>
 <ul class="mod-relateditems relateditems mod-list">
 <?php foreach ($list as $item) : ?>

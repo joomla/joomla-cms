@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Object;
 
-use Exception;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -94,14 +93,15 @@ class CMSObjectTest extends UnitTestCase
         $object = new CMSObject([
             '_privateproperty1' => 'valuep1',
             'property1'         => 'value1',
-            'property2'         => 5]);
+            'property2'         => 5,
+        ]);
 
         $this->assertEquals(
             [
                 '_errors'           => [],
                 '_privateproperty1' => 'valuep1',
                 'property1'         => 'value1',
-                'property2'         => 5
+                'property2'         => 5,
             ],
             $object->getProperties(false),
             'Should get all properties, including private ones'
@@ -110,7 +110,7 @@ class CMSObjectTest extends UnitTestCase
         $this->assertEquals(
             [
                 'property1' => 'value1',
-                'property2' => 5
+                'property2' => 5,
             ],
             $object->getProperties(),
             'Should get all public properties'
@@ -156,7 +156,7 @@ class CMSObjectTest extends UnitTestCase
             'Should return false, since the error does not exist'
         );
 
-        $exception = new Exception('error');
+        $exception = new \Exception('error');
         $object->setError($exception);
         $this->assertThat(
             $object->getError(3, true),
@@ -220,8 +220,8 @@ class CMSObjectTest extends UnitTestCase
     public function testSetProperties()
     {
         $object = new CMSObject();
-        $a = ["foo" => "ghost", "knife" => "stewie"];
-        $f = "foo";
+        $a      = ["foo" => "ghost", "knife" => "stewie"];
+        $f      = "foo";
 
         $this->assertEquals(true, $object->setProperties($a));
         $this->assertEquals(false, $object->setProperties($f));
@@ -243,7 +243,7 @@ class CMSObjectTest extends UnitTestCase
         $object = new CMSObject();
         $object->setError('A Test Error');
         $this->assertEquals(
-            array('A Test Error'),
+            ['A Test Error'],
             $object->getErrors()
         );
     }

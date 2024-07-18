@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\MVC\View\Event;
 
-use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -63,20 +62,20 @@ final class OnGetApiFields extends AbstractImmutableEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('type', $arguments)) {
-            throw new BadMethodCallException("Argument 'type' is required for event $name");
+            throw new \BadMethodCallException("Argument 'type' is required for event $name");
         }
 
         if (!\array_key_exists('fields', $arguments)) {
-            throw new BadMethodCallException("Argument 'fields' is required for event $name");
+            throw new \BadMethodCallException("Argument 'fields' is required for event $name");
         }
 
         if (!\array_key_exists('context', $arguments)) {
-            throw new BadMethodCallException("Argument 'context' is required for event $name");
+            throw new \BadMethodCallException("Argument 'context' is required for event $name");
         }
 
         parent::__construct($name, $arguments);
@@ -89,12 +88,12 @@ final class OnGetApiFields extends AbstractImmutableEvent
      *
      * @return  mixed
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
      */
     protected function setType($value)
     {
-        if (!in_array($value, [static::ITEM, static::LIST])) {
-            throw new BadMethodCallException("Argument 'type' of event {$this->name} must be a valid value");
+        if (!\in_array($value, [static::ITEM, static::LIST])) {
+            throw new \BadMethodCallException("Argument 'type' of event {$this->name} must be a valid value");
         }
 
         return $value;
@@ -107,12 +106,12 @@ final class OnGetApiFields extends AbstractImmutableEvent
      *
      * @return  array
      *
-     * @throws  BadMethodCallException  if the argument is not a non-empty array
+     * @throws  \BadMethodCallException  if the argument is not a non-empty array
      */
     protected function setFields($value)
     {
-        if (!\is_array($value) || is_array($value) && empty($value)) {
-            throw new BadMethodCallException("Argument 'fields' of event {$this->name} must be be an array and not empty");
+        if (!\is_array($value) || \is_array($value) && empty($value)) {
+            throw new \BadMethodCallException("Argument 'fields' of event {$this->name} must be be an array and not empty");
         }
 
         return $value;
@@ -125,12 +124,12 @@ final class OnGetApiFields extends AbstractImmutableEvent
      *
      * @return  array
      *
-     * @throws  BadMethodCallException  if the argument is not a non-empty array
+     * @throws  \BadMethodCallException  if the argument is not a non-empty array
      */
     protected function setRelations($value)
     {
         if (!\is_array($value)) {
-            throw new BadMethodCallException("Argument 'relations' of event {$this->name} must be be an array");
+            throw new \BadMethodCallException("Argument 'relations' of event {$this->name} must be be an array");
         }
 
         return $value;

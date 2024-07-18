@@ -15,12 +15,14 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Select\HtmlView $this */
+
 $app = Factory::getApplication();
 
 $function  = $app->getInput()->getCmd('function');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_modules.admin-module-search');
 
 if ($function) :
@@ -60,13 +62,15 @@ endif;
         <div class="main-card card-columns p-4" id="comModulesSelectResultsContainer">
             <?php foreach ($this->items as &$item) : ?>
                 <?php // Prepare variables for the link. ?>
-                    <?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>
-                    <?php $name = $this->escape($item->name); ?>
-                    <?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
-                <a href="<?php echo Route::_($link); ?>" class="new-module mb-3 comModulesSelectCard" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
+                <?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>
+                <?php $name = $this->escape($item->name); ?>
+                <?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
+                <a href="<?php echo Route::_($link); ?>" class="new-module mb-3 comModulesSelectCard"
+                    <?php echo !empty($function) ? 'data-function="' . $this->escape($function) . '"' : ''; ?>
+                    aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
                     <div class="new-module-details">
                         <h3 class="new-module-title"><?php echo $name; ?></h3>
-                        <p class="card-body new-module-caption p-0">
+                        <p class="new-module-caption p-0">
                             <?php echo $desc; ?>
                         </p>
                     </div>

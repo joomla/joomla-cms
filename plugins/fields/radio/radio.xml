@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_radio</name>
 	<author>Joomla! Project</author>
@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_RADIO_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Radio</namespace>
 	<files>
-		<filename plugin="radio">radio.php</filename>
 		<folder>params</folder>
+		<folder plugin="radio">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -21,6 +23,17 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field
+					name="form_layout"
+					type="list"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
+					class="form-select"
+					default="joomla.form.field.radio.buttons"			       
+					>
+					<option value="joomla.form.field.radio.buttons">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_BUTTONS</option>
+					<option value="joomla.form.field.radio.switcher">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_SWITCHER</option>
+				</field>
+				
 				<field
 					name="options"
 					type="subform"

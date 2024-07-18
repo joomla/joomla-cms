@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\CMS\Layout\FileLayout $this */
+
 extract($displayData);
 
 /**
@@ -50,19 +52,19 @@ extract($displayData);
  * @var   array    $positions       Array of the positions
  */
 
-$attributes = array(
+$attributes = [
     'class="' . $class . '"',
     ' allow-custom',
-    ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ',
-);
+    ' search-placeholder="' . $this->escape(Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION')) . '" ',
+];
 
-$selectAttr = array(
+$selectAttr = [
     $disabled ? 'disabled' : '',
     $readonly ? 'readonly' : '',
     strlen($hint) ? 'placeholder="' . $this->escape($hint) . '"' : '',
     $onchange ? ' onchange="' . $onchange . '"' : '',
     $autofocus ? ' autofocus' : '',
-);
+];
 
 if ($required) {
     $selectAttr[] = ' required class="required"';
@@ -78,10 +80,10 @@ Factory::getDocument()->getWebAssetManager()
 
 ?>
 <joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php
-    echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
+    echo HTMLHelper::_('select.groupedlist', $positions, $name, [
             'id'          => $id,
             'list.select' => $value,
             'list.attr'   => implode(' ', $selectAttr),
-        ));
+        ]);
     ?></joomla-field-fancy-select>
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="filter">
 		<field
@@ -14,9 +14,9 @@
 			name="stage"
 			type="workflowstage"
 			label="JOPTION_SELECT_STAGE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			activeonly="true"
-			extension="com_content"
+			extension="com_content.article"
 			>
 			<option value="">JOPTION_SELECT_STAGE</option>
 		</field>
@@ -25,7 +25,7 @@
 			name="published"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			extension="com_content.article"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -39,7 +39,7 @@
 			extension="com_content"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_CATEGORY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 
 		<field
@@ -49,7 +49,7 @@
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 
 		<field
@@ -59,7 +59,7 @@
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_AUTHOR"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="0">JNONE</option>
 		</field>
@@ -68,7 +68,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
@@ -82,7 +82,7 @@
 			mode="nested"
 			custom="false"
 			hint="JOPTION_SELECT_TAG"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 
 		<field
@@ -93,7 +93,7 @@
 			last="10"
 			step="1"
 			languages="*"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
@@ -104,7 +104,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.title ASC"
 			validate="options"
 			>
@@ -144,7 +144,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

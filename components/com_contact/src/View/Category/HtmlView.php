@@ -69,8 +69,8 @@ class HtmlView extends CategoryView
         // Prepare the data.
         // Compute the contact slug.
         foreach ($this->items as $item) {
-            $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-            $temp       = $item->params;
+            $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+            $temp         = $item->params;
             $item->params = clone $this->params;
             $item->params->merge($temp);
 
@@ -109,7 +109,7 @@ class HtmlView extends CategoryView
 
         if (
             $menu && $menu->component == 'com_contact' && isset($menu->query['view'])
-            && in_array($menu->query['view'], ['categories', 'category'])
+            && \in_array($menu->query['view'], ['categories', 'category'])
         ) {
             $id = $menu->query['id'];
         } else {

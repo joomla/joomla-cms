@@ -76,7 +76,7 @@ class ProviderManager
             return;
         }
 
-        if (!array_key_exists($provider->getID(), $this->providers)) {
+        if (!\array_key_exists($provider->getID(), $this->providers)) {
             return;
         }
 

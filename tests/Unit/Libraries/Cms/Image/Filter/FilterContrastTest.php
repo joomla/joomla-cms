@@ -2,7 +2,7 @@
 
 /**
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image\Filter;
@@ -29,7 +29,7 @@ class FilterContrastTest extends UnitTestCase
         parent::setUp();
 
         // Verify that GD support for PHP is available.
-        if (!extension_loaded('gd')) {
+        if (!\extension_loaded('gd')) {
             $this->markTestSkipped('No GD support so skipping Image tests.');
         }
     }
@@ -62,7 +62,7 @@ class FilterContrastTest extends UnitTestCase
         $imageHandle = imagecreatetruecolor(100, 100);
 
         // Define red.
-        $dark = imagecolorallocate($imageHandle, 90, 90, 90);
+        $dark  = imagecolorallocate($imageHandle, 90, 90, 90);
         $light = imagecolorallocate($imageHandle, 120, 120, 120);
 
         imagefilledrectangle($imageHandle, 0, 0, 50, 99, $dark);
@@ -70,7 +70,7 @@ class FilterContrastTest extends UnitTestCase
 
         $filter = new FilterContrast($imageHandle);
 
-        $filter->execute(array(IMG_FILTER_CONTRAST => -10));
+        $filter->execute([IMG_FILTER_CONTRAST => -10]);
 
         $this->assertEquals(
             82,
@@ -102,6 +102,6 @@ class FilterContrastTest extends UnitTestCase
 
         $filter = new FilterContrast($imageHandle);
 
-        $filter->execute(array());
+        $filter->execute([]);
     }
 }

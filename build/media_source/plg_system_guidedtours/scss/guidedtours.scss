@@ -1,0 +1,70 @@
+/**
+ * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+@import "../../../../node_modules/shepherd.js/dist/css/shepherd";
+
+.shepherd-content {
+  border: 1px solid var(--border-color-translucent);
+  border-radius: .3rem;
+  box-shadow: var(--modal-joomla-dialog-box-shadow);
+}
+
+.shepherd-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.shepherd-title {
+  flex: 1 1 auto;
+  line-height: 1.5em;
+}
+
+.shepherd-progress {
+  margin: 0 15px;
+}
+
+.shepherd-text {
+  padding: 1em;
+  line-height: 1.5em;
+}
+
+.shepherd-footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.shepherd-button-primary {
+  grid-column-start: 3;
+  color: var(--btn-primary-color);
+  background-color: var(--btn-primary-bg);
+  border: var(--btn-primary-border);
+}
+
+.shepherd-button-primary:not(:disabled):hover {
+  background-color: var(--btn-primary-bg-hvr);
+  border: var(--btn-primary-border-hvr);
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement=bottom] {
+  transform: translateY(12px);
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement=left] {
+  transform: translateX(-12px);
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement=top] {
+  transform: translateY(-12px);
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement=right] {
+  transform: translateX(12px);
+}
+
+#modGuidedTours-modal a {
+  font-weight: 500;
+  color: var(--template-link-color);
+  text-decoration: underline;
+}

@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -189,7 +189,7 @@ class NumberField extends FormField
         }
 
         // Trim the trailing line in the layout file
-        return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+        return rtrim($this->getRenderer($this->layout)->render($this->collectLayoutData()), PHP_EOL);
     }
 
     /**
@@ -204,12 +204,12 @@ class NumberField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
+        $extraData = [
             'max'   => $this->max,
             'min'   => $this->min,
             'step'  => $this->step,
             'value' => $this->value,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

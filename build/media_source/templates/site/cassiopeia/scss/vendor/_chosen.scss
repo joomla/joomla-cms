@@ -8,7 +8,6 @@ $chosen-select-padding-y: $form-select-padding-y + .21;
 
   .chosen-single {
     display: inline-block;
-    $select-border-width: ($form-select-border-width * 2);
     height: #{$input-height};
     padding: $chosen-select-padding-y ($form-select-padding-x + $form-select-indicator-padding) $chosen-select-padding-y $form-select-padding-x;
     line-height: 1.5;
@@ -20,12 +19,7 @@ $chosen-select-padding-y: $form-select-padding-y + .21;
     border: $form-select-border-width solid $form-select-border-color;
     box-shadow: none;
     appearance: none;
-
-    @if $enable-rounded {
-      border-radius: $form-select-border-radius;
-    } @else {
-      border-radius: 0;
-    }
+    @include border-radius($form-select-border-radius, 0);
 
     abbr {
       top: 10px;

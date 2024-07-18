@@ -22,8 +22,8 @@ if (empty($fieldSet)) {
     return;
 }
 
-$ignoreFields = $displayData->get('ignore_fields') ? : array();
-$extraFields  = $displayData->get('extra_fields') ? : array();
+$ignoreFields = $displayData->get('ignore_fields') ? : [];
+$extraFields  = $displayData->get('extra_fields') ? : [];
 
 if (!empty($displayData->showOptions) || $displayData->get('show_options', 1)) {
     if (isset($extraFields[$name])) {
@@ -37,7 +37,7 @@ if (!empty($displayData->showOptions) || $displayData->get('show_options', 1)) {
         }
     }
 
-    $html = array();
+    $html = [];
 
     foreach ($fieldSet as $field) {
         $html[] = $field->renderField();
@@ -45,7 +45,7 @@ if (!empty($displayData->showOptions) || $displayData->get('show_options', 1)) {
 
     echo implode('', $html);
 } else {
-    $html = array();
+    $html = [];
     $html[] = '<div class="hidden">';
     foreach ($fieldSet as $field) {
         $html[] = $field->input;

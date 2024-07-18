@@ -12,11 +12,9 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -51,8 +49,7 @@ class BackupcodesModel extends BaseDatabaseModel
     {
         // Make sure I have a user
         if (empty($user)) {
-            $user = Factory::getApplication()->getIdentity() ?:
-                Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         /** @var MfaTable $record */
@@ -85,8 +82,7 @@ class BackupcodesModel extends BaseDatabaseModel
     {
         // Make sure I have a user
         if (empty($user)) {
-            $user = Factory::getApplication()->getIdentity() ?:
-                Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         // Generate backup codes
@@ -115,8 +111,7 @@ class BackupcodesModel extends BaseDatabaseModel
     {
         // Make sure I have a user
         if (empty($user)) {
-            $user = Factory::getApplication()->getIdentity() ?:
-                Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         // Try to load existing backup codes
@@ -126,7 +121,7 @@ class BackupcodesModel extends BaseDatabaseModel
         /** @var MfaTable $record */
         $record = $this->getTable('Mfa', 'Administrator');
 
-        if (is_null($existingCodes)) {
+        if (\is_null($existingCodes)) {
             $record->reset();
 
             $newData = [
@@ -176,8 +171,7 @@ class BackupcodesModel extends BaseDatabaseModel
     {
         // Make sure I have a user
         if (empty($user)) {
-            $user = Factory::getApplication()->getIdentity() ?:
-                Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         if (isset($this->cache[$user->id])) {
@@ -233,7 +227,7 @@ class BackupcodesModel extends BaseDatabaseModel
         $newArray   = [];
         $dummyArray = [];
 
-        $realLength = count($codes);
+        $realLength = \count($codes);
         $restLength = 10 - $realLength;
 
         for ($i = 0; $i < $realLength; $i++) {

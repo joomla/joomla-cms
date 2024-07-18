@@ -136,7 +136,7 @@ Options -Indexes
 	</IfModule>
 </IfModule>
 
-## GZIP
+## GZIP & BROTLI
 ## These directives are only enabled if the Apache mod_headers module is enabled.
 ## This section will check if a .gz file exists and if so will stream it
 ##     directly or fallback to gzip any asset on the fly
@@ -157,13 +157,13 @@ Options -Indexes
 	RewriteCond "%{REQUEST_FILENAME}\.gz" -s
 	RewriteRule "^(.*)\.js" "$1\.js\.gz" [QSA]
 
-	# Serve correct content types, and prevent mod_deflate double gzip.
-	RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1]
-	RewriteRule "\.js\.gz$" "-" [T=text/javascript,E=no-gzip:1]
+	# Serve correct content types, and prevent mod_deflate double compression.
+	RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1,E=no-brotli:1]
+	RewriteRule "\.js\.gz$" "-" [T=text/javascript,E=no-gzip:1,E=no-brotli:1]
 
 	<FilesMatch "(\.js\.gz|\.css\.gz)$">
 		# Serve correct encoding type.
-		Header append Content-Encoding gzip
+		Header set Content-Encoding gzip
 
 		# Force proxies to cache gzipped &
 		# non-gzipped css/js files separately.

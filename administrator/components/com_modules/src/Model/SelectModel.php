@@ -13,10 +13,11 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -83,12 +84,12 @@ class SelectModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -128,7 +129,7 @@ class SelectModel extends ListModel
         $items = parent::getItems();
 
         $client = ApplicationHelper::getClientInfo($this->getState('client_id', 0));
-        $lang = Factory::getLanguage();
+        $lang   = Factory::getLanguage();
 
         // Loop through the results to add the XML metadata,
         // and load language support.

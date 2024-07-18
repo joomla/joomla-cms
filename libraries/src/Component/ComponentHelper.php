@@ -23,7 +23,7 @@ use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -39,7 +39,7 @@ class ComponentHelper
      * @var    ComponentRecord[]
      * @since  1.6
      */
-    protected static $components = array();
+    protected static $components = [];
 
     /**
      * Get the component information.
@@ -59,7 +59,7 @@ class ComponentHelper
             return $components[$option];
         }
 
-        $result = new ComponentRecord();
+        $result          = new ComponentRecord();
         $result->enabled = $strict ? false : true;
         $result->setParams(new Registry());
 
@@ -131,18 +131,18 @@ class ComponentHelper
         // Filter settings
         $config     = static::getParams('com_config');
         $user       = Factory::getUser();
-        $userGroups = Access::getGroupsByUser($user->get('id'));
+        $userGroups = Access::getGroupsByUser($user->id);
 
         $filters = $config->get('filters');
 
-        $forbiddenListTags       = array();
-        $forbiddenListAttributes = array();
+        $forbiddenListTags       = [];
+        $forbiddenListAttributes = [];
 
-        $customListTags       = array();
-        $customListAttributes = array();
+        $customListTags       = [];
+        $customListAttributes = [];
 
-        $allowedListTags       = array();
-        $allowedListAttributes = array();
+        $allowedListTags       = [];
+        $allowedListAttributes = [];
 
         $allowedList    = false;
         $forbiddenList  = false;
@@ -171,8 +171,8 @@ class ComponentHelper
                 // Preprocess the tags and attributes.
                 $tags           = explode(',', $filterData->filter_tags);
                 $attributes     = explode(',', $filterData->filter_attributes);
-                $tempTags       = array();
-                $tempAttributes = array();
+                $tempTags       = [];
+                $tempAttributes = [];
 
                 foreach ($tags as $tag) {
                     $tag = trim($tag);
@@ -222,7 +222,7 @@ class ComponentHelper
         if (!$unfiltered) {
             // Custom Forbidden list precedes Default forbidden list.
             if ($customList) {
-                $filter = InputFilter::getInstance(array(), array(), 1, 1);
+                $filter = InputFilter::getInstance([], [], 1, 1);
 
                 // Override filter's default forbidden tags and attributes
                 if ($customListTags) {
@@ -280,16 +280,16 @@ class ComponentHelper
      * @since   1.5
      * @throws  MissingComponentException
      */
-    public static function renderComponent($option, $params = array())
+    public static function renderComponent($option, $params = [])
     {
-        $app = Factory::getApplication();
+        $app  = Factory::getApplication();
         $lang = Factory::getLanguage();
 
         if (!$app->isClient('api')) {
             // Load template language files.
             $template = $app->getTemplate(true)->template;
             $lang->load('tpl_' . $template, JPATH_BASE)
-            || $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
+                || $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
         }
 
         if (empty($option)) {
@@ -319,7 +319,9 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-             * @deprecated 5.0 without replacement
+             *
+             * @deprecated  4.3 will be removed in 6.0
+             *              Will be removed without replacement
              */
             \define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
         }
@@ -330,7 +332,9 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-             * @deprecated 5.0 without replacement
+             *
+             * @deprecated  4.3 will be removed in 6.0
+             *              Will be removed without replacement
              */
             \define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
         }
@@ -341,7 +345,9 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-             * @deprecated 5.0 without replacement
+             *
+             * @deprecated  4.3 will be removed in 6.0
+             *              Will be removed without replacement
              */
             \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
         }
@@ -375,7 +381,7 @@ class ComponentHelper
     protected static function load()
     {
         $loader = function () {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))
@@ -401,7 +407,7 @@ class ComponentHelper
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
         try {
-            static::$components = $cache->get($loader, array(), __METHOD__);
+            static::$components = $cache->get($loader, [], __METHOD__);
         } catch (CacheExceptionInterface $e) {
             static::$components = $loader();
         }

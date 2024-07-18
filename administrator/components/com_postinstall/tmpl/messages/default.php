@@ -10,10 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+
+/** @var \Joomla\Component\Postinstall\Administrator\View\Messages\HtmlView $this */
 
 $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'visually-hidden';
 ?>
@@ -23,7 +24,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
     <input type="hidden" name="task" value="">
     <?php echo HTMLHelper::_('form.token'); ?>
     <label for="eid" class="me-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
-    <?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-select'), 'value', 'text', $this->eid, 'eid'); ?>
+    <?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', ['onchange' => 'this.form.submit()', 'class' => 'form-select'], 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
 <?php foreach ($this->items as $item) : ?>
@@ -41,7 +42,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
                         <?php echo Text::_($item->action_key); ?>
                     </a>
                     <?php endif; ?>
-                    <?php if (Factory::getApplication()->getIdentity()->authorise('core.edit.state', 'com_postinstall')) : ?>
+                    <?php if ($this->getCurrentUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
                     <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
                         <?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
                     </a>
@@ -57,7 +58,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
             <div class="card-body">
                 <h3><?php echo Text::_($item->title_key); ?></h3>
                 <div>
-                    <?php if (Factory::getApplication()->getIdentity()->authorise('core.edit.state', 'com_postinstall')) : ?>
+                    <?php if ($this->getCurrentUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
                         <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
                             <?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
                         </a>

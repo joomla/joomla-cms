@@ -53,7 +53,7 @@ class ConfirmModel extends AdminModel
         }
 
         // Filter and validate the form data.
-        $data = $form->filter($data);
+        $data   = $form->filter($data);
         $return = $form->validate($data);
 
         // Check for an error.
@@ -99,8 +99,8 @@ class ConfirmModel extends AdminModel
 
         if ($now > $confirmTokenCreatedAt) {
             // Invalidate the request
-            $table->status = -1;
-            $table->confirm_token = '';
+            $table->status                   = -1;
+            $table->confirm_token            = '';
             $table->confirm_token_created_at = null;
 
             try {

@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -67,7 +68,7 @@ class ArchiveModel extends ArticlesModel
 
         // Get list limit
         $itemid = $input->get('Itemid', 0, 'int');
-        $limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
+        $limit  = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
         $this->setState('list.limit', $limit);
 
         // Set the archive ordering
@@ -82,9 +83,9 @@ class ArchiveModel extends ArticlesModel
     }
 
     /**
-     * Get the master query for retrieving a list of articles subject to the model state.
+     * Get the main query for retrieving a list of articles subject to the model state.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -92,13 +93,13 @@ class ArchiveModel extends ArticlesModel
     {
         $params           = $this->state->params;
         $app              = Factory::getApplication();
-        $catids           = $app->getInput()->get('catid', array(), 'array');
-        $catids           = array_values(array_diff($catids, array('')));
+        $catids           = $app->getInput()->get('catid', [], 'array');
+        $catids           = array_values(array_diff($catids, ['']));
 
         $articleOrderDate = $params->get('order_date');
 
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = parent::getListQuery();
 
         // Add routing for archive
@@ -123,7 +124,7 @@ class ArchiveModel extends ArticlesModel
                 ->bind(':year', $year, ParameterType::INTEGER);
         }
 
-        if (count($catids) > 0) {
+        if (\count($catids) > 0) {
             $query->whereIn($db->quoteName('c.id'), $catids);
         }
 
@@ -166,27 +167,28 @@ class ArchiveModel extends ArticlesModel
      */
     public function getYears()
     {
-        $db      = $this->getDatabase();
-        $nowDate = Factory::getDate()->toSql();
-        $query   = $db->getQuery(true);
-        $years   = $query->year($db->quoteName('c.created'));
+        $db        = $this->getDatabase();
+        $nowDate   = Factory::getDate()->toSql();
+        $query     = $db->getQuery(true);
+        $queryDate = QueryHelper::getQueryDate($this->state->params->get('order_date'), $db);
+        $years     = $query->year($queryDate);
 
         $query->select('DISTINCT ' . $years)
-            ->from($db->quoteName('#__content', 'c'))
-            ->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
+            ->from($db->quoteName('#__content', 'a'))
+            ->where($db->quoteName('a.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
             ->extendWhere(
                 'AND',
                 [
-                    $db->quoteName('c.publish_up') . ' IS NULL',
-                    $db->quoteName('c.publish_up') . ' <= :publishUp',
+                    $db->quoteName('a.publish_up') . ' IS NULL',
+                    $db->quoteName('a.publish_up') . ' <= :publishUp',
                 ],
                 'OR'
             )
             ->extendWhere(
                 'AND',
                 [
-                    $db->quoteName('c.publish_down') . ' IS NULL',
-                    $db->quoteName('c.publish_down') . ' >= :publishDown',
+                    $db->quoteName('a.publish_down') . ' IS NULL',
+                    $db->quoteName('a.publish_down') . ' >= :publishDown',
                 ],
                 'OR'
             )

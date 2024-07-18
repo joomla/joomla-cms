@@ -15,7 +15,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
-use RuntimeException;
 use Webauthn\AttestationStatement\AttestationStatement;
 use Webauthn\AttestedCredentialData;
 use Webauthn\PublicKeyCredentialDescriptor;
@@ -116,7 +115,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 
         $results = MfaHelper::getUserMfaRecords($userId);
 
-        if (count($results) < 1) {
+        if (\count($results) < 1) {
             return $return;
         }
 
@@ -124,7 +123,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
         foreach ($results as $result) {
             $options = $result->options;
 
-            if (!is_array($options) || empty($options)) {
+            if (!\is_array($options) || empty($options)) {
                 continue;
             }
 
@@ -132,17 +131,17 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
                 continue;
             }
 
-            if (isset($options['attested']) && is_string($options['attested'])) {
+            if (isset($options['attested']) && \is_string($options['attested'])) {
                 $options['attested'] = json_decode($options['attested'], true);
 
                 $return[$result->id] = $this->attestedCredentialToPublicKeyCredentialSource(
                     AttestedCredentialData::createFromArray($options['attested']),
                     $userId
                 );
-            } elseif (isset($options['pubkeysource']) && is_string($options['pubkeysource'])) {
+            } elseif (isset($options['pubkeysource']) && \is_string($options['pubkeysource'])) {
                 $options['pubkeysource'] = json_decode($options['pubkeysource'], true);
                 $return[$result->id]     = PublicKeyCredentialSource::createFromArray($options['pubkeysource']);
-            } elseif (isset($options['pubkeysource']) && is_array($options['pubkeysource'])) {
+            } elseif (isset($options['pubkeysource']) && \is_array($options['pubkeysource'])) {
                 $return[$result->id] = PublicKeyCredentialSource::createFromArray($options['pubkeysource']);
             }
         }
@@ -202,7 +201,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
     {
         // I can only create or update credentials for the user this class was created for
         if ($publicKeyCredentialSource->getUserHandle() != $this->userId) {
-            throw new RuntimeException('Cannot create or update WebAuthn credentials for a different user.', 403);
+            throw new \RuntimeException('Cannot create or update WebAuthn credentials for a different user.', 403);
         }
 
         // Do I have an existing record for this credential?
@@ -238,7 +237,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
             $options['pubkeysource'] = $publicKeyCredentialSource;
             $mfaTable->save(
                 [
-                    'options' => $options
+                    'options' => $options,
                 ]
             );
         } else {

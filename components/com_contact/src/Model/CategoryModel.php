@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -39,13 +40,6 @@ class CategoryModel extends ListModel
      * @var    CategoryNode
      */
     protected $_item;
-
-    /**
-     * Array of contacts in the category
-     *
-     * @var    \stdClass[]
-     */
-    protected $_articles;
 
     /**
      * Category left and right of this one
@@ -89,10 +83,10 @@ class CategoryModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'con_position', 'a.con_position',
@@ -104,8 +98,8 @@ class CategoryModel extends ListModel
                 'sortname1', 'a.sortname1',
                 'sortname2', 'a.sortname2',
                 'sortname3', 'a.sortname3',
-                'featuredordering', 'a.featured'
-            );
+                'featuredordering', 'a.featured',
+            ];
         }
 
         parent::__construct($config);
@@ -135,7 +129,7 @@ class CategoryModel extends ListModel
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', true)) {
-                $item->tags = new TagsHelper();
+                $item->tags             = new TagsHelper();
                 $taggedItems[$item->id] = $item;
             }
         }
@@ -143,7 +137,7 @@ class CategoryModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds = \array_keys($taggedItems);
+            $itemIds    = array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_contact.contact', $itemIds) as $id => $tags) {
                 $taggedItems[$id]->tags->itemTags = $tags;
@@ -156,7 +150,7 @@ class CategoryModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    An SQL query
+     * @return  QueryInterface    An SQL query
      *
      * @since   1.6
      */
@@ -184,7 +178,37 @@ class CategoryModel extends ListModel
             ->whereIn($db->quoteName('a.access'), $groups);
 
         // Filter by category.
-        if ($categoryId = $this->getState('category.id')) {
+        $categoryId           = (int) $this->getState('category.id');
+        $includeSubcategories = (int) $this->getState('filter.max_category_levels', 1) !== 0;
+
+        if ($includeSubcategories) {
+            $levels = (int) $this->getState('filter.max_category_levels', 1);
+
+            // Create a subquery for the subcategory list
+            $subQuery = $db->getQuery(true)
+                ->select($db->quoteName('sub.id'))
+                ->from($db->quoteName('#__categories', 'sub'))
+                ->join(
+                    'INNER',
+                    $db->quoteName('#__categories', 'this'),
+                    $db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
+                    . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
+                )
+                ->where($db->quoteName('this.id') . ' = :subCategoryId');
+
+            $query->bind(':subCategoryId', $categoryId, ParameterType::INTEGER);
+
+            if ($levels >= 0) {
+                $subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :levels');
+                $query->bind(':levels', $levels, ParameterType::INTEGER);
+            }
+
+            // Add the subquery to the main query
+            $query->where(
+                '(' . $db->quoteName('a.catid') . ' = :categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . $subQuery . '))'
+            );
+            $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+        } else {
             $query->where($db->quoteName('a.catid') . ' = :acatid')
                 ->whereIn($db->quoteName('c.access'), $groups);
             $query->bind(':acatid', $categoryId, ParameterType::INTEGER);
@@ -293,7 +317,7 @@ class CategoryModel extends ListModel
 
         $orderCol = $input->get('filter_order', $params->get('initial_sort', 'ordering'));
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
         }
 
@@ -301,7 +325,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -309,6 +333,7 @@ class CategoryModel extends ListModel
 
         $id = $input->get('id', 0, 'int');
         $this->setState('category.id', $id);
+        $this->setState('filter.max_category_levels', $params->get('maxLevel', 1));
 
         $user = $this->getCurrentUser();
 
@@ -332,9 +357,9 @@ class CategoryModel extends ListModel
      */
     public function getCategory()
     {
-        if (!is_object($this->_item)) {
-            $app = Factory::getApplication();
-            $menu = $app->getMenu();
+        if (!\is_object($this->_item)) {
+            $app    = Factory::getApplication();
+            $menu   = $app->getMenu();
             $active = $menu->getActive();
 
             if ($active) {
@@ -343,24 +368,24 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options               = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-            $categories = Categories::getInstance('Contact', $options);
-            $this->_item = $categories->get($this->getState('category.id', 'root'));
+            $categories            = Categories::getInstance('Contact', $options);
+            $this->_item           = $categories->get($this->getState('category.id', 'root'));
 
-            if (is_object($this->_item)) {
+            if (\is_object($this->_item)) {
                 $this->_children = $this->_item->getChildren();
-                $this->_parent = false;
+                $this->_parent   = false;
 
                 if ($this->_item->getParent()) {
                     $this->_parent = $this->_item->getParent();
                 }
 
                 $this->_rightsibling = $this->_item->getSibling();
-                $this->_leftsibling = $this->_item->getSibling(false);
+                $this->_leftsibling  = $this->_item->getSibling(false);
             } else {
                 $this->_children = false;
-                $this->_parent = false;
+                $this->_parent   = false;
             }
         }
 
@@ -374,7 +399,7 @@ class CategoryModel extends ListModel
      */
     public function getParent()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -388,7 +413,7 @@ class CategoryModel extends ListModel
      */
     public function &getLeftSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -402,7 +427,7 @@ class CategoryModel extends ListModel
      */
     public function &getRightSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -416,7 +441,7 @@ class CategoryModel extends ListModel
      */
     public function &getChildren()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -439,7 +464,7 @@ class CategoryModel extends ListModel
         return 'CASE WHEN '
             . $query->charLength($alias, '!=', '0')
             . ' THEN '
-            . $query->concatenate(array($query->castAsChar($id), $alias), ':')
+            . $query->concatenate([$query->castAsChar($id), $alias], ':')
             . ' ELSE '
             . $query->castAsChar($id) . ' END';
     }
@@ -455,7 +480,7 @@ class CategoryModel extends ListModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->getInput();
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="multifactorauth" method="upgrade">
 	<name>plg_multifactorauth_webauthn</name>
 	<author>Joomla! Project</author>
@@ -11,8 +11,8 @@
 	<description>PLG_MULTIFACTORAUTH_WEBAUTHN_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Multifactorauth\Webauthn</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="webauthn">src</folder>
+		<folder plugin="webauthn">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

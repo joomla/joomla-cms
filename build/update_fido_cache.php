@@ -16,28 +16,26 @@ any later version published by the Free Software Foundation.
 
 TEXT;
 
-if (!isset($fullPath))
-{
-    $fullPath = dirname(__DIR__);
+if (!isset($fullPath)) {
+    $fullPath = \dirname(__DIR__);
 }
 
 $filePath = rtrim($fullPath, '\\/') . '/plugins/system/webauthn/fido.jwt';
 
-if (is_file($filePath) && filemtime($filePath) > (time() - 864000))
-{
+if (is_file($filePath) && filemtime($filePath) > (time() - 864000)) {
     echo "The file $filePath already exists and is current; nothing to do.\n";
 
-    exit (0);
+    exit(0);
 }
 
 echo "Fetching FIDO metadata statements...\n";
 
 $context = stream_context_create([
     'http' => [
-        'method' => 'GET',
+        'method'          => 'GET',
         'follow_location' => 1,
-        'timeout' => 5.0,
-    ]
+        'timeout'         => 5.0,
+    ],
 ]);
 
 $rawJwt = @file_get_contents('https://mds.fidoalliance.org/', false, $context);

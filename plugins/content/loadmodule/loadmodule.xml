@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_loadmodule</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_LOADMODULE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Content\LoadModule</namespace>
 	<files>
-		<filename plugin="loadmodule">loadmodule.php</filename>
+		<folder plugin="loadmodule">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_content_loadmodule.ini</language>
@@ -23,14 +25,15 @@
 					name="style"
 					type="list"
 					label="PLG_LOADMODULE_FIELD_STYLE_LABEL"
-					default="table"
+					default="none"
 					validate="options"
 					>
-					<option value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>
-					<option value="horz">PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL</option>
-					<option value="xhtml">PLG_LOADMODULE_FIELD_VALUE_DIVS</option>
-					<option value="rounded">PLG_LOADMODULE_FIELD_VALUE_MULTIPLEDIVS</option>
 					<option value="none">PLG_LOADMODULE_FIELD_VALUE_RAW</option>
+					<option value="html5">PLG_LOADMODULE_FIELD_VALUE_DIVS</option>
+					<option value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>
+					<!-- @TODO: The following styles don't exist in default installation and can be removed in Joomla 5 -->
+					<option value="horz">PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL</option>
+					<option value="rounded">PLG_LOADMODULE_FIELD_VALUE_MULTIPLEDIVS</option>
 				</field>
 			</fieldset>
 		</fields>

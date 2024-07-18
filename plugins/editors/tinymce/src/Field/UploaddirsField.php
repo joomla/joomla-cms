@@ -30,7 +30,7 @@ class UploaddirsField extends FolderlistField
     protected $type = 'uploaddirs';
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -48,7 +48,7 @@ class UploaddirsField extends FolderlistField
         $return = parent::setup($element, $value, $group);
 
         // Get the path in which to search for file options.
-        $this->directory   = ComponentHelper::getParams('com_media')->get('image_path');
+        $this->directory   = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path');
         $this->recursive   = true;
         $this->hideDefault = true;
 
@@ -76,7 +76,7 @@ class UploaddirsField extends FolderlistField
      */
     protected function getInput()
     {
-        $html = array();
+        $html = [];
 
         // Get the field options.
         $options = (array) $this->getOptions();

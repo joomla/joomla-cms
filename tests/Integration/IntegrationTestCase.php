@@ -11,7 +11,7 @@
 namespace Joomla\Tests\Integration;
 
 /**
- * Base Integration Test case for common behaviour across integration tests
+ * Base Integration Test case for common behavior across integration tests
  *
  * @since   4.0.0
  */

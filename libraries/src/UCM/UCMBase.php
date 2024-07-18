@@ -15,7 +15,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -52,7 +52,7 @@ class UCMBase implements UCM
     public function __construct($alias = null, UCMType $type = null)
     {
         // Setup dependencies.
-        $input = Factory::getApplication()->getInput();
+        $input       = Factory::getApplication()->getInput();
         $this->alias = $alias ?: $input->get('option') . '.' . $input->get('view');
 
         $this->type = $type ?: $this->getType();
@@ -128,11 +128,11 @@ class UCMBase implements UCM
     {
         $type = $type ?: $this->type;
 
-        $data = array(
-            'ucm_type_id' => $type->id,
-            'ucm_item_id' => $original[$type->primary_key],
+        $data = [
+            'ucm_type_id'     => $type->id,
+            'ucm_item_id'     => $original[$type->primary_key],
             'ucm_language_id' => ContentHelper::getLanguageId($original['language']),
-        );
+        ];
 
         return $data;
     }

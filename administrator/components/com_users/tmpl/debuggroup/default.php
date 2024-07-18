@@ -15,23 +15,65 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Administrator\View\Debuggroup\HtmlView $this */
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $this->state->get('group_id')); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-        <div class="table-responsive">
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
+        <?php if (empty($this->items)) : ?>
+            <div class="alert alert-info">
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+            </div>
+        <?php else : ?>
+            <?php
+            // Split the actions table
+            foreach ($this->actions as $action) :
+                $name = $action[0];
+                if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.offline', 'core.login.api', 'core.admin'])) :
+                    $loginActions[] = $action;
+                else :
+                    $actions[] = $action;
+                endif;
+            endforeach;
+            ?>
+            <div class="d-flex flex-wrap">
+                <?php foreach ($loginActions as $action) :
+                    $name  = $action[0];
+                    $check = $this->items[0]->checks[$name];
+                    if ($check === true) :
+                        $class  = 'text-success icon-check';
+                        $button = 'btn-success';
+                        $text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
+                    elseif ($check === false) :
+                        $class  = 'text-danger icon-times';
+                        $button = 'btn-danger';
+                        $text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
+                    elseif ($check === null) :
+                        $class  = 'text-danger icon-minus-circle';
+                        $button = 'btn-warning';
+                        $text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
+                    endif; ?>
+                    <div class="d-inline p-2">
+                        <?php echo Text::_($action[1]); ?>
+                        <span class="<?php echo $class; ?>" aria-hidden="true"></span>
+                        <span class="visually-hidden"><?php echo $text; ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
             <table class="table">
                 <caption class="visually-hidden">
                     <?php echo Text::_('COM_USERS_DEBUG_GROUP_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+                    <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -41,9 +83,9 @@ $wa->useScript('table.columns');
                         <th scope="col">
                             <?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
                         </th>
-                        <?php foreach ($this->actions as $key => $action) : ?>
+                        <?php foreach ($actions as $key => $action) : ?>
                         <th scope="col" class="w-6 text-center">
-                            <?php echo Text::_($key); ?>
+                            <?php echo Text::_($action[1]); ?>
                         </th>
                         <?php endforeach; ?>
                         <th scope="col" class="w-6">
@@ -61,9 +103,9 @@ $wa->useScript('table.columns');
                                 <?php echo $this->escape(Text::_($item->title)); ?>
                             </th>
                             <td>
-                                <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
+                                <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]) . $this->escape($item->name); ?>
                             </td>
-                            <?php foreach ($this->actions as $action) : ?>
+                            <?php foreach ($actions as $action) : ?>
                                 <?php
                                 $name  = $action[0];
                                 $check = $item->checks[$name];
@@ -110,9 +152,9 @@ $wa->useScript('table.columns');
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-        </div>
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="boxchecked" value="0">
-        <?php echo HTMLHelper::_('form.token'); ?>
+            <input type="hidden" name="task" value="">
+            <input type="hidden" name="boxchecked" value="0">
+            <?php echo HTMLHelper::_('form.token'); ?>
+        <?php endif; ?>
     </div>
 </form>

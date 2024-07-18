@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Warnings;
 
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -53,8 +53,10 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
+        $toolbar = Toolbar::getInstance();
+
         parent::addToolbar();
 
-        ToolbarHelper::help('Information:_Warnings');
+        $toolbar->help('Information:_Warnings');
     }
 }

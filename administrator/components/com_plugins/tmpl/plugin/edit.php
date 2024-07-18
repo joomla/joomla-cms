@@ -16,8 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Plugins\Administrator\View\Plugin\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -104,14 +106,14 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
             <div class="col-lg-3">
                 <?php
                 // Set main fields.
-                $this->fields = array(
+                $this->fields = [
                     'enabled',
                     'access',
                     'ordering',
                     'folder',
                     'element',
                     'note',
-                ); ?>
+                ]; ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
             </div>
         </div>
@@ -124,8 +126,8 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
         <?php endif; ?>
 
         <?php
-        $this->fieldsets = array();
-        $this->ignore_fieldsets = array('basic', 'description');
+        $this->fieldsets = [];
+        $this->ignore_fieldsets = ['basic', 'description'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 

@@ -10,19 +10,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Languages\Administrator\View\Languages\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
@@ -37,7 +38,7 @@ if ($saveOrder && !empty($this->items)) {
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -141,7 +142,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </td>
                                 <td class="d-none d-md-table-cell">
                                     <?php if ($item->image) : ?>
-                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('class' => 'me-1'), true); ?><?php echo $this->escape($item->image); ?>
+                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, ['class' => 'me-1'], true); ?><?php echo $this->escape($item->image); ?>
                                     <?php else : ?>
                                         <?php echo Text::_('JNONE'); ?>
                                     <?php endif; ?>

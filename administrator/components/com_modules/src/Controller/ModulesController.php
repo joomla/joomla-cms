@@ -37,7 +37,7 @@ class ModulesController extends AdminController
         // Check for request forgeries
         $this->checkToken();
 
-        $pks = (array) $this->input->post->get('cid', array(), 'int');
+        $pks = (array) $this->input->post->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $pks = array_filter($pks);
@@ -49,7 +49,7 @@ class ModulesController extends AdminController
 
             $model = $this->getModel();
             $model->duplicate($pks);
-            $this->setMessage(Text::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
+            $this->setMessage(Text::plural('COM_MODULES_N_MODULES_DUPLICATED', \count($pks)));
         } catch (\Exception $e) {
             $this->app->enqueueMessage($e->getMessage(), 'warning');
         }
@@ -68,7 +68,7 @@ class ModulesController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Module', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Module', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -93,7 +93,7 @@ class ModulesController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_MODULES_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_MODULES_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_MODULES_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

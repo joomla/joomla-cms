@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,6 +47,8 @@ class DatabaseconnectionField extends ListField
      */
     protected function getOptions()
     {
+        $options = [];
+
         // This gets the connectors available in the platform and supported by the server.
         $available = array_map('strtolower', DatabaseDriver::getConnectors());
 

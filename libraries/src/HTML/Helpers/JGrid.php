@@ -16,7 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -60,22 +60,24 @@ abstract class JGrid
         $checkbox = 'cb',
         $formId = null
     ) {
-        if (is_array($prefix)) {
-            $options = $prefix;
-            $activeTitle = array_key_exists('active_title', $options) ? $options['active_title'] : $activeTitle;
-            $inactiveTitle = array_key_exists('inactive_title', $options) ? $options['inactive_title'] : $inactiveTitle;
-            $tip = array_key_exists('tip', $options) ? $options['tip'] : $tip;
-            $activeClass = array_key_exists('active_class', $options) ? $options['active_class'] : $activeClass;
-            $inactiveClass = array_key_exists('inactive_class', $options) ? $options['inactive_class'] : $inactiveClass;
-            $enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $translate = array_key_exists('translate', $options) ? $options['translate'] : $translate;
-            $checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+        $html = [];
+
+        if (\is_array($prefix)) {
+            $options       = $prefix;
+            $activeTitle   = \array_key_exists('active_title', $options) ? $options['active_title'] : $activeTitle;
+            $inactiveTitle = \array_key_exists('inactive_title', $options) ? $options['inactive_title'] : $inactiveTitle;
+            $tip           = \array_key_exists('tip', $options) ? $options['tip'] : $tip;
+            $activeClass   = \array_key_exists('active_class', $options) ? $options['active_class'] : $activeClass;
+            $inactiveClass = \array_key_exists('inactive_class', $options) ? $options['inactive_class'] : $inactiveClass;
+            $enabled       = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+            $translate     = \array_key_exists('translate', $options) ? $options['translate'] : $translate;
+            $checkbox      = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+            $prefix        = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
         if ($tip) {
-            $title = $enabled ? $activeTitle : $inactiveTitle;
-            $title = $translate ? Text::_($title) : $title;
+            $title  = $enabled ? $activeTitle : $inactiveTitle;
+            $title  = $translate ? Text::_($title) : $title;
             $ariaid = $checkbox . $task . $i . '-desc';
 
             // Don't show empty tooltip.
@@ -85,15 +87,10 @@ abstract class JGrid
         }
 
         if ($enabled) {
-            $html[] = '<a class="tbody-icon' . ($activeClass === 'publish' ? ' active' : '') . '"';
+            Factory::getDocument()->getWebAssetManager()->useScript('list-view');
 
-            if ($formId !== null) {
-                $html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix .
-                    $task . '\',\'' . $formId . '\')"';
-            } else {
-                $html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
-            }
-
+            $html[] = '<a href="#" class="js-grid-item-action tbody-icon' . ($activeClass === 'publish' ? ' active' : '') . '"';
+            $html[] = ' data-item-id="' . $checkbox . $i . '" data-item-task="' . $prefix . $task . '" data-item-form-id="' . $formId . '"';
             $html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
             $html[] = '>';
             $html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $activeClass]);
@@ -133,22 +130,22 @@ abstract class JGrid
      */
     public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null)
     {
-        if (is_array($prefix)) {
-            $options = $prefix;
-            $enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $translate = array_key_exists('translate', $options) ? $options['translate'] : $translate;
-            $checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+        if (\is_array($prefix)) {
+            $options   = $prefix;
+            $enabled   = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+            $translate = \array_key_exists('translate', $options) ? $options['translate'] : $translate;
+            $checkbox  = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+            $prefix    = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
-        $state = ArrayHelper::getValue($states, (int) $value, $states[0]);
-        $task = array_key_exists('task', $state) ? $state['task'] : $state[0];
-        $text = array_key_exists('text', $state) ? $state['text'] : (array_key_exists(1, $state) ? $state[1] : '');
-        $activeTitle = array_key_exists('active_title', $state) ? $state['active_title'] : (array_key_exists(2, $state) ? $state[2] : '');
-        $inactiveTitle = array_key_exists('inactive_title', $state) ? $state['inactive_title'] : (array_key_exists(3, $state) ? $state[3] : '');
-        $tip = array_key_exists('tip', $state) ? $state['tip'] : (array_key_exists(4, $state) ? $state[4] : false);
-        $activeClass = array_key_exists('active_class', $state) ? $state['active_class'] : (array_key_exists(5, $state) ? $state[5] : '');
-        $inactiveClass = array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (array_key_exists(6, $state) ? $state[6] : '');
+        $state         = ArrayHelper::getValue($states, (int) $value, $states[0]);
+        $task          = \array_key_exists('task', $state) ? $state['task'] : $state[0];
+        $text          = \array_key_exists('text', $state) ? $state['text'] : (\array_key_exists(1, $state) ? $state[1] : '');
+        $activeTitle   = \array_key_exists('active_title', $state) ? $state['active_title'] : (\array_key_exists(2, $state) ? $state[2] : '');
+        $inactiveTitle = \array_key_exists('inactive_title', $state) ? $state['inactive_title'] : (\array_key_exists(3, $state) ? $state[3] : '');
+        $tip           = \array_key_exists('tip', $state) ? $state['tip'] : (\array_key_exists(4, $state) ? $state[4] : false);
+        $activeClass   = \array_key_exists('active_class', $state) ? $state['active_class'] : (\array_key_exists(5, $state) ? $state[5] : '');
+        $inactiveClass = \array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (\array_key_exists(6, $state) ? $state[6] : '');
 
         return static::action(
             $i,
@@ -193,32 +190,32 @@ abstract class JGrid
         $publishDown = null,
         $formId = null
     ) {
-        if (is_array($prefix)) {
-            $options = $prefix;
-            $enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+        if (\is_array($prefix)) {
+            $options  = $prefix;
+            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
-        $states = array(
-            1 => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'),
-            0 => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'),
-            2 => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'),
-            -2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'),
-        );
+        $states = [
+            1  => ['unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'],
+            0  => ['publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'],
+            2  => ['unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'],
+            -2 => ['publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'],
+        ];
 
         // Special state for dates
         if ($publishUp || $publishDown) {
             $nullDate = Factory::getDbo()->getNullDate();
-            $nowDate = Factory::getDate()->toUnix();
+            $nowDate  = Factory::getDate()->toUnix();
 
             $tz = Factory::getUser()->getTimezone();
 
-            $publishUp = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
+            $publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
             $publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
 
             // Create tip text, only we have publish up or down settings
-            $tips = array();
+            $tips = [];
 
             if ($publishUp) {
                 $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
@@ -256,7 +253,7 @@ abstract class JGrid
                 }
             }
 
-            return static::state($states, $value, $i, array('prefix' => $prefix, 'translate' => !$tip), $enabled, true, $checkbox, $formId);
+            return static::state($states, $value, $i, ['prefix' => $prefix, 'translate' => !$tip], $enabled, true, $checkbox, $formId);
         }
 
         return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
@@ -281,17 +278,17 @@ abstract class JGrid
      */
     public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-unfeatured')
     {
-        if (is_array($prefix)) {
+        if (\is_array($prefix)) {
             $options  = $prefix;
-            $enabled  = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
-        $states = array(
-            0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, $inactive_class, $inactive_class),
-            1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, $active_class, $active_class),
-        );
+        $states = [
+            0 => ['setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, $inactive_class, $inactive_class],
+            1 => ['unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, $active_class, $active_class],
+        ];
 
         return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
     }
@@ -308,28 +305,28 @@ abstract class JGrid
      *
      * @since   1.6
      */
-    public static function publishedOptions($config = array())
+    public static function publishedOptions($config = [])
     {
         // Build the active state filter options.
-        $options = array();
+        $options = [];
 
-        if (!array_key_exists('published', $config) || $config['published']) {
+        if (!\array_key_exists('published', $config) || $config['published']) {
             $options[] = HTMLHelper::_('select.option', '1', 'JPUBLISHED');
         }
 
-        if (!array_key_exists('unpublished', $config) || $config['unpublished']) {
+        if (!\array_key_exists('unpublished', $config) || $config['unpublished']) {
             $options[] = HTMLHelper::_('select.option', '0', 'JUNPUBLISHED');
         }
 
-        if (!array_key_exists('archived', $config) || $config['archived']) {
+        if (!\array_key_exists('archived', $config) || $config['archived']) {
             $options[] = HTMLHelper::_('select.option', '2', 'JARCHIVED');
         }
 
-        if (!array_key_exists('trash', $config) || $config['trash']) {
+        if (!\array_key_exists('trash', $config) || $config['trash']) {
             $options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
         }
 
-        if (!array_key_exists('all', $config) || $config['all']) {
+        if (!\array_key_exists('all', $config) || $config['all']) {
             $options[] = HTMLHelper::_('select.option', '*', 'JALL');
         }
 
@@ -353,15 +350,15 @@ abstract class JGrid
      */
     public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb', $formId = null)
     {
-        if (is_array($prefix)) {
-            $options = $prefix;
-            $enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+        if (\is_array($prefix)) {
+            $options  = $prefix;
+            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
-        $text = $editorName . '<br>' . HTMLHelper::_('date', $time, Text::_('DATE_FORMAT_LC')) . '<br>' . HTMLHelper::_('date', $time, 'H:i');
-        $activeTitle = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKIN'), $text, 0);
+        $text          = $editorName . '<br>' . HTMLHelper::_('date', $time, Text::_('DATE_FORMAT_LC')) . '<br>' . HTMLHelper::_('date', $time, 'H:i');
+        $activeTitle   = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKIN'), $text, 0);
         $inactiveTitle = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
         return static::action(
@@ -397,12 +394,12 @@ abstract class JGrid
      */
     public static function orderUp($i, $task = 'orderup', $prefix = '', $text = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb', $formId = null)
     {
-        if (is_array($prefix)) {
-            $options = $prefix;
-            $text = array_key_exists('text', $options) ? $options['text'] : $text;
-            $enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+        if (\is_array($prefix)) {
+            $options  = $prefix;
+            $text     = \array_key_exists('text', $options) ? $options['text'] : $text;
+            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
         return static::action($i, $task, $prefix, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
@@ -432,12 +429,12 @@ abstract class JGrid
         $checkbox = 'cb',
         $formId = null
     ) {
-        if (is_array($prefix)) {
-            $options = $prefix;
-            $text = array_key_exists('text', $options) ? $options['text'] : $text;
-            $enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-            $checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-            $prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+        if (\is_array($prefix)) {
+            $options  = $prefix;
+            $text     = \array_key_exists('text', $options) ? $options['text'] : $text;
+            $enabled  = \array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+            $checkbox = \array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+            $prefix   = \array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
         return static::action($i, $task, $prefix, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);

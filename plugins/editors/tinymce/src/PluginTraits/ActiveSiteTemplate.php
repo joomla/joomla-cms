@@ -10,9 +10,7 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -34,7 +32,7 @@ trait ActiveSiteTemplate
      */
     protected function getActiveSiteTemplate()
     {
-        $db    = Factory::getContainer()->get('db');
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__template_styles'))
@@ -49,8 +47,8 @@ trait ActiveSiteTemplate
 
         try {
             return $db->loadObject();
-        } catch (RuntimeException $e) {
-            $this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+        } catch (\RuntimeException $e) {
+            $this->getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return new \stdClass();
         }

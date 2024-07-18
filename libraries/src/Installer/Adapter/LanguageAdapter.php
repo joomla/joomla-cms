@@ -23,10 +23,11 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -201,7 +202,7 @@ class LanguageAdapter extends InstallerAdapter
         $this->parent->setPath('source', $path);
 
         // Check it exists
-        if (!Folder::exists($path)) {
+        if (!is_dir(Path::clean($path))) {
             // If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
             $this->extension->delete();
 
@@ -267,15 +268,15 @@ class LanguageAdapter extends InstallerAdapter
             $element  = $this->getManifest()->files;
 
             return $this->_install($cname, $basePath, $clientId, $element);
-        } else {
-            // No client attribute was found so we assume the site as the client
-            $cname    = 'site';
-            $basePath = JPATH_SITE;
-            $clientId = 0;
-            $element  = $this->getManifest()->files;
-
-            return $this->_install($cname, $basePath, $clientId, $element);
         }
+
+        // No client attribute was found so we assume the site as the client
+        $cname    = 'site';
+        $basePath = JPATH_SITE;
+        $clientId = 0;
+        $element  = $this->getManifest()->files;
+
+        return $this->_install($cname, $basePath, $clientId, $element);
     }
 
     /**
@@ -348,7 +349,9 @@ class LanguageAdapter extends InstallerAdapter
             if ($updateElement || $this->parent->isUpgrade()) {
                 // Transfer control to the update function
                 return $this->update();
-            } elseif (!$this->parent->isOverwrite()) {
+            }
+
+            if (!$this->parent->isOverwrite()) {
                 // Overwrite is set
                 // We didn't have overwrite set, find an update function or find an update tag so lets call it safe
                 if (file_exists($this->parent->getPath('extension_site'))) {
@@ -390,7 +393,7 @@ class LanguageAdapter extends InstallerAdapter
          * step stack
          */
         if ($created) {
-            $this->parent->pushStep(array('type' => 'folder', 'path' => $this->parent->getPath('extension_site')));
+            $this->parent->pushStep(['type' => 'folder', 'path' => $this->parent->getPath('extension_site')]);
         }
 
         // Copy all the necessary files
@@ -443,7 +446,7 @@ class LanguageAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         /** @var Update $update */
         $update = Table::getInstance('update');
-        $uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'folder' => ''));
+        $uid    = $update->find(['element' => $this->tag, 'type' => 'language', 'folder' => '']);
 
         if ($uid) {
             $update->delete($uid);
@@ -460,7 +463,7 @@ class LanguageAdapter extends InstallerAdapter
      *
      * This function checks other existing language with the same code, if they exist provides a unique SEF name.
      * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
-     * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+     * To avoid this conflict, this function creates a specific SEF in case of existing conflict:
      * For example: www.mywebsite.com/en-au/
      *
      * @param   string  $itemLanguageTag  Language Tag.
@@ -522,8 +525,8 @@ class LanguageAdapter extends InstallerAdapter
 
         // Get the language name
         // Set the extensions name
-        $name = (string) $this->getManifest()->name;
-        $name = InputFilter::getInstance()->clean($name, 'string');
+        $name       = (string) $this->getManifest()->name;
+        $name       = InputFilter::getInstance()->clean($name, 'string');
         $this->name = $name;
 
         // Get the Language tag [ISO tag, eg. en-GB]
@@ -573,7 +576,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
-        $uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
+        $uid    = $update->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
         if ($uid) {
             $update->delete($uid);
@@ -581,7 +584,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Update an entry to the extension table
         $row = Table::getInstance('extension');
-        $eid = $row->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
+        $eid = $row->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
         if ($eid) {
             $row->load($eid);
@@ -648,7 +651,7 @@ class LanguageAdapter extends InstallerAdapter
                 }
 
                 $manifest_details = Installer::parseXMLInstallFile($manifestfile);
-                $extension = Table::getInstance('extension');
+                $extension        = Table::getInstance('extension');
                 $extension->set('type', 'language');
                 $extension->set('client_id', $clientId);
                 $extension->set('element', $language);
@@ -820,7 +823,7 @@ class LanguageAdapter extends InstallerAdapter
         $tableLanguage = Table::getInstance('language');
 
         // Check if content language already exists.
-        if ($tableLanguage->load(array('lang_code' => $tag))) {
+        if ($tableLanguage->load(['lang_code' => $tag])) {
             return;
         }
 
@@ -872,7 +875,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Prepare language data for store.
-        $languageData = array(
+        $languageData = [
             'lang_id'      => 0,
             'lang_code'    => $tag,
             'title'        => $contentLanguageTitle,
@@ -885,7 +888,7 @@ class LanguageAdapter extends InstallerAdapter
             'description'  => '',
             'metadesc'     => '',
             'sitename'     => '',
-        );
+        ];
 
         if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder()) {
             Log::add(
