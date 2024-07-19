@@ -1229,4 +1229,56 @@ final class Joomla extends ActionLogPlugin
             $session->set('block', $blockunblock);
         }
     }
+
+    /**
+     * Method is called when a user cancel, complete or skip a tour
+     *
+     * @param   string    $tourid     The tour being run.
+     * @param   string    $state      The state of the tour.
+     * @param   string    $stepnumber The last step of the tour viewed by the user.
+     *
+     * @return  boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function onTourRunSaveState($tourid, $state, $stepnumber): bool
+    {
+        $option = $this->getApplication()->getInput()->getCmd('option');
+
+        if (!$this->checkLoggable($option)) {
+            return false;
+        }
+
+        switch ($state) {
+            case 'skipped':
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURSKIPPED';
+                break;
+            case 'completed':
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURCOMPLETED';
+                break;
+            default:
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURDELAYED';
+        }
+
+        // Get the tour from the model to fetch the translated title of the tour
+        $factory = $this->getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
+        $tourModel = $factory->createModel(
+            'Tour',
+            'Administrator',
+            ['ignore_request' => true]
+        );
+
+        $tour = $tourModel->getItem($tourid);
+
+        $message = [
+            'id'    => $tourid,
+            'title' => $tour->title_translation,
+            'state' => $state,
+            'step'  => $stepnumber,
+        ];
+
+        $this->addLog([$message], $messageLanguageKey, 'com_guidedtours.state');
+
+        return true;
+    }
 }
