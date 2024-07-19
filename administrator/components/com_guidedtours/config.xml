@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<fieldset name="guidedtours_config" label="COM_GUIDEDTOURS">
+		<field
+			name="tourAutoStart"
+			type="radio"
+			layout="joomla.form.field.radio.switcher"
+			label="COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_LABEL"
+			description="COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_DESCRIPTION"
+			default="allow"
+			>
+			<option value="disallow">COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_OPTION_DISALLOW</option>
+			<option value="allow">COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_OPTION_ALLOW</option>
+		</field>
+
+		<field
+			name="delayed_time"
+			type="text"
+			label="COM_GUIDEDTOURS_CONFIG_DELAYED_TIME_LABEL"
+			description="COM_GUIDEDTOURS_CONFIG_DELAYED_TIME_DESCRIPTION"
+			default="600"
+			size="small"
+			showon="tourAutoStart:allow"
+		/>
+	</fieldset>
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
