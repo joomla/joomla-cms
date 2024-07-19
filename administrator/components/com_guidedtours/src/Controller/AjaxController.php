@@ -76,7 +76,7 @@ class AjaxController extends BaseController
             }
 
             // Log the user tour state in the user action logs
-            $this->app->triggerEvent('onTourRunSaveState', [$tourId, $state, $stepNumber]);
+            $this->app->triggerEvent('onTourRunSaveState', [$tourId, $actionState, $stepId]);
 
             // event onAfterTourSaveState after save user tour state (may override msgSave)
             $this->app->triggerEvent('onAfterTourSaveState', [$tourId, $stepId, $actionState, $retSave, &$msgSave]);
