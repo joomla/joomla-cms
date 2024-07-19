@@ -12,10 +12,10 @@ namespace Joomla\Component\Guidedtours\Administrator\Controller;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
@@ -38,25 +38,21 @@ class AjaxController extends BaseController
      */
     public function fetchUserState()
     {
-        $jinput = $this->app->input;
         $user   = $this->app->getIdentity();
 
-        $tourId  = $jinput->getInt('tid', 0);
-        $stepId  = $jinput->getString('sid', '');
-        $context = $jinput->getString('context', '');
+        $tourId     = $this->app->input->getInt('tid', 0);
+        $stepNumber = $this->app->input->getString('sid', '');
+        $context    = $this->app->input->getString('context', '');
 
         if ($user != null && $user->id > 0) {
             $actionState   = '';
-            $relaunchDelay = 0;
 
             switch($context) {
                 case "tour.complete":
                     $actionState = "completed";
                     break;
                 case "tour.cancel":
-                    $actionState   = "delayed";                
-                    $params        = ComponentHelper::getParams('com_guidedtours');
-                    $relaunchDelay = $params->get('delayed_time', '600');
+                    $actionState = "delayed";
                     break;
                 case "tour.skip":
                     $actionState = "skipped";
@@ -66,30 +62,30 @@ class AjaxController extends BaseController
             PluginHelper::importPlugin('guidedtours');
 
             // event onBeforeTourSaveState before save user tour state
-            $this->app->triggerEvent('onBeforeTourSaveState', [$tourId, $stepId, $actionState]);
-                
-            $retSave = $this->saveTourUserState($user->id, $tourId, $stepId, $actionState, $relaunchDelay);
-            if ($retSave) {
-                $msgSave = "Tour #$tourId state '$actionState' (delay: $relaunchDelay) has been saved for user #$user->id."; // TODO translate
-            } else {
-                $msgSave = "Profile not saved for user #$user->id tour #$tourId"; // TODO translate
-            }
+            $this->app->triggerEvent('onBeforeTourRunSaveState', [$tourId, $actionState, $stepNumber]);
 
             // Log the user tour state in the user action logs
-            $this->app->triggerEvent('onTourRunSaveState', [$tourId, $actionState, $stepId]);
+            $this->app->triggerEvent('onTourRunSaveState', [$tourId, $actionState, $stepNumber]);
+
+            $result = $this->saveTourUserState($user->id, $tourId, $actionState);
+            if ($result) {
+                $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATESAVED', $user->id, $tourId);
+            } else {
+                $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATENOTSAVED', $user->id, $tourId);
+            }
 
             // event onAfterTourSaveState after save user tour state (may override msgSave)
-            $this->app->triggerEvent('onAfterTourSaveState', [$tourId, $stepId, $actionState, $retSave, &$msgSave]);
+            $this->app->triggerEvent('onAfterTourRunSaveState', [$tourId, $actionState, $stepNumber, $result, &$message]);
 
             // Construct the response data
             $data = [
                 'tourId'  => $tourId,
-                'stepId'  => $stepId,
+                'stepId'  => $stepNumber,
                 'context' => $context,
                 'state'   => $actionState,
             ];
-            echo new JsonResponse($data, $msgSave);
-            jexit();
+            echo new JsonResponse($data, $message);
+            $this->app->close();
         } else {
             // Construct the response data
             $data = [
@@ -97,10 +93,9 @@ class AjaxController extends BaseController
                 'tourId'  => $tourId
             ];
 
-            $msg = "Tour User state action is only for connected users."; // TODO translate
-            $isError = true;
-            echo new JsonResponse($data, $msg, $isError);
-            jexit();
+            $message = Text::_('COM_GUIDEDTOURS_USERSTATE_STATESAVE_CONNECTEDONLY');
+            echo new JsonResponse($data, $message, true);
+            $this->app->close();
         }
     }
 
@@ -109,15 +104,13 @@ class AjaxController extends BaseController
      *
      * @param   int      $userId         The ID of the user
      * @param   int      $tourId         The ID of the tour
-     * @param   string   $stepNumber     The step number
      * @param   string   $state          The label of the state to be saved (completed, delayed or skipped)
-     * @param   int      $relaunchDelay  The delay (in seconds) before relaunching the tour (only for 'delayed' state)
      *
      * @return  boolean
      *
      * @since  __DEPLOY_VERSION__
      */
-    private function saveTourUserState($userId, $tourId, $stepNumber, $state, $relaunchDelay = 0)
+    private function saveTourUserState($userId, $tourId, $state)
     {
         $db = Factory::getContainer()->get(DatabaseInterface::class);
 
