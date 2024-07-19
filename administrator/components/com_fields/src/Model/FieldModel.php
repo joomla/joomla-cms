@@ -117,13 +117,17 @@ class FieldModel extends AdminModel
             $field = $this->getItem($data['id']);
         }
 
-        if (
-            isset($data['params']['searchindex'])
-            && ((\is_null($field) && $data['params']['searchindex'] > 0)
-                || ($field->params['searchindex'] != $data['params']['searchindex'])
-                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access'])))
-        ) {
-            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+        if (isset($data['params']['searchindex'])) {
+            if (\is_null($field)) {
+                if ($data['params']['searchindex'] > 0) {
+                    Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+                }
+            } elseif (
+                $field->params['searchindex'] != $data['params']['searchindex']
+                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access']))
+            ) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+            }
         }
 
         if (!isset($data['label']) && isset($data['params']['label'])) {
@@ -580,17 +584,9 @@ class FieldModel extends AdminModel
             $form->setFieldAttribute('created_user_id', 'filter', 'unset');
         }
 
-        // In case we are editing a field, field type cannot be changed, so some extra handling below is needed
+        // In case we are editing a field, field type cannot be changed, so remove showon attribute to avoid js errors
         if ($fieldId) {
-            $fieldType = $form->getField('type');
-
-            if ($fieldType->value == 'subform') {
-                // Only Use In subform should not be available for subform field type, so we remove it
-                $form->removeField('only_use_in_subform');
-            } else {
-                // Field type could not be changed, so remove showon attribute to avoid js errors
-                $form->setFieldAttribute('only_use_in_subform', 'showon', '');
-            }
+            $form->setFieldAttribute('only_use_in_subform', 'showon', '');
         }
 
         return $form;

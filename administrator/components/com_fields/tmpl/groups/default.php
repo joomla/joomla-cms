@@ -28,7 +28,7 @@ $wa->useScript('table.columns')
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 
 $component = '';
 $parts     = FieldsHelper::extract($this->state->get('filter.context'));
