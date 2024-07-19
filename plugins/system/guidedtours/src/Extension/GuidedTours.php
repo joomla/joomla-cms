@@ -10,12 +10,17 @@
 
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
@@ -31,6 +36,8 @@ use Joomla\Event\SubscriberInterface;
  */
 final class GuidedTours extends CMSPlugin implements SubscriberInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * A mapping for the step types
      *
@@ -141,43 +148,106 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $user = $app->getIdentity();
 
         if ($user != null && $user->id > 0) {
-            // Load plugin language files
+            // Load plugin language files.
             $this->loadLanguage();
 
             Text::script('JCANCEL');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_HIDE_FOREVER');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_NEXT');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_START');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR');
 
             $doc->addScriptOptions('com_guidedtours.token', Session::getFormToken());
+            $doc->addScriptOptions('com_guidedtours.autotour', '');
 
-            // Load required assets
+            // Load required assets.
             $doc->getWebAssetManager()
                 ->usePreset('plg_system_guidedtours.guidedtours');
 
-            // Temporary solution to auto-start the welcome tour
-            if ($app->getInput()->getCmd('option', 'com_cpanel') === 'com_cpanel') {
-                $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
+            $params = ComponentHelper::getParams('com_guidedtours');
 
-                $tourModel = $factory->createModel(
-                    'Tour',
-                    'Administrator',
-                    ['ignore_request' => true]
-                );
-
-                if ($tourModel->isAutostart('joomla-welcome')) {
-                    $tour = $this->getTour('joomla-welcome');
-
-                    $doc->addScriptOptions('com_guidedtours.autotour', $tour->id);
-
-                    // Set autostart to '0' to avoid it to autostart again
-                    $tourModel->setAutostart($tour->id, 0);
-                }
+            // Check if the user has opted out of auto-start
+            $userAuthorizedAutostart = $user->getParam('tourAutoStart', $params->get('tourAutoStart', 'allow'));
+            if ($userAuthorizedAutostart === 'disallow') {
+                return;
             }
+
+            // The following code only relate to the auto-start functionality.
+            // First, we get the tours for the context.
+
+            $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
+
+            $toursModel = $factory->createModel(
+                'Tours',
+                'Administrator',
+                ['ignore_request' => true]
+            );
+
+            $toursModel->setState('filter.extension', $app->getInput()->getCmd('option', 'com_cpanel'));
+            $toursModel->setState('filter.published', 1);
+            $toursModel->setState('filter.access', $user->getAuthorisedViewLevels());
+
+            if (Multilanguage::isEnabled()) {
+                $toursModel->setState('filter.language', ['*', $app->getLanguage()->getTag()]);
+            }
+
+            $tours = $toursModel->getItems();
+            foreach ($tours as $tour) {
+                // Look for the first autostart tour, if any.
+                if ($tour->autostart) {
+                    $canAutostart = true;
+                    $db           = $this->getDatabase();
+                    $profileKey   = 'guidedtour.id.' . $tour->id;
+
+                    // Check if the tour state has already been saved some time before.
+                    $query = $db->getQuery(true)
+                        ->select($db->quoteName('profile_value'))
+                        ->from($db->quoteName('#__user_profiles'))
+                        ->where($db->quoteName('user_id') . ' = :user_id')
+                        ->where($db->quoteName('profile_key') . ' = :profileKey')
+                        ->bind(':user_id', $user->id, ParameterType::INTEGER)
+                        ->bind(':profileKey', $profileKey, ParameterType::STRING);
+
+                    try {
+                        $result = $db->setQuery($query)->loadResult();
+                    } catch (\Exception $e) {
+                        // Do not start the tour.
+                        continue;
+                    }
+
+                    // A result has been found in the user profiles table
+                    if (!is_null($result)) {
+                        $values = json_decode($result, true);
+
+                        if (empty($values)) {
+                            // Do not start the tour.
+                            $canAutostart = false;
+                        } else {
+                            if ($values['state'] === 'skipped' || $values['state'] === 'completed') {
+                                $canAutostart = false;
+                            }
+                            if ($values['state'] === 'delayed') {
+                                $delay       = $params->get('delayed_time', '600');
+                                $currentTime = Date::getInstance();
+                                $loggedTime  = new Date($values['time']['date']);
+
+                                if ($loggedTime->add(new \DateInterval('PT' . $delay . 'S')) > $currentTime) {
+                                    $canAutostart = false;
+                                }
+                            }
+                        }
+                    }
+
+                    // We have a tour to auto start. No need to go any further.
+                    if ($canAutostart) {
+                        $doc->addScriptOptions('com_guidedtours.autotour', $tour->id);
+                        break;
+                    }
+                }
+            }            
         }
     }
 
@@ -258,6 +328,13 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         // Replace 'images/' to '../images/' when using an image from /images in backend.
         $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
+
+        // Set the label for the tour to start.
+        // What's new tours have a different label.
+        $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_START');
+        if (str_contains($item->uid, 'joomla-whatsnew')) {
+            $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_LEARNMORE');
+        }
 
         $tour->steps[] = $temp;
 
