@@ -93,7 +93,7 @@ class AjaxController extends BaseController
                 'tourId'  => $tourId
             ];
 
-            $message = Text::_('COM_GUIDEDTOURS_USERSTATE_STATESAVE_CONNECTEDONLY');
+            $message = Text::_('COM_GUIDEDTOURS_USERSTATE_CONNECTEDONLY');
             echo new JsonResponse($data, $message, true);
             $this->app->close();
         }
