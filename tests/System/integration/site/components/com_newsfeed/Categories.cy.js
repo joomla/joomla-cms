@@ -12,8 +12,8 @@ describe('Test in frontend that the newsfeeds categories view', () => {
 
         cy.contains('automated test category 1');
         cy.contains('automated test category 2');
-        cy.get(':nth-child(1) > .page-header > .badge').contains('# News feeds 1');
-        cy.get(':nth-child(2) > .page-header > .badge').contains('# News feeds 2');
+        cy.get(':nth-child(2) > .page-header > .badge').contains('# News feeds 1');
+        cy.get(':nth-child(3) > .page-header > .badge').contains('# News feeds 2');
       });
   });
 });
