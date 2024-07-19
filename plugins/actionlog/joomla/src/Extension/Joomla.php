@@ -1261,7 +1261,7 @@ final class Joomla extends ActionLogPlugin
         }
 
         // Get the tour from the model to fetch the translated title of the tour
-        $factory = $this->getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
+        $factory   = $this->getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
         $tourModel = $factory->createModel(
             'Tour',
             'Administrator',
