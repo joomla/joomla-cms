@@ -20,7 +20,7 @@ function emptyStorage() {
 }
 
 /**
-  Synchronize tour state for this user in his account/profile
+  Synchronize tour state for this user in their account/profile
   tid = tour ID
   sid = step number (the step the user is on)
   state = state of the tour (completed, skipped, cancelled)
