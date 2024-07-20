@@ -202,12 +202,55 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $id = (int) $this->getApplication()->getInput()->getInt('id', 0);
+        $input  = $this->getApplication()->getInput();
 
-        $task = $this->runScheduler($id);
+        // The "id" parameter will be removed with 6.0 as that behavior is broken
+        $id     = (int) $input->getInt('id', 0);
+        $taskId = (int) $input->getInt('taskid', $id);
 
-        if (!empty($task) && !empty($task->getContent()['exception'])) {
-            throw $task->getContent()['exception'];
+        /**
+         * Yes we are aware that the current behavior is broken meaning as long as there is no ID passed via
+         * the URL the current code will still fail. But we need to keep that behavior for B/C reasons. Starting
+         * with 6.0 only taskid will be supported and when the cron is triggered without taskid it will trigger
+         * the next item available the broken behavior with will be removed.
+         */
+
+        $scheduler = new Scheduler();
+
+        if ($id)
+        {
+            // Only trigger a deprecation notice when there is an id found
+            @trigger_error(
+                'The use of the id= parameter within the webcron scheduler is deprecated and will be replaced by the taskid= parameter starting with 6.0.0'
+                . 'You should already upgrade to the new taskid= parameter starting with __DEPLOY_VERSION__',
+                E_USER_DEPRECATED
+            );
+        }
+
+        if ($taskId) {
+            $records[] = $scheduler->fetchTaskRecord($taskId);
+        } else {
+            $filters    = $scheduler::TASK_QUEUE_FILTERS;
+            $listConfig = $scheduler::TASK_QUEUE_LIST_CONFIG;
+
+            // Make sure we only get one task at the time
+            $listConfig['limit'] = 1;
+
+            // Get tasks to run
+            $records = $scheduler->fetchTaskRecords($filters, $listConfig);
+        }
+
+        if (\count($records) === 0) {
+            // No tasks to run
+            return;
+        }
+
+        foreach ($records as $record) {
+            $task = $this->runScheduler($record->id);
+
+            if (!empty($task) && !empty($task->getContent()['exception'])) {
+                throw $task->getContent()['exception'];
+            }
         }
     }
 
