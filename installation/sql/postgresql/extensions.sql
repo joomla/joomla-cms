@@ -792,7 +792,7 @@ INSERT INTO "#__action_logs_extensions" ("id", "extension") VALUES
 (20, 'com_fields'),
 (21, 'com_guidedtours');
 
-SELECT setval('#__action_logs_extensions_id_seq', 21, false);
+SELECT setval('#__action_logs_extensions_id_seq', 22, false);
 -- --------------------------------------------------------
 
 --
