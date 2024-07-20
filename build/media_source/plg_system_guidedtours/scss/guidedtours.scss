@@ -18,24 +18,22 @@
 
 .shepherd-title {
   flex: 1 1 auto;
-  line-height: 1.5em;
 }
 
 .shepherd-cancel-icon {
+  display: inline-flex;
+  align-items: center;
   margin-inline-start: 8px;
 }
 
 .shepherd-cancel-icon::before {
   margin: 0 8px;
   font-size: 1rem;
-  line-height: normal;
-  vertical-align: middle;
   content: attr(aria-label);
 }
 
 .shepherd-cancel-icon span {
   font-size: 2rem;
-  vertical-align: middle;
 }
 
 .shepherd-progress {
