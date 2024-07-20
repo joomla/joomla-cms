@@ -831,7 +831,8 @@ INSERT INTO `#__action_logs_extensions` (`id`, `extension`) VALUES
 (17, 'com_users'),
 (18, 'com_checkin'),
 (19, 'com_scheduler'),
-(20, 'com_fields');
+(20, 'com_fields'),
+(21, 'com_guidedtours');
 
 -- --------------------------------------------------------
 
