@@ -19,6 +19,70 @@ function emptyStorage() {
   sessionStorage.removeItem('autoTourId');
 }
 
+/**
+  Synchronize tour state for this user in his account/profile
+  tid = tour ID
+  sid = step number (the step the user is on)
+  state = state of the tour (completed, skipped, cancelled)
+*/
+function fetchTourState(tid, sid, context) {
+  const fetchUrl = 'index.php?option=com_guidedtours&task=ajax.fetchUserState&format=json';
+  Joomla.request({
+    url: `${fetchUrl}&tid=${tid}&sid=${sid}&context=${context}`,
+    method: 'GET',
+    perform: true,
+    onSuccess: (resp) => {
+      let response = {};
+      try {
+        response = JSON.parse(resp);
+      } catch (e) {
+        Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_INVALID_RESPONSE')] }, 'gt');
+        return false;
+      }
+      return true;
+    },
+    onError: (resp) => {
+      Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR_RESPONSE')] });
+      return false;
+    },
+  });
+}
+
+/**
+ Stop tour on some specific context
+  - tour.complete
+  - tour.cancel
+  - tour.skip       Only autostart tours, to never display again
+*/
+function stopTour(tour, context) {
+  const tid = sessionStorage.getItem('tourId');
+  let sid = sessionStorage.getItem('currentStepId');
+
+  if (sid === 'tourinfo') {
+    sid = 1;
+  } else {
+    sid = Number(sid) + 1;
+  }
+
+  let trueContext = context;
+  if (context === 'tour.cancel' && sessionStorage.getItem('skipTour') === 'true') {
+    trueContext = 'tour.skip';
+  }
+
+  if (trueContext === 'tour.cancel' || trueContext === 'tour.skip' || trueContext === 'tour.complete') {
+    // ajax call to set the user state
+    fetchTourState(tid, sid, trueContext);
+
+    // close the tour
+    emptyStorage();
+    tour.steps = [];
+
+    return true; // cf. https://docs.shepherdpro.com/api/tour/classes/tour/#cancel
+  }
+
+  return false; // wrong context
+}
+
 function getTourInstance() {
   const tour = new Shepherd.Tour({
     defaultStepOptions: {
@@ -39,7 +103,7 @@ function getTourInstance() {
   tour.on('cancel', () => {
     // Test that a tour exists still, it may have already been emptied when skipping the tour
     if (sessionStorage.getItem('tourId')) {
-      stopTour(tour, "tour.cancel");
+      stopTour(tour, 'tour.cancel');
     }
   });
 
@@ -302,8 +366,29 @@ function addStepToTourButton(tour, stepObj, buttons) {
   tour.addStep(step);
 }
 
+function addStartButton(tour, buttons, label) {
+  buttons.push({
+    text: label,
+    classes: 'btn btn-primary shepherd-button-primary',
+    action() {
+      return this.next();
+    },
+  });
+}
+
+function addSkipButton(tour, buttons) {
+  buttons.push({
+    text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_HIDE_FOREVER'),
+    classes: 'btn btn-secondary shepherd-button-secondary',
+    action() {
+      sessionStorage.setItem('skipTour', 'true');
+      return this.cancel();
+    },
+  });
+}
+
 function showTourInfo(tour, stepObj) {
-  let buttons = [];
+  const buttons = [];
   if (sessionStorage.getItem('autoTourId') === sessionStorage.getItem('tourId')) {
     addSkipButton(tour, buttons);
   }
@@ -325,33 +410,12 @@ function showTourInfo(tour, stepObj) {
   });
 }
 
-function addStartButton(tour, buttons, label) {
-  buttons.push({
-    text: label,
-    classes: 'btn btn-primary shepherd-button-primary',
-    action() {
-      return this.next();
-    },
-  });
-}
-
-function addSkipButton(tour, buttons) {
-  buttons.push({
-    text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_HIDE_FOREVER'),
-    classes: 'btn btn-secondary shepherd-button-secondary',
-    action() {
-      sessionStorage.setItem('skipTour', 'true');
-      return this.cancel();
-    }
-  });
-}
-
 function pushCompleteButton(tour, buttons) {
   buttons.push({
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COMPLETE'),
     classes: 'btn btn-primary shepherd-button-primary',
     action() {
-      stopTour(tour, "tour.complete");
+      stopTour(tour, 'tour.complete');
       return this.complete();
     },
   });
@@ -382,80 +446,6 @@ function addBackButton(buttons, step) {
         }
       }
       return this.back();
-    },
-  });
-}
-
-/**
- Stop tour on some specific context
-	- tour.complete
-	- tour.cancel
-	- tour.skip		   Only autostart tours, to never display again
-*/
-function stopTour(tour, context) {
-  let tid = sessionStorage.getItem('tourId');
-  let sid = sessionStorage.getItem('currentStepId');
-
-  if (sid === 'tourinfo') {
-    sid = 1;
-  } else {
-    sid = Number(sid) + 1;
-  }
-
-  let isContextOk = true;
-
-  switch (context) {
-    case 'tour.complete':
-      break;
-    case 'tour.cancel':
-      let isSkipped = sessionStorage.getItem('skipTour');
-      if (isSkipped === 'true') {
-        context = 'tour.skip';
-      }
-      break;
-    default:
-      isContextOk = false;
-  }
-
-  if (isContextOk) {
-    // ajax call to set the user state
-    fetchTourState(tid, sid, context);
-
-    // close the tour
-    emptyStorage();
-    tour.steps = [];
-
-    return true; //cf. https://docs.shepherdpro.com/api/tour/classes/tour/#cancel
-  }
-
-  return false; // wrong context
-}
-
-/**
-  Synchronize tour state for this user in his account/profile
-  tid = tour ID
-  sid = step number (the step the user is on)
-  state = state of the tour (completed, skipped, cancelled)
-*/
-function fetchTourState(tid, sid, context) {
-  var fetchUrl = "index.php?option=com_guidedtours&task=ajax.fetchUserState&format=json";
-  Joomla.request({
-    url: `${fetchUrl}&tid=${tid}&sid=${sid}&context=${context}`,
-    method: 'GET',
-    perform: true,
-    onSuccess: (resp) => {
-      let response = {};
-      try {
-        response = JSON.parse(resp);
-      } catch (e) {
-        Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_INVALID_RESPONSE')] }, `gt`);
-        return false;
-      }
-      return true;
-    },
-    onError: (resp) => {
-      Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR_RESPONSE')] });
-      return false;
     },
   });
 }
@@ -676,7 +666,7 @@ function loadTour(tourId) {
 }
 
 // Opt-in Start buttons
-document.querySelector('body').addEventListener('click', event => {
+document.querySelector('body').addEventListener('click', (event) => {
   // Click somewhere else
   if (!event.target || !event.target.classList.contains('button-start-guidedtour')) {
     return;
