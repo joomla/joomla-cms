@@ -46,7 +46,7 @@ function getTourInstance() {
 function addProgressIndicator(stepElement, index, total) {
   const header = stepElement.querySelector('.shepherd-header');
   const progress = document.createElement('div');
-  progress.classList.add('shepherd-progress', 'badge', 'bg-secondary', 'p-2');
+  progress.classList.add('shepherd-progress', 'badge', 'bg-secondary', 'px-2');
   progress.setAttribute('role', 'status');
   const progressText = document.createElement('span');
   progressText.classList.add('m-0');
