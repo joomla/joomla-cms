@@ -4,9 +4,9 @@
 		<field
 			name="tourAutoStart"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
 			label="COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_LABEL"
 			description="COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_DESCRIPTION"
+			layout="joomla.form.field.radio.switcher"
 			default="allow"
 			>
 			<option value="disallow">COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_OPTION_DISALLOW</option>
