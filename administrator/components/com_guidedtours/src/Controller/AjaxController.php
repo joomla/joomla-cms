@@ -47,7 +47,7 @@ class AjaxController extends BaseController
         if ($user != null && $user->id > 0) {
             $actionState   = '';
 
-            switch($context) {
+            switch ($context) {
                 case "tour.complete":
                     $actionState = "completed";
                     break;
