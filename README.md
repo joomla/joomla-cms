@@ -5,7 +5,7 @@ The Joomla! 5.2 branch is under heavy development and not all links in this docu
 ------------------------------------------------------------------------------------------------------
 
 Build Status
----------------------
+
 | Drone-CI                                                                                                                                 | AppVeyor                                                                                                                                                           | PHP                                                                           | Node                                                                                 | npm                                                                             |
 |------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
 | [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=5.2-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/5.2-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V18.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v9.6.7-green)](https://nodejs.org/en/) |
@@ -20,7 +20,7 @@ Overview
 What is Joomla?
 ---------------------
 * [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
-* It is a simple and powerful web server application which requires a server with PHP and either MySQL or PostgreSQL to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
+* It is a simple and powerful web server application which requires a server with PHP and either MySQL, MariaDB or PostgreSQL to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
 * Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
 
 Looking for an installable package?

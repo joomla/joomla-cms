@@ -75,11 +75,6 @@ class SubfieldsField extends ListField
 
         // Iterate over the custom fields for this context
         foreach (static::$customFieldsCache[$this->context] as $customField) {
-            // Skip our own subform type. We won't have subform in subform.
-            if ($customField->type == 'subform') {
-                continue;
-            }
-
             $options[] = HTMLHelper::_(
                 'select.option',
                 $customField->id,

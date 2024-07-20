@@ -29,8 +29,13 @@ class HttpLoader implements LoaderInterface
 
     public function load(string $locator, int $maxBytes): PromiseInterface
     {
-        /** @var Http $client */
-        $response = $this->http->get($this->repositoryPath . $locator);
+        try {
+            /** @var Http $client */
+            $response = $this->http->get($this->repositoryPath . $locator);
+        } catch (\Exception $e) {
+            // We convert the generic exception thrown in the Http library into a TufException
+            throw new HttpLoaderException($e->getMessage(), $e->getCode(), $e);
+        }
 
         if ($response->code !== 200) {
             throw new RepoFileNotFound();
