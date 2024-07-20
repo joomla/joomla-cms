@@ -38,24 +38,24 @@ class AjaxController extends BaseController
      */
     public function fetchUserState()
     {
-        $user   = $this->app->getIdentity();
+        $user = $this->app->getIdentity();
 
         $tourId     = $this->app->input->getInt('tid', 0);
         $stepNumber = $this->app->input->getString('sid', '');
         $context    = $this->app->input->getString('context', '');
 
         if ($user != null && $user->id > 0) {
-            $actionState   = '';
+            $actionState = '';
 
             switch ($context) {
-                case "tour.complete":
-                    $actionState = "completed";
+                case 'tour.complete':
+                    $actionState = 'completed';
                     break;
-                case "tour.cancel":
-                    $actionState = "delayed";
+                case 'tour.cancel':
+                    $actionState = 'delayed';
                     break;
-                case "tour.skip":
-                    $actionState = "skipped";
+                case 'tour.skip':
+                    $actionState = 'skipped';
                     break;
             }
 
