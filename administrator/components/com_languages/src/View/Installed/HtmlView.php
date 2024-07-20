@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -96,7 +97,7 @@ class SearchesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   4.0.0
      */
@@ -139,7 +140,7 @@ class SearchesModel extends ListModel
         $items = parent::getItems();
 
         foreach ($items as $item) {
-            if (is_resource($item->query)) {
+            if (\is_resource($item->query)) {
                 $item->query = unserialize(stream_get_contents($item->query));
             } else {
                 $item->query = unserialize($item->query);

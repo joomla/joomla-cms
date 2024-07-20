@@ -7,7 +7,7 @@
  * @license GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -52,6 +52,11 @@ Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 Text::script('INSTL_DATABASE_RESPONSE_ERROR');
+
+// Add strings for installation progress
+Text::script('INSTL');
+Text::script('INSTL_FINISHED');
+Text::script('INSTL_IN_PROGRESS');
 
 // Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');

@@ -1,12 +1,12 @@
-# Integration Tests for Joomla 4.x
+# Integration Tests for Joomla
 
 This folder contains the integration tests for the Joomla CMS. The tests are run with phpunit and the actual tests.
 
 ## How to run the tests
 
-When you are checking out the current development branch of 4.x and run `composer install`, your system is automatically set up to run the tests. The steps thus are the following:
+When you are checking out the current development branch of Joomla and run `composer install`, your system is automatically set up to run the tests. The steps thus are the following:
 
-1. Checkout the current Joomla 4.x development branch from Github. (https://github.com/joomla/joomla-cms.git)
+1. Checkout the current Joomla development branch from Github. (https://github.com/joomla/joomla-cms.git)
 2. Run `composer install` in the root of your checkout.
 3. Copy `./phpunit.xml.dist` to `./phpunit.xml`. Edit configuration file `./phpunit.xml`. Within the `<php>` adapt the value of
 `JTEST_DB_ENGINE` (mysqli or pgsql), `JTEST_DB_HOST`, `JTEST_DB_NAME`, `JTEST_DB_USER`, and `JTEST_DB_PASSWORD`

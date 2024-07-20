@@ -50,7 +50,7 @@ module.exports.createErrorPages = async (options) => {
       global.unsupportedObj = {
         ...global.unsupportedObj,
         [name]: {
-          language: languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE,
+          language: Ini.unsafe(languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE),
           header: languageStrings.BUILD_MIN_PHP_ERROR_HEADER,
           text1: languageStrings.BUILD_MIN_PHP_ERROR_TEXT,
           'help-url-text': languageStrings.BUILD_MIN_PHP_ERROR_URL_TEXT,
@@ -64,7 +64,7 @@ module.exports.createErrorPages = async (options) => {
       global.incompleteObj = {
         ...global.incompleteObj,
         [name]: {
-          language: languageStrings.BUILD_INCOMPLETE_LANGUAGE,
+          language: Ini.unsafe(languageStrings.BUILD_INCOMPLETE_LANGUAGE),
           header: languageStrings.BUILD_INCOMPLETE_HEADER,
           text1: languageStrings.BUILD_INCOMPLETE_TEXT,
           'help-url-text': languageStrings.BUILD_INCOMPLETE_URL_TEXT,
@@ -78,7 +78,7 @@ module.exports.createErrorPages = async (options) => {
       global.fatalObj = {
         ...global.fatalObj,
         [name]: {
-          language: languageStrings.BUILD_FATAL_LANGUAGE,
+          language: Ini.unsafe(languageStrings.BUILD_FATAL_LANGUAGE),
           header: languageStrings.BUILD_FATAL_HEADER,
           text1: languageStrings.BUILD_FATAL_TEXT,
           'help-url-text': languageStrings.BUILD_FATAL_URL_TEXT,
@@ -92,7 +92,7 @@ module.exports.createErrorPages = async (options) => {
       global.noxmlObj = {
         ...global.noxmlObj,
         [name]: {
-          language: languageStrings.BUILD_NOXML_LANGUAGE,
+          language: Ini.unsafe(languageStrings.BUILD_NOXML_LANGUAGE),
           header: languageStrings.BUILD_NOXML_HEADER,
           text1: languageStrings.BUILD_NOXML_TEXT,
           'help-url-text': languageStrings.BUILD_NOXML_URL_TEXT,
@@ -136,26 +136,24 @@ module.exports.createErrorPages = async (options) => {
       template = template.replace('{{jsContents}}', jsContent.code);
     }
 
-    let mediaExists = false;
-    try {
-      await access(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`));
-      mediaExists = true;
-    } catch (err) {
-      // Do nothing
-    }
+    options.settings.errorPages[name].destFile.forEach(async (folder) => {
+      let mediaExists = false;
+      try {
+        await access(dirname(`${RootPath}${folder}`));
+        mediaExists = true;
+      } catch (err) {
+        // Do nothing
+      }
 
-    if (!mediaExists) {
-      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
-    }
+      if (!mediaExists) {
+        await mkdir(dirname(`${RootPath}${folder}`), { recursive: true, mode: 0o755 });
+      }
 
-    await writeFile(
-      `${RootPath}${options.settings.errorPages[name].destFile}`,
-      template,
-      { encoding: 'utf8', mode: 0o644 },
-    );
+      await writeFile(`${RootPath}${folder}`, template, { encoding: 'utf8', mode: 0o644 });
 
-    // eslint-disable-next-line no-console
-    console.error(`✅ Created the file: ${options.settings.errorPages[name].destFile}`);
+      // eslint-disable-next-line no-console
+      console.error(`✅ Created the file: ${folder}`);
+    });
   };
 
   Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));

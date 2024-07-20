@@ -18,6 +18,8 @@ use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use Symfony\Component\Ldap\Adapter\CollectionInterface;
+use Symfony\Component\Ldap\Adapter\EntryManagerInterface;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
@@ -340,7 +342,7 @@ class LdapPluginTest extends UnitTestCase
                         }
                     }
 
-                    public function query(string $dn, string $query, array $options = [])
+                    public function query(string $dn, string $query, array $options = []): QueryInterface
                     {
                         if ($this->failQuery) {
                             throw new LdapException();
@@ -354,22 +356,103 @@ class LdapPluginTest extends UnitTestCase
                                 $this->hasEntry = $hasEntry;
                             }
 
-                            public function execute()
+                            public function execute(): CollectionInterface
                             {
                                 if (!$this->hasEntry) {
-                                    return [];
+                                    return new class () implements CollectionInterface {
+                                        public function toArray(): array
+                                        {
+                                            return [];
+                                        }
+
+                                        public function getIterator(): \Traversable
+                                        {
+                                            return null;
+                                        }
+
+                                        public function offsetExists(mixed $offset): bool
+                                        {
+                                            return false;
+                                        }
+
+                                        public function offsetGet(mixed $offset): mixed
+                                        {
+                                            return null;
+                                        }
+
+                                        public function offsetSet(mixed $offset, mixed $value): void
+                                        {
+                                            return;
+                                        }
+
+                                        public function offsetUnset(mixed $offset): void
+                                        {
+                                            return;
+                                        }
+
+                                        public function count(): int
+                                        {
+                                            return 0;
+                                        }
+                                    };
                                 }
 
-                                return [new Entry('')];
+                                return new class () implements CollectionInterface {
+                                    public $entry;
+
+                                    public function __construct()
+                                    {
+                                        $this->entry = new Entry('');
+                                    }
+
+                                    public function toArray(): array
+                                    {
+                                        return [$this->entry];
+                                    }
+
+                                    public function getIterator(): \Traversable
+                                    {
+                                        yield $this->entry;
+                                    }
+
+                                    public function offsetExists(mixed $offset): bool
+                                    {
+                                        return false;
+                                    }
+
+                                    public function offsetGet(mixed $offset): mixed
+                                    {
+                                        if ($offset === 0) {
+                                            return $this->entry;
+                                        }
+
+                                        return null;
+                                    }
+
+                                    public function offsetSet(mixed $offset, mixed $value): void
+                                    {
+                                        return;
+                                    }
+
+                                    public function offsetUnset(mixed $offset): void
+                                    {
+                                        return;
+                                    }
+
+                                    public function count(): int
+                                    {
+                                        return 1;
+                                    }
+                                };
                             }
                         };
                     }
 
-                    public function getEntryManager()
+                    public function getEntryManager(): EntryManagerInterface
                     {
                     }
 
-                    public function escape(string $subject, string $ignore = '', int $flags = 0)
+                    public function escape(string $subject, string $ignore = '', int $flags = 0): string
                     {
                         return $subject;
                     }

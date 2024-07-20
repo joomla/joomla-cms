@@ -12,8 +12,8 @@ namespace Joomla\CMS\Cache;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Session\Session;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -616,7 +616,7 @@ class Cache
                 }
 
                 // Sanitize empty data
-                foreach (\array_keys($headNow) as $key) {
+                foreach (array_keys($headNow) as $key) {
                     if (!isset($headNow[$key]) || $headNow[$key] === []) {
                         unset($headNow[$key]);
                     }

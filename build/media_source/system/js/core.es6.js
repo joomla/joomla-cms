@@ -56,51 +56,6 @@ const DefaultAllowlist = {
 // Only define the Joomla namespace if not defined.
 window.Joomla = window.Joomla || {};
 
-// Only define editors if not defined
-window.Joomla.editors = window.Joomla.editors || {};
-
-// An object to hold each editor instance on page, only define if not defined.
-window.Joomla.editors.instances = window.Joomla.editors.instances || {
-  /**
-   * *****************************************************************
-   * All Editors MUST register, per instance, the following callbacks:
-   * *****************************************************************
-   *
-   * getValue         Type  Function  Should return the complete data from the editor
-   *                                  Example: () => { return this.element.value; }
-   * setValue         Type  Function  Should replace the complete data of the editor
-   *                                  Example: (text) => { return this.element.value = text; }
-   * getSelection     Type  Function  Should return the selected text from the editor
-   *                                  Example: function () { return this.selectedText; }
-   * disable          Type  Function  Toggles the editor into disabled mode. When the editor is
-   *                                  active then everything should be usable. When inactive the
-   *                                  editor should be unusable AND disabled for form validation
-   *                                  Example: (bool) => { return this.disable = value; }
-   * replaceSelection Type  Function  Should replace the selected text of the editor
-   *                                  If nothing selected, will insert the data at the cursor
-   *                                  Example:
-   *                                  (text) => {
-   *                                    return insertAtCursor(this.element, text);
-   *                                    }
-   *
-   * USAGE (assuming that jform_articletext is the textarea id)
-   * {
-   * To get the current editor value:
-   *  Joomla.editors.instances['jform_articletext'].getValue();
-   * To set the current editor value:
-   *  Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
-   * To replace(selection) or insert a value at  the current editor cursor (replaces the J3
-   * jInsertEditorText API):
-   *  replaceSelection:
-   *  Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
-   * }
-   *
-   * *********************************************************
-   * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
-   * *********************************************************
-   */
-};
-
 window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * *****************************************************************
@@ -154,7 +109,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       newDestination = {};
     }
 
-    [].slice.call(Object.keys(source)).forEach((key) => {
+    Object.keys(source).forEach((key) => {
       newDestination[key] = source[key];
     });
 
@@ -200,10 +155,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
   Joomla.loadOptions = (options) => {
     // Load form the script container
     if (!options) {
-      const elements = [].slice.call(document.querySelectorAll('.joomla-script-options.new'));
       let counter = 0;
 
-      elements.forEach((element) => {
+      document.querySelectorAll('.joomla-script-options.new').forEach((element) => {
         const str = element.text || element.textContent;
         const option = JSON.parse(str);
 
@@ -225,7 +179,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       Joomla.optionsStorage = options || {};
     } else if (options) {
       // Merge with existing
-      [].slice.call(Object.keys(options)).forEach((key) => {
+      Object.keys(options).forEach((key) => {
         /**
          * If both existing and new options are objects, merge them with Joomla.extend().
          * But test for new option being null, as null is an object, but we want to allow
@@ -286,7 +240,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
      * @returns {Joomla.Text}
      */
     load: (object) => {
-      [].slice.call(Object.keys(object)).forEach((key) => {
+      Object.keys(object).forEach((key) => {
         Joomla.Text.strings[key.toUpperCase()] = object[key];
       });
 
@@ -558,10 +512,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
       return;
     }
 
-    const elements = [].slice.call(document.getElementsByTagName('input'));
-
-    elements.forEach((element) => {
-      if (element.type === 'hidden' && element.value === '1' && element.name.length === 32) {
+    document.querySelectorAll('input[type="hidden"]').forEach((element) => {
+      if (element.value === '1' && element.name.length === 32) {
         element.name = newToken;
       }
     });
@@ -641,7 +593,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
       // Custom headers
       if (newOptions.headers) {
-        [].slice.call(Object.keys(newOptions.headers)).forEach((key) => {
+        Object.keys(newOptions.headers).forEach((key) => {
           // Allow request without Content-Type
           // eslint-disable-next-line no-empty
           if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') {

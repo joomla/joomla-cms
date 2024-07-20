@@ -57,9 +57,9 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
     /**
      * Disable Multi-factor Authentication for the current user
      *
-     * @param   bool   $cachable     Can this view be cached
-     * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
-     *                               {@link JFilterInput::clean()}.
+     * @param   bool   $cachable   Can this view be cached
+     * @param   array  $urlparams  An array of safe url parameters and their variable types.
+     *                 @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      * @since   4.2.0
@@ -111,9 +111,9 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
     /**
      * List all available Multi-factor Authentication Methods available and guide the user to setting them up
      *
-     * @param   bool   $cachable     Can this view be cached
-     * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
-     *                               {@link JFilterInput::clean()}.
+     * @param   bool   $cachable   Can this view be cached
+     * @param   array  $urlparams  An array of safe url parameters and their variable types.
+     *                 @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      * @since   4.2.0
@@ -153,9 +153,9 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
     /**
      * Disable Multi-factor Authentication for the current user
      *
-     * @param   bool   $cachable     Can this view be cached
-     * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
-     *                               {@link JFilterInput::clean()}.
+     * @param   bool   $cachable   Can this view be cached
+     * @param   array  $urlparams  An array of safe url parameters and their variable types.
+     *                 @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      * @since   4.2.0

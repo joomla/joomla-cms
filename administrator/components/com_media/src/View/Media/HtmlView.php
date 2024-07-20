@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
         $this->providers = $this->get('Providers');
 
         // Check that there are providers
-        if (!count($this->providers)) {
+        if (!\count($this->providers)) {
             $link = Route::_('index.php?option=com_plugins&view=plugins&filter[folder]=filesystem');
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MEDIA_ERROR_NO_PROVIDERS', $link), CMSApplication::MSG_WARNING);
         }

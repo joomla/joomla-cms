@@ -33,12 +33,12 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
 
     /**
-     * The EOS date for 4.4.
+     * The EOS date for the current major version.
      *
      * @var    string
      * @since 4.4.0
      */
-    private const EOS_DATE = '2025-10-17';
+    private const EOS_DATE = '2027-10-19';
 
     /**
      * Load the language file on instantiation.
@@ -81,7 +81,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Check and show the the alert.
+     * Check and show the alert.
      *
      * This method is called when the Quick Icons module is constructing its set
      * of icons.

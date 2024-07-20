@@ -78,12 +78,12 @@ class UserMessagesField extends UserField
     /**
      * Method to get the users to exclude from the list of users
      *
-     * @return  array|null array of users to exclude or null to to not exclude them
+     * @return  array|null array of users to exclude or null to not exclude them
      *
      * @since   1.6
      */
     protected function getExcluded()
     {
-        return [Factory::getUser()->id];
+        return [$this->getCurrentUser()->id];
     }
 }

@@ -15,9 +15,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\DebugHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,8 +30,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class DebuguserModel extends ListModel
+class DebuguserModel extends ListModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Constructor.
      *
@@ -78,7 +82,7 @@ class DebuguserModel extends ListModel
     public function getItems()
     {
         $userId = $this->getState('user_id');
-        $user   = Factory::getUser($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
 
         if (($assets = parent::getItems()) && $userId) {
             $actions = $this->getDebugActions();
@@ -179,13 +183,13 @@ class DebuguserModel extends ListModel
     {
         $userId = $this->getState('user_id');
 
-        return Factory::getUser($userId);
+        return $this->getUserFactory()->loadUserById($userId);
     }
 
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */

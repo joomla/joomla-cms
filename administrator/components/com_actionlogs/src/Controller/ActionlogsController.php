@@ -13,6 +13,7 @@ namespace Joomla\Component\Actionlogs\Administrator\Controller;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\ActionLog\AfterLogExportEvent;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -113,7 +114,7 @@ class ActionlogsController extends AdminController
             }
 
             fclose($output);
-            $this->app->triggerEvent('onAfterLogExport', []);
+            $this->getDispatcher()->dispatch('onAfterLogExport', new AfterLogExportEvent('onAfterLogExport'));
             $this->app->close();
         } else {
             $this->setMessage(Text::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));

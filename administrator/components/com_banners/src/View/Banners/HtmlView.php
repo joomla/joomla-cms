@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Banners;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -142,7 +141,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         $canDo   = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-        $user    = Factory::getApplication()->getIdentity();
+        $user    = $this->getCurrentUser();
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
@@ -196,7 +195,11 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit.state', 'com_banners')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_BANNERS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }

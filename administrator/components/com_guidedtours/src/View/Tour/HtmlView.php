@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -53,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var \Joomla\CMS\Object\CMSObject
+     * @var \Joomla\Registry\Registry
      */
     protected $canDo;
 
@@ -73,7 +72,7 @@ class HtmlView extends BaseHtmlView
         $this->item  = $this->get('Item');
         $this->state = $this->get('State');
 
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -94,7 +93,7 @@ class HtmlView extends BaseHtmlView
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $user       = Factory::getApplication()->getIdentity();
+        $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
 
@@ -147,7 +146,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::divider();
 
-        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] === 'show';
         $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
 
         if ($inlinehelp) {

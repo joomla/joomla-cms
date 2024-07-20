@@ -10,11 +10,11 @@
 
 namespace Joomla\Plugin\Privacy\Actionlogs\Extension;
 
-use Joomla\CMS\User\User;
+use Joomla\CMS\Event\Privacy\ExportRequestEvent;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
-use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,22 +25,38 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.9.0
  */
-final class Actionlogs extends PrivacyPlugin
+final class Actionlogs extends PrivacyPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onPrivacyExportRequest' => 'onPrivacyExportRequest',
+        ];
+    }
+
     /**
      * Processes an export request for Joomla core actionlog data
      *
-     * @param   RequestTable  $request  The request record being processed
-     * @param   User          $user     The user account associated with this request if available
+     * @param   ExportRequestEvent  $event  The request event
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onPrivacyExportRequest(RequestTable $request, User $user = null)
+    public function onPrivacyExportRequest(ExportRequestEvent $event)
     {
+        $user = $event->getUser();
+
+        // RequestTable $request, User $user = null
         if (!$user) {
-            return [];
+            return;
         }
 
         $domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
@@ -58,8 +74,8 @@ final class Actionlogs extends PrivacyPlugin
 
         $data = $db->loadObjectList();
 
-        if (!count($data)) {
-            return [];
+        if (!\count($data)) {
+            return;
         }
 
         $data    = ActionlogsHelper::getCsvData($data);
@@ -75,6 +91,6 @@ final class Actionlogs extends PrivacyPlugin
             $domain->addItem($this->createItemFromArray($item));
         }
 
-        return [$domain];
+        $event->addResult([$domain]);
     }
 }

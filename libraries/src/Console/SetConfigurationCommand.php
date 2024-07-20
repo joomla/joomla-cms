@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -160,7 +160,7 @@ class SetConfigurationCommand extends AbstractCommand
         array_walk(
             $this->options,
             function ($value, $key) use ($configs, &$valid) {
-                if (!array_key_exists($key, $configs)) {
+                if (!\array_key_exists($key, $configs)) {
                     $this->ioStyle->error("Can't find option *$key* in configuration list");
                     $valid = false;
                 }
@@ -290,34 +290,34 @@ class SetConfigurationCommand extends AbstractCommand
         }
 
         // Validate length of database table prefix.
-        if (isset($options['dbprefix']) && strlen($options['dbprefix']) > 15) {
+        if (isset($options['dbprefix']) && \strlen($options['dbprefix']) > 15) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
 
             return false;
         }
 
         // Validate length of database name.
-        if (strlen($options['db']) > 64) {
+        if (\strlen($options['db']) > 64) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_TOO_LONG'));
 
             return false;
         }
 
         // Validate database name.
-        if (in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['db'])) {
+        if (\in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['db'])) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES'));
 
             return false;
         }
 
-        if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['db'])) {
+        if (\in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['db'])) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'));
 
             return false;
         }
 
         // Workaround for UPPERCASE table prefix for PostgreSQL
-        if (in_array($options['dbtype'], ['pgsql', 'postgresql'])) {
+        if (\in_array($options['dbtype'], ['pgsql', 'postgresql'])) {
             if (isset($options['dbprefix']) && strtolower($options['dbprefix']) !== $options['dbprefix']) {
                 $this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_LOWERCASE'));
 

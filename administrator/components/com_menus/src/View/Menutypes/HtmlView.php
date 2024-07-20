@@ -80,7 +80,9 @@ class HtmlView extends BaseHtmlView
 
         $this->types = $sortedTypes;
 
-        $this->addToolbar();
+        if (!$app->getInput()->get('tmpl')) {
+            $this->addToolbar();
+        }
 
         parent::display($tpl);
     }

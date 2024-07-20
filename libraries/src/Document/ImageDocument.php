@@ -12,7 +12,7 @@ namespace Joomla\CMS\Document;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**

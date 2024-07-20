@@ -49,9 +49,9 @@ class CallbackController extends BaseController
     /**
      * Implement a callback feature, typically used for OAuth2 authentication
      *
-     * @param   bool         $cachable    Can this view be cached
-     * @param   array|bool   $urlparams   An array of safe url parameters and their variable types, for valid values see
-     *                                    {@link JFilterInput::clean()}.
+     * @param   bool         $cachable   Can this view be cached
+     * @param   array|bool   $urlparams  An array of safe url parameters and their variable types.
+     *                       @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      * @since 4.2.0

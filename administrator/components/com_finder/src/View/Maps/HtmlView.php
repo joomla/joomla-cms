@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  3.6.1
      */
@@ -118,7 +118,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -165,9 +165,11 @@ class HtmlView extends BaseHtmlView
 
             $toolbar->divider();
             $toolbar->popupButton('bars', 'COM_FINDER_STATISTICS')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_STATISTICS_TITLE'))
                 ->url('index.php?option=com_finder&view=statistics&tmpl=component')
-                ->iframeWidth(550)
-                ->iframeHeight(350)
+                ->modalWidth('800px')
+                ->modalHeight('500px')
                 ->title(Text::_('COM_FINDER_STATISTICS_TITLE'))
                 ->icon('icon-bars');
             $toolbar->divider();

@@ -10,13 +10,11 @@
 
 namespace Joomla\Component\Tags\Administrator\View\Tags;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -49,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -141,7 +139,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo   = ContentHelper::getActions('com_tags');
-        $user    = Factory::getApplication()->getIdentity();
+        $user    = $this->getCurrentUser();
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_TAGS_MANAGER_TAGS'), 'tags');
@@ -177,9 +175,18 @@ class HtmlView extends BaseHtmlView
             // Add a batch button
             if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state')) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_TAGS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
+        }
+
+        if (!$this->isEmptyState && $canDo->get('core.admin')) {
+            $toolbar->standardButton('refresh', 'JTOOLBAR_REBUILD')
+                ->task('tags.rebuild');
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {

@@ -84,7 +84,7 @@ class ProfileModel extends FormModel
             $this->data = new User($userId);
 
             // Set the base user data.
-            $this->data->email1 = $this->data->get('email');
+            $this->data->email1 = $this->data->email;
 
             // Override the base user data with any data in the session.
             $temp = (array) Factory::getApplication()->getUserState('com_users.edit.profile.data', []);
@@ -131,7 +131,7 @@ class ProfileModel extends FormModel
 
         if ($username) {
             $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username)
-                || strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
+                || \strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
                 || trim($username) !== $username);
         }
 
@@ -220,7 +220,7 @@ class ProfileModel extends FormModel
 
         // Get the user id.
         $userId = Factory::getApplication()->getUserState('com_users.edit.profile.id');
-        $userId = !empty($userId) ? $userId : (int) $this->getCurrentUser()->get('id');
+        $userId = !empty($userId) ? $userId : (int) $this->getCurrentUser()->id;
 
         // Set the user id.
         $this->setState('user.id', $userId);

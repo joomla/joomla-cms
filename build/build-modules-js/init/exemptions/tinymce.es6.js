@@ -1,8 +1,6 @@
 const {
-  existsSync, copy, readFile, writeFile, mkdir,
+  existsSync, copy, readFile, writeFile, mkdir, removeSync,
 } = require('fs-extra');
-const LightningCSS = require('lightningcss');
-const { transform } = require('esbuild');
 
 const { join } = require('path');
 
@@ -49,12 +47,14 @@ module.exports.tinyMCE = async (packageName, version) => {
     await mkdir(join(itemvendorPath, 'skins'), { mode: 0o755 });
     await mkdir(join(itemvendorPath, 'themes'), { mode: 0o755 });
     await mkdir(join(itemvendorPath, 'templates'), { mode: 0o755 });
+    await mkdir(join(itemvendorPath, 'models'), { mode: 0o755 });
   }
 
   await copyAllFiles('icons', 'tinymce', 'icons');
   await copyAllFiles('plugins', 'tinymce', 'plugins');
   await copyAllFiles('skins', 'tinymce', 'skins');
   await copyAllFiles('themes', 'tinymce', 'themes');
+  await copyAllFiles('models', 'tinymce', 'models');
 
   await copyArrayFiles('', ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'], 'tinymce', '');
 
@@ -68,30 +68,10 @@ module.exports.tinyMCE = async (packageName, version) => {
   tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
   await writeFile(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'utf8', mode: 0o644 });
 
-  /* Create the Highlighter plugin */
-  // Get the css
-  let cssContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.css', { encoding: 'utf8' });
-  cssContent = LightningCSS.transform({
-    code: Buffer.from(cssContent),
-    minify: true,
-  }).code;
-  // Get the JS
-  let jsContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.es6.js', { encoding: 'utf8' });
-  jsContent = await transform(jsContent, { minify: true });
-  // Write the HTML file
-  const htmlContent = `<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <script type="module">${jsContent.code}</script>
-    <style type="text/css">${cssContent.css}</style>
-  </head>
-  <body style="height: 100vh"></body>
-</html>
-`;
-
-  await writeFile('media/plg_editors_tinymce/js/plugins/highlighter/source.html', htmlContent, { encoding: 'utf8', mode: 0o644 });
-
   // Restore our code on the vendor folders
   await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), { preserveTimestamps: true });
+  // Drop the template plugin
+  if (existsSync(join(RootPath, 'media/vendor/tinymce/plugins/template'))) {
+    removeSync(join(RootPath, 'media/vendor/tinymce/plugins/template'));
+  }
 };

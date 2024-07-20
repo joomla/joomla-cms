@@ -14,7 +14,7 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -91,9 +91,9 @@ class TelRule extends FormRule
 
             if (preg_match($regex, $cleanvalue) == true) {
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         }
 
         return true;

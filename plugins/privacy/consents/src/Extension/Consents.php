@@ -32,7 +32,7 @@ final class Consents extends PrivacyPlugin
      * This event will collect data for the core `#__privacy_consents` table
      *
      * @param   RequestTable  $request  The request record being processed
-     * @param   User          $user     The user account associated with this request if available
+     * @param   ?User         $user     The user account associated with this request if available
      *
      * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
      *

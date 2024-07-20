@@ -30,14 +30,6 @@ use Joomla\Event\SubscriberInterface;
 final class Shortcut extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  4.2.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * The array keys are event names and the value can be:
@@ -75,6 +67,9 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Load translations
+        $this->loadLanguage();
+
         $context = $this->getApplication()->getInput()->get('option') . '.' . $this->getApplication()->getInput()->get('view');
 
         $shortcuts = [];
@@ -99,8 +94,13 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 
         $document = $this->getApplication()->getDocument();
         $wa       = $document->getWebAssetManager();
-        $wa->useScript('bootstrap.modal');
-        $wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeysjs']]);
+        $wa->registerAndUseScript(
+            'plg_system_shortcut.shortcut',
+            'plg_system_shortcut/shortcut.min.js',
+            [],
+            ['type' => 'module'],
+            ['hotkeysjs', 'joomla.dialog']
+        );
 
         $timeout = $this->params->get('timeout', 2000);
 
