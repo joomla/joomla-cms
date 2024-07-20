@@ -247,7 +247,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                         break;
                     }
                 }
-            }            
+            }
         }
     }
 
