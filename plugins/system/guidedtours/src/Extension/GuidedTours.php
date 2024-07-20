@@ -230,7 +230,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                                 $canAutostart = false;
                             }
                             if ($values['state'] === 'delayed') {
-                                $delay       = $params->get('delayed_time', '600');
+                                $delay       = $params->get('delayed_time', '3600');
                                 $currentTime = Date::getInstance();
                                 $loggedTime  = new Date($values['time']['date']);
 
