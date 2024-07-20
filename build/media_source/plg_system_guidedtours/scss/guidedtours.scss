@@ -35,13 +35,16 @@
 }
 
 .shepherd-text {
-  padding: 1em;
+  max-height: calc(100vh - 240px);
+  padding-bottom: 0;
   line-height: 1.5em;
+  overflow-y: auto;
 }
 
 .shepherd-footer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  padding: .75rem;
 }
 
 .shepherd-button-primary {
