@@ -31,17 +31,16 @@ function fetchTourState(tid, sid, context) {
     url: `${fetchUrl}&tid=${tid}&sid=${sid}&context=${context}`,
     method: 'GET',
     perform: true,
-    onSuccess: (resp) => {
-      let response = {};
+    onSuccess: (response) => {
       try {
-        response = JSON.parse(resp);
+        JSON.parse(response);
       } catch (e) {
         Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_INVALID_RESPONSE')] }, 'gt');
         return false;
       }
       return true;
     },
-    onError: (resp) => {
+    onError: () => {
       Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR_RESPONSE')] });
       return false;
     },
