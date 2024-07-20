@@ -141,6 +141,8 @@ class ArchiveModel extends ArticlesModel
      */
     public function getData()
     {
+        @trigger_error('ArchiveModel::getData() is deprecated. Use getItems() instead. Will be removed in 7.0.', E_USER_DEPRECATED);
+
         return $this->getItems();
     }
 
