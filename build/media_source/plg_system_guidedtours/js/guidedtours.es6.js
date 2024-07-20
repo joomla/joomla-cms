@@ -393,8 +393,8 @@ function addBackButton(buttons, step) {
 	- tour.skip		   Only autostart tours, to never display again
 */
 function stopTour(tour, context) {
-	let tid = sessionStorage.getItem('tourId');
-	let sid = sessionStorage.getItem('currentStepId');
+  let tid = sessionStorage.getItem('tourId');
+  let sid = sessionStorage.getItem('currentStepId');
 
   if (sid === 'tourinfo') {
     sid = 1;
@@ -402,31 +402,31 @@ function stopTour(tour, context) {
     sid = Number(sid) + 1;
   }
 
-	let isContextOk = true;
+  let isContextOk = true;
 
-	switch (context) {
-		case 'tour.complete':
-			break;
-		case 'tour.cancel':
+  switch (context) {
+    case 'tour.complete':
+      break;
+    case 'tour.cancel':
       let isSkipped = sessionStorage.getItem('skipTour');
       if (isSkipped === 'true') {
         context = 'tour.skip';
       }
-			break;
-		default:
-			isContextOk = false;
-	}
+      break;
+    default:
+      isContextOk = false;
+  }
 
-	if (isContextOk) {
-		// ajax call to set the user state
-		fetchTourState(tid, sid, context);
+  if (isContextOk) {
+    // ajax call to set the user state
+    fetchTourState(tid, sid, context);
 
-		// close the tour
-		emptyStorage();
-		tour.steps = [];
+    // close the tour
+    emptyStorage();
+    tour.steps = [];
 
-		return true; //cf. https://docs.shepherdpro.com/api/tour/classes/tour/#cancel
-	}
+    return true; //cf. https://docs.shepherdpro.com/api/tour/classes/tour/#cancel
+  }
 
   return false; // wrong context
 }
