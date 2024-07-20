@@ -13,8 +13,8 @@ namespace Joomla\Component\Guidedtours\Administrator\Controller;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -90,7 +90,7 @@ class AjaxController extends BaseController
             // Construct the response data
             $data = [
                 'success' => false,
-                'tourId'  => $tourId
+                'tourId'  => $tourId,
             ];
 
             $message = Text::_('COM_GUIDEDTOURS_USERSTATE_CONNECTEDONLY');
@@ -131,7 +131,7 @@ class AjaxController extends BaseController
         // The tour state is only saved in the user profile if the tour is set to autostart.
         if ($autoStartResult) {
             $profileKey = 'guidedtour.id.' . $tourId;
-    
+
             // Check if the profile key already exists.
             $query = $db->getQuery(true)
                 ->select($db->quoteName('profile_value'))
@@ -140,7 +140,7 @@ class AjaxController extends BaseController
                 ->where($db->quoteName('profile_key') . ' = :profileKey')
                 ->bind(':user_id', $userId, ParameterType::INTEGER)
                 ->bind(':profileKey', $profileKey, ParameterType::STRING);
-    
+
             try {
                 $result = $db->setQuery($query)->loadResult();
             } catch (\Exception $e) {
@@ -155,13 +155,13 @@ class AjaxController extends BaseController
             }
 
             $profileObject = (object)[
-                'user_id' => $userId,
-                'profile_key' => $profileKey,
+                'user_id'       => $userId,
+                'profile_key'   => $profileKey,
                 'profile_value' => json_encode($tourState),
-                'ordering' => 0,
+                'ordering'      => 0,
             ];
 
-            if (!is_null($result)) {
+            if (!\is_null($result)) {
                 $values = json_decode($result, true);
 
                 if (!empty($values)) {
@@ -174,7 +174,7 @@ class AjaxController extends BaseController
                 $db->insertObject('#__user_profiles', $profileObject);
             }
         }
-        
+
         return true;
     }
 }
