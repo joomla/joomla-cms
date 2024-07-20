@@ -432,32 +432,32 @@ function stopTour(tour, context) {
 }
 
 /**
-	Synchronize tour state for this user in his account/profile
-	tid = tour ID
-	sid = step number (the step the user is on)
-	state = state of the tour (completed, skipped, cancelled)
+  Synchronize tour state for this user in his account/profile
+  tid = tour ID
+  sid = step number (the step the user is on)
+  state = state of the tour (completed, skipped, cancelled)
 */
 function fetchTourState(tid, sid, context) {
-	var fetchUrl = "index.php?option=com_guidedtours&task=ajax.fetchUserState&format=json";
-	Joomla.request({
-		url: `${fetchUrl}&tid=${tid}&sid=${sid}&context=${context}`,
-		method: 'GET',
-		perform: true,
-		onSuccess: (resp) => {
-			let response = {};
-			try {
-				response = JSON.parse(resp);
-			} catch (e) {
-				Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_INVALID_RESPONSE')] }, `gt`);
-				return false;
-			}
-			return true;
-		},
-		onError: (resp) => {
-			Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR_RESPONSE')] });
-			return false;
-		},
-	});
+  var fetchUrl = "index.php?option=com_guidedtours&task=ajax.fetchUserState&format=json";
+  Joomla.request({
+    url: `${fetchUrl}&tid=${tid}&sid=${sid}&context=${context}`,
+    method: 'GET',
+    perform: true,
+    onSuccess: (resp) => {
+      let response = {};
+      try {
+        response = JSON.parse(resp);
+      } catch (e) {
+        Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_INVALID_RESPONSE')] }, `gt`);
+        return false;
+      }
+      return true;
+    },
+    onError: (resp) => {
+      Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR_RESPONSE')] });
+      return false;
+    },
+  });
 }
 
 function startTour(obj) {
