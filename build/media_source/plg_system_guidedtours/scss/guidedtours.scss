@@ -21,8 +21,12 @@
   line-height: 1.5em;
 }
 
+.shepherd-cancel-icon {
+  margin-inline-start: 8px;
+}
+
 .shepherd-cancel-icon::before {
-  margin: 0 8px 0 15px;
+  margin: 0 8px;
   font-size: 1rem;
   line-height: normal;
   vertical-align: middle;
@@ -35,7 +39,7 @@
 }
 
 .shepherd-progress {
-  margin-right: 15px;
+  margin-inline-end: 16px;
   line-height: 1em;
 }
 
