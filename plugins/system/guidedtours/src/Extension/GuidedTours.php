@@ -219,7 +219,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                     }
 
                     // A result has been found in the user profiles table
-                    if (!is_null($result)) {
+                    if (!\is_null($result)) {
                         $values = json_decode($result, true);
 
                         if (empty($values)) {
