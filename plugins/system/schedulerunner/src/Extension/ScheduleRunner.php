@@ -204,17 +204,20 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
 
         $input  = $this->getApplication()->getInput();
 
-        // The "id" parameter will be removed with 6.0 as that behavior is broken
+        // The "id" parameter will be removed with 6.0
         $id     = (int) $input->getInt('id', 0);
         $taskId = (int) $input->getInt('taskid', $id);
 
-        /**
-         * Yes we are aware that the current behavior is broken meaning as long as there is no ID passed via
-         * the URL the current code will still fail. But we need to keep that behavior for B/C reasons. Starting
-         * with 6.0 only taskid will be supported and when the cron is triggered without taskid it will trigger
-         * the next item available the broken behavior with will be removed.
-         */
-
+        if ($id)
+        {
+            // Only trigger a deprecation notice when there is an id found
+            @trigger_error(
+                'The use of the id= parameter within the webcron scheduler is deprecated and will be replaced by the taskid= parameter starting with 6.0.0'
+                . 'You should already upgrade to the new taskid= parameter starting with __DEPLOY_VERSION__',
+                E_USER_DEPRECATED
+            );
+        }
+        
         $scheduler = new Scheduler();
 
         if ($taskId) {
