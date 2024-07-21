@@ -4,7 +4,6 @@ parameters:
 		- libraries/php-encryption
 		- libraries/phpass
 	scanFiles:
-		- globals.php
 		- libraries/loader.php
 		- libraries/namespacemap.php
 	paths:
