@@ -73,6 +73,7 @@ function clean_checkout(string $dir)
     system('find . -name psalm.xml.dist | xargs rm -rf -');
     system('find . -name phpcs.xml | xargs rm -rf -');
     system('find . -name phpcs.xml.dist | xargs rm -rf -');
+    system('find . -name phpstan.neon | xargs rm -rf -');
     system('find . -name phpunit.xml | xargs rm -rf -');
     system('find . -name phpunit.*.xml | xargs rm -rf -');
     system('find . -name phpunit.xml.dist | xargs rm -rf -');
@@ -408,6 +409,7 @@ $doNotPackage = [
     'package.json',
     'phpunit-pgsql.xml.dist',
     'phpunit.xml.dist',
+    'phpstan.neon',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
     'plugins/sampledata/testing/testing.php',
