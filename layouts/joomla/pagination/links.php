@@ -16,12 +16,14 @@ use Joomla\Registry\Registry;
 
 $list  = $displayData['list'];
 $pages = $list['pages'];
+$total = $list['total'];
 
 $options = new Registry($displayData['options']);
 
-$showLimitBox   = $options->get('showLimitBox', false);
-$showPagesLinks = $options->get('showPagesLinks', true);
-$showLimitStart = $options->get('showLimitStart', true);
+$showLimitBox     = $options->get('showLimitBox', false);
+$showPagesLinks   = $options->get('showPagesLinks', true);
+$showLimitStart   = $options->get('showLimitStart', true);
+$showItemPosition = $options->get('showItemPosition', true);
 
 // Calculate to display range of pages
 $currentPage = 1;
@@ -43,12 +45,20 @@ if ($currentPage >= $step) {
         $range = ceil($currentPage / $step);
     }
 }
+$first = ($currentPage - 1) * $list['limit'] + 1;
+$last  = $first + $list['limit'] - 1;
+$last  = $last > $total ? $total : $last;
+
 ?>
-
-
-<?php if (!empty($pages)) : ?>
+<?php if (!empty($pages) || $showItemPosition) : ?>
     <nav class="pagination__wrapper" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
-        <div class="pagination pagination-toolbar text-center">
+        <?php if ($showItemPosition) : ?>
+            <div class="text-end me-3">
+                <?php echo Text::sprintf('JLIB_HTML_PAGINATION_NUMBERS', $first, $last, $total); ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="pagination pagination-toolbar text-center mt-0">
 
             <?php if ($showLimitBox) : ?>
                 <div class="limit float-end">
@@ -56,8 +66,8 @@ if ($currentPage >= $step) {
                 </div>
             <?php endif; ?>
 
-            <?php if ($showPagesLinks) : ?>
-                <ul class="pagination ms-auto mb-4 me-0">
+            <?php if ($showPagesLinks && !empty($pages)) : ?>
+                <ul class="pagination ms-auto me-0">
                     <?php echo LayoutHelper::render('joomla.pagination.link', $pages['start']); ?>
                     <?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
                     <?php foreach ($pages['pages'] as $k => $page) : ?>

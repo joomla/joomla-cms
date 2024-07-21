@@ -1,5 +1,5 @@
-const mysql = require('mysql');
-const postgres = require('postgres');
+import mysql from 'mysql';
+import postgres from 'postgres';
 
 // Items cache which are added by an insert statement
 let insertedItems = [];
@@ -144,4 +144,4 @@ function deleteInsertedItems(config) {
   return Promise.all(promises);
 }
 
-module.exports = { queryTestDB, deleteInsertedItems };
+export { queryTestDB, deleteInsertedItems };

@@ -283,6 +283,18 @@ class TaskModel extends AdminModel
                 $data->execution_rules['exec-day']  = gmdate('d');
                 $data->execution_rules['exec-time'] = gmdate('H:i');
             }
+
+            if ($data->next_execution) {
+                $data->next_execution = Factory::getDate($data->next_execution);
+                $data->next_execution->setTimezone(new \DateTimeZone($this->app->get('offset', 'UTC')));
+                $data->next_execution = $data->next_execution->toSql(true);
+            }
+
+            if ($data->last_execution) {
+                $data->last_execution = Factory::getDate($data->last_execution);
+                $data->last_execution->setTimezone(new \DateTimeZone($this->app->get('offset', 'UTC')));
+                $data->last_execution = $data->last_execution->toSql(true);
+            }
         }
 
         // Let plugins manipulate the data
