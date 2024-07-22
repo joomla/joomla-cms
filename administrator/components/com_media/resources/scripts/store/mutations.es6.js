@@ -171,6 +171,31 @@ export default {
         },
       );
     }
+
+    // Automatically select the last uploaded item when media manager is inside an iframe
+    if (window.location !== window.parent.location) {
+      if (state.files.length) {
+        const selectedFile = state.files.find((item) => item.name === file.name);
+        if (selectedFile) {
+          state.selectedItems = [selectedFile];
+
+          window.parent.document.dispatchEvent(
+            new CustomEvent('onMediaFileSelected', {
+              bubbles: true,
+              cancelable: false,
+              detail: {
+                path: selectedFile.path,
+                thumb: selectedFile.thumb,
+                fileType: selectedFile.mime_type ? selectedFile.mime_type : false,
+                extension: selectedFile.extension ? selectedFile.extension : false,
+                width: selectedFile.width ? selectedFile.width : 0,
+                height: selectedFile.height ? selectedFile.height : 0,
+              },
+            }),
+          );
+        }
+      }
+    }
   },
 
   /**
