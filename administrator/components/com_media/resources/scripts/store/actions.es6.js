@@ -141,6 +141,7 @@ export const uploadFile = (context, payload) => {
 
       // Automatically select the last uploaded item when media manager is inside an iframe
       if (window.location !== window.parent.location) {
+        context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
         context.commit(types.SELECT_BROWSER_ITEM, file);
       }
     })
