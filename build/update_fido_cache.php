@@ -17,7 +17,7 @@ any later version published by the Free Software Foundation.
 TEXT;
 
 if (!isset($fullPath)) {
-    $fullPath = dirname(__DIR__);
+    $fullPath = \dirname(__DIR__);
 }
 
 $filePath = rtrim($fullPath, '\\/') . '/plugins/system/webauthn/fido.jwt';

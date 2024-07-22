@@ -199,7 +199,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
         $isValidCode = array_reduce(
             $results,
             function (bool $carry, $result) {
-                return $carry || boolval($result);
+                return $carry || \boolval($result);
             },
             false
         );

@@ -46,6 +46,7 @@ extract($displayData);
  * @var   array    $canDo
  * @var   string[] $urls
  * @var   string[] $modalTitles
+ * @var   string[] $buttonIcons
  */
 
 // Add the field script
@@ -72,5 +73,5 @@ $fieldClass = $required ? 'required modal-value' : '';
     </div>
 
     <input type="hidden" id="<?php echo $id; ?>_id" class="<?php echo $fieldClass; ?> js-input-value" data-required="<?php echo (int) $required; ?>"
-           name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>">
+           name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"<?php echo $onchange ? ' onchange="' . $onchange . '"' : ''; ?> />
 </div>

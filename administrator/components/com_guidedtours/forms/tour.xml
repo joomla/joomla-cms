@@ -27,6 +27,15 @@
 	/>
 
 	<field
+		name="uid"
+		type="text"
+		label="COM_GUIDEDTOURS_TOUR_UID_LABEL"
+		description="COM_GUIDEDTOURS_TOUR_UID_DESC"
+		hint="COM_GUIDEDTOURS_TOUR_UID_HINT"
+		required="false"
+	/>
+
+	<field
 		name="description"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"

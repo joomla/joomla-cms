@@ -11,10 +11,10 @@ namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -59,6 +59,13 @@ class MailTemplate
      * @since  4.0.0
      */
     protected $data = [];
+
+    /**
+     *
+     * @var    string[]
+     * @since  5.1.0
+     */
+    protected $plain_data = [];
 
     /**
      *
@@ -164,14 +171,19 @@ class MailTemplate
      * Add data to replace in the template
      *
      * @param   array  $data  Associative array of strings to replace
+     * @param   bool   $plain Only use the data for plain-text emails.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function addTemplateData($data)
+    public function addTemplateData($data, $plain = false)
     {
-        $this->data = array_merge($this->data, $data);
+        if (!$plain) {
+            $this->data = array_merge($this->data, $data);
+        } else {
+            $this->plain_data = array_merge($this->plain_data, $data);
+        }
     }
 
     /**
@@ -233,7 +245,9 @@ class MailTemplate
         $this->mailer->setSubject($subject);
 
         $mailStyle = $config->get('mail_style', 'plaintext');
-        $plainBody = $this->replaceTags(Text::_($mail->body), $this->data);
+        // Use the plain-text replacement data, if specified.
+        $plainData = $this->plain_data ?: $this->data;
+        $plainBody = $this->replaceTags(Text::_($mail->body), $plainData);
         $htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
 
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
@@ -325,7 +339,12 @@ class MailTemplate
     protected function replaceTags($text, $tags)
     {
         foreach ($tags as $key => $value) {
-            if (is_array($value)) {
+            // If the value is NULL, replace with an empty string. NULL itself throws notices
+            if (\is_null($value)) {
+                $value = '';
+            }
+
+            if (\is_array($value)) {
                 $matches = [];
                 $pregKey = preg_quote(strtoupper($key), '/');
 
@@ -334,11 +353,11 @@ class MailTemplate
                         $replacement = '';
 
                         foreach ($value as $name => $subvalue) {
-                            if (is_array($subvalue) && $name == $matches[1][$i]) {
+                            if (\is_array($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= implode("\n", $subvalue);
-                            } elseif (is_array($subvalue)) {
+                            } elseif (\is_array($subvalue)) {
                                 $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
-                            } elseif (is_string($subvalue) && $name == $matches[1][$i]) {
+                            } elseif (\is_string($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= $subvalue;
                             }
                         }

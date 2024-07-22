@@ -38,7 +38,7 @@ extract($displayData);
  * @var   string   $validate               Validation rules to apply.
  * @var   string   $value                  Value attribute of the field.
  * @var   array    $options                Options available for this field.
- * @var   array    $termsnote              The terms note that needs to be displayed
+ * @var   string   $termsnote              The terms note that needs to be displayed
  * @var   array    $translateLabel         Should the label be translated?
  * @var   array    $translateHint          Should the hint be translated?
  * @var   array    $termsArticle           The Article ID holding the Terms Article

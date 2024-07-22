@@ -110,7 +110,7 @@ class HtmlView extends BaseHtmlView
         $this->db            = Factory::getDbo();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -149,8 +149,8 @@ class HtmlView extends BaseHtmlView
 
             $childBar = $dropdown->getChildToolbar();
 
-            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE');
+            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK');
             $childBar->standardButton('unblock', 'COM_USERS_TOOLBAR_UNBLOCK', 'users.unblock')
                 ->listCheck(true);
 
@@ -161,7 +161,11 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit.state', 'com_users')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_USERS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
 

@@ -21,6 +21,7 @@ use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -56,12 +57,15 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   1.6
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_newsfeeds.newsfeed';
-        parent::__construct('#__newsfeeds', 'id', $db);
+        parent::__construct('#__newsfeeds', 'id', $db, $dispatcher);
         $this->setColumnAlias('title', 'name');
     }
 
@@ -146,12 +150,12 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
         if ($this->id) {
             // Existing item
-            $this->modified_by = $user->get('id');
+            $this->modified_by = $user->id;
             $this->modified    = $date->toSql();
         } else {
             // Field created_by can be set by the user, so we don't touch it if it's set.
             if (empty($this->created_by)) {
-                $this->created_by = $user->get('id');
+                $this->created_by = $user->id;
             }
 
             if (!(int) $this->modified) {

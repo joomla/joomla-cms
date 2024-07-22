@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\View\HtmlView;
 /**
  * Class for menu events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeRenderMenuItemsViewEvent extends AbstractImmutableEvent
 {
@@ -31,7 +31,7 @@ class BeforeRenderMenuItemsViewEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject'];
@@ -44,7 +44,7 @@ class BeforeRenderMenuItemsViewEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -67,9 +67,9 @@ class BeforeRenderMenuItemsViewEvent extends AbstractImmutableEvent
      *
      * @return  HtmlView
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setSubject(HtmlView $value): HtmlView
+    protected function onSetSubject(HtmlView $value): HtmlView
     {
         return $value;
     }
@@ -79,7 +79,7 @@ class BeforeRenderMenuItemsViewEvent extends AbstractImmutableEvent
      *
      * @return  HtmlView
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getView(): HtmlView
     {

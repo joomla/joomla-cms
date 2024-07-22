@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
  * Example:
  *   new CollectCapabilitiesEvent('onEventName');
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class CollectCapabilitiesEvent extends PrivacyEvent implements ResultAwareInterface
 {

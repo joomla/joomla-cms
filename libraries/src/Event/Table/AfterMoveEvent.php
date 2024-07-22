@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Table;
 
-use stdClass;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -61,6 +59,9 @@ class AfterMoveEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setRow($value)
     {
@@ -79,6 +80,9 @@ class AfterMoveEvent extends AbstractEvent
      * @return  integer
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setDelta($value)
     {
@@ -97,6 +101,9 @@ class AfterMoveEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
     {
@@ -105,5 +112,53 @@ class AfterMoveEvent extends AbstractEvent
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the rows argument
+     *
+     * @param   \stdClass|null  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetRow($value)
+    {
+        return $this->setRow($value);
+    }
+
+    /**
+     * Setter for the delta argument
+     *
+     * @param   int  $value  The value to set
+     *
+     * @return  integer
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetDelta($value)
+    {
+        return $this->setDelta($value);
+    }
+
+    /**
+     * Setter for the where argument
+     *
+     * @param   string|null  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetWhere($value)
+    {
+        return $this->setWhere($value);
     }
 }

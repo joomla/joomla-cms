@@ -40,7 +40,7 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
      * @link   https://www.w3.org/TR/html/sec-forms.html#email-state-typeemail
      */
     protected $regex = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])"
-            . "?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+        . "?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
 
     /**
      * Method to test the email address and optionally check for uniqueness.

@@ -331,9 +331,9 @@ class MysqlChangeItem extends ChangeItem
         if ($index !== false) {
             if ($index == 0 || strtolower($changesArray[$index - 1]) !== 'not') {
                 return ' `null` = ' . $this->db->quote('YES');
-            } else {
-                return ' `null` = ' . $this->db->quote('NO');
             }
+
+            return ' `null` = ' . $this->db->quote('NO');
         }
 
         return false;
@@ -365,9 +365,9 @@ class MysqlChangeItem extends ChangeItem
         if ($index !== false) {
             if (strtolower($changesArray[$index + 1]) === 'null') {
                 return ' `default` IS NULL';
-            } else {
-                return ' `default` = ' . $changesArray[$index + 1];
             }
+
+            return ' `default` = ' . $changesArray[$index + 1];
         }
 
         return false;

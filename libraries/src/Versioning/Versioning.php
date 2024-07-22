@@ -132,10 +132,10 @@ class Versioning
         if ($historyRow = $historyTable->getHashMatch()) {
             if (!$note || ($historyRow->version_note === $note)) {
                 return true;
-            } else {
-                // Update existing row to set version note
-                $historyTable->version_id = $historyRow->version_id;
             }
+
+            // Update existing row to set version note
+            $historyTable->version_id = $historyRow->version_id;
         }
 
         $result = $historyTable->store();

@@ -156,7 +156,7 @@ class Form implements CurrentUserInterface
      */
     protected function bindLevel($group, $data)
     {
-        // Ensure the input data is an array.
+        // Check the input data for specific types.
         if (\is_object($data)) {
             if ($data instanceof Registry) {
                 // Handle a Registry.
@@ -164,9 +164,6 @@ class Form implements CurrentUserInterface
             } elseif ($data instanceof CMSObject) {
                 // Handle a CMSObject.
                 $data = $data->getProperties();
-            } else {
-                // Handle other types of objects.
-                $data = (array) $data;
             }
         }
 
@@ -185,9 +182,9 @@ class Form implements CurrentUserInterface
     }
 
     /**
-     * Return all errors, if any.
+     * Return Exceptions thrown during the form validation process.
      *
-     * @return  \Exception[]  Array of error messages or RuntimeException objects.
+     * @return  \Exception[]
      *
      * @since   1.7.0
      */
@@ -203,7 +200,7 @@ class Form implements CurrentUserInterface
      * @param   string  $group  The optional dot-separated form group path on which to find the field.
      * @param   mixed   $value  The optional value to use as the default for the field.
      *
-     * @return  FormField|boolean  The FormField object for the field or boolean false on error.
+     * @return  FormField|false  The FormField object for the field or boolean false on error.
      *
      * @since   1.7.0
      */
@@ -252,10 +249,10 @@ class Form implements CurrentUserInterface
         // If the element exists and the attribute exists for the field return the attribute value.
         if (($element instanceof \SimpleXMLElement) && \strlen((string) $element[$attribute])) {
             return (string) $element[$attribute];
-        } else {
-            // Otherwise return the given default value.
-            return $default;
         }
+
+        // Otherwise return the given default value.
+        return $default;
     }
 
     /**
@@ -608,10 +605,10 @@ class Form implements CurrentUserInterface
                 $this->syncPaths();
 
                 return true;
-            } else {
-                // Create a root element for the form.
-                $this->xml = new \SimpleXMLElement('<form></form>');
             }
+
+            // Create a root element for the form.
+            $this->xml = new \SimpleXMLElement('<form></form>');
         }
 
         // Get the XML elements to load.
@@ -895,15 +892,15 @@ class Form implements CurrentUserInterface
         // If the element doesn't exist return false.
         if (!($element instanceof \SimpleXMLElement)) {
             return false;
-        } else {
-            // Otherwise set the attribute and return true.
-            $element[$attribute] = $value;
-
-            // Synchronize any paths found in the load.
-            $this->syncPaths();
-
-            return true;
         }
+
+        // Otherwise set the attribute and return true.
+        $element[$attribute] = $value;
+
+        // Synchronize any paths found in the load.
+        $this->syncPaths();
+
+        return true;
     }
 
     /**
@@ -1058,8 +1055,8 @@ class Form implements CurrentUserInterface
     /**
      * Method to validate form data.
      *
-     * Validation warnings will be pushed into JForm::errors and should be
-     * retrieved with JForm::getErrors() when validate returns boolean false.
+     * Validation warnings will be pushed into Form::$errors and should be
+     * retrieved with Form::getErrors() when validate returns boolean false.
      *
      * @param   array   $data   An array of field values to validate.
      * @param   string  $group  The optional dot-separated form group path on which to filter the
@@ -1137,6 +1134,7 @@ class Form implements CurrentUserInterface
                 // The field returned false from setup and shouldn't be included in the page body - yet we received
                 // a value for it. This is probably some sort of injection attack and should be rejected
                 $this->errors[] = new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $key));
+                $return         = false;
             }
         }
 
@@ -1259,11 +1257,11 @@ class Form implements CurrentUserInterface
                 // If we find an ancestor fields element with a group name then it isn't what we want.
                 if ($field->xpath('ancestor::fields[@name]')) {
                     continue;
-                } else {
-                    // Found it!
-                    $element = &$field;
-                    break;
                 }
+
+                // Found it!
+                $element = &$field;
+                break;
             }
         }
 
@@ -1380,7 +1378,7 @@ class Form implements CurrentUserInterface
         // Make sure there is actually a group to find.
         $group = explode('.', $group);
 
-        if (count($group)) {
+        if (\count($group)) {
             // Get any fields elements with the correct group name.
             $elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 
@@ -1500,9 +1498,9 @@ class Form implements CurrentUserInterface
 
         if ($field->setup($element, $value, $group)) {
             return $field;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

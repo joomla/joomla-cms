@@ -256,7 +256,7 @@ abstract class Adapter extends CMSPlugin
         $items = $this->getItems($offset, $limit);
 
         // Iterate through the items and index them.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = \count($items); $i < $n; $i++) {
             // Index the item.
             $this->index($items[$i]);
 
@@ -302,7 +302,7 @@ abstract class Adapter extends CMSPlugin
             $this->indexer->remove($item);
         }
 
-        return count($items);
+        return \count($items);
     }
 
     /**
@@ -651,7 +651,7 @@ abstract class Adapter extends CMSPlugin
      *
      * @param   integer  $id  The plugin ID
      *
-     * @return  string  The plugin type
+     * @return  string|null  The plugin type
      *
      * @since   2.5
      */
@@ -661,6 +661,7 @@ abstract class Adapter extends CMSPlugin
         $query = $this->db->getQuery(true)
             ->select($this->db->quoteName('element'))
             ->from($this->db->quoteName('#__extensions'))
+            ->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('finder'))
             ->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
         $this->db->setQuery($query);
 
@@ -895,6 +896,8 @@ abstract class Adapter extends CMSPlugin
                 foreach ($items as $item) {
                     $this->remove($item);
                 }
+                // Stop processing plugins
+                break;
             }
         }
     }
@@ -919,20 +922,20 @@ abstract class Adapter extends CMSPlugin
 
         // Translate the state
         switch ($item) {
-            // Published items should always show up in search results
             case 1:
+                // Published items should always show up in search results
                 return 1;
 
-            // Archived items should only show up when option is enabled
             case 2:
+                // Archived items should only show up when option is enabled
                 if ($this->params->get('search_archived', 1) == 0) {
                     return 0;
                 }
 
                 return 1;
 
-            // All other states should return an unpublished state
             default:
+                // All other states should return an unpublished state
                 return 0;
         }
     }

@@ -34,6 +34,9 @@ const setValues = (data, inputValue, inputTitle) => {
  * @returns {Promise}
  */
 const doSelect = (inputValue, inputTitle, dialogConfig) => {
+  // Use a JoomlaExpectingPostMessage flag to be able to distinct legacy methods
+  // @TODO: This should be removed after full transition to postMessage()
+  window.JoomlaExpectingPostMessage = true;
   // Create and show the dialog
   const dialog = new JoomlaDialog(dialogConfig);
   dialog.classList.add('joomla-dialog-content-select-field');
@@ -54,6 +57,7 @@ const doSelect = (inputValue, inputTitle, dialogConfig) => {
 
     // Clear all when dialog is closed
     dialog.addEventListener('joomla-dialog:close', () => {
+      delete window.JoomlaExpectingPostMessage;
       window.removeEventListener('message', msgListener);
       dialog.destroy();
       resolve();
@@ -108,6 +112,7 @@ const setupField = (container) => {
     // Extract the data
     const action = button.dataset.buttonAction;
     const dialogConfig = button.dataset.modalConfig ? JSON.parse(button.dataset.modalConfig) : {};
+    const keyName = container.dataset.keyName || 'id';
 
     // Handle requested action
     let handle;
@@ -119,7 +124,7 @@ const setupField = (container) => {
       case 'edit': {
         // Update current value in the URL
         const url = dialogConfig.src.indexOf('http') === 0 ? new URL(dialogConfig.src) : new URL(dialogConfig.src, window.location.origin);
-        url.searchParams.set('id', inputValue.value);
+        url.searchParams.set(keyName, inputValue.value);
         dialogConfig.src = url.toString();
 
         handle = doSelect(inputValue, inputTitle, dialogConfig);
@@ -138,7 +143,7 @@ const setupField = (container) => {
         const chckUrl = button.dataset.checkinUrl;
         const url = chckUrl.indexOf('http') === 0 ? new URL(chckUrl) : new URL(chckUrl, window.location.origin);
         // Add value to request
-        url.searchParams.set('id', inputValue.value);
+        url.searchParams.set(keyName, inputValue.value);
         url.searchParams.set('cid[]', inputValue.value);
         // Also add value to POST, because Controller may expect it from there
         const data = new FormData();

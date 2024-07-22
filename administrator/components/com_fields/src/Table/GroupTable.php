@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,13 +44,14 @@ class GroupTable extends Table implements CurrentUserInterface
     /**
      * Class constructor.
      *
-     * @param   DatabaseDriver  $db  DatabaseDriver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.7.0
      */
-    public function __construct($db = null)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__fields_groups', 'id', $db);
+        parent::__construct('#__fields_groups', 'id', $db, $dispatcher);
 
         $this->setColumnAlias('published', 'state');
     }
@@ -69,14 +71,14 @@ class GroupTable extends Table implements CurrentUserInterface
      */
     public function bind($src, $ignore = '')
     {
-        if (isset($src['params']) && is_array($src['params'])) {
+        if (isset($src['params']) && \is_array($src['params'])) {
             $registry = new Registry();
             $registry->loadArray($src['params']);
             $src['params'] = (string) $registry;
         }
 
         // Bind the rules.
-        if (isset($src['rules']) && is_array($src['rules'])) {
+        if (isset($src['rules']) && \is_array($src['rules'])) {
             $rules = new Rules($src['rules']);
             $this->setRules($rules);
         }
@@ -114,14 +116,14 @@ class GroupTable extends Table implements CurrentUserInterface
 
         if ($this->id) {
             $this->modified    = $date;
-            $this->modified_by = $user->get('id');
+            $this->modified_by = $user->id;
         } else {
             if (!(int) $this->modified) {
                 $this->modified = $this->created;
             }
 
             if (empty($this->created_by)) {
-                $this->created_by = $user->get('id');
+                $this->created_by = $user->id;
             }
 
             if (empty($this->modified_by)) {

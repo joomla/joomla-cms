@@ -294,7 +294,7 @@ class RulesField extends FormField
         $this->groups = $this->getUserGroups();
 
         // Trim the trailing line in the layout file
-        return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
+        return trim($this->getRenderer($this->layout)->render($this->collectLayoutData()));
     }
 
     /**

@@ -16,6 +16,7 @@ use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -50,13 +51,14 @@ class User extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  1.7.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__users', 'id', $db);
+        parent::__construct('#__users', 'id', $db, $dispatcher);
 
         // Initialise.
         $this->id        = 0;

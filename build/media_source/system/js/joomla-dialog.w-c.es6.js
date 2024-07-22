@@ -105,7 +105,7 @@ class JoomlaDialog extends HTMLElement {
     this.popupType = this.getAttribute('type') || 'inline';
     this.textHeader = this.getAttribute('text-header') || '';
     this.iconHeader = '';
-    this.textClose = 'Close';
+    this.textClose = Joomla.Text._('JCLOSE', 'Close');
     this.popupContent = '';
     this.src = this.getAttribute('src') || '';
     this.popupButtons = [];
@@ -127,8 +127,16 @@ class JoomlaDialog extends HTMLElement {
       }
     });
 
+    // Check class name
     if (config.className) {
       this.classList.add(...config.className.split(' '));
+    }
+
+    // Check dataset properties
+    if (config.data) {
+      Object.entries(config.data).forEach(([k, v]) => {
+        this.dataset[k] = v;
+      });
     }
   }
 
@@ -221,6 +229,7 @@ class JoomlaDialog extends HTMLElement {
         label: '',
         ariaLabel: this.textClose,
         className: 'button-close btn-close',
+        data: { buttonClose: '' },
         onClick: () => this.close(),
         location: 'header',
       });
@@ -236,7 +245,7 @@ class JoomlaDialog extends HTMLElement {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.textContent = btnData.label || '';
-      btn.ariaLabel = btnData.ariaLabel || '';
+      btn.ariaLabel = btnData.ariaLabel || null;
 
       if (btnData.className) {
         btn.classList.add(...btnData.className.split(' '));
@@ -571,6 +580,7 @@ class JoomlaDialog extends HTMLElement {
       popup.textHeader = title || Joomla.Text._('INFO', 'Info');
       popup.popupButtons = [{
         label: Joomla.Text._('JOK', 'Okay'),
+        data: { buttonOk: '' },
         onClick: () => popup.close(),
       }];
       popup.classList.add('joomla-dialog-alert');
@@ -599,6 +609,7 @@ class JoomlaDialog extends HTMLElement {
       popup.popupButtons = [
         {
           label: Joomla.Text._('JYES', 'Yes'),
+          data: { buttonOk: '' },
           onClick: () => {
             result = true;
             popup.destroy();
@@ -606,11 +617,12 @@ class JoomlaDialog extends HTMLElement {
         },
         {
           label: Joomla.Text._('JNO', 'No'),
+          data: { buttonCancel: '' },
           onClick: () => {
             result = false;
             popup.destroy();
           },
-          className: 'button btn btn-outline-secondary',
+          className: 'button button-secondary btn btn-outline-secondary',
         },
       ];
       popup.cancelable = false;

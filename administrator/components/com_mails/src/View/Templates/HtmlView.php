@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
         $extensions          = $this->get('Extensions');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
         }
 
         foreach ($extensions as $extension) {
-            MailsHelper::loadTranslationFiles($extension);
+            MailsHelper::loadTranslationFiles($extension, $defaultLanguageTag);
         }
 
         $this->addToolbar();

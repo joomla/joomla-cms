@@ -28,31 +28,87 @@ abstract class ModuleListEvent extends ModuleEvent
      * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['subject'];
+    protected $legacyArgumentsOrder = ['modules', 'subject'];
 
     /**
-     * Setter for the subject argument.
+     * Constructor.
      *
-     * @param   array|\ArrayAccess  $value  The value to set
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
      *
-     * @return  array|\ArrayAccess
+     * @throws  \BadMethodCallException
+     *
+     * @since   5.0.0
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        // This event has a dummy subject for now
+        $this->arguments['subject'] = $this->arguments['subject'] ?? new \stdClass();
+
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('modules', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'modules' of event {$name} is required but has not been provided");
+        }
+
+        // For backward compatibility make sure the content is referenced
+        // @todo: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        if (key($arguments) === 0) {
+            $this->arguments['modules'] = &$arguments[0];
+        } elseif (\array_key_exists('modules', $arguments)) {
+            $this->arguments['modules'] = &$arguments['modules'];
+        }
+    }
+
+    /**
+     * Setter for the modules argument.
+     *
+     * @param   object[]  $value  The value to set
+     *
+     * @return  object[]
      *
      * @since  5.0.0
      */
-    protected function setSubject(array|\ArrayAccess $value): array|\ArrayAccess
+    protected function onSetModules(array $value): array
     {
+        // Filter out Module elements. Non empty result means invalid data
+        $valid = !array_filter($value, function ($item) {
+            return !\is_object($item);
+        });
+
+        if (!$valid) {
+            throw new \UnexpectedValueException("Argument 'modules' of event {$this->name} is not of the expected type");
+        }
+
         return $value;
     }
 
     /**
      * Getter for the subject argument.
      *
-     * @return  array|\ArrayAccess
+     * @return  object[]
      *
      * @since  5.0.0
      */
-    public function getModules(): array|\ArrayAccess
+    public function getModules(): array
     {
-        return $this->arguments['subject'];
+        return $this->arguments['modules'];
+    }
+
+    /**
+     * Update the modules.
+     *
+     * @param   object[]  $value  The value to set
+     *
+     * @return  static
+     *
+     * @since  5.0.0
+     */
+    public function updateModules(array $value): static
+    {
+        $this->arguments['modules'] = $this->onSetModules($value);
+
+        return $this;
     }
 }

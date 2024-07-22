@@ -21,7 +21,7 @@ use Joomla\CMS\Event\Result\ResultTypeMixedAware;
 /**
  * Class for onAjax... events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -35,7 +35,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -53,9 +53,9 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @return  AbstractApplication
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setSubject(AbstractApplication $value): AbstractApplication
+    protected function onSetSubject(AbstractApplication $value): AbstractApplication
     {
         return $value;
     }
@@ -65,7 +65,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @return  AbstractApplication
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getApplication(): AbstractApplication
     {
@@ -78,7 +78,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
      * @param   mixed  $data  What to add to the result.
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function addResult($data): void
     {
@@ -99,7 +99,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
      * @param   mixed  $data  What to add to the result.
      *
      * @return  static
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function updateEventResult($data): static
     {
@@ -112,7 +112,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
      * Get the event result.
      *
      * @return  mixed
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getEventResult(): mixed
     {

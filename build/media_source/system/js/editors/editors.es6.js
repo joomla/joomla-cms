@@ -57,13 +57,37 @@ JoomlaEditorButton.registerAction('modal', (editor, options) => {
     }
     options.src = url.toString();
   }
-  const popup = new JoomlaDialog(options);
-  popup.addEventListener('joomla-dialog:close', () => {
+
+  // Create a dialog popup
+  const dialog = new JoomlaDialog(options);
+
+  // Listener for postMessage
+  const msgListener = (event) => {
+    // Avoid cross origins
+    if (event.origin !== window.location.origin) return;
+    // Check message type
+    if (event.data.messageType === 'joomla:content-select') {
+      editor.replaceSelection(event.data.html || event.data.text);
+      dialog.close();
+    } else if (event.data.messageType === 'joomla:cancel') {
+      dialog.close();
+    }
+  };
+  // Use a JoomlaExpectingPostMessage flag to be able to distinct legacy methods
+  // @TODO: This should be removed after full transition to postMessage()
+  window.JoomlaExpectingPostMessage = true;
+  window.addEventListener('message', msgListener);
+
+  // Clean up on close
+  dialog.addEventListener('joomla-dialog:close', () => {
+    delete window.JoomlaExpectingPostMessage;
+    window.removeEventListener('message', msgListener);
     Joomla.Modal.setCurrent(null);
-    popup.destroy();
+    dialog.destroy();
   });
-  Joomla.Modal.setCurrent(popup);
-  popup.show();
+  Joomla.Modal.setCurrent(dialog);
+  // Show the popup
+  dialog.show();
 });
 
 // Listen to click on Editor button, and run action.

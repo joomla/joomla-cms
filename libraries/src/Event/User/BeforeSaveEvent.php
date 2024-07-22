@@ -48,7 +48,7 @@ class BeforeSaveEvent extends AbstractSaveEvent implements ResultAwareInterface
      *
      * @since  5.0.0
      */
-    protected function setData(array $value): array
+    protected function onSetData(array $value): array
     {
         return $value;
     }

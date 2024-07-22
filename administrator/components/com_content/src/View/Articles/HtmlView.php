@@ -190,7 +190,7 @@ class HtmlView extends BaseHtmlView
 
             $childBar = $dropdown->getChildToolbar();
 
-            if (\count($this->transitions)) {
+            if ($canDo->get('core.execute.transition') && \count($this->transitions)) {
                 $childBar->separatorButton('transition-headline')
                     ->text('COM_CONTENT_RUN_TRANSITIONS')
                     ->buttonClass('text-center py-2 h3');
@@ -237,7 +237,11 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.execute.transition', 'com_content')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_CONTENT_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }

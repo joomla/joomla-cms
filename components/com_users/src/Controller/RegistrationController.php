@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -45,7 +46,7 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
         $uParams = ComponentHelper::getParams('com_users');
 
         // Check for admin activation. Don't allow non-super-admin to delete a super admin
-        if ($uParams->get('useractivation') != 2 && $user->get('id')) {
+        if ($uParams->get('useractivation') != 2 && $user->id) {
             $this->setRedirect('index.php');
 
             return true;
@@ -61,7 +62,7 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
         $token = $input->getAlnum('token');
 
         // Check that the token is in a valid format.
-        if ($token === null || strlen($token) !== 32) {
+        if ($token === null || \strlen($token) !== 32) {
             throw new \Exception(Text::_('JINVALID_TOKEN'), 403);
         }
 
@@ -175,11 +176,11 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $app->enqueueMessage($errors[$i]->getMessage(), 'error');
+                    $app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $app->enqueueMessage($errors[$i], 'error');
+                    $app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 

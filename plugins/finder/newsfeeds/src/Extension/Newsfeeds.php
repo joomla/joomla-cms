@@ -18,7 +18,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -285,7 +285,7 @@ final class Newsfeeds extends Adapter
         $taxonomies = $this->params->get('taxonomies', ['type', 'category', 'language']);
 
         // Add the type taxonomy data.
-        if (in_array('type', $taxonomies)) {
+        if (\in_array('type', $taxonomies)) {
             $item->addTaxonomy('Type', 'News Feed');
         }
 
@@ -298,12 +298,12 @@ final class Newsfeeds extends Adapter
         }
 
         // Add the category taxonomy data.
-        if (in_array('category', $taxonomies)) {
+        if (\in_array('category', $taxonomies)) {
             $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
         }
 
         // Add the language taxonomy data.
-        if (in_array('language', $taxonomies)) {
+        if (\in_array('language', $taxonomies)) {
             $item->addTaxonomy('Language', $item->language);
         }
 
@@ -331,7 +331,7 @@ final class Newsfeeds extends Adapter
      *
      * @param   mixed  $query  A DatabaseQuery object or null.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   2.5
      */
@@ -340,7 +340,7 @@ final class Newsfeeds extends Adapter
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
             ->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link')
             ->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access')
             ->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')

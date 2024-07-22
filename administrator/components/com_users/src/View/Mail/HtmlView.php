@@ -72,7 +72,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::title(Text::_('COM_USERS_MASS_MAIL'), 'users massmail');
         $toolbar = Toolbar::getInstance();
-        $toolbar->standardButton('COM_USERS_TOOLBAR_MAIL_SEND_MAIL', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', 'mail.send')
+        $toolbar->standardButton('send', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', 'mail.send')
             ->icon('icon-envelope')
             ->formValidation(true);
 

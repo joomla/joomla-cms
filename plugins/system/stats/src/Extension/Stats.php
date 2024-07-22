@@ -368,7 +368,7 @@ final class Stats extends CMSPlugin
      */
     private function isDebugEnabled()
     {
-        return defined('PLG_SYSTEM_STATS_DEBUG');
+        return \defined('PLG_SYSTEM_STATS_DEBUG');
     }
 
     /**

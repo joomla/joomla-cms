@@ -20,7 +20,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
 /**
  * Class for Installer events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeInstallationEvent extends InstallerEvent implements ResultAwareInterface
 {

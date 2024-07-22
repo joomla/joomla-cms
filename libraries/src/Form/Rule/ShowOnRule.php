@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 
 class ShowOnRule extends FormRule
@@ -29,17 +29,9 @@ class ShowOnRule extends FormRule
      * The regular expression to use in testing a form field value.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected $regex = '[A-Za-z0-9]+!?:[A-Za-z0-9]+';
-
-    /**
-     * The regular expression modifiers to use when testing a form field value.
-     *
-     * @var    string
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $modifiers = 'i';
+    protected $regex = '^[A-Za-z0-9-]+((:.+)|(!:.*))$';
 
     /**
      * Method to test the value.
@@ -55,7 +47,7 @@ class ShowOnRule extends FormRule
      * @return  boolean  True if the value is valid, false otherwise.
      *
      * @throws  \UnexpectedValueException if rule is invalid.
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
     {
@@ -68,9 +60,9 @@ class ShowOnRule extends FormRule
 
         // Make sure we allow multiple showon rules to be added
         $rules    = [];
-        $andRules = explode('&', $value);
+        $andRules = explode('[AND]', $value);
         foreach ($andRules as $andRule) {
-            $orRules = explode('|', $andRule);
+            $orRules = explode('[OR]', $andRule);
             foreach ($orRules as $orRule) {
                 $rules[] = $orRule;
             }

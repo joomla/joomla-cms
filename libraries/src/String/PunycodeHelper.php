@@ -215,7 +215,7 @@ abstract class PunycodeHelper
             }
 
             $newdomain = substr($newdomain, 0, -1);
-            $newEmail  = $newEmail . '@' . $newdomain;
+            $newEmail .= '@' . $newdomain;
         }
 
         return $newEmail;
@@ -248,7 +248,7 @@ abstract class PunycodeHelper
             }
 
             $newdomain = substr($newdomain, 0, -1);
-            $newEmail  = $newEmail . '@' . $newdomain;
+            $newEmail .= '@' . $newdomain;
         }
 
         return $newEmail;

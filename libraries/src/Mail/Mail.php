@@ -232,7 +232,7 @@ class Mail extends PHPMailer implements MailerInterface
      */
     public function setSubject($subject)
     {
-        $this->Subject = MailHelper::cleanLine($subject);
+        $this->Subject = MailHelper::cleanSubject($subject);
 
         return $this;
     }
@@ -511,7 +511,7 @@ class Mail extends PHPMailer implements MailerInterface
     public function isSendmail()
     {
         // Prefer the Joomla configured sendmail path and default to the configured PHP path otherwise
-        $sendmail = Factory::getApplication()->get('sendmail', ini_get('sendmail_path'));
+        $sendmail = Factory::getApplication()->get('sendmail', \ini_get('sendmail_path'));
 
         // And if we still don't have a path, then use the system default for Linux
         if (empty($sendmail)) {
@@ -539,11 +539,11 @@ class Mail extends PHPMailer implements MailerInterface
             $this->isSendmail();
 
             return true;
-        } else {
-            $this->isMail();
-
-            return false;
         }
+
+        $this->isMail();
+
+        return false;
     }
 
     /**
@@ -579,11 +579,11 @@ class Mail extends PHPMailer implements MailerInterface
             $this->isSMTP();
 
             return true;
-        } else {
-            $this->isMail();
-
-            return false;
         }
+
+        $this->isMail();
+
+        return false;
     }
 
     /**

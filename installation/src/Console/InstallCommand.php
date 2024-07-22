@@ -12,7 +12,7 @@ namespace Joomla\CMS\Installation\Console;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Installation\Application\CliInstallationApplication;
+use Joomla\CMS\Helper\PublicFolderGeneratorHelper;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\CleanupModel;
 use Joomla\CMS\Installation\Model\DatabaseModel;
@@ -151,7 +151,7 @@ class InstallCommand extends AbstractCommand
         foreach ($files as $step => $schema) {
             $serverType = $db->getServerType();
 
-            if (\in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql')) {
+            if (\in_array($step, ['custom1', 'custom2']) && !is_file(JPATH_INSTALLATION . '/sql/' . $serverType . '/' . $schema . '.sql')) {
                 continue;
             }
 
@@ -175,6 +175,22 @@ class InstallCommand extends AbstractCommand
             $cleanupModel = $app->getMVCFactory()->createModel('Cleanup', 'Installation');
 
             if (!$cleanupModel->deleteInstallationFolder()) {
+                $this->ioStyle->error('Unable to delete installation folder!');
+
+                return Command::FAILURE;
+            }
+
+            $this->ioStyle->writeln('OK');
+        }
+
+        if (!empty($cfg['public_folder'])) {
+            $this->ioStyle->write('Creating the public folder...');
+
+            try {
+                (new PublicFolderGeneratorHelper())->createPublicFolder($cfg['public_folder']);
+            } catch (\Exception $e) {
+                $this->ioStyle->error($e->getMessage());
+
                 return Command::FAILURE;
             }
 
@@ -348,7 +364,7 @@ class InstallCommand extends AbstractCommand
         if ($givenOption || !$this->cliInput->isInteractive()) {
             $answer = $this->getApplication()->getConsoleInput()->getOption($option);
 
-            if (!is_string($answer)) {
+            if (!\is_string($answer)) {
                 throw new \Exception($option . ' has been declared, but has not been given!');
             }
 
@@ -363,7 +379,7 @@ class InstallCommand extends AbstractCommand
 
         // We don't have a CLI option and now interactively get that from the user.
         while (\is_null($answer) || $answer === false) {
-            if (in_array($option, ['admin-password', 'db-pass'])) {
+            if (\in_array($option, ['admin-password', 'db-pass', 'public_folder'])) {
                 $answer = $this->ioStyle->askHidden($question);
             } else {
                 $answer = $this->ioStyle->ask(
@@ -379,7 +395,7 @@ class InstallCommand extends AbstractCommand
                 $answer = false;
             }
 
-            if ($option == 'db-pass' && $valid && $answer == null) {
+            if (($option == 'db-pass' || $option == 'public_folder') && $valid && $answer == null) {
                 return '';
             }
         }

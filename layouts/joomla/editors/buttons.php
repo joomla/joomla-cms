@@ -19,7 +19,7 @@ $buttons = $displayData;
     <?php if ($buttons) : ?>
         <?php foreach ($buttons as $button) :
             $options     = (array) $button->get('options');
-            $legacyModal = $button->get('modal') && !empty($options['confirmCallback']);
+            $legacyModal = $button->get('modal');
             ?>
             <?php echo $this->sublayout('button', $button); ?>
             <?php echo $legacyModal ? $this->sublayout('modal', $button) : ''; ?>

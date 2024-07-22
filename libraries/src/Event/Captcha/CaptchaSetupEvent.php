@@ -47,7 +47,7 @@ class CaptchaSetupEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(CaptchaRegistry $value): CaptchaRegistry
+    protected function onSetSubject(CaptchaRegistry $value): CaptchaRegistry
     {
         return $value;
     }

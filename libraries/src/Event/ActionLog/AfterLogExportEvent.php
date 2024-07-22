@@ -18,7 +18,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Class for ActionLog events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterLogExportEvent extends AbstractImmutableEvent
 {

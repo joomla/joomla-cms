@@ -105,7 +105,7 @@ abstract class ListHelper
 
         $options[] = HTMLHelper::_('select.option', 0, ' - ' . Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL') . ' - ');
 
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = \count($items); $i < $n; $i++) {
             $items[$i]->text = Text::_($items[$i]->text);
 
             if (StringHelper::strlen($items[$i]->text) > $chop) {

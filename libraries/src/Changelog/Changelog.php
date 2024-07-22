@@ -122,7 +122,7 @@ class Changelog
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  4.0.0
      */
     protected $xmlParser;
@@ -158,6 +158,14 @@ class Changelog
      * @since  4.0.0
      */
     protected $latest;
+
+    /**
+     * Update manifest `<folder>` element
+     *
+     * @var    string
+     * @since  5.1.1
+     */
+    protected $folder;
 
     /**
      * Gets the reference to the current direct parent
@@ -217,6 +225,11 @@ class Changelog
         // Reset the data
         if (isset($this->$tag)) {
             $this->$tag->data = '';
+        }
+
+        // Skip technical elements
+        if ($name === 'CHANGELOGS' || $name === 'CHANGELOG' || $name === 'ITEM') {
+            return;
         }
 
         $name = strtolower($name);

@@ -46,7 +46,9 @@ abstract class Folder
      */
     public static function copy($src, $dest, $path = '', $force = false, $useStreams = false)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(\ini_get('max_execution_time'));
+        }
 
         $FTPOptions = ClientHelper::getCredentials('ftp');
 
@@ -217,7 +219,7 @@ abstract class Folder
             $ftp->chmod($path, $mode);
         } else {
             // We need to get and explode the open_basedir paths
-            $obd = ini_get('open_basedir');
+            $obd = \ini_get('open_basedir');
 
             // If open_basedir is set we need to get the open_basedir that the path is in
             if ($obd != null) {
@@ -285,7 +287,9 @@ abstract class Folder
      */
     public static function delete($path)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(\ini_get('max_execution_time'));
+        }
 
         // Sanity check
         if (!$path) {
@@ -566,7 +570,9 @@ abstract class Folder
      */
     protected static function _items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, $findFiles)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(\ini_get('max_execution_time'));
+        }
 
         $arr = [];
 

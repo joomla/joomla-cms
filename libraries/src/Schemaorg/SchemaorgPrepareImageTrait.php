@@ -33,9 +33,9 @@ trait SchemaorgPrepareImageTrait
      */
     protected function prepareImage($image)
     {
-        if (is_array($image)) {
+        if (\is_array($image)) {
             // We don't handle references, they should be ok
-            if (count($image) === 1 && isset($image['@id'])) {
+            if (\count($image) === 1 && isset($image['@id'])) {
                 return $image;
             }
 

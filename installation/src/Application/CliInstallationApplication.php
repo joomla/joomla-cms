@@ -77,6 +77,14 @@ final class CliInstallationApplication extends Application implements CMSApplica
     protected $session;
 
     /**
+     * The client application Id
+     *
+     * @var Integer
+     * @since 5.0.2
+     */
+    protected $clientId;
+
+    /**
      * Class constructor.
      *
      * @param   Input|null      $input      An optional argument to provide dependency injection for the application's input

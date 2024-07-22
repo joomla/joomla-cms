@@ -61,8 +61,8 @@ abstract class Sidebar
         $data->list           = static::getEntries();
         $data->filters        = static::getFilters();
         $data->action         = static::getAction();
-        $data->displayMenu    = count($data->list);
-        $data->displayFilters = count($data->filters);
+        $data->displayMenu    = \count($data->list);
+        $data->displayFilters = \count($data->filters);
         $data->hide           = Factory::getApplication()->getInput()->getBool('hidemainmenu');
 
         // Create a layout object and ask it to render the sidebar

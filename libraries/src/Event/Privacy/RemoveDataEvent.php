@@ -21,7 +21,7 @@ use Joomla\Component\Privacy\Administrator\Table\RequestTable;
  * Example:
  *    new RemoveDataEvent('onEventName', ['subject' => $requestTable, 'user' => $user]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class RemoveDataEvent extends PrivacyEvent
 {
@@ -30,7 +30,7 @@ class RemoveDataEvent extends PrivacyEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'user'];
@@ -43,7 +43,7 @@ class RemoveDataEvent extends PrivacyEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -65,9 +65,9 @@ class RemoveDataEvent extends PrivacyEvent
      *
      * @return  RequestTable
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setSubject(RequestTable $value): RequestTable
+    protected function onSetSubject(RequestTable $value): RequestTable
     {
         return $value;
     }
@@ -79,9 +79,9 @@ class RemoveDataEvent extends PrivacyEvent
      *
      * @return  ?User
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setUser(?User $value): ?User
+    protected function onSetUser(?User $value): ?User
     {
         return $value;
     }
@@ -91,7 +91,7 @@ class RemoveDataEvent extends PrivacyEvent
      *
      * @return  RequestTable
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getRequest(): RequestTable
     {
@@ -103,7 +103,7 @@ class RemoveDataEvent extends PrivacyEvent
      *
      * @return  ?User
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getUser(): ?User
     {
