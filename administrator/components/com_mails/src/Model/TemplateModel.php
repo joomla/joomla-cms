@@ -86,6 +86,8 @@ class TemplateModel extends AdminModel
 
         if ($params->get('mail_style', 'plaintext') == 'plaintext') {
             $form->removeField('htmlbody');
+            $form->removeField('disable_htmllayout', 'params');
+            $form->removeField('htmllayout', 'params');
         }
 
         if ($params->get('mail_style', 'plaintext') == 'html') {

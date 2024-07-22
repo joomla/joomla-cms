@@ -11,8 +11,12 @@ namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
@@ -91,6 +95,14 @@ class MailTemplate
     protected $replyto;
 
     /**
+     * Layout mailtemplate options of the email
+     *
+     * @var    string[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $layoutTemplateData = [];
+
+    /**
      * Constructor for the mail templating class
      *
      * @param   string  $templateId  Id of the mail template.
@@ -165,6 +177,20 @@ class MailTemplate
         $reply->mail   = $mail;
         $reply->name   = $name;
         $this->replyto = $reply;
+    }
+
+    /**
+     * Add data to the html layout template
+     *
+     * @param   array  $data  Associative array of strings for the layout
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addLayoutTemplateData($data)
+    {
+        $this->layoutTemplateData = array_merge($this->layoutTemplateData, $data);
     }
 
     /**
@@ -245,10 +271,11 @@ class MailTemplate
         $this->mailer->setSubject($subject);
 
         $mailStyle = $config->get('mail_style', 'plaintext');
+        $useLayout = $params->get('disable_htmllayout', $config->get('disable_htmllayout', '1'));
         // Use the plain-text replacement data, if specified.
         $plainData = $this->plain_data ?: $this->data;
         $plainBody = $this->replaceTags(Text::_($mail->body), $plainData);
-        $htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
+        $htmlBody  = $useLayout ? Text::_($mail->htmlbody) : $this->replaceTags(Text::_($mail->htmlbody), $this->data);
 
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
             // If the Plain template is empty try to convert the HTML template to a Plain text
@@ -273,6 +300,38 @@ class MailTemplate
             }
 
             $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
+
+            if ($useLayout) {
+                // Add additional data to the layout template
+                $this->addLayoutTemplateData(['siteName' => $app->get('sitename')]);
+
+                // Add the logo to the mail as inline attachement
+                if ($logo = (string) $config->get('mail_logoFile', '')) {
+                    $logo = Path::clean(JPATH_ROOT . '/' . htmlspecialchars(HTMLHelper::cleanImageURL($logo)->url));
+                    if (is_file($logo)) {
+                        # Attach the logo as inline attachement
+                        $this->mailer->addAttachment($logo, basename($logo), 'base64', mime_content_type($logo), 'inline');
+
+                        // We need only the cid for attached logo file
+                        $this->addLayoutTemplateData(['logo' => basename($logo)]);
+                    }
+                }
+
+                $layout = $params->get('htmllayout', $config->get('mail_htmllayout', 'mailtemplate'));
+                // Wrap the default Joomla mail template around the HTML body
+                $layoutFile   = new FileLayout('joomla.mail.' . $layout, null, ['client' => 'site']);
+                // Set the default template search path
+                foreach (TemplatesHelper::getTemplateOptions(0) as $siteTemplate) {
+                    $layoutFile->addIncludePaths([
+                        JPATH_SITE . '/templates/' . $siteTemplate->value . '/html/layouts',
+                        JPATH_SITE . '/templates/' . $siteTemplate->value . '/html/layouts/com_mails',
+                    ]);
+                }
+                
+                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
+
+                $htmlBody  = $this->replaceTags(Text::_($htmlBody), $this->data);
+            }
 
             $this->mailer->setBody($htmlBody);
         }
