@@ -406,7 +406,7 @@ class Mail extends PHPMailer implements MailerInterface
                 }
 
                 foreach ($path as $key => $file) {
-                    if (is_array($name)) {
+                    if (isset($name[$key])) {
                         $result = parent::addAttachment($file, $name[$key], $encoding, $type, $disposition);
                     } else {
                         $result = parent::addAttachment($file, basename($file), $encoding, $type, $disposition);
