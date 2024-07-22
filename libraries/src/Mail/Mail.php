@@ -401,19 +401,15 @@ class Mail extends PHPMailer implements MailerInterface
             $result = true;
 
             if (\is_array($path)) {
-                if (!empty($name) && \count($path) != \count($name)) {
+                if (is_array($name) && !empty($name) && \count($path) != \count($name)) {
                     throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
                 }
 
                 foreach ($path as $key => $file) {
-                    if (!empty($name)) {
-                        $result = parent::addAttachment($file, $name[$key], $encoding, $type);
+                    if (is_array($name)) {
+                        $result = parent::addAttachment($file, $name[$key], $encoding, $type, $disposition);
                     } else {
-                        if (!empty($name)) {
-                            $result = parent::addAttachment($file, $name[$key], $encoding, $type, $disposition);
-                        } else {
-                            $result = parent::addAttachment($file, $name, $encoding, $type, $disposition);
-                        }
+                        $result = parent::addAttachment($file, basename($file), $encoding, $type, $disposition);
                     }
                 }
 
@@ -422,7 +418,7 @@ class Mail extends PHPMailer implements MailerInterface
                     return false;
                 }
             } else {
-                $result = parent::addAttachment($path, $name, $encoding, $type);
+                $result = parent::addAttachment($path, $name, $encoding, $type, $disposition);
             }
 
             // Check for boolean false return if exception handling is disabled
