@@ -36,7 +36,7 @@
 
 .shepherd-text {
   max-height: calc(100vh - 240px);
-  padding: 1em 1em 0 1em;
+  padding: 1rem 1rem 0 1rem;
   overflow-y: auto;
   line-height: 1.5em;
 }
@@ -44,7 +44,7 @@
 .shepherd-footer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  padding: .75rem;
+  padding: 1rem;
 }
 
 .shepherd-button-primary {
