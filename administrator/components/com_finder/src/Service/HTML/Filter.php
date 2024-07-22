@@ -338,10 +338,10 @@ class Filter
                     }
 
                     if ($node->level > 2) {
-                        $bv->nodes[$node_id]->title = str_repeat('-', $node->level - 2) . $title;
+                        $node->title = str_repeat('-', $node->level - 2) . $title;
                     } else {
-                        $bv->nodes[$node_id]->title = $title;
-                        $root[]                     = $branches[$bk]->nodes[$node_id];
+                        $node->title = $title;
+                        $root[]      = $branches[$bk]->nodes[$node_id];
                     }
 
                     if ($node->parent_id && isset($branches[$bk]->nodes[$node->parent_id])) {
