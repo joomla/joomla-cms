@@ -43,7 +43,7 @@ class ConfigModel extends FormModel
     {
         $user = $this->getCurrentUser();
 
-        $this->setState('user.id', $user->get('id'));
+        $this->setState('user.id', $user->id);
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_messages');
@@ -143,7 +143,7 @@ class ConfigModel extends FormModel
                 return false;
             }
 
-            if (count($data)) {
+            if (\count($data)) {
                 $query = $db->getQuery(true)
                     ->insert($db->quoteName('#__messages_cfg'))
                     ->columns(

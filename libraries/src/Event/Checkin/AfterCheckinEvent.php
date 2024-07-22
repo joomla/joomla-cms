@@ -64,7 +64,7 @@ class AfterCheckinEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(string $value): string
+    protected function onSetSubject(string $value): string
     {
         return $value;
     }

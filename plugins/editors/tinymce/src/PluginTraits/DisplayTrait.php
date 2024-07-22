@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -45,7 +44,7 @@ trait DisplayTrait
      *
      * @return  string  The HTML markup of the editor
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function display(string $name, string $content = '', array $attributes = [], array $params = []): string
     {
@@ -174,10 +173,12 @@ trait DisplayTrait
         $levelParams->loadObject($extraOptions);
 
         // Set the selected skin
-        $skin = $levelParams->get($app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+        $skin     = $levelParams->get($app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+        $skinDark = $levelParams->get($app->isClient('administrator') ? 'skin_admin_dark' : 'skin_dark', 'oxide-dark');
 
         // Check that selected skin exists.
-        $skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+        $skin     = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+        $skinDark = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skinDark) ? $skinDark : 'oxide-dark';
 
         if (!$levelParams->get('lang_mode', 1)) {
             // Admin selected language
@@ -381,6 +382,23 @@ trait DisplayTrait
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
 
+        // Set default classes to empty
+        $linkClasses = [];
+
+        // Load the link classes list
+        if (isset($extraOptions->link_classes_list) && $extraOptions->link_classes_list) {
+            $linksClassesList = $extraOptions->link_classes_list;
+
+            if ($linksClassesList) {
+                $linkClasses = [['title' => TEXT::_('PLG_TINY_FIELD_LINK_CLASS_NONE'), 'value' => '']];
+
+                // Create an array for the link classes
+                foreach ($linksClassesList as $linksClassList) {
+                    array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
+                }
+            }
+        }
+
         // Build the final options set
         $scriptOptions   = array_merge(
             $scriptOptions,
@@ -390,7 +408,8 @@ trait DisplayTrait
                 'directionality'              => $language->isRtl() ? 'rtl' : 'ltr',
                 'language'                    => $langPrefix,
                 'autosave_restore_when_empty' => false,
-                'skin'                        => $skin,
+                'skin_light'                  => $skin,
+                'skin_dark'                   => $skinDark,
                 'theme'                       => $theme,
                 'schema'                      => 'html5',
 
@@ -421,6 +440,9 @@ trait DisplayTrait
                 // URL
                 'relative_urls'      => (bool) $levelParams->get('relative_urls', true),
                 'remove_script_host' => false,
+
+                // Link classes
+                'link_class_list' => $linkClasses,
 
                 // Drag and drop Images always FALSE, reverting this allows for inlining the images
                 'paste_data_images' => false,
@@ -457,6 +479,11 @@ trait DisplayTrait
                 'branding'  => false,
                 'promotion' => false,
 
+                // Hardened security
+                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
+                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
+                'convert_unsafe_embeds' => true,
+
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',
             ]
@@ -464,10 +491,10 @@ trait DisplayTrait
 
         if ($levelParams->get('newlines')) {
             // Break
-            $scriptOptions['force_br_newlines'] = true;
+            $scriptOptions['newline_behavior'] = 'invert';
         } else {
             // Paragraph
-            $scriptOptions['force_br_newlines'] = false;
+            $scriptOptions['newline_behavior']  = 'default';
             $scriptOptions['forced_root_block'] = 'p';
         }
 

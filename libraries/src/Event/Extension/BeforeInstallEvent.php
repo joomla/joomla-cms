@@ -62,7 +62,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setMethod(string $value): string
+    protected function onSetMethod(string $value): string
     {
         return $value;
     }
@@ -76,7 +76,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setType(string $value): string
+    protected function onSetType(string $value): string
     {
         return $value;
     }
@@ -90,7 +90,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setManifest(?\SimpleXMLElement $value): ?\SimpleXMLElement
+    protected function onSetManifest(?\SimpleXMLElement $value): ?\SimpleXMLElement
     {
         return $value;
     }
@@ -104,7 +104,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setExtension(int $value): int
+    protected function onSetExtension(int $value): int
     {
         return $value;
     }

@@ -11,12 +11,12 @@
 namespace Joomla\Plugin\Editors\TinyMCE\Extension;
 
 use Joomla\CMS\Event\Editor\EditorSetupEvent;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Folder;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\KnownButtons;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ToolbarPresets;
 use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
@@ -34,7 +34,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
-    // TODO: KnownButtons, ToolbarPresets for backward compatibility. Remove in Joomla 6
+    // @todo: KnownButtons, ToolbarPresets for backward compatibility. Remove in Joomla 6
     use KnownButtons;
     use ToolbarPresets;
 
@@ -43,11 +43,14 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onEditorSetup' => 'onEditorSetup'];
+        return [
+            'onEditorSetup' => 'onEditorSetup',
+            'onAjaxTinymce' => 'onAjaxTinymce',
+        ];
     }
 
     /**
@@ -57,7 +60,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
      *
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function onEditorSetup(EditorSetupEvent $event)
     {
@@ -92,7 +95,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
             exit();
         }
 
-        $filepaths = Folder::exists(JPATH_ROOT . '/templates/' . $template)
+        $filepaths = is_dir(JPATH_ROOT . '/templates/' . $template)
             ? Folder::files(JPATH_ROOT . '/templates/' . $template, '\.(html|txt)$', false, true)
             : [];
 

@@ -6,7 +6,7 @@
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
+ *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
@@ -14,14 +14,14 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -48,7 +48,7 @@ class JoomlaInstallerScript
      *
      * @var callable
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected $errorCollector;
 
@@ -59,7 +59,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     public function setErrorCollector(callable $callback)
     {
@@ -74,14 +74,14 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected function collectError(string $context, \Throwable $error)
     {
         // The errorCollector are required
         // However when someone already running the script manually the code may fail.
         if ($this->errorCollector) {
-            call_user_func($this->errorCollector, $context, $error);
+            \call_user_func($this->errorCollector, $context, $error);
         } else {
             Log::add($error->getMessage(), Log::ERROR, 'Update');
         }
@@ -104,7 +104,7 @@ class JoomlaInstallerScript
             if (!empty($installer->extension->manifest_cache)) {
                 $manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-                if (array_key_exists('version', $manifestValues)) {
+                if (\array_key_exists('version', $manifestValues)) {
                     $this->fromVersion = $manifestValues['version'];
 
                     return true;
@@ -387,10 +387,10 @@ class JoomlaInstallerScript
             return;
         }
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
 
         // Get the timeout, as configured in plg_system_logrotation
@@ -433,10 +433,10 @@ class JoomlaInstallerScript
         // Get the plugin parameters
         $params = new Registry($data->params);
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Session GC',
@@ -478,10 +478,10 @@ class JoomlaInstallerScript
         $params       = new Registry($data->params);
         $lastrun      = (int) $params->get('lastrun', time());
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Update Notification',
@@ -572,8 +572,6 @@ class JoomlaInstallerScript
             'folders_deleted' => [],
             'files_errors'    => [],
             'folders_errors'  => [],
-            'folders_checked' => [],
-            'files_checked'   => [],
         ];
 
         $files = [
@@ -643,6 +641,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-03.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.4.0-2023-05-08.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.4.0-2023-09-13.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-03-05.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-05-15.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-07-19.sql',
@@ -706,6 +705,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-03.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-05-08.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-09-13.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assertion.php',
@@ -2113,6 +2113,233 @@ class JoomlaInstallerScript
             // From 5.0.0-beta1 to 5.0.0-beta2
             '/language/en-GB/lib_simplepie.sys.ini',
             '/libraries/src/Cache/Storage/WincacheStorage.php',
+            // From 5.0.0-beta2 to 5.0.0-beta3
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/AbstractString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/AbstractTime.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/ASNObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Base128.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite/AttributeTypeAndValue.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite/RDNString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite/RelativeDistinguishedName.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Construct.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Exception/NotImplementedException.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Exception/ParserException.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/ExplicitlyTaggedObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Identifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/OID.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Parsable.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/TemplateParser.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/BitString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/BMPString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Boolean.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/CharacterString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Enumerated.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/GeneralizedTime.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/GeneralString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/GraphicString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/IA5String.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Integer.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/NullObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/NumericString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/ObjectDescriptor.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/ObjectIdentifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/OctetString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/PrintableString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/RelativeObjectIdentifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Sequence.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Set.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/T61String.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/UniversalString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/UTCTime.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/UTF8String.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/VisibleString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/UnknownConstructedObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/UnknownObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility/BigInteger.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility/BigIntegerBcmath.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility/BigIntegerGmp.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/AlgorithmIdentifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CertificateExtensions.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CertificateSubject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CSR/Attributes.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CSR/CSR.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/PrivateKey.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/PublicKey.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN/DNSName.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN/IPAddress.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN/SubjectAlternativeNames.php',
+            '/libraries/vendor/fgrosse/phpasn1/LICENSE',
+            '/libraries/vendor/stella-maris/clock/LICENSE.md',
+            '/libraries/vendor/stella-maris/clock/src/ClockInterface.php',
+            '/media/com_scheduler/css/admin-view-select-task.css',
+            '/media/com_scheduler/css/admin-view-select-task.min.css',
+            '/media/com_scheduler/css/admin-view-select-task.min.css.gz',
+            '/media/system/css/calendar-jos.css',
+            '/media/system/css/calendar-jos.min.css',
+            '/media/system/css/calendar-jos.min.css.gz',
+            '/media/system/css/debug.css',
+            '/media/system/css/debug.min.css',
+            '/media/system/css/debug.min.css.gz',
+            '/media/system/css/frontediting.css',
+            '/media/system/css/frontediting.min.css',
+            '/media/system/css/frontediting.min.css.gz',
+            '/media/system/css/mootree.css',
+            '/media/system/css/mootree.min.css',
+            '/media/system/css/mootree.min.css.gz',
+            '/media/system/css/mootree_rtl.css',
+            '/media/system/css/mootree_rtl.min.css',
+            '/media/system/css/mootree_rtl.min.css.gz',
+            '/media/system/css/sortablelist.css',
+            '/media/system/css/sortablelist.min.css',
+            '/media/system/css/sortablelist.min.css.gz',
+            // From 5.0.0 to 5.1.0-alpha1
+            '/administrator/components/com_banners/tmpl/banners/default_batch_footer.php',
+            '/administrator/components/com_contact/tmpl/contacts/default_batch_footer.php',
+            '/administrator/components/com_fields/tmpl/fields/default_batch_footer.php',
+            '/administrator/components/com_fields/tmpl/groups/default_batch_footer.php',
+            '/administrator/components/com_menus/tmpl/items/default_batch_footer.php',
+            '/administrator/components/com_modules/tmpl/modules/default_batch_footer.php',
+            '/administrator/components/com_newsfeeds/tmpl/newsfeeds/default_batch_footer.php',
+            '/administrator/components/com_tags/tmpl/tags/default_batch_footer.php',
+            '/administrator/components/com_users/tmpl/users/default_batch_footer.php',
+            // From 5.1.0-alpha3 to 5.1.0-alpha4
+            '/administrator/components/com_redirect/tmpl/links/default_batch_footer.php',
+            '/modules/mod_banners/mod_banners.php',
+            // From 5.1.0-alpha4 to 5.1.0-beta1
+            '/administrator/modules/mod_custom/mod_custom.php',
+            '/administrator/modules/mod_frontend/mod_frontend.php',
+            '/administrator/modules/mod_latestactions/mod_latestactions.php',
+            '/administrator/modules/mod_loginsupport/mod_loginsupport.php',
+            '/administrator/modules/mod_messages/mod_messages.php',
+            '/administrator/modules/mod_multilangstatus/mod_multilangstatus.php',
+            '/administrator/modules/mod_sampledata/mod_sampledata.php',
+            '/administrator/modules/mod_stats_admin/mod_stats_admin.php',
+            '/administrator/modules/mod_title/mod_title.php',
+            '/administrator/modules/mod_toolbar/mod_toolbar.php',
+            '/administrator/modules/mod_user/mod_user.php',
+            '/administrator/modules/mod_version/mod_version.php',
+            '/libraries/vendor/web-token/jwt-core/Algorithm.php',
+            '/libraries/vendor/web-token/jwt-core/AlgorithmManager.php',
+            '/libraries/vendor/web-token/jwt-core/AlgorithmManagerFactory.php',
+            '/libraries/vendor/web-token/jwt-core/JWK.php',
+            '/libraries/vendor/web-token/jwt-core/JWKSet.php',
+            '/libraries/vendor/web-token/jwt-core/JWT.php',
+            '/libraries/vendor/web-token/jwt-core/LICENSE',
+            '/libraries/vendor/web-token/jwt-core/Util/BigInteger.php',
+            '/libraries/vendor/web-token/jwt-core/Util/ECKey.php',
+            '/libraries/vendor/web-token/jwt-core/Util/ECSignature.php',
+            '/libraries/vendor/web-token/jwt-core/Util/Hash.php',
+            '/libraries/vendor/web-token/jwt-core/Util/JsonConverter.php',
+            '/libraries/vendor/web-token/jwt-core/Util/KeyChecker.php',
+            '/libraries/vendor/web-token/jwt-core/Util/RSAKey.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa/ECDSA.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa/ES256.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa/ES384.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa/ES512.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa/EdDSA.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/Blake2b.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/ES256K.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/HS1.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/HS256_64.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/RS1.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac/HMAC.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac/HS256.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac/HS384.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac/HS512.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-none/None.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/PS256.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/PS384.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/PS512.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/RS256.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/RS384.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/RS512.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/RSAPKCS1.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/RSAPSS.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/Util/RSA.php',
+            '/libraries/vendor/web-token/jwt-signature/Algorithm/MacAlgorithm.php',
+            '/libraries/vendor/web-token/jwt-signature/Algorithm/SignatureAlgorithm.php',
+            '/libraries/vendor/web-token/jwt-signature/JWS.php',
+            '/libraries/vendor/web-token/jwt-signature/JWSBuilder.php',
+            '/libraries/vendor/web-token/jwt-signature/JWSBuilderFactory.php',
+            '/libraries/vendor/web-token/jwt-signature/JWSLoader.php',
+            '/libraries/vendor/web-token/jwt-signature/JWSLoaderFactory.php',
+            '/libraries/vendor/web-token/jwt-signature/JWSTokenSupport.php',
+            '/libraries/vendor/web-token/jwt-signature/JWSVerifier.php',
+            '/libraries/vendor/web-token/jwt-signature/JWSVerifierFactory.php',
+            '/libraries/vendor/web-token/jwt-signature/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature/Serializer/CompactSerializer.php',
+            '/libraries/vendor/web-token/jwt-signature/Serializer/JSONFlattenedSerializer.php',
+            '/libraries/vendor/web-token/jwt-signature/Serializer/JSONGeneralSerializer.php',
+            '/libraries/vendor/web-token/jwt-signature/Serializer/JWSSerializer.php',
+            '/libraries/vendor/web-token/jwt-signature/Serializer/JWSSerializerManager.php',
+            '/libraries/vendor/web-token/jwt-signature/Serializer/JWSSerializerManagerFactory.php',
+            '/libraries/vendor/web-token/jwt-signature/Serializer/Serializer.php',
+            '/libraries/vendor/web-token/jwt-signature/Signature.php',
+            '/media/plg_system_jooa11y/css/jooa11y.css',
+            '/media/plg_system_jooa11y/css/jooa11y.min.css',
+            '/media/plg_system_jooa11y/css/jooa11y.min.css.gz',
+            '/media/plg_system_jooa11y/scss/jooa11y.scss',
+            '/media/vendor/joomla-a11y-checker/LICENSE.md',
+            '/modules/mod_feed/mod_feed.php',
+            '/modules/mod_languages/mod_languages.php',
+            '/modules/mod_stats/mod_stats.php',
+            '/modules/mod_syndicate/mod_syndicate.php',
+            '/modules/mod_tags_popular/mod_tags_popular.php',
+            '/modules/mod_tags_similar/mod_tags_similar.php',
+            '/modules/mod_wrapper/mod_wrapper.php',
+            // From 5.1.0-beta1 to 5.1.0-beta2
+            '/administrator/modules/mod_login/mod_login.php',
+            '/libraries/src/Event/Router/AfterInitialiseRouterEvent.php',
+            '/libraries/src/Event/Router/RouterEvent.php',
+            '/libraries/src/Http/HttpFactoryInterface.php',
+            '/libraries/src/Service/Provider/Http.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_16_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_16_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_64_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_64_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_16_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_16_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_64_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_64_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/AESCCM.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/A128CTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/A192CTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/A256CTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/AESCTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/Chacha20Poly1305.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/RSAOAEP384.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/RSAOAEP512.php',
+            '/libraries/vendor/web-token/jwt-experimental/LICENSE',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/Blake2b.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/ES256K.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/HS1.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/HS256_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/RS1.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-none/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/LICENSE',
+            // From 5.1.0-beta2 to 5.1.0-rc1
+            '/administrator/components/com_admin/sql/updates/mysql/4.4.4-2024-03-28.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.4.4-2024-03-28.sql',
+            '/administrator/modules/mod_post_installation_messages/mod_post_installation_messages.php',
+            '/media/vendor/punycode/LICENSE-MIT.txt',
+            // From 5.1.0 to 5.1.1
+            '/libraries/vendor/cweagans/composer-patches/LICENSE.md',
+            '/libraries/vendor/cweagans/composer-patches/src/PatchEvent.php',
+            '/libraries/vendor/cweagans/composer-patches/src/PatchEvents.php',
+            '/libraries/vendor/cweagans/composer-patches/src/Patches.php',
+            '/libraries/vendor/cweagans/composer-patches/tests/PatchEventTest.php',
+            '/libraries/vendor/laminas/laminas-diactoros/PATCHES.txt',
+            // From 5.2.0-alpha2 to 5.2.0-alpha3
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/FontAwesome.otf',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.eot',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.svg',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.ttf',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.woff',
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.woff2',
         ];
 
         $folders = [
@@ -2332,13 +2559,60 @@ class JoomlaInstallerScript
             '/templates/system/incompatible.html,',
             '/media/plg_system_compat',
             '/media/plg_editors_tinymce/js/plugins/highlighter',
+            // From 5.0.0-beta2 to 5.0.0-beta3
+            '/libraries/vendor/stella-maris/clock/src',
+            '/libraries/vendor/stella-maris/clock',
+            '/libraries/vendor/stella-maris',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CSR',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Exception',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1',
+            '/libraries/vendor/fgrosse/phpasn1/lib',
+            '/libraries/vendor/fgrosse/phpasn1',
+            '/libraries/vendor/fgrosse',
+            // From 5.1.0-alpha4 to 5.1.0-beta1
+            '/media/vendor/joomla-a11y-checker',
+            '/media/plg_system_jooa11y/scss',
+            '/media/plg_system_jooa11y/css',
+            '/libraries/vendor/web-token/jwt-signature/Serializer',
+            '/libraries/vendor/web-token/jwt-signature/Algorithm',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/Util',
+            '/libraries/vendor/web-token/jwt-signature',
+            '/libraries/vendor/web-token/jwt-core/Util',
+            '/libraries/vendor/web-token/jwt-core',
+            // From 5.1.0-beta1 to 5.1.0-beta2
+            '/libraries/vendor/web-token/signature-pack',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-none',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa',
+            '/libraries/vendor/web-token/jwt-experimental/Signature',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption',
+            '/libraries/vendor/web-token/jwt-experimental',
+            '/libraries/src/Event/Router',
+            // From 5.1.0-beta2 to 5.1.0-rc1
+            '/media/vendor/punycode',
+            // From 5.1.0 to 5.1.1
+            '/libraries/vendor/cweagans/composer-patches/tests',
+            '/libraries/vendor/cweagans/composer-patches/src',
+            '/libraries/vendor/cweagans/composer-patches',
+            '/libraries/vendor/cweagans',
+            // From 5.2.0-alpha2 to 5.2.0-alpha3
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts',
         ];
 
         $status['files_checked']   = $files;
         $status['folders_checked'] = $folders;
 
         foreach ($files as $file) {
-            if ($fileExists = is_file(JPATH_ROOT . $file)) {
+            if (is_file(JPATH_ROOT . $file)) {
                 $status['files_exist'][] = $file;
 
                 if ($dryRun === false) {
@@ -2352,7 +2626,7 @@ class JoomlaInstallerScript
         }
 
         foreach ($folders as $folder) {
-            if ($folderExists = Folder::exists(JPATH_ROOT . $folder)) {
+            if (is_dir(JPATH_ROOT . $folder)) {
                 $status['folders_exist'][] = $folder;
 
                 if ($dryRun === false) {
@@ -2367,11 +2641,11 @@ class JoomlaInstallerScript
 
         $this->fixFilenameCasing();
 
-        if ($suppressOutput === false && count($status['folders_errors'])) {
+        if ($suppressOutput === false && \count($status['folders_errors'])) {
             echo implode('<br>', $status['folders_errors']);
         }
 
-        if ($suppressOutput === false && count($status['files_errors'])) {
+        if ($suppressOutput === false && \count($status['files_errors'])) {
             echo implode('<br>', $status['files_errors']);
         }
 
@@ -2392,6 +2666,10 @@ class JoomlaInstallerScript
         // List all components added since 4.0
         $newComponents = [
             // Components to be added here
+            'com_guidedtours',
+            'com_mails',
+            'com_scheduler',
+            'com_workflow',
         ];
 
         foreach ($newComponents as $component) {
@@ -2522,10 +2800,10 @@ class JoomlaInstallerScript
             return true;
         }
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Delete Action Logs',
@@ -2591,10 +2869,10 @@ class JoomlaInstallerScript
             return true;
         }
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Privacy Consent',
@@ -2676,7 +2954,7 @@ class JoomlaInstallerScript
                 $replace = ['blocks', 'fontfamily', 'fontsize', 'styles'];
 
                 // Don't redo the template
-                if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu'])) {
+                if (!\in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu'])) {
                     $search[]  = 'template';
                     $replace[] = 'jtemplate';
                 }
@@ -2700,7 +2978,7 @@ class JoomlaInstallerScript
                     $replace = ['fontfamily', 'fontsize', 'blocks', 'styles'];
 
                     // Don't redo the template
-                    if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx][$toolbarIdx])) {
+                    if (!\in_array('jtemplate', $params['configuration']['toolbars'][$setIdx][$toolbarIdx])) {
                         $search[]  = 'template';
                         $replace[] = 'jtemplate';
                     }
@@ -2733,7 +3011,7 @@ class JoomlaInstallerScript
     /**
      * setup Guided Tours Unique Identifiers
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   5.0.0
      */
@@ -2836,7 +3114,7 @@ class JoomlaInstallerScript
                 // Check if case-insensitive file system, eg on OSX.
                 if (fileinode($oldRealpath) === fileinode($newRealpath)) {
                     // Check deeper because even realpath or glob might not return the actual case.
-                    if (!in_array($expectedBasename, scandir(dirname($newRealpath)))) {
+                    if (!\in_array($expectedBasename, scandir(\dirname($newRealpath)))) {
                         // Rename the file.
                         File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
                         File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);

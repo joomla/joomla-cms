@@ -63,7 +63,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
         }
 
         // For backward compatibility make sure the content is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['data'] = &$arguments[1];
@@ -81,7 +81,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -95,7 +95,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setData(array $value): array
+    protected function onSetData(array $value): array
     {
         return $value;
     }
@@ -131,11 +131,11 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateData(array $value): static
     {
-        $this->arguments['data'] = $this->setData($value);
+        $this->arguments['data'] = $this->onSetData($value);
 
         return $this;
     }

@@ -88,7 +88,7 @@ class RssParserTest extends UnitTestCase
                 'cloud',
                 $this->callback(
                     function ($value) use ($cloud) {
-                        return is_object($value)
+                        return \is_object($value)
                             && $value->domain === $cloud['domain']
                             && $value->port === $cloud['port']
                             && $value->path === $cloud['path']

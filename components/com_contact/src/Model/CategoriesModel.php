@@ -128,7 +128,7 @@ class CategoriesModel extends ListModel
             $categories            = Categories::getInstance('Contact', $options);
             $this->_parent         = $categories->get($this->getState('filter.parentId', 'root'));
 
-            if (is_object($this->_parent)) {
+            if (\is_object($this->_parent)) {
                 $this->_items = $this->_parent->getChildren();
             } else {
                 $this->_items = false;
@@ -147,7 +147,7 @@ class CategoriesModel extends ListModel
      */
     public function getParent()
     {
-        if (!is_object($this->_parent)) {
+        if (!\is_object($this->_parent)) {
             $this->getItems();
         }
 

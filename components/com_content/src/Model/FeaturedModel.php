@@ -13,6 +13,7 @@ namespace Joomla\Component\Content\Site\Model;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -149,7 +150,7 @@ class FeaturedModel extends ArticlesModel
     /**
      * Get the list of items.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
@@ -159,7 +160,7 @@ class FeaturedModel extends ArticlesModel
         // Filter by categories
         $featuredCategories = $this->getState('filter.frontpage.categories');
 
-        if (is_array($featuredCategories) && !in_array('', $featuredCategories)) {
+        if (\is_array($featuredCategories) && !\in_array('', $featuredCategories)) {
             $query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($featuredCategories)) . ')');
         }
 

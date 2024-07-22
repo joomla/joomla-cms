@@ -68,7 +68,7 @@ class SiteRouter extends Router
         $this->menu = $menu ?: $this->app->getMenu();
 
         // Add core rules
-        if ($this->app->get('force_ssl') === 2) {
+        if ((int) $this->app->get('force_ssl') === 2) {
             $this->attachParseRule([$this, 'parseCheckSSL'], self::PROCESS_BEFORE);
         }
 
@@ -588,9 +588,7 @@ class SiteRouter extends Router
      */
     public function setComponentRouter($component, $router)
     {
-        $reflection = new \ReflectionClass($router);
-
-        if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames())) {
+        if ($router instanceof RouterInterface) {
             $this->componentRouters[$component] = $router;
 
             return true;

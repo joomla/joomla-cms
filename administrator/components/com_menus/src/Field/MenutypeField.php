@@ -13,7 +13,6 @@ namespace Joomla\Component\Menus\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ModalSelectField;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -46,7 +45,7 @@ class MenutypeField extends ModalSelectField
      * @return  boolean  True on success.
      *
      * @see     FormField::setup()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
@@ -59,7 +58,7 @@ class MenutypeField extends ModalSelectField
         $recordId = (int) $this->form->getValue('id');
         $clientId = (int) $this->element['clientid'] ?: 0;
 
-        $url = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId, false);
+        $url = 'index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId;
 
         $this->urls['select']        = $url;
         $this->canDo['clear']        = false;
@@ -74,7 +73,7 @@ class MenutypeField extends ModalSelectField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getValueTitle()
     {
@@ -128,7 +127,7 @@ class MenutypeField extends ModalSelectField
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getInput()
     {

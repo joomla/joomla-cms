@@ -69,10 +69,6 @@ abstract class InstallerHelper
      */
     public static function downloadPackage($url, $target = false)
     {
-        // Capture PHP errors
-        $track_errors = ini_get('track_errors');
-        ini_set('track_errors', true);
-
         // Set user agent
         $version = new Version();
         ini_set('user_agent', $version->getUserAgent('Installer'));
@@ -82,8 +78,8 @@ abstract class InstallerHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
-            'url'     => &$url, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
-            'headers' => &$headers, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+            'url'     => &$url, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+            'headers' => &$headers, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
         ]);
         $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
         $url     = $event->getArgument('url', $url);
@@ -134,12 +130,9 @@ abstract class InstallerHelper
         // Write buffer to file
         File::write($target, $body);
 
-        // Restore error tracking to what it was before
-        ini_set('track_errors', $track_errors);
-
         // Bump the max execution time because not using built in php zip libs are slow
         if (\function_exists('set_time_limit')) {
-            set_time_limit(ini_get('max_execution_time'));
+            set_time_limit(\ini_get('max_execution_time'));
         }
 
         // Return the name of the downloaded package
@@ -215,7 +208,7 @@ abstract class InstallerHelper
         $dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
         if (\count($dirList) === 1) {
-            if (Folder::exists($extractdir . '/' . $dirList[0])) {
+            if (is_dir(Path::clean($extractdir . '/' . $dirList[0]))) {
                 $extractdir = Path::clean($extractdir . '/' . $dirList[0]);
             }
         }

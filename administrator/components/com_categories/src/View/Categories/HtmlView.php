@@ -111,12 +111,12 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
 
         // Written this way because we only want to call IsEmptyState if no items, to prevent always calling it when not needed.
-        if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -204,7 +204,7 @@ class HtmlView extends BaseHtmlView
         // Prepare the toolbar.
         ToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
-        if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0) {
+        if ($canDo->get('core.create') || \count($user->getAuthorisedCategories($component, 'core.create')) > 0) {
             $toolbar->addNew('category.add');
         }
 

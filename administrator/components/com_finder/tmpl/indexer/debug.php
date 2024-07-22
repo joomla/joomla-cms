@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 Text::script('COM_FINDER_INDEXER_MESSAGE_COMPLETE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('com_finder.debug');
 

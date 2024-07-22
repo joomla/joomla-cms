@@ -47,7 +47,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
      *
      * @since  5.0.0
      */
-    protected function setSubject(AuthenticationResponse $value): AuthenticationResponse
+    protected function onSetSubject(AuthenticationResponse $value): AuthenticationResponse
     {
         return $value;
     }
@@ -61,7 +61,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
      *
      * @since  5.0.0
      */
-    protected function setOptions(array $value): array
+    protected function onSetOptions(array $value): array
     {
         return $value;
     }

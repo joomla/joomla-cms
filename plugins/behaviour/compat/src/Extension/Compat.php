@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Behaviour\Compat\Extension;
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -24,7 +23,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Joomla! Compat Plugin.
  *
- * @since  5.0.0
+ * @since  4.4.0
  */
 final class Compat extends CMSPlugin implements SubscriberInterface
 {
@@ -33,7 +32,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -73,14 +72,14 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * likely be removed in Joomla 6.0
          */
         if ($this->params->get('classes_aliases', '1')) {
-            require_once dirname(__DIR__) . '/classmap/classmap.php';
+            require_once \dirname(__DIR__) . '/classmap/classmap.php';
         }
     }
 
     /**
      * We run as early as possible, this should be the first event
      *
-     * @param Event $event
+     * @param  AfterInitialiseDocumentEvent $event
      * @return void
      *
      * @since  5.0.0
@@ -97,6 +96,17 @@ final class Compat extends CMSPlugin implements SubscriberInterface
                 ->getWebAssetManager()
                 ->getRegistry()
                 ->addRegistryFile('media/plg_behaviour_compat/es5.asset.json');
+        }
+        /**
+         * Load the removed assets stubs, they are needed if an extension
+         * directly uses a core asset from Joomla 4 which is not present in Joomla 5+
+         * and only provides an empty asset to not throw an exception
+         */
+        if ($this->params->get('removed_asset', '1')) {
+            $event->getDocument()
+                ->getWebAssetManager()
+                ->getRegistry()
+                ->addRegistryFile('media/plg_behaviour_compat/removed.asset.json');
         }
     }
 }

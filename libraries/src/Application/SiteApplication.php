@@ -113,7 +113,7 @@ final class SiteApplication extends CMSApplication
         $user  = Factory::getUser();
 
         if (!$menus->authorise($itemid)) {
-            if ($user->get('id') == 0) {
+            if ($user->id == 0) {
                 // Set the data
                 $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
 
@@ -485,11 +485,7 @@ final class SiteApplication extends CMSApplication
             $cache->store($templates, $cacheId);
         }
 
-        if (isset($templates[$id])) {
-            $template = $templates[$id];
-        } else {
-            $template = $templates[0];
-        }
+        $template = $templates[$id] ?? $templates[0];
 
         // Allows for overriding the active template from the request
         $template_override = $this->input->getCmd('template', '');
@@ -854,7 +850,7 @@ final class SiteApplication extends CMSApplication
      */
     public function setTemplate($template, $styleParams = null)
     {
-        if (is_object($template)) {
+        if (\is_object($template)) {
             $templateName        = empty($template->template)
                 ? ''
                 : $template->template;

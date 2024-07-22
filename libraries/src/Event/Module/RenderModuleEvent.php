@@ -49,7 +49,7 @@ abstract class RenderModuleEvent extends ModuleEvent
         }
 
         // For backward compatibility make sure the content is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['attributes'] = &$arguments[1];
@@ -67,7 +67,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -81,7 +81,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @since  5.0.0
      */
-    protected function setAttributes(array $value): array
+    protected function onSetAttributes(array $value): array
     {
         return $value;
     }
@@ -117,11 +117,11 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateAttributes(array $value): static
     {
-        $this->arguments['attributes'] = $this->setAttributes($value);
+        $this->arguments['attributes'] = $this->onSetAttributes($value);
 
         return $this;
     }

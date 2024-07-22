@@ -1,4 +1,11 @@
 .new-modules {
+  // We use the same colors for the new module section as we do for the quickicons.
+  --text-color: $new-modules-color;
+  --bg-color: $new-modules-bg;
+  --bg-color-hvr: $new-modules-bg-hvr;
+  --icon-color: $new-modules-icon-color;
+  --icon-color-hvr: $new-modules-icon-color-hvr;
+
   .card-columns {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
@@ -7,9 +14,9 @@
 .new-module {
   display: flex;
   overflow: hidden;
-  color: hsl(var(--hue),30%,40%);
-  background-color: hsl(var(--hue), 60%, 97%);
-  border: 1px solid hsl(var(--hue), 50%, 93%);
+  color: $new-module-color;
+  background-color: $new-module-bg;
+  border: $new-module-border;
   border-radius: $border-radius;
 
   * {
@@ -39,18 +46,18 @@
     justify-content: center;
     width: 2.5rem;
     font-size: 1.2rem;
-    background: hsl(var(--hue), 50%, 93%);
+    background: $new-module-link-bg;
 
     span {
       margin-bottom: 10px;
-      color: hsl(var(--hue), 30%, 40%);
+      color: $new-module-link-span;
     }
 
     .new-module:hover & {
-      background: var(--template-bg-dark);
+      background: $new-module-link-hvr;
 
       span {
-        color: $white;
+        color: $new-module-link-span-hvr;
       }
     }
   }

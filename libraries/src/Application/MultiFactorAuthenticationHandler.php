@@ -19,7 +19,6 @@ use Joomla\CMS\Table\User as UserTable;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
-use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
@@ -100,15 +99,15 @@ trait MultiFactorAuthenticationHandler
         $userOptions        = ComponentHelper::getParams('com_users');
         $neverMFAUserGroups = $userOptions->get('neverMFAUserGroups', []);
         $forceMFAUserGroups = $userOptions->get('forceMFAUserGroups', []);
-        $isMFADisallowed    = count(
+        $isMFADisallowed    = \count(
             array_intersect(
-                is_array($neverMFAUserGroups) ? $neverMFAUserGroups : [],
+                \is_array($neverMFAUserGroups) ? $neverMFAUserGroups : [],
                 $user->getAuthorisedGroups()
             )
         ) >= 1;
-        $isMFAMandatory     = count(
+        $isMFAMandatory     = \count(
             array_intersect(
-                is_array($forceMFAUserGroups) ? $forceMFAUserGroups : [],
+                \is_array($forceMFAUserGroups) ? $forceMFAUserGroups : [],
                 $user->getAuthorisedGroups()
             )
         ) >= 1;
@@ -197,7 +196,7 @@ trait MultiFactorAuthenticationHandler
         $records = MfaHelper::getUserMfaRecords($user->id);
 
         // No MFA Methods? Then we obviously don't need to display a Captive login page.
-        if (count($records) < 1) {
+        if (\count($records) < 1) {
             return false;
         }
 
@@ -218,7 +217,7 @@ trait MultiFactorAuthenticationHandler
 
         // Filter the records based on currently active MFA Methods
         foreach ($records as $record) {
-            if (in_array($record->method, $methodNames)) {
+            if (\in_array($record->method, $methodNames)) {
                 // We found an active Method. Show the Captive page.
                 return true;
             }
@@ -281,7 +280,7 @@ trait MultiFactorAuthenticationHandler
         $task         = strtolower($this->input->getCmd('task', ''));
 
         // Allow the frontend user to log out (in case they forgot their MFA code or something)
-        if (!$isAdmin && ($option == 'com_users') && in_array($task, ['user.logout', 'user.menulogout'])) {
+        if (!$isAdmin && ($option == 'com_users') && \in_array($task, ['user.logout', 'user.menulogout'])) {
             return false;
         }
 
@@ -291,7 +290,7 @@ trait MultiFactorAuthenticationHandler
         }
 
         // Allow the Joomla update finalisation to run
-        if ($isAdmin && $option === 'com_joomlaupdate' && in_array($task, ['update.finalise', 'update.cleanup', 'update.finaliseconfirm'])) {
+        if ($isAdmin && $option === 'com_joomlaupdate' && \in_array($task, ['update.finalise', 'update.cleanup', 'update.finaliseconfirm'])) {
             return false;
         }
 
@@ -332,7 +331,7 @@ trait MultiFactorAuthenticationHandler
             );
         }
 
-        return in_array($view, $allowedViews) || in_array($task, $allowedTasks);
+        return \in_array($view, $allowedViews) || \in_array($task, $allowedTasks);
     }
 
     /**
@@ -399,7 +398,7 @@ trait MultiFactorAuthenticationHandler
                 case 'totp':
                     $this->getLanguage()->load('plg_multifactorauth_totp', JPATH_ADMINISTRATOR);
 
-                    (new MfaTable($db))->save(
+                    Factory::getApplication()->bootComponent('com_users')->getMVCFactory()->createTable('Mfa', 'Administrator')->save(
                         [
                             'user_id'    => $user->id,
                             'title'      => Text::_('PLG_MULTIFACTORAUTH_TOTP_METHOD_TITLE'),
@@ -417,7 +416,7 @@ trait MultiFactorAuthenticationHandler
                 case 'yubikey':
                     $this->getLanguage()->load('plg_multifactorauth_yubikey', JPATH_ADMINISTRATOR);
 
-                    (new MfaTable($db))->save(
+                    Factory::getApplication()->bootComponent('com_users')->getMVCFactory()->createTable('Mfa', 'Administrator')->save(
                         [
                             'user_id'    => $user->id,
                             'title'      => sprintf("%s %s", Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
@@ -452,7 +451,7 @@ trait MultiFactorAuthenticationHandler
             $db->setQuery($query)->execute();
 
             // Migrate data
-            (new MfaTable($db))->save(
+            Factory::getApplication()->bootComponent('com_users')->getMVCFactory()->createTable('Mfa', 'Administrator')->save(
                 [
                     'user_id'    => $user->id,
                     'title'      => Text::_('COM_USERS_USER_BACKUPCODES'),
@@ -504,13 +503,13 @@ trait MultiFactorAuthenticationHandler
         $aes       = new Aes($secret, 256);
         $decrypted = $aes->decryptString($stringToDecrypt);
 
-        if (!is_string($decrypted) || empty($decrypted)) {
+        if (!\is_string($decrypted) || empty($decrypted)) {
             $aes->setPassword($secret, true);
 
             $decrypted = $aes->decryptString($stringToDecrypt);
         }
 
-        if (!is_string($decrypted) || empty($decrypted)) {
+        if (!\is_string($decrypted) || empty($decrypted)) {
             return '';
         }
 

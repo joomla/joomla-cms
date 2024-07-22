@@ -90,7 +90,7 @@ final class Cookie extends CMSPlugin
         $cookieArray = explode('.', $cookieValue);
 
         // Check for valid cookie value
-        if (count($cookieArray) !== 2) {
+        if (\count($cookieArray) !== 2) {
             // Destroy the cookie in the browser.
             $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
             Log::add('Invalid cookie detected.', Log::WARNING, 'error');
@@ -136,7 +136,7 @@ final class Cookie extends CMSPlugin
             return false;
         }
 
-        if (count($results) !== 1) {
+        if (\count($results) !== 1) {
             // Destroy the cookie in the browser.
             $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
             $response->status = Authentication::STATUS_FAILURE;

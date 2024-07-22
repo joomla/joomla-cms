@@ -123,7 +123,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      */
     public function alterSiteStatus(ExecuteTaskEvent $event): void
     {
-        if (!array_key_exists($event->getRoutineId(), self::TASKS_MAP)) {
+        if (!\array_key_exists($event->getRoutineId(), self::TASKS_MAP)) {
             return;
         }
 
@@ -178,7 +178,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
         }
 
         // Invalidates the cached configuration file
-        if (function_exists('opcache_invalidate')) {
+        if (\function_exists('opcache_invalidate')) {
             opcache_invalidate($file);
         }
 

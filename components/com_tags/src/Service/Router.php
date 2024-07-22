@@ -89,7 +89,7 @@ class Router extends RouterBase
         }
 
         // Get query language
-        $lang = isset($query['lang']) ? $query['lang'] : '*';
+        $lang = $query['lang'] ?? '*';
 
         // Set the language to the current one when multilang is enabled and item is tagged to ALL
         if (Multilanguage::isEnabled() && $lang === '*') {
@@ -109,7 +109,7 @@ class Router extends RouterBase
                 }
             } elseif (isset($query['view']) && $query['view'] === 'tag') {
                 if (isset($query['id'])) {
-                    if (!is_array($query['id'])) {
+                    if (!\is_array($query['id'])) {
                         $query['id'] = [$query['id']];
                     }
 
@@ -169,18 +169,24 @@ class Router extends RouterBase
         $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
 
         if ($menuItem && $menuItem->query['option'] == 'com_tags') {
-            if ($menuItem->query['view'] == 'tags' && isset($query['id'])) {
-                $ids = $query['id'];
+            if ($menuItem->query['view'] == 'tags') {
+                if (isset($query['id'])) {
+                    $ids = $query['id'];
 
-                if (!is_array($ids)) {
-                    $ids = [$ids];
+                    if (!\is_array($ids)) {
+                        $ids = [$ids];
+                    }
+
+                    foreach ($ids as $id) {
+                        $segments[] = $id;
+                    }
+
+                    unset($query['id']);
+                } elseif (isset($query['parent_id'], $menuItem->query['parent_id'])) {
+                    if ($query['parent_id'] == $menuItem->query['parent_id']) {
+                        unset($query['parent_id']);
+                    }
                 }
-
-                foreach ($ids as $id) {
-                    $segments[] = $id;
-                }
-
-                unset($query['id']);
             } elseif ($menuItem->query['view'] == 'tag') {
                 $ids     = $query['id'];
                 $int_ids = ArrayHelper::toInteger($ids);
@@ -190,7 +196,7 @@ class Router extends RouterBase
                  * We check if there is a difference between the tags of the menu item and the query.
                  * If they are identical, we exactly match the menu item. Otherwise we append all tags to the URL
                  */
-                if (count(array_diff($int_ids, $mIds)) > 0 || count(array_diff($mIds, $int_ids)) > 0) {
+                if (\count(array_diff($int_ids, $mIds)) > 0 || \count(array_diff($mIds, $int_ids)) > 0) {
                     foreach ($ids as $id) {
                         $segments[] = $id;
                     }
@@ -204,7 +210,7 @@ class Router extends RouterBase
             $segments[] = $query['view'];
             unset($query['view'], $query['Itemid']);
 
-            if (isset($query['id']) && is_array($query['id'])) {
+            if (isset($query['id']) && \is_array($query['id'])) {
                 foreach ($query['id'] as $id) {
                     $segments[] = $id;
                 }
@@ -255,12 +261,12 @@ class Router extends RouterBase
             $ids = $item->query['id'];
         }
 
-        while (count($segments)) {
+        while (\count($segments)) {
             $id    = array_shift($segments);
             $ids[] = $this->fixSegment($id);
         }
 
-        if (count($ids)) {
+        if (\count($ids)) {
             $vars['id']   = $ids;
             $vars['view'] = 'tag';
         }
@@ -298,7 +304,7 @@ class Router extends RouterBase
             }
 
             if ($item->query['view'] == 'tags') {
-                $id                                         = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
+                $id                                         = (int) ($item->query['parent_id'] ?? 0);
                 $this->lookup[$item->language]['tags'][$id] = $item->id;
             }
         }
@@ -306,8 +312,8 @@ class Router extends RouterBase
         foreach ($this->lookup as $language => $items) {
             // We have tags views with parent_id set and need to load child tags to be assigned to this menu item
             if (
-                count($this->lookup[$language]['tags']) > 1
-                || (count($this->lookup[$language]['tags']) == 1 && !isset($this->lookup[$language]['tags'][0]))
+                \count($this->lookup[$language]['tags']) > 1
+                || (\count($this->lookup[$language]['tags']) == 1 && !isset($this->lookup[$language]['tags'][0]))
             ) {
                 foreach ($this->lookup[$language]['tags'] as $id => $menu) {
                     if ($id === 0) {

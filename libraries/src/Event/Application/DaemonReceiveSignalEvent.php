@@ -48,7 +48,7 @@ class DaemonReceiveSignalEvent extends ApplicationEvent
      *
      * @since  5.0.0
      */
-    protected function setSignal(int $value): int
+    protected function onSetSignal(int $value): int
     {
         return $value;
     }

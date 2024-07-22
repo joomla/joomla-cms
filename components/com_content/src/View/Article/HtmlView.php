@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
         $this->user  = $user;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -189,8 +189,8 @@ class HtmlView extends BaseHtmlView
          * - Deny access to logged users with 403 code
          * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
          */
-        if ($item->params->get('access-view') == false && !strlen($item->fulltext)) {
-            if ($this->user->get('guest')) {
+        if ($item->params->get('access-view') == false && !\strlen($item->fulltext)) {
+            if ($this->user->guest) {
                 $return                = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
                 $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
@@ -288,7 +288,7 @@ class HtmlView extends BaseHtmlView
             // Get ID of the category from active menu item
             if (
                 $menu && $menu->component == 'com_content' && isset($menu->query['view'])
-                && in_array($menu->query['view'], ['categories', 'category'])
+                && \in_array($menu->query['view'], ['categories', 'category'])
             ) {
                 $id = $menu->query['id'];
             } else {

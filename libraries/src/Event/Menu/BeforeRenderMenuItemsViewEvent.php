@@ -69,7 +69,7 @@ class BeforeRenderMenuItemsViewEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(HtmlView $value): HtmlView
+    protected function onSetSubject(HtmlView $value): HtmlView
     {
         return $value;
     }

@@ -8,13 +8,14 @@
     {
       "name": "com_cpanel.admin-addmodule",
       "type": "script",
-      "uri": "com_cpanel/admin-add_module.min.js",
+      "uri": "",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
-      }
+      },
+      "deprecated": true
     },
     {
       "name": "com_cpanel.admin-cpanel",
@@ -35,8 +36,7 @@
         "core"
       ],
       "attributes": {
-        "type": "module",
-        "defer": true
+        "type": "module"
       }
     }
   ]

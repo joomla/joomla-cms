@@ -392,7 +392,7 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $stem   = $match[1];
             $suffix = $match[2];
-            $token  = $stem . (array_key_exists($suffix, $step1list) ? $step1list[$suffix] : '');
+            $token  = $stem . (\array_key_exists($suffix, $step1list) ? $step1list[$suffix] : '');
             $test1  = false;
         }
 
@@ -814,7 +814,7 @@ class El extends Language
 
         for ($i = 0; $i < mb_strlen($token); $i++) {
             $char    = mb_substr($token, $i, 1);
-            $isLower = array_key_exists($char, $caseConvert);
+            $isLower = \array_key_exists($char, $caseConvert);
 
             if (!$isLower) {
                 $newToken .= $char;
@@ -827,15 +827,15 @@ class El extends Language
 
             $wCase[$i] = 1;
 
-            if (in_array($char, ['ά', 'έ', 'ή', 'ί', 'ό', 'ύ', 'ώ', 'ς'])) {
+            if (\in_array($char, ['ά', 'έ', 'ή', 'ί', 'ό', 'ύ', 'ώ', 'ς'])) {
                 $wCase[$i] = 2;
             }
 
-            if (in_array($char, ['ϊ', 'ϋ'])) {
+            if (\in_array($char, ['ϊ', 'ϋ'])) {
                 $wCase[$i] = 3;
             }
 
-            if (in_array($char, ['ΐ', 'ΰ'])) {
+            if (\in_array($char, ['ΐ', 'ΰ'])) {
                 $wCase[$i] = 4;
             }
         }

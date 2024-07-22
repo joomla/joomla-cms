@@ -15,8 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Tag\TagServiceInterface;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -101,7 +101,7 @@ class TagsModel extends ListModel
         $this->setState('filter.component', $parts[0]);
 
         // Extract the optional section name
-        $this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+        $this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_tags');
@@ -140,7 +140,7 @@ class TagsModel extends ListModel
     /**
      * Method to create a query for a list of items.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since  3.1
      */
@@ -299,7 +299,7 @@ class TagsModel extends ListModel
     {
         $parts = explode('.', $extension);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return;
         }
 
@@ -313,7 +313,7 @@ class TagsModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

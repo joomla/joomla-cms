@@ -53,7 +53,7 @@ class CategoriesView extends HtmlView
      * The category parameters
      *
      * @var   Registry
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public $params;
 
@@ -61,7 +61,7 @@ class CategoriesView extends HtmlView
      * The parent category
      *
      * @var   CategoryNode
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public $parent;
 

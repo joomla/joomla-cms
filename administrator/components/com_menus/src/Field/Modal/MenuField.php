@@ -130,7 +130,7 @@ class MenuField extends ModalSelectField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -145,6 +145,12 @@ class MenuField extends ModalSelectField
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
+        // Check if the value consist with id:alias, extract the id only
+        if ($value && str_contains($value, ':')) {
+            [$id]  = explode(':', $value, 2);
+            $value = (int) $id;
+        }
+
         $return = parent::setup($element, $value, $group);
 
         if (!$return) {
@@ -160,7 +166,7 @@ class MenuField extends ModalSelectField
         $clientId  = (int) $this->element['clientid'];
 
         // Prepare enabled actions
-        $this->canDo['propagate']  = ((string) $this->element['propagate'] === 'true') && count($languages) > 2;
+        $this->canDo['propagate']  = ((string) $this->element['propagate'] === 'true') && \count($languages) > 2;
 
         // Creating/editing menu items is not supported in frontend.
         if (!$app->isClient('administrator')) {
@@ -225,7 +231,7 @@ class MenuField extends ModalSelectField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getValueTitle()
     {
@@ -256,7 +262,7 @@ class MenuField extends ModalSelectField
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected function getLayoutData()
     {
@@ -273,7 +279,7 @@ class MenuField extends ModalSelectField
      *
      * @return  FileLayout
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getRenderer($layoutId = 'default')
     {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
-	<name>Português Brasil (pt-BR)</name>
-	<version>4.3.4</version>
-	<creationDate>2023-08</creationDate>
+	<name>Português do Brasil (pt-BR)</name>
+	<version>5.1.2</version>
+	<creationDate>2024-07</creationDate>
 	<author>Projeto Joomla!</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -10,7 +10,7 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Português Brasil (pt-BR)</name>
+		<name>Brazilian Portuguese (pt-BR)</name>
 		<nativeName>Português do Brasil (pt-BR)</nativeName>
 		<tag>pt-BR</tag>
 		<rtl>0</rtl>

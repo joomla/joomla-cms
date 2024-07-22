@@ -14,7 +14,9 @@
       ],
       "attributes": {
         "type": "module"
-      }
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Use joomla.dialog asset for changelog popup"
     },
     {
       "name": "com_installer.installer",
