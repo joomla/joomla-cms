@@ -164,7 +164,7 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
             $query = $db->getQuery(true);
 
             // Get the extra field check attribute.
-            $userId = ($form instanceof Form) ? (int) $form->getValue('id') : 0;
+            $userId = ($input instanceof Registry) ? $input->get('id') : 0;
 
             // Build the query.
             $query->select('COUNT(*)')
