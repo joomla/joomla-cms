@@ -401,16 +401,12 @@ class Mail extends PHPMailer implements MailerInterface
             $result = true;
 
             if (\is_array($path)) {
-                if (is_array($name) && !empty($name) && \count($path) != \count($name)) {
+                if (!empty($name) && \is_array($name) && \count($path) != \count($name)) {
                     throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
                 }
 
                 foreach ($path as $key => $file) {
-                    if (isset($name[$key])) {
-                        $result = parent::addAttachment($file, $name[$key], $encoding, $type, $disposition);
-                    } else {
-                        $result = parent::addAttachment($file, basename($file), $encoding, $type, $disposition);
-                    }
+                    $result = parent::addAttachment($file, isset($name[$key]) ? $name[$key] : '', $encoding, $type, $disposition);
                 }
 
                 // Check for boolean false return if exception handling is disabled
