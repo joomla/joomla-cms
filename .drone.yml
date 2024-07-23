@@ -153,7 +153,7 @@ steps:
 
   - name: phpmax-system-mysql
     depends_on:
-      - phpmin-system-mysql
+      - prepare_system_tests
     image: joomlaprojects/docker-images:cypress8.2
     volumes:
       - name: cypress-cache
@@ -165,7 +165,7 @@ steps:
 
   - name: phpnext-system-mysql
     depends_on:
-      - phpmax-system-mysql
+      - prepare_system_tests
     image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
@@ -192,7 +192,7 @@ steps:
 
   - name: phpmax-system-postgres
     depends_on:
-      - phpmin-system-postgres
+      - prepare_system_tests
     image: joomlaprojects/docker-images:cypress8.2
     volumes:
       - name: cypress-cache
@@ -204,7 +204,7 @@ steps:
 
   - name: phpnext-system-postgres
     depends_on:
-      - phpmax-system-postgres
+      - prepare_system_tests
     image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
@@ -414,6 +414,6 @@ trigger:
 
 ---
 kind: signature
-hmac: bd41423d85abadb875c8fc911f87596ead88b62d26fabf6a283737c5a7b4c5b9
+hmac: b1a280a80eee7182a07b8a9e55b06b48e26ae1ad7efb33cc27457e03f6571a63
 
 ...
