@@ -50,24 +50,24 @@
 .shepherd-enabled.shepherd-element[data-popper-placement=bottom] {
   transform: translateY(12px);
   .shepherd-arrow:before {
-    border-left: 1px solid var(--border-color-translucent);
     border-top: 1px solid var(--border-color-translucent);
+    border-left: 1px solid var(--border-color-translucent);
   }
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement=left] {
   transform: translateX(-12px);
   .shepherd-arrow:before {
-    border-right: 1px solid var(--border-color-translucent);
     border-top: 1px solid var(--border-color-translucent);
+    border-right: 1px solid var(--border-color-translucent);
   }
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement=top] {
   transform: translateY(-12px);
   .shepherd-arrow:before {
-    border-bottom: 1px solid var(--border-color-translucent);
     border-right: 1px solid var(--border-color-translucent);
+    border-bottom: 1px solid var(--border-color-translucent);
   }
 }
 
