@@ -39,7 +39,7 @@ class ProfileController extends BaseController
     {
         $app         = $this->app;
         $user        = $this->app->getIdentity();
-        $loginUserId = (int) $user->get('id');
+        $loginUserId = (int) $user->id;
 
         // Get the current user id.
         $userId     = $this->input->getInt('user_id');
@@ -90,7 +90,7 @@ class ProfileController extends BaseController
         /** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
         $model  = $this->getModel('Profile', 'Site');
         $user   = $this->app->getIdentity();
-        $userId = (int) $user->get('id');
+        $userId = (int) $user->id;
 
         // Get the user data.
         $requestData = $app->getInput()->post->get('jform', [], 'array');
