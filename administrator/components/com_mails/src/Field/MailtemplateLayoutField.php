@@ -48,7 +48,7 @@ class MailtemplateLayoutField extends FormField
         // $extension = explode('.', $this->form->getValue('context'));
         // $extension = $extension[0];
 
-       // Get the database object and a new query object.
+        // Get the database object and a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
