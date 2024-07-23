@@ -75,7 +75,7 @@ class MailtemplateLayoutField extends FormField
                 $files          = [];
                 $template_paths = [
                     Path::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/joomla/mail'),
-                    Path::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/com_mails/joomla/mail')
+                    Path::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/com_mails/joomla/mail'),
                 ];
 
                 // Add the layout options from the template paths.
