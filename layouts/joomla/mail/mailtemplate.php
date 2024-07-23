@@ -78,7 +78,7 @@ $siteUrl = Uri::root(false);
                                 <?php if (isset($extraData['logo']) || isset($extraData['siteName'])) : ?>
                                     <?php if (isset($extraData['logo'])) : ?>
                                     <img src="cid:<?php echo htmlspecialchars($extraData['logo'], ENT_QUOTES);?>" alt="<?php echo (isset($extraData['siteName']) ? $extraData['siteName'] : 'Logo');?>" style="max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff;">
-                                    <?php else: ?>
+                                    <?php else : ?>
                                     <h1 style="margin-top:0;margin-bottom:0;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;color:#112855;">
                                         <?php echo $extraData['siteName']; ?>
                                     </h1>
@@ -96,7 +96,7 @@ $siteUrl = Uri::root(false);
                             <tr>
                                 <td style="padding:30px;text-align:center;font-size:12px;background-color:#112855;color:#cccccc;">
                                     <p style="margin:0;font-size:14px;line-height:20px;">&reg; <?php echo isset($extraData['siteName']) ? $extraData['siteName'] . ' ' : ''; ?><?php echo date("Y"); ?>
-                                    <br><a title="<?php echo $siteUrl;?>" href="<?php echo $siteUrl; ?>" style="color:#cccccc;text-decoration:underline;"><?php echo substr_replace($siteUrl, 'www.',0,strlen(Uri::getInstance()->toString(['scheme'])));?></a>
+                                    <br><a title="<?php echo $siteUrl;?>" href="<?php echo $siteUrl; ?>" style="color:#cccccc;text-decoration:underline;"><?php echo substr_replace($siteUrl, 'www.', 0, strlen(Uri::getInstance()->toString(['scheme'])));?></a>
                                 </td>
                             </tr>
                         </table>

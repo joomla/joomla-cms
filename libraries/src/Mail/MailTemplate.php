@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
@@ -327,7 +326,7 @@ class MailTemplate
                         JPATH_SITE . '/templates/' . $siteTemplate->value . '/html/layouts/com_mails',
                     ]);
                 }
-                
+
                 $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
 
                 $htmlBody  = $this->replaceTags(Text::_($htmlBody), $this->data);
