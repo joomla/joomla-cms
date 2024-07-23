@@ -95,7 +95,7 @@ $siteUrl = Uri::root(false);
                             </tr>
                             <tr>
                                 <td style="padding:30px;text-align:center;font-size:12px;background-color:#112855;color:#cccccc;">
-                                    <p style="margin:0;font-size:14px;line-height:20px;">&reg; <?php echo isset($extraData['siteName']) ? $extraData['siteName'] . ' ' : ''; ?><?php echo date("Y"); ?>
+                                    <p style="margin:0;font-size:14px;line-height:20px;">&copy; <?php echo isset($extraData['siteName']) ? $extraData['siteName'] . ' ' : ''; ?><?php echo date("Y"); ?>
                                     <br><a title="<?php echo $siteUrl;?>" href="<?php echo $siteUrl; ?>" style="color:#cccccc;text-decoration:underline;"><?php echo substr_replace($siteUrl, 'www.', 0, strlen(Uri::getInstance()->toString(['scheme'])));?></a>
                                 </td>
                             </tr>
