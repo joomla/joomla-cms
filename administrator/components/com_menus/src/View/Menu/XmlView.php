@@ -69,7 +69,7 @@ class XmlView extends BaseHtmlView
             return;
         }
 
-        $this->items = $root->getChildren(true);
+        $this->items = $root->getChildren();
 
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><menu ' .
             'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
@@ -175,8 +175,8 @@ class XmlView extends BaseHtmlView
             $node->addChild('params', htmlentities((string) $item->getParams(), ENT_XML1));
         }
 
-        if (isset($item->submenu)) {
-            foreach ($item->submenu as $sub) {
+        if ($item->hasChildren()) {
+            foreach ($item->getChildren() as $sub) {
                 $this->addXmlChild($node, $sub);
             }
         }

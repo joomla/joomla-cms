@@ -219,7 +219,7 @@ steps:
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.js cypress.config.js
+      - mv cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -311,21 +311,29 @@ steps:
     environment:
       WEB_SERVER:
         from_secret: webserver
-      FTP_SERVER:
-        from_secret: ftpserver
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
+      FTP_KEY:
+        from_secret: ftp_key
+      FTP_USER:
+        from_secret: ftp_user
+      FTP_HOST:
+        from_secret: ftp_host
+      ARTIFACTS_ROOT:
+        from_secret: artifacts_root
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - export PLUGIN_DEST_DIR=/artifacts/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
-      - echo https://$WEB_SERVER$PLUGIN_DEST_DIR
-      - rclone config create artifacts ftp host $FTP_SERVER user $FTP_USERNAME port 21 pass $FTP_PASSWORD
-      - rclone mkdir artifacts:$PLUGIN_DEST_DIR
-      - rclone copy tests/System/output/ artifacts:$PLUGIN_DEST_DIR
-      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://$WEB_SERVER$PLUGIN_DEST_DIR\"}" > /dev/null'
+      - export PLUGIN_DEST_DIR=$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - echo https://$WEB_SERVER/drone/$PLUGIN_DEST_DIR
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$FTP_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create artifacts sftp host $FTP_HOST user $FTP_USER port 22
+      - rclone mkdir artifacts:$ARTIFACTS_ROOT/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - rclone copy tests/System/output/ artifacts:$ARTIFACTS_ROOT/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://$WEB_SERVER/drone/$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
         - failure
@@ -354,7 +362,7 @@ services:
       MYSQL_DATABASE: test_joomla
 
   - name: mysql8
-    image: mysql:8
+    image: mysql:8.0
     command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
       MYSQL_USER: joomla_ut
@@ -496,6 +504,6 @@ trigger:
 
 ---
 kind: signature
-hmac: ca3d5f3a6e39270f147f8f02ca4bc4cca7050f7ab2bcaf0258426e0089cfef5b
+hmac: ccc71c7a0c6643aef1000b49a0125d4a9bf2bacedc3875c9106b31449e7f50f8
 
 ...
