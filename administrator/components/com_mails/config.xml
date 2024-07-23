@@ -73,11 +73,11 @@
 		<field
 			name="mail_logoFile"
 			type="media"
+			label="COM_CONFIG_FIELD_MAILTEMPLATE_LOGOFILE_LABEL"
 			schemes="http,https,ftp,ftps,data,file"
 			validate="url"
 			relative="true"
 			default=""
-			label="COM_CONFIG_FIELD_MAILTEMPLATE_LOGOFILE_LABEL"
 			showon="mail_style:html[OR]mail_style:both[AND]disable_htmllayout:1"
 		/>
 
