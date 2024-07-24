@@ -24,7 +24,7 @@
   display: inline-flex;
   align-items: center;
   margin-inline-start: 8px;
-  overflow: hidden;
+  overflow-y: clip;
 }
 
 .shepherd-cancel-icon::before {
