@@ -148,7 +148,7 @@ class Filter
             // Translate node titles if possible.
             $lang = Factory::getLanguage();
 
-            foreach ($nodes as $nk => $nv) {
+            foreach ($nodes as $nv) {
                 if (trim($nv->parent_title, '*') === 'Language') {
                     $title = LanguageHelper::branchLanguageTitle($nv->title);
                 } else {
@@ -156,7 +156,7 @@ class Filter
                     $title = $lang->hasKey($key) ? Text::_($key) : $nv->title;
                 }
 
-                $nodes[$nk]->title = $title;
+                $nv->title = $title;
             }
 
             // Adding slides
@@ -320,7 +320,7 @@ class Filter
                 $db->setQuery($query);
 
                 try {
-                    $branches[$bk]->nodes = $db->loadObjectList('id');
+                    $bv->nodes = $db->loadObjectList('id');
                 } catch (\RuntimeException $e) {
                     return null;
                 }
@@ -329,7 +329,7 @@ class Filter
                 $language = Factory::getLanguage();
                 $root     = [];
 
-                foreach ($branches[$bk]->nodes as $node_id => $node) {
+                foreach ($bv->nodes as $node_id => $node) {
                     if (trim($node->parent_title, '*') === 'Language') {
                         $title = LanguageHelper::branchLanguageTitle($node->title);
                     } else {
@@ -338,10 +338,10 @@ class Filter
                     }
 
                     if ($node->level > 2) {
-                        $branches[$bk]->nodes[$node_id]->title = str_repeat('-', $node->level - 2) . $title;
+                        $node->title = str_repeat('-', $node->level - 2) . $title;
                     } else {
-                        $branches[$bk]->nodes[$node_id]->title = $title;
-                        $root[]                                = $branches[$bk]->nodes[$node_id];
+                        $node->title = $title;
+                        $root[]      = $branches[$bk]->nodes[$node_id];
                     }
 
                     if ($node->parent_id && isset($branches[$bk]->nodes[$node->parent_id])) {
@@ -355,7 +355,7 @@ class Filter
                 $branches[$bk]->nodes = $this->reduce($root);
 
                 // Add the Search All option to the branch.
-                array_unshift($branches[$bk]->nodes, ['id' => null, 'title' => Text::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')]);
+                array_unshift($bv->nodes, ['id' => null, 'title' => Text::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')]);
             }
 
             // Store the data in cache.
@@ -372,7 +372,7 @@ class Filter
         $html .= '<div class="filter-branch' . $classSuffix . '">';
 
         // Iterate through all branches and build code.
-        foreach ($branches as $bk => $bv) {
+        foreach ($branches as $bv) {
             // If the multi-lang plugin is enabled then drop the language branch.
             if ($bv->title === 'Language' && Multilanguage::isEnabled()) {
                 continue;
@@ -400,7 +400,7 @@ class Filter
             $html .= '<div class="controls">';
             $html .= HTMLHelper::_(
                 'select.genericlist',
-                $branches[$bk]->nodes,
+                $bv->nodes,
                 't[]',
                 'class="form-select advancedSelect"',
                 'id',
