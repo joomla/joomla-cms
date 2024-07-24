@@ -148,6 +148,13 @@ class Showon {
             // Select lists, text-area etc. Note that multiple-select list returns
             // an Array here s0 we can always treat 'itemval' as an array
             itemval = document.getElementById(originId).value;
+            // Check data attribute data-global insted of value in <select> for use global
+            if (originField.tagName.toLowerCase() === 'select') {
+              let selectField = document.getElementById(originId);
+              if (selectField.options[selectField.selectedIndex].hasAttribute("data-global")) {
+                itemval = selectField.options[selectField.selectedIndex].dataset.global
+              }
+            }
             // A multi-select <select> $field  will return null when no elements are
             // selected so we need to define itemval accordingly
             if (itemval === null && originField.tagName.toLowerCase() === 'select') {
