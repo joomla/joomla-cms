@@ -78,7 +78,10 @@ export default {
           {
             bubbles: true,
             cancelable: false,
-            detail: {},
+            detail: {
+              type: 'dir',
+              path: destination.path,
+            },
           },
         ),
       );

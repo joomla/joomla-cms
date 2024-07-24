@@ -55,8 +55,8 @@ class CacheController
 
         // Overwrite default options with given options
         foreach ($options as $option => $value) {
-            if (isset($options[$option])) {
-                $this->options[$option] = $options[$option];
+            if ($value !== null) {
+                $this->options[$option] = $value;
             }
         }
     }
