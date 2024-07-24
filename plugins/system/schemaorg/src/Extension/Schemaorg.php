@@ -61,6 +61,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             'onContentPrepareData' => 'onContentPrepareData',
             'onContentPrepareForm' => 'onContentPrepareForm',
             'onContentAfterSave'   => 'onContentAfterSave',
+            'onContentAfterDelete' => 'onContentAfterDelete',
         ];
     }
 
@@ -536,5 +537,31 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         }
 
         return false;
+    }
+
+    /**
+     * The delete event.
+     *
+     * @param   Ojbject    $event  The event
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onContentAfterDelete(Model\AfterDeleteEvent $event)
+    {
+        $context = $event->getContext();
+        $itemId  = $event->getItem()->id;
+
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+
+        $query->delete($db->quoteName('#__schemaorg'))
+            ->where($db->quoteName('itemId') . '= :itemId')
+            ->bind(':itemId', $itemId, ParameterType::INTEGER)
+            ->where($db->quoteName('context') . '= :context')
+            ->bind(':context', $context, ParameterType::STRING);
+
+        $db->setQuery($query)->execute();
     }
 }
