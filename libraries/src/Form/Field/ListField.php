@@ -191,7 +191,7 @@ class ListField extends FormField
                 foreach ($options as $option) {
                     if ($option->value === $value) {
                         $value           = $option->text;
-                        $tmp->optionattr = [ 'data-global-value' => $option->value ];
+                        $tmp->optionattr = ['data-global-value' => $option->value];
 
                         break;
                     }
