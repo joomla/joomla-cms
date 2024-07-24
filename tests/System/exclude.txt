@@ -2,7 +2,6 @@
 .github
 build
 dev
-node_modules
 .appveyor.yml
 .drone.yml
 .editorconfig
