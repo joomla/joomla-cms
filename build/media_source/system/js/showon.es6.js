@@ -150,9 +150,9 @@ class Showon {
             itemval = document.getElementById(originId).value;
             // Check data attribute data-global instead of value in <select> for use global
             if (originField.tagName.toLowerCase() === 'select') {
-              let selectField = document.getElementById(originId);
+              const selectField = document.getElementById(originId);
               if (selectField.options[selectField.selectedIndex].hasAttribute('data-global')) {
-                itemval = selectField.options[selectField.selectedIndex].dataset.global
+                itemval = selectField.options[selectField.selectedIndex].dataset.global;
               }
             }
             // A multi-select <select> $field  will return null when no elements are
