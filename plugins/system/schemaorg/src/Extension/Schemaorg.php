@@ -553,7 +553,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $context = $event->getContext();
         $itemId  = $event->getItem()->id;
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->delete($db->quoteName('#__schemaorg'))
