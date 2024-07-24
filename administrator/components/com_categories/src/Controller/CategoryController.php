@@ -257,7 +257,7 @@ class CategoryController extends FormController
             $item->metadata = (string) $registry;
         }
 
-        if (in_array($this->getTask(), ['save2menulist', 'save2menublog'])) {
+        if (\in_array($this->getTask(), ['save2menulist', 'save2menublog'])) {
             $editState = [];
 
             $type = 'component';
