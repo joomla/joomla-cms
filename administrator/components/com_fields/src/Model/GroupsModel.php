@@ -189,7 +189,7 @@ class GroupsModel extends ListModel
             if (stripos($search, 'id:') === 0) {
                 $search = (int) substr($search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
-                    ->bind(':id', $search, ParameterType::INTEGER);
+                    ->bind(':search', $search, ParameterType::INTEGER);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where($db->quoteName('a.title') . ' LIKE :search')
