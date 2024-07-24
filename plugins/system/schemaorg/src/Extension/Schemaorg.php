@@ -542,7 +542,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     /**
      * The delete event.
      *
-     * @param   Ojbject    $event  The event
+     * @param   Object    $event  The event
      *
      * @return  void
      *
