@@ -149,10 +149,11 @@ class Showon {
             // an Array here s0 we can always treat 'itemval' as an array
             itemval = document.getElementById(originId).value;
             // Check data attribute data-global instead of value in <select> for use global
-            if (originField.tagName.toLowerCase() === 'select') {
-              const selectField = document.getElementById(originId);
-              if (selectField.options[selectField.selectedIndex].hasAttribute('data-global')) {
-                itemval = selectField.options[selectField.selectedIndex].dataset.global;
+            if (originField.tagName === 'SELECT') {
+              const selectedOption = document.getElementById(originId).selectedOptions[0];
+
+              if (selectedOption && 'globalValue' in selectedOption.dataset) {
+                itemval = selectedOption.dataset.globalValue;
               }
             }
             // A multi-select <select> $field  will return null when no elements are
