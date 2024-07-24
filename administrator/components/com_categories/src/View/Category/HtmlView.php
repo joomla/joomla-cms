@@ -208,7 +208,7 @@ class HtmlView extends BaseHtmlView
                     $childBar->save('category.save');
                     $childBar->save2new('category.save2new');
 
-                    if ($canDo->get('core.create', 'com_menus.menu') && $component === "com_content") {
+                    if ($canDo->get('core.create', 'com_menus.menu') && $component === 'com_content') {
                         $childBar->save('category.save2menulist', 'JTOOLBAR_SAVE_TO_MENU_AS_LIST');
                         $childBar->save('category.save2menublog', 'JTOOLBAR_SAVE_TO_MENU_AS_BLOG');
                     }
@@ -239,7 +239,7 @@ class HtmlView extends BaseHtmlView
                         }
                     }
 
-                    if ($canDo->get('core.create', 'com_menus.menu') && $component === "com_content") {
+                    if ($canDo->get('core.create', 'com_menus.menu') && $component === 'com_content') {
                         $childBar->save('category.save2menulist', 'JTOOLBAR_SAVE_TO_MENU_AS_LIST');
                         $childBar->save('category.save2menublog', 'JTOOLBAR_SAVE_TO_MENU_AS_BLOG');
                     }
