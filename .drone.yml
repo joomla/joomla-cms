@@ -161,7 +161,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql2
 
   - name: phpnext-system-mysql
     depends_on:
@@ -200,7 +200,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres2
 
   - name: phpnext-system-postgres
     depends_on:
@@ -280,7 +280,25 @@ services:
       MYSQL_ROOT_PASSWORD: joomla_ut
       MYSQL_DATABASE: test_joomla
 
+  - name: mysql2
+    image: mysql:8.0
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
   - name: postgres
+    image: postgres:12-alpine
+    ports:
+      - 5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: joomla_ut
+      POSTGRES_DB: test_joomla
+
+  - name: postgres2
     image: postgres:12-alpine
     ports:
       - 5432
@@ -414,6 +432,6 @@ trigger:
 
 ---
 kind: signature
-hmac: b1a280a80eee7182a07b8a9e55b06b48e26ae1ad7efb33cc27457e03f6571a63
+hmac: 92833f08cbd8000d0c0b8f8453f5b77766c8b76b51d5822c74cfdcea0c2f8397
 
 ...
