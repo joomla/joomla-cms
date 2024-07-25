@@ -71,7 +71,7 @@
 		/>
 
 		<field
-			name="mail_logoFile"
+			name="mail_logofile"
 			type="media"
 			label="COM_CONFIG_FIELD_MAILTEMPLATE_LOGOFILE_LABEL"
 			schemes="http,https,ftp,ftps,data,file"
