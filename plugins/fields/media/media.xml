@@ -25,11 +25,10 @@
 			<fieldset name="basic">
 				<field
 					name="directory"
-					type="folderlist"
+					type="media"
 					label="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_LABEL"
-					directory="images"
-					hide_none="true"
-					recursive="true"
+					preview="false"
+					types="directories"
 				/>
 
 				<field
