@@ -348,7 +348,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * The conditions to make field required or optional.
      *
      * @var    string
-     * @since  4.2.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $requireon;
 
