@@ -519,7 +519,7 @@ class FormHelper
 
         $conditionData  = [];
         $conditionParts = preg_split('#(\[AND\]|\[OR\])#', $conditions, -1, PREG_SPLIT_DELIM_CAPTURE);
-        $op          = '';
+        $op             = '';
 
         foreach ($conditionParts as $conditionPart) {
             if (($conditionPart === '[AND]') || $conditionPart === '[OR]') {
