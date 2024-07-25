@@ -567,6 +567,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 $value = (string) $value;
                 $value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
 
+                // No break
             case 'required':
             case 'disabled':
             case 'readonly':
