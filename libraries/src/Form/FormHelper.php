@@ -475,7 +475,7 @@ class FormHelper
      *
      * @since   3.7.0
      *
-     * @deprecated 5.0 Use \Joomla\CMS\Form\FormHelper::parseFieldConditions instead
+     * @deprecated 7.0 Use \Joomla\CMS\Form\FormHelper::parseFieldConditions instead
      */
     public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
     {
@@ -491,7 +491,7 @@ class FormHelper
      *
      * @return  array   Array with show on conditions.
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function parseFieldConditions($conditions, $formControl = null, $group = null)
     {
