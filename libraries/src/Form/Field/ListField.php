@@ -145,7 +145,7 @@ class ListField extends FormField
 
             // Set some event handler attributes. But really, should be using unobtrusive js.
             $tmp['onclick']       = (string) $option['onclick'];
-            $tmp['onchange'] = (string) $option['onchange'];
+            $tmp['onchange']      = (string) $option['onchange'];
             $option['optionattr'] = "";
 
             if ((string) $option['showon']) {
