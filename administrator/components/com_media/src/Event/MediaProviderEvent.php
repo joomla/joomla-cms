@@ -13,6 +13,10 @@ namespace Joomla\Component\Media\Administrator\Event;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event object to retrieve Media Adapters.
  *

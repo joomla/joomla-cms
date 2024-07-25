@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Access;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Rule class.
  *
@@ -22,7 +26,7 @@ class Rule
      * @var    array
      * @since  1.7.0
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * Constructor.
@@ -91,7 +95,7 @@ class Rule
     public function mergeIdentity($identity, $allow)
     {
         $identity = (int) $identity;
-        $allow = (int) ((bool) $allow);
+        $allow    = (int) ((bool) $allow);
 
         // Check that the identity exists.
         if (isset($this->data[$identity])) {
@@ -124,7 +128,7 @@ class Rule
         // Check that the inputs are valid.
         if (!empty($identities)) {
             if (!\is_array($identities)) {
-                $identities = array($identities);
+                $identities = [$identities];
             }
 
             foreach ($identities as $identity) {

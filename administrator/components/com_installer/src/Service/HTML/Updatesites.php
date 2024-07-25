@@ -12,6 +12,10 @@ namespace Joomla\Component\Installer\Administrator\Service\HTML;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer HTML class.
  *
@@ -34,8 +38,8 @@ class Updatesites
      */
     public function state($value, $i, $enabled = true, $checkbox = 'cb')
     {
-        $states = array(
-            1 => array(
+        $states = [
+            1 => [
                 'unpublish',
                 'COM_INSTALLER_UPDATESITE_ENABLED',
                 'COM_INSTALLER_UPDATESITE_DISABLE',
@@ -43,8 +47,8 @@ class Updatesites
                 true,
                 'publish',
                 'publish',
-            ),
-            0 => array(
+            ],
+            0 => [
                 'publish',
                 'COM_INSTALLER_UPDATESITE_DISABLED',
                 'COM_INSTALLER_UPDATESITE_ENABLE',
@@ -52,8 +56,8 @@ class Updatesites
                 true,
                 'unpublish',
                 'unpublish',
-            ),
-        );
+            ],
+        ];
 
         return HTMLHelper::_('jgrid.state', $states, $value, $i, 'updatesites.', $enabled, true, $checkbox);
     }

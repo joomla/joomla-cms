@@ -12,10 +12,14 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Consents management model class.
@@ -49,9 +53,9 @@ class ConsentsModel extends ListModel
     }
 
     /**
-     * Method to get a DatabaseQuery object for retrieving the data set from a database.
+     * Method to get a QueryInterface object for retrieving the data set from a database.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.9.0
      */
@@ -99,6 +103,13 @@ class ConsentsModel extends ListModel
             $state = (int) $state;
             $query->where($db->quoteName('a.state') . ' = :state')
                 ->bind(':state', $state, ParameterType::INTEGER);
+        }
+
+        $subject = $this->getState('filter.subject');
+
+        if (!empty($subject)) {
+            $query->where($db->quoteName('a.subject') . ' = :subject')
+                ->bind(':subject', $subject, ParameterType::STRING);
         }
 
         // Handle the list ordering.
@@ -184,7 +195,7 @@ class ConsentsModel extends ListModel
         $pks = ArrayHelper::toInteger($pks);
 
         try {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')
@@ -211,7 +222,7 @@ class ConsentsModel extends ListModel
     public function invalidateAll($subject)
     {
         try {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')

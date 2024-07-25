@@ -11,6 +11,10 @@ namespace Joomla\CMS\Authentication\Password;
 
 use Joomla\Authentication\Password\Argon2iHandler as BaseArgon2iHandler;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Password handler for Argon2i hashed passwords
  *

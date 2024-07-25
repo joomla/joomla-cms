@@ -10,10 +10,15 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Indexer controller class for Finder.
@@ -38,12 +43,12 @@ class FilterController extends FormController
         $this->checkToken();
 
         /** @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
-        $model = $this->getModel();
-        $table = $model->getTable();
-        $data = $this->input->post->get('jform', array(), 'array');
+        $model   = $this->getModel();
+        $table   = $model->getTable();
+        $data    = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
         $context = "$this->option.edit.$this->context";
-        $task = $this->getTask();
+        $task    = $this->getTask();
 
         // Determine the name of the primary key for the data.
         if (empty($key)) {
@@ -84,7 +89,7 @@ class FilterController extends FormController
 
             // Reset the ID and then treat the request as for Apply.
             $data[$key] = 0;
-            $task = 'apply';
+            $task       = 'apply';
         }
 
         // Access check.
@@ -114,11 +119,11 @@ class FilterController extends FormController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+                    $this->app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $this->app->enqueueMessage($errors[$i], 'warning');
+                    $this->app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 
@@ -134,7 +139,7 @@ class FilterController extends FormController
         }
 
         // Get and sanitize the filter data.
-        $validData['data'] = $this->input->post->get('t', array(), 'array');
+        $validData['data'] = $this->input->post->get('t', [], 'array');
         $validData['data'] = array_unique($validData['data']);
         $validData['data'] = ArrayHelper::toInteger($validData['data']);
 

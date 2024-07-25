@@ -16,6 +16,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for displaying configuration options
  *
@@ -51,7 +55,7 @@ class GetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const DB_GROUP = [
-        'name' => 'db',
+        'name'    => 'db',
         'options' => [
             'dbtype',
             'host',
@@ -64,8 +68,8 @@ class GetConfigurationCommand extends AbstractCommand
             'dbsslkey',
             'dbsslcert',
             'dbsslca',
-            'dbsslcipher'
-        ]
+            'dbsslcipher',
+        ],
     ];
 
     /**
@@ -74,12 +78,12 @@ class GetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const SESSION_GROUP = [
-        'name' => 'session',
+        'name'    => 'session',
         'options' => [
             'session_handler',
             'shared_session',
-            'session_metadata'
-        ]
+            'session_metadata',
+        ],
     ];
 
     /**
@@ -88,7 +92,7 @@ class GetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const MAIL_GROUP = [
-        'name' => 'mail',
+        'name'    => 'mail',
         'options' => [
             'mailonline',
             'mailer',
@@ -100,8 +104,8 @@ class GetConfigurationCommand extends AbstractCommand
             'smtppass',
             'smtphost',
             'smtpsecure',
-            'smtpport'
-        ]
+            'smtpport',
+        ],
     ];
 
     /**
@@ -142,7 +146,7 @@ class GetConfigurationCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
 
@@ -167,7 +171,7 @@ class GetConfigurationCommand extends AbstractCommand
         foreach ($groups as $key => $value) {
             if ($value['name'] === $group) {
                 $foundGroup = true;
-                $options = [];
+                $options    = [];
 
                 foreach ($value['options'] as $option) {
                     $options[] = [$option, $configs[$option]];
@@ -198,7 +202,7 @@ class GetConfigurationCommand extends AbstractCommand
         return [
             self::DB_GROUP,
             self::MAIL_GROUP,
-            self::SESSION_GROUP
+            self::SESSION_GROUP,
         ];
     }
 
@@ -219,7 +223,7 @@ class GetConfigurationCommand extends AbstractCommand
             $config = $config === false ? "false" : $config;
             $config = $config === true ? "true" : $config;
 
-            if (!in_array($key, ['cwd', 'execution'])) {
+            if (!\in_array($key, ['cwd', 'execution'])) {
                 $newConfig[$key] = $config;
             }
         }
@@ -240,7 +244,7 @@ class GetConfigurationCommand extends AbstractCommand
     {
         $configs = $this->getApplication()->getConfig()->toArray();
 
-        if (!array_key_exists($option, $configs)) {
+        if (!\array_key_exists($option, $configs)) {
             $this->ioStyle->error("Can't find option *$option* in configuration list");
 
             return self::CONFIG_GET_OPTION_NOT_FOUND;
@@ -266,17 +270,25 @@ class GetConfigurationCommand extends AbstractCommand
     {
         if ($value === false) {
             return 'false';
-        } elseif ($value === true) {
-            return 'true';
-        } elseif ($value === null) {
-            return 'Not Set';
-        } elseif (\is_array($value)) {
-            return \json_encode($value);
-        } elseif (\is_object($value)) {
-            return \json_encode(\get_object_vars($value));
-        } else {
-            return $value;
         }
+
+        if ($value === true) {
+            return 'true';
+        }
+
+        if ($value === null) {
+            return 'Not Set';
+        }
+
+        if (\is_array($value)) {
+            return json_encode($value);
+        }
+
+        if (\is_object($value)) {
+            return json_encode(get_object_vars($value));
+        }
+
+        return $value;
     }
 
     /**

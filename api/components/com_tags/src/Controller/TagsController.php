@@ -10,7 +10,12 @@
 
 namespace Joomla\Component\Tags\Api\Controller;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Controller\ApiController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The tags controller
@@ -34,4 +39,23 @@ class TagsController extends ApiController
      * @since  3.0
      */
     protected $default_view = 'tags';
+
+    /**
+     * Basic display of a list view
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   5.1.0
+     */
+    public function displayList()
+    {
+        $apiFilterInfo = $this->input->get('filter', [], 'array');
+        $filter        = InputFilter::getInstance();
+
+        if (\array_key_exists('search', $apiFilterInfo)) {
+            $this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
+        }
+
+        return parent::displayList();
+    }
 }

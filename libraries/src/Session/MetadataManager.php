@@ -17,6 +17,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Session\SessionInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Manager for optional session metadata.
  *
@@ -241,7 +245,7 @@ final class MetadataManager
             $clientId = $this->app->getClientId();
 
             $columns[] = $this->db->quoteName('client_id');
-            $values[] = ':client_id';
+            $values[]  = ':client_id';
 
             $query->bind(':client_id', $clientId, ParameterType::INTEGER);
         }

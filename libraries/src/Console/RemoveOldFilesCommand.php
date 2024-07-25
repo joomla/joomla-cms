@@ -16,6 +16,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for removing files which should have been cleared during an update
  *
@@ -56,7 +60,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 
         if ($output->isVeryVerbose() || $output->isDebug()) {
             foreach ($status['files_checked'] as $file) {
-                $exists = in_array($file, array_values($status['files_exist']));
+                $exists = \in_array($file, array_values($status['files_exist']));
 
                 if ($exists) {
                     $symfonyStyle->writeln('<error>File Checked & Exists</error> - ' . $file, OutputInterface::VERBOSITY_VERY_VERBOSE);
@@ -66,7 +70,7 @@ class RemoveOldFilesCommand extends AbstractCommand
             }
 
             foreach ($status['folders_checked'] as $folder) {
-                $exists = in_array($folder, array_values($status['folders_exist']));
+                $exists = \in_array($folder, array_values($status['folders_exist']));
 
                 if ($exists) {
                     $symfonyStyle->writeln('<error>Folder Checked & Exists</error> - ' . $folder, OutputInterface::VERBOSITY_VERY_VERBOSE);

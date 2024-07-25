@@ -14,10 +14,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Installer Discover Model
@@ -35,17 +39,17 @@ class DiscoverModel extends InstallerModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'name',
                 'client_id',
                 'client', 'client_translated',
                 'type', 'type_translated',
                 'folder', 'folder_translated',
                 'extension_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -85,13 +89,13 @@ class DiscoverModel extends InstallerModel
     /**
      * Method to get the database query.
      *
-     * @return  DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   3.1
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__extensions'))
@@ -113,7 +117,7 @@ class DiscoverModel extends InstallerModel
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, array('plugin', 'library', ''))) {
+        if ($folder != '' && \in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -151,14 +155,14 @@ class DiscoverModel extends InstallerModel
         $results = Installer::getInstance()->discover();
 
         // Get all templates, including discovered ones
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['extension_id', 'element', 'folder', 'client_id', 'type']))
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);
         $installedtmp = $db->loadObjectList();
 
-        $extensions = array();
+        $extensions = [];
 
         foreach ($installedtmp as $install) {
             $key = implode(
@@ -167,7 +171,7 @@ class DiscoverModel extends InstallerModel
                     $install->type,
                     str_replace('\\', '/', $install->element),
                     $install->folder,
-                    $install->client_id
+                    $install->client_id,
                 ]
             );
             $extensions[$key] = $install;
@@ -183,11 +187,11 @@ class DiscoverModel extends InstallerModel
                     $result->type,
                     str_replace('\\', '/', $result->element),
                     $result->folder,
-                    $result->client_id
+                    $result->client_id,
                 ]
             );
 
-            if (!array_key_exists($key, $extensions)) {
+            if (!\array_key_exists($key, $extensions)) {
                 // Put it into the table
                 $result->check();
                 $result->store();
@@ -208,15 +212,15 @@ class DiscoverModel extends InstallerModel
     public function discover_install()
     {
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $eid   = $input->get('cid', 0, 'array');
 
-        if (is_array($eid) || $eid) {
-            if (!is_array($eid)) {
-                $eid = array($eid);
+        if (\is_array($eid) || $eid) {
+            if (!\is_array($eid)) {
+                $eid = [$eid];
             }
 
-            $eid = ArrayHelper::toInteger($eid);
+            $eid    = ArrayHelper::toInteger($eid);
             $failed = false;
 
             foreach ($eid as $id) {
@@ -238,7 +242,7 @@ class DiscoverModel extends InstallerModel
             $app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
             if (!$failed) {
-                $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
+                $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'), 'success');
             }
         } else {
             $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
@@ -254,7 +258,7 @@ class DiscoverModel extends InstallerModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__extensions'))
             ->where($db->quoteName('state') . ' = -1');
@@ -276,7 +280,7 @@ class DiscoverModel extends InstallerModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */
@@ -306,6 +310,6 @@ class DiscoverModel extends InstallerModel
         $db->setQuery($query);
         $discoveredExtensions = $db->loadObjectList();
 
-        return count($discoveredExtensions) > 0;
+        return \count($discoveredExtensions) > 0;
     }
 }

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Layout;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper to render a Layout object, storing a base path
  *
@@ -44,7 +48,7 @@ class LayoutHelper
 
         // Make sure we send null to FileLayout if no path set
         $basePath = empty($basePath) ? null : $basePath;
-        $layout = new FileLayout($layoutFile, $basePath, $options);
+        $layout   = new FileLayout($layoutFile, $basePath, $options);
 
         return $layout->debug($displayData);
     }
@@ -67,7 +71,7 @@ class LayoutHelper
 
         // Make sure we send null to FileLayout if no path set
         $basePath = empty($basePath) ? null : $basePath;
-        $layout = new FileLayout($layoutFile, $basePath, $options);
+        $layout   = new FileLayout($layoutFile, $basePath, $options);
 
         return $layout->render($displayData);
     }

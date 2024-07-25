@@ -15,8 +15,12 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * Banners master display controller.
+ * Banners display controller.
  *
  * @since  1.6
  */
@@ -34,13 +38,14 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  BaseController|boolean  This object to support chaining.
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         BannersHelper::updateReset();
 
@@ -49,7 +54,7 @@ class DisplayController extends BaseController
         $id     = $this->input->getInt('id');
 
         // Check for edit form.
-        if ($view == 'banner' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.banner', $id)) {
+        if ($view === 'banner' && $layout === 'edit' && !$this->checkEditId('com_banners.edit.banner', $id)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
@@ -58,7 +63,9 @@ class DisplayController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_banners&view=banners', false));
 
             return false;
-        } elseif ($view == 'client' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.client', $id)) {
+        }
+
+        if ($view === 'client' && $layout === 'edit' && !$this->checkEditId('com_banners.edit.client', $id)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');

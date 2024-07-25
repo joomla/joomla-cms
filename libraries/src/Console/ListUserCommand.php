@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -17,6 +16,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Console command to list existing users
@@ -71,7 +74,7 @@ class ListUserCommand extends AbstractCommand
         $db = $this->getDatabase();
 
         $this->configureIO($input, $output);
-        $this->ioStyle->title('List users');
+        $this->ioStyle->title('List Users');
 
         $groupsQuery = $db->getQuery(true)
             ->select($db->quoteName(['title', 'id']))
@@ -98,10 +101,10 @@ class ListUserCommand extends AbstractCommand
             );
 
             $user["groups"] = implode(", ", $user["groups"]);
-            $users[] = $user;
+            $users[]        = $user;
         }
 
-        $this->ioStyle->table(['id', 'username', 'name', 'email', 'blocked', 'groups'], $users);
+        $this->ioStyle->table(['ID', 'Username', 'Name', 'Email', 'Blocked', 'Groups'], $users);
 
         return Command::SUCCESS;
     }

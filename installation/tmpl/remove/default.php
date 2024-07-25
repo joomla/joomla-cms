@@ -23,10 +23,10 @@ HTMLHelper::_('behavior.formvalidator');
         <legend class="j-install-step-header">
             <span class="icon-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
         </legend>
-        <div class="j-install-step-form" id="customInstallation">
+        <div id="customInstallation" class="j-install-step-form">
             <h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
-            <div class="mb-3 mt-4">
-                <button class="btn btn-primary w-100" id="installAddFeatures">
+            <div class="mt-4 mb-3">
+                <button id="installAddFeatures" class="btn btn-primary w-100">
                     <?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
                 </button>
             </div>
@@ -34,24 +34,26 @@ HTMLHelper::_('behavior.formvalidator');
 
         <?php if (count($this->installed_languages->administrator) > 1) : ?>
                 <div id="defaultLanguage"
-                    class="j-install-step-form flex-column mt-5 border rounded"
+                    class="j-install-step-form flex-column"
                 >
         <?php else : ?>
                 <div id="defaultLanguage"
-                    class="j-install-step-form flex-column mt-5 border rounded d-none"
+                    class="j-install-step-form flex-column d-none"
                 >
         <?php endif; ?>
-        <p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
         <table class="table table-sm">
+            <caption>
+                <?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?>
+            </caption>
             <thead>
             <tr>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
                 </th>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
                 </th>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
                 </th>
             </tr>
@@ -71,11 +73,11 @@ HTMLHelper::_('behavior.formvalidator');
                             } ?>
                         />
                     </td>
-                    <td>
+                    <th scope="row">
                         <label for="admin-language-cb<?php echo $i; ?>">
                             <?php echo $lang->name; ?>
                         </label>
-                    </td>
+                    </th>
                     <td>
                         <?php echo $lang->language; ?>
                     </td>
@@ -83,17 +85,19 @@ HTMLHelper::_('behavior.formvalidator');
             <?php endforeach; ?>
             </tbody>
         </table>
-        <p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC_FRONTEND'); ?></p>
         <table class="table table-sm">
+            <caption>
+                <?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC_FRONTEND'); ?>
+            </caption>
             <thead>
             <tr>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
                 </th>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
                 </th>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
                 </th>
             </tr>
@@ -113,11 +117,11 @@ HTMLHelper::_('behavior.formvalidator');
                             } ?>
                         />
                     </td>
-                    <td>
+                    <th scope="row">
                         <label for="site-language-cb<?php echo $i; ?>">
                             <?php echo $lang->name; ?>
                         </label>
-                    </td>
+                    </th>
                     <td>
                         <?php echo $lang->language; ?>
                     </td>
@@ -125,7 +129,7 @@ HTMLHelper::_('behavior.formvalidator');
             <?php endforeach; ?>
             </tbody>
         </table>
-        <button id="defaultLanguagesButton" class="btn w-100 mt-4 btn-primary">
+        <button id="defaultLanguagesButton" class="btn btn-primary mt-2 mb-3 w-100">
             <?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
         </button>
         <?php echo HTMLHelper::_('form.token'); ?>
@@ -184,14 +188,14 @@ HTMLHelper::_('behavior.formvalidator');
 
             <?php endif; ?>
                 <?php if ($this->development) : ?>
-                    <div class="alert flex-column mb-1" id="removeInstallationTab">
-                        <span class="mb-1 font-weight-bold"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></span>
-                        <button class="btn btn-danger mb-1" id="removeInstallationFolder"><?php echo Text::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?></button>
+                    <div id="removeInstallationTab" class="flex-column">
+                        <p><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></p>
+                        <button id="removeInstallationFolder" class="btn btn-danger w-100"><?php echo Text::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?></button>
                     </div>
                 <?php endif; ?>
                 <?php echo HTMLHelper::_('form.token'); ?>
 
-                <div class="form-group j-install-last-step d-grid gap-2">
+                <div class="form-group j-install-last-step d-grid gap-2 mt-4 mb-3">
                     <button type="button" class="complete-installation btn btn-primary w-100"
                        data-href="<?php echo Uri::root(); ?>" <?php if ($this->development) :
                             ?>data-development<?php
@@ -217,7 +221,7 @@ HTMLHelper::_('behavior.formvalidator');
                 <p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET'); ?></p>
                 <p>
                     <a href="#"
-                            class="btn btn-primary"
+                            class="btn btn-primary w-100"
                             onclick="return Joomla.goToPage('remove');">
                         <span class="icon-arrow-left icon-white" aria-hidden="true"></span>
                         <?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
@@ -226,10 +230,10 @@ HTMLHelper::_('behavior.formvalidator');
                 <p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
             <?php else : ?>
             <form action="index.php" method="post" id="languagesForm" class="form-validate">
-                <p id="wait_installing" class="hidden">
+                <div id="wait_installing" class="hidden">
                     <?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
-                <div id="wait_installing_spinner" class="spinner spinner-img hidden"></div>
-                </p>
+                    <div id="wait_installing_spinner" class="spinner spinner-img hidden"></div>
+                </div>
                 <table class="table table-sm">
                 <caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
                     <thead>
@@ -279,9 +283,9 @@ HTMLHelper::_('behavior.formvalidator');
                 </table>
                 <?php echo HTMLHelper::_('form.token'); ?>
             <?php endif; ?>
-                <div class="form-group d-grid gap-2">
+                <div class="form-group d-grid gap-2 mt-4 mb-3">
                     <button id="installLanguagesButton" class="btn btn-primary w-100">
-                        <?php echo Text::_('JNEXT'); ?>
+                        <?php echo Text::_('INSTL_LANGUAGES_SELECTED'); ?>
                     </button>
                     <button id="skipLanguages" class="btn btn-secondary w-100">
                     <?php echo Text::_('JSKIP'); ?>
@@ -299,6 +303,5 @@ HTMLHelper::_('behavior.formvalidator');
                 <p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
             </div>
         </fieldset>
-
 
 </div>

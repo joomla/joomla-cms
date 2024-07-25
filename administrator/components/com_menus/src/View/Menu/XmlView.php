@@ -13,9 +13,14 @@ namespace Joomla\Component\Menus\Administrator\View\Menu;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The HTML Menus Menu Item View.
@@ -25,14 +30,14 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 class XmlView extends BaseHtmlView
 {
     /**
-     * @var  \stdClass[]
+     * @var  AdministratorMenuItem[]
      *
      * @since  3.8.0
      */
     protected $items;
 
     /**
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  3.8.0
      */
@@ -50,7 +55,7 @@ class XmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app      = Factory::getApplication();
-        $menutype = $app->input->getCmd('menutype');
+        $menutype = $app->getInput()->getCmd('menutype');
 
         if ($menutype) {
             $root = MenusHelper::getMenuItems($menutype, true);
@@ -64,7 +69,7 @@ class XmlView extends BaseHtmlView
             return;
         }
 
-        $this->items = $root->getChildren(true);
+        $this->items = $root->getChildren();
 
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><menu ' .
             'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
@@ -86,9 +91,9 @@ class XmlView extends BaseHtmlView
         header("Cache-Control: no-cache, must-revalidate");
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
-        $dom = new \DOMDocument();
+        $dom                     = new \DOMDocument();
         $dom->preserveWhiteSpace = true;
-        $dom->formatOutput = true;
+        $dom->formatOutput       = true;
         $dom->loadXML($xml->asXML());
 
         echo $dom->saveXML();
@@ -99,8 +104,8 @@ class XmlView extends BaseHtmlView
     /**
      * Add a child node to the xml
      *
-     * @param   \SimpleXMLElement  $xml   The current XML node which would become the parent to the new node
-     * @param   \stdClass          $item  The menuitem object to create the child XML node from
+     * @param   \SimpleXMLElement      $xml   The current XML node which would become the parent to the new node
+     * @param   AdministratorMenuItem  $item  The menuitem object to create the child XML node from
      *
      * @return  void
      *
@@ -142,8 +147,8 @@ class XmlView extends BaseHtmlView
             $node->addChild('params', htmlentities((string) $item->getParams(), ENT_XML1));
         }
 
-        if (isset($item->submenu)) {
-            foreach ($item->submenu as $sub) {
+        if ($item->hasChildren()) {
+            foreach ($item->getChildren() as $sub) {
                 $this->addXmlChild($node, $sub);
             }
         }

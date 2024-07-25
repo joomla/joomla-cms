@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="task" method="upgrade">
 	<name>plg_task_check_files</name>
 	<author>Joomla! Project</author>
@@ -9,9 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.1</version>
 	<description>PLG_TASK_CHECK_FILES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Task\Checkfiles</namespace>
 	<files>
-		<filename plugin="checkfiles">checkfiles.php</filename>
-		<folder>language</folder>
+		<folder plugin="checkfiles">services</folder>
+		<folder>src</folder>
 		<folder>forms</folder>
 	</files>
 	<languages>

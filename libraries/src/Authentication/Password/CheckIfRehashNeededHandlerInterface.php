@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Authentication\Password;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface for a password handler which supports checking if the password requires rehashing
  *

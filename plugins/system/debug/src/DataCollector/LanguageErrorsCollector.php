@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * LanguageErrorsDataCollector
  *
@@ -48,9 +52,9 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
     public function collect(): array
     {
         return [
-            'data'  => [
-                'files' => $this->getData(),
-                'jroot' => JPATH_ROOT,
+            'data' => [
+                'files'      => $this->getData(),
+                'jroot'      => JPATH_ROOT,
                 'xdebugLink' => $this->getXdebugLinkTemplate(),
             ],
             'count' => $this->getCount(),
@@ -80,8 +84,8 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
     public function getWidgets(): array
     {
         return [
-            'errors'       => [
-                'icon' => 'warning',
+            'errors' => [
+                'icon'    => 'warning',
                 'widget'  => 'PhpDebugBar.Widgets.languageErrorsWidget',
                 'map'     => $this->name . '.data',
                 'default' => '',
@@ -106,7 +110,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
     public function getAssets()
     {
         return [
-            'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.js',
+            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.js',
             'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.css',
         ];
     }

@@ -10,13 +10,16 @@
 
 namespace Joomla\Plugin\System\Webauthn\Field;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Custom Joomla Form Field to display the WebAuthn interface
@@ -38,7 +41,7 @@ class WebauthnField extends FormField
      * Returns the input field's HTML
      *
      * @return  string
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since   4.0.0
      */
@@ -56,6 +59,7 @@ class WebauthnField extends FormField
         Text::script('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL', true);
         Text::script('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED', true);
         Text::script('PLG_SYSTEM_WEBAUTHN_ERR_XHR_INITCREATE', true);
+        Text::script('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED', true);
 
         $app                  = Factory::getApplication();
         /** @var Webauthn $plugin */
@@ -67,7 +71,7 @@ class WebauthnField extends FormField
         $layoutFile  = new FileLayout('plugins.system.webauthn.manage');
 
         return $layoutFile->render([
-                'user'                => Factory::getContainer()
+                'user' => Factory::getContainer()
                     ->get(UserFactoryInterface::class)
                     ->loadUserById($userId),
                 'allow_add'           => $userId == $app->getIdentity()->id,

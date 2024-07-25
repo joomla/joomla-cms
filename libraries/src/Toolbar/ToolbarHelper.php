@@ -15,6 +15,10 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for the button bar.
  *
@@ -38,17 +42,18 @@ abstract class ToolbarHelper
     public static function title($title, $icon = 'generic.png')
     {
         $layout = new FileLayout('joomla.toolbar.title');
-        $html   = $layout->render(array('title' => $title, 'icon' => $icon));
+        $html   = $layout->render(['title' => $title, 'icon' => $icon]);
 
-        $app = Factory::getApplication();
+        $app                  = Factory::getApplication();
+        // @deprecated 5.2.0 will be removed in 7.0 as this property is not used anymore see WebApplication
         $app->JComponentTitle = $html;
-        $title = strip_tags($title) . ' - ' . $app->get('sitename');
+        $title                = strip_tags($title) . ' - ' . $app->get('sitename');
 
         if ($app->isClient('administrator')) {
             $title .= ' - ' . Text::_('JADMINISTRATION');
         }
 
-        Factory::getDocument()->setTitle($title);
+        $app->getDocument()->setTitle($title);
     }
 
     /**
@@ -88,7 +93,7 @@ abstract class ToolbarHelper
      *
      * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
      * @param   string  $icon        The image to display.
-     * @param   string  $iconOver    @deprecated 5.0
+     * @param   string  $iconOver    @deprecated 4.3 will be removed in 6.0
      * @param   string  $alt         The alt text for the icon image.
      * @param   bool    $listSelect  True if required to check that a standard list item is checked.
      * @param   string  $formId      The id of action form.
@@ -187,11 +192,7 @@ abstract class ToolbarHelper
     public static function inlinehelp(string $class = "hide-aware-inline-help")
     {
         $bar = Toolbar::getInstance('toolbar');
-
-        // Add a help button.
-        $bar->inlinehelpButton('inlinehelp')
-            ->targetclass($class)
-            ->icon('fa fa-question-circle');
+        $bar->inlinehelp($class);
     }
 
     /**
@@ -641,10 +642,10 @@ abstract class ToolbarHelper
     public static function preferences($component, $height = 550, $width = 875, $alt = 'JTOOLBAR_OPTIONS', $path = '')
     {
         $component = urlencode($component);
-        $path = urlencode($path);
-        $bar = Toolbar::getInstance('toolbar');
+        $path      = urlencode($path);
+        $bar       = Toolbar::getInstance('toolbar');
 
-        $uri = (string) Uri::getInstance();
+        $uri    = (string) Uri::getInstance();
         $return = urlencode(base64_encode($uri));
 
         // Add a button linking to config for component.
@@ -675,11 +676,11 @@ abstract class ToolbarHelper
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
         /** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-        $contentTypeTable = Table::getInstance('Contenttype');
+        $contentTypeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
         $typeId           = $contentTypeTable->getTypeId($typeAlias);
 
         // Options array for Layout
-        $options              = array();
+        $options              = [];
         $options['title']     = Text::_($alt);
         $options['height']    = $height;
         $options['width']     = $width;
@@ -700,14 +701,14 @@ abstract class ToolbarHelper
      *
      * @since   4.0.0
      */
-    public static function saveGroup($buttons = array(), $class = 'btn-success')
+    public static function saveGroup($buttons = [], $class = 'btn-success')
     {
-        $validOptions = array(
+        $validOptions = [
             'apply'     => 'JTOOLBAR_APPLY',
             'save'      => 'JTOOLBAR_SAVE',
             'save2new'  => 'JTOOLBAR_SAVE_AND_NEW',
-            'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
-        );
+            'save2copy' => 'JTOOLBAR_SAVE_AS_COPY',
+        ];
 
         $bar = Toolbar::getInstance('toolbar');
 
@@ -720,7 +721,6 @@ abstract class ToolbarHelper
                         continue;
                     }
 
-                    $options['group'] = true;
                     $altText = $button[2] ?? $validOptions[$button[0]];
 
                     $childBar->{$button[0]}($button[1])

@@ -12,9 +12,13 @@ namespace Joomla\Component\Config\Site\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Template style model.
@@ -45,17 +49,17 @@ class TemplatesModel extends FormModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|bool    A JForm object on success, false on failure
+     * @return  Form|bool    A Form object on success, false on failure
      *
      * @since   3.2
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         try {
             // Get the form.
-            $form = $this->loadForm('com_config.templates', 'templates', array('load_data' => $loadData));
+            $form = $this->loadForm('com_config.templates', 'templates', ['load_data' => $loadData]);
 
-            $data = array();
+            $data = [];
             $this->preprocessForm($form, $data);
 
             // Load the data into the form

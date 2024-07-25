@@ -69,17 +69,33 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 
     // Structured data as JSON
     $data = [
-            '@context'        => 'https://schema.org',
-            '@type'           => 'BreadcrumbList',
-            'itemListElement' => []
+        '@context'        => 'https://schema.org',
+        '@type'           => 'BreadcrumbList',
+        '@id'             => Uri::root() . '#/schema/BreadcrumbList/' . (int) $module->id,
+        'itemListElement' => []
     ];
+
+    // Use an independent counter for positions. E.g. if Heading items in pathway.
+    $itemsCounter = 0;
+
+    // If showHome is disabled use the fallback $homeCrumb for startpage at first position.
+    if (isset($homeCrumb)) {
+        $data['itemListElement'][] = [
+                '@type'    => 'ListItem',
+                'position' => ++$itemsCounter,
+                'item'     => [
+                        '@id'  => Route::_($homeCrumb->link, true, Route::TLS_IGNORE, true),
+                        'name' => $homeCrumb->name,
+                ],
+        ];
+    }
 
     foreach ($list as $key => $item) {
         // Only add item to JSON if it has a valid link, otherwise skip it.
         if (!empty($item->link)) {
             $data['itemListElement'][] = [
                     '@type'    => 'ListItem',
-                    'position' => $key + 1,
+                    'position' => ++$itemsCounter,
                     'item'     => [
                             '@id'  => Route::_($item->link, true, Route::TLS_IGNORE, true),
                             'name' => $item->name,
@@ -90,7 +106,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
             // Google accepts items without a URL only as the current page.
             $data['itemListElement'][] = [
                     '@type'    => 'ListItem',
-                    'position' => $key + 1,
+                    'position' => ++$itemsCounter,
                     'item'     => [
                             'name' => $item->name,
                     ],
@@ -98,8 +114,16 @@ use Joomla\CMS\WebAsset\WebAssetManager;
         }
     }
 
-    /** @var WebAssetManager $wa */
-    $wa = $app->getDocument()->getWebAssetManager();
-    $wa->addInline('script', json_encode($data, JSON_UNESCAPED_UNICODE), [], ['type' => 'application/ld+json']);
+    if ($itemsCounter) {
+        /** @var WebAssetManager $wa */
+        $wa = $app->getDocument()->getWebAssetManager();
+        $prettyPrint = JDEBUG ? JSON_PRETTY_PRINT : 0;
+        $wa->addInline(
+            'script',
+            json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint),
+            ['name' => 'inline.mod_breadcrumbs-schemaorg'],
+            ['type' => 'application/ld+json']
+        );
+    }
     ?>
 </nav>

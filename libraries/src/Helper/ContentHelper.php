@@ -17,10 +17,14 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\MVC\View\CanDo;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for standard content style extensions.
@@ -58,15 +62,15 @@ class ContentHelper
         $db = Factory::getDbo();
 
         // Allow custom state / condition values and custom column names to support custom components
-        $counter_names = isset($config->counter_names) ? $config->counter_names : array(
+        $counter_names = $config->counter_names ?? [
             '-2' => 'count_trashed',
             '0'  => 'count_unpublished',
             '1'  => 'count_published',
             '2'  => 'count_archived',
-        );
+        ];
 
         // Index category objects by their ID
-        $records = array();
+        $records = [];
 
         foreach ($items as $item) {
             $records[(int) $item->id] = $item;
@@ -149,7 +153,7 @@ class ContentHelper
      * @param   string   $section    The access section name.
      * @param   integer  $id         The item ID.
      *
-     * @return  CMSObject
+     * @return  Registry
      *
      * @since   3.2
      */
@@ -161,7 +165,8 @@ class ContentHelper
             $assetName .= '.' . $section . '.' . (int) $id;
         }
 
-        $result = new CMSObject();
+        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
+        $result = new CanDo();
 
         $user = Factory::getUser();
 
@@ -199,7 +204,7 @@ class ContentHelper
      */
     public static function getCurrentLanguage($detectBrowser = true)
     {
-        $app = Factory::getApplication();
+        $app      = Factory::getApplication();
         $langCode = null;
 
         // Get the languagefilter parameters
@@ -208,7 +213,7 @@ class ContentHelper
             $pluginParams = new Registry($plugin->params);
 
             if ((int) $pluginParams->get('lang_cookie', 1) === 1) {
-                $langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+                $langCode = $app->getInput()->cookie->getString(ApplicationHelper::getHash('language'));
             } else {
                 $langCode = $app->getSession()->get('plg_system_languagefilter.language');
             }

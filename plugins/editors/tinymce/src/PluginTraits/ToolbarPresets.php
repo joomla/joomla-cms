@@ -10,6 +10,10 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The ToolbarPresets trait holds the default presets for the toolbar.
  *
@@ -42,7 +46,7 @@ trait ToolbarPresets
                 'toolbar1' => [
                     'bold', 'italic', 'underline', 'strikethrough', '|',
                     'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
-                    'formatselect', '|',
+                    'blocks', '|',
                     'bullist', 'numlist', '|',
                     'outdent', 'indent', '|',
                     'undo', 'redo', '|',
@@ -59,10 +63,10 @@ trait ToolbarPresets
                     'bold', 'italic', 'underline', 'strikethrough', '|',
                     'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
                     'lineheight', '|',
-                    'styleselect', '|',
-                    'formatselect', 'fontselect', 'fontsizeselect', '|',
+                    'styles', '|',
+                    'blocks', 'fontfamily', 'fontsize', '|',
                     'searchreplace', '|',
-                    'bullist', 'numlist', '|',
+                    'bullist', 'numlist', 'accordion', '|',
                     'outdent', 'indent', '|',
                     'undo', 'redo', '|',
                     'link', 'unlink', 'anchor', 'image', '|',
@@ -73,12 +77,12 @@ trait ToolbarPresets
                     'subscript', 'superscript', '|',
                     'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
                     'cut', 'copy', 'paste', 'pastetext', '|',
-                    'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
+                    'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'jtemplate', '|',
                     'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
                     'language',
                 ],
                 'toolbar2' => [],
-            ]
+            ],
         ];
     }
 }

@@ -15,25 +15,29 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_latestactions
  *
  * @since  3.9.0
  */
-abstract class LatestActionsHelper
+class LatestActionsHelper
 {
     /**
-     * Get a list of articles.
+     * Get a list of logged actions.
      *
      * @param   Registry  &$params  The module parameters.
      *
      * @return  mixed  An array of action logs, or false on error.
      *
-     * @since   3.9.1
+     * @since   5.1.0
      *
      * @throws  \Exception
      */
-    public static function getList(&$params)
+    public function getActions(&$params)
     {
         /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $model */
         $model = Factory::getApplication()->bootComponent('com_actionlogs')->getMVCFactory()
@@ -64,10 +68,52 @@ abstract class LatestActionsHelper
      *
      * @return  string    The alternate title for the module.
      *
+     * @since   5.1.0
+     */
+    public function getModuleTitle($params)
+    {
+        return Text::plural('MOD_LATESTACTIONS_TITLE', $params->get('count', 5));
+    }
+
+    /**
+     * Get the alternate title for the module
+     *
+     * @param   Registry  $params  The module parameters.
+     *
+     * @return  string    The alternate title for the module.
+     *
      * @since   3.9.1
+     *
+     * @deprecated 5.1.0 will be removed in 7.0
+     *             Use the non-static method getModuleTitle
+     *             Example: Factory::getApplication()->bootModule('mod_latestactions', 'administrator')
+     *                          ->getHelper('LatestActionsHelper')
+     *                          ->getModuleTitle($params)
      */
     public static function getTitle($params)
     {
-        return Text::plural('MOD_LATESTACTIONS_TITLE', $params->get('count', 5));
+        return (new self())->getModuleTitle($params);
+    }
+
+    /**
+     * Get a list of logged actions.
+     *
+     * @param   Registry  &$params  The module parameters.
+     *
+     * @return  mixed  An array of action logs, or false on error.
+     *
+     * @since   3.9.1
+     *
+     * @throws  \Exception
+     *
+     * @deprecated 5.1.0 will be removed in 7.0
+     *             Use the non-static method getActions
+     *             Example: Factory::getApplication()->bootModule('mod_latestactions', 'administrator')
+     *                          ->getHelper('LatestActionsHelper')
+     *                          ->getActions($params)
+     */
+    public static function getList(&$params)
+    {
+        return (new self())->getActions($params);
     }
 }

@@ -13,6 +13,10 @@ namespace Joomla\Component\Banners\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Bannerclient field.
  *

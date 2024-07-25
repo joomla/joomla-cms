@@ -10,16 +10,20 @@
 
 namespace Joomla\Component\Contact\Administrator\Service\HTML;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Content Component HTML Helper
@@ -28,14 +32,7 @@ use Joomla\Registry\Registry;
  */
 class Icon
 {
-    /**
-     * The user factory
-     *
-     * @var    UserFactoryInterface
-     *
-     * @since  4.2.0
-     */
-    private $userFactory;
+    use UserFactoryAwareTrait;
 
     /**
      * Service constructor
@@ -46,7 +43,7 @@ class Icon
      */
     public function __construct(UserFactoryInterface $userFactory)
     {
-        $this->userFactory = $userFactory;
+        $this->setUserFactory($userFactory);
     }
 
     /**
@@ -60,7 +57,7 @@ class Icon
      *
      * @since  4.0.0
      */
-    public function create($category, $params, $attribs = array())
+    public function create($category, $params, $attribs = [])
     {
         $uri = Uri::getInstance();
 
@@ -101,7 +98,7 @@ class Icon
      *
      * @since   4.0.0
      */
-    public function edit($contact, $params, $attribs = array(), $legacy = false)
+    public function edit($contact, $params, $attribs = [], $legacy = false)
     {
         $user = Factory::getUser();
         $uri  = Uri::getInstance();
@@ -120,18 +117,18 @@ class Icon
         if (
             property_exists($contact, 'checked_out')
             && property_exists($contact, 'checked_out_time')
-            && !is_null($contact->checked_out)
-            && $contact->checked_out !== $user->get('id')
+            && !\is_null($contact->checked_out)
+            && $contact->checked_out !== $user->id
         ) {
-            $checkoutUser = $this->userFactory->loadUserById($contact->checked_out);
+            $checkoutUser = $this->getUserFactory()->loadUserById($contact->checked_out);
             $date         = HTMLHelper::_('date', $contact->checked_out_time);
             $tooltip      = Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
                 . ' <br> ' . $date;
 
-            $text = LayoutHelper::render('joomla.content.icons.edit_lock', array('contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy));
+            $text = LayoutHelper::render('joomla.content.icons.edit_lock', ['contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
             $attribs['aria-describedby'] = 'editcontact-' . (int) $contact->id;
-            $output = HTMLHelper::_('link', '#', $text, $attribs);
+            $output                      = HTMLHelper::_('link', '#', $text, $attribs);
 
             return $output;
         }
@@ -162,7 +159,7 @@ class Icon
         $text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
 
         $attribs['aria-describedby'] = $aria_described;
-        $output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+        $output                      = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
         return $output;
     }

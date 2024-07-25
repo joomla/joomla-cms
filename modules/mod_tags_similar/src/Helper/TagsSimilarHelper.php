@@ -16,43 +16,53 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_tags_similar
  *
  * @since  3.1
  */
-abstract class TagsSimilarHelper
+class TagsSimilarHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
-     * Get a list of tags
+     * Get a list of items with similar tags
      *
      * @param   Registry  &$params  Module parameters
      *
      * @return  array
+     *
+     * @since   5.1.0
      */
-    public static function getList(&$params)
+    public function getItems(&$params)
     {
         $app    = Factory::getApplication();
-        $option = $app->input->get('option');
-        $view   = $app->input->get('view');
+        $option = $app->getInput()->get('option');
+        $view   = $app->getInput()->get('view');
 
         // For now assume com_tags and com_users do not have tags.
         // This module does not apply to list views in general at this point.
         if ($option === 'com_tags' || $view === 'category' || $option === 'com_users') {
-            return array();
+            return [];
         }
 
-        $db         = Factory::getDbo();
-        $user       = Factory::getUser();
+        $db         = $this->getDatabase();
+        $user       = $app->getIdentity();
         $groups     = $user->getAuthorisedViewLevels();
         $matchtype  = $params->get('matchtype', 'all');
         $ordering   = $params->get('ordering', 'count');
         $tagsHelper = new TagsHelper();
         $prefix     = $option . '.' . $view;
-        $id         = $app->input->getInt('id');
+        $id         = $app->getInput()->getInt('id');
         $now        = Factory::getDate()->toSql();
         $nullDate   = $db->getNullDate();
 
@@ -60,7 +70,7 @@ abstract class TagsSimilarHelper
         $tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
 
         if (!$tagsToMatch) {
-            return array();
+            return [];
         }
 
         $tagsToMatch = explode(',', $tagsToMatch);
@@ -213,5 +223,23 @@ abstract class TagsSimilarHelper
         }
 
         return $results;
+    }
+
+    /**
+     * Get a list of items with similar tags
+     *
+     * @param   Registry  &$params  Module parameters
+     *
+     * @return  array
+     *
+     * @deprecated 5.1.0 will be removed in 7.0
+     *             Use the non-static method getItems
+     *             Example: Factory::getApplication()->bootModule('mod_tags_similar', 'site')
+     *                          ->getHelper('TagsSimilarHelper')
+     *                          ->getItems($params)
+     */
+    public static function getList(&$params)
+    {
+        return (new self())->getItems($params);
     }
 }

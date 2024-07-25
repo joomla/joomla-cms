@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="schemainfo"
+				type="note"
+				class="alert alert-info d-block w-100"
+				description="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION"
+			/>
+			<field
+				name="schemaType"
+				type="list"
+				label="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_TYPE_LABEL"
+				default="None"
+				validate="options"
+				>
+				<option value="None">JNONE</option>
+			</field>
+
+			<field
+				name="extendJed"
+				type="note"
+				class="alert alert-info d-block w-100"
+				parentclass="order-last"
+				description="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_EXTEND_JED_DESC"
+			/>
+
+		</fieldset>
+	</fields>
+</form>

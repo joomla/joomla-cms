@@ -15,6 +15,10 @@ use Joomla\CMS\Profiler\Profiler;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Collects info about the request duration as well as providing
  * a way to log duration of any operations
@@ -80,8 +84,9 @@ class ProfileCollector extends AbstractDataCollector
      * @param   string|null  $label      Public name
      * @param   string|null  $collector  The source of the collector
      *
-     * @since  4.0.0
      * @return void
+     *
+     * @since  4.0.0
      */
     public function startMeasure($name, $label = null, $collector = null)
     {
@@ -99,8 +104,9 @@ class ProfileCollector extends AbstractDataCollector
      *
      * @param   string  $name  Group name.
      *
-     * @since  4.0.0
      * @return bool
+     *
+     * @since  4.0.0
      */
     public function hasStartedMeasure($name): bool
     {
@@ -113,9 +119,11 @@ class ProfileCollector extends AbstractDataCollector
      * @param   string  $name    Measurement name.
      * @param   array   $params  Parameters
      *
-     * @since  4.0.0
-     * @throws DebugBarException
      * @return void
+     *
+     * @since  4.0.0
+     *
+     * @throws DebugBarException
      */
     public function stopMeasure($name, array $params = [])
     {
@@ -125,13 +133,7 @@ class ProfileCollector extends AbstractDataCollector
             throw new DebugBarException("Failed stopping measure '$name' because it hasn't been started");
         }
 
-        $this->addMeasure(
-            $this->startedMeasures[$name]['label'],
-            $this->startedMeasures[$name]['start'],
-            $end,
-            $params,
-            $this->startedMeasures[$name]['collector']
-        );
+        $this->addMeasure($this->startedMeasures[$name]['label'], $this->startedMeasures[$name]['start'], $end, $params, $this->startedMeasures[$name]['collector']);
 
         unset($this->startedMeasures[$name]);
     }
@@ -145,8 +147,9 @@ class ProfileCollector extends AbstractDataCollector
      * @param   array        $params     Parameters.
      * @param   string|null  $collector  A collector.
      *
-     * @since  4.0.0
      * @return void
+     *
+     * @since  4.0.0
      */
     public function addMeasure($label, $start, $end, array $params = [], $collector = null)
     {
@@ -170,8 +173,9 @@ class ProfileCollector extends AbstractDataCollector
      * @param   \Closure     $closure    A closure.
      * @param   string|null  $collector  A collector.
      *
-     * @since  4.0.0
      * @return void
+     *
+     * @since  4.0.0
      */
     public function measure($label, \Closure $closure, $collector = null)
     {
@@ -185,8 +189,9 @@ class ProfileCollector extends AbstractDataCollector
     /**
      * Returns an array of all measures
      *
-     * @since  4.0.0
      * @return array
+     *
+     * @since  4.0.0
      */
     public function getMeasures(): array
     {
@@ -196,8 +201,9 @@ class ProfileCollector extends AbstractDataCollector
     /**
      * Returns the request start time
      *
-     * @since  4.0.0
      * @return float
+     *
+     * @since  4.0.0
      */
     public function getRequestStartTime(): float
     {
@@ -207,8 +213,9 @@ class ProfileCollector extends AbstractDataCollector
     /**
      * Returns the request end time
      *
-     * @since  4.0.0
      * @return float
+     *
+     * @since  4.0.0
      */
     public function getRequestEndTime(): float
     {
@@ -218,8 +225,9 @@ class ProfileCollector extends AbstractDataCollector
     /**
      * Returns the duration of a request
      *
-     * @since  4.0.0
      * @return float
+     *
+     * @since  4.0.0
      */
     public function getRequestDuration(): float
     {
@@ -231,23 +239,40 @@ class ProfileCollector extends AbstractDataCollector
     }
 
     /**
+     * Sets request end time.
+     *
+     * @param   float  $time  Request end time.
+     *
+     * @return $this
+     *
+     * @since  4.4.0
+     */
+    public function setRequestEndTime($time): self
+    {
+        $this->requestEndTime = $time;
+
+        return $this;
+    }
+
+    /**
      * Called by the DebugBar when data needs to be collected
      *
-     * @since  4.0.0
      * @return array Collected data
+     *
+     * @since  4.0.0
      */
     public function collect(): array
     {
-        $this->requestEndTime = microtime(true);
+        $this->requestEndTime = $this->requestEndTime ?? microtime(true);
 
         $start = $this->requestStartTime;
 
         $marks = Profiler::getInstance('Application')->getMarks();
 
         foreach ($marks as $mark) {
-            $mem = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1048576);
+            $mem   = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1048576);
             $label = $mark->label . " ($mem)";
-            $end = $start + $mark->time / 1000;
+            $end   = $start + $mark->time / 1000;
             $this->addMeasure($label, $start, $end);
             $start = $end;
         }
@@ -280,8 +305,9 @@ class ProfileCollector extends AbstractDataCollector
     /**
      * Returns the unique name of the collector
      *
-     * @since  4.0.0
      * @return string
+     *
+     * @since  4.0.0
      */
     public function getName(): string
     {
@@ -292,8 +318,9 @@ class ProfileCollector extends AbstractDataCollector
      * Returns a hash where keys are control names and their values
      * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
      *
-     * @since  4.0.0
      * @return array
+     *
+     * @since  4.0.0
      */
     public function getWidgets(): array
     {
@@ -304,7 +331,7 @@ class ProfileCollector extends AbstractDataCollector
                 'map'     => 'profile.duration_str',
                 'default' => "'0ms'",
             ],
-            'profile'     => [
+            'profile' => [
                 'icon'    => 'clock-o',
                 'widget'  => 'PhpDebugBar.Widgets.TimelineWidget',
                 'map'     => 'profile',

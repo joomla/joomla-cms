@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
@@ -17,55 +18,54 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class ImageFilterTest extends UnitTestCase
 {
-	/**
-	 * Setup for testing.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function setUp(): void
-	{
-		parent::setUp();
+    /**
+     * Setup for testing.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-		// Verify that GD support for PHP is available.
-		if (!extension_loaded('gd'))
-		{
-			$this->markTestSkipped('No GD support so skipping Image tests.');
-		}
-	}
+        // Verify that GD support for PHP is available.
+        if (!\extension_loaded('gd')) {
+            $this->markTestSkipped('No GD support so skipping Image tests.');
+        }
+    }
 
-	/**
-	 * Tests the Image::__construct method - with an invalid argument.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function testConstructorInvalidArgument()
-	{
-		$this->expectException(\InvalidArgumentException::class);
+    /**
+     * Tests the Image::__construct method - with an invalid argument.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function testConstructorInvalidArgument()
+    {
+        $this->expectException(\InvalidArgumentException::class);
 
-		$filter = new FilterBrightness('test');
-	}
+        $filter = new FilterBrightness('test');
+    }
 
-	/**
-	 * Tests the Image::__construct method.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function testConstructor()
-	{
-		// Create an image handle of the correct size.
-		$imageHandle = imagecreatetruecolor(100, 100);
+    /**
+     * Tests the Image::__construct method.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function testConstructor()
+    {
+        // Create an image handle of the correct size.
+        $imageHandle = imagecreatetruecolor(100, 100);
 
-		$filter = new FilterBrightness($imageHandle);
+        $filter = new FilterBrightness($imageHandle);
 
-		$this->assertEquals(
-			$imageHandle,
-			TestHelper::getValue($filter, 'handle')
-		);
-	}
+        $this->assertEquals(
+            $imageHandle,
+            TestHelper::getValue($filter, 'handle')
+        );
+    }
 }

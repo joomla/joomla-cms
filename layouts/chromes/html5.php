@@ -16,6 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 
 $module  = $displayData['module'];
 $params  = $displayData['params'];
+$attribs = $displayData['attribs'];
 
 if ((string) $module->content === '') {
     return;
@@ -33,6 +34,11 @@ $headerAttribs          = [];
 // Only output a header class if one is set
 if ($headerClass !== '') {
     $headerAttribs['class'] = $headerClass;
+}
+
+// Add class from attributes if any
+if (!empty($attribs['class'])) {
+    $moduleAttribs['class'] .= ' ' . htmlspecialchars($attribs['class'], ENT_QUOTES, 'UTF-8');
 }
 
 // Only add aria if the moduleTag is not a div

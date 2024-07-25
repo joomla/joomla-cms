@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_admin.admin-help');
 
 ?>
@@ -32,7 +32,7 @@ $wa->useScript('com_admin.admin-help');
             <div class="sidebar-nav" id="help-index">
                 <ul class="nav flex-column">
                     <li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Start_Here'), Text::_('COM_ADMIN_START_HERE'), ['target' => 'helpFrame']); ?></li>
-                    <li class="item"><?php echo HTMLHelper::_('link', 'https://www.gnu.org/licenses/gpl-2.0.html', Text::_('COM_ADMIN_LICENSE'), ['target' => 'helpFrame']); ?></li>
+                    <li class="item"><?php echo HTMLHelper::_('link', 'https://help.joomla.org/proxy?keyref=Help4.x:License', Text::_('COM_ADMIN_LICENSE'), ['target' => 'helpFrame']); ?></li>
                     <li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Glossary'), Text::_('COM_ADMIN_GLOSSARY'), ['target' => 'helpFrame']); ?></li>
                     <li class="divider"></li>
                     <li class="nav-header"><?php echo Text::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>

@@ -12,6 +12,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer\Parser;
 
 use Joomla\Component\Finder\Administrator\Indexer\Parser;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML Parser class for the Finder indexer package.
  *
@@ -34,7 +38,7 @@ class Html extends Parser
     public function parse($input)
     {
         // Strip invalid UTF-8 characters.
-        $oldSetting = ini_get('mbstring.substitute_character');
+        $oldSetting = \ini_get('mbstring.substitute_character');
         ini_set('mbstring.substitute_character', 'none');
         $input = mb_convert_encoding($input, 'UTF-8', 'UTF-8');
         ini_set('mbstring.substitute_character', $oldSetting);
@@ -45,14 +49,14 @@ class Html extends Parser
 
         // Convert <style> and <noscript> tags to <script> tags
         // so we can remove them efficiently.
-        $search = array(
+        $search = [
             '<style', '</style',
             '<noscript', '</noscript',
-        );
-        $replace = array(
+        ];
+        $replace = [
             '<script', '</script',
             '<script', '</script',
-        );
+        ];
         $input = str_replace($search, $replace, $input);
 
         // Strip all script blocks.
@@ -62,7 +66,7 @@ class Html extends Parser
         $input = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 
         // Convert entities equivalent to spaces to actual spaces.
-        $input = str_replace(array('&nbsp;', '&#160;'), ' ', $input);
+        $input = str_replace(['&nbsp;', '&#160;'], ' ', $input);
 
         // Add a space before both the OPEN and CLOSE tags of BLOCK and LINE BREAKING elements,
         // e.g. 'all<h1><em>m</em>obile  List</h1>' will become 'all mobile  List'
@@ -111,10 +115,10 @@ class Html extends Parser
      */
     private function removeBlocks($input, $startTag, $endTag)
     {
-        $return = '';
-        $offset = 0;
-        $startTagLength = strlen($startTag);
-        $endTagLength = strlen($endTag);
+        $return         = '';
+        $offset         = 0;
+        $startTagLength = \strlen($startTag);
+        $endTagLength   = \strlen($endTag);
 
         // Find the first start tag.
         $start = stripos($input, $startTag);

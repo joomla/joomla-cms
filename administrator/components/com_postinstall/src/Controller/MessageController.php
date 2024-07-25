@@ -10,10 +10,13 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Controller;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Postinstall message controller.
@@ -35,7 +38,7 @@ class MessageController extends BaseController
 
         /** @var MessagesModel $model */
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
-        $eid = $this->input->getInt('eid');
+        $eid   = $this->input->getInt('eid');
 
         if (empty($eid)) {
             $eid = $model->getJoomlaFilesExtensionId();
@@ -55,6 +58,8 @@ class MessageController extends BaseController
      */
     public function unpublish()
     {
+        $this->checkToken('get');
+
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
         $id = $this->input->get('id');
@@ -80,6 +85,8 @@ class MessageController extends BaseController
      */
     public function republish()
     {
+        $this->checkToken('get');
+
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
         $id = $this->input->get('id');
@@ -105,6 +112,8 @@ class MessageController extends BaseController
      */
     public function archive()
     {
+        $this->checkToken('get');
+
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
         $id = $this->input->get('id');
@@ -146,12 +155,12 @@ class MessageController extends BaseController
 
             case 'action':
                 $helper = new PostinstallHelper();
-                $file = $helper->parsePath($item->action_file);
+                $file   = $helper->parsePath($item->action_file);
 
-                if (File::exists($file)) {
+                if (is_file($file)) {
                     require_once $file;
 
-                    call_user_func($item->action);
+                    \call_user_func($item->action);
                 }
                 break;
         }
@@ -172,7 +181,7 @@ class MessageController extends BaseController
 
         /** @var MessagesModel $model */
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
-        $eid = $this->input->getInt('eid');
+        $eid   = $this->input->getInt('eid');
 
         if (empty($eid)) {
             $eid = $model->getJoomlaFilesExtensionId();

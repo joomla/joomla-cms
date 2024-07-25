@@ -1,16 +1,15 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -22,6 +21,10 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Event\Event;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Add extra fields in the User Profile page.
@@ -87,7 +90,7 @@ trait UserProfileFields
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onContentPrepareForm(Event $event)
@@ -96,12 +99,7 @@ trait UserProfileFields
          * @var   Form  $form The form to be altered.
          * @var   mixed $data The associated data for the form.
          */
-        [$form, $data] = $event->getArguments();
-
-        // This feature only applies to HTTPS sites.
-        if (!Uri::getInstance()->isSsl()) {
-            return;
-        }
+        [$form, $data] = array_values($event->getArguments());
 
         $name = $form->getName();
 
@@ -112,6 +110,22 @@ trait UserProfileFields
         if (!\in_array($name, $allowedForms)) {
             return;
         }
+
+        // This feature only applies in the site and administrator applications
+        if (
+            !$this->getApplication()->isClient('site')
+            && !$this->getApplication()->isClient('administrator')
+        ) {
+            return;
+        }
+
+        // This feature only applies to HTTPS sites.
+        if (!Uri::getInstance()->isSsl()) {
+            return;
+        }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Get the user object
         $user = $this->getUserFromData($data);
@@ -127,10 +141,12 @@ trait UserProfileFields
         }
 
         // Add the fields to the form.
-        Log::add('Injecting WebAuthn Passwordless Login fields in user profile edit page', Log::DEBUG, 'webauthn.system');
+        if ($name !== 'com_users.registration') {
+            Log::add('Injecting WebAuthn Passwordless Login fields in user profile edit page', Log::DEBUG, 'webauthn.system');
 
-        Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
-        $form->loadFile('webauthn', false);
+            Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
+            $form->loadFile('webauthn', false);
+        }
     }
 
     /**
@@ -138,7 +154,7 @@ trait UserProfileFields
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onContentPrepareData(Event $event): void
@@ -147,11 +163,14 @@ trait UserProfileFields
          * @var   string|null        $context  The context for the data
          * @var   array|object|null  $data     An object or array containing the data for the form.
          */
-        [$context, $data] = $event->getArguments();
+        [$context, $data] = array_values($event->getArguments());
 
         if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
             return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         self::$userFromFormData = $this->getUserFromData($data);
 
@@ -167,7 +186,7 @@ trait UserProfileFields
      *
      * @return  User|null  A user object or null if no match is found
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     private function getUserFromData($data): ?User
@@ -203,7 +222,7 @@ trait UserProfileFields
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function canEditUser(?User $user = null): bool
     {

@@ -15,6 +15,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command wrapper for getting the site into offline mode
  *
@@ -94,6 +98,7 @@ class SiteUpCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Site Online');
 
         $returnCode = $this->getApplication()->getCommand(SetConfigurationCommand::getDefaultName())->execute(
             new ArrayInput(['options' => ['offline=false']]),

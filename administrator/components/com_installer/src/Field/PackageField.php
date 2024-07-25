@@ -13,6 +13,10 @@ namespace Joomla\Component\Installer\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Package field.
  *

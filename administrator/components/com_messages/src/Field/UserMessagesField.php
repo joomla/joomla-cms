@@ -14,6 +14,10 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\UserField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports a modal select of users that have access to com_messages
  *
@@ -39,7 +43,7 @@ class UserMessagesField extends UserField
     protected function getGroups()
     {
         // Compute usergroups
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('id')
             ->from('#__usergroups');
@@ -74,12 +78,12 @@ class UserMessagesField extends UserField
     /**
      * Method to get the users to exclude from the list of users
      *
-     * @return  array|null array of users to exclude or null to to not exclude them
+     * @return  array|null array of users to exclude or null to not exclude them
      *
      * @since   1.6
      */
     protected function getExcluded()
     {
-        return array(Factory::getUser()->id);
+        return [$this->getCurrentUser()->id];
     }
 }

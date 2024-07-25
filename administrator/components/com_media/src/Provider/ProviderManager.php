@@ -13,6 +13,10 @@ namespace Joomla\Component\Media\Administrator\Provider;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Media Adapter Manager
  *
@@ -72,7 +76,7 @@ class ProviderManager
             return;
         }
 
-        if (!array_key_exists($provider->getID(), $this->providers)) {
+        if (!\array_key_exists($provider->getID(), $this->providers)) {
             return;
         }
 

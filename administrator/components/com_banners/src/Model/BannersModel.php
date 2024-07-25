@@ -14,6 +14,11 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Methods supporting a list of banner records.
@@ -29,10 +34,10 @@ class BannersModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'cid', 'a.cid', 'client_name',
                 'name', 'a.name',
@@ -54,7 +59,7 @@ class BannersModel extends ListModel
                 'category_id',
                 'published',
                 'level', 'c.level',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -70,7 +75,7 @@ class BannersModel extends ListModel
     public function &getCategoryOrders()
     {
         if (!isset($this->cache['categoryorders'])) {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -90,13 +95,13 @@ class BannersModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -253,7 +258,7 @@ class BannersModel extends ListModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Banner', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Banner', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }

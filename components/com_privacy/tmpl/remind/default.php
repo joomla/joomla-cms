@@ -16,8 +16,10 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Privacy\Site\View\Remind\HtmlView $this */
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('keepalive')
+    ->useScript('form.validate');
 
 ?>
 <div class="remind-confirm<?php echo $this->pageclass_sfx; ?>">

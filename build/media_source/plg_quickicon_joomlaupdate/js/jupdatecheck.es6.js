@@ -6,16 +6,13 @@
 if (Joomla && Joomla.getOptions('js-extensions-update')) {
   const update = (type, text) => {
     const link = document.getElementById('plg_quickicon_joomlaupdate');
-    const linkSpans = [].slice.call(link.querySelectorAll('span.j-links-link'));
     if (link) {
       link.classList.add(type);
     }
 
-    if (linkSpans.length) {
-      linkSpans.forEach((span) => {
-        span.innerHTML = Joomla.sanitizeHtml(text);
-      });
-    }
+    link.querySelectorAll('span.j-links-link').forEach((span) => {
+      span.innerHTML = Joomla.sanitizeHtml(text);
+    });
   };
 
   const fetchUpdate = () => {
@@ -26,42 +23,37 @@ if (Joomla && Joomla.getOptions('js-extensions-update')) {
      *
      * @see https://github.com/joomla/joomla-cms/issues/38001
      */
-    Joomla.request({
+    Joomla.enqueueRequest({
       url: options.ajaxUrl,
       method: 'GET',
-      data: '',
-      perform: true,
-      queued: true,
-      onSuccess: (response) => {
-        const updateInfoList = JSON.parse(response);
+      promise: true,
+    }).then((xhr) => {
+      const response = xhr.responseText;
+      const updateInfoList = JSON.parse(response);
 
-        if (Array.isArray(updateInfoList)) {
-          if (updateInfoList.length === 0) {
-            // No updates
-            update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
-          } else {
-            const updateInfo = updateInfoList.shift();
-
-            if (updateInfo.version !== options.version) {
-              update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light"> \u200E ${updateInfo.version}</span>`));
-            } else {
-              update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
-            }
-          }
+      if (Array.isArray(updateInfoList)) {
+        if (updateInfoList.length === 0) {
+          // No updates
+          update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
         } else {
-          // An error occurred
-          update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
+          const updateInfo = updateInfoList.shift();
+
+          if (updateInfo.version !== options.version) {
+            update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light"> \u200E ${updateInfo.version}</span>`));
+          } else {
+            update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
+          }
         }
-      },
-      onError: () => {
+      } else {
         // An error occurred
         update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
-      },
+      }
+    }).catch(() => {
+      // An error occurred
+      update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
     });
   };
 
   // Give some times to the layout and other scripts to settle their stuff
-  window.addEventListener('load', () => {
-    setTimeout(fetchUpdate, 300);
-  });
+  window.addEventListener('load', () => setTimeout(fetchUpdate, 300));
 }

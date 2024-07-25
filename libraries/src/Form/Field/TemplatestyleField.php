@@ -15,6 +15,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports a select grouped list of template styles
  *
@@ -110,7 +114,7 @@ class TemplatestyleField extends GroupedlistField
         if ($result === true) {
             // Get the clientName template.
             $this->clientName = $this->element['client'] ? (string) $this->element['client'] : 'site';
-            $this->template = (string) $this->element['template'];
+            $this->template   = (string) $this->element['template'];
         }
 
         return $result;
@@ -121,14 +125,14 @@ class TemplatestyleField extends GroupedlistField
      * Use the client attribute to specify a specific client.
      * Use the template attribute to specify a specific template
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.6
      */
     protected function getGroups()
     {
-        $groups = array();
-        $lang = Factory::getLanguage();
+        $groups = [];
+        $lang   = Factory::getLanguage();
 
         // Get the client and client_id.
         $client = ApplicationHelper::getClientInfo($this->clientName, true);
@@ -137,7 +141,7 @@ class TemplatestyleField extends GroupedlistField
         $template = $this->template;
 
         // Get the database object and a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Build the query.
@@ -181,7 +185,7 @@ class TemplatestyleField extends GroupedlistField
 
                 // Initialize the group if necessary.
                 if (!isset($groups[$name])) {
-                    $groups[$name] = array();
+                    $groups[$name] = [];
                 }
 
                 $groups[$name][] = HTMLHelper::_('select.option', $style->id, $style->title);

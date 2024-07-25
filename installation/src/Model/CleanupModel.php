@@ -10,8 +10,12 @@
 
 namespace Joomla\CMS\Installation\Model;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\File;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Cleanup model for the Joomla Core Installer.
@@ -36,7 +40,7 @@ class CleanupModel extends BaseInstallationModel
             $return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
         }
 
-        \clearstatcache(true, JPATH_INSTALLATION . '/index.php');
+        clearstatcache(true, JPATH_INSTALLATION . '/index.php');
 
         return $return;
     }

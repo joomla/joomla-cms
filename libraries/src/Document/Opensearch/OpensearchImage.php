@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Document\Opensearch;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Data object representing an OpenSearch image
  *

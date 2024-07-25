@@ -1,28 +1,25 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Exception;
 use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\Plugin\System\Webauthn\Hotfix\Server;
+use Joomla\CMS\WebAuthn\Server;
 use Joomla\Session\SessionInterface;
 use Laminas\Diactoros\ServerRequestFactory;
-use RuntimeException;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\MetadataService\MetadataStatementRepository;
@@ -34,10 +31,14 @@ use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class to aid in credentials creation (link an authenticator to a user account)
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  * @internal
  */
 final class Authentication
@@ -46,7 +47,7 @@ final class Authentication
      * The credentials repository
      *
      * @var   CredentialRepository
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $credentialsRepository;
 
@@ -54,7 +55,7 @@ final class Authentication
      * The application we are running in.
      *
      * @var   CMSApplication
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $app;
 
@@ -62,7 +63,7 @@ final class Authentication
      * The application session
      *
      * @var   SessionInterface
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $session;
 
@@ -70,7 +71,7 @@ final class Authentication
      * A simple metadata statement repository
      *
      * @var   MetadataStatementRepository
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $metadataRepository;
 
@@ -79,7 +80,7 @@ final class Authentication
      * non-empty?
      *
      * @var   boolean
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $attestationSupport = true;
 
@@ -91,7 +92,7 @@ final class Authentication
      * @param   PublicKeyCredentialSourceRepository|null  $credRepo  Credentials repo
      * @param   MetadataStatementRepository|null          $mdsRepo   Authenticator metadata repo
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function __construct(
         ApplicationInterface $app = null,
@@ -109,7 +110,7 @@ final class Authentication
      * Get the known FIDO authenticators and their metadata
      *
      * @return  object[]
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getKnownAuthenticators(): array
     {
@@ -124,7 +125,7 @@ final class Authentication
 
         $return[''] = (object) [
             'description' => Text::_('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR'),
-            'icon' => 'data:image/png;base64,' . base64_encode($image)
+            'icon'        => 'data:image/png;base64,' . base64_encode($image),
         ];
 
         return $return;
@@ -135,7 +136,7 @@ final class Authentication
      *
      * @return  PublicKeyCredentialSourceRepository|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getCredentialsRepository(): ?PublicKeyCredentialSourceRepository
     {
@@ -147,7 +148,7 @@ final class Authentication
      *
      * @return  MetadataStatementRepository|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getMetadataRepository(): ?MetadataStatementRepository
     {
@@ -165,8 +166,8 @@ final class Authentication
      *
      * @return  PublicKeyCredentialCreationOptions
      *
-     * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     * @since   4.2.0
      */
     public function getPubKeyCreationOptions(User $user): PublicKeyCredentialCreationOptions
     {
@@ -211,10 +212,10 @@ final class Authentication
      *
      * @param   User  $user  The Joomla user to get the PK request options for
      *
-     * @return  PublicKeyCredentialRequestOptions
+     * @return  ?PublicKeyCredentialRequestOptions
      *
-     * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     * @since   4.2.0
      */
     public function getPubkeyRequestOptions(User $user): ?PublicKeyCredentialRequestOptions
     {
@@ -241,8 +242,8 @@ final class Authentication
      *
      * @return  PublicKeyCredentialSource
      *
-     * @throws Exception
-     * @since   __DEPLOY_VERSION__
+     * @throws \Exception
+     * @since   4.2.0
      */
     public function validateAssertionResponse(string $data, User $user): PublicKeyCredentialSource
     {
@@ -252,12 +253,12 @@ final class Authentication
         $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
         if (
-            !is_object($publicKeyCredentialRequestOptions)
+            !\is_object($publicKeyCredentialRequestOptions)
             || empty($publicKeyCredentialRequestOptions)
             || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)
         ) {
             Log::add('Cannot retrieve valid plg_system_webauthn.publicKeyCredentialRequestOptions from the session', Log::NOTICE, 'webauthn.system');
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
         $data = base64_decode($data);
@@ -265,7 +266,7 @@ final class Authentication
         if (empty($data)) {
             Log::add('No or invalid assertion data received from the browser', Log::NOTICE, 'webauthn.system');
 
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
         return $this->getWebauthnServer()->loadAndCheckAssertionResponse(
@@ -288,10 +289,10 @@ final class Authentication
      *
      * @param   string  $data  The data
      *
-     * @return  PublicKeyCredentialSource|null
+     * @return  PublicKeyCredentialSource
      *
-     * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     * @since   4.2.0
      */
     public function validateAttestationResponse(string $data): PublicKeyCredentialSource
     {
@@ -301,19 +302,19 @@ final class Authentication
         if (empty($encodedOptions)) {
             Log::add('Cannot retrieve plg_system_webauthn.publicKeyCredentialCreationOptions from the session', Log::NOTICE, 'webauthn.system');
 
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
         }
 
         /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
         try {
             $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::add('The plg_system_webauthn.publicKeyCredentialCreationOptions in the session is invalid', Log::NOTICE, 'webauthn.system');
             $publicKeyCredentialCreationOptions = null;
         }
 
-        if (!is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
+        if (!\is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
         }
 
         // Retrieve the stored user ID and make sure it's the same one in the request.
@@ -325,7 +326,7 @@ final class Authentication
             $message = sprintf('Invalid user! We asked the authenticator to attest user ID %d, the current user ID is %d', $storedUserId, $myUserId);
             Log::add($message, Log::NOTICE, 'webauthn.system');
 
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
         }
 
         // We init the PSR-7 request object using Diactoros
@@ -340,7 +341,7 @@ final class Authentication
      * Get the authentiactor attestation support.
      *
      * @return  boolean
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function hasAttestationSupport(): bool
     {
@@ -355,7 +356,7 @@ final class Authentication
      * @param   bool  $attestationSupport  The desired setting
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function setAttestationSupport(bool $attestationSupport): void
     {
@@ -368,7 +369,7 @@ final class Authentication
      *
      * @return  string|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getSiteIcon(): ?string
     {
@@ -391,7 +392,7 @@ final class Authentication
                 '/templates/',
                 '/templates/' . $this->app->getTemplate(),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
 
@@ -422,7 +423,7 @@ final class Authentication
      *
      * @return  PublicKeyCredentialUserEntity
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getUserEntity(User $user): PublicKeyCredentialUserEntity
     {
@@ -444,7 +445,7 @@ final class Authentication
      *
      * @return  string  The URL to the user's avatar
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getAvatar(User $user, int $size = 64)
     {
@@ -462,7 +463,7 @@ final class Authentication
      *
      * @return  PublicKeyCredentialDescriptor[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getPubKeyDescriptorsForUser(User $user): array
     {
@@ -486,8 +487,8 @@ final class Authentication
      *
      * @return  PublicKeyCredentialRequestOptions
      *
-     * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     * @since   4.2.0
      */
     private function getPKCredentialRequestOptions(): PublicKeyCredentialRequestOptions
     {
@@ -496,19 +497,19 @@ final class Authentication
         if (empty($encodedOptions)) {
             Log::add('Cannot retrieve plg_system_webauthn.publicKeyCredentialRequestOptions from the session', Log::NOTICE, 'webauthn.system');
 
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
         try {
             $publicKeyCredentialRequestOptions = unserialize(base64_decode($encodedOptions));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::add('Invalid plg_system_webauthn.publicKeyCredentialRequestOptions in the session', Log::NOTICE, 'webauthn.system');
 
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
-        if (!is_object($publicKeyCredentialRequestOptions) || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)) {
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+        if (!\is_object($publicKeyCredentialRequestOptions) || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)) {
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
         return $publicKeyCredentialRequestOptions;
@@ -518,10 +519,10 @@ final class Authentication
      * Get the WebAuthn library's Server object which facilitates WebAuthn operations
      *
      * @return  Server
-     * @throws  Exception
-     * @since    __DEPLOY_VERSION__
+     * @throws  \Exception
+     * @since    4.2.0
      */
-    private function getWebauthnServer(): \Webauthn\Server
+    private function getWebauthnServer(): Server
     {
         $siteName = $this->app->get('sitename');
 
@@ -538,7 +539,7 @@ final class Authentication
         $server = new Server($rpEntity, $repository, $this->metadataRepository);
 
         // Ed25519 is only available with libsodium
-        if (!function_exists('sodium_crypto_sign_seed_keypair')) {
+        if (!\function_exists('sodium_crypto_sign_seed_keypair')) {
             $server->setSelectedAlgorithms(['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512']);
         }
 

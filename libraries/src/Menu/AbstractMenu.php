@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu class
  *
@@ -28,7 +32,7 @@ abstract class AbstractMenu
      *
      * @since  4.0.0
      */
-    protected $items = array();
+    protected $items = [];
 
     /**
      * Identifier of the default menu item. Key of the array is the language.
@@ -37,7 +41,7 @@ abstract class AbstractMenu
      *
      * @since  4.0.0
      */
-    protected $default = array();
+    protected $default = [];
 
     /**
      * Identifier of the active menu item
@@ -55,9 +59,11 @@ abstract class AbstractMenu
      *
      * @since  1.7
      *
-     * @deprecated 5.0 Use the MenuFactoryInterface from the container instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the MenuFactoryInterface from the container instead
+     *              Example: Factory::getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options)
      */
-    public static $instances = array();
+    public static $instances = [];
 
     /**
      * User object to check access levels for
@@ -84,7 +90,7 @@ abstract class AbstractMenu
      *
      * @since   1.5
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         /**
          * It is preferred NOT to inject and store the user when constructing the menu object,
@@ -94,7 +100,7 @@ abstract class AbstractMenu
          * user object is not updated, the menu will render incorrectly, not complying with
          * menu items access levels.
          *
-         * @see https://github.com/joomla/joomla-cms/issues/11541
+         * @link https://github.com/joomla/joomla-cms/issues/11541
          */
         $this->storedUser = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : null;
     }
@@ -111,9 +117,11 @@ abstract class AbstractMenu
      *
      * @throws      \Exception
      *
-     * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the MenuFactoryInterface from the container instead
+     *              Example: Factory::getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options)
      */
-    public static function getInstance($client, $options = array())
+    public static function getInstance($client, $options = [])
     {
         if (!$client) {
             throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
@@ -186,7 +194,7 @@ abstract class AbstractMenu
      *
      * @param   string  $language  The language code, default value of * means all.
      *
-     * @return  MenuItem|void  The item object or null when not found for given language
+     * @return  MenuItem|null  The item object or null when not found for given language
      *
      * @since   1.5
      */
@@ -202,6 +210,8 @@ abstract class AbstractMenu
         if (\array_key_exists('*', $this->default)) {
             return $items[$this->default['*']];
         }
+
+        return null;
     }
 
     /**
@@ -209,7 +219,7 @@ abstract class AbstractMenu
      *
      * @param   integer  $id  The item id
      *
-     * @return  MenuItem|void  The menu item representing the given ID if present or null otherwise
+     * @return  MenuItem|null  The menu item representing the given ID if present or null otherwise
      *
      * @since   1.5
      */
@@ -220,12 +230,14 @@ abstract class AbstractMenu
 
             return $this->getMenu()[$id];
         }
+
+        return null;
     }
 
     /**
      * Get menu item by id.
      *
-     * @return  MenuItem|void  The item object if an active menu item has been set or null
+     * @return  MenuItem|null  The item object if an active menu item has been set or null
      *
      * @since   1.5
      */
@@ -234,6 +246,8 @@ abstract class AbstractMenu
         if ($this->active) {
             return $this->getMenu()[$this->active];
         }
+
+        return null;
     }
 
     /**
@@ -250,7 +264,7 @@ abstract class AbstractMenu
      */
     public function getItems($attributes, $values, $firstonly = false)
     {
-        $items      = array();
+        $items      = [];
         $attributes = (array) $attributes;
         $values     = (array) $values;
         $count      = \count($attributes);

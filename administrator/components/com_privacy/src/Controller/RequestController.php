@@ -20,6 +20,10 @@ use Joomla\Component\Privacy\Administrator\Model\RemoveModel;
 use Joomla\Component\Privacy\Administrator\Model\RequestModel;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Request management controller class.
  *
@@ -121,7 +125,7 @@ class RequestController extends FormController
         // Check if there is a return value
         $return = $this->input->get('return', null, 'base64');
 
-        if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
+        if (!\is_null($return) && Uri::isInternal(base64_decode($return))) {
             $url = base64_decode($return);
         }
 
@@ -160,7 +164,7 @@ class RequestController extends FormController
         // Check if there is a return value
         $return = $this->input->get('return', null, 'base64');
 
-        if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
+        if (!\is_null($return) && Uri::isInternal(base64_decode($return))) {
             $url = base64_decode($return);
         }
 
@@ -278,7 +282,7 @@ class RequestController extends FormController
         // Check if there is a return value
         $return = $this->input->get('return', null, 'base64');
 
-        if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
+        if (!\is_null($return) && Uri::isInternal(base64_decode($return))) {
             $url = base64_decode($return);
         }
 
@@ -326,7 +330,7 @@ class RequestController extends FormController
         // Check if there is a return value
         $return = $this->input->get('return', null, 'base64');
 
-        if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
+        if (!\is_null($return) && Uri::isInternal(base64_decode($return))) {
             $url = base64_decode($return);
         }
 
@@ -387,12 +391,12 @@ class RequestController extends FormController
 
             case '1':
                 // A confirmed item can be marked completed or invalid
-                return in_array($newStatus, ['-1', '2'], true);
+                return \in_array($newStatus, ['-1', '2'], true);
 
-            // An item which is already in an invalid or complete state cannot transition, likewise if we don't know the state don't change anything
             case '-1':
             case '2':
             default:
+                // An item which is already in an invalid or complete state cannot transition, likewise if we don't know the state don't change anything
                 return false;
         }
     }

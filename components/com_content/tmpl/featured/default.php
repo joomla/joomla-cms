@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Content\Site\View\Featured\HtmlView $this */
 ?>
-<div class="blog-featured" itemscope itemtype="https://schema.org/Blog">
+<div class="blog-featured">
     <?php if ($this->params->get('show_page_heading') != 0) : ?>
     <div class="page-header">
         <h1>
@@ -20,18 +21,15 @@ defined('_JEXEC') or die;
     </div>
     <?php endif; ?>
 
-    <?php $leadingcount = 0; ?>
     <?php if (!empty($this->lead_items)) : ?>
         <div class="blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
             <?php foreach ($this->lead_items as &$item) : ?>
-                <div class="blog-item"
-                    itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+                <div class="blog-item">
                         <?php
                         $this->item = & $item;
                         echo $this->loadTemplate('item');
                         ?>
                 </div>
-                <?php $leadingcount++; ?>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
@@ -44,8 +42,7 @@ defined('_JEXEC') or die;
         <?php endif; ?>
         <div class="blog-items <?php echo $blogClass; ?>">
         <?php foreach ($this->intro_items as $key => &$item) : ?>
-            <div class="blog-item"
-                itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-item">
                     <?php
                     $this->item = & $item;
                     echo $this->loadTemplate('item');

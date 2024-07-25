@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -19,8 +18,9 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.combobox');
 
+/** @var \Joomla\Component\Config\Site\View\Modules\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_config.modules');
@@ -28,7 +28,7 @@ $wa->useScript('keepalive')
 $editorText  = false;
 $moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
 
-if (File::exists($moduleXml)) {
+if (is_file($moduleXml)) {
     $xml = simplexml_load_file($moduleXml);
 
     if (isset($xml->customContent)) {
@@ -86,7 +86,7 @@ if (Multilanguage::isEnabled()) {
 
                     <hr>
 
-                    <?php if (Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
+                    <?php if ($this->getCurrentUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
                     <div class="control-group">
                         <div class="control-label">
                             <?php echo $this->form->getLabel('published'); ?>
@@ -165,11 +165,11 @@ if (Multilanguage::isEnabled()) {
                 </div>
 
                 <input type="hidden" name="id" value="<?php echo $this->item['id']; ?>">
-                <input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', null, 'base64'); ?>">
+                <input type="hidden" name="return" value="<?php echo Factory::getApplication()->getInput()->get('return', null, 'base64'); ?>">
                 <input type="hidden" name="task" value="">
                 <?php echo HTMLHelper::_('form.token'); ?>
             </div>
-            <div class="mb-2">
+            <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="modules.apply">
                 <span class="icon-check" aria-hidden="true"></span>
                 <?php echo Text::_('JAPPLY'); ?>

@@ -10,9 +10,14 @@
 
 namespace Joomla\Component\Languages\Administrator\Controller;
 
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Languages Override Controller
@@ -36,11 +41,11 @@ class OverrideController extends FormController
         // Do not cache the response to this, its a redirect
         $this->app->allowCache(false);
 
-        $cid     = (array) $this->input->post->get('cid', array(), 'string');
+        $cid     = (array) $this->input->post->get('cid', [], 'string');
         $context = "$this->option.edit.$this->context";
 
         // Get the constant name.
-        $recordId = (count($cid) ? $cid[0] : $this->input->get('id'));
+        $recordId = (\count($cid) ? $cid[0] : $this->input->get('id'));
 
         // Access check.
         if (!$this->allowEdit()) {
@@ -71,11 +76,11 @@ class OverrideController extends FormController
 
         $app     = $this->app;
         $model   = $this->getModel();
-        $data    = $this->input->post->get('jform', array(), 'array');
+        $data    = $this->input->post->get('jform', [], 'array');
         $context = "$this->option.edit.$this->context";
         $task    = $this->getTask();
 
-        $recordId = $this->input->get('id');
+        $recordId   = $this->input->get('id');
         $data['id'] = $recordId;
 
         // Access check.
@@ -104,11 +109,11 @@ class OverrideController extends FormController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+                    $app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $app->enqueueMessage($errors[$i], 'warning');
+                    $app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 

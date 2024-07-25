@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Fields Contexts
  *
@@ -38,7 +42,7 @@ class WorkflowcontextsField extends ListField
      */
     protected function getInput()
     {
-        if (count($this->getOptions()) < 2) {
+        if (\count($this->getOptions()) < 2) {
             $this->layout = 'joomla.form.field.hidden';
         }
 

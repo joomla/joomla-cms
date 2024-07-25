@@ -14,6 +14,10 @@ use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * AbstractDataCollector
  *
@@ -35,7 +39,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
      * @var   DataFormatter
      * @since 4.0.0
      */
-    private static $defaultDataFormatter;
+    public static $defaultDataFormatter;
 
     /**
      * AbstractDataCollector constructor.

@@ -14,12 +14,16 @@ use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Ajax handler for akaction=initcreate
  *
  * Returns the Public Key Creation Options to start the attestation ceremony on the browser.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait AjaxHandlerInitCreate
 {
@@ -30,10 +34,13 @@ trait AjaxHandlerInitCreate
      *
      * @return  void
      * @throws  \Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function onAjaxWebauthnInitcreate(AjaxInitCreate $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Make sure I have a valid user
         $user = Factory::getApplication()->getIdentity();
 
@@ -44,7 +51,7 @@ trait AjaxHandlerInitCreate
         }
 
         // I need the server to have either GMP or BCComp support to attest new authenticators
-        if (function_exists('gmp_intval') === false && function_exists('bccomp') === false) {
+        if (\function_exists('gmp_intval') === false && \function_exists('bccomp') === false) {
             $event->addResult(new \stdClass());
 
             return;

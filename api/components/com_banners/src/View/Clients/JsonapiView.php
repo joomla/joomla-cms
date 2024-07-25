@@ -12,6 +12,10 @@ namespace Joomla\Component\Banners\Api\View\Clients;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The clients view
  *

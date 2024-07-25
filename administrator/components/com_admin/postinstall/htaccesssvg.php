@@ -11,7 +11,9 @@
  * in the default .htaccess file regarding hardening against XSS in SVG's
  */
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Notifies users of a change in the default .htaccess file regarding hardening against XSS in SVG's

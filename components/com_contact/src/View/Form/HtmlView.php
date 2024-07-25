@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML Contact View class for the Contact component
  *
@@ -82,7 +86,7 @@ class HtmlView extends BaseHtmlView
         $this->return_page = $this->get('ReturnPage');
 
         if (empty($this->item->id)) {
-            $authorised = $user->authorise('core.create', 'com_contact') || count($user->getAuthorisedCategories('com_contact', 'core.create'));
+            $authorised = $user->authorise('core.create', 'com_contact') || \count($user->getAuthorisedCategories('com_contact', 'core.create'));
         } else {
             // Since we don't track these assets at the item level, use the category id.
             $canDo      = ContactHelper::getActions('com_contact', 'category', $this->item->catid);
@@ -103,7 +107,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             $app->enqueueMessage(implode("\n", $errors), 'error');
 
             return false;
@@ -120,7 +124,7 @@ class HtmlView extends BaseHtmlView
 
         // Propose current language as default when creating new contact
         if (empty($this->item->id) && Multilanguage::isEnabled()) {
-            $lang = Factory::getLanguage()->getTag();
+            $lang = $this->getLanguage()->getTag();
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
@@ -160,15 +164,15 @@ class HtmlView extends BaseHtmlView
         $pathway->addItem($title, '');
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('menu-meta_keywords')) {
-            $this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
+            $this->getDocument()->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

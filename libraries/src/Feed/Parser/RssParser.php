@@ -15,6 +15,10 @@ use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\FeedParser;
 use Joomla\CMS\Feed\FeedPerson;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * RSS Feed Parser class.
  *
@@ -66,7 +70,7 @@ class RssParser extends FeedParser
      */
     protected function handleCloud(Feed $feed, \SimpleXMLElement $el)
     {
-        $cloud = new \stdClass();
+        $cloud                    = new \stdClass();
         $cloud->domain            = (string) $el['domain'];
         $cloud->port              = (string) $el['port'];
         $cloud->path              = (string) $el['path'];
@@ -193,8 +197,8 @@ class RssParser extends FeedParser
      */
     protected function handleLink(Feed $feed, \SimpleXMLElement $el)
     {
-        $link = new FeedLink();
-        $link->uri = (string) $el['href'];
+        $link       = new FeedLink();
+        $link->uri  = (string) $el['href'];
         $feed->link = $link;
     }
 
@@ -226,7 +230,7 @@ class RssParser extends FeedParser
     protected function handleSkipDays(Feed $feed, \SimpleXMLElement $el)
     {
         // Initialise the array.
-        $days = array();
+        $days = [];
 
         // Add all of the day values from the feed to the array.
         foreach ($el->day as $day) {
@@ -249,7 +253,7 @@ class RssParser extends FeedParser
     protected function handleSkipHours(Feed $feed, \SimpleXMLElement $el)
     {
         // Initialise the array.
-        $hours = array();
+        $hours = [];
 
         // Add all of the day values from the feed to the array.
         foreach ($el->hour as $hour) {
@@ -347,10 +351,7 @@ class RssParser extends FeedParser
      */
     protected function initialise()
     {
-        // We want to move forward to the first XML Element after the xml doc type declaration
-        $this->moveToNextElement();
-
-        // Read the version attribute.
+        // We are on the first XML Element after the xml doc type declaration
         $this->version = $this->stream->getAttribute('version');
 
         // We want to move forward to the first element after the <channel> element.

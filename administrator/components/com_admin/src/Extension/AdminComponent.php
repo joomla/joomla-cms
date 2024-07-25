@@ -19,6 +19,10 @@ use Joomla\Component\Admin\Administrator\Service\HTML\PhpSetting;
 use Joomla\Component\Admin\Administrator\Service\HTML\System;
 use Psr\Container\ContainerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component class for com_admin
  *

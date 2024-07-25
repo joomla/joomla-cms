@@ -11,6 +11,7 @@ namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -19,6 +20,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Workflow Class.
@@ -104,8 +109,19 @@ class Workflow
         $this->extension = $extension;
 
         // Initialise default objects if none have been provided
-        $this->app = $app ?: Factory::getApplication();
-        $this->db = $db ?: Factory::getDbo();
+        if ($app === null) {
+            @trigger_error('From 6.0 declaring the app dependency will be mandatory.', E_USER_DEPRECATED);
+            $app = Factory::getApplication();
+        }
+
+        $this->app = $app;
+
+        if ($db === null) {
+            @trigger_error('From 6.0 declaring the database dependency will be mandatory.', E_USER_DEPRECATED);
+            $db = Factory::getContainer()->get(DatabaseDriver::class);
+        }
+
+        $this->db = $db;
     }
 
     /**
@@ -187,7 +203,7 @@ class Workflow
 
             $query->select(
                 [
-                    $this->db->quoteName('ws.id')
+                    $this->db->quoteName('ws.id'),
                 ]
             )
                 ->from(
@@ -221,7 +237,7 @@ class Workflow
 
         $query->select(
             [
-                $this->db->quoteName('ws.id')
+                $this->db->quoteName('ws.id'),
             ]
         )
             ->from(
@@ -237,7 +253,7 @@ class Workflow
                     $this->db->quoteName('w.published') . ' = 1',
                     $this->db->quoteName('ws.published') . ' = 1',
                     $this->db->quoteName('w.default') . ' = 1',
-                    $this->db->quoteName('w.extension') . ' = :extension'
+                    $this->db->quoteName('w.extension') . ' = :extension',
                 ]
             )
             ->bind(':extension', $this->extension);
@@ -287,7 +303,11 @@ class Workflow
                     $this->db->quoteName('#__workflow_transitions', 't'),
                 ]
             )
-            ->join('INNER', $this->db->quoteName('#__workflows', 'w'))
+            ->join(
+                'INNER',
+                $this->db->quoteName('#__workflows', 'w'),
+                $this->db->quoteName('t.workflow_id') . ' = ' . $this->db->quoteName('w.id')
+            )
             ->join(
                 'LEFT',
                 $this->db->quoteName('#__workflow_stages', 's'),
@@ -296,9 +316,8 @@ class Workflow
             ->where(
                 [
                     $this->db->quoteName('t.id') . ' = :id',
-                    $this->db->quoteName('t.workflow_id') . ' = ' . $this->db->quoteName('w.id'),
                     $this->db->quoteName('t.published') . ' = 1',
-                    $this->db->quoteName('w.extension') . ' = :extension'
+                    $this->db->quoteName('w.extension') . ' = :extension',
                 ]
             )
             ->bind(':id', $transitionId, ParameterType::INTEGER)
@@ -306,7 +325,7 @@ class Workflow
 
         $transition = $this->db->setQuery($query)->loadObject();
 
-        $parts = explode('.', $this->extension);
+        $parts  = explode('.', $this->extension);
         $option = reset($parts);
 
         if (!empty($transition->id) && $user->authorise('core.execute.transition', $option . '.transition.' . (int) $transition->id)) {
@@ -335,7 +354,7 @@ class Workflow
 
         $transition = $this->getValidTransition($pks, $transitionId);
 
-        if (is_null($transition)) {
+        if (\is_null($transition)) {
             return false;
         }
 
@@ -349,7 +368,7 @@ class Workflow
             if (
                 !\in_array($transition->from_stage_id, [
                     $assoc->stage_id,
-                    -1
+                    -1,
                 ]) || $transition->workflow_id !== $assoc->workflow_id
             ) {
                 return false;
@@ -385,11 +404,11 @@ class Workflow
                 AbstractEvent::create(
                     'onWorkflowAfterTransition',
                     [
-                        'eventClass' => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+                        'eventClass' => WorkflowTransitionEvent::class,
                         'subject'    => $this,
                         'extension'  => $this->extension,
                         'pks'        => $pks,
-                        'transition' => $transition
+                        'transition' => $transition,
                     ]
                 )
             );

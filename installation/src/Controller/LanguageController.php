@@ -15,6 +15,10 @@ use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Language controller class for the Joomla Installer.
  *

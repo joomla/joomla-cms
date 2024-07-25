@@ -1,26 +1,24 @@
 #finder-filter-window {
-  margin: 10px 0 10px;
-  overflow: auto;
-  padding: 0;
   width: 100%;
+  padding: 0;
+  margin: 10px 0;
+  overflow: auto;
 }
 
 ul#finder-filter-select-dates {
-  list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 ul#finder-filter-select-dates li.filter-date {
-  background: none;
-  float: left;
-  list-style: none;
-  margin: 0;
-  padding: 5px 0;
-  text-align: left;
   width: 49%;
+  padding: 5px 0;
+  margin: 0;
+  list-style: none;
+  background: none;
 }
 
 ul#finder-filter-select-dates li.filter-date select.filter-date-operator {
-  margin-right: 10px;
+  margin-inline-end: 10px;
 }

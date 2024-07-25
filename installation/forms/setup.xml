@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\CMS\Installation\Form\Field" addruleprefix="Joomla\CMS\Installation\Form\Rule">
 	<fieldset name="site">
 		<field
@@ -13,14 +13,6 @@
 			type="text"
 			label="INSTL_SITE_NAME_DESC"
 			class="form-control"
-			required="true"
-		/>
-		<field
-			name="admin_email"
-			type="email"
-			label="INSTL_ADMIN_EMAIL_DESC"
-			class="form-control"
-			validate="email"
 			required="true"
 		/>
 		<field
@@ -54,11 +46,19 @@
 			filter="raw"
 		/>
 		<field
+			name="admin_email"
+			type="email"
+			label="INSTL_ADMIN_EMAIL_DESC"
+			class="form-control"
+			validate="email"
+			required="true"
+		/>
+		<field
 			name="db_type"
 			type="databaseconnection"
 			label="INSTL_DATABASE_TYPE_DESC"
 			class="form-select"
-			supported="mysql,mysqli,pgsql,postgresql"
+			supported="mysql,mysqli,pgsql"
 			required="true"
 			default="mysqli"
 			filter="string"
@@ -102,6 +102,7 @@
 			name="db_prefix"
 			type="installation.prefix"
 			label="INSTL_DATABASE_PREFIX_DESC"
+			description="INSTL_DATABASE_PREFIX_DUPLICATE_DESC"
 			class="form-control"
 			required="true"
 			validate="prefix"
@@ -174,5 +175,15 @@
 			showon="db_type:mysql,mysqli[AND]db_encryption:2"
 		/>
 
+	</fieldset>
+
+	<fieldset name="expert">
+		<field
+			name="public_folder"
+			type="text"
+			label="INSTL_PUBLIC_FOLDER_DESC"
+			default=""
+			filter="string"
+		/>
 	</fieldset>
 </form>

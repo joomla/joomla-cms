@@ -14,6 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Renders a modal window button
  *
@@ -22,22 +26,28 @@ use Joomla\CMS\Uri\Uri;
  * @method self    iframeWidth(int $value)
  * @method self    iframeHeight(int $value)
  * @method self    bodyHeight(int $value)
- * @method self    modalWidth(int $value)
+ * @method self    modalWidth(string $value)
+ * @method self    modalHeight(string $value)
  * @method self    onclose(string $value)
  * @method self    title(string $value)
  * @method self    footer(string $value)
  * @method self    selector(string $value)
  * @method self    listCheck(bool $value)
+ * @method self    popupType(string $value)
+ * @method self    textHeader(string $value)
  * @method string  getUrl()
  * @method int     getIframeWidth()
  * @method int     getIframeHeight()
  * @method int     getBodyHeight()
- * @method int     getModalWidth()
+ * @method string  getModalWidth()
+ * @method string  getModalHeight()
  * @method string  getOnclose()
  * @method string  getTitle()
  * @method string  getFooter()
  * @method string  getSelector()
  * @method bool    getListCheck()
+ * @method string  getPopupType()
+ * @method string  getTextHeader()
  *
  * @since  3.0
  */
@@ -135,9 +145,18 @@ class PopupButton extends ToolbarButton
 
         $html[] = parent::renderButton($options);
 
+        if ($this->getPopupType()) {
+            return $html[0];
+        }
+
+        @trigger_error(
+            'Use of BS Modal is deprecated in Joomla\CMS\Toolbar\Button\PopupButton, and will be removed in 6.0',
+            E_USER_DEPRECATED
+        );
+
         if ((string) $this->getUrl() !== '') {
             // Build the options array for the modal
-            $params = array();
+            $params               = [];
             $params['title']      = $options['title'] ?? $options['text'];
             $params['url']        = $this->getUrl();
             $params['height']     = $options['iframeHeight'] ?? 480;
@@ -228,11 +247,14 @@ JS
                 'iframeHeight',
                 'bodyHeight',
                 'modalWidth',
+                'modalHeight',
                 'onclose',
                 'title',
                 'footer',
                 'selector',
                 'listCheck',
+                'popupType',
+                'textHeader',
             ]
         );
     }

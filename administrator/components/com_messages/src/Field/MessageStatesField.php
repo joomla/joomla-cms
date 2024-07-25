@@ -13,6 +13,10 @@ namespace Joomla\Component\Messages\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Messages\Administrator\Helper\MessagesHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Message States field.
  *

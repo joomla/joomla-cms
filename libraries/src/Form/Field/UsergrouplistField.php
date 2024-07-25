@@ -12,6 +12,10 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Helper\UserGroupsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field to load a dropdown list of available user groups
  *
@@ -30,10 +34,10 @@ class UsergrouplistField extends ListField
     /**
      * Cached array of the category items.
      *
-     * @var    array
+     * @var    array[]
      * @since  3.2
      */
-    protected static $options = array();
+    protected static $options = [];
 
     /**
      * Method to attach a Form object to the field.
@@ -60,7 +64,7 @@ class UsergrouplistField extends ListField
     /**
      * Method to get the options to populate list
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.2
      */
@@ -72,7 +76,7 @@ class UsergrouplistField extends ListField
         // Cache user groups base on checksuperusergroup attribute value
         if (!isset(static::$options[$checkSuperUser])) {
             $groups       = UserGroupsHelper::getInstance()->getAll();
-            $cacheOptions = array();
+            $cacheOptions = [];
 
             foreach ($groups as $group) {
                 // Don't list super user groups.
@@ -80,11 +84,11 @@ class UsergrouplistField extends ListField
                     continue;
                 }
 
-                $cacheOptions[] = (object) array(
+                $cacheOptions[] = (object) [
                     'text'  => str_repeat('- ', $group->level) . $group->title,
                     'value' => $group->id,
                     'level' => $group->level,
-                );
+                ];
             }
 
             static::$options[$checkSuperUser] = $cacheOptions;

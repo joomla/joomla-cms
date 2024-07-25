@@ -22,6 +22,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component Controller
  *
@@ -39,7 +43,7 @@ class ModulesController extends BaseController
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -55,8 +59,8 @@ class ModulesController extends BaseController
      */
     public function cancel()
     {
-        // Redirect back to home(base) page
-        $this->setRedirect(Uri::base());
+        // Redirect back to previous page
+        $this->setRedirect($this->getReturnUrl());
     }
 
     /**
@@ -87,7 +91,7 @@ class ModulesController extends BaseController
 
         // Get returnUri
         $returnUri = $this->input->post->get('return', null, 'base64');
-        $redirect = '';
+        $redirect  = '';
 
         if (!empty($returnUri)) {
             $redirect = '&return=' . $returnUri;
@@ -126,7 +130,7 @@ class ModulesController extends BaseController
         // Check the return value.
         if ($return === false) {
             // Save the data in the session.
-            $data = $this->input->post->get('jform', array(), 'array');
+            $data = $this->input->post->get('jform', [], 'array');
 
             $this->app->setUserState('com_config.modules.global.data', $data);
 
@@ -136,7 +140,7 @@ class ModulesController extends BaseController
         }
 
         // Redirect back to com_config display
-        $this->app->enqueueMessage(Text::_('COM_CONFIG_MODULES_SAVE_SUCCESS'));
+        $this->app->enqueueMessage(Text::_('COM_CONFIG_MODULES_SAVE_SUCCESS'), 'success');
 
         // Set the redirect based on the task.
         switch ($this->input->getCmd('task')) {
@@ -146,19 +150,29 @@ class ModulesController extends BaseController
 
             case 'save':
             default:
-                if (!empty($returnUri)) {
-                    $redirect = base64_decode(urldecode($returnUri));
-
-                    // Don't redirect to an external URL.
-                    if (!Uri::isInternal($redirect)) {
-                        $redirect = Uri::base();
-                    }
-                } else {
-                    $redirect = Uri::base();
-                }
-
-                $this->setRedirect($redirect);
+                $this->setRedirect($this->getReturnUrl());
                 break;
         }
+    }
+
+    /**
+     * Method to get redirect URL after saving or cancel editing a module from frontend
+     *
+     * @return  string
+     *
+     * @since   5.1.0
+     */
+    private function getReturnUrl(): string
+    {
+        if ($return = $this->input->post->get('return', '', 'BASE64')) {
+            $return = base64_decode(urldecode($return));
+
+            // Only redirect to if it is an internal URL
+            if (Uri::isInternal($return)) {
+                return $return;
+            }
+        }
+
+        return Uri::base();
     }
 }

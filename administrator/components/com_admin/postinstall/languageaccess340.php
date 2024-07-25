@@ -13,6 +13,10 @@
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Checks if the installation is affected by the issue with content languages access in 3.4.0
  *

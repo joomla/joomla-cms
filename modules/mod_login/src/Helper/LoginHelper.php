@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_login
  *
@@ -58,7 +62,7 @@ class LoginHelper
     {
         $user = Factory::getUser();
 
-        return (!$user->get('guest')) ? 'logout' : 'login';
+        return (!$user->guest) ? 'logout' : 'login';
     }
 
     /**
@@ -70,7 +74,7 @@ class LoginHelper
      */
     public static function getRegistrationUrl($params)
     {
-        $regLink = 'index.php?option=com_users&view=registration';
+        $regLink       = 'index.php?option=com_users&view=registration';
         $regLinkMenuId = $params->get('customRegLinkMenu');
 
         // If there is a custom menu item set for registration => override default

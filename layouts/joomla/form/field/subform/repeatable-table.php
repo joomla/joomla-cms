@@ -48,11 +48,11 @@ $class = $class ? ' ' . $class : '';
 $table_head = '';
 
 if (!empty($groupByFieldset)) {
-    foreach ($tmpl->getFieldsets() as $fieldset) {
+    foreach ($tmpl->getFieldsets() as $k => $fieldset) {
         $table_head .= '<th scope="col">' . Text::_($fieldset->label);
 
         if ($fieldset->description) {
-            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
+            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-th-' . $fieldId . '-' . $k . '">' . Text::_($fieldset->description) . '</div>';
         }
 
         $table_head .= '</th>';
@@ -108,7 +108,7 @@ if (!empty($groupByFieldset)) {
                 <tbody class="subform-repeatable-container">
                 <?php
                 foreach ($forms as $k => $form) :
-                    echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
+                    echo $this->sublayout($sublayout, ['form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons]);
                 endforeach;
                 ?>
                 </tbody>
@@ -116,7 +116,7 @@ if (!empty($groupByFieldset)) {
         </div>
         <?php if ($multiple) : ?>
         <template class="subform-repeatable-template-section hidden">
-            <?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
+            <?php echo trim($this->sublayout($sublayout, ['form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons])); ?>
         </template>
         <?php endif; ?>
     </joomla-field-subform>

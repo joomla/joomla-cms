@@ -18,6 +18,11 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Methods supporting a list of article records.
@@ -35,10 +40,10 @@ class AssociationsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id',
                 'title',
                 'ordering',
@@ -53,7 +58,7 @@ class AssociationsModel extends ListModel
                 'category_title',
                 'access',
                 'access_level',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -75,11 +80,11 @@ class AssociationsModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
-        $forcedItemType = $app->input->get('forcedItemType', '', 'string');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
+        $forcedItemType = $app->getInput()->get('forcedItemType', '', 'string');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -148,7 +153,7 @@ class AssociationsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery|boolean
+     * @return  QueryInterface|boolean
      *
      * @since  3.7.0
      */
@@ -170,7 +175,7 @@ class AssociationsModel extends ListModel
         }
 
         // Create a new query object.
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
         $db       = $this->getDatabase();
         $query    = $db->getQuery(true);
 
@@ -240,14 +245,14 @@ class AssociationsModel extends ListModel
             ->bind(':context', $extensionNameItem);
 
         // Prepare the group by clause.
-        $groupby = array(
+        $groupby = [
             $fields['id'],
             $fields['title'],
             $fields['alias'],
             $fields['language'],
             'l.title',
             'l.image',
-        );
+        ];
 
         // Select author for ACL checks.
         if (!empty($fields['created_user_id'])) {
@@ -363,7 +368,7 @@ class AssociationsModel extends ListModel
                 ->bind(':extensionname', $extensionName);
         } elseif ($typeNameExploded = explode('.', $typeName)) {
             if (\count($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category') {
-                $section = implode('.', $typeNameExploded);
+                $section              = implode('.', $typeNameExploded);
                 $extensionNameSection = $extensionName . '.' . $section;
                 $query->where($db->quoteName('a.extension') . ' = :extensionsection')
                     ->bind(':extensionsection', $extensionNameSection);
@@ -391,7 +396,7 @@ class AssociationsModel extends ListModel
         $baselevel = 1;
 
         if ($categoryId = $this->getState('filter.category_id')) {
-            $categoryTable = Table::getInstance('Category', 'JTable');
+            $categoryTable = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $categoryTable->load($categoryId);
             $baselevel = (int) $categoryTable->level;
 

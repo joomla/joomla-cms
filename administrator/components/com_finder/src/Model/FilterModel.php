@@ -15,6 +15,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Finder\Administrator\Table\FilterTable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Filter model class for Finder.
  *
@@ -42,7 +46,8 @@ class FilterModel extends AdminModel
      * Custom clean cache method.
      *
      * @param   string   $group     The component name. [optional]
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
@@ -81,7 +86,7 @@ class FilterModel extends AdminModel
         if (!empty($filter->data)) {
             $filter->data = explode(',', $filter->data);
         } elseif (empty($filter->data)) {
-            $filter->data = array();
+            $filter->data = [];
         }
 
         return $filter;
@@ -97,10 +102,10 @@ class FilterModel extends AdminModel
      *
      * @since   2.5
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_finder.filter', 'filter', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_finder.filter', 'filter', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -119,7 +124,7 @@ class FilterModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_finder.edit.filter.data', array());
+        $data = Factory::getApplication()->getUserState('com_finder.edit.filter.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -133,7 +138,7 @@ class FilterModel extends AdminModel
     /**
      * Method to get the total indexed items
      *
-     * @return  number the number of indexed items
+     * @return  integer  The count of indexed items
      *
      * @since  3.5
      */

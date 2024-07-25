@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Extension
@@ -36,292 +37,306 @@ use Joomla\Uri\UriInterface;
  */
 class RequestsPluginTest extends UnitTestCase
 {
-	/**
-	 * Setup
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function setUp(): void
-	{
-		if (is_dir(__DIR__ . '/tmp'))
-		{
-			Folder::delete(__DIR__ . '/tmp');
-		}
-	}
+    /**
+     * The temporary folder.
+     *
+     * @var string
+     *
+     * @since 4.3.0
+     */
+    private $tmpFolder;
 
-	/**
-	 * Cleanup
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function tearDown(): void
-	{
-		if (is_dir(__DIR__ . '/tmp'))
-		{
-			Folder::delete(__DIR__ . '/tmp');
-		}
-	}
+    /**
+     * Setup
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function setUp(): void
+    {
+        // Dir must be random for parallel automated tests
+        $this->tmpFolder = JPATH_ROOT . '/tmp/' . rand();
 
-	/**
-	 * @testdox  can perform a HTTP GET request
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testRequest()
-	{
-		$transport = new class implements TransportInterface
-		{
-			public $url;
+        if (is_dir($this->tmpFolder)) {
+            Folder::delete($this->tmpFolder);
+        }
+    }
 
-			public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
-			{
-				$this->url = $uri->toString();
+    /**
+     * Cleanup
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function tearDown(): void
+    {
+        if (is_dir($this->tmpFolder)) {
+            Folder::delete($this->tmpFolder);
+        }
+    }
 
-				return (object)['code' => 200, 'body' => 'test'];
-			}
+    /**
+     * @testdox  can perform a HTTP GET request
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testRequest()
+    {
+        $transport = new class () implements TransportInterface {
+            public $url;
 
-			public static function isSupported()
-			{
-				return true;
-			}
-		};
+            public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
+            {
+                $this->url = $uri->toString();
 
-		$http = new Http([], $transport);
-		$factory = $this->createStub(HttpFactory::class);
-		$factory->method('getHttp')->willReturn($http);
+                return (object)['code' => 200, 'body' => 'test'];
+            }
 
-		$app = $this->createStub(CMSApplicationInterface::class);
-		$app->method('getLanguage')->willReturn($this->createStub(Language::class));
+            public static function isSupported()
+            {
+                return true;
+            }
+        };
 
-		$plugin = new Requests(new Dispatcher, [], $factory, __DIR__ . '/tmp');
-		$plugin->setApplication($app);
+        $http    = new Http([], $transport);
+        $factory = $this->createStub(HttpFactory::class);
+        $factory->method('getHttp')->willReturn($http);
 
-		$task = $this->createStub(Task::class);
-		$task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-		$event = new ExecuteTaskEvent(
-			'test',
-			[
-				'subject' => $task,
-				'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
-			]
-		);
-		$plugin->standardRoutineHandler($event);
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
 
-		$this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
-		$this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
-		$this->assertEquals('http://example.com', $transport->url);
-		$this->assertStringEqualsFile(__DIR__ . '/tmp/task_1_response.html', 'test');
-	}
+        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin->setApplication($app);
 
-	/**
-	 * @testdox  can perform a HTTP GET request where the return code is not 200
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testInvalidRequest()
-	{
-		$transport = new class implements TransportInterface
-		{
-			public $url;
+        $task = $this->createStub(Task::class);
+        $task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
 
-			public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
-			{
-				$this->url = $uri->toString();
+        $event = new ExecuteTaskEvent(
+            'test',
+            [
+                'subject' => $task,
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+            ]
+        );
+        $plugin->standardRoutineHandler($event);
 
-				return (object)['code' => 404, 'body' => 'test'];
-			}
+        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
+        $this->assertEquals('http://example.com', $transport->url);
+        $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
+    }
 
-			public static function isSupported()
-			{
-				return true;
-			}
-		};
+    /**
+     * @testdox  can perform a HTTP GET request where the return code is not 200
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testInvalidRequest()
+    {
+        $transport = new class () implements TransportInterface {
+            public $url;
 
-		$http = new Http([], $transport);
-		$factory = $this->createStub(HttpFactory::class);
-		$factory->method('getHttp')->willReturn($http);
+            public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
+            {
+                $this->url = $uri->toString();
 
-		$app = $this->createStub(CMSApplicationInterface::class);
-		$app->method('getLanguage')->willReturn($this->createStub(Language::class));
+                return (object)['code' => 404, 'body' => 'test'];
+            }
 
-		$plugin = new Requests(new Dispatcher, [], $factory, __DIR__ . '/tmp');
-		$plugin->setApplication($app);
+            public static function isSupported()
+            {
+                return true;
+            }
+        };
 
-		$task = $this->createStub(Task::class);
-		$task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
+        $http    = new Http([], $transport);
+        $factory = $this->createStub(HttpFactory::class);
+        $factory->method('getHttp')->willReturn($http);
 
-		$event = new ExecuteTaskEvent(
-			'test',
-			[
-				'subject' => $task,
-				'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
-			]
-		);
-		$plugin->standardRoutineHandler($event);
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-		$this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
-		$this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
-		$this->assertEquals('http://example.com', $transport->url);
-		$this->assertStringEqualsFile(__DIR__ . '/tmp/task_1_response.html', 'test');
-	}
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
 
-	/**
-	 * @testdox  can perform a HTTP GET request with auth headers
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testAuthRequest()
-	{
-		$transport = new class implements TransportInterface
-		{
-			public $headers;
+        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin->setApplication($app);
 
-			public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
-			{
-				$this->headers = $headers;
+        $task = $this->createStub(Task::class);
+        $task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
 
-				return (object)['code' => 200, 'body' => 'test'];
-			}
+        $event = new ExecuteTaskEvent(
+            'test',
+            [
+                'subject' => $task,
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+            ]
+        );
+        $plugin->standardRoutineHandler($event);
 
-			public static function isSupported()
-			{
-				return true;
-			}
-		};
+        $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
+        $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
+        $this->assertEquals('http://example.com', $transport->url);
+        $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
+    }
 
-		$http = new Http([], $transport);
-		$factory = $this->createStub(HttpFactory::class);
-		$factory->method('getHttp')->willReturn($http);
+    /**
+     * @testdox  can perform a HTTP GET request with auth headers
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testAuthRequest()
+    {
+        $transport = new class () implements TransportInterface {
+            public $headers;
 
-		$app = $this->createStub(CMSApplicationInterface::class);
-		$app->method('getLanguage')->willReturn($this->createStub(Language::class));
+            public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
+            {
+                $this->headers = $headers;
 
-		$plugin = new Requests(new Dispatcher, [], $factory, __DIR__ . '/tmp');
-		$plugin->setApplication($app);
+                return (object)['code' => 200, 'body' => 'test'];
+            }
 
-		$task = $this->createStub(Task::class);
-		$task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
+            public static function isSupported()
+            {
+                return true;
+            }
+        };
 
-		$event = new ExecuteTaskEvent(
-			'test',
-			[
-				'subject' => $task,
-				'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 1, 'authType' => 'basic', 'authKey' => '123']
-			]
-		);
-		$plugin->standardRoutineHandler($event);
+        $http    = new Http([], $transport);
+        $factory = $this->createStub(HttpFactory::class);
+        $factory->method('getHttp')->willReturn($http);
 
-		$this->assertEquals(['basic' => '123'], $transport->headers);
-	}
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-	/**
-	 * @testdox  can handle an exception during the request
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testExceptionInRequest()
-	{
-		$transport = new class implements TransportInterface
-		{
-			public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
-			{
-				throw new Exception('test');
-			}
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
 
-			public static function isSupported()
-			{
-				return true;
-			}
-		};
+        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin->setApplication($app);
 
-		$http = new Http([], $transport);
-		$factory = $this->createStub(HttpFactory::class);
-		$factory->method('getHttp')->willReturn($http);
+        $task = $this->createStub(Task::class);
+        $task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
 
-		$language = $this->createStub(Language::class);
-		$language->method('_')->willReturn('test');
+        $event = new ExecuteTaskEvent(
+            'test',
+            [
+                'subject' => $task,
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 1, 'authType' => 'basic', 'authKey' => '123'],
+            ]
+        );
+        $plugin->standardRoutineHandler($event);
 
-		$app = $this->createStub(CMSApplicationInterface::class);
-		$app->method('getLanguage')->willReturn($language);
+        $this->assertEquals(['Authorization' => 'basic 123'], $transport->headers);
+    }
 
-		$plugin = new Requests(new Dispatcher, [], $factory, __DIR__ . '/tmp');
-		$plugin->setApplication($app);
+    /**
+     * @testdox  can handle an exception during the request
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testExceptionInRequest()
+    {
+        $transport = new class () implements TransportInterface {
+            public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
+            {
+                throw new \Exception('test');
+            }
 
-		$task = $this->createStub(Task::class);
-		$task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
+            public static function isSupported()
+            {
+                return true;
+            }
+        };
 
-		$event = new ExecuteTaskEvent(
-			'test',
-			[
-				'subject' => $task,
-				'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
-			]
-		);
-		$plugin->standardRoutineHandler($event);
+        $http    = new Http([], $transport);
+        $factory = $this->createStub(HttpFactory::class);
+        $factory->method('getHttp')->willReturn($http);
 
-		$this->assertEquals(Status::TIMEOUT, $event->getResultSnapshot()['status']);
-	}
-	/**
-	 * @testdox  can handle an invalid file location
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testInvalidFileToWrite()
-	{
-		$transport = new class implements TransportInterface
-		{
-			public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
-			{
-				return (object)['code' => 200, 'body' => 'test'];
-			}
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-			public static function isSupported()
-			{
-				return true;
-			}
-		};
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
 
-		$http = new Http([], $transport);
-		$factory = $this->createStub(HttpFactory::class);
-		$factory->method('getHttp')->willReturn($http);
+        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin->setApplication($app);
 
-		$language = $this->createStub(Language::class);
-		$language->method('_')->willReturn('test');
+        $task = $this->createStub(Task::class);
+        $task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
 
-		$app = $this->createStub(CMSApplicationInterface::class);
-		$app->method('getLanguage')->willReturn($language);
+        $event = new ExecuteTaskEvent(
+            'test',
+            [
+                'subject' => $task,
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+            ]
+        );
+        $plugin->standardRoutineHandler($event);
 
-		$plugin = new Requests(new Dispatcher, [], $factory, '/invalid');
-		$plugin->setApplication($app);
+        $this->assertEquals(Status::TIMEOUT, $event->getResultSnapshot()['status']);
+    }
+    /**
+     * @testdox  can handle an invalid file location
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testInvalidFileToWrite()
+    {
+        $transport = new class () implements TransportInterface {
+            public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
+            {
+                return (object)['code' => 200, 'body' => 'test'];
+            }
 
-		$task = $this->createStub(Task::class);
-		$task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
+            public static function isSupported()
+            {
+                return true;
+            }
+        };
 
-		$event = new ExecuteTaskEvent(
-			'test',
-			[
-				'subject' => $task,
-				'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
-			]
-		);
-		$plugin->standardRoutineHandler($event);
+        $http    = new Http([], $transport);
+        $factory = $this->createStub(HttpFactory::class);
+        $factory->method('getHttp')->willReturn($http);
 
-		$this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
-		$this->assertStringContainsString('NOT_SAVED', $event->getResultSnapshot()['output']);
-	}
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Requests(new Dispatcher(), [], $factory, '/proc/invalid');
+        $plugin->setApplication($app);
+
+        $task = $this->createStub(Task::class);
+        $task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
+
+        $event = new ExecuteTaskEvent(
+            'test',
+            [
+                'subject' => $task,
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+            ]
+        );
+        $plugin->standardRoutineHandler($event);
+
+        $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+        $this->assertStringContainsString('NOT_SAVED', $event->getResultSnapshot()['output']);
+    }
 }

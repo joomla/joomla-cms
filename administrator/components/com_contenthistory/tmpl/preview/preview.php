@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Contenthistory\Administrator\View\Preview\HtmlView $this */
+
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 ?>
@@ -45,7 +47,8 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
                     </td>
                 </tr>
                 <?php foreach ($value->value as $subName => $subValue) : ?>
-                    <?php if ($subValue) : ?>
+                    <?php if ($subValue && isset($subValue->value)) : ?>
+                        <?php $subValue->value = (\is_object($subValue->value) || \is_array($subValue->value)) ? \json_encode($subValue->value, \JSON_UNESCAPED_UNICODE) : $subValue->value; ?>
                         <tr>
                             <th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
                             <td><?php echo $subValue->value; ?></td>

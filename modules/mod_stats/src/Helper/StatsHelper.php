@@ -10,31 +10,43 @@
 
 namespace Joomla\Module\Stats\Site\Helper;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_stats
  *
  * @since  1.5
  */
-class StatsHelper
+class StatsHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Get list of stats
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param   Registry  &$params  module parameters
+     * @param   CMSApplicationInterface  $app  The application
      *
      * @return  array
+     *
+     * @since   5.2.0
      */
-    public static function &getList(&$params)
+    public function getStats(Registry &$params, CMSApplicationInterface $app)
     {
-        $app        = Factory::getApplication();
-        $db         = Factory::getDbo();
-        $rows       = array();
+        $db         = $this->getDatabase();
+        $rows       = [];
         $query      = $db->getQuery(true);
         $serverinfo = $params->get('serverinfo', 0);
         $siteinfo   = $params->get('siteinfo', 0);
@@ -44,32 +56,32 @@ class StatsHelper
         $i = 0;
 
         if ($serverinfo) {
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_OS');
             $rows[$i]->data  = substr(php_uname(), 0, 7);
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_PHP');
             $rows[$i]->data  = PHP_VERSION;
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_($db->name);
             $rows[$i]->data  = $db->getVersion();
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_TIME');
             $rows[$i]->data  = HTMLHelper::_('date', 'now', 'H:i');
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_CACHING');
             $rows[$i]->data  = $app->get('caching') ? Text::_('JENABLED') : Text::_('JDISABLED');
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_GZIP');
             $rows[$i]->data  = $app->get('gzip') ? Text::_('JENABLED') : Text::_('JDISABLED');
             $i++;
@@ -99,14 +111,14 @@ class StatsHelper
             }
 
             if ($users) {
-                $rows[$i] = new \stdClass();
+                $rows[$i]        = new \stdClass();
                 $rows[$i]->title = Text::_('MOD_STATS_USERS');
                 $rows[$i]->data  = $users;
                 $i++;
             }
 
             if ($items) {
-                $rows[$i] = new \stdClass();
+                $rows[$i]        = new \stdClass();
                 $rows[$i]->title = Text::_('MOD_STATS_ARTICLES');
                 $rows[$i]->data  = $items;
                 $i++;
@@ -127,7 +139,7 @@ class StatsHelper
             }
 
             if ($hits) {
-                $rows[$i] = new \stdClass();
+                $rows[$i]        = new \stdClass();
                 $rows[$i]->title = Text::_('MOD_STATS_ARTICLES_VIEW_HITS');
                 $rows[$i]->data  = $hits + $increase;
                 $i++;
@@ -137,7 +149,7 @@ class StatsHelper
         // Include additional data defined by published system plugins
         PluginHelper::importPlugin('system');
 
-        $arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats'));
+        $arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats']);
 
         foreach ($arrays as $response) {
             foreach ($response as $row) {
@@ -153,5 +165,23 @@ class StatsHelper
         }
 
         return $rows;
+    }
+
+    /**
+     * Get list of stats
+     *
+     * @param   Registry  &$params  module parameters
+     *
+     * @return  array
+     *
+     * @deprecated 5.2.0 will be removed in 7.0
+     *             Use the non-static method getStats
+     *             Example: Factory::getApplication()->bootModule('mod_stats', 'site')
+     *                          ->getHelper('StatsHelper')
+     *                          ->getStats($params, Factory::getApplication())
+     */
+    public static function &getList(Registry &$params)
+    {
+        return (new self())->getStats($params, Factory::getApplication());
     }
 }

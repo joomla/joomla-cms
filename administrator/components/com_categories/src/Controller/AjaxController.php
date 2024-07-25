@@ -18,6 +18,10 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The categories controller for ajax requests
  *
@@ -60,14 +64,14 @@ class AjaxController extends BaseController
 
             // Add the title to each of the associated records
             Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
-            $categoryTable = Table::getInstance('Category', 'JTable');
+            $categoryTable = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
 
-            foreach ($associations as $lang => $association) {
+            foreach ($associations as $association) {
                 $categoryTable->load($association->id);
-                $associations[$lang]->title = $categoryTable->title;
+                $association->title = $categoryTable->title;
             }
 
-            $countContentLanguages = \count(LanguageHelper::getContentLanguages(array(0, 1), false));
+            $countContentLanguages = \count(LanguageHelper::getContentLanguages([0, 1], false));
 
             if (\count($associations) == 0) {
                 $message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_NONE');

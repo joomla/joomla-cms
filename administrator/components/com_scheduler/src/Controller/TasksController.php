@@ -17,6 +17,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * MVC Controller for TasksView.
  *
@@ -61,7 +65,7 @@ class TasksController extends AdminController
 
         if (empty($cid)) {
             $this->app->getLogger()
-                ->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+                ->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             /** @var TaskModel $model */
             $model = $this->getModel();

@@ -11,13 +11,17 @@ namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Email Templating Class
@@ -54,14 +58,21 @@ class MailTemplate
      * @var    string[]
      * @since  4.0.0
      */
-    protected $data = array();
+    protected $data = [];
+
+    /**
+     *
+     * @var    string[]
+     * @since  5.1.0
+     */
+    protected $plain_data = [];
 
     /**
      *
      * @var    string[]
      * @since  4.0.0
      */
-    protected $attachments = array();
+    protected $attachments = [];
 
     /**
      * List of recipients of the email
@@ -69,7 +80,7 @@ class MailTemplate
      * @var    \stdClass[]
      * @since  4.0.0
      */
-    protected $recipients = array();
+    protected $recipients = [];
 
     /**
      * Reply To of the email
@@ -91,7 +102,7 @@ class MailTemplate
     public function __construct($templateId, $language, Mail $mailer = null)
     {
         $this->template_id = $templateId;
-        $this->language = $language;
+        $this->language    = $language;
 
         if ($mailer) {
             $this->mailer = $mailer;
@@ -112,9 +123,9 @@ class MailTemplate
      */
     public function addAttachment($name, $file)
     {
-        $attachment = new \stdClass();
-        $attachment->name = $name;
-        $attachment->file = $file;
+        $attachment          = new \stdClass();
+        $attachment->name    = $name;
+        $attachment->file    = $file;
         $this->attachments[] = $attachment;
     }
 
@@ -131,10 +142,10 @@ class MailTemplate
      */
     public function addRecipient($mail, $name = null, $type = 'to')
     {
-        $recipient = new \stdClass();
-        $recipient->mail = $mail;
-        $recipient->name = $name ?? $mail;
-        $recipient->type = $type;
+        $recipient          = new \stdClass();
+        $recipient->mail    = $mail;
+        $recipient->name    = $name ?? $mail;
+        $recipient->type    = $type;
         $this->recipients[] = $recipient;
     }
 
@@ -150,9 +161,9 @@ class MailTemplate
      */
     public function setReplyTo($mail, $name = '')
     {
-        $reply = new \stdClass();
-        $reply->mail = $mail;
-        $reply->name = $name;
+        $reply         = new \stdClass();
+        $reply->mail   = $mail;
+        $reply->name   = $name;
         $this->replyto = $reply;
     }
 
@@ -160,14 +171,19 @@ class MailTemplate
      * Add data to replace in the template
      *
      * @param   array  $data  Associative array of strings to replace
+     * @param   bool   $plain Only use the data for plain-text emails.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function addTemplateData($data)
+    public function addTemplateData($data, $plain = false)
     {
-        $this->data = array_merge($this->data, $data);
+        if (!$plain) {
+            $this->data = array_merge($this->data, $data);
+        } else {
+            $this->plain_data = array_merge($this->plain_data, $data);
+        }
     }
 
     /**
@@ -192,17 +208,19 @@ class MailTemplate
         }
 
         /** @var Registry $params */
-        $params = $mail->params;
-        $app    = Factory::getApplication();
+        $params      = $mail->params;
+        $app         = Factory::getApplication();
+        $replyTo     = $app->get('replyto', '');
+        $replyToName = $app->get('replytoname', '');
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
             if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp') {
-                $smtpauth = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
-                $smtpuser = $params->get('smtpuser', $app->get('smtpuser'));
-                $smtppass = $params->get('smtppass', $app->get('smtppass'));
-                $smtphost = $params->get('smtphost', $app->get('smtphost'));
+                $smtpauth   = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
+                $smtpuser   = $params->get('smtpuser', $app->get('smtpuser'));
+                $smtppass   = $params->get('smtppass', $app->get('smtppass'));
+                $smtphost   = $params->get('smtphost', $app->get('smtphost'));
                 $smtpsecure = $params->get('smtpsecure', $app->get('smtpsecure'));
-                $smtpport = $params->get('smtpport', $app->get('smtpport'));
+                $smtpport   = $params->get('smtpport', $app->get('smtpport'));
                 $this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
             }
 
@@ -216,15 +234,20 @@ class MailTemplate
             if (MailHelper::isEmailAddress($mailfrom)) {
                 $this->mailer->setFrom(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname), false);
             }
+
+            $replyTo     = $params->get('replyto', $replyTo);
+            $replyToName = $params->get('replytoname', $replyToName);
         }
 
-        $app->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
+        $app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
 
         $subject = $this->replaceTags(Text::_($mail->subject), $this->data);
         $this->mailer->setSubject($subject);
 
         $mailStyle = $config->get('mail_style', 'plaintext');
-        $plainBody = $this->replaceTags(Text::_($mail->body), $this->data);
+        // Use the plain-text replacement data, if specified.
+        $plainData = $this->plain_data ?: $this->data;
+        $plainBody = $this->replaceTags(Text::_($mail->body), $plainData);
         $htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
 
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
@@ -274,6 +297,8 @@ class MailTemplate
 
         if ($this->replyto) {
             $this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
+        } elseif ($replyTo) {
+            $this->mailer->addReplyTo($replyTo, $replyToName);
         }
 
         if (trim($config->get('attachment_folder', ''))) {
@@ -314,16 +339,26 @@ class MailTemplate
     protected function replaceTags($text, $tags)
     {
         foreach ($tags as $key => $value) {
-            if (is_array($value)) {
-                $matches = array();
+            // If the value is NULL, replace with an empty string. NULL itself throws notices
+            if (\is_null($value)) {
+                $value = '';
+            }
 
-                if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches)) {
+            if (\is_array($value)) {
+                $matches = [];
+                $pregKey = preg_quote(strtoupper($key), '/');
+
+                if (preg_match_all('/{' . $pregKey . '}(.*?){\/' . $pregKey . '}/s', $text, $matches)) {
                     foreach ($matches[0] as $i => $match) {
                         $replacement = '';
 
-                        foreach ($value as $subvalue) {
-                            if (is_array($subvalue)) {
+                        foreach ($value as $name => $subvalue) {
+                            if (\is_array($subvalue) && $name == $matches[1][$i]) {
+                                $replacement .= implode("\n", $subvalue);
+                            } elseif (\is_array($subvalue)) {
                                 $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
+                            } elseif (\is_string($subvalue) && $name == $matches[1][$i]) {
+                                $replacement .= $subvalue;
                             }
                         }
 
@@ -350,7 +385,7 @@ class MailTemplate
      */
     public static function getTemplate($key, $language)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         $query->select('*')
             ->from($db->quoteName('#__mail_templates'))
@@ -385,16 +420,17 @@ class MailTemplate
     {
         $db = Factory::getDbo();
 
-        $template = new \stdClass();
+        $template              = new \stdClass();
         $template->template_id = $key;
-        $template->language = '';
-        $template->subject = $subject;
-        $template->body = $body;
-        $template->htmlbody = $htmlbody;
+        $template->language    = '';
+        $template->subject     = $subject;
+        $template->body        = $body;
+        $template->htmlbody    = $htmlbody;
+        $template->extension   = explode('.', $key, 2)[0] ?? '';
         $template->attachments = '';
-        $params = new \stdClass();
-        $params->tags = array($tags);
-        $template->params = json_encode($params);
+        $params                = new \stdClass();
+        $params->tags          = (array) $tags;
+        $template->params      = json_encode($params);
 
         return $db->insertObject('#__mail_templates', $template);
     }
@@ -416,15 +452,15 @@ class MailTemplate
     {
         $db = Factory::getDbo();
 
-        $template = new \stdClass();
+        $template              = new \stdClass();
         $template->template_id = $key;
-        $template->language = '';
-        $template->subject = $subject;
-        $template->body = $body;
-        $template->htmlbody = $htmlbody;
-        $params = new \stdClass();
-        $params->tags = array($tags);
-        $template->params = json_encode($params);
+        $template->language    = '';
+        $template->subject     = $subject;
+        $template->body        = $body;
+        $template->htmlbody    = $htmlbody;
+        $params                = new \stdClass();
+        $params->tags          = (array) $tags;
+        $template->params      = json_encode($params);
 
         return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);
     }
@@ -440,7 +476,7 @@ class MailTemplate
      */
     public static function deleteTemplate($key)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         $query->delete($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('template_id') . ' = :key')

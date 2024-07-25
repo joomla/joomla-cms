@@ -19,6 +19,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contact HTML helper class.
  *
@@ -47,7 +51,7 @@ class AdministratorService
             }
 
             // Get the associated contact items
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -75,13 +79,13 @@ class AdministratorService
             }
 
             if ($items) {
-                $languages = LanguageHelper::getContentLanguages(array(0, 1));
+                $languages         = LanguageHelper::getContentLanguages([0, 1]);
                 $content_languages = array_column($languages, 'lang_code');
 
                 foreach ($items as &$item) {
-                    if (in_array($item->lang_code, $content_languages)) {
-                        $text = $item->lang_code;
-                        $url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
+                    if (\in_array($item->lang_code, $content_languages)) {
+                        $text    = $item->lang_code;
+                        $url     = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
                         $tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
                             . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
                         $classes = 'badge bg-secondary';
@@ -114,23 +118,23 @@ class AdministratorService
      */
     public function featured($value, $i, $canChange = true)
     {
+        Factory::getDocument()->getWebAssetManager()->useScript('list-view');
+
         // Array of image, task, title, action
-        $states = array(
-            0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_ITEM_FEATURE'),
-            1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_ITEM_UNFEATURE'),
-        );
-        $state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-        $icon = $state[0] === 'featured' ? 'star featured' : 'circle';
-        $onclick = 'onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')"';
+        $states = [
+            0 => ['unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_ITEM_FEATURE'],
+            1 => ['featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_ITEM_UNFEATURE'],
+        ];
+        $state       = ArrayHelper::getValue($states, (int) $value, $states[1]);
+        $icon        = $state[0] === 'featured' ? 'star featured' : 'circle';
         $tooltipText = Text::_($state[3]);
 
         if (!$canChange) {
-            $onclick     = 'disabled';
             $tooltipText = Text::_($state[2]);
         }
 
-        $html = '<button type="submit" class="tbody-icon' . ($value == 1 ? ' active' : '') . '"'
-            . ' aria-labelledby="cb' . $i . '-desc" ' . $onclick . '>'
+        $html = '<button type="button" class="js-grid-item-action tbody-icon' . ($value == 1 ? ' active' : '') . '"'
+            . ' aria-labelledby="cb' . $i . '-desc" data-item-id="cb' . $i . '" data-item-task="' .  $state[1] . '">'
             . '<span class="icon-' . $icon . '" aria-hidden="true"></span>'
             . '</button>'
             . '<div role="tooltip" id="cb' . $i . '-desc">' . $tooltipText . '</div>';

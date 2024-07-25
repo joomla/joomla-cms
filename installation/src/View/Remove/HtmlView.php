@@ -13,6 +13,10 @@ namespace Joomla\CMS\Installation\View\Remove;
 use Joomla\CMS\Installation\View\DefaultView;
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The HTML Joomla Core Install Remove View
  *
@@ -75,11 +79,11 @@ class HtmlView extends DefaultView
 
         $this->items = $this->get('Items', 'Languages');
 
-        $this->installed_languages = new \stdClass();
+        $this->installed_languages                = new \stdClass();
         $this->installed_languages->administrator = $this->get('InstalledlangsAdministrator', 'Languages');
-        $this->installed_languages->frontend = $this->get('InstalledlangsFrontend', 'Languages');
+        $this->installed_languages->frontend      = $this->get('InstalledlangsFrontend', 'Languages');
 
-        $this->phpoptions = $this->get('PhpOptions', 'Checks');
+        $this->phpoptions  = $this->get('PhpOptions', 'Checks');
         $this->phpsettings = $this->get('PhpSettings', 'Checks');
 
         parent::display($tpl);

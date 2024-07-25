@@ -56,51 +56,6 @@ const DefaultAllowlist = {
 // Only define the Joomla namespace if not defined.
 window.Joomla = window.Joomla || {};
 
-// Only define editors if not defined
-window.Joomla.editors = window.Joomla.editors || {};
-
-// An object to hold each editor instance on page, only define if not defined.
-window.Joomla.editors.instances = window.Joomla.editors.instances || {
-  /**
-   * *****************************************************************
-   * All Editors MUST register, per instance, the following callbacks:
-   * *****************************************************************
-   *
-   * getValue         Type  Function  Should return the complete data from the editor
-   *                                  Example: () => { return this.element.value; }
-   * setValue         Type  Function  Should replace the complete data of the editor
-   *                                  Example: (text) => { return this.element.value = text; }
-   * getSelection     Type  Function  Should return the selected text from the editor
-   *                                  Example: function () { return this.selectedText; }
-   * disable          Type  Function  Toggles the editor into disabled mode. When the editor is
-   *                                  active then everything should be usable. When inactive the
-   *                                  editor should be unusable AND disabled for form validation
-   *                                  Example: (bool) => { return this.disable = value; }
-   * replaceSelection Type  Function  Should replace the selected text of the editor
-   *                                  If nothing selected, will insert the data at the cursor
-   *                                  Example:
-   *                                  (text) => {
-   *                                    return insertAtCursor(this.element, text);
-   *                                    }
-   *
-   * USAGE (assuming that jform_articletext is the textarea id)
-   * {
-   * To get the current editor value:
-   *  Joomla.editors.instances['jform_articletext'].getValue();
-   * To set the current editor value:
-   *  Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
-   * To replace(selection) or insert a value at  the current editor cursor (replaces the J3
-   * jInsertEditorText API):
-   *  replaceSelection:
-   *  Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
-   * }
-   *
-   * *********************************************************
-   * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
-   * *********************************************************
-   */
-};
-
 window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * *****************************************************************
@@ -113,7 +68,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * USAGE (assuming that exampleId is the modal id)
    * To get the current modal element:
-   *   Joomla.Modal.current; // Returns node element, eg: document.getElementById('exampleId')
+   *   Joomla.Modal.getCurrent(); // Returns node element, eg: document.getElementById('exampleId')
    * To set the current modal element:
    *   Joomla.Modal.setCurrent(document.getElementById('exampleId'));
    *
@@ -127,9 +82,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    */
   current: '',
   setCurrent: (element) => {
-    window.Joomla.current = element;
+    window.Joomla.Modal.current = element;
   },
-  getCurrent: () => window.Joomla.current,
+  getCurrent: () => window.Joomla.Modal.current,
 };
 
 ((Joomla) => {
@@ -154,7 +109,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       newDestination = {};
     }
 
-    [].slice.call(Object.keys(source)).forEach((key) => {
+    Object.keys(source).forEach((key) => {
       newDestination[key] = source[key];
     });
 
@@ -200,10 +155,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
   Joomla.loadOptions = (options) => {
     // Load form the script container
     if (!options) {
-      const elements = [].slice.call(document.querySelectorAll('.joomla-script-options.new'));
       let counter = 0;
 
-      elements.forEach((element) => {
+      document.querySelectorAll('.joomla-script-options.new').forEach((element) => {
         const str = element.text || element.textContent;
         const option = JSON.parse(str);
 
@@ -225,7 +179,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       Joomla.optionsStorage = options || {};
     } else if (options) {
       // Merge with existing
-      [].slice.call(Object.keys(options)).forEach((key) => {
+      Object.keys(options).forEach((key) => {
         /**
          * If both existing and new options are objects, merge them with Joomla.extend().
          * But test for new option being null, as null is an object, but we want to allow
@@ -286,7 +240,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
      * @returns {Joomla.Text}
      */
     load: (object) => {
-      [].slice.call(Object.keys(object)).forEach((key) => {
+      Object.keys(object).forEach((key) => {
         Joomla.Text.strings[key.toUpperCase()] = object[key];
       });
 
@@ -299,7 +253,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * @type {{}}
    *
-   * @deprecated 5.0
+   * @deprecated   4.0 will be removed in 6.0
+   *               Example: Joomla.Text._('...');
+   *                        Joomla.Text.load(...);
    */
   Joomla.JText = Joomla.Text;
 
@@ -556,35 +512,12 @@ window.Joomla.Modal = window.Joomla.Modal || {
       return;
     }
 
-    const elements = [].slice.call(document.getElementsByTagName('input'));
-
-    elements.forEach((element) => {
-      if (element.type === 'hidden' && element.value === '1' && element.name.length === 32) {
+    document.querySelectorAll('input[type="hidden"]').forEach((element) => {
+      if (element.value === '1' && element.name.length === 32) {
         element.name = newToken;
       }
     });
   };
-
-  /**
-   * Joomla Request queue.
-   *
-   * A FIFO queue of requests to execute serially. Used to prevent simultaneous execution of
-   * multiple requests against the server which could trigger its Denial of Service protection.
-   *
-   * @type  {Array}
-   *
-   * @since 4.2.0
-   */
-  const requestQueue = [];
-
-  /**
-   * Flag to indicate whether Joomla is performing a queued Request.
-   *
-   * @type  {boolean}
-   *
-   * @since 4.2.0
-   */
-  let performingQueuedRequest = false;
 
   /**
    * Method to perform AJAX request
@@ -597,9 +530,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *                https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
    *    perform: true,        Perform the request immediately
    *              or return XMLHttpRequest instance and perform it later
-   *    queued: false,        Put the request in a FIFO queue; prevents simultaneous execution of
-   *              multiple requests to avoid triggering the server's Denial of Service protection.
    *    headers: null,        Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
+   *    promise: false        Whether return a Promise instance.
+   *              When true then next options is ignored: perform, onSuccess, onError, onComplete
    *
    *    onBefore:  (xhr) => {}            // Callback on before the request
    *    onSuccess: (response, xhr) => {}, // Callback on the request success
@@ -621,37 +554,18 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
    */
   Joomla.request = (options) => {
-    /**
-     * Processes queued Request objects.
-     *
-     * @since 4.2.0
-     */
-    const processQueuedRequests = () => {
-      if (performingQueuedRequest || requestQueue.length === 0) {
-        return;
-      }
-
-      performingQueuedRequest = true;
-
-      const nextRequest = requestQueue.shift();
-
-      nextRequest.xhr.send(nextRequest.data);
-    };
-
-    let xhr;
-
     // Prepare the options
     const newOptions = Joomla.extend({
       url: '',
       method: 'GET',
       data: null,
       perform: true,
-      queued: false,
+      promise: false,
     }, options);
 
-    // Set up XMLHttpRequest instance
-    try {
-      xhr = new XMLHttpRequest();
+    // Setup XMLHttpRequest instance
+    const createRequest = (onSuccess, onError) => {
+      const xhr = new XMLHttpRequest();
 
       xhr.open(newOptions.method, newOptions.url, true);
 
@@ -662,7 +576,13 @@ window.Joomla.Modal = window.Joomla.Modal || {
       if (newOptions.method !== 'GET') {
         const token = Joomla.getOptions('csrf.token', '');
 
-        if (token) {
+        // Use the CSRF only on the site's domain
+        if (
+          token && (
+            (!newOptions.url.startsWith('http:') && !newOptions.url.startsWith('https:'))
+            || newOptions.url.startsWith(window.location.origin)
+          )
+        ) {
           xhr.setRequestHeader('X-CSRF-Token', token);
         }
 
@@ -673,7 +593,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
       // Custom headers
       if (newOptions.headers) {
-        [].slice.call(Object.keys(newOptions.headers)).forEach((key) => {
+        Object.keys(newOptions.headers).forEach((key) => {
           // Allow request without Content-Type
           // eslint-disable-next-line no-empty
           if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') {
@@ -690,51 +610,78 @@ window.Joomla.Modal = window.Joomla.Modal || {
           return;
         }
 
-        // The request is finished; step through any more queued requests
-        if (newOptions.queued) {
-          performingQueuedRequest = false;
-          processQueuedRequests();
-        }
-
         // Request finished and response is ready
         if (xhr.status === 200) {
-          if (newOptions.onSuccess) {
-            newOptions.onSuccess.call(window, xhr.responseText, xhr);
+          if (newOptions.promise) {
+            // A Promise accepts only one argument
+            onSuccess.call(window, xhr);
+          } else {
+            onSuccess.call(window, xhr.responseText, xhr);
           }
-        } else if (newOptions.onError) {
-          newOptions.onError.call(window, xhr);
+        } else {
+          onError.call(window, xhr);
         }
 
-        if (newOptions.onComplete) {
+        if (newOptions.onComplete && !newOptions.promise) {
           newOptions.onComplete.call(window, xhr);
         }
       };
 
       // Do request
-      if (newOptions.perform && !newOptions.queued) {
+      if (newOptions.perform) {
         if (newOptions.onBefore && newOptions.onBefore.call(window, xhr) === false) {
           // Request interrupted
+          if (newOptions.promise) {
+            onSuccess.call(window, xhr);
+          }
           return xhr;
         }
 
         xhr.send(newOptions.data);
       }
 
-      // Enqueue request and try to process the queue
-      if (newOptions.queued) {
-        requestQueue.push({
-          xhr,
-          data: newOptions.data,
-        });
-        processQueuedRequests();
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-unused-expressions,no-console
-      window.console ? console.log(error) : null;
-      return false;
+      return xhr;
+    };
+
+    // Return a Promise
+    if (newOptions.promise) {
+      return new Promise((resolve, reject) => {
+        newOptions.perform = true;
+        createRequest(resolve, reject);
+      });
     }
 
-    return xhr;
+    // Return a Request
+    try {
+      return createRequest(newOptions.onSuccess || (() => {}), newOptions.onError || (() => {}));
+    } catch (error) {
+      // eslint-disable-next-line no-unused-expressions,no-console
+      console.error(error);
+      return false;
+    }
+  };
+
+  let lastRequestPromise;
+
+  /**
+   * Joomla Request queue.
+   *
+   * A FIFO queue of requests to execute serially. Used to prevent simultaneous execution of
+   * multiple requests against the server which could trigger its Denial of Service protection.
+   *
+   * @param {object} options Options for Joomla.request()
+   * @returns {Promise}
+   */
+  Joomla.enqueueRequest = (options) => {
+    if (!options.promise) {
+      throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
+    }
+    if (!lastRequestPromise) {
+      lastRequestPromise = Joomla.request(options);
+    } else {
+      lastRequestPromise = lastRequestPromise.then(() => Joomla.request(options));
+    }
+    return lastRequestPromise;
   };
 
   /**

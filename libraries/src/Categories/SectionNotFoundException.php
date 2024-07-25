@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Categories;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Representing when a category section cannot be found.
  *

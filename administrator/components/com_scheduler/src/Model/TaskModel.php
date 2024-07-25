@@ -33,6 +33,10 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * MVC Model to interact with the Scheduler DB.
  * Implements methods to add, remove, edit tasks.
@@ -112,7 +116,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
         $config['events_map'] = $config['events_map'] ?? [];
 
@@ -149,12 +153,12 @@ class TaskModel extends AdminModel
      * @param   array  $data      Data that needs to go into the form
      * @param   bool   $loadData  Should the form load its data from the DB?
      *
-     * @return Form|boolean  A JForm object on success, false on failure.
+     * @return Form|boolean  A Form object on success, false on failure.
      *
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         Form::addFieldPath(JPATH_ADMINISTRATOR . 'components/com_scheduler/src/Field');
 
@@ -250,7 +254,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getTable($name = 'Task', $prefix = 'Table', $options = array()): Table
+    public function getTable($name = 'Task', $prefix = 'Table', $options = []): Table
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -265,7 +269,7 @@ class TaskModel extends AdminModel
      */
     protected function loadFormData()
     {
-        $data = $this->app->getUserState('com_scheduler.edit.task.data', array());
+        $data = $this->app->getUserState('com_scheduler.edit.task.data', []);
 
         // If the data from UserState is empty, we fetch it with getItem()
         if (empty($data)) {
@@ -278,6 +282,18 @@ class TaskModel extends AdminModel
             if (!($data->id ?? 0)) {
                 $data->execution_rules['exec-day']  = gmdate('d');
                 $data->execution_rules['exec-time'] = gmdate('H:i');
+            }
+
+            if ($data->next_execution) {
+                $data->next_execution = Factory::getDate($data->next_execution);
+                $data->next_execution->setTimezone(new \DateTimeZone($this->app->get('offset', 'UTC')));
+                $data->next_execution = $data->next_execution->toSql(true);
+            }
+
+            if ($data->last_execution) {
+                $data->last_execution = Factory::getDate($data->last_execution);
+                $data->last_execution->setTimezone(new \DateTimeZone($this->app->get('offset', 'UTC')));
+                $data->last_execution = $data->last_execution->toSql(true);
             }
         }
 
@@ -440,7 +456,7 @@ class TaskModel extends AdminModel
                 return null;
             }
 
-            if (count($ids) === 0) {
+            if (\count($ids) === 0) {
                 $db->unlockTables();
 
                 return null;
@@ -535,7 +551,7 @@ class TaskModel extends AdminModel
 
         // If a new entry, we'll have to put in place a pseudo-last_execution
         if ($isNew) {
-            $basisDayOfMonth = $data['execution_rules']['exec-day'];
+            $basisDayOfMonth           = $data['execution_rules']['exec-day'];
             [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
 
             $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
@@ -660,7 +676,7 @@ class TaskModel extends AdminModel
         /** @var TaskTable $table */
         $table = $this->getTable();
 
-        $user = Factory::getApplication()->getIdentity();
+        $user = $this->getCurrentUser();
 
         $context = $this->option . '.' . $this->name;
 

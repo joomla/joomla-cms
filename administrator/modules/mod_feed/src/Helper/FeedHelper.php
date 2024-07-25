@@ -13,6 +13,10 @@ namespace Joomla\Module\Feed\Administrator\Helper;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_feed
  *

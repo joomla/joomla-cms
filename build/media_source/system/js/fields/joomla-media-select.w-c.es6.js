@@ -32,9 +32,10 @@ if (!Object.keys(supportedExtensions).length) {
 document.addEventListener('onMediaFileSelected', async (e) => {
   Joomla.selectedMediaFile = e.detail;
   const currentModal = Joomla.Modal.getCurrent();
-  const container = currentModal.querySelector('.modal-body');
+  const container = currentModal.querySelector('.joomla-dialog-body');
 
-  if (!container) {
+  // No extra attributes (lazy, alt) for fields
+  if (!container || container.closest('.joomla-dialog-media-field')) {
     return;
   }
 
@@ -43,16 +44,11 @@ document.addEventListener('onMediaFileSelected', async (e) => {
     optionsEl.parentNode.removeChild(optionsEl);
   }
 
-  // No extra attributes (lazy, alt) for fields
-  if (container.closest('joomla-field-media')) {
-    return;
-  }
-
   const {
     images, audios, videos, documents,
   } = supportedExtensions;
 
-  if (Joomla.selectedMediaFile.path) {
+  if (Joomla.selectedMediaFile.path && Joomla.selectedMediaFile.type === 'file') {
     let type;
     if (images.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'images';
@@ -152,8 +148,9 @@ const insertAsImage = async (media, editor, fieldClass) => {
     let figCaption = '';
     let imageElement = '';
 
-    if (!isElement(editor)) {
-      const currentModal = fieldClass.closest('.modal-content');
+    if (!isElement(editor) || editor.replaceSelection) {
+      const editorInst = editor.replaceSelection ? editor : Joomla.editors.instances[editor];
+      const currentModal = Joomla.Modal.getCurrent();
       attribs = currentModal.querySelector('joomla-field-mediamore');
       if (attribs) {
         if (attribs.getAttribute('alt-check') === 'true') {
@@ -186,7 +183,7 @@ const insertAsImage = async (media, editor, fieldClass) => {
         attribs.parentNode.removeChild(attribs);
       }
 
-      Joomla.editors.instances[editor].replaceSelection(imageElement);
+      editorInst.replaceSelection(imageElement);
     } else {
       if (Joomla.selectedMediaFile.width === 0 || Joomla.selectedMediaFile.height === 0) {
         try {
@@ -220,9 +217,10 @@ const insertAsOther = (media, editor, fieldClass, type) => {
   let attribs;
   if (Joomla.selectedMediaFile.url) {
     // Available Only inside an editor
-    if (!isElement(editor)) {
+    if (!isElement(editor) || editor.replaceSelection) {
       let outputText;
-      const currentModal = fieldClass.closest('.modal-content');
+      const editorInst = editor.replaceSelection ? editor : Joomla.editors.instances[editor];
+      const currentModal = Joomla.Modal.getCurrent();
       attribs = currentModal.querySelector('joomla-field-mediamore');
       if (attribs) {
         const embedable = attribs.getAttribute('embed-it');
@@ -242,8 +240,8 @@ const insertAsOther = (media, editor, fieldClass, type) => {
   <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
 </video>`;
           }
-        } else if (Joomla.editors.instances[editor].getSelection() !== '') {
-          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
+        } else if (editorInst.getSelection() !== '') {
+          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${editorInst.getSelection()}</a>`;
         } else {
           const name = /([\w-]+)\./.exec(Joomla.selectedMediaFile.url);
           outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name[1])}</a>`;
@@ -254,7 +252,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
         attribs.parentNode.removeChild(attribs);
       }
 
-      Joomla.editors.instances[editor].replaceSelection(outputText);
+      editorInst.replaceSelection(outputText);
     } else {
       fieldClass.markValid();
       fieldClass.givenType = type;
@@ -292,7 +290,6 @@ const execTransform = async (resp, editor, fieldClass) => {
     if (Joomla.selectedMediaFile.extension && videos.includes(media.extension.toLowerCase())) {
       return insertAsOther(media, editor, fieldClass, 'videos');
     }
-    return '';
   }
   return '';
 };
@@ -317,7 +314,15 @@ Joomla.getMedia = (data, editor, fieldClass) => new Promise((resolve, reject) =>
     return;
   }
 
-  const url = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&task=api.files&url=true&path=${data.path}&mediatypes=0,1,2,3&${Joomla.getOptions('csrf.token')}=1&format=json`;
+  // Compile the url
+  const apiUrl = Joomla.getOptions('media-picker-api', {}).apiBaseUrl || 'index.php?option=com_media&format=json';
+  const url = new URL(apiUrl, window.location.origin);
+  url.searchParams.append('task', 'api.files');
+  url.searchParams.append('url', true);
+  url.searchParams.append('path', data.path);
+  url.searchParams.append('mediatypes', '0,1,2,3');
+  url.searchParams.append(Joomla.getOptions('csrf.token'), 1);
+
   fetch(
     url,
     {

@@ -10,7 +10,9 @@
  * This file contains post-installation message handling for the checking minimum PHP version support
  */
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Alerts the user we are collecting anonymous data as of Joomla 3.5.0.

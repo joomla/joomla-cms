@@ -23,6 +23,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command to remove a user from a group
  *
@@ -70,7 +74,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
      *
      * @since  4.0.0
      */
-    private $userGroups = array();
+    private $userGroups = [];
 
     /**
      * Command constructor.
@@ -99,8 +103,8 @@ class RemoveUserFromGroupCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Remove User From Group');
         $this->username = $this->getStringFromOption('username', 'Please enter a username');
-        $this->ioStyle->title('Remove user from group');
 
         $userId = UserHelper::getUserId($this->username);
 
@@ -210,7 +214,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
         }
 
         $groupList = [];
-        $option = explode(',', $option);
+        $option    = explode(',', $option);
 
         foreach ($option as $group) {
             $groupId = $this->getGroupId($group);
@@ -283,7 +287,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**

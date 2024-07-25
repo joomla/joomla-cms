@@ -10,9 +10,14 @@
 namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\Database\ParameterType;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Field class for the Joomla Platform.
@@ -62,6 +67,62 @@ class RulesField extends FormField
      * @since  3.2
      */
     protected $assetField;
+
+    /**
+     * The flag which indicates if it is the global config
+     *
+     * @var    bool
+     * @since  4.3.0
+     */
+    protected $isGlobalConfig;
+
+    /**
+     * The asset rules
+     *
+     * @var    Rules
+     * @since  4.3.0
+     */
+    protected $assetRules;
+
+    /**
+     * The actions
+     *
+     * @var    object[]
+     * @since  4.3.0
+     */
+    protected $actions;
+
+    /**
+     * The groups
+     *
+     * @var    object[]
+     * @since  4.3.0
+     */
+    protected $groups;
+
+    /**
+     * The asset Id
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    protected $assetId;
+
+    /**
+     * The parent asset Id
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    protected $parentAssetId;
+
+    /**
+     * The flag to indicate that it is a new item
+     *
+     * @var    bool
+     * @since  4.3.0
+     */
+    protected $newItem;
 
     /**
      * The parent class of the field
@@ -175,11 +236,11 @@ class RulesField extends FormField
         // Iterate over the children and add to the actions.
         foreach ($this->element->children() as $el) {
             if ($el->getName() === 'action') {
-                $this->actions[] = (object) array(
-                    'name' => (string) $el['name'],
-                    'title' => (string) $el['title'],
+                $this->actions[] = (object) [
+                    'name'        => (string) $el['name'],
+                    'title'       => (string) $el['title'],
                     'description' => (string) $el['description'],
-                );
+                ];
             }
         }
 
@@ -191,7 +252,7 @@ class RulesField extends FormField
         // If the asset id is empty (component or new item).
         if (empty($this->assetId)) {
             // Get the component asset id as fallback.
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))
@@ -233,7 +294,7 @@ class RulesField extends FormField
         $this->groups = $this->getUserGroups();
 
         // Trim the trailing line in the layout file
-        return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
+        return trim($this->getRenderer($this->layout)->render($this->collectLayoutData()));
     }
 
     /**
@@ -247,7 +308,7 @@ class RulesField extends FormField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
+        $extraData = [
             'groups'         => $this->groups,
             'section'        => $this->section,
             'actions'        => $this->actions,
@@ -257,7 +318,7 @@ class RulesField extends FormField
             'isGlobalConfig' => $this->isGlobalConfig,
             'parentAssetId'  => $this->parentAssetId,
             'component'      => $this->component,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }
@@ -265,7 +326,7 @@ class RulesField extends FormField
     /**
      * Get a list of the user groups.
      *
-     * @return  array
+     * @return  object[]
      *
      * @since   1.7.0
      */

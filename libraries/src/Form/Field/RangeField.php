@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides a horizontal scroll bar to specify a value in a range.
@@ -43,7 +47,7 @@ class RangeField extends NumberField
      */
     protected function getInput()
     {
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -58,11 +62,11 @@ class RangeField extends NumberField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
-            'max' => $this->max,
-            'min' => $this->min,
+        $extraData = [
+            'max'  => $this->max,
+            'min'  => $this->min,
             'step' => $this->step,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

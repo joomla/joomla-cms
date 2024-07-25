@@ -7,7 +7,7 @@ window.bootstrap.Tab = Tab;
 /**
  * Initialise the Tabs interactivity
  *
- * @param {HTMLElement} el The element that will become an collapse
+ * @param {HTMLElement} el The element that will become a collapse
  * @param {object} options The options for this collapse
  */
 Joomla.initialiseTabs = (el, options) => {
@@ -54,8 +54,7 @@ Joomla.initialiseTabs = (el, options) => {
       }
     }
   } else {
-    Array.from(document.querySelectorAll(`${el} a`))
-      .map((tab) => new window.bootstrap.Tab(tab, options));
+    document.querySelectorAll(`${el} a`).forEach((tab) => new window.bootstrap.Tab(tab, options));
   }
 };
 

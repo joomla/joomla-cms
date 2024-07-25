@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_overridecheck</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_QUICKICON_OVERRIDECHECK_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Quickicon\OverrideCheck</namespace>
 	<files>
-		<filename plugin="overridecheck">overridecheck.php</filename>
+		<folder plugin="overridecheck">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_quickicon_overridecheck.ini</language>

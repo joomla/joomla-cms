@@ -85,7 +85,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
                 <a <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
                     <?php if ($params->get('image', 1)) : ?>
                         <?php if ($language->image) : ?>
-                            <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+                            <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, ['title' => $language->title_native], true); ?>
                         <?php else : ?>
                             <span class="label" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
                         <?php endif; ?>
@@ -100,7 +100,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
                 <a aria-current="true" <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
                     <?php if ($params->get('image', 1)) : ?>
                         <?php if ($language->image) : ?>
-                            <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+                            <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, ['title' => $language->title_native], true); ?>
                         <?php else : ?>
                             <span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
                         <?php endif; ?>

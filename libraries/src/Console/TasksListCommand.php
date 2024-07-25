@@ -17,6 +17,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command to list scheduled tasks.
  *
@@ -82,7 +86,7 @@ class TasksListCommand extends AbstractCommand
             $this->getTasks()
         );
 
-        $this->ioStyle->table(['id', 'title', 'type', 'state', 'next run'], $tasks);
+        $this->ioStyle->table(['ID', 'Title', 'Type', 'State', 'Next Run'], $tasks);
 
         return 0;
     }

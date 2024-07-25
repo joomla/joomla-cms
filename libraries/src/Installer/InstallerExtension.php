@@ -12,15 +12,31 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension object
  *
  * @since  3.1
  */
-class InstallerExtension extends CMSObject
+class InstallerExtension
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
+    /**
+     * Client ID of the extension
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    public $client_id;
+
     /**
      * Filename of the extension
      *
@@ -105,7 +121,7 @@ class InstallerExtension extends CMSObject
     {
         if ($element) {
             $this->type = (string) $element->attributes()->type;
-            $this->id = (string) $element->attributes()->id;
+            $this->id   = (string) $element->attributes()->id;
 
             switch ($this->type) {
                 case 'component':
@@ -115,7 +131,7 @@ class InstallerExtension extends CMSObject
                 case 'module':
                 case 'template':
                 case 'language':
-                    $this->client = (string) $element->attributes()->client;
+                    $this->client  = (string) $element->attributes()->client;
                     $tmp_client_id = ApplicationHelper::getClientInfo($this->client, 1);
 
                     if ($tmp_client_id == null) {

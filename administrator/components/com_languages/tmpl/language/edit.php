@@ -14,15 +14,17 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Languages\Administrator\View\Language\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_languages.admin-language-edit-change-flag');
 
 ?>
 
-<h2><?php echo $this->form->getValue('title', null, Text::_('COM_LANGUAGES_LANGUAGE_NEW_LANGUAGE_TITLE')); ?></h2>
+<h2><?php echo $this->escape($this->form->getValue('title', null, Text::_('COM_LANGUAGES_LANGUAGE_NEW_LANGUAGE_TITLE'))); ?></h2>
 
 <form action="<?php echo Route::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" aria-label="<?php echo Text::_('COM_LANGUAGES_LANGUAGE_FORM_' . ((int) $this->item->lang_id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="main-card form-validate">
 

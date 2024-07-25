@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class for Joomla! Finder components
  *
@@ -43,18 +47,18 @@ class FinderHelper
         }
 
         // Initialise our variables
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
 
         // Sanitise the term for the database
-        $temp = unserialize(serialize($searchquery));
-        $temp->input = trim(strtolower($searchquery->input));
-        $entry = new \stdClass();
+        $temp              = new \stdClass();
+        $temp->input       = trim(strtolower((string) $searchquery->input));
+        $entry             = new \stdClass();
         $entry->searchterm = $temp->input;
-        $entry->query = serialize($temp);
-        $entry->md5sum = md5($entry->query);
-        $entry->hits = 1;
-        $entry->results = $resultCount;
+        $entry->query      = serialize($temp);
+        $entry->md5sum     = md5($entry->query);
+        $entry->hits       = 1;
+        $entry->results    = $resultCount;
 
         // Query the table to determine if the term has been searched previously
         $query->select($db->quoteName('hits'))
