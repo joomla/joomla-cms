@@ -307,7 +307,10 @@ class MailTemplate
 
             if ($useLayout) {
                 // Add additional data to the layout template
-                $this->addLayoutTemplateData(['siteName' => $app->get('sitename')]);
+                $this->addLayoutTemplateData([
+                    'siteName' => $app->get('sitename'),
+                    'lang'     => \substr($this->language, 0, 2),
+                ]);
 
                 $layout = $config->get('mail_htmllayout', 'mailtemplate');
                 $logo   = (string) $config->get('mail_logoFile', '');
