@@ -202,21 +202,9 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $input  = $this->getApplication()->getInput();
-
-        // The "id" parameter will be removed with 6.0
-        $id     = (int) $input->getInt('id', 0);
-        $taskId = (int) $input->getInt('taskid', $id);
-
-        if ($id) {
-            // Only trigger a deprecation notice when there is an id found
-            @trigger_error(
-                'The use of the id= parameter within the webcron scheduler is deprecated and will be replaced by the taskid= parameter starting with 6.0.0'
-                . 'You should already upgrade to the new taskid= parameter starting with __DEPLOY_VERSION__',
-                E_USER_DEPRECATED
-            );
-        }
-        
+        // Check whether we have passed an taskId via URL parameter
+        $taskId = (int) $this->getApplication()->getInput()->getInt('id', $id);
+       
         $scheduler = new Scheduler();
 
         if ($taskId) {
