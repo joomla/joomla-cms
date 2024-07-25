@@ -5,7 +5,7 @@
 	<fieldset
 		name="mails_options"
 		label="COM_MAILS_CONFIG_MAIL_OPTIONS"
-		addfieldprefix="Joomla\Component\Mails\Administrator\Field" >
+		addfieldprefix="Joomla\Component\Mails\Administrator\Field">
 
 		<field
 			name="mail_style"
