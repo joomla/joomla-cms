@@ -63,7 +63,7 @@ $siteUrl = Uri::root(false);
         </style>
     </head>
     <body style="margin:0;padding:0;word-spacing:normal;background-color:#00000008;height:100%;">
-        <div role="article" aria-roledescription="email" lang="en" style="text-size-adjust:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#00000008;height:100%;">
+        <div role="article" aria-roledescription="email" lang="<?php echo (isset($extraData['lang'])) ?  $extraData['lang'] : 'en' ?>" style="text-size-adjust:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#00000008;height:100%;">
             <table role="presentation" style="width:100%;border:none;border-spacing:0;height:100%;">
                 <tr>
                     <td align="center" style="vertical-align:baseline; padding:30px 0">
