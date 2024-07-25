@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Mails\Administrator\Field;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -45,8 +46,7 @@ class MailtemplateLayoutField extends FormField
      */
     protected function getInput()
     {
-        // $extension = explode('.', $this->form->getValue('context'));
-        // $extension = $extension[0];
+        $lang = Factory::getApplication()->getLanguage();
 
         // Get the database object and a new query object.
         $db    = $this->getDatabase();
@@ -67,7 +67,12 @@ class MailtemplateLayoutField extends FormField
         $groups = [];
 
         // Add "Use Default"
-        $groups[]['items'][] = HTMLHelper::_('select.option', '', Text::_('JOPTION_USE_DEFAULT'));
+        $groups[]['items'][] = HTMLHelper::_('select.option', 'mailtemplate', Text::_('JOPTION_USE_DEFAULT'));
+
+        // Add a Use Global option if useglobal="true" in XML file
+        if ((string) $this->element['useglobal'] === 'true') {
+            $groups[Text::_('JOPTION_FROM_STANDARD')]['items'][] = HTMLHelper::_('select.option', '', Text::_('JGLOBAL_USE_GLOBAL'));
+        }
 
         // Loop on all templates
         if ($templates) {
@@ -94,8 +99,10 @@ class MailtemplateLayoutField extends FormField
 
                     foreach ($files as $file) {
                         // Add an option to the template group
-                        $value                              = basename($file, '.php');
-                        $groups[$template->name]['items'][] = HTMLHelper::_('select.option', $value, $value);
+                        $value = basename($file, '.php');
+                        $text  = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_MAILTEMPLATE_LAYOUT_' . $value))
+                                    ? Text::_($key) : $value;
+                        $groups[$template->name]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $value, $text);
                     }
                 }
             }
