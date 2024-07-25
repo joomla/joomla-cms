@@ -527,7 +527,7 @@ class FormHelper
                 continue;
             }
 
-            $compareEqual     = strpos($conditionPart, '!:') === false;
+            $compareEqual        = strpos($conditionPart, '!:') === false;
             $conditionPartBlocks = explode(($compareEqual ? ':' : '!:'), $conditionPart, 2);
 
             $dotPos = strpos($conditionPartBlocks[0], '.');
