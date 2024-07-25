@@ -326,10 +326,10 @@ class MailTemplate
                     $logo = Path::clean(JPATH_ROOT . '/' . htmlspecialchars(HTMLHelper::cleanImageURL($logo)->url));
                     if (is_file($logo)) {
                         # Attach the logo as inline attachement
-                        $this->mailer->addAttachment($logo, basename($logo), 'base64', mime_content_type($logo), 'inline');
+                        $this->mailer->addAttachment($logo, 'site-logo', 'base64', mime_content_type($logo), 'inline');
 
                         // We need only the cid for attached logo file
-                        $this->addLayoutTemplateData(['logo' => basename($logo)]);
+                        $this->addLayoutTemplateData(['logo' => 'site-logo']);
                     }
                 }
 

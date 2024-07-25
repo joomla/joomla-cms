@@ -77,7 +77,7 @@ $siteUrl = Uri::root(false);
                                 <td style="padding:40px 30px 0 30px;text-align:center;font-size:24px;font-weight:bold;background-color:#ffffff;">
                                 <?php if (isset($extraData['logo']) || isset($extraData['siteName'])) : ?>
                                     <?php if (isset($extraData['logo'])) : ?>
-                                    <img src="cid:<?php echo htmlspecialchars($extraData['logo'], ENT_QUOTES);?>" alt="<?php echo (isset($extraData['siteName']) ? $extraData['siteName'] : 'Logo');?>" style="max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff;">
+                                    <img src="cid:<?php echo htmlspecialchars($extraData['logo'], ENT_QUOTES);?>" alt="<?php echo (isset($extraData['siteName']) ? $extraData['siteName'] . ' ' : '');?>Logo" style="max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff;">
                                     <?php else : ?>
                                     <h1 style="margin-top:0;margin-bottom:0;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;color:#112855;">
                                         <?php echo $extraData['siteName']; ?>
