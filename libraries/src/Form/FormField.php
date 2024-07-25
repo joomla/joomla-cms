@@ -1061,7 +1061,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         }
 
         if ($this->requireon) {
-            $options['rel']          .= ' data-requireon=\'' .
+            $options['rel'] .= ' data-requireon=\'' .
                 json_encode(FormHelper::parseFieldConditions($this->requireon, $this->formControl, $this->group)) . '\'';
             $options['requireonEnabled'] = true;
         }
