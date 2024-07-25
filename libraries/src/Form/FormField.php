@@ -529,6 +529,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 // Removes spaces from left & right and extra spaces from middle
                 $value = preg_replace('/\s+/', ' ', trim((string) $value));
 
+                // No break
             case 'description':
             case 'hint':
             case 'value':
