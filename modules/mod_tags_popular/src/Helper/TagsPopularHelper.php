@@ -10,7 +10,6 @@
 
 namespace Joomla\Module\TagsPopular\Site\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;

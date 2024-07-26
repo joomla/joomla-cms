@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Table\CoreContent;

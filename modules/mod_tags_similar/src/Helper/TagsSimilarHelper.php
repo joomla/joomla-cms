@@ -10,7 +10,6 @@
 
 namespace Joomla\Module\TagsSimilar\Site\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
