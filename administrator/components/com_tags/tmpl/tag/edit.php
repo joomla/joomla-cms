@@ -28,9 +28,9 @@ $wa->useScript('keepalive')
 $this->ignore_fieldsets = ['item_associations', 'jmetadata'];
 $this->useCoreUI = true;
 
-$input = Factory::getApplication()->getInput();
+$input  = Factory::getApplication()->getInput();
 $params = clone $this->state->get('params');
-$assoc              = Associations::isEnabled();
+$assoc  = Associations::isEnabled();
 
 if (!$assoc) {
     $this->ignore_fieldsets[] = 'frontendassociations';
