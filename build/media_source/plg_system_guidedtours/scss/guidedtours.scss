@@ -5,6 +5,10 @@
 
 @import "../../../../node_modules/shepherd.js/dist/css/shepherd";
 
+.shepherd-modal-overlay-container.shepherd-modal-is-visible {
+  opacity: .7;
+}
+
 .shepherd-content {
   border: 1px solid var(--border-color-translucent);
   border-radius: .3rem;
@@ -14,6 +18,10 @@
 .shepherd-content img {
   max-width: 100%;
   height: auto;
+}
+
+.shepherd-header {
+  border-bottom: 1px solid var(--border-color);
 }
 
 .shepherd-title {
