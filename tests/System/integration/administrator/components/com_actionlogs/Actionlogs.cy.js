@@ -5,7 +5,7 @@ describe('Test in backend that the action logs', () => {
     cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
   });
 
-  it('have a title', () => {
+  it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'User Actions Log');
   });
 
