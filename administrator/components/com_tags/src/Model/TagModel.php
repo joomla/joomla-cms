@@ -246,9 +246,9 @@ class TagModel extends AdminModel
         if (Associations::isEnabled()) {
             $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
-                $fields = $addform->addChild('fields');
+                $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
                 $fieldset = $fields->addChild('fieldset');
                 $fieldset->addAttribute('name', 'item_associations');
@@ -282,13 +282,13 @@ class TagModel extends AdminModel
     public function save($data)
     {
         /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
-        $table      = $this->getTable();
-        $input = Factory::getApplication()->getInput();
-        $context    = $this->option . '.' . $this->name;
-        $app        = Factory::getApplication();
+        $table   = $this->getTable();
+        $input   = Factory::getApplication()->getInput();
+        $context = $this->option . '.' . $this->name;
+        $app     = Factory::getApplication();
 
-        $key = $table->getKeyName();
-        $pk = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $key   = $table->getKeyName();
+        $pk    = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
         $isNew = true;
 
         // Include the plugins for the save events.
@@ -321,8 +321,8 @@ class TagModel extends AdminModel
 
                 if ($data['title'] == $origTable->title) {
                     list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-                    $data['title'] = $title;
-                    $data['alias'] = $alias;
+                    $data['title']       = $title;
+                    $data['alias']       = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
                     $data['alias']     = '';
                     $data['published'] = 0;
@@ -340,7 +340,7 @@ class TagModel extends AdminModel
             }
 
             // Trigger the before save event.
-            $result = $app->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+            $result = $app->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -359,7 +359,7 @@ class TagModel extends AdminModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            $app->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+            $app->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 

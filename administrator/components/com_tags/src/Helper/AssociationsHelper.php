@@ -149,20 +149,20 @@ class AssociationsHelper extends AssociationExtensionHelper
         $support = $this->getSupportTemplate();
         $title   = '';
 
-        if (in_array($typeName, $this->itemTypes)) {
+        if (\in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'tag':
                     $fields['title'] = 'a.title';
                     $fields['state'] = 'a.published';
 
-                    $support['state'] = true;
-                    $support['acl'] = true;
-                    $support['checkout'] = true;
-                    $support['category'] = true;
+                    $support['state']     = true;
+                    $support['acl']       = true;
+                    $support['checkout']  = true;
+                    $support['category']  = true;
                     $support['save2copy'] = true;
 
                     $tables = [
-                        'a' => '#__tags'
+                        'a' => '#__tags',
                     ];
 
                     $title = 'tag';
@@ -175,7 +175,7 @@ class AssociationsHelper extends AssociationExtensionHelper
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
-            'title'   => $title
+            'title'   => $title,
         ];
     }
 }

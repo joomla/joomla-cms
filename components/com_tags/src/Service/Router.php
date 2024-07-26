@@ -144,7 +144,7 @@ class Router extends RouterBase
         // Check if the active menuitem matches the requested language
         if (
             !isset($query['Itemid']) && ($active && $active->component === 'com_tags'
-            && ($language === '*' || \in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
+            && ($language === '*' || \in_array($active->language, ['*', $language]) || !Multilanguage::isEnabled()))
         ) {
             $query['Itemid'] = $active->id;
         }

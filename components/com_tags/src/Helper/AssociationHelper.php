@@ -39,10 +39,10 @@ abstract class AssociationHelper
      */
     public static function getAssociations($id = 0, $view = null, $layout = null)
     {
-        $jinput    = Factory::getApplication()->getInput();
-        $view      = $view ?? $jinput->get('view');
-        $component = $jinput->getCmd('option');
-        $id        = empty($id) ? $jinput->getInt('id') : $id;
+        $jinput     = Factory::getApplication()->getInput();
+        $view       = $view ?? $jinput->get('view');
+        $component  = $jinput->getCmd('option');
+        $id         = empty($id) ? $jinput->getInt('id') : $id;
         $clanguages = LanguageHelper::getContentLanguages();
 
         if ($layout === null && $jinput->get('view') == $view && $component == 'com_tags') {
@@ -77,7 +77,7 @@ abstract class AssociationHelper
                     }
                 }
 
-                $return = array();
+                $return = [];
 
                 foreach ($temp as $tag => $item) {
                     $return[$tag] = RouteHelper::getComponentTagRoute($item, $tag);
@@ -87,7 +87,7 @@ abstract class AssociationHelper
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class AssociationHelper
      */
     public static function displayAssociations($id)
     {
-        $return = array();
+        $return = [];
 
         if ($associations = self::getAssociations($id, 'article')) {
             $levels    = Factory::getUser()->getAuthorisedViewLevels();
@@ -114,12 +114,12 @@ abstract class AssociationHelper
                 }
 
                 // Do not display language without frontend UI
-                if (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
+                if (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
                     continue;
                 }
 
                 // Do not display language without specific home menu
-                if (!array_key_exists($language->lang_code, Multilanguage::getSiteHomePages())) {
+                if (!\array_key_exists($language->lang_code, Multilanguage::getSiteHomePages())) {
                     continue;
                 }
 
@@ -128,7 +128,7 @@ abstract class AssociationHelper
                     continue;
                 }
 
-                $return[$language->lang_code] = array('item' => $associations[$language->lang_code], 'language' => $language);
+                $return[$language->lang_code] = ['item' => $associations[$language->lang_code], 'language' => $language];
             }
         }
 
