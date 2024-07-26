@@ -19,7 +19,7 @@ describe('Test in backend that the tasks list', () => {
     cy.contains('GET Request');
   });
 
-  it('can publish the GET task', () => {
+  it('can publish the test task', () => {
     cy.clickToolbarButton('New');
     cy.get('#comSchedulerSelectSearch').clear().type('GET');
     cy.get('a[href*="plg_task_requests_task_get"]').click();
