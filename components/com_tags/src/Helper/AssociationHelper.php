@@ -124,7 +124,7 @@ abstract class AssociationHelper
                 }
 
                 // Do not display language without authorized access level
-                if (isset($language->access) && $language->access && !in_array($language->access, $levels)) {
+                if (isset($language->access) && $language->access && !\in_array($language->access, $levels)) {
                     continue;
                 }
 
