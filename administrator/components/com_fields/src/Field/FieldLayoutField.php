@@ -56,9 +56,9 @@ class FieldLayoutField extends FormField
             // Build the query.
             $query->select('element, name')
                 ->from('#__extensions')
-                ->where($db->quoteName('client_id') . '=' . $db->quote('0'))
-                ->where($db->quoteName('type') . '=' . $db->quote('template'))
-                ->where($db->quoteName('enabled') . '=' . $db->quote('1'));
+                ->where($db->quoteName('client_id') . ' = 0')
+                ->where($db->quoteName('type') . ' = ' . $db->quote('template'))
+                ->where($db->quoteName('enabled') . ' = 1');
 
             // Set the query and load the templates.
             $db->setQuery($query);
