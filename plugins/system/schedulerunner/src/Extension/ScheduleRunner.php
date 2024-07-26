@@ -202,7 +202,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        // Check whether we have passed an taskId via URL parameter
+        // Check whether we have passed a taskId via URL parameter
         $taskId = $this->getApplication()->getInput()->getInt('id', 0);
        
         $scheduler = new Scheduler();
