@@ -146,7 +146,7 @@ class Showon {
             itemval = Array.from(originField.querySelectorAll('option:checked')).map((el) => el.value);
           } else {
             // Select lists, text-area etc. Note that multiple-select list returns
-            // an Array here s0 we can always treat 'itemval' as an array
+            // an Array here so we can always treat 'itemval' as an array
             itemval = document.getElementById(originId).value;
             // A multi-select <select> $field  will return null when no elements are
             // selected so we need to define itemval accordingly
