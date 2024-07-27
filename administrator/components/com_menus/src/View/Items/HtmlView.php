@@ -141,7 +141,7 @@ class HtmlView extends BaseHtmlView
                 case 'component':
                 default:
                     // Load language
-                        $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)
+                    $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)
                     || $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname);
 
                     if (!empty($item->componentname)) {

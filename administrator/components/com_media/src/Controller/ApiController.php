@@ -347,9 +347,9 @@ class ApiController extends BaseController
         $contentLength       = $this->input->server->getInt('CONTENT_LENGTH');
         $params              = ComponentHelper::getParams('com_media');
         $paramsUploadMaxsize = $params->get('upload_maxsize', 0) * 1024 * 1024;
-        $uploadMaxFilesize   = $helper->toBytes(ini_get('upload_max_filesize'));
-        $postMaxSize         = $helper->toBytes(ini_get('post_max_size'));
-        $memoryLimit         = $helper->toBytes(ini_get('memory_limit'));
+        $uploadMaxFilesize   = $helper->toBytes(\ini_get('upload_max_filesize'));
+        $postMaxSize         = $helper->toBytes(\ini_get('post_max_size'));
+        $memoryLimit         = $helper->toBytes(\ini_get('memory_limit'));
 
         if (
             ($paramsUploadMaxsize > 0 && $contentLength > $paramsUploadMaxsize)

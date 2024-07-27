@@ -68,7 +68,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
 
         // Access filter
         $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels($user->get('id'));
+        $authorised = Access::getAuthorisedViewLevels($user->id);
         $model->setState('filter.access', $access);
 
         // Category filter
@@ -78,7 +78,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
         $model->setState('filter.condition', 1);
 
         // User filter
-        $userId = $user->get('id');
+        $userId = $user->id;
 
         switch ($params->get('user_id')) {
             case 'by_me':

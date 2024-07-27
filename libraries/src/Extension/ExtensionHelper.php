@@ -277,8 +277,10 @@ class ExtensionHelper
         ['plugin', 'multilang', 'sampledata', 0],
 
         // Core plugin extensions - schemaorg
+        ['plugin', 'article', 'schemaorg', 0],
         ['plugin', 'blogposting', 'schemaorg', 0],
         ['plugin', 'book', 'schemaorg', 0],
+        ['plugin', 'custom', 'schemaorg', 0],
         ['plugin', 'event', 'schemaorg', 0],
         ['plugin', 'jobposting', 'schemaorg', 0],
         ['plugin', 'organization', 'schemaorg', 0],
@@ -417,7 +419,8 @@ class ExtensionHelper
                 ],
                 '|'
             ),
-            $values
+            $values,
+            ParameterType::STRING
         );
 
         $db->setQuery($query);

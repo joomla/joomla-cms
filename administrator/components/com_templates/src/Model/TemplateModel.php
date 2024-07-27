@@ -90,9 +90,9 @@ class TemplateModel extends FormModel
     /**
      * Method to store file information.
      *
-     * @param   string    $path      The base path.
-     * @param   string    $name      The file name.
-     * @param   stdClass  $template  The std class object of template.
+     * @param   string     $path      The base path.
+     * @param   string     $name      The file name.
+     * @param   \stdClass  $template  The std class object of template.
      *
      * @return  object  stdClass object.
      *
@@ -409,26 +409,52 @@ class TemplateModel extends FormModel
     {
         $result = [];
 
+        $prefix      = JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template->element;
+        $mediaPrefix = JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'administrator' . DIRECTORY_SEPARATOR . $this->template->element;
+
+        if ($this->template->client_id === 0) {
+            $prefix      = JPATH_ROOT . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template->element;
+            $mediaPrefix = JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'site' . DIRECTORY_SEPARATOR . $this->template->element;
+        }
+
         $dirFiles = scandir($dir);
 
-        foreach ($dirFiles as $key => $value) {
-            if (!\in_array($value, ['.', '..', 'node_modules'])) {
-                if (is_dir($dir . $value)) {
-                    $relativePath                                   = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
-                    $relativePath                                   = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
-                    $result[str_replace('\\', '//', $relativePath)] = $this->getDirectoryTree($dir . $value . '/');
-                } else {
-                    $ext           = pathinfo($dir . $value, PATHINFO_EXTENSION);
-                    $allowedFormat = $this->checkFormat($ext);
+        foreach ($dirFiles as $value) {
+            if (\in_array($value, ['.', '..', 'node_modules'])) {
+                continue;
+            }
 
-                    if ($allowedFormat == true) {
-                        $relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates'  . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
-                        $relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
-                        $result[]     = $this->getFile($relativePath, $value);
-                    }
-                }
+            $relativePath = str_replace([$prefix, $mediaPrefix], '', $dir . $value);
+
+            if (is_dir($dir . $value)) {
+                $result[str_replace('\\', '//', $relativePath)] = $this->getDirectoryTree($dir . $value . '/');
+
+                continue;
+            }
+
+            $ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
+
+            if ($this->checkFormat($ext)) {
+                $result[] = $this->getFile($relativePath, $value);
             }
         }
+
+        // Sort directories first, then files alphabetically.
+        uksort($result, function ($a, $b) use ($result) {
+            if (\is_string($a)) {
+                if (\is_string($b)) {
+                    return strnatcmp($a, $b);
+                }
+
+                return -1;
+            }
+
+            if (\is_string($b)) {
+                return 1;
+            }
+
+            return strnatcmp($result[$a]->name, $result[$b]->name);
+        });
 
         return !empty($result) ? $result : ['.'];
     }
@@ -693,7 +719,7 @@ class TemplateModel extends FormModel
             // Delete new folder if it exists
             $toPath = $this->getState('to_path');
 
-            if (Folder::exists($toPath)) {
+            if (is_dir(Path::clean($toPath))) {
                 if (!Folder::delete($toPath)) {
                     $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
@@ -1145,7 +1171,7 @@ class TemplateModel extends FormModel
             }
 
             // Check Html folder, create if not exist
-            if (!Folder::exists($htmlPath) && !Folder::create($htmlPath)) {
+            if (!is_dir(Path::clean($htmlPath)) && !Folder::create($htmlPath)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
                 return false;
@@ -1203,7 +1229,7 @@ class TemplateModel extends FormModel
             foreach ($folders as $folder) {
                 $htmlFolder = $htmlPath . str_replace($overridePath, '', $folder);
 
-                if (!Folder::exists($htmlFolder)) {
+                if (!is_dir(Path::clean($htmlFolder))) {
                     Folder::create($htmlFolder);
                 }
             }
@@ -1864,7 +1890,7 @@ class TemplateModel extends FormModel
         // Delete new folder if it exists
         $toPath = $this->getState('to_path');
 
-        if (Folder::exists($toPath)) {
+        if (is_dir(Path::clean($toPath))) {
             if (!Folder::delete($toPath)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 

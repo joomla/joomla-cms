@@ -1,7 +1,5 @@
 describe('Install Joomla', () => {
   it('Install Joomla', () => {
-    cy.exec('rm configuration.php', { failOnNonZeroExit: false });
-
     const config = {
       sitename: Cypress.env('sitename'),
       name: Cypress.env('name'),
@@ -16,9 +14,12 @@ describe('Install Joomla', () => {
       db_prefix: Cypress.env('db_prefix'),
     };
 
+    // If exists, delete PHP configuration file to force a new installation
+    cy.task('deleteRelativePath', 'configuration.php');
     cy.installJoomla(config);
 
     cy.doAdministratorLogin(config.username, config.password, false);
+    cy.cancelTour();
     cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();

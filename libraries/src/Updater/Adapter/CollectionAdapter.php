@@ -135,7 +135,7 @@ class CollectionAdapter extends UpdateAdapter
                     }
                 }
 
-                $client = ApplicationHelper::getClientInfo($attrs['CLIENT'], 1);
+                $client = ApplicationHelper::getClientInfo($attrs['CLIENT'], true);
 
                 if (isset($client->id)) {
                     $attrs['CLIENT_ID'] = $client->id;

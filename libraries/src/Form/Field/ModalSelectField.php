@@ -213,7 +213,7 @@ class ModalSelectField extends FormField
         }
 
         // Get the layout data
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         // Load the content title here to avoid a double DB Query
         $data['valueTitle'] = $this->getValueTitle();

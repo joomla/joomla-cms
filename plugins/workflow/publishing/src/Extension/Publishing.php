@@ -105,8 +105,8 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * Add different parameter options to the transition view, we need when executing the transition
      *
-     * @param   Form      $form The form
-     * @param   stdClass  $data The data
+     * @param   Form       $form The form
+     * @param   \stdClass  $data The data
      *
      * @return  boolean
      *
@@ -129,8 +129,8 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      * Disable certain fields in the item  form view, when we want to take over this function in the transition
      * Check also for the workflow implementation and if the field exists
      *
-     * @param   Form      $form  The form
-     * @param   stdClass  $data  The data
+     * @param   Form       $form  The form
+     * @param   \stdClass  $data  The data
      *
      * @return  boolean
      *

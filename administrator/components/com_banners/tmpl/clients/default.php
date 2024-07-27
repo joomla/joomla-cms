@@ -32,7 +32,7 @@ $purchaseTypes = [
 ];
 
 $user       = $this->getCurrentUser();
-$userId     = $user->get('id');
+$userId     = $user->id;
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $params     = $this->state->get('params') ?? new Registry();
@@ -71,22 +71,30 @@ $params     = $this->state->get('params') ?? new Registry();
                                 <th scope="col" class="w-15 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
                                 </th>
-                                <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                                    <span class="icon-check" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"></span>
-                                    <span class="visually-hidden"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
-                                </th>
-                                <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                                    <span class="icon-times" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></span>
-                                    <span class="visually-hidden"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
-                                </th>
-                                <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                                    <span class="icon-folder icon-fw" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></span>
-                                    <span class="visually-hidden"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
-                                </th>
-                                <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                                    <span class="icon-trash" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></span>
-                                    <span class="visually-hidden"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
-                                </th>
+                                <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
+                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                        <span class="icon-check" aria-hidden="true"></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
+                                    </th>
+                                <?php endif; ?>
+                                <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
+                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                        <span class="icon-times" aria-hidden="true"></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+                                    </th>
+                                <?php endif; ?>
+                                <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
+                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                        <span class="icon-folder icon-fw" aria-hidden="true"></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
+                                    </th>
+                                <?php endif; ?>
+                                <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
+                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                        <span class="icon-trash" aria-hidden="true"></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
+                                    </th>
+                                <?php endif; ?>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
                                 </th>
@@ -99,7 +107,7 @@ $params     = $this->state->get('params') ?? new Registry();
                             <?php foreach ($this->items as $i => $item) :
                                 $canCreate  = $user->authorise('core.create', 'com_banners');
                                 $canEdit    = $user->authorise('core.edit', 'com_banners');
-                                $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                                $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                                 $canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
                                 ?>
                                 <tr class="row<?php echo $i % 2; ?>">
@@ -144,7 +152,7 @@ $params     = $this->state->get('params') ?? new Registry();
                                         </div>
                                     </td>
                                     <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                        <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>"
+                                        <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-primary' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>"
                                         aria-describedby="tip-archived<?php echo $i; ?>">
                                             <?php echo $item->count_archived; ?>
                                         </a>

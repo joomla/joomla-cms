@@ -164,6 +164,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
             $form->setFieldAttribute('schemainfo', 'description', $infoText, 'schema');
 
+            $form->setFieldAttribute('extendJed', 'type', 'hidden', 'schema');
+            $form->setFieldAttribute('extendJed', 'class', 'hidden', 'schema');
+
             return;
         }
 
@@ -528,6 +531,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $parts     = explode('.', $context, 2);
         $component = $this->getApplication()->bootComponent($parts[0]);
 
-        return $component instanceof SchemaorgServiceInterface;
+        if ($component instanceof SchemaorgServiceInterface) {
+            return \in_array($context, array_keys($component->getSchemaorgContexts()));
+        }
+
+        return false;
     }
 }

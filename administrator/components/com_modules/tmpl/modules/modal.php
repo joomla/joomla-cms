@@ -17,12 +17,14 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
+
 if (Factory::getApplication()->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_modules.admin-modules-modal')->useScript('modal-content-select');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));

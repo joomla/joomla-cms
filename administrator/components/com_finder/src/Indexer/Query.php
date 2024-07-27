@@ -437,7 +437,7 @@ class Query
 
         // Sanitize the terms.
         foreach ($results as $key => $value) {
-            $results[$key] = array_unique($results[$key]);
+            $results[$key] = array_unique($value);
             $results[$key] = ArrayHelper::toInteger($results[$key]);
         }
 
@@ -476,7 +476,7 @@ class Query
 
         // Sanitize the terms.
         foreach ($results as $key => $value) {
-            $results[$key] = array_unique($results[$key]);
+            $results[$key] = array_unique($value);
             $results[$key] = ArrayHelper::toInteger($results[$key]);
         }
 
@@ -794,9 +794,9 @@ class Query
 
                 // Now we have to handle the filter string.
                 switch ($modifier) {
-                    // Handle a before and after date filters.
                     case 'before':
                     case 'after':
+                        // Handle a before and after date filters.
                         // Get the time offset.
                         $offset = Factory::getApplication()->get('offset');
 
@@ -820,8 +820,8 @@ class Query
 
                         break;
 
-                    // Handle a taxonomy branch filter.
                     default:
+                        // Handle a taxonomy branch filter.
                         // Try to find the node id.
                         $return = Taxonomy::getNodeByTitle($modifier, $value);
 

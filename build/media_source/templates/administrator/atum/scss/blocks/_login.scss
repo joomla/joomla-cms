@@ -30,7 +30,7 @@
     color: var(--template-text-dark);
     background: var(--body-bg);
     border-radius: 10px;
-    box-shadow: 0 4px 20px -10px var(--template-bg-dark-50);
+    box-shadow: $login-box-shadow;
 
     @include media-breakpoint-down(lg) {
       margin-bottom: 3rem;
@@ -97,7 +97,7 @@
 
   input:focus,
   select:focus {
-    box-shadow: inset 0 0 1px 1px var(--template-contrast);
+    box-shadow: $login-focus-box-shadow;
   }
 
   h1 {
@@ -151,6 +151,14 @@
       font-size: ($font-size-base * 1.125);
       color: $white;
     }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        .card-header {
+          background: transparent;
+        }
+      }
+    }
   }
 
   #sidebar {
@@ -169,6 +177,15 @@
         padding: .75rem 1.25rem;
       }
     }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        .card {
+          background: rgba(0, 0, 0, .4);
+        }
+      }
+    }
+
 
     @include media-breakpoint-down(md) {
       position: relative;
@@ -210,17 +227,8 @@
 }
 
 label {
-  color: $darkblue;
+  color: $login-label-color;
 }
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    label {
-      color: var(--white);
-    }
-  }
-}
-
 
 .com_login .sidebar-wrapper .main-brand {
   flex: 1;

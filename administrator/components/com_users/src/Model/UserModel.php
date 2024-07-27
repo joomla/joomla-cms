@@ -252,7 +252,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         }
 
         // Make sure that we are not removing ourself from Super Admin group
-        if ($iAmSuperAdmin && $my->get('id') == $pk) {
+        if ($iAmSuperAdmin && $my->id == $pk) {
             // Check that at least one of our new groups is Super Admin
             $stillSuperAdmin = false;
             $myNewGroups     = $data['groups'];
@@ -388,7 +388,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         // Access checks.
         foreach ($pks as $i => $pk) {
-            if ($value == 1 && $pk == $user->get('id')) {
+            if ($value == 1 && $pk == $user->id) {
                 // Cannot block yourself.
                 unset($pks[$i]);
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'), 'error');
@@ -703,20 +703,20 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         switch ($action) {
-                // Sets users to a selected group
             case 'set':
+                // Sets users to a selected group
                 $doDelete = 'all';
                 $doAssign = true;
                 break;
 
-                // Remove users from a selected group
             case 'del':
+                // Remove users from a selected group
                 $doDelete = 'group';
                 break;
 
-                // Add users to a selected group
             case 'add':
             default:
+                // Add users to a selected group
                 $doAssign = true;
                 break;
         }
