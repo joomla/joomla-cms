@@ -81,6 +81,16 @@ document.addEventListener('onMediaFileSelected', async (e) => {
   height-label="${Joomla.Text._('JFIELD_MEDIA_HEIGHT_LABEL')}"
 ></joomla-field-mediamore>
 `);
+
+      // Set the selected file name as alt attribute without the extension
+      const altField = container.querySelector('#-alt');
+      if (altField) {
+        // Replace special characters
+        altField.value = Joomla.selectedMediaFile.path.split('/').pop().replace(/_|-/g, ' ');
+
+        // Remove the file extension
+        altField.value = altField.value.split('.').slice(0, -1).join('.');
+      }
     }
   }
 });
