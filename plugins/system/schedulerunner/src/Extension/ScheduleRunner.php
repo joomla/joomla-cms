@@ -203,7 +203,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
         }
 
         // Check whether we have passed a taskId via URL parameter
-        $taskId = $this->getApplication()->getInput()->getInt('id', 0);
+        $taskId    = $this->getApplication()->getInput()->getInt('id', 0);
         $scheduler = new Scheduler();
 
         if ($taskId) {
