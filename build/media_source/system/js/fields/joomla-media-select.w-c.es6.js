@@ -86,7 +86,7 @@ document.addEventListener('onMediaFileSelected', async (e) => {
       const altField = container.querySelector('#-alt');
       if (altField) {
         // Replace special characters
-        altField.value = Joomla.selectedMediaFile.path.split('/').pop().replace(/_|-/g, ' ');
+        altField.value = Joomla.selectedMediaFile.name.replace(/_|-/g, ' ');
 
         // Remove the file extension
         altField.value = altField.value.split('.').slice(0, -1).join('.');
