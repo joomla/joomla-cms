@@ -23,7 +23,7 @@ describe('Test in backend that the action logs', () => {
     cy.task('queryDB', 'TRUNCATE #__action_logs');
   });
 
-  it('have an export button', () => {
+  it('has an export button', () => {
     cy.get('#toolbar-download1').click();
     cy.get('#system-message-container').contains('There are no User Action logs to export').should('exist');
   });
