@@ -1882,9 +1882,9 @@ class Form implements CurrentUserInterface
     /**
      * Add control field
      *
-     * @param string $name        The name of the input
-     * @param string $value       The value of the input
-     * @param array  $attributes  Optional attributes of the input
+     * @param string    $name        The name of the input
+     * @param string    $value       The value of the input
+     * @param string[]  $attributes  Optional attributes of the input, in format [name => value]
      *
      * @return static
      *
