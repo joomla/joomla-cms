@@ -537,7 +537,7 @@ class DatabaseModel extends InstallerModel
     /**
      * Get a message of the tables skipped and checked
      *
-     * @param   array  $status  status of of the update files
+     * @param   array  $status  status of the update files
      *
      * @return  array  Messages with the errors with the update version
      *
