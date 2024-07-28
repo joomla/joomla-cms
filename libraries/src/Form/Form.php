@@ -86,7 +86,7 @@ class Form implements CurrentUserInterface
     /**
      * List of control fields.
      * Hidden "non-model" fields that need for Controller, like "task", "return", token hash, etc.
-     * Array containing name => value for each field.
+     * Array containing name => [value => value, attributes => []] for each field.
      *
      * @var    array
      * @since  __DEPLOY_VERSION__
@@ -1882,16 +1882,20 @@ class Form implements CurrentUserInterface
     /**
      * Add control field
      *
-     * @param string $name   The name of the input
-     * @param string $value  The value of the input
+     * @param string $name        The name of the input
+     * @param string $value       The value of the input
+     * @param array  $attributes  Optional attributes of the input
      *
      * @return static
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function addControlField(string $name, string $value = ''): static
+    public function addControlField(string $name, string $value = '', array $attributes = []): static
     {
-        $this->controlFields[$name] = $value;
+        $this->controlFields[$name] = [
+            'value'      => $value,
+            'attributes' => $attributes,
+        ];
 
         return $this;
     }
@@ -1907,10 +1911,7 @@ class Form implements CurrentUserInterface
      */
     public function removeControlField(string $name): static
     {
-        if (isset($this->controlFields[$name]))
-        {
-            unset($this->controlFields[$name]);
-        }
+        unset($this->controlFields[$name]);
 
         return $this;
     }
@@ -1939,7 +1940,18 @@ class Form implements CurrentUserInterface
         $html = [];
 
         foreach ($this->controlFields as $n => $v) {
-            $html[] = '<input type="hidden" name="' . htmlspecialchars($n) . '" value="' . htmlspecialchars($v) . '" />';
+            // Check for attributes
+            $attrStr = '';
+
+            if ($v['attributes']) {
+                $attr = [];
+                foreach ($v['attributes'] as $attrName => $attrValue) {
+                    $attr[] = htmlspecialchars($attrName) . '="' . htmlspecialchars($attrValue) . '"';
+                }
+                $attrStr = implode(' ', $attr);
+            }
+
+            $html[] = '<input type="hidden" name="' . htmlspecialchars($n) . '" value="' . htmlspecialchars($v['value']) . '" ' . $attrStr . '/>';
         }
 
         // The Token should be added in any case
