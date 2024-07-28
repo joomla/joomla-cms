@@ -214,6 +214,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 
         // Attach parse rule.
         $router->attachParseRule([$this, 'parseRule'], Router::PROCESS_BEFORE);
+        $router->attachParseRule([$this, 'setLanguageApplicationState'], Router::PROCESS_BEFORE);
     }
 
     /**
@@ -275,7 +276,6 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         if (
             !$this->params->get('remove_default_prefix', 0)
             || $lang !== $this->default_lang
-            || $lang !== $this->current_lang
         ) {
             $uri->setPath($uri->getPath() . '/' . $sef . '/');
         }
@@ -327,30 +327,79 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      */
     public function parseRule(&$router, &$uri)
     {
-        // Did we find the current and existing language yet?
-        $found = false;
-
         // Are we in SEF mode or not?
         if ($this->mode_sef) {
             $path  = $uri->getPath();
+
             $parts = explode('/', $path);
 
             $sef = StringHelper::strtolower($parts[0]);
 
-            // Do we have a URL Language Code ?
-            if (!isset($this->sefs[$sef])) {
-                // Check if remove default URL language code is set
-                if ($this->params->get('remove_default_prefix', 0)) {
-                    if ($parts[0]) {
-                        // We load a default site language page
-                        $lang_code = $this->default_lang;
-                    } else {
-                        // We check for an existing language cookie
-                        $lang_code = $this->getLanguageCookie();
-                    }
-                } else {
-                    $lang_code = $this->getLanguageCookie();
-                }
+            if (isset($this->sefs[$sef])) {
+                // We found a matching language to the lang code
+                $uri->setVar('lang', $this->sefs[$sef]->lang_code);
+                array_shift($parts);
+                $uri->setPath(implode('/', $parts));
+            } elseif ($this->params->get('remove_default_prefix', 0)) {
+                // We don't have a prefix for the default language
+                $uri->setVar('lang', $this->default_lang);
+            }
+        } elseif ($uri->hasVar('lang')) {
+            // We are not in SEF mode. Do we have a language set?
+            $lang_code = $uri->getVar('lang');
+
+            if (isset($this->sefs[$lang_code])) {
+                // We found a matching language to the lang code
+                $uri->setVar('lang', $this->sefs[$lang_code]->lang_code);
+            } else {
+                // The language is not installed on our site
+                $uri->delVar('lang');
+            }
+        }
+    }
+
+    /**
+     * Parse rule to set the applications language state.
+     * This rule is removed after being executed the first time, since
+     * it does redirects and thus disallows parsing more than one URL per page call
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setLanguageApplicationState(&$router, &$uri)
+    {
+        // We check if the parseRule is still attached to keep this b/c
+        if (!in_array([$this, 'parseRule'], $router->getRules()['parsepreprocess'])) {
+            $router->detachRule('parse', [$this, 'setLanguageApplicationState'], $router::PROCESS_BEFORE);
+
+            return;
+        }
+
+        $lang_code = false;
+
+        // Our parse rule discovered a language
+        if ($uri->hasVar('lang')) {
+            $lang_code = $uri->getVar('lang');
+        } else {
+            /**
+             * We don't know the language yet and want to discover it.
+             * If we remove the default prefix, call by POST or have nolangfilter set,
+             * we simply take the default language.
+             */
+            if (
+                $this->params->get('remove_default_prefix', 0)
+                || $this->getApplication()->getInput()->getMethod() === 'POST'
+                || $this->getApplication()->getInput()->get('nolangfilter', 0) == 1
+                || \count($this->getApplication()->getInput()->post) > 0
+                || \count($this->getApplication()->getInput()->files) > 0
+            ) {
+                $lang_code = $this->default_lang;
+            } else {
+                $lang_code = $this->getLanguageCookie();
 
                 // No language code. Try using browser settings or default site language
                 if (!$lang_code && $this->params->get('detect_browser', 0) == 1) {
@@ -361,137 +410,32 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                     $lang_code = $this->default_lang;
                 }
 
-                if ($lang_code === $this->default_lang && $this->params->get('remove_default_prefix', 0)) {
-                    $found = true;
-                }
-            } else {
-                // We found our language
-                $found     = true;
-                $lang_code = $this->sefs[$sef]->lang_code;
+                if (!$this->params->get('remove_default_prefix', 0) && $uri->getPath() == '') {
+                    if ($this->mode_sef) {
+                        $path = $this->lang_codes[$lang_code]->sef . '/' . $uri->getPath();
 
-                // If we found our language, but it's the default language and we don't want a prefix for that, we are on a wrong URL.
-                // Or we try to change the language back to the default language. We need a redirect to the proper URL for the default language.
-                if ($lang_code === $this->default_lang && $this->params->get('remove_default_prefix', 0)) {
-                    // Create a cookie.
-                    $this->setLanguageCookie($lang_code);
+                        if (!$this->getApplication()->get('sef_rewrite')) {
+                            $path = 'index.php/' . $path;
+                        }
 
-                    $found = false;
-                    array_shift($parts);
-                    $path = implode('/', $parts);
-                }
-
-                // We have found our language and the first part of our URL is the language prefix
-                if ($found) {
-                    array_shift($parts);
-
-                    // Empty parts array when "index.php" is the only part left.
-                    if (\count($parts) === 1 && $parts[0] === 'index.php') {
-                        $parts = [];
+                        $uri->setPath($path);
+                    } else {
+                        $uri->setPath('index.php');
+                        $uri->setVar('lang', $this->lang_codes[$lang_code]->sef);
                     }
+                    $redirectHttpCode = 301;
+                    $redirectUri = $uri->base() . $uri->toString(['path', 'query', 'fragment']);
 
-                    $uri->setPath(implode('/', $parts));
+                    // We cannot cache this redirect in browser. 301 is cacheable by default so we need to force to not cache it in browsers.
+                    $this->getApplication()->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+                    $this->getApplication()->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+                    $this->getApplication()->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate', false);
+                    $this->getApplication()->sendHeaders();
+
+                    // Redirect to language.
+                    $this->getApplication()->redirect($redirectUri, $redirectHttpCode);
                 }
             }
-        } else {
-            // We are not in SEF mode
-            $lang_code = $this->getLanguageCookie();
-
-            if (!$lang_code && $this->params->get('detect_browser', 1)) {
-                $lang_code = LanguageHelper::detectLanguage();
-            }
-
-            if (!isset($this->lang_codes[$lang_code])) {
-                $lang_code = $this->default_lang;
-            }
-        }
-
-        $lang = $uri->getVar('lang', $lang_code);
-
-        if (isset($this->sefs[$lang])) {
-            // We found our language
-            $found     = true;
-            $lang_code = $this->sefs[$lang]->lang_code;
-        }
-
-        // We are called via POST or the nolangfilter url parameter was set. We don't care about the language
-        // and simply set the default language as our current language.
-        if (
-            $this->getApplication()->getInput()->getMethod() === 'POST'
-            || $this->getApplication()->getInput()->get('nolangfilter', 0) == 1
-            || \count($this->getApplication()->getInput()->post) > 0
-            || \count($this->getApplication()->getInput()->files) > 0
-        ) {
-            $found = true;
-
-            if (!isset($lang_code)) {
-                $lang_code = $this->getLanguageCookie();
-            }
-
-            if (!$lang_code && $this->params->get('detect_browser', 1)) {
-                $lang_code = LanguageHelper::detectLanguage();
-            }
-
-            if (!isset($this->lang_codes[$lang_code])) {
-                $lang_code = $this->default_lang;
-            }
-        }
-
-        // We have not found the language and thus need to redirect
-        if (!$found) {
-            // Lets find the default language for this user
-            if (!isset($lang_code) || !isset($this->lang_codes[$lang_code])) {
-                $lang_code = false;
-
-                if ($this->params->get('detect_browser', 1)) {
-                    $lang_code = LanguageHelper::detectLanguage();
-
-                    if (!isset($this->lang_codes[$lang_code])) {
-                        $lang_code = false;
-                    }
-                }
-
-                if (!$lang_code) {
-                    $lang_code = $this->default_lang;
-                }
-            }
-
-            if ($this->mode_sef) {
-                // Use the current language sef or the default one.
-                if (
-                    $lang_code !== $this->default_lang
-                    || !$this->params->get('remove_default_prefix', 0)
-                ) {
-                    $path = $this->lang_codes[$lang_code]->sef . '/' . $path;
-                }
-
-                $uri->setPath($path);
-
-                if (!$this->getApplication()->get('sef_rewrite')) {
-                    $uri->setPath('index.php/' . $uri->getPath());
-                }
-
-                $redirectUri = $uri->base() . $uri->toString(['path', 'query', 'fragment']);
-            } else {
-                $uri->setVar('lang', $this->lang_codes[$lang_code]->sef);
-                $redirectUri = $uri->base() . 'index.php?' . $uri->getQuery();
-            }
-
-            // Set redirect HTTP code to "302 Found".
-            $redirectHttpCode = 302;
-
-            // If selected language is the default language redirect code is "301 Moved Permanently".
-            if ($lang_code === $this->default_lang) {
-                $redirectHttpCode = 301;
-
-                // We cannot cache this redirect in browser. 301 is cacheable by default so we need to force to not cache it in browsers.
-                $this->getApplication()->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
-                $this->getApplication()->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-                $this->getApplication()->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate', false);
-                $this->getApplication()->sendHeaders();
-            }
-
-            // Redirect to language.
-            $this->getApplication()->redirect($redirectUri, $redirectHttpCode);
         }
 
         // We have found our language and now need to set the cookie and the language value in our system
@@ -523,9 +467,9 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         }
 
         // Create a cookie.
-        if ($this->getLanguageCookie() !== $lang_code) {
-            $this->setLanguageCookie($lang_code);
-        }
+        $this->setLanguageCookie($lang_code);
+
+        $router->detachRule('parse', [$this, 'setLanguageApplicationState'], $router::PROCESS_BEFORE);
     }
 
     /**
