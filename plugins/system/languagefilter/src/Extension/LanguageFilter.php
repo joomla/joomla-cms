@@ -373,7 +373,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
     public function setLanguageApplicationState(&$router, &$uri)
     {
         // We check if the parseRule is still attached to keep this b/c
-        if (!in_array([$this, 'parseRule'], $router->getRules()['parsepreprocess'])) {
+        if (!\in_array([$this, 'parseRule'], $router->getRules()['parsepreprocess'])) {
             $router->detachRule('parse', [$this, 'setLanguageApplicationState'], $router::PROCESS_BEFORE);
 
             return;
