@@ -85,11 +85,11 @@ class Form implements CurrentUserInterface
 
     /**
      * List of control fields.
-     * Array contain Key => Value for each field.
+     * Hidden "non-model" fields that need for Controller, like "task", "return", token hash, etc.
+     * Array containing name => value for each field.
      *
      * @var    array
      * @since  __DEPLOY_VERSION__
-     *
      */
     protected $controlFields = [];
 
