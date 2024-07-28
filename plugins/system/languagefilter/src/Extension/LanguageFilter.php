@@ -424,7 +424,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                         $uri->setVar('lang', $this->lang_codes[$lang_code]->sef);
                     }
                     $redirectHttpCode = 301;
-                    $redirectUri = $uri->base() . $uri->toString(['path', 'query', 'fragment']);
+                    $redirectUri      = $uri->base() . $uri->toString(['path', 'query', 'fragment']);
 
                     // We cannot cache this redirect in browser. 301 is cacheable by default so we need to force to not cache it in browsers.
                     $this->getApplication()->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
