@@ -12,7 +12,6 @@
       const options = Joomla.getOptions('js-override-check');
       const update = (type, text, linkHref) => {
         const link = document.getElementById('plg_quickicon_overridecheck');
-        const linkSpans = link.querySelectorAll('span.j-links-link');
         if (link) {
           link.classList.add(type);
 
@@ -21,11 +20,9 @@
           }
         }
 
-        if (linkSpans.length) {
-          linkSpans.forEach((span) => {
-            span.innerHTML = Joomla.sanitizeHtml(text);
-          });
-        }
+        link.querySelectorAll('span.j-links-link').forEach((span) => {
+          span.innerHTML = Joomla.sanitizeHtml(text);
+        });
       };
 
       /**
@@ -66,7 +63,5 @@
   };
 
   // Give some times to the layout and other scripts to settle their stuff
-  window.addEventListener('load', () => {
-    setTimeout(checkOverride, 390);
-  });
+  window.addEventListener('load', () => setTimeout(checkOverride, 390));
 })();

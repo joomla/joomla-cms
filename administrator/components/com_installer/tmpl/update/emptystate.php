@@ -18,7 +18,7 @@ use Joomla\CMS\Session\Session;
 $displayData = [
     'textPrefix' => 'COM_INSTALLER',
     'formURL'    => 'index.php?option=com_installer&view=update',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Extensions:_Update',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Extensions:_Update',
     'icon'       => 'icon-puzzle-piece install',
 ];
 
