@@ -246,6 +246,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-mysql
     depends_on:
@@ -276,10 +280,6 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
-    when:
-      event:
-        exclude:
-          - pull_request
 
   - name: phpmin-system-mysql8
     depends_on:
@@ -520,6 +520,6 @@ trigger:
 
 ---
 kind: signature
-hmac: adce90065c3f9e3450bc8fabcef10d7bd35c486160b292b33ce620500ec5a4ba
+hmac: 0f965e69f4773b289498dd7e06d3031f9ad89038606a7ace3632766c47283045
 
 ...
