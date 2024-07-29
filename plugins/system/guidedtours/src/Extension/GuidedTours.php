@@ -170,8 +170,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $params = ComponentHelper::getParams('com_guidedtours');
 
             // Check if the user has opted out of auto-start
-            $userAuthorizedAutostart = $user->getParam('tourAutoStart', $params->get('tourAutoStart', 'allow'));
-            if ($userAuthorizedAutostart === 'disallow') {
+            $userAuthorizedAutostart = $user->getParam('allowTourAutoStart', $params->get('allowTourAutoStart', 1));
+            if (!$userAuthorizedAutostart) {
                 return;
             }
 
