@@ -438,6 +438,41 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             }
         }
 
+        // If we want the default prefix removed and the site is called with that prefix, we want to redirect to the URL without that prefix
+        if ($this->mode_sef && $this->params->get('remove_default_prefix', 0) && $lang_code == $this->default_lang) {
+            $origUri = Uri::getInstance();
+            $origPath = $origUri->getPath();
+            $origPath = substr($origPath, strlen(Uri::base(true)));
+            $origPath = explode('/', $origPath);
+            array_shift($origPath);
+            $indexphp = false;
+
+            if (!$this->getApplication()->get('sef_rewrite') && count($origPath) > 2 && $origPath[0] == 'index.php') {
+                $indexphp = array_shift($origPath);
+            }
+
+            if (isset($origPath[0]) && $origPath[0] == $this->lang_codes[$lang_code]->sef) {
+                array_shift($origPath);
+
+                if ($indexphp) {
+                    array_unshift($origPath, $indexphp);
+                }
+
+                $origUri->setPath(implode('/', $origPath));
+                $redirectHttpCode = 301;
+                $redirectUri      = $origUri->base() . $origUri->toString(['path', 'query', 'fragment']);
+
+                // We cannot cache this redirect in browser. 301 is cacheable by default so we need to force to not cache it in browsers.
+                $this->getApplication()->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+                $this->getApplication()->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+                $this->getApplication()->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate', false);
+                $this->getApplication()->sendHeaders();
+
+                // Redirect to language.
+                $this->getApplication()->redirect($redirectUri, $redirectHttpCode);
+            }
+        }
+
         // We have found our language and now need to set the cookie and the language value in our system
         $this->current_lang = $lang_code;
 
