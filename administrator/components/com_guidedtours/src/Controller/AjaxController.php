@@ -164,11 +164,9 @@ class AjaxController extends BaseController
             if (!\is_null($result)) {
                 $values = json_decode($result, true);
 
-                if (!empty($values)) {
-                    // The profile is updated only when delayed. 'Completed' and 'Skipped' are final
-                    if ($values['state'] === 'delayed') {
-                        $db->updateObject('#__user_profiles', $profileObject, ['user_id', 'profile_key']);
-                    }
+                // The profile is updated only when delayed. 'Completed' and 'Skipped' are final
+                if (!empty($values) && $values['state'] === 'delayed') {
+                    $db->updateObject('#__user_profiles', $profileObject, ['user_id', 'profile_key']);
                 }
             } else {
                 $db->insertObject('#__user_profiles', $profileObject);
