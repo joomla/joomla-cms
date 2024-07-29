@@ -60,3 +60,6 @@ export const UPDATE_SORT_BY = 'UPDATE_SORT_BY';
 
 // Update sorting direction
 export const UPDATE_SORT_DIRECTION = 'UPDATE_SORT_DIRECTION';
+
+// Settle initial selected items, ie don't unselect everything
+export const INITIAL_DATA_COMPLETED = 'INITIAL_DATA_COMPLETED';

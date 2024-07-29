@@ -141,6 +141,35 @@ export default {
 
     // Add files
     payload.files.forEach((file) => addFile(null, file));
+
+    if (state.selectedItems.length && state.files.length && typeof state.selectedItems[0] === 'string' && !state.initialDataLoaded) {
+      const selected = [];
+      for (const item of state.selectedItems) {
+        const maybeSelectedItem = state.files.find((file) => item === file.path);
+        if (maybeSelectedItem) selected.push(maybeSelectedItem);
+      }
+
+      if (selected.length) {
+        state.selectedItems = selected;
+
+        // @todo reflect [{items}] not {item}
+        window.parent.document.dispatchEvent(
+          new CustomEvent('onMediaFileSelected', {
+            bubbles: true,
+            cancelable: false,
+            detail: {
+              type: selected[0].type,
+              path: selected[0].path,
+              thumb: selected[0].thumb,
+              fileType: selected[0].mime_type ? selected[0].mime_type : false,
+              extension: selected[0].extension ? selected[0].extension : false,
+              width: selected[0].width ? selected[0].width : 0,
+              height: selected[0].height ? selected[0].height : 0,
+            },
+          }),
+        );
+      }
+    }
   },
 
   /**
@@ -308,6 +337,7 @@ export default {
    * @param payload the item
    */
   [types.UNSELECT_ALL_BROWSER_ITEMS]: (state) => {
+    if (!state.initialDataLoaded) return;
     state.selectedItems = [];
   },
 
@@ -492,4 +522,13 @@ export default {
   [types.UPDATE_SORT_DIRECTION]: (state, payload) => {
     state.sortDirection = payload === 'asc' ? 'asc' : 'desc';
   },
+
+  /**
+   *
+   * @param {Proxy} state
+   * @param {Array[object]} payload
+   */
+  [types.INITIAL_DATA_COMPLETED]: (state, payload) => {
+    if (!state.initialDataLoaded) state.initialDataLoaded = true;
+  }
 };

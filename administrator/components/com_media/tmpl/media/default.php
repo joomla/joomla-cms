@@ -57,6 +57,7 @@ $config = [
 ];
 $this->getDocument()->addScriptOptions('com_media', $config);
 ?>
+<script>window.addEventListener('onMediaFileSelected', e => console.log(e.detail))</script>
 <?php if ($tmpl === 'component') : ?>
 <div class="subhead noshadow mb-3">
     <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>

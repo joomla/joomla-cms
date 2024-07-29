@@ -36,6 +36,7 @@ export const getContents = (context, payload) => {
       context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
       context.commit(types.SELECT_DIRECTORY, payload);
       context.commit(types.SET_IS_LOADING, false);
+      context.commit(types.INITIAL_DATA_COMPLETED);
     })
     .catch((error) => {
       // @todo error handling

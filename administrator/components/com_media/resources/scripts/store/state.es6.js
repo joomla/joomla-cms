@@ -37,8 +37,33 @@ function setSession(path) {
   );
 }
 
+function getSectedDiles() {
+  const url = new URL(window.location);
+  const selectedFileString = url.searchParams.get('selected_items');
+  if (selectedFileString) {
+    const parts = selectedFileString.includes(':/') && selectedFileString.split(':/');
+
+    if (!parts || !loadedDisks.find((disk) => disk.drives.find((drive) => drive.root === `${parts[0]}:/`) !== undefined)) {
+      // @todo better fallback
+      return;
+    }
+
+    // @todo should return [{strings}]
+    return { drive: parts[0], path: parts[1] };
+  }
+}
+
+const selectedFiles = getSectedDiles();
+
 // Gracefully use the given path, the session storage state or fall back to sensible default
 function getCurrentPath() {
+  // @todo these should be [{items}] now it's {drive, path}
+  if (selectedFiles) {
+     const x = `${selectedFiles.drive}:/${selectedFiles.path.includes('/') ? selectedFiles.path.split('/').slice(0, -1).join('/') : ''}`;
+     setSession(x);
+     return x;
+    }
+
   let path = options.currentPath;
 
   // Set the path from the session when available
@@ -76,6 +101,8 @@ function getCurrentPath() {
 
 // The initial state
 export default {
+  // Initial data loaded
+  initialDataLoaded: false,
   // The general loading state
   isLoading: false,
   // Will hold the activated filesystem disks
@@ -94,7 +121,7 @@ export default {
   // in the list as the default provider and load first drive on it as default
   selectedDirectory: getCurrentPath(),
   // The currently selected items
-  selectedItems: [],
+  selectedItems: selectedFiles ? [`${selectedFiles.drive}:/${selectedFiles.path}`] : [],
   // The state of the infobar
   showInfoBar: false,
   // List view
