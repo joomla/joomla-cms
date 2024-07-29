@@ -162,6 +162,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpnext-system-mysql
     depends_on:
@@ -177,6 +181,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmin-system-postgres
     depends_on:
@@ -189,6 +197,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-postgres
     depends_on:
@@ -216,6 +228,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
@@ -415,6 +431,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 96994db51bcdf4b618f2b45fded770b4240977209559ce64e9f47c032648d9a1
+hmac: f8fbfd2dec2333af5fecaefcf89eceeabdaf973ca96992246e0ce9e0aa697c96
 
 ...
