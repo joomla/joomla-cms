@@ -104,7 +104,7 @@ class ContactModel extends FormModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => true]);
+        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -169,7 +169,7 @@ class ContactModel extends FormModel
      *
      * @param   integer  $pk  Id for the contact
      *
-     * @return  mixed Object or null
+     * @return  mixed \stdClass or null
      *
      * @since   1.6.0
      */
@@ -261,9 +261,9 @@ class ContactModel extends FormModel
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
-                        $data->params->set('access-view', in_array($data->access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups));
                     } else {
-                        $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
                     }
                 }
 
@@ -272,10 +272,10 @@ class ContactModel extends FormModel
                 if ($e->getCode() == 404) {
                     // Need to go through the error handler to allow Redirect to work.
                     throw $e;
-                } else {
-                    $this->setError($e);
-                    $this->_item[$pk] = false;
                 }
+
+                $this->setError($e);
+                $this->_item[$pk] = false;
             }
         }
 

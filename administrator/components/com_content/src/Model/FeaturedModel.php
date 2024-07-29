@@ -11,6 +11,8 @@
 namespace Joomla\Component\Content\Administrator\Model;
 
 // phpcs:disable PSR1.Files.SideEffects
+use Joomla\Database\QueryInterface;
+
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
@@ -88,7 +90,7 @@ class FeaturedModel extends ArticlesModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   4.0.0
      */

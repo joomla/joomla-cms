@@ -120,11 +120,13 @@ class ExtensionDiscoverCommand extends AbstractCommand
     {
         if ($count < 1) {
             return 'No extensions were discovered.';
-        } elseif ($count === 1) {
-            return $count . ' extension has been discovered.';
-        } else {
-            return $count . ' extensions have been discovered.';
         }
+
+        if ($count === 1) {
+            return $count . ' extension has been discovered.';
+        }
+
+        return $count . ' extensions have been discovered.';
     }
 
     /**

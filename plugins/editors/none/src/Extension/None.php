@@ -98,7 +98,7 @@ final class None extends CMSPlugin
      */
     private function displayButtons($name, $buttons, $asset, $author)
     {
-        if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
+        if (\is_array($buttons) || (\is_bool($buttons) && $buttons)) {
             $buttonsEvent = new Event(
                 'getButtons',
                 [

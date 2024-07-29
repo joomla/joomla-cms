@@ -81,11 +81,11 @@ final class Article extends CMSPlugin implements SubscriberInterface
 
         // Can create in any category (component permission) or at least in one category
         $canCreateRecords = $user->authorise('core.create', 'com_content')
-            || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
+            || \count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
 
         // Instead of checking edit on all records, we can use **same** check as the form editing view
         $values           = (array) $this->getApplication()->getUserState('com_content.edit.article.id');
-        $isEditingRecords = count($values);
+        $isEditingRecords = \count($values);
 
         // This ACL check is probably a double-check (form view already performed checks)
         $hasAccess = $canCreateRecords || $isEditingRecords;
@@ -99,7 +99,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
         $button = new Button(
             $this->_name,
             [
-                'modal'   => true,
+                'action'  => 'modal',
                 'link'    => $link,
                 'text'    => Text::_('PLG_ARTICLE_BUTTON_ARTICLE'),
                 'icon'    => 'file-add',
@@ -107,12 +107,6 @@ final class Article extends CMSPlugin implements SubscriberInterface
                     . '8h-20v32h18v-2h-16z"></path></svg>',
                 // This is whole Plugin name, it is needed for keeping backward compatibility
                 'name' => $this->_type . '_' . $this->_name,
-            ],
-            [
-                'height'     => '300px',
-                'width'      => '800px',
-                'bodyHeight' => '70',
-                'modalWidth' => '80',
             ]
         );
 

@@ -155,7 +155,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $this->pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -175,7 +175,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         }
 
         // Run an event on each result item
-        if (is_array($this->results)) {
+        if (\is_array($this->results)) {
             $dispatcher = $this->getDispatcher();
 
             // Import Finder plugins
@@ -242,7 +242,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 
         // Create hidden input elements for each part of the URI.
         foreach ($elements as $n => $v) {
-            if (is_scalar($v)) {
+            if (\is_scalar($v)) {
                 $fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '">';
             }
         }

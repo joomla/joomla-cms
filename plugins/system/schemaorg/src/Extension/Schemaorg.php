@@ -48,14 +48,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     use UserFactoryAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  5.0.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -148,6 +140,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Load plugin language files.
+        $this->loadLanguage();
+
         // Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
 
@@ -168,6 +163,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             }
 
             $form->setFieldAttribute('schemainfo', 'description', $infoText, 'schema');
+
+            $form->setFieldAttribute('extendJed', 'type', 'hidden', 'schema');
+            $form->setFieldAttribute('extendJed', 'class', 'hidden', 'schema');
 
             return;
         }
@@ -278,7 +276,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     public function onBeforeCompileHead(): void
     {
         $app      = $this->getApplication();
-        $baseType = $this->params->get('baseType');
+        $baseType = $this->params->get('baseType', 'organization');
 
         $itemId  = (int) $app->getInput()->getInt('id');
         $option  = $app->getInput()->get('option');
@@ -286,7 +284,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $context = $option . '.' . $view;
 
         // We need the plugin configured at least once to add structured data
-        if (!$app->isClient('site') || !in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
+        if (!$app->isClient('site') || !\in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
             return;
         }
 
@@ -306,10 +304,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $siteSchema = [];
 
-        $siteSchema['@type'] = ucfirst($this->params->get('baseType'));
+        $siteSchema['@type'] = ucfirst($baseType);
         $siteSchema['@id']   = $baseId;
 
-        $name = $this->params->get('name');
+        $name = $this->params->get('name', $app->get('sitename'));
 
         if ($isPerson && $this->params->get('user') > 0) {
             $user = $this->getUserFactory()->loadUserById($this->params->get('user'));
@@ -466,7 +464,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $result = [];
 
         foreach ($schema as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 // Subtypes need special handling
                 if (!empty($value['@type'])) {
                     if ($value['@type'] === 'ImageObject') {
@@ -491,7 +489,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
                     $value = $this->cleanupSchema($value);
 
                     // We don't save when the array contains only the @type
-                    if (empty($value) || count($value) <= 1) {
+                    if (empty($value) || \count($value) <= 1) {
                         $value = null;
                     }
                 } elseif ($key == 'genericField') {
@@ -533,6 +531,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $parts     = explode('.', $context, 2);
         $component = $this->getApplication()->bootComponent($parts[0]);
 
-        return $component instanceof SchemaorgServiceInterface;
+        if ($component instanceof SchemaorgServiceInterface) {
+            return \in_array($context, array_keys($component->getSchemaorgContexts()));
+        }
+
+        return false;
     }
 }

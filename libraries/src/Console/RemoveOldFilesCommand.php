@@ -60,7 +60,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 
         if ($output->isVeryVerbose() || $output->isDebug()) {
             foreach ($status['files_checked'] as $file) {
-                $exists = in_array($file, array_values($status['files_exist']));
+                $exists = \in_array($file, array_values($status['files_exist']));
 
                 if ($exists) {
                     $symfonyStyle->writeln('<error>File Checked & Exists</error> - ' . $file, OutputInterface::VERBOSITY_VERY_VERBOSE);
@@ -70,7 +70,7 @@ class RemoveOldFilesCommand extends AbstractCommand
             }
 
             foreach ($status['folders_checked'] as $folder) {
-                $exists = in_array($folder, array_values($status['folders_exist']));
+                $exists = \in_array($folder, array_values($status['folders_exist']));
 
                 if ($exists) {
                     $symfonyStyle->writeln('<error>Folder Checked & Exists</error> - ' . $folder, OutputInterface::VERBOSITY_VERY_VERBOSE);

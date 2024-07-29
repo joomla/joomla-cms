@@ -262,9 +262,9 @@ class Menu extends Nested
             if (
                 $table->load(
                     [
-                    'menutype' => $this->menutype,
+                    'menutype'  => $this->menutype,
                     'client_id' => (int) $this->client_id,
-                    'home' => '1',
+                    'home'      => '1',
                     ]
                 )
                 && ($table->language != $this->language)

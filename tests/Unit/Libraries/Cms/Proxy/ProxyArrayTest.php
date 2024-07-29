@@ -67,7 +67,7 @@ class ProxyArrayTest extends UnitTestCase
 
         $proxy = new ArrayProxy($data);
 
-        $this->assertEquals(count($proxy), 2, 'Countable implementation should count correctly');
+        $this->assertEquals(\count($proxy), 2, 'Countable implementation should count correctly');
     }
 
     /**

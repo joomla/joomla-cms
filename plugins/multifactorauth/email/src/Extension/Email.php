@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Email\Extension;
 
-use Exception;
 use Joomla\CMS\Encrypt\Totp;
 use Joomla\CMS\Event\MultiFactor\BeforeDisplayMethods;
 use Joomla\CMS\Event\MultiFactor\Captive;
@@ -36,7 +35,6 @@ use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -190,7 +188,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                     'input_type' => 'text',
                     // The attributes for the HTML input box.
                     'input_attributes' => [
-                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
+                        'pattern' => '[0-9]{6}', 'maxlength' => '6', 'inputmode' => 'numeric', 'required' => 'true', 'autocomplete' => 'one-time-code', 'aria-autocomplete' => 'none',
                     ],
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
                     'placeholder' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
@@ -264,7 +262,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                         'field_type'       => 'input',
                         'input_type'       => 'text',
                         'input_attributes' => [
-                            'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
+                            'pattern' => '[0-9]{6}', 'maxlength' => '6', 'inputmode' => 'numeric', 'required' => 'true', 'autocomplete' => 'one-time-code', 'aria-autocomplete' => 'none',
                         ],
                         'input_value' => '',
                         'placeholder' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
@@ -521,7 +519,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         static $alreadySent = false;
 
         // Make sure we have a user
-        if (!is_object($user) || !($user instanceof User)) {
+        if (!\is_object($user) || !($user instanceof User)) {
             $user = $this->getApplication()->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
         }
 

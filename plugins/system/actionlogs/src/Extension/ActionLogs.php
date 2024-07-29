@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\ActionLogs\Extension;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -53,19 +54,6 @@ final class ActionLogs extends CMSPlugin
     }
 
     /**
-     * Listener for the `onAfterInitialise` event
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    public function onAfterInitialise()
-    {
-        // Load plugin language files.
-        $this->loadLanguage();
-    }
-
-    /**
      * Adds additional fields to the user editing form for logs e-mail notifications
      *
      * @param   Form   $form  The form to be altered.
@@ -86,7 +74,7 @@ final class ActionLogs extends CMSPlugin
             'com_users.user',
         ];
 
-        if (!in_array($formName, $allowedFormNames, true)) {
+        if (!\in_array($formName, $allowedFormNames, true)) {
             return true;
         }
 
@@ -100,6 +88,9 @@ final class ActionLogs extends CMSPlugin
             return true;
         }
 
+        // Load plugin language files.
+        $this->loadLanguage();
+
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
         $jformData = $this->getApplication()->getInput()->get('jform', [], 'array');
 
@@ -107,7 +98,7 @@ final class ActionLogs extends CMSPlugin
             $data = $jformData;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
@@ -144,11 +135,11 @@ final class ActionLogs extends CMSPlugin
      */
     public function onContentPrepareData($context, $data)
     {
-        if (!in_array($context, ['com_users.profile', 'com_users.user'])) {
+        if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
             return true;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
@@ -174,6 +165,9 @@ final class ActionLogs extends CMSPlugin
         if (!$values) {
             return true;
         }
+
+        // Load plugin language files.
+        $this->loadLanguage();
 
         $data->actionlogs                       = new \stdClass();
         $data->actionlogs->actionlogsNotify     = $values->notify;
@@ -353,5 +347,61 @@ final class ActionLogs extends CMSPlugin
         }
 
         return implode(', ', $extensions);
+    }
+
+    /**
+     * On Saving extensions logging method
+     * Method is called when an extension is being saved
+     *
+     * @param   string                   $context  The extension
+     * @param   \Joomla\CMS\Table\Table  $table    DataBase Table object
+     * @param   boolean                  $isNew    If the extension is new or not
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    public function onExtensionAfterSave($context, $table, $isNew): void
+    {
+        if ($context !== 'com_config.component' || $table->name !== 'com_actionlogs') {
+            return;
+        }
+
+        $params    = ComponentHelper::getParams('com_actionlogs');
+        $globalExt = (array) $params->get('loggable_extensions', []);
+
+        $db = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+            ->select($db->quoteName(['user_id', 'notify', 'extensions']))
+            ->from($db->quoteName('#__action_logs_users'));
+
+        try {
+            $values = $db->setQuery($query)->loadObjectList();
+        } catch (ExecutionFailureException $e) {
+            return;
+        }
+
+        foreach ($values as $item) {
+            $userExt = substr($item->extensions, 2);
+            $userExt = substr($userExt, 0, -2);
+            $user    = explode('","', $userExt);
+            $common  = array_intersect($globalExt, $user);
+
+            $extension = json_encode(array_values($common));
+
+            $query->clear()
+                ->update($db->quoteName('#__action_logs_users'))
+                ->set($db->quoteName('extensions') . ' = :extension')
+                ->where($db->quoteName('user_id') . ' = :userid')
+                ->bind(':userid', $item->user_id, ParameterType::INTEGER)
+                ->bind(':extension', $extension);
+
+            try {
+                $db->setQuery($query)->execute();
+            } catch (ExecutionFailureException $e) {
+                // Do nothing.
+            }
+        }
     }
 }

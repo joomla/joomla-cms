@@ -134,7 +134,9 @@ abstract class DaemonApplication extends CliApplication
         parent::__construct($input, $config, null, null, $dispatcher);
 
         // Set some system limits.
-        @set_time_limit($this->config->get('max_execution_time', 0));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit($this->config->get('max_execution_time', 0));
+        }
 
         if ($this->config->get('max_memory_limit') !== null) {
             ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
@@ -545,9 +547,9 @@ abstract class DaemonApplication extends CliApplication
                 Log::add('Unable to change process owner.', Log::CRITICAL);
 
                 return false;
-            } else {
-                Log::add('Unable to change process owner.', Log::WARNING);
             }
+
+            Log::add('Unable to change process owner.', Log::WARNING);
         }
 
         // Setup the signal handlers for the daemon.
@@ -609,7 +611,9 @@ abstract class DaemonApplication extends CliApplication
         // If the fork failed, throw an exception.
         if ($pid === -1) {
             throw new \RuntimeException('The process could not be forked.');
-        } elseif ($pid === 0) {
+        }
+
+        if ($pid === 0) {
             // Update the process id for the child.
             $this->processId = (int) posix_getpid();
         } else {
@@ -690,10 +694,10 @@ abstract class DaemonApplication extends CliApplication
         // If we are already exiting, chill.
         if ($this->exiting) {
             return;
-        } else {
-            // If not, now we are.
-            $this->exiting = true;
         }
+
+        // If not, now we are.
+        $this->exiting = true;
 
         // If we aren't already daemonized then just kill the application.
         if (!$this->running && !$this->isActive()) {

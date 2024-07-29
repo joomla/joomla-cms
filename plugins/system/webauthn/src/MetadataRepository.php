@@ -121,7 +121,7 @@ final class MetadataRepository implements MetadataStatementRepository
         $jwtFilename = JPATH_PLUGINS . '/system/webauthn/fido.jwt';
         $rawJwt      = file_get_contents($jwtFilename);
 
-        if (!is_string($rawJwt) || strlen($rawJwt) < 1024) {
+        if (!\is_string($rawJwt) || \strlen($rawJwt) < 1024) {
             return;
         }
 

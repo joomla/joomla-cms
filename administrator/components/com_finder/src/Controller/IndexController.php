@@ -82,7 +82,9 @@ class IndexController extends AdminController
         $this->checkToken();
 
         // Remove the script time limit.
-        @set_time_limit(0);
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
 
         /** @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model */
         $model = $this->getModel('Index', 'Administrator');
@@ -95,11 +97,11 @@ class IndexController extends AdminController
             $this->setRedirect('index.php?option=com_finder&view=index', $message);
 
             return false;
-        } else {
-            $message = Text::_('COM_FINDER_INDEX_PURGE_SUCCESS');
-            $this->setRedirect('index.php?option=com_finder&view=index', $message);
-
-            return true;
         }
+
+        $message = Text::_('COM_FINDER_INDEX_PURGE_SUCCESS');
+        $this->setRedirect('index.php?option=com_finder&view=index', $message);
+
+        return true;
     }
 }

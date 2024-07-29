@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -35,7 +34,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The list of newsfeeds
      *
-     * @var    CMSObject
+     * @var    array
      *
      * @since  1.6
      */
@@ -152,7 +151,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'rss newsfeeds');
 
-        if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
+        if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
             $toolbar->addNew('newsfeed.add');
         }
 
@@ -185,7 +184,11 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit.state', 'com_newsfeeds')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_NEWSFEEDS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }

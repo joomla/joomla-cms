@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 
+/** @var \Joomla\Component\Contact\Site\View\Contact\HtmlView $this */
 $icon = $this->params->get('contact_icons') == 0;
 
 /**
@@ -152,7 +153,7 @@ $icon = $this->params->get('contact_icons') == 0;
     <dd>
         <span class="contact-webpage">
             <a href="<?php echo $this->item->webpage; ?>" target="_blank" rel="noopener noreferrer">
-            <?php echo PunycodeHelper::urlToUTF8($this->item->webpage); ?></a>
+            <?php echo $this->escape(PunycodeHelper::urlToUTF8($this->item->webpage)); ?></a>
         </span>
     </dd>
 <?php endif; ?>

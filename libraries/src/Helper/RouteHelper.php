@@ -155,7 +155,7 @@ class RouteHelper
             $items = $menus->getItems($attributes, $values);
 
             foreach ($items as $item) {
-                if (isset($item->query) && isset($item->query['view'])) {
+                if (isset($item->query['view'])) {
                     $view = $item->query['view'];
 
                     if (!isset(static::$lookup[$language][$view])) {

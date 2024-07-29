@@ -37,7 +37,7 @@ final class Remember extends CMSPlugin
      *
      * @since   1.5
      *
-     * @throws  InvalidArgumentException
+     * @throws  \InvalidArgumentException
      */
     public function onAfterInitialise()
     {

@@ -650,7 +650,8 @@
       "deprecated": true,
       "uri": "",
       "dependencies": [
-        "core", "messages"
+        "core",
+        "messages"
       ],
       "attributes": {
         "nomodule": true,

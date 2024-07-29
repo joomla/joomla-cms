@@ -206,7 +206,9 @@ class ExtensionRemoveCommand extends AbstractCommand
             }
 
             return self::REMOVE_INVALID_TYPE;
-        } elseif (strtolower($response) === 'no') {
+        }
+
+        if (strtolower($response) === 'no') {
             $this->ioStyle->note('Extension not removed.');
 
             return self::REMOVE_ABORT;

@@ -2,14 +2,12 @@
 
 const { access, writeFile } = require('fs').promises;
 const { constants } = require('fs');
-const Autoprefixer = require('autoprefixer');
-const CssNano = require('cssnano');
 const { basename, sep, resolve } = require('path');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
-const Postcss = require('postcss');
+const LightningCSS = require('lightningcss');
 const { renderSync } = require('sass-embedded');
 const { minifyJsCode } = require('./minify.es6.js');
 const { getPackagesUnderScope } = require('../init/common/resolve-package.es6.js');
@@ -37,8 +35,11 @@ const getWcMinifiedCss = async (file) => {
     }
 
     if (typeof compiled === 'object' && compiled.css) {
-      return Postcss([Autoprefixer(), CssNano()])
-        .process(compiled.css.toString(), { from: undefined });
+      const { code } = LightningCSS.transform({
+        code: Buffer.from(compiled.css.toString()),
+        minify: true,
+      });
+      return code;
     }
   }
 
@@ -52,13 +53,15 @@ const collectExternals = () => {
     return;
   }
 
-  // Joomla modules
+  // Joomla and Vendor modules
   externalModules.push(
     'cropper-module',
     'codemirror',
     'joomla.dialog',
     'editor-api',
     'editor-decorator',
+    'sa11y',
+    'sa11y-lang',
   );
 
   // Codemirror modules

@@ -89,7 +89,9 @@ class TasksRunCommand extends AbstractCommand
             $this->ioStyle->writeln('<error>No matching task found!</error>');
 
             return Status::NO_TASK;
-        } elseif (!$records) {
+        }
+
+        if (!$records) {
             $this->ioStyle->writeln('<error>No tasks due!</error>');
 
             return Status::NO_TASK;

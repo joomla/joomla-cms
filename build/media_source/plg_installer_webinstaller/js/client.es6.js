@@ -103,8 +103,8 @@ class WebInstaller {
           const jedContainer = document.getElementById('jed-container');
           jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html, allowList);
 
-          document.getElementById('com-apps-searchbox').addEventListener('keypress', ({ which }) => {
-            if (which === 13) {
+          document.getElementById('com-apps-searchbox').addEventListener('keydown', ({ code }) => {
+            if (code === 'Enter') {
               this.initiateSearch();
             }
           });
@@ -184,7 +184,7 @@ class WebInstaller {
       WebInstaller.clicker();
 
       if (webInstallerOptions.view !== 'extension') {
-        [].slice.call(document.querySelectorAll('div.load-extension')).forEach((element) => {
+        document.querySelectorAll('div.load-extension').forEach((element) => {
           element.addEventListener('click', (event) => {
             event.preventDefault();
             this.processLinkClick(element.getAttribute('data-url'));
@@ -237,7 +237,7 @@ class WebInstaller {
   }
 
   clickforlinks() {
-    [].slice.call(document.querySelectorAll('a.transcode')).forEach((element) => {
+    document.querySelectorAll('a.transcode').forEach((element) => {
       const ajaxurl = element.getAttribute('href');
 
       element.addEventListener('click', (event) => {

@@ -20,6 +20,7 @@ use Joomla\Filesystem\Path;
  * Public cache handler
  *
  * @since  1.7.0
+ * @mixin  Cache
  * @note   As of 4.0 this class will be abstract
  */
 class CacheController
@@ -54,8 +55,8 @@ class CacheController
 
         // Overwrite default options with given options
         foreach ($options as $option => $value) {
-            if (isset($options[$option])) {
-                $this->options[$option] = $options[$option];
+            if ($value !== null) {
+                $this->options[$option] = $value;
             }
         }
     }

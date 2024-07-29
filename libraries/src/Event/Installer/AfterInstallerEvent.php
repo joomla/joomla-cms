@@ -59,7 +59,7 @@ class AfterInstallerEvent extends InstallerEvent
         }
 
         // For backward compatibility make sure the values is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['installerResult'] = &$arguments[3];
@@ -79,7 +79,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @since  5.0.0
      */
-    protected function setInstaller(ExtensionInstaller $value): ExtensionInstaller
+    protected function onSetInstaller(ExtensionInstaller $value): ExtensionInstaller
     {
         return $value;
     }
@@ -93,7 +93,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @since  5.0.0
      */
-    protected function setInstallerResult(bool $value): bool
+    protected function onSetInstallerResult(bool $value): bool
     {
         return $value;
     }
@@ -107,7 +107,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @since  5.0.0
      */
-    protected function setMessage(string $value): string
+    protected function onSetMessage(string $value): string
     {
         return $value;
     }
@@ -159,7 +159,7 @@ class AfterInstallerEvent extends InstallerEvent
      */
     public function updateInstallerResult(bool $value): static
     {
-        $this->arguments['installerResult'] = $value;
+        $this->arguments['installerResult'] = $this->onSetInstallerResult($value);
 
         return $this;
     }
@@ -175,7 +175,7 @@ class AfterInstallerEvent extends InstallerEvent
      */
     public function updateMessage(string $value): static
     {
-        $this->arguments['message'] = $value;
+        $this->arguments['message'] = $this->onSetMessage($value);
 
         return $this;
     }

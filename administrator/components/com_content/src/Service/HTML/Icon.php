@@ -95,7 +95,7 @@ class Icon
         }
 
         // Ignore if the state is negative (trashed).
-        if (!in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED])) {
+        if (!\in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED])) {
             return '';
         }
 
@@ -103,8 +103,8 @@ class Icon
         if (
             property_exists($article, 'checked_out')
             && property_exists($article, 'checked_out_time')
-            && !is_null($article->checked_out)
-            && $article->checked_out != $user->get('id')
+            && !\is_null($article->checked_out)
+            && $article->checked_out != $user->id
         ) {
             $checkoutUser = Factory::getUser($article->checked_out);
             $date         = HTMLHelper::_('date', $article->checked_out_time);

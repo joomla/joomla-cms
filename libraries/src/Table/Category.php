@@ -142,9 +142,9 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         // Return the asset id.
         if ($assetId) {
             return $assetId;
-        } else {
-            return parent::_getAssetParentId($table, $id);
         }
+
+        return parent::_getAssetParentId($table, $id);
     }
 
     /**
@@ -241,7 +241,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 
         if ($this->id) {
             // Existing category
-            $this->modified_user_id = $user->get('id');
+            $this->modified_user_id = $user->id;
             $this->modified_time    = $date;
         } else {
             if (!(int) ($this->modified_time)) {
@@ -250,7 +250,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 
             // Field created_user_id can be set by the user, so we don't touch it if it's set.
             if (empty($this->created_user_id)) {
-                $this->created_user_id = $user->get('id');
+                $this->created_user_id = $user->id;
             }
 
             if (empty($this->modified_user_id)) {

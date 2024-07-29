@@ -623,7 +623,7 @@ abstract class UserHelper
 
         // Convert PostgreSQL Session IDs into strings (see GitHub #33822)
         foreach ($sessionIds as &$sessionId) {
-            if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream') {
+            if (\is_resource($sessionId) && get_resource_type($sessionId) === 'stream') {
                 $sessionId = stream_get_contents($sessionId);
             }
         }

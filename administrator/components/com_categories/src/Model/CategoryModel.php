@@ -242,7 +242,7 @@ class CategoryModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A JForm object on success, false on failure
+     * @return  Form|boolean  A Form object on success, false on failure
      *
      * @since   1.6
      */
@@ -752,6 +752,8 @@ class CategoryModel extends AdminModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -890,11 +892,11 @@ class CategoryModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Non-fatal error
-                    $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                    $parentId = 0;
                 }
+
+                // Non-fatal error
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
             }
 
             // Check that user has create permission for parent category
@@ -918,7 +920,9 @@ class CategoryModel extends AdminModel
                 $this->setError($this->table->getError());
 
                 return false;
-            } elseif (!$this->user->authorise('core.create', $extension)) {
+            }
+
+            if (!$this->user->authorise('core.create', $extension)) {
                 // Make sure we can create in root
                 $this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
@@ -957,11 +961,11 @@ class CategoryModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Copy is a bit tricky, because we also need to copy the children
@@ -1092,11 +1096,11 @@ class CategoryModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Non-fatal error.
-                    $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                    $parentId = 0;
                 }
+
+                // Non-fatal error.
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
             }
 
             // Check that user has create permission for parent category.
@@ -1139,11 +1143,11 @@ class CategoryModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Set the new location in the tree for the node.
