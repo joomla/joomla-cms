@@ -225,18 +225,15 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                         if (empty($values)) {
                             // Do not start the tour.
                             $canAutostart = false;
-                        } else {
-                            if ($values['state'] === 'skipped' || $values['state'] === 'completed') {
-                                $canAutostart = false;
-                            }
-                            if ($values['state'] === 'delayed') {
-                                $delay       = $params->get('delayed_time', '3600');
-                                $currentTime = Date::getInstance();
-                                $loggedTime  = new Date($values['time']['date']);
+                        } else if ($values['state'] === 'skipped' || $values['state'] === 'completed') {
+                            $canAutostart = false;
+                        } else if ($values['state'] === 'delayed') {
+                            $delay       = $params->get('delayed_time', '3600');
+                            $currentTime = Date::getInstance();
+                            $loggedTime  = new Date($values['time']['date']);
 
-                                if ($loggedTime->add(new \DateInterval('PT' . $delay . 'S')) > $currentTime) {
-                                    $canAutostart = false;
-                                }
+                            if ($loggedTime->add(new \DateInterval('PT' . $delay . 'S')) > $currentTime) {
+                                $canAutostart = false;
                             }
                         }
                     }
