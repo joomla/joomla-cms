@@ -22,7 +22,6 @@ use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -142,7 +141,7 @@ class Task implements LoggerAwareInterface
 
         $this->set('taskOption', $taskOption);
         $this->app = Factory::getApplication();
-        $this->db  = Factory::getContainer()->get(DatabaseDriver::class);
+        $this->db  = Factory::getContainer()->get(DatabaseInterface::class);
         $this->setLogger(Log::createDelegatedLogger());
         $this->logCategory = 'task' . $this->get('id');
 
@@ -262,7 +261,7 @@ class Task implements LoggerAwareInterface
         }
 
         // The only acceptable "successful" statuses are either clean exit or resuming execution.
-        if (!in_array($this->snapshot['status'], [Status::WILL_RESUME, Status::OK])) {
+        if (!\in_array($this->snapshot['status'], [Status::WILL_RESUME, Status::OK])) {
             $this->set('times_failed', $this->get('times_failed') + 1);
         }
 
@@ -485,7 +484,7 @@ class Task implements LoggerAwareInterface
      */
     public function isSuccess(): bool
     {
-        return in_array(($this->snapshot['status'] ?? null), [Status::OK, Status::WILL_RESUME]);
+        return \in_array(($this->snapshot['status'] ?? null), [Status::OK, Status::WILL_RESUME]);
     }
 
     /**
@@ -535,7 +534,7 @@ class Task implements LoggerAwareInterface
         }
 
         // Takes care of interpreting as float/int
-        $state = $state + 0;
+        $state += 0;
 
         return ArrayHelper::getValue(self::STATE_MAP, $state) !== null;
     }

@@ -53,17 +53,17 @@ class FeedView extends BaseHtmlView
             $i++;
         }
 
-        $this->document->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
+        $this->getDocument()->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
 
         $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail = $app->get('mailfrom');
         $fromName  = $app->get('fromname');
         $feedEmail = $app->get('feed_email', 'none');
 
-        $this->document->editor = $fromName;
+        $this->getDocument()->editor = $fromName;
 
         if ($feedEmail !== 'none') {
-            $this->document->editorEmail = $siteEmail;
+            $this->getDocument()->editorEmail = $siteEmail;
         }
 
         // Get some data from the model
@@ -96,7 +96,7 @@ class FeedView extends BaseHtmlView
                 }
 
                 // Loads item info into RSS array
-                $this->document->addItem($feeditem);
+                $this->getDocument()->addItem($feeditem);
             }
         }
     }

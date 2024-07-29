@@ -153,7 +153,7 @@ class TaskModel extends AdminModel
      * @param   array  $data      Data that needs to go into the form
      * @param   bool   $loadData  Should the form load its data from the DB?
      *
-     * @return Form|boolean  A JForm object on success, false on failure.
+     * @return Form|boolean  A Form object on success, false on failure.
      *
      * @since  4.1.0
      * @throws \Exception
@@ -282,6 +282,18 @@ class TaskModel extends AdminModel
             if (!($data->id ?? 0)) {
                 $data->execution_rules['exec-day']  = gmdate('d');
                 $data->execution_rules['exec-time'] = gmdate('H:i');
+            }
+
+            if ($data->next_execution) {
+                $data->next_execution = Factory::getDate($data->next_execution);
+                $data->next_execution->setTimezone(new \DateTimeZone($this->app->get('offset', 'UTC')));
+                $data->next_execution = $data->next_execution->toSql(true);
+            }
+
+            if ($data->last_execution) {
+                $data->last_execution = Factory::getDate($data->last_execution);
+                $data->last_execution->setTimezone(new \DateTimeZone($this->app->get('offset', 'UTC')));
+                $data->last_execution = $data->last_execution->toSql(true);
             }
         }
 
@@ -444,7 +456,7 @@ class TaskModel extends AdminModel
                 return null;
             }
 
-            if (count($ids) === 0) {
+            if (\count($ids) === 0) {
                 $db->unlockTables();
 
                 return null;
@@ -664,7 +676,7 @@ class TaskModel extends AdminModel
         /** @var TaskTable $table */
         $table = $this->getTable();
 
-        $user = Factory::getApplication()->getIdentity();
+        $user = $this->getCurrentUser();
 
         $context = $this->option . '.' . $this->name;
 

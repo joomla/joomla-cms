@@ -4,20 +4,19 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\Table;
 
-use BadMethodCallException;
 use Joomla\Database\DatabaseQuery;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeReorder event
+ * Event class for \Joomla\CMS\Table\Table onBeforeReorder event
  *
  * @since  4.0.0
  */
@@ -27,23 +26,23 @@ class BeforeReorderEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * query        DatabaseQuery   The query to get the primary keys and ordering values for the selection.
-     * where        string          WHERE clause to use for limiting the selection of rows to compact the ordering values.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * query        DatabaseQuery                    The query to get the primary keys and ordering values for the selection.
+     * where        string                           WHERE clause to use for limiting the selection of rows to compact the ordering values.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('query', $arguments)) {
-            throw new BadMethodCallException("Argument 'query' is required for event $name");
+            throw new \BadMethodCallException("Argument 'query' is required for event $name");
         }
 
         if (!\array_key_exists('where', $arguments)) {
-            throw new BadMethodCallException("Argument 'where' is required for event $name");
+            throw new \BadMethodCallException("Argument 'where' is required for event $name");
         }
 
         parent::__construct($name, $arguments);
@@ -56,12 +55,15 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @return  mixed
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setQuery($value)
     {
         if (!($value instanceof DatabaseQuery)) {
-            throw new BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
+            throw new \BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
         }
 
         return $value;
@@ -74,14 +76,49 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @return  mixed
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
     {
         if (!empty($value) && !\is_string($value) && !\is_array($value)) {
-            throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
+            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the query argument
+     *
+     * @param   DatabaseQuery  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetQuery($value)
+    {
+        return $this->setQuery($value);
+    }
+
+    /**
+     * Setter for the where argument
+     *
+     * @param   array|string|null  $value  A string or array of where conditions.
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetWhere($value)
+    {
+        return $this->setWhere($value);
     }
 }

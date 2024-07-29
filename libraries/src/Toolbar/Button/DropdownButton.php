@@ -12,7 +12,7 @@ namespace Joomla\CMS\Toolbar\Button;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -82,20 +82,6 @@ class DropdownButton extends AbstractGroupButton
                     ->render();
             }
         }
-    }
-
-    /**
-     * Render button HTML.
-     *
-     * @param   array  $options  The button options.
-     *
-     * @return  string  The button HTML.
-     *
-     * @since  4.0.0
-     */
-    protected function renderButton(array &$options): string
-    {
-        return parent::renderButton($options);
     }
 
     /**

@@ -12,7 +12,7 @@
 
 namespace Joomla\CMS\Utility;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 /**
  * @deprecated  3.8 will be removed in 5.0

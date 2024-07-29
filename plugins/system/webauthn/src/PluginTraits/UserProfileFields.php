@@ -1,16 +1,15 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -91,7 +90,7 @@ trait UserProfileFields
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onContentPrepareForm(Event $event)
@@ -100,7 +99,7 @@ trait UserProfileFields
          * @var   Form  $form The form to be altered.
          * @var   mixed $data The associated data for the form.
          */
-        [$form, $data] = $event->getArguments();
+        [$form, $data] = array_values($event->getArguments());
 
         $name = $form->getName();
 
@@ -124,6 +123,9 @@ trait UserProfileFields
         if (!Uri::getInstance()->isSsl()) {
             return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Get the user object
         $user = $this->getUserFromData($data);
@@ -152,7 +154,7 @@ trait UserProfileFields
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onContentPrepareData(Event $event): void
@@ -161,11 +163,14 @@ trait UserProfileFields
          * @var   string|null        $context  The context for the data
          * @var   array|object|null  $data     An object or array containing the data for the form.
          */
-        [$context, $data] = $event->getArguments();
+        [$context, $data] = array_values($event->getArguments());
 
         if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
             return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         self::$userFromFormData = $this->getUserFromData($data);
 
@@ -181,7 +186,7 @@ trait UserProfileFields
      *
      * @return  User|null  A user object or null if no match is found
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     private function getUserFromData($data): ?User

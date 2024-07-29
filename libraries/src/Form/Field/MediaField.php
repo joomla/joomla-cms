@@ -11,13 +11,13 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -254,7 +254,7 @@ class MediaField extends FormField
             throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -293,9 +293,9 @@ class MediaField extends FormField
             $this->folder = $adapter . ':' . $path;
         } elseif ($this->value && is_file(JPATH_ROOT . '/' . $this->value)) {
             /**
-             * Local image, for example images/sampledata/cassiopeia/nasa2-640.jpg . We need to validate and make sure
-             * the top level folder is one of the directory configured in filesystem local plugin to avoid error message
-             * displayed in manage when users click on Select button to select a new image
+             * Local image, for example images/sampledata/cassiopeia/nasa2-640.jpg. We need to validate and make sure
+             * the top level folder is one of the directories configured in the filesystem local plugin to avoid an error
+             * message being displayed when users click on Select button to select a new image.
              */
             $paths = explode('/', Path::clean($this->value, '/'));
 
@@ -310,8 +310,8 @@ class MediaField extends FormField
             /**
              * This is the case where a folder is configured in directory attribute of the form field. The directory needs
              * to be a relative folder of the folder configured in Path to Images Folder config option of Media component.
-             * Same with a already stored local image above, we need to validate and make sure top level folder is one of the directory
-             * configured in filesystem local plugin
+             * Same with an already stored local image above, we need to validate and make sure the top level folder is one of the
+             * directories configured in the filesystem local plugin.
              */
             $path  = ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory;
             $paths = explode('/', Path::clean($path, '/'));
@@ -382,20 +382,23 @@ class MediaField extends FormField
         array_map(
             function ($mediaType) use (&$types, &$imagesAllowedExt, &$audiosAllowedExt, &$videosAllowedExt, &$documentsAllowedExt, $imagesExt, $audiosExt, $videosExt, $documentsExt) {
                 switch ($mediaType) {
+                    case 'directories':
+                        $types[] = '-1';
+                        break;
                     case 'images':
-                        $types[] = '0';
+                        $types[]          = '0';
                         $imagesAllowedExt = $imagesExt;
                         break;
                     case 'audios':
-                        $types[] = '1';
+                        $types[]          = '1';
                         $audiosAllowedExt = $audiosExt;
                         break;
                     case 'videos':
-                        $types[] = '2';
+                        $types[]          = '2';
                         $videosAllowedExt = $videosExt;
                         break;
                     case 'documents':
-                        $types[] = '3';
+                        $types[]             = '3';
                         $documentsAllowedExt = $documentsExt;
                         break;
                     default:
@@ -417,6 +420,7 @@ class MediaField extends FormField
             'previewHeight'       => $this->previewHeight,
             'previewWidth'        => $this->previewWidth,
             'mediaTypes'          => implode(',', $types),
+            'mediaTypeNames'      => $mediaTypes,
             'imagesExt'           => $imagesExt,
             'audiosExt'           => $audiosExt,
             'videosExt'           => $videosExt,

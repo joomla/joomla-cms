@@ -1,40 +1,31 @@
 describe('Test that media files API endpoint', () => {
-  // Ensure test dir is available and has correct permissions
-  beforeEach(() => cy.task('writeFile', { path: 'images/test-dir/dummy.txt', content: '1' }));
-  afterEach(() => cy.task('deleteFolder', 'images/test-dir'));
+  // Ensure 'test-dir' (relative to cmsPath) is available and has correct permissions
+  beforeEach(() => cy.task('writeRelativeFile', { path: 'images/test-dir/dummy.txt', content: '1' }));
+  // If it exists, delete the 'test-dir' (relative to cmsPath) and its contents
+  afterEach(() => cy.task('deleteRelativePath', 'images/test-dir'));
 
   it('can deliver a list of files', () => {
     cy.api_get('/media/files')
       .then((response) => {
-        cy.wrap(response).its('body').its('data.0').its('attributes')
-          .its('name')
-          .should('include', 'banners');
-        cy.wrap(response).its('body').its('data.4').its('attributes')
-          .its('name')
-          .should('include', 'joomla_black.png');
+        cy.api_responseContains(response, 'name', 'banners');
+        cy.api_responseContains(response, 'name', 'joomla_black.png');
       });
   });
 
   it('can deliver a list of files in a subfolder', () => {
     cy.api_get('/media/files/sampledata/cassiopeia/')
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
-        .its('name')
-        .should('include', 'nasa1-1200.jpg'));
+      .then((response) => cy.api_responseContains(response, 'name', 'nasa1-1200.jpg'));
   });
 
   it('can deliver a list of files with an adapter', () => {
     cy.api_get('/media/files/local-images:/sampledata/cassiopeia/')
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
-        .its('name')
-        .should('include', 'nasa1-1200.jpg'));
+      .then((response) => cy.api_responseContains(response, 'name', 'nasa1-1200.jpg'));
   });
 
   it('can search in filenames', () => {
     cy.api_get('/media/files?filter[search]=joomla')
       .then((response) => {
-        cy.wrap(response).its('body').its('data.0').its('attributes')
-          .its('name')
-          .should('include', 'joomla_black.png');
+        cy.api_responseContains(response, 'name', 'joomla_black.png');
         cy.wrap(response).its('body').its('data').should('have.length', 1);
       });
   });
@@ -111,7 +102,7 @@ describe('Test that media files API endpoint', () => {
   });
 
   it('can update a file without adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/override.jpg', content: '1' })
+    cy.task('writeRelativeFile', { path: 'images/test-dir/override.jpg', content: '1' })
       .then(() => cy.readFile('tests/System/data/com_media/test-image-1.jpg', 'binary'))
       .then((data) => cy.api_patch(
         '/media/files/test-dir/override.jpg',
@@ -127,7 +118,7 @@ describe('Test that media files API endpoint', () => {
   });
 
   it('can update a folder without adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/override/test.jpg', content: '1' })
+    cy.task('writeRelativeFile', { path: 'images/test-dir/override/test.jpg', content: '1' })
       .then(() => cy.api_patch('/media/files/test-dir/override', { path: 'test-dir/override-new' }))
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
@@ -140,7 +131,7 @@ describe('Test that media files API endpoint', () => {
   });
 
   it('can update a file with adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/override.jpg', content: '1' })
+    cy.task('writeRelativeFile', { path: 'images/test-dir/override.jpg', content: '1' })
       .then(() => cy.readFile('tests/System/data/com_media/test-image-1.jpg', 'binary'))
       .then((data) => cy.api_patch(
         '/media/files/local-images:/test-dir/override.jpg',
@@ -156,7 +147,7 @@ describe('Test that media files API endpoint', () => {
   });
 
   it('can update a folder with adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/override/test.jpg', content: '1' })
+    cy.task('writeRelativeFile', { path: 'images/test-dir/override/test.jpg', content: '1' })
       .then(() => cy.api_patch('/media/files/local-images:/test-dir/override', { path: 'local-images:/test-dir/override-new' }))
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
@@ -169,22 +160,22 @@ describe('Test that media files API endpoint', () => {
   });
 
   it('can delete a file without adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/todelete.jpg', content: '1' })
+    cy.task('writeRelativeFile', { path: 'images/test-dir/todelete.jpg', content: '1' })
       .then(() => cy.api_delete('/media/files/test-dir/todelete.jpg'));
   });
 
   it('can delete a folder without adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/todelete/dummy.txt', content: '1' })
+    cy.task('writeRelativeFile', { path: 'images/test-dir/todelete/dummy.txt', content: '1' })
       .then(() => cy.api_delete('/media/files/test-dir/todelete'));
   });
 
   it('can delete a file with adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/todelete.jpg', content: '1' })
+    cy.task('writeRelativeFile', { path: 'images/test-dir/todelete.jpg', content: '1' })
       .then(() => cy.api_delete('/media/files/local-images:/test-dir/todelete.jpg'));
   });
 
   it('can delete a folder with adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/todelete/dummy.txt', content: '1' })
+    cy.task('writeRelativeFile', { path: 'images/test-dir/todelete/dummy.txt', content: '1' })
       .then(() => cy.api_delete('/media/files/local-images:/test-dir/todelete'));
   });
 });

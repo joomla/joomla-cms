@@ -3,8 +3,8 @@
     <div class="media-sidebar">
       <MediaDisk
         v-for="(disk, index) in disks"
-        :key="index"
-        :uid="index"
+        :key="index.toString()"
+        :uid="index.toString()"
         :disk="disk"
       />
     </div>
@@ -78,7 +78,7 @@ export default {
     });
 
     // Initial load the data
-    this.$store.dispatch('getContents', this.$store.state.selectedDirectory);
+    this.$store.dispatch('getContents', this.$store.state.selectedDirectory, false, false);
   },
   beforeUnmount() {
     // Remove the global resize event listener

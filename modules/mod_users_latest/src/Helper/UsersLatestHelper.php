@@ -38,7 +38,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
      *
      * @return  array  The array of users
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function getLatestUsers(Registry $params, SiteApplication $app): array
     {
@@ -85,7 +85,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
      *
      * @since   1.6
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *             Use the non-static method getLatestUsers
      *             Example: Factory::getApplication()->bootModule('mod_users_latest', 'site')
      *                          ->getHelper('UsersLatestHelper')

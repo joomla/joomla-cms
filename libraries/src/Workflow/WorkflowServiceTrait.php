@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Workflow;
@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\Event\DispatcherAwareInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -59,11 +59,11 @@ trait WorkflowServiceTrait
             return false;
         }
 
-        if (!is_array($this->supportedFunctionality[$functionality])) {
+        if (!\is_array($this->supportedFunctionality[$functionality])) {
             return true;
         }
 
-        return in_array($context, $this->supportedFunctionality[$functionality], true);
+        return \in_array($context, $this->supportedFunctionality[$functionality], true);
     }
 
     /**
@@ -125,7 +125,7 @@ trait WorkflowServiceTrait
     {
         $parts = explode('.', $context);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return '';
         }
 

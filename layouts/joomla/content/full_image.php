@@ -22,7 +22,6 @@ if (empty($images->image_fulltext)) {
 $imgclass   = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext;
 $layoutAttr = [
     'src'      => $images->image_fulltext,
-    'itemprop' => 'image',
     'alt'      => empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? false : $images->image_fulltext_alt,
 ];
 ?>

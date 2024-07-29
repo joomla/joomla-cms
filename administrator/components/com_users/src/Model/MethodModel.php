@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -73,7 +72,7 @@ class MethodModel extends BaseDatabaseModel
      */
     public function methodExists(string $method): bool
     {
-        if (!is_array($this->mfaMethods)) {
+        if (!\is_array($this->mfaMethods)) {
             $this->populateMfaMethods();
         }
 
@@ -84,14 +83,14 @@ class MethodModel extends BaseDatabaseModel
      * @param   User|null  $user  The user record. Null to use the currently logged in user.
      *
      * @return  array
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
     public function getRenderOptions(?User $user = null): SetupRenderOptions
     {
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser();
         }
 
         $renderOptions = new SetupRenderOptions();
@@ -123,13 +122,13 @@ class MethodModel extends BaseDatabaseModel
      * @param   User|null  $user  The user record. Null to use the currently logged in user.
      *
      * @return  MfaTable
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
     public function getRecord(User $user = null): MfaTable
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -188,20 +187,20 @@ class MethodModel extends BaseDatabaseModel
      * @param   User|null  $user  The user record. Null to use the current user.
      *
      * @return  MfaTable
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
     protected function getDefaultRecord(?User $user = null): MfaTable
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
         $method = $this->getState('method');
         $title  = '';
 
-        if (is_null($this->mfaMethods)) {
+        if (\is_null($this->mfaMethods)) {
             $this->populateMfaMethods();
         }
 

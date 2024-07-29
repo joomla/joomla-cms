@@ -12,7 +12,6 @@ namespace Joomla\CMS\Installer\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
@@ -22,10 +21,11 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -1068,8 +1068,8 @@ class ComponentAdapter extends InstallerAdapter
             $data['menutype']     = 'main';
             $data['client_id']    = 1;
             $data['title']        = (string) trim($child);
-            $data['alias']        = (string) $child;
-            $data['type']         = 'component';
+            $data['alias']        = ((string) $child->attributes()->alias) ?: (string) $child;
+            $data['type']         = ((string) $child->attributes()->type) ?: 'component';
             $data['published']    = 1;
             $data['parent_id']    = $parent_id;
             $data['component_id'] = $componentId;
@@ -1437,22 +1437,22 @@ class ComponentAdapter extends InstallerAdapter
                 Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 
                 return false;
-            } else {
-                /** @var  \Joomla\CMS\Table\Menu $temporaryTable */
-                $temporaryTable = Table::getInstance('menu');
-                $temporaryTable->delete($menu_id, true);
-                $temporaryTable->load($parentId);
-                $temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);
+            }
 
-                // Retry creating the menu item
-                $table->setLocation($parentId, 'last-child');
+            /** @var  \Joomla\CMS\Table\Menu $temporaryTable */
+            $temporaryTable = Table::getInstance('menu');
+            $temporaryTable->delete($menu_id, true);
+            $temporaryTable->load($parentId);
+            $temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);
 
-                if (!$table->bind($data) || !$table->check() || !$table->store()) {
-                    // Install failed, warn user and rollback changes
-                    Factory::getApplication()->enqueueMessage($table->getError(), 'error');
+            // Retry creating the menu item
+            $table->setLocation($parentId, 'last-child');
 
-                    return false;
-                }
+            if (!$table->bind($data) || !$table->check() || !$table->store()) {
+                // Install failed, warn user and rollback changes
+                Factory::getApplication()->enqueueMessage($table->getError(), 'error');
+
+                return false;
             }
         }
 

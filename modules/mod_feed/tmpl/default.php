@@ -10,9 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filter\OutputFilter;
 
 // Check if feed URL has been set
 if (empty($rssurl)) {
@@ -59,7 +59,7 @@ if (!empty($feed) && is_string($feed)) {
             <?php
         }
         // Feed date
-        if ($params->get('rssdate', 1)) : ?>
+        if ($params->get('rssdate', 1) && ($feed->publishedDate !== null)) : ?>
             <h3>
             <?php echo HTMLHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
             </h3>
@@ -95,7 +95,7 @@ if (!empty($feed) && is_string($feed)) {
                         <span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
                     <?php endif; ?>
 
-                    <?php if ($params->get('rssitemdate', 0)) : ?>
+                    <?php if ($params->get('rssitemdate', 0)  && $feed[$i]->publishedDate !== null) : ?>
                         <div class="feed-item-date">
                             <?php echo HTMLHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
                         </div>

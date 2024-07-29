@@ -2,7 +2,7 @@
 
 /**
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
@@ -72,7 +72,7 @@ class ImageTest extends UnitTestCase
         parent::setUp();
 
         // Verify that GD support for PHP is available.
-        if (!extension_loaded('gd')) {
+        if (!\extension_loaded('gd')) {
             $this->markTestSkipped('No GD support so skipping Image tests.');
         }
 
@@ -1073,13 +1073,13 @@ class ImageTest extends UnitTestCase
 
         $actualCropTop = $cropTop;
 
-        if (is_null($cropTop)) {
+        if (\is_null($cropTop)) {
             $cropTop = round(($startHeight - $cropHeight) / 2);
         }
 
         $actualCropLeft = $cropLeft;
 
-        if (is_null($cropLeft)) {
+        if (\is_null($cropLeft)) {
             $cropLeft = round(($startWidth - $cropWidth) / 2);
         }
 

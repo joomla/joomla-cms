@@ -10,13 +10,12 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
-use Generator;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -44,20 +43,20 @@ class ActionlogsHelper
      *
      * @param   array|\Traversable  $data  The logs data objects to be exported
      *
-     * @return  Generator
+     * @return  \Generator
      *
      * @since   3.9.0
      *
      * @throws  \InvalidArgumentException
      */
-    public static function getCsvData($data): Generator
+    public static function getCsvData($data): \Generator
     {
         if (!is_iterable($data)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
-                    \gettype($data) === 'object' ? \get_class($data) : \gettype($data)
+                    \is_object($data) ? \get_class($data) : \gettype($data)
                 )
             );
         }
@@ -178,10 +177,10 @@ class ActionlogsHelper
      */
     public static function getHumanReadableLogMessage($log, $generateLinks = true)
     {
+        static::loadActionLogPluginsLanguage();
         static $links = [];
-
-        $message     = Text::_($log->message_language_key);
-        $messageData = json_decode($log->message, true);
+        $message      = Text::_($log->message_language_key);
+        $messageData  = json_decode($log->message, true);
 
         // Special handling for translation extension name
         if (isset($messageData['extension_name'])) {
@@ -197,6 +196,12 @@ class ActionlogsHelper
         // Translating type
         if (isset($messageData['type'])) {
             $messageData['type'] = Text::_($messageData['type']);
+        }
+
+        // Remove links from the message template, if we should not generate links.
+        if (!$generateLinks) {
+            $message = preg_replace('/<a href=["\'].+?["\']>/', '', $message);
+            $message = str_replace('</a>', '', $message);
         }
 
         $linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
@@ -324,6 +329,12 @@ class ActionlogsHelper
 
         // Load plg_system_actionlogs too
         $lang->load('plg_system_actionlogs', JPATH_ADMINISTRATOR);
+
+        // Load plg_system_privacyconsent too
+        $lang->load('plg_system_privacyconsent', JPATH_ADMINISTRATOR);
+
+        // Load plg_user_terms too
+        $lang->load('plg_user_terms', JPATH_ADMINISTRATOR);
 
         // Load com_privacy too.
         $lang->load('com_privacy', JPATH_ADMINISTRATOR);

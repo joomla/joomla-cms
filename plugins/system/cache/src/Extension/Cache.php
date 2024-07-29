@@ -13,6 +13,10 @@ namespace Joomla\Plugin\System\Cache\Extension;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Document\FactoryInterface as DocumentFactoryInterface;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\PageCache\GetKeyEvent;
+use Joomla\CMS\Event\PageCache\IsExcludedEvent;
+use Joomla\CMS\Event\PageCache\SetCachingEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
@@ -77,32 +81,32 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface              $subject                 The object to observe
-     * @param   array                            $config                  An optional associative
-     *                                                                    array of configuration
-     *                                                                    settings. Recognized key
-     *                                                                    values include 'name',
-     *                                                                    'group', 'params',
-     *                                                                    'language'
-     *                                                                    (this list is not meant
-     *                                                                    to be comprehensive).
-     * @param   DocumentFactoryInterface         $documentFactory         The application's
-     *                                                                    document factory
-     * @param   CacheControllerFactoryInterface  $cacheControllerFactory  Cache controller factory
-     * @param   Profiler|null                    $profiler                The application profiler
-     * @param   SiteRouter|null                  $router                  The frontend router
+     * @param   DispatcherInterface              $dispatcher                 The object to observe
+     * @param   array                            $config                     An optional associative
+     *                                                                       array of configuration
+     *                                                                       settings. Recognized key
+     *                                                                       values include 'name',
+     *                                                                       'group', 'params',
+     *                                                                       'language'
+     *                                                                       (this list is not meant
+     *                                                                       to be comprehensive).
+     * @param   DocumentFactoryInterface         $documentFactory            The application's
+     *                                                                       document factory
+     * @param   CacheControllerFactoryInterface  $cacheControllerFactory     Cache controller factory
+     * @param   Profiler|null                    $profiler                   The application profiler
+     * @param   SiteRouter|null                  $router                     The frontend router
      *
      * @since   4.2.0
      */
     public function __construct(
-        &$subject,
-        $config,
+        DispatcherInterface $dispatcher,
+        array $config,
         DocumentFactoryInterface $documentFactory,
         CacheControllerFactoryInterface $cacheControllerFactory,
         ?Profiler $profiler,
         ?SiteRouter $router
     ) {
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
 
         $this->documentFactory        = $documentFactory;
         $this->cacheControllerFactory = $cacheControllerFactory;
@@ -147,12 +151,15 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // If any `pagecache` plugins return false for onPageCacheSetCaching, do not use the cache.
-        PluginHelper::importPlugin('pagecache');
+        // Import "pagecache" plugins
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('pagecache', null, true, $dispatcher);
 
-        $results = $this->getApplication()->triggerEvent('onPageCacheSetCaching');
+        // If any onPageCacheSetCaching listener return false, do not use the cache.
+        $results = $dispatcher->dispatch('onPageCacheSetCaching', new SetCachingEvent('onPageCacheSetCaching'))
+            ->getArgument('result', []);
 
-        $this->getCacheController()->setCaching(!in_array(false, $results, true));
+        $this->getCacheController()->setCaching(!\in_array(false, $results, true));
 
         $data = $this->getCacheController()->get($this->getCacheKey());
 
@@ -177,7 +184,12 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 $this->profiler->mark('afterCache');
             }
 
-            $this->getApplication()->triggerEvent('onAfterRespond');
+            $this->getDispatcher()->dispatch('onAfterRespond', new AfterRespondEvent(
+                'onAfterRespond',
+                [
+                    'subject' => $this->getApplication(),
+                ]
+            ));
         }
 
         // Closes the application.
@@ -257,9 +269,9 @@ final class Cache extends CMSPlugin implements SubscriberInterface
         static $key;
 
         if (!$key) {
-            PluginHelper::importPlugin('pagecache');
+            $parts = $this->getDispatcher()->dispatch('onPageCacheGetKey', new GetKeyEvent('onPageCacheGetKey'))
+                ->getArgument('result', []);
 
-            $parts   = $this->getApplication()->triggerEvent('onPageCacheGetKey');
             $parts[] = Uri::getInstance()->toString();
 
             $key = md5(serialize($parts));
@@ -309,7 +321,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             // Get the current menu item.
             $active = $this->getApplication()->getMenu()->getActive();
 
-            if ($active && $active->id && in_array((int) $active->id, (array) $excludedMenuItems)) {
+            if ($active && $active->id && \in_array((int) $active->id, (array) $excludedMenuItems)) {
                 return true;
             }
         }
@@ -321,6 +333,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             // Convert the exclusions into a normalised array
             $exclusions       = str_replace(["\r\n", "\r"], "\n", $exclusions);
             $exclusions       = explode("\n", $exclusions);
+            $exclusions       = array_map('trim', $exclusions);
             $filterExpression = function ($x) {
                 return $x !== '';
             };
@@ -331,28 +344,22 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 . Uri::getInstance()->buildQuery($this->router->getVars());
             $externalUrl = Uri::getInstance()->toString();
 
-            $reduceCallback
-                = function (bool $carry, string $exclusion) use ($internalUrl, $externalUrl) {
-                    // Test both external and internal URIs
-                    return $carry && preg_match(
-                        '#' . $exclusion . '#i',
-                        $externalUrl . ' ' . $internalUrl,
-                        $match
-                    );
-                };
-            $excluded       = array_reduce($exclusions, $reduceCallback, false);
-
-            if ($excluded) {
-                return true;
+            // Loop through each pattern.
+            if ($exclusions) {
+                foreach ($exclusions as $exclusion) {
+                    // Test both external and internal URI
+                    if (preg_match('#' . $exclusion . '#i', $externalUrl . ' ' . $internalUrl, $match)) {
+                        return true;
+                    }
+                }
             }
         }
 
-        // If any pagecache plugins return true for onPageCacheIsExcluded, exclude.
-        PluginHelper::importPlugin('pagecache');
+        // If any onPageCacheIsExcluded listener return true, exclude.
+        $results = $this->getDispatcher()->dispatch('onPageCacheIsExcluded', new IsExcludedEvent('onPageCacheIsExcluded'))
+            ->getArgument('result', []);
 
-        $results = $this->getApplication()->triggerEvent('onPageCacheIsExcluded');
-
-        return in_array(true, $results, true);
+        return \in_array(true, $results, true);
     }
 
     /**

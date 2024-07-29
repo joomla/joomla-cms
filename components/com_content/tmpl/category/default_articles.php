@@ -22,8 +22,9 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_content.articles-list');
 
 // Create some shortcuts.
@@ -123,49 +124,47 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
             </caption>
-            <?php if ($this->params->get('show_headings')) : ?>
-                <thead>
-                    <tr>
-                        <th scope="col" id="categorylist_header_title">
-                            <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
+            <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
+                <tr>
+                    <th scope="col" id="categorylist_header_title">
+                        <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
+                    </th>
+                    <?php if ($date = $this->params->get('list_show_date')) : ?>
+                        <th scope="col" id="categorylist_header_date">
+                            <?php if ($date === 'created') : ?>
+                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
+                            <?php elseif ($date === 'modified') : ?>
+                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
+                            <?php elseif ($date === 'published') : ?>
+                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
+                            <?php endif; ?>
                         </th>
-                        <?php if ($date = $this->params->get('list_show_date')) : ?>
-                            <th scope="col" id="categorylist_header_date">
-                                <?php if ($date === 'created') : ?>
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
-                                <?php elseif ($date === 'modified') : ?>
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
-                                <?php elseif ($date === 'published') : ?>
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
-                                <?php endif; ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($this->params->get('list_show_author')) : ?>
-                            <th scope="col" id="categorylist_header_author">
-                                <?php echo HTMLHelper::_('grid.sort', 'JAUTHOR', 'author', $listDirn, $listOrder); ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($this->params->get('list_show_hits')) : ?>
-                            <th scope="col" id="categorylist_header_hits">
-                                <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
-                            <th scope="col" id="categorylist_header_votes">
-                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
-                            <th scope="col" id="categorylist_header_ratings">
-                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($isEditable) : ?>
-                            <th scope="col" id="categorylist_header_edit"><?php echo Text::_('COM_CONTENT_EDIT_ITEM'); ?></th>
-                        <?php endif; ?>
-                    </tr>
-                </thead>
-            <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if ($this->params->get('list_show_author')) : ?>
+                        <th scope="col" id="categorylist_header_author">
+                            <?php echo HTMLHelper::_('grid.sort', 'JAUTHOR', 'author', $listDirn, $listOrder); ?>
+                        </th>
+                    <?php endif; ?>
+                    <?php if ($this->params->get('list_show_hits')) : ?>
+                        <th scope="col" id="categorylist_header_hits">
+                            <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+                        </th>
+                    <?php endif; ?>
+                    <?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
+                        <th scope="col" id="categorylist_header_votes">
+                            <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+                        </th>
+                    <?php endif; ?>
+                    <?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
+                        <th scope="col" id="categorylist_header_ratings">
+                            <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
+                        </th>
+                    <?php endif; ?>
+                    <?php if ($isEditable) : ?>
+                        <th scope="col" id="categorylist_header_edit"><?php echo Text::_('COM_CONTENT_EDIT_ITEM'); ?></th>
+                    <?php endif; ?>
+                </tr>
+            </thead>
             <tbody>
             <?php foreach ($this->items as $i => $article) : ?>
                 <?php if ($this->items[$i]->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>

@@ -120,7 +120,7 @@ class RouteHelper
             $menu   = $app->getMenu();
             $active = $menu->getActive();
             $items  = $menu->getItems('component_id', $com->id);
-            $items  = is_array($items) ? $items : [];
+            $items  = \is_array($items) ? $items : [];
         }
 
         // Try to match the active view and filter.

@@ -23,7 +23,7 @@ use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -131,7 +131,7 @@ class ComponentHelper
         // Filter settings
         $config     = static::getParams('com_config');
         $user       = Factory::getUser();
-        $userGroups = Access::getGroupsByUser($user->get('id'));
+        $userGroups = Access::getGroupsByUser($user->id);
 
         $filters = $config->get('filters');
 

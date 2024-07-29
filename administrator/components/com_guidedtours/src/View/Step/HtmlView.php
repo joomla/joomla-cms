@@ -38,7 +38,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The active item
      *
-     * @var object
+     * @var \stdClass
      */
     protected $item;
 
@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
@@ -145,7 +145,7 @@ class HtmlView extends BaseHtmlView
         }
 
         ToolbarHelper::divider();
-        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] === 'show';
         $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
 
         if ($inlinehelp) {

@@ -291,7 +291,7 @@ class WorkflowModel extends AdminModel
             if (
                 $table->load(
                     [
-                    'default' => '1',
+                    'default'   => '1',
                     'extension' => $table->get('extension'),
                     ]
                 )

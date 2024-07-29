@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -20,7 +19,8 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
 
-$user             = Factory::getApplication()->getIdentity();
+/** @var \Joomla\Component\Finder\Site\View\Search\HtmlView $this */
+$user             = $this->getCurrentUser();
 $show_description = $this->params->get('show_description', 1);
 
 if ($show_description) {
@@ -72,10 +72,10 @@ if ($this->params->get('show_url', 1)) {
         <figure class="<?php echo htmlspecialchars($imageClass, ENT_COMPAT, 'UTF-8'); ?> result__image">
             <?php if ($this->params->get('link_image') && $this->result->route) : ?>
                 <a href="<?php echo Route::_($this->result->route); ?>">
-                    <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr); ?>
+                    <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr, false, -1); ?>
                 </a>
             <?php else : ?>
-                <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr); ?>
+                <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr, false, -1); ?>
             <?php endif; ?>
         </figure>
     <?php endif; ?>

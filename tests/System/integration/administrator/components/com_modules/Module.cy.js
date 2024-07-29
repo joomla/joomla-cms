@@ -1,5 +1,9 @@
 describe('Test in backend that the module form', () => {
-  beforeEach(() => cy.doAdministratorLogin());
+  beforeEach(() => {
+    cy.doAdministratorLogin();
+    // Clear the filter
+    cy.visit('/administrator/index.php?option=com_modules&filter=');
+  });
   afterEach(() => cy.task('queryDB', "DELETE FROM #__modules WHERE title = 'Test module'"));
 
   it('can create a module', () => {
@@ -16,10 +20,6 @@ describe('Test in backend that the module form', () => {
       cy.visit(`/administrator/index.php?option=com_modules&task=module.edit&id=${id}`);
       cy.get('#jform_title').clear().type('Test module edited');
       cy.clickToolbarButton('Save & Close');
-
-      // This is needed as it can be that the backend list still has a filter active
-      cy.visit('/administrator/index.php?option=com_modules&view=modules&filter=');
-      cy.reload();
 
       cy.contains('Test module edited');
     });

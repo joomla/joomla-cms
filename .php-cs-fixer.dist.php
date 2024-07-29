@@ -9,8 +9,8 @@
 /**
  * This is the configuration file for php-cs-fixer
  *
- * @see https://github.com/FriendsOfPHP/PHP-CS-Fixer
- * @see https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0
+ * @link https://github.com/FriendsOfPHP/PHP-CS-Fixer
+ * @link https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0
  *
  *
  * If you would like to run the automated clean up, then open a command line and type one of the commands below
@@ -61,6 +61,7 @@ $finder = PhpCsFixer\Finder::create()
 
 $config = new PhpCsFixer\Config();
 $config
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRiskyAllowed(true)
     ->setHideProgress(false)
     ->setUsingCache(false)
@@ -70,14 +71,24 @@ $config
             '@PSR12'                         => true,
             // Short array syntax
             'array_syntax'                   => ['syntax' => 'short'],
-            // Lists should not have a trailing comma like list($foo, $bar,) = ...
-            'no_trailing_comma_in_list_call' => true,
+            // List of values separated by a comma is contained on a single line should not have a trailing comma like [$foo, $bar,] = ...
+            'no_trailing_comma_in_singleline' => true,
             // Arrays on multiline should have a trailing comma
             'trailing_comma_in_multiline'    => ['elements' => ['arrays']],
             // Align elements in multiline array and variable declarations on new lines below each other
             'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
             // The "No break" comment in switch statements
             'no_break_comment'               => ['comment_text' => 'No break'],
+            // Remove unused imports
+            'no_unused_imports'              => true,
+            // Classes from the global namespace should not be imported
+            'global_namespace_import'        => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
+            // Alpha order imports
+            'ordered_imports'                => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
+            // There should not be useless else cases
+            'no_useless_else'                => true,
+            // Native function invocation
+            'native_function_invocation'     => ['include' => ['@compiler_optimized']],
         ]
     )
     ->setFinder($finder);

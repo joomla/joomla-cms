@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -82,9 +83,9 @@ class ArchiveModel extends ArticlesModel
     }
 
     /**
-     * Get the master query for retrieving a list of articles subject to the model state.
+     * Get the main query for retrieving a list of articles subject to the model state.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -123,7 +124,7 @@ class ArchiveModel extends ArticlesModel
                 ->bind(':year', $year, ParameterType::INTEGER);
         }
 
-        if (count($catids) > 0) {
+        if (\count($catids) > 0) {
             $query->whereIn($db->quoteName('c.id'), $catids);
         }
 

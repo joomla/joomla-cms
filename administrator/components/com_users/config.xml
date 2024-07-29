@@ -220,7 +220,7 @@
 	>
 		<field
 			name="allowed_positions_frontend"
-			type="modulesposition"
+			type="ModulesPosition"
 			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_LABEL"
 			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_DESC"
 			default=""
@@ -243,7 +243,7 @@
 
 		<field
 			name="allowed_positions_backend"
-			type="modulesposition"
+			type="ModulesPosition"
 			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_LABEL"
 			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_DESC"
 			default=""
@@ -328,6 +328,30 @@
 			description="COM_USERS_CONFIG_REDIRECTURL_DESC"
 			default=""
 			showon="mfaredirectonlogin:1"
+		/>
+
+		<field
+			name="mfatrycount"
+			type="number"
+			label="COM_USERS_CONFIG_MFATRYCOUNT_LABEL"
+			filter="integer"
+			min="0"
+			max="20"
+			step="1"
+			default="10"
+			validate="number"
+		/>
+
+		<field
+			name="mfatrytime"
+			type="number"
+			label="COM_USERS_CONFIG_MFATRYTIME_LABEL"
+			filter="integer"
+			min="1"
+			max="24"
+			step="1"
+			default="1"
+			validate="number"
 		/>
 	</fieldset>
 

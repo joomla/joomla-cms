@@ -4,13 +4,9 @@ describe('Test in frontend that the users profile view', () => {
       name: 'automated test user', username: 'automatedtestuser', password: '098f6bcd4621d373cade4e832627b4f6', registerDate: '2023-03-01 20:00:00',
     })
       .then(() => {
+        cy.doFrontendLogin('automatedtestuser', 'test', false);
         cy.visit('/index.php?option=com_users&view=profile');
-        cy.get('#username').type('automatedtestuser');
-        cy.get('#password').type('test');
-        cy.get('#remember').check();
-        cy.get('.controls > .btn').click();
 
-        cy.get('#system-message-container').should('contain.text', 'You have been logged in.');
         cy.get('#users-profile-core').should('contain.text', 'Profile');
         cy.get('#users-profile-core').should('contain.text', 'Name');
         cy.get('#users-profile-core').should('contain.text', 'automated test user');
@@ -27,14 +23,10 @@ describe('Test in frontend that the users profile view', () => {
     })
       .then(() => cy.db_createMenuItem({ title: 'Automated test user profile', link: 'index.php?option=com_users&view=profile' }))
       .then(() => {
+        cy.doFrontendLogin('automatedtestuser', 'test', false);
         cy.visit('/');
         cy.get('a:contains(Automated test user profile)').click();
-        cy.get('#username').type('automatedtestuser');
-        cy.get('#password').type('test');
-        cy.get('#remember').check();
-        cy.get('.controls > .btn').click();
 
-        cy.get('#system-message-container').should('contain.text', 'You have been logged in.');
         cy.get('#users-profile-core').should('contain.text', 'Profile');
         cy.get('#users-profile-core').should('contain.text', 'Name');
         cy.get('#users-profile-core').should('contain.text', 'automated test user');

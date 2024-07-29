@@ -19,6 +19,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -231,7 +232,7 @@ class ItemsModel extends ListModel
     /**
      * Builds an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    A query object.
+     * @return  QueryInterface    A query object.
      *
      * @since   1.6
      */
@@ -452,7 +453,7 @@ class ItemsModel extends ListModel
                     $query->where(0);
                 }
             }
-        } elseif (strlen($menuType)) {
+        } elseif (\strlen($menuType)) {
             // Default behavior => load all items from a specific menu
             $query->where($db->quoteName('a.menutype') . ' = :menuType')
                 ->bind(':menuType', $menuType);
@@ -547,7 +548,9 @@ class ItemsModel extends ListModel
                 Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
 
                 return false;
-            } elseif (!$this->getCurrentUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
+            }
+
+            if (!$this->getCurrentUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
                 // Check if menu type is valid against ACL.
                 Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 

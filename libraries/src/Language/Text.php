@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -59,7 +59,7 @@ class Text
                 $script = (bool) $jsSafe['script'];
             }
 
-            $jsSafe = \array_key_exists('jsSafe', $jsSafe) ? (bool) $jsSafe['jsSafe'] : false;
+            $jsSafe = !empty($jsSafe['jsSafe']);
         }
 
         if (self::passSprintf($string, $jsSafe, $interpretBackSlashes, $script)) {
@@ -124,8 +124,8 @@ class Text
         $string = $final_string;
 
         if ($script) {
-            foreach ($string_parts as $i => $str) {
-                static::$strings[$str] = $string_parts[$i];
+            foreach ($string_parts as $str) {
+                static::$strings[$str] = $str;
             }
         }
 
@@ -351,14 +351,21 @@ class Text
 
         // Add the string to the array if not null.
         if ($string !== null) {
+            $doc = Factory::getDocument();
+
+            // Get previously added strings
+            $strings = $doc->getScriptOptions('joomla.jtext');
+
             // Normalize the key and translate the string.
-            static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            $key                   = strtoupper($string);
+            $strings[$key]         = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            static::$strings[$key] = $strings[$key];
 
             // Load core.js dependency
             HTMLHelper::_('behavior.core');
 
             // Update Joomla.Text script options
-            Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
+            $doc->addScriptOptions('joomla.jtext', $strings, false);
         }
 
         return static::getScriptStrings();

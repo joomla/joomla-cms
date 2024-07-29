@@ -10,11 +10,12 @@
 namespace Joomla\CMS\Adapter;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseAwareInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,8 +27,11 @@ use Joomla\Database\DatabaseAwareInterface;
  * @deprecated  4.3 will be removed in 6.0
  *              Will be removed without replacement
  */
-class Adapter extends CMSObject
+class Adapter
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Associative array of adapters
      *
@@ -115,7 +119,7 @@ class Adapter extends CMSObject
      */
     public function getAdapter($name, $options = [])
     {
-        if (array_key_exists($name, $this->_adapters)) {
+        if (\array_key_exists($name, $this->_adapters)) {
             return $this->_adapters[$name];
         }
 
@@ -139,7 +143,7 @@ class Adapter extends CMSObject
      */
     public function setAdapter($name, &$adapter = null, $options = [])
     {
-        if (is_object($adapter)) {
+        if (\is_object($adapter)) {
             $this->_adapters[$name] = &$adapter;
 
             return true;

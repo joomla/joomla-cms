@@ -30,7 +30,7 @@ export const getContents = (context, payload) => {
   updateUrlPath(payload);
   context.commit(types.SET_IS_LOADING, true);
 
-  api.getContents(payload, 0)
+  api.getContents(payload, false, false)
     .then((contents) => {
       context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
       context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
@@ -51,7 +51,7 @@ export const getContents = (context, payload) => {
  */
 export const getFullContents = (context, payload) => {
   context.commit(types.SET_IS_LOADING, true);
-  api.getContents(payload.path, 1)
+  api.getContents(payload.path, true, true)
     .then((contents) => {
       context.commit(types.LOAD_FULL_CONTENTS_SUCCESS, contents.files[0]);
       context.commit(types.SET_IS_LOADING, false);
@@ -69,7 +69,7 @@ export const getFullContents = (context, payload) => {
  * @param payload
  */
 export const download = (context, payload) => {
-  api.getContents(payload.path, 0, 1)
+  api.getContents(payload.path, false, true)
     .then((contents) => {
       const file = contents.files[0];
 

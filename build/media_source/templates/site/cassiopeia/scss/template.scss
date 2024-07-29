@@ -1,10 +1,8 @@
-// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
-$prefix: "";
-
 // Bootstrap functions
 @import "../../../../../../media/vendor/bootstrap/scss/functions";
 @import "tools/variables/variables";
 @import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/variables-dark";
 @import "../../../../../../media/vendor/bootstrap/scss/maps";
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 @import "../../../../../../media/vendor/bootstrap/scss/utilities";

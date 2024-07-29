@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
-$published = $this->state->get('filter.published');
+$published = (int) $this->state->get('filter.published');
 ?>
-
 
 <div class="p-3">
     <div class="row">
@@ -44,4 +44,9 @@ $published = $this->state->get('filter.published');
             </div>
         <?php endif; ?>
     </div>
+</div>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="banner.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
 </div>

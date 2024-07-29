@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -37,7 +39,7 @@ class ProfileController extends BaseController
     {
         $app         = $this->app;
         $user        = $this->app->getIdentity();
-        $loginUserId = (int) $user->get('id');
+        $loginUserId = (int) $user->id;
 
         // Get the current user id.
         $userId     = $this->input->getInt('user_id');
@@ -88,7 +90,7 @@ class ProfileController extends BaseController
         /** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
         $model  = $this->getModel('Profile', 'Site');
         $user   = $this->app->getIdentity();
-        $userId = (int) $user->get('id');
+        $userId = (int) $user->id;
 
         // Get the user data.
         $requestData = $app->getInput()->post->get('jform', [], 'array');
@@ -105,9 +107,13 @@ class ProfileController extends BaseController
 
         // Send an object which can be modified through the plugin event
         $objData = (object) $requestData;
-        $app->triggerEvent(
+        $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            ['com_users.user', $objData, $form]
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+                'context' => 'com_users.user',
+                'data'    => $objData,
+                'subject' => $form,
+            ])
         );
         $requestData = (array) $objData;
 
@@ -120,11 +126,11 @@ class ProfileController extends BaseController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+                    $app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $app->enqueueMessage($errors[$i], 'warning');
+                    $app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 
@@ -166,7 +172,7 @@ class ProfileController extends BaseController
                 // Redirect back to the edit screen.
                 $this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
 
-                $redirect = $app->getUserState('com_users.edit.profile.redirect');
+                $redirect = $app->getUserState('com_users.edit.profile.redirect', '');
 
                 // Don't redirect to an external URL.
                 if (!Uri::isInternal($redirect)) {
@@ -184,7 +190,7 @@ class ProfileController extends BaseController
                 // Clear the profile id from the session.
                 $app->setUserState('com_users.edit.profile.id', null);
 
-                $redirect = $app->getUserState('com_users.edit.profile.redirect');
+                $redirect = $app->getUserState('com_users.edit.profile.redirect', '');
 
                 // Don't redirect to an external URL.
                 if (!Uri::isInternal($redirect)) {

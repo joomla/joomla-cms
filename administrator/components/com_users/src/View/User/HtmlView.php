@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\UserFactoryAwareInterface;
@@ -67,7 +66,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -101,12 +100,12 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Prevent user from modifying own group(s)
-        $user = Factory::getApplication()->getIdentity();
+        $user = $this->getCurrentUser();
 
         if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
             $this->grouplist = $this->get('Groups');
@@ -146,7 +145,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $user      = Factory::getApplication()->getIdentity();
+        $user      = $this->getCurrentUser();
         $canDo     = ContentHelper::getActions('com_users');
         $isNew     = ($this->item->id == 0);
         $isProfile = $this->item->id == $user->id;

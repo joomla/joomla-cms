@@ -11,13 +11,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Help\Help;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Update\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.admin-update')
     ->useScript('bootstrap.modal');
@@ -30,6 +31,7 @@ Text::script('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
 Text::script('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
 Text::script('COM_JOOMLAUPDATE_UPDATING_FAIL');
 Text::script('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
+Text::script('COM_JOOMLAUPDATE_VIEW_UPDATE_ITEMS');
 Text::script('JLIB_SIZE_BYTES');
 Text::script('JLIB_SIZE_KB');
 Text::script('JLIB_SIZE_MB');
@@ -45,7 +47,7 @@ $filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize',
 $ajaxUrl = Uri::base() . 'components/com_joomlaupdate/extract.php';
 $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory::getSession()->getFormToken() . '=1';
 
-$this->document->addScriptOptions(
+$this->getDocument()->addScriptOptions(
     'joomlaupdate',
     [
         'password' => $password,
@@ -55,7 +57,7 @@ $this->document->addScriptOptions(
     ]
 );
 
-$helpUrl = Help::createUrl('JHELP_COMPONENTS_JOOMLA_UPDATE', false);
+$helpUrl = 'https://docs.joomla.org/Special:MyLanguage/J4.x:Joomla_Update_Problems';
 ?>
 
 <div class="px-4 py-5 my-5 text-center" id="joomlaupdate-progress">

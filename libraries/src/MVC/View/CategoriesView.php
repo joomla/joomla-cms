@@ -9,11 +9,13 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -46,6 +48,22 @@ class CategoriesView extends HtmlView
      * @since  3.2
      */
     protected $pageHeading;
+
+    /**
+     * The category parameters
+     *
+     * @var   Registry
+     * @since 5.0.0
+     */
+    public $params;
+
+    /**
+     * The parent category
+     *
+     * @var   CategoryNode
+     * @since 5.0.0
+     */
+    public $parent;
 
     /**
      * Execute and display a template script.
@@ -122,11 +140,11 @@ class CategoriesView extends HtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

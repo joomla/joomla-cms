@@ -17,16 +17,18 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Item\HtmlView $this */
+
 $this->useCoreUI = true;
 
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 Text::script('JGLOBAL_ROOT_PARENT');
 
-$this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
+$this->getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_menus.admin-item-edit');
@@ -37,13 +39,14 @@ $input = Factory::getApplication()->getInput();
 // In case of modal
 $isModal  = $input->get('layout') === 'modal';
 $layout   = $isModal ? 'modal' : 'edit';
-$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$tmpl     = $input->get('tmpl');
+$tmpl     = $tmpl ? '&tmpl=' . $tmpl : '';
 $clientId = $this->state->get('item.client_id', 0);
-$lang     = Factory::getLanguage()->getTag();
+$lang     = $this->getLanguage()->getTag();
 
 // Load mod_menu.ini file when client is administrator
 if ($clientId === 1) {
-    Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
+    $this->getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_MENUS_ITEM_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
