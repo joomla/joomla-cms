@@ -2,15 +2,15 @@
 <config>
 	<fieldset name="guidedtours_config" label="COM_GUIDEDTOURS">
 		<field
-			name="tourAutoStart"
+			name="allowTourAutoStart"
 			type="radio"
-			label="COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_LABEL"
-			description="COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_DESCRIPTION"
+			label="COM_GUIDEDTOURS_CONFIG_USER_ALLOWTOURAUTOSTART_LABEL"
+			description="COM_GUIDEDTOURS_CONFIG_USER_ALLOWTOURAUTOSTART_DESCRIPTION"
 			layout="joomla.form.field.radio.switcher"
-			default="allow"
+			default="1"
 			>
-			<option value="disallow">COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_OPTION_DISALLOW</option>
-			<option value="allow">COM_GUIDEDTOURS_CONFIG_USER_TOURAUTOSTART_OPTION_ALLOW</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -20,7 +20,7 @@
 			description="COM_GUIDEDTOURS_CONFIG_DELAYED_TIME_DESCRIPTION"
 			default="3600"
 			size="small"
-			showon="tourAutoStart:allow"
+			showon="allowTourAutoStart:1"
 		/>
 	</fieldset>
 	<fieldset
