@@ -442,7 +442,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         if ($this->mode_sef && $this->params->get('remove_default_prefix', 0) && $lang_code == $this->default_lang) {
             $origUri  = Uri::getInstance();
             $origPath = $origUri->getPath();
-            $origPath = substr($origPath, strlen(Uri::base(true)));
+            $origPath = substr($origPath, \strlen(Uri::base(true)));
             $origPath = explode('/', $origPath);
             array_shift($origPath);
             $indexphp = false;
