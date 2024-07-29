@@ -175,7 +175,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                 return;
             }
 
-            // The following code only relate to the auto-start functionality.
+            // The following code only relates to the auto-start functionality.
             // First, we get the tours for the context.
 
             $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
