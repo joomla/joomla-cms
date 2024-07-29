@@ -440,14 +440,14 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 
         // If we want the default prefix removed and the site is called with that prefix, we want to redirect to the URL without that prefix
         if ($this->mode_sef && $this->params->get('remove_default_prefix', 0) && $lang_code == $this->default_lang) {
-            $origUri = Uri::getInstance();
+            $origUri  = Uri::getInstance();
             $origPath = $origUri->getPath();
             $origPath = substr($origPath, strlen(Uri::base(true)));
             $origPath = explode('/', $origPath);
             array_shift($origPath);
             $indexphp = false;
 
-            if (!$this->getApplication()->get('sef_rewrite') && count($origPath) > 2 && $origPath[0] == 'index.php') {
+            if (!$this->getApplication()->get('sef_rewrite') && \count($origPath) > 2 && $origPath[0] == 'index.php') {
                 $indexphp = array_shift($origPath);
             }
 
