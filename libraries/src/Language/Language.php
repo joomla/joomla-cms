@@ -647,7 +647,7 @@ class Language extends BaseLanguage
             $fallbackLang = $this->getFallbackTag();
 
             if (!empty($fallbackLang)) {
-                $path = LanguageHelper::getLanguagePath($basePath, $fallbackLang);
+                $path        = LanguageHelper::getLanguagePath($basePath, $fallbackLang);
                 $filenames[] = "$path/$extension.ini";
                 $filenames[] = "$path/$fallbackLang.$extension.ini";
             }
