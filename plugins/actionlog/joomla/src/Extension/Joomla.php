@@ -1300,7 +1300,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     }
 
     /**
-     * Method is called when a user cancel, complete or skip a tour
+     * Method is called when a user cancels, completes or skips a tour
      *
      * @param   string    $tourid     The tour being run.
      * @param   string    $state      The state of the tour.
