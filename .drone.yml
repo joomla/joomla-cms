@@ -246,6 +246,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-mysql
     depends_on:
@@ -259,6 +263,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-postgres
     depends_on:
@@ -285,6 +293,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysql8 mysqli mysql8
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-mysql8
     depends_on:
@@ -298,6 +310,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysql8max mysqli mysql8
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
@@ -504,6 +520,6 @@ trigger:
 
 ---
 kind: signature
-hmac: ccc71c7a0c6643aef1000b49a0125d4a9bf2bacedc3875c9106b31449e7f50f8
+hmac: 0f965e69f4773b289498dd7e06d3031f9ad89038606a7ace3632766c47283045
 
 ...
