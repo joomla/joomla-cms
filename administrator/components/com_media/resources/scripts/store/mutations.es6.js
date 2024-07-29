@@ -191,6 +191,7 @@ export default {
         cancelable: false,
         detail: {
           type: selectedFile.type,
+          name: selectedFile.name,
           path: selectedFile.path,
           thumb: selectedFile.thumb,
           fileType: selectedFile.mime_type ? selectedFile.mime_type : false,
