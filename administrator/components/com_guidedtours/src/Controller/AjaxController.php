@@ -63,7 +63,17 @@ class AjaxController extends BaseController
             PluginHelper::importPlugin('guidedtours');
 
             // event onBeforeTourSaveState before save user tour state
-            $this->app->triggerEvent('onBeforeTourRunSaveState', [$tourId, $actionState, $stepNumber]);
+            $beforeEvent = AbstractEvent::create(
+              'onBeforeTourRunSaveState',
+              [
+                'subject'     => new \stdClass(),
+                'tourId'      => $tourId,
+                'actionState' => $actionState,
+                'stepNumber'  => $stepNumber,
+              ]
+            );
+
+            $this->app->getDispatcher()->dispatch('onBeforeTourRunSaveState', $beforeEvent);
 
             // Log the user tour state in the user action logs
             $event = AbstractEvent::create(
@@ -78,6 +88,7 @@ class AjaxController extends BaseController
 
             $this->app->getDispatcher()->dispatch('onTourRunSaveState', $event);
 
+            // Save the tour state.
             $result = $this->saveTourUserState($user->id, $tourId, $actionState);
             if ($result) {
                 $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATESAVED', $user->id, $tourId);
@@ -86,7 +97,19 @@ class AjaxController extends BaseController
             }
 
             // event onAfterTourSaveState after save user tour state (may override msgSave)
-            $this->app->triggerEvent('onAfterTourRunSaveState', [$tourId, $actionState, $stepNumber, $result, &$message]);
+            $afterEvent = AbstractEvent::create(
+              'onAfterTourRunSaveState',
+              [
+                'subject'     => new \stdClass(),
+                'tourId'      => $tourId,
+                'actionState' => $actionState,
+                'stepNumber'  => $stepNumber,
+                'result'      => $result,
+                'message'     => &$message,
+              ]
+            );
+
+            $this->app->getDispatcher()->dispatch('onAfterTourRunSaveState', $afterEvent);
 
             // Construct the response data
             $data = [
