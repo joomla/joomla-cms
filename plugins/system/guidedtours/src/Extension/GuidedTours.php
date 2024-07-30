@@ -200,9 +200,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             foreach ($tours as $tour) {
                 // Look for the first autostart tour, if any.
                 if ($tour->autostart) {
-                    $canAutostart = true;
-                    $db           = $this->getDatabase();
-                    $profileKey   = 'guidedtour.id.' . $tour->id;
+                    $db         = $this->getDatabase();
+                    $profileKey = 'guidedtour.id.' . $tour->id;
 
                     // Check if the tour state has already been saved some time before.
                     $query = $db->getQuery(true)
@@ -226,25 +225,23 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
                         if (empty($values)) {
                             // Do not start the tour.
-                            $canAutostart = false;
+                            continue;
                         } elseif ($values['state'] === 'skipped' || $values['state'] === 'completed') {
-                            $canAutostart = false;
+                            continue;
                         } elseif ($values['state'] === 'delayed') {
                             $delay       = $params->get('delayed_time', '3600');
                             $currentTime = Date::getInstance();
                             $loggedTime  = new Date($values['time']['date']);
 
                             if ($loggedTime->add(new \DateInterval('PT' . $delay . 'S')) > $currentTime) {
-                                $canAutostart = false;
+                                continue;
                             }
                         }
                     }
 
                     // We have a tour to auto start. No need to go any further.
-                    if ($canAutostart) {
-                        $doc->addScriptOptions('com_guidedtours.autotour', $tour->id);
-                        break;
-                    }
+                    $doc->addScriptOptions('com_guidedtours.autotour', $tour->id);
+                    break;
                 }
             }
         }
