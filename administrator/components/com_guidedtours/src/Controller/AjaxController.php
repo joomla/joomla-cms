@@ -11,6 +11,7 @@
 namespace Joomla\Component\Guidedtours\Administrator\Controller;
 
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -65,7 +66,17 @@ class AjaxController extends BaseController
             $this->app->triggerEvent('onBeforeTourRunSaveState', [$tourId, $actionState, $stepNumber]);
 
             // Log the user tour state in the user action logs
-            $this->app->triggerEvent('onTourRunSaveState', [$tourId, $actionState, $stepNumber]);
+            $event = AbstractEvent::create(
+              'onTourRunSaveState',
+              [
+                'subject'     => new \stdClass(),
+                'tourId'      => $tourId,
+                'actionState' => $actionState,
+                'stepNumber'  => $stepNumber,
+              ]
+            );
+
+            $this->app->getDispatcher()->dispatch('onTourRunSaveState', $event);
 
             $result = $this->saveTourUserState($user->id, $tourId, $actionState);
             if ($result) {
