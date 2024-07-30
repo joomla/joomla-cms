@@ -85,9 +85,11 @@
 
 		<field
 			name="path"
-			type="uploaddirs"
+			type="media"
 			label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
 			showon="drag_drop:1"
+			preview="false"
+			types="directories"
 		/>
 
 		<field
@@ -224,6 +226,18 @@
 			label="PLG_TINY_FIELD_ELEMENTS_LABEL"
 			showon="use_config_textfilters:0"
 		/>
+
+		<field
+			name="sandbox_iframes"
+			type="radio"
+			label="PLG_TINY_FIELD_SANDBOX_IFRAMES_LABEL"
+			description="PLG_TINY_FIELD_SANDBOX_IFRAMES_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JOFF</option>
+			<option value="1">JON</option>
+		</field>
 
 		<!-- Extra plugins -->
 		<field
@@ -403,5 +417,33 @@
 			</form>
 		</field>
 
+		<field
+			name="link_classes_list"
+			type="subform"
+			label="PLG_TINY_FIELD_LINK_CLASSES_LIST_LABEL"
+			description="PLG_TINY_FIELD_LINK_CLASSES_LIST_DESC"
+			layout="joomla.form.field.subform.repeatable-table"
+			required="false"
+			multiple="true">
+			<form>
+				<field
+					name="class_name"
+					type="text"
+					label="PLG_TINY_FIELD_LINK_CLASS_NAME_LABEL"
+					required="true"
+					filter="string"
+					default=""
+				/>
+				<field
+					name="class_list"
+					type="text"
+					label="PLG_TINY_FIELD_LINK_CLASS_LIST_LABEL"
+					required="true"
+					filter="string"
+					validate="CssIdentifier"
+					default=""
+				/>
+			</form>
+		</field>
 	</fieldset>
 </form>

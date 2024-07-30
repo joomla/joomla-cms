@@ -13,8 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/**
+ * @var \Joomla\Plugin\Content\PageNavigation\Extension\PageNavigation  $this
+ */
 $this->loadLanguage();
-
 $lang = $this->getLanguage();
 ?>
 
