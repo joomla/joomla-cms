@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Application;
 use Joomla\CMS\Event\Cache;
 use Joomla\CMS\Event\Checkin;
@@ -131,6 +132,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             'onUserAfterResetRequest'   => 'onUserAfterResetRequest',
             'onUserAfterResetComplete'  => 'onUserAfterResetComplete',
             'onUserBeforeSave'          => 'onUserBeforeSave',
+            'onTourRunSaveState'        => 'onTourRunSaveState',
         ];
     }
 
@@ -1302,21 +1304,23 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     /**
      * Method is called when a user cancels, completes or skips a tour
      *
-     * @param   string    $tourid     The tour being run.
-     * @param   string    $state      The state of the tour.
-     * @param   string    $stepnumber The last step of the tour viewed by the user.
+     * @param   AbstractEvent $event The event instance.
      *
      * @return  boolean
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function onTourRunSaveState($tourid, $state, $stepnumber): bool
+    public function onTourRunSaveState(AbstractEvent $event): bool
     {
         $option = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($option)) {
             return false;
         }
+
+        $tourId     = $event->getArgument('tourId');
+        $state      = $event->getArgument('actionState');
+        $stepNumber = $event->getArgument('stepNumber');
 
         switch ($state) {
             case 'skipped':
@@ -1337,13 +1341,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             ['ignore_request' => true]
         );
 
-        $tour = $tourModel->getItem($tourid);
+        $tour = $tourModel->getItem($tourId);
 
         $message = [
-            'id'    => $tourid,
+            'id'    => $tourId,
             'title' => $tour->title_translation,
             'state' => $state,
-            'step'  => $stepnumber,
+            'step'  => $stepNumber,
         ];
 
         $this->addLog([$message], $messageLanguageKey, 'com_guidedtours.state');
