@@ -159,6 +159,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             Text::script('PLG_SYSTEM_GUIDEDTOURS_NEXT');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR_RESPONSE');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_INVALID_RESPONSE');
 
             $doc->addScriptOptions('com_guidedtours.token', Session::getFormToken());
             $doc->addScriptOptions('com_guidedtours.autotour', '');
