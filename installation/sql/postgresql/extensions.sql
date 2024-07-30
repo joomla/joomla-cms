@@ -833,10 +833,11 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA'),
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
 (20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA'),
-(21, 'field', 'com_fields.field', 'id', 'title', '#__fields', 'PLG_ACTIONLOG_JOOMLA');
+(21, 'field', 'com_fields.field', 'id', 'title', '#__fields', 'PLG_ACTIONLOG_JOOMLA'),
+(22, 'guidedtour', 'com_guidedtours.state', 'id', 'title', '#__guidedtours', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__action_log_config_id_seq', 22, false);
+SELECT setval('#__action_log_config_id_seq', 23, false);
 
 --
 -- Table structure for table `#__action_logs_users`
