@@ -1312,7 +1312,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      */
     public function onTourRunSaveState($tourid, $state, $stepnumber): bool
     {
-        $option = $this->getApplication()->getInput()->getCmd('option');
+        $option = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($option)) {
             return false;
