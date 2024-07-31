@@ -1310,12 +1310,12 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function onTourRunSaveState(AbstractEvent $event): bool
+    public function onTourRunSaveState(AbstractEvent $event): void
     {
         $option = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($option)) {
-            return false;
+            return;
         }
 
         $tourId     = $event->getArgument('tourId');
@@ -1351,7 +1351,5 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         ];
 
         $this->addLog([$message], $messageLanguageKey, 'com_guidedtours.state');
-
-        return true;
     }
 }
