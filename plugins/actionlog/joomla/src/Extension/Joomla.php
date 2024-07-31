@@ -1306,7 +1306,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @param   AbstractEvent $event The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since  __DEPLOY_VERSION__
      */
