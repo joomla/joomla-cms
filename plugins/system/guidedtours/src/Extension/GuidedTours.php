@@ -227,6 +227,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                             // Do not start the tour.
                             continue;
                         } elseif ($values['state'] === 'skipped' || $values['state'] === 'completed') {
+                            // Do not start the tour.
                             continue;
                         } elseif ($values['state'] === 'delayed') {
                             $delay       = $params->get('delayed_time', '60');
@@ -234,6 +235,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
                             $loggedTime  = new Date($values['time']['date']);
 
                             if ($loggedTime->add(new \DateInterval('PT' . $delay . 'M')) > $currentTime) {
+                                // Do not start the tour.
                                 continue;
                             }
                         }
