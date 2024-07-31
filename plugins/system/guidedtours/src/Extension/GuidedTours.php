@@ -325,12 +325,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         // Replace 'images/' to '../images/' when using an image from /images in backend.
         $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
 
-        // Set the label for the tour to start.
-        // What's new tours have a different label.
+        // Set the start label for the tour.
         $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_START');
-        if (str_contains($item->uid, 'joomla-whatsnew')) {
-            $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_LEARNMORE');
-        }
 
         $tour->steps[] = $temp;
 
