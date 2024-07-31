@@ -62,9 +62,9 @@ class AjaxController extends BaseController
             // Add the title to each of the associated records
             $newsfeedsTable = $this->factory->createTable('Newsfeed', 'Administrator');
 
-            foreach ($associations as $lang => $association) {
+            foreach ($associations as $association) {
                 $newsfeedsTable->load($association->id);
-                $associations[$lang]->title = $newsfeedsTable->name;
+                $association->title = $newsfeedsTable->name;
             }
 
             $countContentLanguages = \count(LanguageHelper::getContentLanguages([0, 1], false));
