@@ -27,7 +27,7 @@ if ($app->isClient('site')) {
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('com_associations.admin-associations-modal');
 
@@ -43,7 +43,7 @@ $iconStates = [
     2  => 'icon-folder',
 ];
 
-$this->document->addScriptOptions('associations-modal', ['func' => $function]);
+$this->getDocument()->addScriptOptions('associations-modal', ['func' => $function]);
 
 ?>
 <div class="container-popup">

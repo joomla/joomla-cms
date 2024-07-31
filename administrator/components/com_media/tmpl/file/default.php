@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\Component\Media\Administrator\View\File\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useStyle('com_media.mediamanager');
@@ -53,13 +53,13 @@ $config = [
     'contents'           => $this->file->content,
 ];
 
-$this->document->addScriptOptions('com_media', $config);
+$this->getDocument()->addScriptOptions('com_media', $config);
 
 $this->useCoreUI = true;
 ?>
 <?php if ($tmpl === 'component') : ?>
 <div class="subhead noshadow mb-3">
-    <?php echo $this->document->getToolbar('toolbar')->render(); ?>
+    <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>
 </div>
 <?php endif; ?>
 <form action="#" method="post" name="adminForm" id="media-form" class="form-validate main-card media-form mt-3">
@@ -72,4 +72,4 @@ $this->useCoreUI = true;
     <?php endif; ?>
     <input type="hidden" name="mediatypes" value="<?php echo $this->escape($mediaTypes); ?>">
 </form>
-<script type="module" src="<?php echo $script . '?' . $this->document->getMediaVersion(); ?>"></script>
+<script type="module" src="<?php echo $script . '?' . $this->getDocument()->getMediaVersion(); ?>"></script>

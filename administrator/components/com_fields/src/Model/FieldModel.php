@@ -584,17 +584,9 @@ class FieldModel extends AdminModel
             $form->setFieldAttribute('created_user_id', 'filter', 'unset');
         }
 
-        // In case we are editing a field, field type cannot be changed, so some extra handling below is needed
+        // In case we are editing a field, field type cannot be changed, so remove showon attribute to avoid js errors
         if ($fieldId) {
-            $fieldType = $form->getField('type');
-
-            if ($fieldType->value == 'subform') {
-                // Only Use In subform should not be available for subform field type, so we remove it
-                $form->removeField('only_use_in_subform');
-            } else {
-                // Field type could not be changed, so remove showon attribute to avoid js errors
-                $form->setFieldAttribute('only_use_in_subform', 'showon', '');
-            }
+            $form->setFieldAttribute('only_use_in_subform', 'showon', '');
         }
 
         return $form;
