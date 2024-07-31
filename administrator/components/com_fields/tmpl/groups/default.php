@@ -22,13 +22,13 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 /** @var \Joomla\Component\Fields\Administrator\View\Groups\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 
 $component = '';
 $parts     = FieldsHelper::extract($this->state->get('filter.context'));

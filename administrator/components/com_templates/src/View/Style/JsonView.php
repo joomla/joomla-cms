@@ -12,7 +12,6 @@ namespace Joomla\Component\Templates\Administrator\View\Style;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,9 +25,9 @@ use Joomla\CMS\Object\CMSObject;
 class JsonView extends BaseHtmlView
 {
     /**
-     * The CMSObject (on success, false on failure)
+     * The item
      *
-     * @var   CMSObject
+     * @var   \stdClass
      */
     protected $item;
 

@@ -89,11 +89,6 @@ class UpdateModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'default')) {
-            case 'testing':
-                // "Testing"
-                $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
-                break;
-
             case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
@@ -115,6 +110,7 @@ class UpdateModel extends BaseDatabaseModel
                  * case 'lts':
                  * case 'sts': (It's shown as "Default" because that option does not exist any more)
                  * case 'nochange':
+                 * case 'testing':
                  */
                 $updateURL = 'https://update.joomla.org/cms/';
         }
@@ -173,13 +169,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         $updater               = Updater::getInstance();
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (\in_array($comJoomlaupdateParams->get('updatesource', 'default'), ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
-
+        $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         $reflection       = new \ReflectionObject($updater);
         $reflectionMethod = $reflection->getMethod('findUpdates');
         $methodParameters = $reflectionMethod->getParameters();
@@ -296,13 +288,9 @@ class UpdateModel extends BaseDatabaseModel
             return $this->updateInformation;
         }
 
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
         $channel               = $comJoomlaupdateParams->get('updatesource', 'default');
-
-        if (\in_array($channel, ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
+        $minimumStability      = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $update = new Update();
 
@@ -1644,7 +1632,7 @@ ENDDATA;
         $minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $update = new Update();
-        $update->set('jversion.full', $joomlaTargetVersion);
+        $update->setTargetVersion($joomlaTargetVersion);
         $update->loadFromXml($updateFileUrl, $minimumStability);
 
         $compatibleVersions = $update->get('compatibleVersions');
@@ -2038,5 +2026,74 @@ ENDDATA;
         if (version_compare($versionPackage, $currentVersion, 'lt')) {
             throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE', $packageName, $versionPackage, $currentVersion), 500);
         }
+    }
+
+    /**
+     * Reset update source from "next" to "default"
+     *
+     * @return  boolean  True if update source is reset, false if reset failed with error,
+     *                   null if no reset was necessary.
+     *
+     * @since   5.1.2
+     */
+    public function resetUpdateSource()
+    {
+        // Get current update source
+        $params = ComponentHelper::getParams('com_joomlaupdate');
+
+        // Do nothing if not "next"
+        if ($params->get('updatesource', 'default') !== 'next') {
+            return null;
+        }
+
+        $params->set('updatesource', 'default');
+
+        $params = $params->toString();
+        $db     = $this->getDatabase();
+        $query  = $db->getQuery(true)
+            ->update($db->quoteName('#__extensions'))
+            ->set($db->quoteName('params') . ' = :params')
+            ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'))
+            ->bind(':params', $params);
+
+        try {
+            $db->setQuery($query);
+            $db->execute();
+        } catch (\Exception $e) {
+            Log::add(
+                sprintf(
+                    'An error has occurred while running "resetUpdateSource". Code: %s. Message: %s.',
+                    $e->getCode(),
+                    $e->getMessage()
+                ),
+                Log::WARNING,
+                'Update'
+            );
+
+            Log::add(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                ),
+                Log::WARNING,
+                'Update'
+            );
+
+            return false;
+        }
+
+        Log::add(
+            Text::sprintf(
+                'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK',
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+            ),
+            Log::INFO,
+            'Update'
+        );
+
+        return true;
     }
 }

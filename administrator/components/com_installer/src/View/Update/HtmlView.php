@@ -132,6 +132,9 @@ class HtmlView extends InstallerViewDefault
             ->listCheck(false)
             ->icon('icon-refresh');
 
+        $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE')
+            ->url('index.php?option=com_installer&view=manage');
+
         $toolbar->divider();
 
         parent::addToolbar();

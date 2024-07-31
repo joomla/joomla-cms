@@ -62,8 +62,8 @@ class UpdateController extends BaseController
         $message     = null;
         $messageType = null;
 
-        // The versions mismatch
-        if ($result['version'] !== $this->input->get('targetVersion')) {
+        // The versions mismatch (Use \JVERSION as target version when not set in case of reinstall core files)
+        if ($result['version'] !== $this->input->get('targetVersion', \JVERSION, 'string')) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG');
             $messageType = 'error';
             $url         = 'index.php?option=com_joomlaupdate';
@@ -155,6 +155,9 @@ class UpdateController extends BaseController
         } catch (\Throwable $e) {
             $model->collectError('finaliseUpgrade', $e);
         }
+
+        // Reset update source from "Joomla Next" to "Default"
+        $this->app->setUserState('com_joomlaupdate.update_channel_reset', $model->resetUpdateSource());
 
         // Check for update errors
         if ($model->getErrors()) {
