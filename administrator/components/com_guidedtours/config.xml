@@ -18,7 +18,7 @@
 			type="text"
 			label="COM_GUIDEDTOURS_CONFIG_DELAYED_TIME_LABEL"
 			description="COM_GUIDEDTOURS_CONFIG_DELAYED_TIME_DESCRIPTION"
-			default="3600"
+			default="60"
 			size="small"
 			showon="allowTourAutoStart:1"
 		/>
