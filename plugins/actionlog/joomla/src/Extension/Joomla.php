@@ -132,7 +132,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             'onUserAfterResetRequest'   => 'onUserAfterResetRequest',
             'onUserAfterResetComplete'  => 'onUserAfterResetComplete',
             'onUserBeforeSave'          => 'onUserBeforeSave',
-            'onTourRunSaveState'        => 'onTourRunSaveState',
+            'onBeforeTourSaveUserState' => 'onBeforeTourSaveUserState',
         ];
     }
 
@@ -1310,7 +1310,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function onTourRunSaveState(AbstractEvent $event): void
+    public function onBeforeTourSaveUserState(AbstractEvent $event): void
     {
         $option = $this->getApplication()->getInput()->get('option');
 
