@@ -535,7 +535,7 @@ class TourModel extends AdminModel
      *
      * @since  5.1.0
      */
-    public function isAutostart($pk)
+    public function isAutostart($pk) : bool
     {
         $db = $this->getDatabase();
 
@@ -576,7 +576,7 @@ class TourModel extends AdminModel
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function saveTourUserState($id, $state = '')
+    public function saveTourUserState($id, $state = '') : bool
     {
         $user = $this->getCurrentUser();
         $db   = $this->getDatabase();
