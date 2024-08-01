@@ -531,20 +531,26 @@ class TourModel extends AdminModel
     /**
      * Retrieve a tour's autostart value
      *
-     * @param   string  $uid  the uid of a tour
+     * @param   string  $pk  the id or uid of a tour
      *
      * @since  5.1.0
      */
-    public function isAutostart($uid)
+    public function isAutostart($pk)
     {
         $db = $this->getDatabase();
 
         $query = $db->getQuery(true)
             ->select($db->quoteName('autostart'))
             ->from($db->quoteName('#__guidedtours'))
-            ->where($db->quoteName('published') . ' = 1')
-            ->where($db->quoteName('uid') . ' = :uid')
-            ->bind(':uid', $uid, ParameterType::STRING);
+            ->where($db->quoteName('published') . ' = 1');
+
+        if (\is_integer($pk)) {
+            $query->where($db->quoteName('id') . ' = :id')
+                ->bind(':id', $pk, ParameterType::INTEGER);
+        } else {
+            $query->where($db->quoteName('uid') . ' = :uid')
+                ->bind(':uid', $pk, ParameterType::STRING);
+        }
 
         $db->setQuery($query);
 
@@ -563,35 +569,21 @@ class TourModel extends AdminModel
     /**
      * Save a tour state for a specific user.
      *
-     * @param   int      $userId         The ID of the user
-     * @param   int      $tourId         The ID of the tour
-     * @param   string   $state          The label of the state to be saved (completed, delayed or skipped)
+     * @param   int      $id       The id of the tour
+     * @param   string   $state    The label of the state to be saved (completed, delayed or skipped)
      *
      * @return  boolean
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function saveTourUserState($userId, $tourId, $state)
+    public function saveTourUserState($id, $state = '')
     {
-        $db = $this->getDatabase();
-
-        // Check if the tour is set to autostart
-        $query = $db->getQuery(true)
-            ->select($db->quoteName('autostart'))
-            ->from($db->quoteName('#__guidedtours'))
-            ->where($db->quoteName('published') . ' = 1')
-            ->where($db->quoteName('id') . ' = :id')
-            ->bind(':id', $tourId, ParameterType::INTEGER);
-
-        try {
-            $autoStartResult = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
-            return false;
-        }
+        $user = $this->getCurrentUser();
+        $db   = $this->getDatabase();
 
         // The tour state is only saved in the user profile if the tour is set to autostart.
-        if ($autoStartResult) {
-            $profileKey = 'guidedtour.id.' . $tourId;
+        if ($this->isAutostart($id)) {
+            $profileKey = 'guidedtour.id.' . $id;
 
             // Check if the profile key already exists.
             $query = $db->getQuery(true)
@@ -599,7 +591,7 @@ class TourModel extends AdminModel
                 ->from($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :user_id')
                 ->where($db->quoteName('profile_key') . ' = :profileKey')
-                ->bind(':user_id', $userId, ParameterType::INTEGER)
+                ->bind(':user_id', $user->id, ParameterType::INTEGER)
                 ->bind(':profileKey', $profileKey, ParameterType::STRING);
 
             try {
@@ -616,7 +608,7 @@ class TourModel extends AdminModel
             }
 
             $profileObject = (object)[
-                'user_id'       => $userId,
+                'user_id'       => $user->id,
                 'profile_key'   => $profileKey,
                 'profile_value' => json_encode($tourState),
                 'ordering'      => 0,
