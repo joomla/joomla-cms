@@ -10,15 +10,11 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Controller;
 
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\Database\DatabaseInterface;
-use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -76,7 +72,8 @@ class AjaxController extends BaseController
             $this->app->getDispatcher()->dispatch('onBeforeTourSaveUserState', $beforeEvent);
 
             // Save the tour state.
-            $result = $this->saveTourUserState($user->id, $tourId, $actionState);
+            $tourModel = $this->getModel('Tour', 'Administrator');
+            $result = $tourModel->saveTourUserState($user->id, $tourId, $actionState);
             if ($result) {
                 $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATESAVED', $user->id, $tourId);
             } else {
@@ -118,82 +115,5 @@ class AjaxController extends BaseController
             echo new JsonResponse($data, $message, true);
             $this->app->close();
         }
-    }
-
-    /**
-     * The profile data saving.
-     *
-     * @param   int      $userId         The ID of the user
-     * @param   int      $tourId         The ID of the tour
-     * @param   string   $state          The label of the state to be saved (completed, delayed or skipped)
-     *
-     * @return  boolean
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    private function saveTourUserState($userId, $tourId, $state)
-    {
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
-
-        // Check if the tour is set to autostart
-        $query = $db->getQuery(true)
-            ->select($db->quoteName('autostart'))
-            ->from($db->quoteName('#__guidedtours'))
-            ->where($db->quoteName('published') . ' = 1')
-            ->where($db->quoteName('id') . ' = :id')
-            ->bind(':id', $tourId, ParameterType::INTEGER);
-
-        try {
-            $autoStartResult = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
-            return false;
-        }
-
-        // The tour state is only saved in the user profile if the tour is set to autostart.
-        if ($autoStartResult) {
-            $profileKey = 'guidedtour.id.' . $tourId;
-
-            // Check if the profile key already exists.
-            $query = $db->getQuery(true)
-                ->select($db->quoteName('profile_value'))
-                ->from($db->quoteName('#__user_profiles'))
-                ->where($db->quoteName('user_id') . ' = :user_id')
-                ->where($db->quoteName('profile_key') . ' = :profileKey')
-                ->bind(':user_id', $userId, ParameterType::INTEGER)
-                ->bind(':profileKey', $profileKey, ParameterType::STRING);
-
-            try {
-                $result = $db->setQuery($query)->loadResult();
-            } catch (\Exception $e) {
-                return false;
-            }
-
-            $tourState = [];
-
-            $tourState['state'] = $state;
-            if ($state === 'delayed') {
-                $tourState['time'] = Date::getInstance();
-            }
-
-            $profileObject = (object)[
-                'user_id'       => $userId,
-                'profile_key'   => $profileKey,
-                'profile_value' => json_encode($tourState),
-                'ordering'      => 0,
-            ];
-
-            if (!\is_null($result)) {
-                $values = json_decode($result, true);
-
-                // The profile is updated only when delayed. 'Completed' and 'Skipped' are final
-                if (!empty($values) && $values['state'] === 'delayed') {
-                    $db->updateObject('#__user_profiles', $profileObject, ['user_id', 'profile_key']);
-                }
-            } else {
-                $db->insertObject('#__user_profiles', $profileObject);
-            }
-        }
-
-        return true;
     }
 }
