@@ -62,9 +62,9 @@ class AjaxController extends BaseController
 
             PluginHelper::importPlugin('guidedtours');
 
-            // event onBeforeTourSaveState before save user tour state
+            // event onBeforeTourSaveUserState before save user tour state
             $beforeEvent = AbstractEvent::create(
-                'onBeforeTourRunSaveState',
+                'onBeforeTourSaveUserState',
                 [
                     'subject'     => new \stdClass(),
                     'tourId'      => $tourId,
@@ -73,20 +73,7 @@ class AjaxController extends BaseController
                 ]
             );
 
-            $this->app->getDispatcher()->dispatch('onBeforeTourRunSaveState', $beforeEvent);
-
-            // Log the user tour state in the user action logs
-            $event = AbstractEvent::create(
-                'onTourRunSaveState',
-                [
-                    'subject'     => new \stdClass(),
-                    'tourId'      => $tourId,
-                    'actionState' => $actionState,
-                    'stepNumber'  => $stepNumber,
-                ]
-            );
-
-            $this->app->getDispatcher()->dispatch('onTourRunSaveState', $event);
+            $this->app->getDispatcher()->dispatch('onBeforeTourSaveUserState', $beforeEvent);
 
             // Save the tour state.
             $result = $this->saveTourUserState($user->id, $tourId, $actionState);
@@ -96,9 +83,9 @@ class AjaxController extends BaseController
                 $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATENOTSAVED', $user->id, $tourId);
             }
 
-            // event onAfterTourSaveState after save user tour state (may override msgSave)
+            // event onAfterTourSaveUserState after save user tour state (may override msgSave)
             $afterEvent = AbstractEvent::create(
-                'onAfterTourRunSaveState',
+                'onAfterTourSaveUserState',
                 [
                     'subject'     => new \stdClass(),
                     'tourId'      => $tourId,
@@ -109,7 +96,7 @@ class AjaxController extends BaseController
                 ]
             );
 
-            $this->app->getDispatcher()->dispatch('onAfterTourRunSaveState', $afterEvent);
+            $this->app->getDispatcher()->dispatch('onAfterTourSaveUserState', $afterEvent);
 
             // Construct the response data
             $data = [
