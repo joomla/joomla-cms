@@ -73,7 +73,7 @@ class AjaxController extends BaseController
 
             // Save the tour state.
             $tourModel = $this->getModel('Tour', 'Administrator');
-            $result = $tourModel->saveTourUserState($user->id, $tourId, $actionState);
+            $result = $tourModel->saveTourUserState($tourId, $actionState);
             if ($result) {
                 $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATESAVED', $user->id, $tourId);
             } else {
