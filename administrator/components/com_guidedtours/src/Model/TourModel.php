@@ -581,49 +581,46 @@ class TourModel extends AdminModel
         $user = $this->getCurrentUser();
         $db   = $this->getDatabase();
 
-        // The tour state is only saved in the user profile if the tour is set to autostart.
-        if ($this->isAutostart($id)) {
-            $profileKey = 'guidedtour.id.' . $id;
+        $profileKey = 'guidedtour.id.' . $id;
 
-            // Check if the profile key already exists.
-            $query = $db->getQuery(true)
-                ->select($db->quoteName('profile_value'))
-                ->from($db->quoteName('#__user_profiles'))
-                ->where($db->quoteName('user_id') . ' = :user_id')
-                ->where($db->quoteName('profile_key') . ' = :profileKey')
-                ->bind(':user_id', $user->id, ParameterType::INTEGER)
-                ->bind(':profileKey', $profileKey, ParameterType::STRING);
+        // Check if the profile key already exists.
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('profile_value'))
+            ->from($db->quoteName('#__user_profiles'))
+            ->where($db->quoteName('user_id') . ' = :user_id')
+            ->where($db->quoteName('profile_key') . ' = :profileKey')
+            ->bind(':user_id', $user->id, ParameterType::INTEGER)
+            ->bind(':profileKey', $profileKey, ParameterType::STRING);
 
-            try {
-                $result = $db->setQuery($query)->loadResult();
-            } catch (\Exception $e) {
-                return false;
+        try {
+            $result = $db->setQuery($query)->loadResult();
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        $tourState = [];
+
+        $tourState['state'] = $state;
+        if ($state === 'delayed') {
+            $tourState['time'] = Date::getInstance();
+        }
+
+        $profileObject = (object)[
+            'user_id'       => $user->id,
+            'profile_key'   => $profileKey,
+            'profile_value' => json_encode($tourState),
+            'ordering'      => 0,
+        ];
+
+        if (!\is_null($result)) {
+            $values = json_decode($result, true);
+
+            // The profile is updated only when delayed. 'Completed' and 'Skipped' are final
+            if (!empty($values) && $values['state'] === 'delayed') {
+                $db->updateObject('#__user_profiles', $profileObject, ['user_id', 'profile_key']);
             }
-
-            $tourState = [];
-
-            $tourState['state'] = $state;
-            if ($state === 'delayed') {
-                $tourState['time'] = Date::getInstance();
-            }
-
-            $profileObject = (object)[
-                'user_id'       => $user->id,
-                'profile_key'   => $profileKey,
-                'profile_value' => json_encode($tourState),
-                'ordering'      => 0,
-            ];
-
-            if (!\is_null($result)) {
-                $values = json_decode($result, true);
-
-                // The profile is updated only when delayed. 'Completed' and 'Skipped' are final
-                if (!empty($values) && $values['state'] === 'delayed') {
-                    $db->updateObject('#__user_profiles', $profileObject, ['user_id', 'profile_key']);
-                }
-            } else {
-                $db->insertObject('#__user_profiles', $profileObject);
-            }
+        } else {
+            $db->insertObject('#__user_profiles', $profileObject);
         }
 
         return true;
