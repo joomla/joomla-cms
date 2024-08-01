@@ -71,12 +71,17 @@ class AjaxController extends BaseController
 
             $this->app->getDispatcher()->dispatch('onBeforeTourSaveUserState', $beforeEvent);
 
-            // Save the tour state.
+            // Save the tour state only when the tour auto-starts.
             $tourModel = $this->getModel('Tour', 'Administrator');
-            $result = $tourModel->saveTourUserState($tourId, $actionState);
-            if ($result) {
-                $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATESAVED', $user->id, $tourId);
+            if ($tourModel->isAutostart($tourId)) {
+                $result = $tourModel->saveTourUserState($tourId, $actionState);
+                if ($result) {
+                    $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATESAVED', $user->id, $tourId);
+                } else {
+                    $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATENOTSAVED', $user->id, $tourId);
+                }
             } else {
+                $result  = false;
                 $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATENOTSAVED', $user->id, $tourId);
             }
 
