@@ -567,7 +567,7 @@ class TourModel extends AdminModel
 
         return $result;
     }
-    
+
     /**
      * Save a tour state for a specific user.
      *
