@@ -83,7 +83,7 @@ class AjaxController extends BaseController
                 $message = Text::sprintf('COM_GUIDEDTOURS_USERSTATE_STATENOTSAVED', $user->id, $tourId);
             }
 
-            // event onAfterTourSaveUserState after save user tour state (may override msgSave)
+            // event onAfterTourSaveUserState after save user tour state (may override message)
             $afterEvent = AbstractEvent::create(
                 'onAfterTourSaveUserState',
                 [
