@@ -93,7 +93,9 @@
 
   // All list items
   li {
-
+    > a .fa {
+      width: 1rem;
+    }
     .menu-dashboard,
     .menu-quicktask {
       > a {
