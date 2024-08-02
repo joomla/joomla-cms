@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
