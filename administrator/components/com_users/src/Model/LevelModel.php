@@ -104,7 +104,7 @@ class LevelModel extends AdminModel
                 $app->enqueueMessage($msg, 'error');
             }
         }
-        
+
         if (empty($pks)) {
             // Nothing left to delete
             return true;
