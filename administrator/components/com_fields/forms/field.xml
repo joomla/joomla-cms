@@ -89,7 +89,7 @@
 			name="default_value"
 			type="textarea"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
-			filter="raw"
+			filter="safehtml"
 		/>
 
 		<field
