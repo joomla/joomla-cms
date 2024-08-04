@@ -27,7 +27,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 /** @var MethodsModel $model */
 $model = $this->getModel();
 
-$this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
+$this->getDocument()->getWebAssetManager()->useScript('com_users.two-factor-list');
 
 $canAddEdit = MfaHelper::canAddEditMethod($this->user);
 $canDelete  = MfaHelper::canDeleteMethod($this->user);

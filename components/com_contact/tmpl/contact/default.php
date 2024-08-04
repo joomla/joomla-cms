@@ -19,6 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Contact\Site\View\Contact\HtmlView $this */
 $tparams = $this->item->params;
 $canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === $this->getCurrentUser()->id);

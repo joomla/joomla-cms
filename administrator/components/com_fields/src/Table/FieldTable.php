@@ -181,14 +181,14 @@ class FieldTable extends Table implements CurrentUserInterface
         if ($this->id) {
             // Existing item
             $this->modified_time = $date;
-            $this->modified_by   = $user->get('id');
+            $this->modified_by   = $user->id;
         } else {
             if (!(int) $this->modified_time) {
                 $this->modified_time = $this->created_time;
             }
 
             if (empty($this->created_user_id)) {
-                $this->created_user_id = $user->get('id');
+                $this->created_user_id = $user->id;
             }
 
             if (empty($this->modified_by)) {

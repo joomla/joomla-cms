@@ -19,7 +19,7 @@ use Joomla\CMS\Version;
 /** @var \Joomla\Component\Installer\Administrator\View\Languages\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
     ->useScript('webcomponent.core-loader');
