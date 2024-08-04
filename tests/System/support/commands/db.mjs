@@ -122,7 +122,7 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
       article.id = info.insertId;
 
       if (article.featured === 1) {
-        await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering, featured_up, featured_down) VALUES ('${article.id}', '1', '2023-01-01 20:00:00', '2099-01-01 20:00:00')`);
+        await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${article.id}', '1')`);
       }
       await cy.task('queryDB', `INSERT INTO #__workflow_associations (item_id, stage_id, extension) VALUES (${article.id}, 1, 'com_content.article')`);
 
