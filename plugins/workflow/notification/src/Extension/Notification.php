@@ -19,16 +19,13 @@ use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Event\Event;
-use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
