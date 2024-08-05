@@ -84,8 +84,8 @@ $config
             'global_namespace_import'                          => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
             // Alpha order imports
             'ordered_imports'                                  => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
-			// Convert implicit nullable type (Foo $bar = null) into explicit (?Foo $bar = null)
-			'nullable_type_declaration_for_default_null_value' => true
+            // Convert implicit nullable type (Foo $bar = null) into explicit (?Foo $bar = null)
+            'nullable_type_declaration_for_default_null_value' => true
         ]
     )
     ->setFinder($finder);
