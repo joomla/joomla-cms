@@ -373,7 +373,7 @@ class HtmlView extends BaseHtmlView
 
         if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
             $toolbar->delete('items.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+                ->text('JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

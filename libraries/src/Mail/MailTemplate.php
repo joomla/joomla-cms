@@ -12,10 +12,12 @@ namespace Joomla\CMS\Mail;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Mail\BeforeRenderingMailTemplateEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -90,6 +92,14 @@ class MailTemplate
      * @since  4.0.0
      */
     protected $replyto;
+
+    /**
+     * Layout mailtemplate options of the email
+     *
+     * @var    string[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $layoutTemplateData = [];
 
     /**
      * Constructor for the mail templating class
@@ -169,6 +179,20 @@ class MailTemplate
     }
 
     /**
+     * Add data to the html layout template
+     *
+     * @param   array  $data  Associative array of strings for the layout
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addLayoutTemplateData($data)
+    {
+        $this->layoutTemplateData = array_merge($this->layoutTemplateData, $data);
+    }
+
+    /**
      * Add data to replace in the template
      *
      * @param   array  $data  Associative array of strings to replace
@@ -240,6 +264,12 @@ class MailTemplate
             $replyToName = $params->get('replytoname', $replyToName);
         }
 
+        $useLayout   = $config->get('disable_htmllayout', '1');
+
+        if ((int) $config->get('alternative_mailconfig', 0) === 1) {
+            $useLayout   = $params->get('disable_htmllayout', $useLayout);
+        }
+
         $app->getDispatcher()->dispatch('onMailBeforeRendering', new BeforeRenderingMailTemplateEvent(
             'onMailBeforeRendering',
             ['templateId' => $this->template_id, 'subject' => $this]
@@ -249,10 +279,11 @@ class MailTemplate
         $this->mailer->setSubject($subject);
 
         $mailStyle = $config->get('mail_style', 'plaintext');
+
         // Use the plain-text replacement data, if specified.
         $plainData = $this->plain_data ?: $this->data;
         $plainBody = $this->replaceTags(Text::_($mail->body), $plainData);
-        $htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
+        $htmlBody  = $useLayout ? Text::_($mail->htmlbody) : $this->replaceTags(Text::_($mail->htmlbody), $this->data);
 
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
             // If the Plain template is empty try to convert the HTML template to a Plain text
@@ -277,6 +308,57 @@ class MailTemplate
             }
 
             $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
+
+            if ($useLayout) {
+                // Add additional data to the layout template
+                $this->addLayoutTemplateData([
+                    'siteName' => $app->get('sitename'),
+                    'lang'     => substr($this->language, 0, 2),
+                ]);
+
+                $layout = $config->get('mail_htmllayout', 'mailtemplate');
+                $logo   = (string) $config->get('mail_logofile', '');
+
+                // Check alternative mailconfig
+                if ((int) $config->get('alternative_mailconfig', 0) === 1) {
+                    $layout = $params->get('htmllayout', $layout);
+                    $logo   = $params->get('disable_logofile', 1) ? $logo : '' ;
+                }
+
+                // Add the logo to the mail as inline attachement
+                if ($logo) {
+                    $logo = Path::check(JPATH_ROOT . '/' . HTMLHelper::_('cleanImageURL', $logo)->url);
+                    if (is_file(urldecode($logo))) {
+                        # Attach the logo as inline attachement
+                        $this->mailer->addAttachment($logo, 'site-logo', 'base64', mime_content_type($logo), 'inline');
+
+                        // We need only the cid for attached logo file
+                        $this->addLayoutTemplateData(['logo' => 'site-logo']);
+                    }
+                }
+
+                // Check if layout is a template override
+                $layoutParts = explode(':', $layout);
+
+                if (\count($layoutParts) === 2) {
+                    $layout = $layoutParts[1];
+                }
+
+                // Wrap the default Joomla mail template around the HTML body
+                $layoutFile = new FileLayout('joomla.mail.' . $layout, null, ['client' => 'site']);
+
+                // Set the template layout path if needed
+                if (\count($layoutParts) === 2) {
+                    $layoutFile->addIncludePaths([
+                        JPATH_SITE . '/templates/' . $layoutParts[0] . '/html/layouts',
+                        JPATH_SITE . '/templates/' . $layoutParts[0] . '/html/layouts/com_mails',
+                    ]);
+                }
+
+                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
+
+                $htmlBody = $this->replaceTags(Text::_($htmlBody), $this->data);
+            }
 
             $this->mailer->setBody($htmlBody);
         }
