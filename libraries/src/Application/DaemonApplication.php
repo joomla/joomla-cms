@@ -112,7 +112,7 @@ abstract class DaemonApplication extends CliApplication
      *
      * @since   1.7.0
      */
-    public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
+    public function __construct(?Cli $input = null, ?Registry $config = null, ?DispatcherInterface $dispatcher = null)
     {
         // Verify that the process control extension for PHP is available.
         if (!\defined('SIGHUP')) {

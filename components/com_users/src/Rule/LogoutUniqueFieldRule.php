@@ -43,7 +43,7 @@ class LogoutUniqueFieldRule extends FormRule
      *
      * @since   3.6
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $logoutRedirectUrl      = $input['params']->logout_redirect_url;
         $logoutRedirectMenuitem = $input['params']->logout_redirect_menuitem;

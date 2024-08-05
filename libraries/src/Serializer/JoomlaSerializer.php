@@ -49,7 +49,7 @@ class JoomlaSerializer extends AbstractSerializer
      *
      * @since   4.0.0
      */
-    public function getAttributes($post, array $fields = null)
+    public function getAttributes($post, ?array $fields = null)
     {
         if (!($post instanceof \stdClass) && !(\is_array($post)) && !($post instanceof CMSObject)) {
             $message = sprintf(

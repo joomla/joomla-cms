@@ -45,7 +45,7 @@ class BackupcodesModel extends BaseDatabaseModel
      * @throws  \Exception
      * @since 4.2.0
      */
-    public function getBackupCodesRecord(User $user = null): ?MfaTable
+    public function getBackupCodesRecord(?User $user = null): ?MfaTable
     {
         // Make sure I have a user
         if (empty($user)) {
@@ -78,7 +78,7 @@ class BackupcodesModel extends BaseDatabaseModel
      * @throws \Exception
      * @since 4.2.0
      */
-    public function regenerateBackupCodes(User $user = null): void
+    public function regenerateBackupCodes(?User $user = null): void
     {
         // Make sure I have a user
         if (empty($user)) {
@@ -167,7 +167,7 @@ class BackupcodesModel extends BaseDatabaseModel
      * @throws  \Exception
      * @since 4.2.0
      */
-    public function getBackupCodes(User $user = null): ?array
+    public function getBackupCodes(?User $user = null): ?array
     {
         // Make sure I have a user
         if (empty($user)) {

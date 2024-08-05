@@ -29,7 +29,7 @@ class RouteNotFoundException extends \InvalidArgumentException
      *
      * @since   3.8.0
      */
-    public function __construct($message = '', $code = 404, \Exception $previous = null)
+    public function __construct($message = '', $code = 404, ?\Exception $previous = null)
     {
         if (empty($message)) {
             $message = 'URL was not found';

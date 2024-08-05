@@ -37,7 +37,7 @@ class JsonapiView extends BaseApiView
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         /** @var ApplicationModel $model */
         $model = $this->getModel();

@@ -183,5 +183,5 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      *
      * @since   4.0.0
      */
-    public function loadIdentity(User $identity = null);
+    public function loadIdentity(?User $identity = null);
 }

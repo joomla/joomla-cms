@@ -33,5 +33,5 @@ interface ComponentDispatcherFactoryInterface
      *
      * @since   4.0.0
      */
-    public function createDispatcher(CMSApplicationInterface $application, Input $input = null): DispatcherInterface;
+    public function createDispatcher(CMSApplicationInterface $application, ?Input $input = null): DispatcherInterface;
 }

@@ -43,7 +43,7 @@ final class UserPlugin extends PrivacyPlugin
      *
      * @since   3.9.0
      */
-    public function onPrivacyCanRemoveData(RequestTable $request, User $user = null)
+    public function onPrivacyCanRemoveData(RequestTable $request, ?User $user = null)
     {
         $status = new Status();
 
@@ -76,7 +76,7 @@ final class UserPlugin extends PrivacyPlugin
      *
      * @since   3.9.0
      */
-    public function onPrivacyExportRequest(RequestTable $request, User $user = null)
+    public function onPrivacyExportRequest(RequestTable $request, ?User $user = null)
     {
         if (!$user) {
             return [];
@@ -107,7 +107,7 @@ final class UserPlugin extends PrivacyPlugin
      *
      * @since   3.9.0
      */
-    public function onPrivacyRemoveData(RequestTable $request, User $user = null)
+    public function onPrivacyRemoveData(RequestTable $request, ?User $user = null)
     {
         // This plugin only processes data for registered user accounts
         if (!$user) {

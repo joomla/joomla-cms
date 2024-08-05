@@ -35,5 +35,5 @@ interface ModuleInterface
      *
      * @since   4.0.0
      */
-    public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface;
+    public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, ?Input $input = null): DispatcherInterface;
 }

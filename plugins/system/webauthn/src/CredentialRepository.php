@@ -44,7 +44,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      *
      * @since   4.2.0
      */
-    public function __construct(DatabaseInterface $db = null)
+    public function __construct(?DatabaseInterface $db = null)
     {
         $this->setDatabase($db);
     }

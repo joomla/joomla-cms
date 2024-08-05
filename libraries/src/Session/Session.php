@@ -40,7 +40,7 @@ class Session extends BaseSession
      *
      * @since   1.0
      */
-    public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = [])
+    public function __construct(?StorageInterface $store = null, ?DispatcherInterface $dispatcher = null, array $options = [])
     {
         // Extra hash the name of the session for b/c with Joomla 3.x or the session is never found.
         if (isset($options['name'])) {

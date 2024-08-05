@@ -66,7 +66,7 @@ trait WorkflowPluginTrait
      *
      * @since   4.0.0
      */
-    protected function getWorkflow(int $workflowId = null)
+    protected function getWorkflow(?int $workflowId = null)
     {
         $app        = $this->getApplication() ?? $this->app;
         $workflowId = !empty($workflowId) ? $workflowId : $app->getInput()->getInt('workflow_id');

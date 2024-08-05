@@ -126,7 +126,7 @@ class MethodModel extends BaseDatabaseModel
      *
      * @since 4.2.0
      */
-    public function getRecord(User $user = null): MfaTable
+    public function getRecord(?User $user = null): MfaTable
     {
         if (is_null($user)) {
             $user = $this->getCurrentUser();

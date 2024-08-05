@@ -69,7 +69,7 @@ class ProviderManager
      *
      * @since   4.0.6
      */
-    public function unregisterProvider(ProviderInterface $provider = null): void
+    public function unregisterProvider(?ProviderInterface $provider = null): void
     {
         if ($provider === null) {
             $this->providers = [];

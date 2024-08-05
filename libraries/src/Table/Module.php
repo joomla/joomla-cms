@@ -86,7 +86,7 @@ class Module extends Table
      *
      * @since   3.2
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
 

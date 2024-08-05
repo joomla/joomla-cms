@@ -33,7 +33,7 @@ class Http extends FrameworkHttp
      * @since   1.7.3
      * @throws  \InvalidArgumentException
      */
-    public function __construct($options = [], FrameworkTransportInterface $transport = null)
+    public function __construct($options = [], ?FrameworkTransportInterface $transport = null)
     {
         if (!\is_array($options) && !($options instanceof \ArrayAccess)) {
             throw new \InvalidArgumentException(

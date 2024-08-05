@@ -57,7 +57,7 @@ trait TagServiceTrait
      *
      * @since   4.0.0
      */
-    protected function getTableNameForSection(string $section = null)
+    protected function getTableNameForSection(?string $section = null)
     {
         return null;
     }
@@ -71,7 +71,7 @@ trait TagServiceTrait
      *
      * @since   4.0.0
      */
-    protected function getStateColumnForSection(string $section = null)
+    protected function getStateColumnForSection(?string $section = null)
     {
         return 'state';
     }

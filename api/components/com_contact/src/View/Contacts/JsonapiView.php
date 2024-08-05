@@ -134,7 +134,7 @@ class JsonapiView extends BaseApiView
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
             $this->fieldsToRenderList[] = $field->name;

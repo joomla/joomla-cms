@@ -78,7 +78,7 @@ class Editor implements DispatcherAwareInterface
      * @param   string               $editor      The editor name
      * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
      */
-    public function __construct($editor = 'none', DispatcherInterface $dispatcher = null)
+    public function __construct($editor = 'none', ?DispatcherInterface $dispatcher = null)
     {
         $this->_name = $editor;
 

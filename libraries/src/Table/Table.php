@@ -162,7 +162,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      *
      * @since   1.7.0
      */
-    public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct($table, $key, DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct();
 
@@ -405,7 +405,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      *
      * @since   1.7.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         // For simple cases, parent to the asset root.
         /** @var Asset $assets */

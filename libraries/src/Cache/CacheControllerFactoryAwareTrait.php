@@ -61,7 +61,7 @@ trait CacheControllerFactoryAwareTrait
      *
      * @since   4.2.0
      */
-    public function setCacheControllerFactory(CacheControllerFactoryInterface $cacheControllerFactory = null): void
+    public function setCacheControllerFactory(?CacheControllerFactoryInterface $cacheControllerFactory = null): void
     {
         $this->cacheControllerFactory = $cacheControllerFactory;
     }

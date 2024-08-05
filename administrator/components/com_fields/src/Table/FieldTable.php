@@ -259,7 +259,7 @@ class FieldTable extends Table
      *
      * @since   3.7.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $contextArray = explode('.', $this->context);
         $component    = $contextArray[0];

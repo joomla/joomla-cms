@@ -61,7 +61,7 @@ class RouterFactory implements RouterFactoryInterface
      *
      * @since   4.0.0
      */
-    public function __construct($namespace, CategoryFactoryInterface $categoryFactory = null, DatabaseInterface $db = null)
+    public function __construct($namespace, ?CategoryFactoryInterface $categoryFactory = null, ?DatabaseInterface $db = null)
     {
         $this->namespace       = $namespace;
         $this->categoryFactory = $categoryFactory;

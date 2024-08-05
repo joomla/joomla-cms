@@ -60,7 +60,7 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @since 4.2.0
      */
-    public function suppressAllModules(CMSApplication $app = null): void
+    public function suppressAllModules(?CMSApplication $app = null): void
     {
         if (is_null($app)) {
             $app = Factory::getApplication();
@@ -80,7 +80,7 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @since 4.2.0
      */
-    public function getRecords(User $user = null, bool $includeBackupCodes = false): array
+    public function getRecords(?User $user = null, bool $includeBackupCodes = false): array
     {
         if (is_null($user)) {
             $user = $this->getCurrentUser();

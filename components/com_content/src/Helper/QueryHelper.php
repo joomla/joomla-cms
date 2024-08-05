@@ -69,7 +69,7 @@ class QueryHelper
      *
      * @since   1.5
      */
-    public static function orderbySecondary($orderby, $orderDate = 'created', DatabaseInterface $db = null)
+    public static function orderbySecondary($orderby, $orderDate = 'created', ?DatabaseInterface $db = null)
     {
         $db = $db ?: Factory::getDbo();
 
@@ -170,7 +170,7 @@ class QueryHelper
      *
      * @since   1.6
      */
-    public static function getQueryDate($orderDate, DatabaseInterface $db = null)
+    public static function getQueryDate($orderDate, ?DatabaseInterface $db = null)
     {
         $db = $db ?: Factory::getDbo();
 

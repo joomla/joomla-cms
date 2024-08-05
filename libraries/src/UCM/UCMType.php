@@ -91,7 +91,7 @@ class UCMType implements UCM
      *
      * @since   3.1
      */
-    public function __construct($alias = null, DatabaseDriver $database = null, AbstractApplication $application = null)
+    public function __construct($alias = null, ?DatabaseDriver $database = null, ?AbstractApplication $application = null)
     {
         $this->db = $database ?: Factory::getDbo();
         $app      = $application ?: Factory::getApplication();

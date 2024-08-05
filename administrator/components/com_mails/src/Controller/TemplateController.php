@@ -43,7 +43,7 @@ class TemplateController extends FormController
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 

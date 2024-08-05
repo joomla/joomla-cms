@@ -123,7 +123,7 @@ class TransitionTable extends Table
      *
      * @since  4.0.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
 

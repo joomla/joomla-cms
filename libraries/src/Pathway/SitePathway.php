@@ -31,7 +31,7 @@ class SitePathway extends Pathway
      *
      * @since   1.5
      */
-    public function __construct(SiteApplication $app = null)
+    public function __construct(?SiteApplication $app = null)
     {
         $this->pathway = [];
 

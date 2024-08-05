@@ -96,9 +96,9 @@ final class Authentication
      * @since   4.2.0
      */
     public function __construct(
-        ApplicationInterface $app = null,
-        SessionInterface $session = null,
-        PublicKeyCredentialSourceRepository $credRepo = null,
+        ?ApplicationInterface $app = null,
+        ?SessionInterface $session = null,
+        ?PublicKeyCredentialSourceRepository $credRepo = null,
         ?MetadataStatementRepository $mdsRepo = null
     ) {
         $this->app                   = $app;

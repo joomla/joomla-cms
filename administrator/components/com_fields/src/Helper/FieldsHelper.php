@@ -107,7 +107,7 @@ class FieldsHelper
         $context,
         $item = null,
         $prepareValue = false,
-        array $valuesToOverride = null,
+        ?array $valuesToOverride = null,
         bool $includeSubformFields = false
     ) {
         if (self::$fieldsCache === null) {

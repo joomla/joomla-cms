@@ -67,23 +67,25 @@ $config
     ->setRules(
         [
             // Basic ruleset is PSR 12
-            '@PSR12'                         => true,
+            '@PSR12'                                           => true,
             // Short array syntax
-            'array_syntax'                   => ['syntax' => 'short'],
+            'array_syntax'                                     => ['syntax' => 'short'],
             // Lists should not have a trailing comma like list($foo, $bar,) = ...
-            'no_trailing_comma_in_list_call' => true,
+            'no_trailing_comma_in_list_call'                   => true,
             // Arrays on multiline should have a trailing comma
-            'trailing_comma_in_multiline'    => ['elements' => ['arrays']],
+            'trailing_comma_in_multiline'                      => ['elements' => ['arrays']],
             // Align elements in multiline array and variable declarations on new lines below each other
-            'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
+            'binary_operator_spaces'                           => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
             // The "No break" comment in switch statements
-            'no_break_comment'               => ['comment_text' => 'No break'],
+            'no_break_comment'                                 => ['comment_text' => 'No break'],
             // Remove unused imports
-            'no_unused_imports'              => true,
+            'no_unused_imports'                                => true,
             // Classes from the global namespace should not be imported
-            'global_namespace_import'        => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
+            'global_namespace_import'                          => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
             // Alpha order imports
-            'ordered_imports'                => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
+            'ordered_imports'                                  => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
+			// Convert implicit nullable type (Foo $bar = null) into explicit (?Foo $bar = null)
+			'nullable_type_declaration_for_default_null_value' => true
         ]
     )
     ->setFinder($finder);

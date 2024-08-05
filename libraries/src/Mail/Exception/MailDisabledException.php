@@ -54,7 +54,7 @@ final class MailDisabledException extends \RuntimeException
      *
      * @since   4.0.0
      */
-    public function __construct(string $reason, string $message = '', int $code = 0, \Throwable $previous = null)
+    public function __construct(string $reason, string $message = '', int $code = 0, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
 

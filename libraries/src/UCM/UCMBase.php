@@ -49,7 +49,7 @@ class UCMBase implements UCM
      *
      * @since   3.1
      */
-    public function __construct($alias = null, UCMType $type = null)
+    public function __construct($alias = null, ?UCMType $type = null)
     {
         // Setup dependencies.
         $input       = Factory::getApplication()->getInput();
@@ -70,7 +70,7 @@ class UCMBase implements UCM
      * @since   3.1
      * @throws  \Exception
      */
-    protected function store($data, TableInterface $table = null, $primaryKey = null)
+    protected function store($data, ?TableInterface $table = null, $primaryKey = null)
     {
         if (!$table) {
             $table = Table::getInstance('Ucm');
@@ -124,7 +124,7 @@ class UCMBase implements UCM
      *
      * @since   3.1
      */
-    public function mapBase($original, UCMType $type = null)
+    public function mapBase($original, ?UCMType $type = null)
     {
         $type = $type ?: $this->type;
 

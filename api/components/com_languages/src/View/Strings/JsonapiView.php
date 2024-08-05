@@ -48,7 +48,7 @@ class JsonapiView extends BaseApiView
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         /** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
         $model  = $this->getModel();

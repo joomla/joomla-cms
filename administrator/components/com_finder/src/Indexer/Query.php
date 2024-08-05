@@ -204,7 +204,7 @@ class Query
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function __construct($options, DatabaseInterface $db = null)
+    public function __construct($options, ?DatabaseInterface $db = null)
     {
         if ($db === null) {
             @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);

@@ -40,7 +40,7 @@ class RulesRule extends FormRule
      *
      * @since   1.7.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // Get the possible field actions and the ones posted to validate them.
         $fieldActions = self::getFieldActions($element);

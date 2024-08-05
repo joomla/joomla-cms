@@ -69,7 +69,7 @@ class DatabaseModel extends InstallerModel
      * @see     ListModel
      * @since   4.0.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [

@@ -110,7 +110,7 @@ abstract class JsonApiView extends JsonView
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         /** @var \Joomla\CMS\MVC\Model\ListModel $model */
         $model = $this->getModel();

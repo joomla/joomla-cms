@@ -96,7 +96,7 @@ class Toolbar
      *
      * @since   1.5
      */
-    public function __construct($name = 'toolbar', ToolbarFactoryInterface $factory = null)
+    public function __construct($name = 'toolbar', ?ToolbarFactoryInterface $factory = null)
     {
         $this->_name = $name;
 

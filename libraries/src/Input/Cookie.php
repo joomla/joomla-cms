@@ -36,7 +36,7 @@ class Cookie extends Input
      * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Cookie instead
      */
-    public function __construct(array $source = null, array $options = [])
+    public function __construct(?array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];

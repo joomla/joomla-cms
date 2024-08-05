@@ -50,7 +50,7 @@ class CategoryController extends FormController
      * @since  1.6
      * @throws \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 

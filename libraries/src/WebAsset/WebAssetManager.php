@@ -731,7 +731,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @since  4.0.0
      */
-    protected function enableDependencies(string $type = null, WebAssetItem $asset = null): self
+    protected function enableDependencies(?string $type = null, ?WebAssetItem $asset = null): self
     {
         if ($type === 'preset') {
             // Preset items already was enabled by usePresetItems()
@@ -956,8 +956,8 @@ class WebAssetManager implements WebAssetManagerInterface
         string $type,
         WebAssetItem $asset,
         $recursively = false,
-        string $recursionType = null,
-        WebAssetItem $recursionRoot = null
+        ?string $recursionType = null,
+        ?WebAssetItem $recursionRoot = null
     ): array {
         $assets        = [];
         $recursionRoot = $recursionRoot ?? $asset;

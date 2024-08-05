@@ -59,7 +59,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.1
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name.
         $this->name = 'installation';
@@ -346,7 +346,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.1
      */
-    public function getLocaliseAdmin(DatabaseInterface $db = null)
+    public function getLocaliseAdmin(?DatabaseInterface $db = null)
     {
         $langfiles = [];
 
@@ -477,7 +477,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function loadDocument(Document $document = null)
+    public function loadDocument(?Document $document = null)
     {
         if ($document === null) {
             $lang = $this->getLanguage();

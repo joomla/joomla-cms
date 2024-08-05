@@ -92,7 +92,7 @@ class MailTemplate
      *
      * @since   4.0.0
      */
-    public function __construct($templateId, $language, Mail $mailer = null)
+    public function __construct($templateId, $language, ?Mail $mailer = null)
     {
         $this->template_id = $templateId;
         $this->language    = $language;

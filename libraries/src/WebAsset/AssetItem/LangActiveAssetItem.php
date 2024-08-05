@@ -37,7 +37,7 @@ class LangActiveAssetItem extends WebAssetItem
      */
     public function __construct(
         string $name,
-        string $uri = null,
+        ?string $uri = null,
         array $options = [],
         array $attributes = [],
         array $dependencies = []

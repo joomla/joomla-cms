@@ -37,7 +37,7 @@ final class Actionlogs extends PrivacyPlugin
      *
      * @since   3.9.0
      */
-    public function onPrivacyExportRequest(RequestTable $request, User $user = null)
+    public function onPrivacyExportRequest(RequestTable $request, ?User $user = null)
     {
         if (!$user) {
             return [];

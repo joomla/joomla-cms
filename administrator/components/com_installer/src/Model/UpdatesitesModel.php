@@ -42,7 +42,7 @@ class UpdatesitesModel extends InstallerModel
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Model\ListModel
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [

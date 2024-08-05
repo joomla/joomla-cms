@@ -51,7 +51,7 @@ class UCMContent extends UCMBase
      *
      * @since   3.1
      */
-    public function __construct(TableInterface $table = null, $alias = null, UCMType $type = null)
+    public function __construct(?TableInterface $table = null, $alias = null, ?UCMType $type = null)
     {
         parent::__construct($alias, $type);
 
@@ -73,7 +73,7 @@ class UCMContent extends UCMBase
      *
      * @since   3.1
      */
-    public function save($original = null, UCMType $type = null)
+    public function save($original = null, ?UCMType $type = null)
     {
         $type    = $type ?: $this->type;
         $ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
@@ -100,7 +100,7 @@ class UCMContent extends UCMBase
      *
      * @since   3.1
      */
-    public function delete($pk, UCMType $type = null)
+    public function delete($pk, ?UCMType $type = null)
     {
         $db   = Factory::getDbo();
         $type = $type ?: $this->type;
@@ -131,7 +131,7 @@ class UCMContent extends UCMBase
      *
      * @since   3.1
      */
-    public function mapData($original, UCMType $type = null)
+    public function mapData($original, ?UCMType $type = null)
     {
         $contentType = $type ?: $this->type;
 
@@ -180,7 +180,7 @@ class UCMContent extends UCMBase
      *
      * @since   3.1
      */
-    protected function store($data, TableInterface $table = null, $primaryKey = null)
+    protected function store($data, ?TableInterface $table = null, $primaryKey = null)
     {
         $table = $table ?: Table::getInstance('Corecontent');
 

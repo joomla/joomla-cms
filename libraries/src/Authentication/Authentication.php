@@ -99,7 +99,7 @@ class Authentication
      *
      * @since   1.7.0
      */
-    public function __construct(string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
+    public function __construct(string $pluginType = 'authentication', ?DispatcherInterface $dispatcher = null)
     {
         // Set the dispatcher
         if (!\is_object($dispatcher)) {

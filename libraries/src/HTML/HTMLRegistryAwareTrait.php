@@ -54,7 +54,7 @@ trait HTMLRegistryAwareTrait
      *
      * @since   4.0.0
      */
-    public function setRegistry(Registry $registry = null)
+    public function setRegistry(?Registry $registry = null)
     {
         $this->registry = $registry;
     }

@@ -40,7 +40,7 @@ class ContactEmailRule extends EmailRule
      *
      * @return  boolean  True if the value is valid, false otherwise.
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         if (!parent::test($element, $value, $group, $input, $form)) {
             return false;
