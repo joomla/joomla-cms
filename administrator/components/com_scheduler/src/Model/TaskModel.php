@@ -411,7 +411,6 @@ class TaskModel extends AdminModel
      *
      * @param \JDatabaseDriver $db The database driver to use.
      * @return bool True if there are running tasks, false otherwise.
-     * 
      * @since __DEPLOY_VERSION__
      */
     private function hasRunningTasks($db): bool
@@ -442,7 +441,6 @@ class TaskModel extends AdminModel
      *                      - allowDisabled: Whether to allow disabled tasks.
      *                      - id: The ID of the task.
      * @return Query The lock query.
-     * 
      * @since __DEPLOY_VERSION__
      */
     private function buildLockQuery($db, $now, $options)
@@ -535,7 +533,6 @@ class TaskModel extends AdminModel
      * @param \JDatabaseDriver $db The database driver to use.
      * @param string $now The current time in the database's time format.
      * @return \stdClass|null The fetched task object, or null if no task was found.
-     * 
      * @since __DEPLOY_VERSION__
      * @throws \RuntimeException If there was an error executing the query.
      */
