@@ -62,7 +62,7 @@ Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('switch
  */
 $input = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
-$attr = 'id="' . $id . '"';
+$attr = 'id="' . $id . '" class="radio"';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 $attr .= $dataAttribute;
 
