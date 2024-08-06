@@ -438,7 +438,7 @@ class Query
 
         // Sanitize the terms.
         foreach ($results as $key => $value) {
-            $results[$key] = array_unique($results[$key]);
+            $results[$key] = array_unique($value);
             $results[$key] = ArrayHelper::toInteger($results[$key]);
         }
 
@@ -477,7 +477,7 @@ class Query
 
         // Sanitize the terms.
         foreach ($results as $key => $value) {
-            $results[$key] = array_unique($results[$key]);
+            $results[$key] = array_unique($value);
             $results[$key] = ArrayHelper::toInteger($results[$key]);
         }
 

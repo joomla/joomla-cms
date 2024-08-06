@@ -309,6 +309,12 @@ class SiteRouter extends Router
             $item = $this->menu->getItem($uri->getVar('Itemid'));
         } else {
             $item = $this->menu->getDefault($this->app->getLanguage()->getTag());
+
+            if ($item->query['option'] !== $uri->getVar('option', $item->query['option'])) {
+                // Set the active menu item
+                $this->menu->setActive($item->id);
+                $item = false;
+            }
         }
 
         if ($item && $item->type === 'alias') {
