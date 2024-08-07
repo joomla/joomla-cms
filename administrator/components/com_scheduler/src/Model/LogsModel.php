@@ -37,7 +37,7 @@ class LogsModel extends ListModel
      * @see     \JControllerLegacy
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
