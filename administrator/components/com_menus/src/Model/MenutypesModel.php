@@ -412,8 +412,9 @@ class MenutypesModel extends BaseDatabaseModel
             $o->request = array_filter($request, function($value) {
                 if (is_array($value)) {
                     return !empty($value);
-                } else {
-                    return strlen($value);
+                }
+
+                return strlen($value);
                }
             });
 
