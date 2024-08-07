@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_logs" (
   "exitcode" integer NOT NULL,
   "lastdate" timestamp without time zone,
   "nextdate" timestamp without time zone,
-  PRIMARY KEY (id),
+  PRIMARY KEY (id)
 );
 CREATE INDEX "#__scheduler_logs_idx_taskname" ON "#__scheduler_logs" ("taskname");
 CREATE INDEX "#__scheduler_logs_idx_tasktype" ON "#__scheduler_logs" ("tasktype");
