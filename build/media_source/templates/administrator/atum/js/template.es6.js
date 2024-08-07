@@ -246,7 +246,7 @@ window.addEventListener('joomla:menu-toggle', (event) => {
 /**
  * Close any open data-bs-toggle="collapse" when opening a data-bs-toggle="dropdown"
  *
- * since 4.4
+ * @since 4.4
  */
 document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach((button) => {
   button.addEventListener('click', () => {
