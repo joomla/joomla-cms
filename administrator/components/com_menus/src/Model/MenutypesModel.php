@@ -415,7 +415,6 @@ class MenutypesModel extends BaseDatabaseModel
                 }
 
                 return strlen($value);
-               }
             });
 
             $options[]  = new CMSObject($o);
