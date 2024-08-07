@@ -409,7 +409,7 @@ class MenutypesModel extends BaseDatabaseModel
                 $request['sub']        = (string) $attributes->sub;
             }
 
-            $o->request = array_filter($request, function($value) {
+            $o->request = array_filter($request, function ($value) {
                 if (is_array($value)) {
                     return !empty($value);
                 }
