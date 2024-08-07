@@ -242,3 +242,20 @@ window.addEventListener('joomla:menu-toggle', (event) => {
     changeLogo(event.detail);
   }
 });
+
+// Get all buttons with data-bs-toggle attributes
+const collapseButtons = document.querySelectorAll('[data-bs-toggle="collapse"]');
+const dropdownButtons = document.querySelectorAll('[data-bs-toggle="dropdown"]');
+
+// Add event listeners to dropdown buttons
+dropdownButtons.forEach(button => {
+  button.addEventListener('click', function () {
+    collapseButtons.forEach(cb => {
+      const target = document.querySelector(cb.getAttribute('data-bs-target'));
+      const collapseMenu = bootstrap.Collapse.getInstance(target) || new bootstrap.Collapse(target, {
+        toggle: false
+      });
+      collapseMenu.hide();
+    });
+  });
+});
