@@ -407,12 +407,16 @@ class MenutypesModel extends BaseDatabaseModel
                 $request['view']       = (string) $attributes->view;
                 $request['layout']     = (string) $attributes->layout;
                 $request['sub']        = (string) $attributes->sub;
-
-                // Remove empty values.
-                $request = array_filter($request);
             }
 
-            $o->request = $request;
+            $o->request = array_filter($request, function($value) {
+                if (is_array($value)) {
+                    return !empty($value);
+                } else {
+                    return strlen($value);
+               }
+            });
+
             $options[]  = new CMSObject($o);
 
             // Do not repeat the default view link (index.php?option=com_abc).
