@@ -57,7 +57,7 @@ class FilterTable extends Table implements CurrentUserInterface
      *
      * @since   2.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__finder_filters', 'filter_id', $db, $dispatcher);
 
