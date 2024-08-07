@@ -172,7 +172,7 @@ class HtmlView extends BaseHtmlView
 
         // Add "Empty Trash" button if filtering by trashed.
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('tasks.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('tasks.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
