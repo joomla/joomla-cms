@@ -57,12 +57,12 @@ class SiteRouter extends Router
     /**
      * Class constructor
      *
-     * @param   CMSApplication  $app   Application Object
-     * @param   AbstractMenu    $menu  Menu object
+     * @param   ?CMSApplication  $app   Application Object
+     * @param   ?AbstractMenu    $menu  Menu object
      *
      * @since   3.4
      */
-    public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
+    public function __construct(?CMSApplication $app = null, ?AbstractMenu $menu = null)
     {
         $this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $this->menu = $menu ?: $this->app->getMenu();

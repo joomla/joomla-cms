@@ -97,12 +97,12 @@ class Authentication
     /**
      * Constructor
      *
-     * @param   string               $pluginType  The plugin type to run authorisation and authentication on
-     * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
+     * @param   string                $pluginType  The plugin type to run authorisation and authentication on
+     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher we're going to use
      *
      * @since   1.7.0
      */
-    public function __construct(string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
+    public function __construct(string $pluginType = 'authentication', ?DispatcherInterface $dispatcher = null)
     {
         // Set the dispatcher
         if (!\is_object($dispatcher)) {
