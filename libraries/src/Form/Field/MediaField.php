@@ -382,6 +382,9 @@ class MediaField extends FormField
         array_map(
             function ($mediaType) use (&$types, &$imagesAllowedExt, &$audiosAllowedExt, &$videosAllowedExt, &$documentsAllowedExt, $imagesExt, $audiosExt, $videosExt, $documentsExt) {
                 switch ($mediaType) {
+                    case 'directories':
+                        $types[] = '-1';
+                        break;
                     case 'images':
                         $types[]          = '0';
                         $imagesAllowedExt = $imagesExt;
@@ -417,6 +420,7 @@ class MediaField extends FormField
             'previewHeight'       => $this->previewHeight,
             'previewWidth'        => $this->previewWidth,
             'mediaTypes'          => implode(',', $types),
+            'mediaTypeNames'      => $mediaTypes,
             'imagesExt'           => $imagesExt,
             'audiosExt'           => $audiosExt,
             'videosExt'           => $videosExt,

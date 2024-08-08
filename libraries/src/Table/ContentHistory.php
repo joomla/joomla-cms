@@ -56,7 +56,7 @@ class ContentHistory extends Table implements CurrentUserInterface
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__history', 'version_id', $db, $dispatcher);
         $this->ignoreChanges = [

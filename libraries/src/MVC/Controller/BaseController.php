@@ -365,7 +365,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplicationInterface $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplicationInterface $app = null, ?Input $input = null)
     {
         $this->methods     = [];
         $this->message     = null;
