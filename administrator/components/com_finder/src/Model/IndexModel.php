@@ -62,7 +62,7 @@ class IndexModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
