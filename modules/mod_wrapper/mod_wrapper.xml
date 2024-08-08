@@ -25,7 +25,9 @@
 			<fieldset name="basic">
 				<field
 					name="url"
-					type="text"
+					type="url"
+					validate="url"
+					filter="url"
 					label="MOD_WRAPPER_FIELD_URL_LABEL"
 					required="true"
 				/>

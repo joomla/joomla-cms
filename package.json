@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "4.4.6",
+  "version": "4.4.7",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -28,8 +28,8 @@
     "versioning": "node build/build.js --versioning",
     "browserlist:update": "npx browserslist@latest --update-db",
     "cypress:install": "cypress install",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:open": "cypress open --config-file cypress.config.mjs",
+    "cypress:run": "cypress run --config-file cypress.config.mjs"
   },
   "browserslist": [
     "last 2 major version",
@@ -92,7 +92,7 @@
     "fs-extra": "^10.1.0",
     "ini": "^2.0.0",
     "jasmine-core": "^3.99.1",
-    "joomla-cypress": "^0.0.16",
+    "joomla-cypress": "^1.1.1",
     "lightningcss": "^1.22.1",
     "mysql": "^2.18.1",
     "postcss": "^8.4.30",
