@@ -62,7 +62,7 @@ class UpdateModel extends BaseDatabaseModel
      * @since   4.4.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -2026,5 +2026,74 @@ ENDDATA;
         if (version_compare($versionPackage, $currentVersion, 'lt')) {
             throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE', $packageName, $versionPackage, $currentVersion), 500);
         }
+    }
+
+    /**
+     * Reset update source from "next" to "default"
+     *
+     * @return  boolean  True if update source is reset, false if reset failed with error,
+     *                   null if no reset was necessary.
+     *
+     * @since   5.1.2
+     */
+    public function resetUpdateSource()
+    {
+        // Get current update source
+        $params = ComponentHelper::getParams('com_joomlaupdate');
+
+        // Do nothing if not "next"
+        if ($params->get('updatesource', 'default') !== 'next') {
+            return null;
+        }
+
+        $params->set('updatesource', 'default');
+
+        $params = $params->toString();
+        $db     = $this->getDatabase();
+        $query  = $db->getQuery(true)
+            ->update($db->quoteName('#__extensions'))
+            ->set($db->quoteName('params') . ' = :params')
+            ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'))
+            ->bind(':params', $params);
+
+        try {
+            $db->setQuery($query);
+            $db->execute();
+        } catch (\Exception $e) {
+            Log::add(
+                sprintf(
+                    'An error has occurred while running "resetUpdateSource". Code: %s. Message: %s.',
+                    $e->getCode(),
+                    $e->getMessage()
+                ),
+                Log::WARNING,
+                'Update'
+            );
+
+            Log::add(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                ),
+                Log::WARNING,
+                'Update'
+            );
+
+            return false;
+        }
+
+        Log::add(
+            Text::sprintf(
+                'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK',
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+            ),
+            Log::INFO,
+            'Update'
+        );
+
+        return true;
     }
 }
