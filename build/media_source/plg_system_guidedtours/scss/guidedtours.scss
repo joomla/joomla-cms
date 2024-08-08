@@ -14,6 +14,10 @@
   max-width: min(1200px, 90%);
 }
 
+.shepherd-modal-overlay-container.shepherd-modal-is-visible {
+  opacity: .7;
+}
+
 .shepherd-content {
   border: 1px solid var(--border-color-translucent);
   border-radius: .3rem;
