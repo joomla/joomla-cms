@@ -33,7 +33,7 @@ class UpdateSite extends Table
      *
      * @since   3.4
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__update_sites', 'update_site_id', $db, $dispatcher);
     }
