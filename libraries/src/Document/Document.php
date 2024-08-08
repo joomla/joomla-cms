@@ -325,7 +325,7 @@ class Document
         if (\array_key_exists('webAssetManager', $options)) {
             $this->setWebAssetManager($options['webAssetManager']);
         } else {
-            $webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
+            $webAssetManager = new WebAssetManager(CmsFactory::getContainer()->get('webassetregistry'));
 
             $this->setWebAssetManager($webAssetManager);
         }
