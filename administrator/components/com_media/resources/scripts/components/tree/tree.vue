@@ -88,7 +88,10 @@ export default {
           {
             bubbles: true,
             cancelable: false,
-            detail: {},
+            detail: {
+              type: item.type,
+              path: item.path,
+            },
           },
         ),
       );
