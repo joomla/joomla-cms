@@ -12,6 +12,7 @@ namespace Joomla\Component\Tags\Site\View\Tags;
 
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
@@ -37,6 +38,12 @@ class FeedView extends BaseHtmlView
     {
         $app                       = Factory::getApplication();
         $this->getDocument()->link = Route::_('index.php?option=com_tags&view=tags');
+        $params                    = $app->getParams();
+
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
 
         $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail = $app->get('mailfrom');
