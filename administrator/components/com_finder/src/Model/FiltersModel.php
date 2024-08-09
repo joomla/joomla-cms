@@ -128,10 +128,6 @@ class FiltersModel extends ListModel
      */
     protected function populateState($ordering = 'a.title', $direction = 'asc')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-
         // Load the parameters.
         $params = ComponentHelper::getParams('com_finder');
         $this->setState('params', $params);
