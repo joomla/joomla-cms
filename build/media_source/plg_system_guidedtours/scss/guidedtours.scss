@@ -5,6 +5,15 @@
 
 @import "../../../../node_modules/shepherd.js/dist/css/shepherd";
 
+.shepherd-element {
+  width: max-content;
+  max-width: min(600px, 90%);
+}
+
+.shepherd-element.shepherd-centered {
+  max-width: min(1200px, 90%);
+}
+
 .shepherd-modal-overlay-container.shepherd-modal-is-visible {
   opacity: .7;
 }
@@ -30,13 +39,16 @@
 }
 
 .shepherd-text {
-  padding: 1em;
+  max-height: calc(100vh - 240px);
+  padding: 1rem 1rem 0;
+  overflow-y: auto;
   line-height: 1.5em;
 }
 
 .shepherd-footer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  padding: 1rem;
 }
 
 .shepherd-button-primary {
