@@ -103,13 +103,13 @@ class MailTemplate
     /**
      * Constructor for the mail templating class
      *
-     * @param   string  $templateId  Id of the mail template.
-     * @param   string  $language    Language of the template to use.
-     * @param   Mail    $mailer      Mail object to send the mail with.
+     * @param   string   $templateId  Id of the mail template.
+     * @param   string   $language    Language of the template to use.
+     * @param   ?Mail    $mailer      Mail object to send the mail with.
      *
      * @since   4.0.0
      */
-    public function __construct($templateId, $language, Mail $mailer = null)
+    public function __construct($templateId, $language, ?Mail $mailer = null)
     {
         $this->template_id = $templateId;
         $this->language    = $language;

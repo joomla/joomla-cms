@@ -47,7 +47,7 @@ class NoteTable extends Table implements VersionableTableInterface, CurrentUserI
      *
      * @since   2.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_users.note';
         parent::__construct('#__user_notes', 'id', $db, $dispatcher);
