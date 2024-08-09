@@ -53,18 +53,44 @@
 
 .shepherd-enabled.shepherd-element[data-popper-placement=bottom] {
   transform: translateY(12px);
+  .shepherd-arrow:before {
+    border-top: 1px solid var(--border-color-translucent);
+    border-left: 1px solid var(--border-color-translucent);
+  }
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement=left] {
   transform: translateX(-12px);
+  .shepherd-arrow:before {
+    border-top: 1px solid var(--border-color-translucent);
+    border-right: 1px solid var(--border-color-translucent);
+  }
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement=top] {
   transform: translateY(-12px);
+  .shepherd-arrow:before {
+    border-right: 1px solid var(--border-color-translucent);
+    border-bottom: 1px solid var(--border-color-translucent);
+  }
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement=right] {
   transform: translateX(12px);
+  .shepherd-arrow:before {
+    border-bottom: 1px solid var(--border-color-translucent);
+    border-left: 1px solid var(--border-color-translucent);
+  }
+}
+
+// If the arrow is under the popup, it gets the color of the shadow.
+.shepherd-arrow, .shepherd-arrow:before {
+  z-index: 0;
+}
+
+// Missing color setting for the arrow when above the header.
+.shepherd-element.shepherd-has-title[data-popper-placement^="bottom"] > .shepherd-arrow:before {
+  background-color: #e6e6e6 !important;
 }
 
 #modGuidedTours-modal a {
