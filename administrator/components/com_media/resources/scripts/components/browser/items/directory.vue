@@ -58,6 +58,7 @@ export default {
           cancelable: false,
           detail: {
             type: this.item.type,
+            name: this.item.name,
             path: this.item.path,
           },
         }),
