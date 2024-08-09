@@ -86,7 +86,7 @@ class Session implements ServiceProviderInterface
                 $options['cookie_path']   = $config->get('cookie_path', '/');
 
                 return new \Joomla\CMS\Session\Session(
-                    new JoomlaStorage($input, $handler),
+                    new JoomlaStorage($input, $handler, $options),
                     $container->get(DispatcherInterface::class),
                     $options
                 );
@@ -133,7 +133,7 @@ class Session implements ServiceProviderInterface
                 $options['cookie_path']   = $config->get('cookie_path', '/');
 
                 return new \Joomla\CMS\Session\Session(
-                    new JoomlaStorage($input, $handler),
+                    new JoomlaStorage($input, $handler, $options),
                     $container->get(DispatcherInterface::class),
                     $options
                 );
@@ -174,7 +174,7 @@ class Session implements ServiceProviderInterface
                 $options['cookie_path']   = $config->get('cookie_path', '/');
 
                 return new \Joomla\CMS\Session\Session(
-                    new JoomlaStorage($input, $handler),
+                    new JoomlaStorage($input, $handler, $options),
                     $container->get(DispatcherInterface::class),
                     $options
                 );

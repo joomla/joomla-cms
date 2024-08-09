@@ -335,7 +335,7 @@ class LdapPluginTest extends UnitTestCase
                         $this->hasEntry  = $hasEntry;
                     }
 
-                    public function bind(string $dn = null, string $password = null)
+                    public function bind(?string $dn = null, ?string $password = null)
                     {
                         if ($this->failBind) {
                             throw new LdapException();
