@@ -5,6 +5,19 @@
 
 @import "../../../../node_modules/shepherd.js/dist/css/shepherd";
 
+.shepherd-element {
+  width: max-content;
+  max-width: min(600px, 90%);
+}
+
+.shepherd-element.shepherd-centered {
+  max-width: min(1200px, 90%);
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible {
+  opacity: .7;
+}
+
 .shepherd-content {
   border: 1px solid var(--border-color-translucent);
   border-radius: .3rem;
@@ -26,13 +39,16 @@
 }
 
 .shepherd-text {
-  padding: 1em;
+  max-height: calc(100vh - 240px);
+  padding: 1rem 1rem 0;
+  overflow-y: auto;
   line-height: 1.5em;
 }
 
 .shepherd-footer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  padding: 1rem;
 }
 
 .shepherd-button-primary {
@@ -49,18 +65,44 @@
 
 .shepherd-enabled.shepherd-element[data-popper-placement=bottom] {
   transform: translateY(12px);
+  .shepherd-arrow:before {
+    border-top: 1px solid var(--border-color-translucent);
+    border-left: 1px solid var(--border-color-translucent);
+  }
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement=left] {
   transform: translateX(-12px);
+  .shepherd-arrow:before {
+    border-top: 1px solid var(--border-color-translucent);
+    border-right: 1px solid var(--border-color-translucent);
+  }
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement=top] {
   transform: translateY(-12px);
+  .shepherd-arrow:before {
+    border-right: 1px solid var(--border-color-translucent);
+    border-bottom: 1px solid var(--border-color-translucent);
+  }
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement=right] {
   transform: translateX(12px);
+  .shepherd-arrow:before {
+    border-bottom: 1px solid var(--border-color-translucent);
+    border-left: 1px solid var(--border-color-translucent);
+  }
+}
+
+// If the arrow is under the popup, it gets the color of the shadow.
+.shepherd-arrow, .shepherd-arrow:before {
+  z-index: 0;
+}
+
+// Missing color setting for the arrow when above the header.
+.shepherd-element.shepherd-has-title[data-popper-placement^="bottom"] > .shepherd-arrow:before {
+  background-color: #e6e6e6 !important;
 }
 
 #modGuidedTours-modal a {
