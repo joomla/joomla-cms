@@ -25,10 +25,10 @@ if ($params->get('articles_layout') == 1) {
             $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
         ?>
         <li>
-            <article class="mod-articles-item <?php echo ($params->get('card_link') ? 'mod-articles-item-card' : ''); ?>" itemscope itemtype="https://schema.org/Article">
+            <article class="mod-articles-item <?php echo ($params->get('card_link') ? 'mod-articles-item-card card' : ''); ?>" itemscope itemtype="https://schema.org/Article">
 
                 <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('show_readmore')) : ?>
-                    <div class="mod-articles-item-content">
+                    <div class="mod-articles-item-content <?php echo ($params->get('card_link') ? 'card-body' : ''); ?>">
 
                         <?php if ($params->get('item_title')) : ?>
                             <?php $item_heading = $params->get('item_heading', 'h4'); ?>
@@ -63,7 +63,7 @@ if ($params->get('articles_layout') == 1) {
                                 <?php if ($item->displayCategoryTitle) : ?>
                                     <dd class="mod-articles-category <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
                                         <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-folder-open icon-fw']); ?>
-                                        <?php if ($item->displayCategoryLink) : ?>
+                                        <?php if ($item->displayCategoryLink && $params->get('card_link') == 0) : ?>
                                             <a href="<?php echo $item->displayCategoryLink; ?>">
                                                 <?php echo $item->displayCategoryTitle; ?>
                                             </a>

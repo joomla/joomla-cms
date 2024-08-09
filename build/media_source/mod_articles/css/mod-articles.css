@@ -15,6 +15,9 @@
   outline: none;
   box-shadow: none;
 }
+.mod-articles-item-card:hover {
+  box-shadow: 1px 1px 4px #0000001a;
+}
 .mod-articles-item {
   display: flex;
   flex-direction: column;

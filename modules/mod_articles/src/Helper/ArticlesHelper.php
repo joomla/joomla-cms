@@ -264,7 +264,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
             // Remove any images belongs to the text
             if (!$params->get('image')) {
-                $item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
+                $item->displayIntrotext = preg_replace('/<img[^>]*>/', '', $item->introtext);
             }
 
             // Show the Intro/Full image field of the article
