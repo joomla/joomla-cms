@@ -31,11 +31,28 @@
 
 .shepherd-title {
   flex: 1 1 auto;
-  line-height: 1.5em;
+}
+
+.shepherd-cancel-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: 8px;
+  overflow-y: clip;
+}
+
+.shepherd-cancel-icon::before {
+  margin: 0 8px;
+  font-size: 1rem;
+  content: attr(aria-label);
+}
+
+.shepherd-cancel-icon span {
+  font-size: 2rem;
 }
 
 .shepherd-progress {
-  margin: 0 15px;
+  margin-inline-end: 16px;
+  line-height: 1.3em;
 }
 
 .shepherd-text {
