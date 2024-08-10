@@ -119,6 +119,10 @@
     &.btn {
       padding-inline-end: 0;
     }
+
+    > * {
+      pointer-events: none;
+    }
   }
 
   .btn-group:not(:last-child) > .dropdown-toggle-split {

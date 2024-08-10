@@ -28,7 +28,7 @@ const rotate = (angle, image) => {
   ctx.drawImage(image, -image.naturalWidth / 2, -image.naturalHeight / 2);
 
   // The format
-  const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
+  const format = Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension.toLowerCase();
 
   // The quality
   const quality = document.getElementById('jform_rotate_quality').value;

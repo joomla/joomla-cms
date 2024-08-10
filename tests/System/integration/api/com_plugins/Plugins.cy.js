@@ -31,5 +31,6 @@ describe('Test that plugins API endpoint', () => {
             .its('enabled')
             .should('equal', 0));
       });
+    cy.db_enableExtension('1', 'plg_actionlog_joomla');
   });
 });

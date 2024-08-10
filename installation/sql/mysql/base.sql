@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   `lft` int NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
   `rgt` int NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
   `level` int unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
-  `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
+  `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
