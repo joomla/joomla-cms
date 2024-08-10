@@ -48,13 +48,13 @@ trait IdentityAware
     /**
      * Allows the application to load a custom or default identity.
      *
-     * @param   User  $identity  An optional identity object. If omitted, a null user object is created.
+     * @param   ?User  $identity  An optional identity object. If omitted, a null user object is created.
      *
      * @return  $this
      *
      * @since   4.0.0
      */
-    public function loadIdentity(User $identity = null)
+    public function loadIdentity(?User $identity = null)
     {
         $this->identity = $identity ?: $this->getUserFactory()->loadUserById(0);
 
