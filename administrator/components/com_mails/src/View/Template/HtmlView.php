@@ -136,17 +136,11 @@ class HtmlView extends BaseHtmlView
             'pencil-2 article-add'
         );
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
-
-        $saveGroup->configure(
-            function (Toolbar $childBar) {
-                $childBar->apply('template.apply');
-                $childBar->save('template.save');
-            }
-        );
-
+        $toolbar->apply('template.apply');
+        $toolbar->divider();
+        $toolbar->save('template.save');
+        $toolbar->divider();
         $toolbar->cancel('template.cancel', 'JTOOLBAR_CLOSE');
-
         $toolbar->divider();
         $toolbar->help('Mail_Template:_Edit');
     }

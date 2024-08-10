@@ -232,7 +232,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && ($state->get('filter.state') == -2 && $canDo->get('core.delete'))) {
-            $toolbar->delete('modules.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('modules.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
