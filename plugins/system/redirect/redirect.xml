@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_SYSTEM_REDIRECT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Redirect</namespace>
 	<files>
 		<folder>form</folder>
-		<filename plugin="redirect">redirect.php</filename>
+		<folder plugin="redirect">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_redirect.ini</language>

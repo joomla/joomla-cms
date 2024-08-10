@@ -19,7 +19,6 @@ use Joomla\Input\Input;
 use Joomla\Plugin\Captcha\ReCaptcha\Extension\ReCaptcha;
 use Joomla\Tests\Unit\UnitTestCase;
 use ReCaptcha\RequestMethod;
-use RuntimeException;
 
 /**
  * Test class for ReCaptcha plugin
@@ -119,7 +118,7 @@ class RecaptchaPluginTest extends UnitTestCase
         $plugin = new ReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
         $plugin->setApplication($app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $plugin->onInit();
     }
@@ -209,7 +208,7 @@ class RecaptchaPluginTest extends UnitTestCase
         $plugin = new ReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
         $plugin->setApplication($app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $plugin->onCheckAnswer();
     }
@@ -233,7 +232,7 @@ class RecaptchaPluginTest extends UnitTestCase
         $plugin = new ReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
         $plugin->setApplication($app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $plugin->onCheckAnswer();
     }
@@ -260,7 +259,7 @@ class RecaptchaPluginTest extends UnitTestCase
         $plugin = new ReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $method);
         $plugin->setApplication($app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $plugin->onCheckAnswer();
     }

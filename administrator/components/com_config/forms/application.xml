@@ -1022,6 +1022,9 @@
 		<field
 			name="offline_image"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONFIG_FIELD_OFFLINE_IMAGE_LABEL"
 			showon="offline:1"
 		/>

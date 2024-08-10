@@ -71,7 +71,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php $link = PunycodeHelper::urlToUTF8($item->link); ?>
                         <span class="list float-start">
                             <a href="<?php echo $item->link; ?>">
-                                <?php echo $link; ?>
+                                <?php echo $this->escape($link); ?>
                             </a>
                         </span>
                         <br>

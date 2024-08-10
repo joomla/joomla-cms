@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  False if unsuccessful, otherwise void.
+     * @return  void
      *
      * @since   1.6
      */

@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 $app   = Factory::getApplication();
 $user  = $app->getIdentity();
 $input = $app->getInput();
-$lang  = Factory::getLanguage()->getTag();
+$lang  = $this->getLanguage()->getTag();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();

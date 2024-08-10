@@ -28,12 +28,12 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 <div class="header-item-content dropdown header-profile">
     <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
         title="<?php echo Text::_('MOD_USER_MENU'); ?>">
-        <div class="header-item-icon">
+        <span class="header-item-icon">
             <span class="icon-user-circle" aria-hidden="true"></span>
-        </div>
-        <div class="header-item-text">
+        </span>
+        <span class="header-item-text">
             <?php echo Text::_('MOD_USER_MENU'); ?>
-        </div>
+        </span>
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">

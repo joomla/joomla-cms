@@ -1,7 +1,7 @@
 const { lstat, readFile, writeFile } = require('fs-extra');
 const { sep, basename } = require('path');
 const recursive = require('recursive-readdir');
-const { minify } = require('terser');
+const { transform } = require('esbuild');
 
 const RootPath = process.cwd();
 
@@ -69,7 +69,7 @@ const minifyJS = async (file) => {
   if (isMinified || needsDotJS) {
     minified = content;
   } else {
-    minified = (await minify(content, { sourceMap: false, format: { comments: false } })).code;
+    minified = (await transform(content, { minify: true })).code;
   }
 
   const newFile = needsDotJS ? file.replace('.min.js', '.js') : file.replace('.js', '.min.js');

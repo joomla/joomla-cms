@@ -1,11 +1,3 @@
-# Custom Fields
-administrator/components/com_fields/*  @laoneo
-components/com_fields/*  @laoneo
-plugins/content/fields/*  @laoneo
-plugins/editors-xtd/fields/*  @laoneo
-plugins/fields/*  @laoneo
-plugins/systems/fields/*  @laoneo
-
 # Smart Search
 administrator/components/com_finder/*  @hackwar
 components/com_finder/*  @hackwar
@@ -14,29 +6,23 @@ plugins/content/finder/*  @hackwar
 plugins/finder/*  @hackwar
 
 # Release Tools
-build.xml  @wilsonge
-build/build.php  @rdeutz @wilsonge
-build/bump.php  @rdeutz @wilsonge
-build/deleted_file_check.php  @rdeutz @wilsonge
+build.xml  @fancyFranci
+build/build.php  @rdeutz
+build/bump.php  @rdeutz
+build/deleted_file_check.php  @rdeutz
 
 # Core/Extension Install/Update Tools
-administrator/components/com_joomlaupdate/*  @rdeutz @zero-24
-libraries/src/Installer/*  @rdeutz @zero-24
-libraries/src/Updater/*  @rdeutz @zero-24
+administrator/components/com_joomlaupdate/*  @rdeutz
+libraries/src/Installer/*  @rdeutz
+libraries/src/Updater/*  @rdeutz
 
 # Automated Testing
 tests/*  @hackwar @fancyFranci
-tests/Codeception/*  @rdeutz
-tests/javascript/*  @rdeutz
-tests/Unit/*  @rdeutz
+tests/Unit/*  @rdeutz @fancyFranci
 .appveyor.yml  @rdeutz @hackwar @fancyFranci
 .drone.yml  @rdeutz @hackwar @fancyFranci
-codeception.yml  @rdeutz @hackwar @fancyFranci
 phpunit.xml.dist  @rdeutz @hackwar @fancyFranci
 phpunit-pgsql.xml.dist  @rdeutz @hackwar @fancyFranci
-
-# HttpHeaders Plugin
-plugins/system/httpheaders/*  @zero-24
 
 # Workflow
 administrator/components/com_workflow/*	@bembelimen @hleithner

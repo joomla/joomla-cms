@@ -296,7 +296,9 @@
 
 		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
-		}
+		} else {
+      containerTmp.style.marginTop = 'initial';
+    }
 
 		this.processCalendar();
 	};
@@ -630,7 +632,7 @@
 			row.className = "calendar-head-row";
 			this._nav_py = hh("&lsaquo;", 1, -2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-prev-year');                   // Previous year button
 			this.title = hh('<div style="text-align:center;font-size:18px"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
-			this.title.className = "title";
+			this.title.className = "title title-year";
 			this._nav_ny = hh(" &rsaquo;", 1, 2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-next-year');                   // Next year button
 		}
 
@@ -638,7 +640,7 @@
 		row.className = "calendar-head-row";
 		this._nav_pm = hh("&lsaquo;", 1, -1, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-prev-month');                       // Previous month button
 		this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
-		this._nav_month.className = "title";
+		this._nav_month.className = "title title-month";
 		this._nav_nm = hh(" &rsaquo;", 1, 1, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-next-month');                       // Next month button
 
 		row = createElement("tr", thead);                                                                   // day names
@@ -696,7 +698,7 @@
 			row = createElement("tr", tbody);
 			row.className = "time";
 
-			cell = createElement("td", row);
+			var cell = createElement("td", row);
 			cell.className = "time time-title";
 			cell.colSpan = 1;
 			cell.style.verticalAlign = 'middle';
@@ -704,11 +706,11 @@
 
 			var cell1 = createElement("td", row);
 			cell1.className = "time hours-select";
-			cell1.colSpan = 2;
+			cell1.colSpan = self.params.time24 ? 3 : 2;
 
 			var cell2 = createElement("td", row);
 			cell2.className = "time minutes-select";
-			cell2.colSpan = 2;
+			cell2.colSpan = self.params.time24 ? 3 : 2;
 
 			(function () {
 				function makeTimePart(className, selected, range_start, range_end, cellTml) {
@@ -748,11 +750,12 @@
 					M = makeTimePart("time time-minutes", mins, 0, 59, cell2),
 					AP = null;
 
-				cell = createElement("td", row);
-				cell.className = "time ampm-select";
-				cell.colSpan = self.params.weekNumbers ? 2 : 3;
 
 				if (t12) {
+					cell = createElement("td", row);
+					cell.className = "time ampm-select";
+					cell.colSpan = self.params.weekNumbers ? 3 : 2;
+
 					var selAttr = true,
 						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian', self.strings);
 					pm = (altDate.getHours() >= 12);
@@ -770,9 +773,10 @@
 							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
 							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
 					}, false);
-				} else {
+				} else if (self.params.weekNumbers) {
+					cell = createElement("td", row);
 					cell.innerHTML = "&#160;";
-					cell.colSpan = self.params.weekNumbers ? 3 : 2;
+					cell.colSpan = 1;
 				}
 
 				H.addEventListener("change", function (event) {

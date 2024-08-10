@@ -69,6 +69,6 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
             $className = ModuleDispatcher::class;
         }
 
-        return new $className($module, $application, $input ?: $application->input);
+        return new $className($module, $application, $input ?: $application->getInput());
     }
 }

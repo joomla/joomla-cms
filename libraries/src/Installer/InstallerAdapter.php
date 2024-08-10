@@ -21,6 +21,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -995,6 +996,11 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // Create a new instance
         $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
+
+        // Set the database
+        if ($this->parent->manifestClass instanceof DatabaseAwareInterface) {
+            $this->parent->manifestClass->setDatabase($container->get(DatabaseInterface::class));
+        }
 
         // And set this so we can copy it later
         $this->manifest_script = $manifestScript;

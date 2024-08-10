@@ -66,6 +66,11 @@ final class Fields extends CMSPlugin
         if (property_exists($item, 'introtext') && is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
             $item->introtext = $this->prepare($item->introtext, $context, $item);
         }
+
+        // Prepare the full text
+        if (!empty($item->fulltext) && strpos($item->fulltext, 'field') !== false) {
+            $item->fulltext = $this->prepare($item->fulltext, $context, $item);
+        }
     }
 
     /**

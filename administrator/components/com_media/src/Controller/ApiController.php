@@ -41,7 +41,7 @@ class ApiController extends BaseController
      *
      * @param   string  $task  The task to perform. If no matching task is found, the '__default' task is executed, if defined.
      *
-     * @return  mixed   The value returned by the called method.
+     * @return  void
      *
      * @since   4.0.0
      * @throws  \Exception

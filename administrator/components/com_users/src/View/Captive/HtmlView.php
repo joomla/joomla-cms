@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\View\Captive;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\BeforeDisplayMethods;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
@@ -24,7 +23,6 @@ use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -50,7 +48,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The currently selected MFA Method record against which we'll be authenticating
      *
-     * @var   null|stdClass
+     * @var   null|\stdClass
      * @since 4.2.0
      */
     public $record = null;
@@ -102,7 +100,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void  A string if successful, otherwise an Error object.
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public function display($tpl = null)

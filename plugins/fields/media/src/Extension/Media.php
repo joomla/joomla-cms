@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Fields\Media\Extension;
 
-use DOMElement;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
@@ -29,14 +28,14 @@ final class Media extends FieldsPlugin
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.
      *
      * @param   stdClass    $field   The field.
-     * @param   DOMElement  $parent  The field node parent.
+     * @param   \DOMElement  $parent  The field node parent.
      * @param   Form        $form    The form.
      *
-     * @return  DOMElement
+     * @return  \DOMElement
      *
      * @since   4.0.0
      */
-    public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
+    public function onCustomFieldsPrepareDom($field, \DOMElement $parent, Form $form)
     {
         $fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 

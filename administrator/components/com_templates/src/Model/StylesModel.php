@@ -240,12 +240,12 @@ class StylesModel extends ListModel
                 $query->extendWhere(
                     'AND',
                     [
-                        'LOWER(' . $db->quoteName('a.template') . ') LIKE :template',
+                        'LOWER(' . $db->quoteName('a.template') . ') LIKE :templatesearch',
                         'LOWER(' . $db->quoteName('a.title') . ') LIKE :title',
                     ],
                     'OR'
                 )
-                    ->bind(':template', $search)
+                    ->bind(':templatesearch', $search)
                     ->bind(':title', $search);
             }
         }

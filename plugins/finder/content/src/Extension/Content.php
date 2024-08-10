@@ -124,7 +124,7 @@ final class Content extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterDelete($context, $table): void
     {
@@ -153,7 +153,7 @@ final class Content extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterSave($context, $row, $isNew): void
     {
@@ -189,7 +189,7 @@ final class Content extends Adapter
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderBeforeSave($context, $row, $isNew)
     {
@@ -246,7 +246,7 @@ final class Content extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function index(Result $item)
     {

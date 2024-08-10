@@ -2,7 +2,7 @@ const {
   readdir, readFile, writeFile, unlink,
 } = require('fs').promises;
 const { resolve } = require('path');
-const { minify } = require('terser');
+const { transform } = require('esbuild');
 const rimraf = require('rimraf');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
@@ -17,7 +17,7 @@ const outputFolder = 'media/vendor/bootstrap/js';
 
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`), { sourceMap: false, format: { comments: false } });
+  const mini = await transform(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`), { minify: true });
   await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`), { encoding: 'utf8', mode: 0o644 });
   await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8', mode: 0o644 });
 };
@@ -56,12 +56,6 @@ const build = async () => {
           ],
         ],
       }),
-    ],
-    external: [
-      './base-component.js',
-      ...domImports.map((file) => `./dom/${file}`),
-      ...domImports.map((file) => `./${file}`),
-      ...utilImports.map((file) => `./util/${file}`),
     ],
     manualChunks: {
       alert: ['build/media_source/vendor/bootstrap/js/alert.es6.js'],
@@ -153,7 +147,7 @@ module.exports.bootstrapJs = async () => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   (await readdir(outputFolder)).forEach((file) => {
@@ -167,18 +161,18 @@ module.exports.bootstrapJs = async () => {
     try {
       await buildLegacy(inputFolder, 'index.es6.js');
       const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
-      const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
+      const mini = await transform(es5File, { minify: true });
       await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8', mode: 0o644 });
       // eslint-disable-next-line no-console
       console.log('✅ Legacy done!');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   }).catch((er) => {
     // eslint-disable-next-line no-console
     console.log(er);
-    process.exit(1);
+    process.exitCode = 1;
   });
 };

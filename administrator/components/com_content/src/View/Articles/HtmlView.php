@@ -85,6 +85,22 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * Is the vote plugin enabled on the site
+     *
+     * @var   boolean
+     * @since 4.4.0
+     */
+    protected $vote = false;
+
+    /**
+     * Are hits being recorded on the site?
+     *
+     * @var   boolean
+     * @since 4.4.0
+     */
+    protected $hits = false;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -99,7 +115,7 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
         $this->vote          = PluginHelper::isEnabled('content', 'vote');
-        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1);
+        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
 
         if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
@@ -174,7 +190,7 @@ class HtmlView extends BaseHtmlView
 
             $childBar = $dropdown->getChildToolbar();
 
-            if (\count($this->transitions)) {
+            if ($canDo->get('core.execute.transition') && \count($this->transitions)) {
                 $childBar->separatorButton('transition-headline')
                     ->text('COM_CONTENT_RUN_TRANSITIONS')
                     ->buttonClass('text-center py-2 h3');
@@ -218,7 +234,6 @@ class HtmlView extends BaseHtmlView
             if (
                 $user->authorise('core.create', 'com_content')
                 && $user->authorise('core.edit', 'com_content')
-                && $user->authorise('core.execute.transition', 'com_content')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->selector('collapseModal')

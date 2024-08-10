@@ -64,7 +64,7 @@ class CalendarField extends FormField
     /**
      * The filter.
      *
-     * @var    integer
+     * @var    string
      * @since  3.2
      */
     protected $filter;
@@ -193,6 +193,8 @@ class CalendarField extends FormField
     {
         switch ($name) {
             case 'maxlength':
+            case 'maxyear':
+            case 'minyear':
             case 'timeformat':
                 $this->$name = (int) $value;
                 break;
@@ -204,8 +206,6 @@ class CalendarField extends FormField
             case 'format':
             case 'filterFormat':
             case 'filter':
-            case 'minyear':
-            case 'maxyear':
                 $this->$name = (string) $value;
                 break;
 
@@ -243,8 +243,8 @@ class CalendarField extends FormField
             $this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
             $this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
             $this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
-            $this->minyear      = \strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
-            $this->maxyear      = \strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
+            $this->minyear      = \strlen((string) $this->element['minyear']) ? (int) $this->element['minyear'] : null;
+            $this->maxyear      = \strlen((string) $this->element['maxyear']) ? (int) $this->element['maxyear'] : null;
 
             if ($this->maxyear < 0 || $this->minyear > 0) {
                 $this->todaybutton = 'false';
@@ -377,10 +377,10 @@ class CalendarField extends FormField
     /**
      * Method to filter a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
      *
      * @return  mixed   The filtered value.
      *
@@ -398,7 +398,7 @@ class CalendarField extends FormField
         }
 
         if ($this->filterFormat) {
-            $value = DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
+            $value = \DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
         }
 
         $app = Factory::getApplication();

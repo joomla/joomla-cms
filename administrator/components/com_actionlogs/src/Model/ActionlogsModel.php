@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Model;
 
-use DateTimeZone;
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
@@ -22,7 +20,6 @@ use Joomla\Database\DatabaseIterator;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -42,7 +39,7 @@ class ActionlogsModel extends ListModel
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function __construct($config = [])
     {
@@ -71,7 +68,7 @@ class ActionlogsModel extends ListModel
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
@@ -85,7 +82,7 @@ class ActionlogsModel extends ListModel
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     protected function getListQuery()
     {
@@ -174,7 +171,7 @@ class ActionlogsModel extends ListModel
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     private function buildDateRange($range)
     {
@@ -212,7 +209,7 @@ class ActionlogsModel extends ListModel
                 $dStart->setTime(0, 0, 0);
 
                 // Now change the timezone back to UTC.
-                $tz = new DateTimeZone('GMT');
+                $tz = new \DateTimeZone('GMT');
                 $dStart->setTimezone($tz);
                 break;
         }
@@ -341,7 +338,7 @@ class ActionlogsModel extends ListModel
 
         try {
             $db->execute();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());
 
             return false;
@@ -363,7 +360,7 @@ class ActionlogsModel extends ListModel
     {
         try {
             $this->getDatabase()->truncateTable('#__action_logs');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 

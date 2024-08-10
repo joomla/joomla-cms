@@ -640,6 +640,10 @@ class Document
      */
     public function addStyleDeclaration($content, $type = 'text/css')
     {
+        if ($content === null) {
+            return $this;
+        }
+
         $type = strtolower($type);
 
         if (empty($this->_style[$type])) {

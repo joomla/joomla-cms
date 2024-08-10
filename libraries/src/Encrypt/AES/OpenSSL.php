@@ -59,7 +59,7 @@ class OpenSSL extends AbstractAES implements AesInterface
      * @param   string  $mode      Choose between CBC (recommended) or ECB
      * @param   int     $strength  Bit strength of the key (128, 192 or 256 bits). DEPRECATED. READ NOTES ABOVE.
      *
-     * @return  mixed
+     * @return  void
      */
     public function setEncryptionMode($mode = 'cbc', $strength = 128)
     {

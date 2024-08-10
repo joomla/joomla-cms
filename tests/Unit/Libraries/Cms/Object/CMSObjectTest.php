@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Object;
 
-use Exception;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -157,7 +156,7 @@ class CMSObjectTest extends UnitTestCase
             'Should return false, since the error does not exist'
         );
 
-        $exception = new Exception('error');
+        $exception = new \Exception('error');
         $object->setError($exception);
         $this->assertThat(
             $object->getError(3, true),

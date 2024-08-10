@@ -26,7 +26,7 @@ use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -65,7 +65,7 @@ abstract class Mfa
      * @param   User  $user  The user we are going to show the configuration UI for.
      *
      * @return  string|null  The HTML of the UI; null if we cannot / must not show it.
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public static function getConfigurationInterface(User $user): ?string
@@ -78,7 +78,7 @@ abstract class Mfa
         /** @var CMSApplication $app */
         $app = Factory::getApplication();
 
-        if (!$app->getInput()->getCmd('option', '') === 'com_users') {
+        if ($app->getInput()->getCmd('option', '') !== 'com_users') {
             $app->getLanguage()->load('com_users');
             $app->getDocument()
                 ->getWebAssetManager()
@@ -114,6 +114,7 @@ abstract class Mfa
         $view->returnURL = base64_encode(Uri::getInstance()->toString());
         $view->user      = $user;
         $view->set('forHMVC', true);
+        $view->setLanguage($app->getLanguage());
 
         @ob_start();
 
@@ -189,7 +190,7 @@ abstract class Mfa
      * @param   User|null  $user  The user you want to know if we're allowed to edit
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public static function canAddEditMethod(?User $user = null): bool
@@ -228,7 +229,7 @@ abstract class Mfa
      * @param   User|null  $user  The user being queried.
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public static function canDeleteMethod(?User $user = null): bool
@@ -251,7 +252,7 @@ abstract class Mfa
      * @param   int|null  $userId  User ID. NULL for currently logged in user.
      *
      * @return  MfaTable[]
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -262,8 +263,8 @@ abstract class Mfa
             $userId = $user->id ?: 0;
         }
 
-        /** @var DatabaseDriver $db */
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__user_mfa'))
@@ -272,7 +273,7 @@ abstract class Mfa
 
         try {
             $ids = $db->setQuery($query)->loadColumn() ?: [];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $ids = [];
         }
 
@@ -325,7 +326,7 @@ abstract class Mfa
      * @param   User|null  $user  The user to be configured
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public static function canShowConfigurationInterface(?User $user = null): bool

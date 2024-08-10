@@ -59,6 +59,8 @@ $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
+$packageJsonFile = '/package.json';
+
 $readMeFiles = [
     '/README.md',
     '/README.txt',
@@ -243,6 +245,15 @@ if (file_exists($rootPath . $antJobFile)) {
     $fileContents = file_get_contents($rootPath . $antJobFile);
     $fileContents = preg_replace('#<arg value="Joomla! CMS [^ ]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
     file_put_contents($rootPath . $antJobFile, $fileContents);
+}
+
+// Updates the version in the package.json file.
+if (file_exists($rootPath . $packageJsonFile)) {
+    $package          = json_decode(file_get_contents($rootPath . $packageJsonFile));
+    $package->version = $version['release'];
+
+    // @todo use a native formatter whenever https://github.com/php/php-src/issues/8864 is resolved
+    file_put_contents($rootPath . $packageJsonFile, str_replace('    ', '  ', json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)));
 }
 
 // Updates the version in readme files.

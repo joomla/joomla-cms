@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-use DomainException;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -79,12 +77,12 @@ trait ReshapeArgumentsAware
 
         // Am I missing any mandatory arguments?
         if ($missingKeys) {
-            throw new DomainException(sprintf('Missing arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
+            throw new \DomainException(sprintf('Missing arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
         }
 
         // Do I have unknown arguments?
         if ($extraKeys) {
-            throw new DomainException(sprintf('Unknown arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
+            throw new \DomainException(sprintf('Unknown arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
         }
 
         // Reconstruct the arguments in the order specified in $argumentTypes

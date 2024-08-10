@@ -33,7 +33,7 @@ class LimitboxField extends ListField
     /**
      * Cached array of the category items.
      *
-     * @var    array
+     * @var    array[]
      * @since  3.2
      */
     protected static $options = [];
@@ -41,14 +41,14 @@ class LimitboxField extends ListField
     /**
      * Default options
      *
-     * @var  array
+     * @var  int[]
      */
     protected $defaultLimits = [5, 10, 15, 20, 25, 30, 50, 100, 200, 500];
 
     /**
      * Method to get the options to populate to populate list
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.2
      */

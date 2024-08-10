@@ -11,9 +11,9 @@
 	<description>PLG_SYSTEM_STATS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\System\Stats</namespace>
 	<files>
-		<folder>field</folder>
 		<folder>layouts</folder>
-		<filename plugin="stats">stats.php</filename>
+		<folder plugin="stats">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_stats.ini</language>

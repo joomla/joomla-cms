@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 
         // Propose current language as default when creating new contact
         if (empty($this->item->id) && Multilanguage::isEnabled()) {
-            $lang = Factory::getLanguage()->getTag();
+            $lang = $this->getLanguage()->getTag();
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
@@ -164,15 +164,15 @@ class HtmlView extends BaseHtmlView
         $pathway->addItem($title, '');
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('menu-meta_keywords')) {
-            $this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
+            $this->getDocument()->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

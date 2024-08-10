@@ -105,6 +105,13 @@ class ConsentsModel extends ListModel
                 ->bind(':state', $state, ParameterType::INTEGER);
         }
 
+        $subject = $this->getState('filter.subject');
+
+        if (!empty($subject)) {
+            $query->where($db->quoteName('a.subject') . ' = :subject')
+                ->bind(':subject', $subject, ParameterType::STRING);
+        }
+
         // Handle the list ordering.
         $ordering  = $this->getState('list.ordering');
         $direction = $this->getState('list.direction');

@@ -6,108 +6,115 @@
 /**
  * JavaScript behavior to allow shift select in administrator grids
  */
-((Joomla) => {
-  'use strict';
+class JMultiSelect {
+  constructor(container) {
+    this.tableEl = container;
+    this.formEl = container.closest('form');
+    this.rowSelector = 'tr[class^="row"]';
+    this.boxSelector = 'input[type="checkbox"][name="cid[]"]';
+    this.checkallToggle = this.tableEl.querySelector('[name="checkall-toggle"]');
+    this.prevRow = null;
 
-  class JMultiSelect {
-    constructor(formElement) {
-      this.tableEl = document.querySelector(formElement);
-
-      if (this.tableEl) {
-        this.boxes = [].slice.call(this.tableEl.querySelectorAll('td input[type=checkbox]'));
-        this.rows = [].slice.call(document.querySelectorAll('tr[class^="row"]'));
-        this.checkallToggle = document.querySelector('[name="checkall-toggle"]');
-
-        this.onCheckallToggleClick = this.onCheckallToggleClick.bind(this);
-        this.onRowClick = this.onRowClick.bind(this);
-
-        if (this.checkallToggle) {
-          this.checkallToggle.addEventListener('click', this.onCheckallToggleClick);
-        }
-
-        if (this.rows.length) {
-          this.rows.forEach((row) => {
-            row.addEventListener('click', this.onRowClick);
-          });
-        }
+    // Use delegation listener, to allow dynamic tables
+    this.tableEl.addEventListener('click', (event) => {
+      if (!event.target.closest(this.rowSelector)) {
+        return;
       }
-    }
+      this.onRowClick(event);
+    });
 
-    // Changes the background-color on every cell inside a <tr>
-    // eslint-disable-next-line class-methods-use-this
-    changeBg(row, isChecked) {
-      // Check if it should add or remove the background colour
-      if (isChecked) {
-        [].slice.call(row.querySelectorAll('td, th')).forEach((elementToMark) => {
-          elementToMark.classList.add('row-selected');
+    if (this.checkallToggle) {
+      this.checkallToggle.addEventListener('click', ({ target }) => {
+        const isChecked = target.checked;
+
+        this.getRows().forEach((row) => {
+          this.changeBg(row, isChecked);
         });
-      } else {
-        [].slice.call(row.querySelectorAll('td, th')).forEach((elementToMark) => {
-          elementToMark.classList.remove('row-selected');
-        });
-      }
-    }
-
-    onCheckallToggleClick({ target }) {
-      const isChecked = target.checked;
-
-      this.rows.forEach((row) => {
-        this.changeBg(row, isChecked);
       });
-    }
-
-    onRowClick({ target, shiftKey }) {
-      // Do not interfere with links or buttons
-      if (target.tagName && (target.tagName.toLowerCase() === 'a' || target.tagName.toLowerCase() === 'button')) {
-        return;
-      }
-
-      if (!this.boxes.length) {
-        return;
-      }
-
-      const closestRow = target.closest('tr');
-      const currentRowNum = this.rows.indexOf(closestRow);
-      const currentCheckBox = closestRow.querySelector('td input[type=checkbox]');
-
-      if (currentCheckBox) {
-        let isChecked = currentCheckBox.checked;
-
-        if (!(target.id === currentCheckBox.id)) {
-          // We will prevent selecting text to prevent artifacts
-          if (shiftKey) {
-            document.body.style['-webkit-user-select'] = 'none';
-            document.body.style['-moz-user-select'] = 'none';
-            document.body.style['-ms-user-select'] = 'none';
-            document.body.style['user-select'] = 'none';
-          }
-
-          currentCheckBox.checked = !currentCheckBox.checked;
-          isChecked = currentCheckBox.checked;
-          Joomla.isChecked(isChecked, this.tableEl.id);
-        }
-
-        this.changeBg(this.rows[currentRowNum], isChecked);
-
-        // Restore normality
-        if (shiftKey) {
-          document.body.style['-webkit-user-select'] = 'none';
-          document.body.style['-moz-user-select'] = 'none';
-          document.body.style['-ms-user-select'] = 'none';
-          document.body.style['user-select'] = 'none';
-        }
-      }
     }
   }
 
-  const onBoot = () => {
-    let formId = '#adminForm';
-    if (Joomla && Joomla.getOptions('js-multiselect', {}).formName) {
-      formId = `#${Joomla.getOptions('js-multiselect', {}).formName}`;
-    }
-    // eslint-disable-next-line no-new
-    new JMultiSelect(formId);
-  };
+  getRows() {
+    return Array.from(this.tableEl.querySelectorAll(this.rowSelector));
+  }
 
-  document.addEventListener('DOMContentLoaded', onBoot);
-})(Joomla);
+  // Changes the row class depends on selection
+  // eslint-disable-next-line class-methods-use-this
+  changeBg(row, isChecked) {
+    row.classList.toggle('row-selected', isChecked);
+  }
+
+  // Handle click on a row
+  onRowClick({ target, shiftKey }) {
+    // Do not interfere with links, buttons, inputs and other interactive elements
+    if (target.closest('a, button, input, select, textarea, details, dialog, audio, video')) {
+      return;
+    }
+
+    // Get clicked row and checkbox in it
+    const currentRow = target.closest(this.rowSelector);
+    const currentBox = target.matches(this.boxSelector) ? target : currentRow.querySelector(this.boxSelector);
+    if (!currentBox) {
+      return;
+    }
+
+    const isChecked = (currentBox !== target) ? !currentBox.checked : currentBox.checked;
+
+    if (isChecked !== currentBox.checked) {
+      currentBox.checked = isChecked;
+      Joomla.isChecked(isChecked, this.formEl);
+    }
+    this.changeBg(currentRow, isChecked);
+
+    // Select rows in range
+    if (shiftKey && this.prevRow) {
+      // Prevent text selection
+      document.getSelection().removeAllRanges();
+
+      // Re-query all rows, because they may be modified during sort operations
+      const rows = this.getRows();
+      const idxStart = rows.indexOf(this.prevRow);
+      const idxEnd = rows.indexOf(currentRow);
+
+      // Check for more than 2 row selected
+      if (idxStart >= 0 && idxEnd >= 0 && Math.abs(idxStart - idxEnd) > 1) {
+        const slice = idxStart < idxEnd ? rows.slice(idxStart, idxEnd + 1) : rows.slice(idxEnd, idxStart + 1);
+
+        slice.forEach((row) => {
+          if (row === currentRow) {
+            return;
+          }
+          const rowBox = row.querySelector(this.boxSelector);
+          if (rowBox && rowBox.checked !== isChecked) {
+            rowBox.checked = isChecked;
+            this.changeBg(row, isChecked);
+            Joomla.isChecked(isChecked, this.formEl);
+          }
+        });
+      }
+    }
+
+    this.prevRow = currentRow;
+  }
+}
+
+const onBoot = (container) => {
+  let selector = '#adminForm';
+  const confSelector = window.Joomla ? Joomla.getOptions('js-multiselect', {}).formName : '';
+
+  if (confSelector) {
+    const pref = confSelector[0];
+    selector = (pref !== '.' && pref !== '#') ? `#${confSelector}` : confSelector;
+  }
+
+  container.querySelectorAll(selector).forEach((formElement) => {
+    if (formElement && !('multiselect' in formElement.dataset)) {
+      formElement.dataset.multiselect = '';
+      // eslint-disable-next-line no-new
+      new JMultiSelect(formElement);
+    }
+  });
+};
+
+onBoot(document);
+document.addEventListener('joomla:updated', ({ target }) => onBoot(target));

@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_SYSTEM_HTTPHEADERS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Httpheaders</namespace>
 	<files>
 		<folder>postinstall</folder>
-		<filename plugin="httpheaders">httpheaders.php</filename>
+		<folder plugin="httpheaders">services</folder>
+		<folder>src</folder>
 	</files>
 	<config>
 		<fields name="params">

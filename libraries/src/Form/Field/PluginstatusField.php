@@ -31,7 +31,7 @@ class PluginstatusField extends PredefinedlistField
     /**
      * Available statuses
      *
-     * @var  array
+     * @var  string[]
      * @since  3.5
      */
     protected $predefinedOptions = [

@@ -16,9 +16,6 @@ use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\FeedPerson;
 use Joomla\CMS\Feed\Parser\RssParser;
 use Joomla\Tests\Unit\UnitTestCase;
-use ReflectionClass;
-use SimpleXMLElement;
-use XMLReader;
 
 /**
  * Test class for RssParser.
@@ -43,7 +40,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement("<category>$category</category>");
+        $xmlElement = new \SimpleXMLElement("<category>$category</category>");
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -53,7 +50,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleCategory');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -79,7 +76,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<cloud domain="' . $cloud['domain'] . '" port="' . $cloud['port'] .
+        $xmlElement = new \SimpleXMLElement('<cloud domain="' . $cloud['domain'] . '" port="' . $cloud['port'] .
             '" path="' . $cloud['path'] . '" registerProcedure="' . $cloud['registerProcedure'] .
             '" protocol="' . $cloud['protocol'] . '" />');
 
@@ -103,7 +100,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleCloud');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -123,7 +120,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<rights>' . $copyright . '</rights>');
+        $xmlElement = new \SimpleXMLElement('<rights>' . $copyright . '</rights>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -133,7 +130,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleCopyright');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -153,7 +150,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<description>' . $subtitle . '</description>');
+        $xmlElement = new \SimpleXMLElement('<description>' . $subtitle . '</description>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -163,7 +160,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleDescription');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -183,7 +180,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<generator>' . $generator . '</generator>');
+        $xmlElement = new \SimpleXMLElement('<generator>' . $generator . '</generator>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -193,7 +190,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleGenerator');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -218,7 +215,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<image><url>' . $image['url'] . '</url><title>' . $image['title'] .
+        $xmlElement = new \SimpleXMLElement('<image><url>' . $image['url'] . '</url><title>' . $image['title'] .
             '</title><link>' . $image['link'] . '</link><description>' . $image['description'] .
             '</description></image>');
 
@@ -245,7 +242,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleImage');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -265,7 +262,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<language>' . $language . '</language>');
+        $xmlElement = new \SimpleXMLElement('<language>' . $language . '</language>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -275,7 +272,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleLanguage');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -295,7 +292,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<lastBuildDate>' . $buildDate . '</lastBuildDate>');
+        $xmlElement = new \SimpleXMLElement('<lastBuildDate>' . $buildDate . '</lastBuildDate>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -305,7 +302,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleLastBuildDate');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -325,7 +322,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement("<link href='$link' />");
+        $xmlElement = new \SimpleXMLElement("<link href='$link' />");
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -342,7 +339,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleLink');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -365,7 +362,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<managingEditor>' . $editor['email'] . ' ' . $editor['name'] . '</managingEditor>');
+        $xmlElement = new \SimpleXMLElement('<managingEditor>' . $editor['email'] . ' ' . $editor['name'] . '</managingEditor>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -384,7 +381,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleManagingEditor');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -404,7 +401,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<pubDate>' . $pubDate . '</pubDate>');
+        $xmlElement = new \SimpleXMLElement('<pubDate>' . $pubDate . '</pubDate>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -414,7 +411,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handlePubDate');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -434,7 +431,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<skipDays><day>' . $skipDays[0] . '</day><day>' . $skipDays[1] . '</day></skipDays>');
+        $xmlElement = new \SimpleXMLElement('<skipDays><day>' . $skipDays[0] . '</day><day>' . $skipDays[1] . '</day></skipDays>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -444,7 +441,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleSkipDays');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -464,7 +461,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<skipHours><hour>' . $skipHours[0] . '</hour><hour>' . $skipHours[1] . '</hour></skipHours>');
+        $xmlElement = new \SimpleXMLElement('<skipHours><hour>' . $skipHours[0] . '</hour><hour>' . $skipHours[1] . '</hour></skipHours>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -474,7 +471,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleSkipHours');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -494,7 +491,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement("<title>$title</title>");
+        $xmlElement = new \SimpleXMLElement("<title>$title</title>");
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -504,7 +501,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleTitle');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -524,7 +521,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement("<ttl>$ttl</ttl>");
+        $xmlElement = new \SimpleXMLElement("<ttl>$ttl</ttl>");
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -534,7 +531,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleTtl');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -557,7 +554,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement('<webmaster>' . $webmaster['email'] . ' ' . $webmaster['name'] . '</webmaster>');
+        $xmlElement = new \SimpleXMLElement('<webmaster>' . $webmaster['email'] . ' ' . $webmaster['name'] . '</webmaster>');
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -567,7 +564,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('handleWebmaster');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedMock, $xmlElement);
@@ -589,7 +586,7 @@ class RssParserTest extends UnitTestCase
 		<title>Test Channel</title>
 	</channel>
 </rss>';
-        $reader = new XMLReader();
+        $reader = new \XMLReader();
         $reader->xml($dummyXml);
         $rssParser = new RssParser($reader);
 
@@ -608,7 +605,7 @@ class RssParserTest extends UnitTestCase
         $rssParser->parse();
 
         // Use reflection to check the value
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $attribute       = $reflectionClass->getProperty('version');
 
         $attribute->setAccessible(true);
@@ -640,7 +637,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new SimpleXMLElement(
+        $xmlElement = new \SimpleXMLElement(
             '<entry>
 				<link>' . $entry['link'] . '</link>
 				<title>' . $entry['title'] . '</title>
@@ -698,7 +695,7 @@ class RssParserTest extends UnitTestCase
 
         // Use reflection to test protected method
         $rssParser       = new RssParser(new \XMLReader());
-        $reflectionClass = new ReflectionClass($rssParser);
+        $reflectionClass = new \ReflectionClass($rssParser);
         $method          = $reflectionClass->getMethod('processFeedEntry');
         $method->setAccessible(true);
         $method->invoke($rssParser, $feedEntryMock, $xmlElement);

@@ -68,7 +68,7 @@ class ListField extends FormField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.7.0
      */
@@ -79,31 +79,31 @@ class ListField extends FormField
 
         foreach ($this->element->xpath('option') as $option) {
             // Filter requirements
-            if ($requires = explode(',', (string) $option['requires'])) {
-                // Requires multilanguage
-                if (\in_array('multilanguage', $requires) && !Multilanguage::isEnabled()) {
-                    continue;
-                }
+            $requires = explode(',', (string) $option['requires']);
 
-                // Requires associations
-                if (\in_array('associations', $requires) && !Associations::isEnabled()) {
-                    continue;
-                }
+            // Requires multilanguage
+            if (\in_array('multilanguage', $requires) && !Multilanguage::isEnabled()) {
+                continue;
+            }
 
-                // Requires adminlanguage
-                if (\in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang()) {
-                    continue;
-                }
+            // Requires associations
+            if (\in_array('associations', $requires) && !Associations::isEnabled()) {
+                continue;
+            }
 
-                // Requires vote plugin
-                if (\in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote')) {
-                    continue;
-                }
+            // Requires adminlanguage
+            if (\in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang()) {
+                continue;
+            }
 
-                // Requires record hits
-                if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
-                    continue;
-                }
+            // Requires vote plugin
+            if (\in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote')) {
+                continue;
+            }
+
+            // Requires record hits
+            if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
+                continue;
             }
 
             $value = (string) $option['value'];
@@ -195,8 +195,8 @@ class ListField extends FormField
     /**
      * Method to add an option to the list field.
      *
-     * @param   string  $text        Text/Language variable of the option.
-     * @param   array   $attributes  Array of attributes ('name' => 'value' format)
+     * @param   string    $text        Text/Language variable of the option.
+     * @param   string[]  $attributes  Array of attributes ('name' => 'value') format
      *
      * @return  ListField  For chaining.
      *

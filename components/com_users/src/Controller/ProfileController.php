@@ -166,7 +166,7 @@ class ProfileController extends BaseController
                 // Redirect back to the edit screen.
                 $this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
 
-                $redirect = $app->getUserState('com_users.edit.profile.redirect');
+                $redirect = $app->getUserState('com_users.edit.profile.redirect', '');
 
                 // Don't redirect to an external URL.
                 if (!Uri::isInternal($redirect)) {
@@ -184,7 +184,7 @@ class ProfileController extends BaseController
                 // Clear the profile id from the session.
                 $app->setUserState('com_users.edit.profile.id', null);
 
-                $redirect = $app->getUserState('com_users.edit.profile.redirect');
+                $redirect = $app->getUserState('com_users.edit.profile.redirect', '');
 
                 // Don't redirect to an external URL.
                 if (!Uri::isInternal($redirect)) {

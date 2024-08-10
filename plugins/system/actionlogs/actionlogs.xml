@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_SYSTEM_ACTIONLOGS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\ActionLogs</namespace>
 	<files>
-		<filename plugin="actionlogs">actionlogs.php</filename>
 		<folder>forms</folder>
+		<folder plugin="actionlogs">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_actionlogs.ini</language>

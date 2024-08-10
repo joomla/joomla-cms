@@ -36,7 +36,7 @@ class WorkflowComponentSectionsField extends ComponentsField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of JHtml options.
+     * @return  object[]  An array of JHtml options.
      *
      * @since   4.0.0
      */

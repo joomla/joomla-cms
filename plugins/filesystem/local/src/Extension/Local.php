@@ -95,7 +95,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      */
     public function getDisplayName()
     {
-        return $this->getApplication()->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+        return $this->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
     }
 
     /**

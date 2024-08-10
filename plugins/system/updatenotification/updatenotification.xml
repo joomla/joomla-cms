@@ -9,8 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>PLG_SYSTEM_UPDATENOTIFICATION_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\UpdateNotification</namespace>
 	<files>
-		<filename plugin="updatenotification">updatenotification.php</filename>
+		<folder>postinstall</folder>
+		<folder plugin="updatenotification">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages folder="language">
 		<language tag="en-GB">language/en-GB/plg_system_updatenotification.ini</language>

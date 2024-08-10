@@ -151,6 +151,13 @@ class StylesRenderer extends DocumentRenderer
                 if ($asset->getDependencies()) {
                     $attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
                 }
+
+                if ($asset->getOption('deprecated')) {
+                    @trigger_error(
+                        sprintf('Web Asset style [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
+                        E_USER_DEPRECATED
+                    );
+                }
             }
         } else {
             $attribs     = $item;

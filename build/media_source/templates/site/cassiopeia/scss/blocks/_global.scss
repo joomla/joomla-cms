@@ -54,15 +54,14 @@ h6 {
 }
 
 a {
-  color: var(--cassiopeia-color-link);
+  color: var(--#{$prefix}link-color);
+
+  &:hover {
+    color: var(--#{$prefix}link-hover-color);
+  }
 
   &:not([class]) {
     text-decoration: underline;
-  }
-
-  &:not(.btn):hover,
-  &:not(.btn):focus {
-    color: var(--cassiopeia-color-hover);
   }
 
   &.navbar-brand {
@@ -216,9 +215,9 @@ meter {
 }
 
 .page-link {
-  color: var(--cassiopeia-color-link);
+  color: var(--#{$prefix}link-color);
   &:hover {
-    color: var(--cassiopeia-color-link);
+    color: var(--#{$prefix}link-color);
   }
 }
 

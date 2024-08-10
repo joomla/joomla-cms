@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Table;
 
-use BadMethodCallException;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -32,12 +30,12 @@ class AfterStoreEvent extends AbstractEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('result', $arguments)) {
-            throw new BadMethodCallException("Argument 'result' is required for event $name");
+            throw new \BadMethodCallException("Argument 'result' is required for event $name");
         }
 
         parent::__construct($name, $arguments);
@@ -50,10 +48,29 @@ class AfterStoreEvent extends AbstractEvent
      *
      * @return  boolean
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setResult($value)
     {
         return $value ? true : false;
+    }
+
+    /**
+     * Setter for the result argument
+     *
+     * @param   boolean  $value  The value to set
+     *
+     * @return  boolean
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetResult($value)
+    {
+        return $this->setResult($value);
     }
 }
