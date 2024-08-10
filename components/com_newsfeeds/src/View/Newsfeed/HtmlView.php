@@ -260,8 +260,9 @@ class HtmlView extends BaseHtmlView
             $category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
 
             while (
-                (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
-                || $id != $category->id) && $category->id > 1
+                isset($category->id) && $category->id > 1
+                && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
+                || $id != $category->id)
             ) {
                 $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id)];
                 $category = $category->getParent();
@@ -281,24 +282,24 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($title);
 
         if ($this->item->metadesc) {
-            $this->document->setDescription($this->item->metadesc);
+            $this->getDocument()->setDescription($this->item->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
 
         if ($app->get('MetaAuthor') == '1') {
-            $this->document->setMetaData('author', $this->item->author);
+            $this->getDocument()->setMetaData('author', $this->item->author);
         }
 
         $mdata = $this->item->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
             if ($v) {
-                $this->document->setMetaData($k, $v);
+                $this->getDocument()->setMetaData($k, $v);
             }
         }
     }

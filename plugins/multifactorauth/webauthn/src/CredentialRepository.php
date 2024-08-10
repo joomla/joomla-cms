@@ -15,7 +15,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
-use RuntimeException;
 use Webauthn\AttestationStatement\AttestationStatement;
 use Webauthn\AttestedCredentialData;
 use Webauthn\PublicKeyCredentialDescriptor;
@@ -202,7 +201,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
     {
         // I can only create or update credentials for the user this class was created for
         if ($publicKeyCredentialSource->getUserHandle() != $this->userId) {
-            throw new RuntimeException('Cannot create or update WebAuthn credentials for a different user.', 403);
+            throw new \RuntimeException('Cannot create or update WebAuthn credentials for a different user.', 403);
         }
 
         // Do I have an existing record for this credential?

@@ -22,7 +22,9 @@
         try {
           response = JSON.parse(xhr.responseText);
         } catch (e) {
-          Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr, 'parsererror'));
+          // Something went wrong, but we are not going to bother the enduser with this
+          // eslint-disable-next-line no-console
+          console.error(e);
           return;
         }
 
@@ -30,7 +32,9 @@
           target.awesomplete.list = response.suggestions;
         }
       }).catch((xhr) => {
-        Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+        // Something went wrong, but we are not going to bother the enduser with this
+        // eslint-disable-next-line no-console
+        console.error(xhr);
       });
     }
   };

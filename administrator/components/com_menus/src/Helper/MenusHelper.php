@@ -13,7 +13,6 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
@@ -23,6 +22,7 @@ use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -882,6 +882,14 @@ class MenusHelper extends ContentHelper
             $params->set('menu-quicktask-title', (string) $node['quicktask-title']);
             $params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
             $params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
+        }
+
+        if ($item->ajaxbadge) {
+            $params->set('ajax-badge', $item->ajaxbadge);
+        }
+
+        if ($item->dashboard) {
+            $params->set('dashboard', $item->dashboard);
         }
 
         // Translate attributes for iterator values

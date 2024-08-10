@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Stages;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -168,7 +167,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', Text::_($this->state->get('active_workflow', ''))), 'address contact');
 
-        $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+        $arrow  = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
         $toolbar->link(
             'JTOOLBAR_BACK',

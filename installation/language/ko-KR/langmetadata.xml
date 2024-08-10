@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metafile client="installation">
+	<name>Korean (ko-KR)</name>
+	<version>4.4.6</version>
+	<creationDate>2024-05</creationDate>
+	<author>Joomla! 프로젝트</author>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>joomla.ini</filename>
+	</files>
+	<metadata>
+		<name>Korean (ko-KR)</name>
+		<nativeName>Korean (Republic of Korea)</nativeName>
+		<tag>ko-KR</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

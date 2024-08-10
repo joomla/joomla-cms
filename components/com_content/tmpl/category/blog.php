@@ -129,7 +129,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
         <div class="com-content-category-blog__navigation w-100">
             <?php if ($this->params->def('show_pagination_results', 1)) : ?>
-                <p class="com-content-category-blog__counter counter float-end pt-3 pe-2">
+                <p class="com-content-category-blog__counter counter float-md-end pt-3 pe-2">
                     <?php echo $this->pagination->getPagesCounter(); ?>
                 </p>
             <?php endif; ?>

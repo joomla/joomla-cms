@@ -77,24 +77,7 @@ class TourModel extends AdminModel
 
         $this->setStepsLanguage($id, $lang);
 
-        $result = parent::save($data);
-
-        // Create default step for new tour
-        if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new')) {
-            $tourId = (int) $this->getState($this->getName() . '.id');
-
-            $table = $this->getTable('Step');
-
-            $table->id          = 0;
-            $table->title       = 'COM_GUIDEDTOURS_BASIC_STEP';
-            $table->description = '';
-            $table->tour_id     = $tourId;
-            $table->published   = 1;
-
-            $table->store();
-        }
-
-        return $result;
+        return parent::save($data);
     }
 
     /**
@@ -330,7 +313,7 @@ class TourModel extends AdminModel
                 // Reset the id to create a new record.
                 $table->id = 0;
 
-                $table->published   = 0;
+                $table->published = 0;
 
                 if (!$table->check() || !$table->store()) {
                     throw new \Exception($table->getError());
@@ -366,82 +349,84 @@ class TourModel extends AdminModel
                 $db->setQuery($query);
                 $rows = $db->loadObjectList();
 
-                $query = $db->getQuery(true)
-                    ->insert($db->quoteName('#__guidedtour_steps'))
-                    ->columns(
-                        [
-                            $db->quoteName('tour_id'),
-                            $db->quoteName('title'),
-                            $db->quoteName('description'),
-                            $db->quoteName('ordering'),
-                            $db->quoteName('position'),
-                            $db->quoteName('target'),
-                            $db->quoteName('type'),
-                            $db->quoteName('interactive_type'),
-                            $db->quoteName('url'),
-                            $db->quoteName('created'),
-                            $db->quoteName('created_by'),
-                            $db->quoteName('modified'),
-                            $db->quoteName('modified_by'),
-                            $db->quoteName('language'),
-                            $db->quoteName('note'),
-                        ]
-                    );
+                if ($rows) {
+                    $query = $db->getQuery(true)
+                        ->insert($db->quoteName('#__guidedtour_steps'))
+                        ->columns(
+                            [
+                                $db->quoteName('tour_id'),
+                                $db->quoteName('title'),
+                                $db->quoteName('description'),
+                                $db->quoteName('ordering'),
+                                $db->quoteName('position'),
+                                $db->quoteName('target'),
+                                $db->quoteName('type'),
+                                $db->quoteName('interactive_type'),
+                                $db->quoteName('url'),
+                                $db->quoteName('created'),
+                                $db->quoteName('created_by'),
+                                $db->quoteName('modified'),
+                                $db->quoteName('modified_by'),
+                                $db->quoteName('language'),
+                                $db->quoteName('note'),
+                            ]
+                        );
 
-                foreach ($rows as $step) {
-                    $dataTypes = [
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                    ];
+                    foreach ($rows as $step) {
+                        $dataTypes = [
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                        ];
 
-                    $query->values(
-                        implode(
-                            ',',
-                            $query->bindArray(
-                                [
-                                    $table->id,
-                                    $step->title,
-                                    $step->description,
-                                    $step->ordering,
-                                    $step->position,
-                                    $step->target,
-                                    $step->type,
-                                    $step->interactive_type,
-                                    $step->url,
-                                    $date,
-                                    $user->id,
-                                    $date,
-                                    $user->id,
-                                    $step->language,
-                                    $step->note,
-                                ],
-                                $dataTypes
+                        $query->values(
+                            implode(
+                                ',',
+                                $query->bindArray(
+                                    [
+                                        $table->id,
+                                        $step->title,
+                                        $step->description,
+                                        $step->ordering,
+                                        $step->position,
+                                        $step->target,
+                                        $step->type,
+                                        $step->interactive_type,
+                                        $step->url,
+                                        $date,
+                                        $user->id,
+                                        $date,
+                                        $user->id,
+                                        $step->language,
+                                        $step->note,
+                                    ],
+                                    $dataTypes
+                                )
                             )
-                        )
-                    );
-                }
+                        );
+                    }
 
-                $db->setQuery($query);
+                    $db->setQuery($query);
 
-                try {
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                    try {
+                        $db->execute();
+                    } catch (\RuntimeException $e) {
+                        Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-                    return false;
+                        return false;
+                    }
                 }
             } else {
                 throw new \Exception($table->getError());

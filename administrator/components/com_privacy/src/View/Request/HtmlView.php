@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
             $this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
 
             // Load the com_actionlogs language strings for use in the layout
-            $lang = Factory::getLanguage();
+            $lang = $this->getLanguage();
             $lang->load('com_actionlogs', JPATH_ADMINISTRATOR)
                 || $lang->load('com_actionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs');
         }

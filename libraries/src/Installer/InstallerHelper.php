@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installer;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
@@ -20,6 +19,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -118,14 +118,19 @@ abstract class InstallerHelper
             $target = $tmpPath . '/' . basename($target);
         }
 
+        // Fix Indirect Modification of Overloaded Property
+        $body = $response->body;
+
         // Write buffer to file
-        File::write($target, $response->body);
+        File::write($target, $body);
 
         // Restore error tracking to what it was before
         ini_set('track_errors', $track_errors);
 
         // Bump the max execution time because not using built in php zip libs are slow
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(ini_get('max_execution_time'));
+        }
 
         // Return the name of the downloaded package
         return basename($target);

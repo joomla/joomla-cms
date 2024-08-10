@@ -13,11 +13,11 @@ namespace Joomla\Component\Banners\Administrator\Model;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects

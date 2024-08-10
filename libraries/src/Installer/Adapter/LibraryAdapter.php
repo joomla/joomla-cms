@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -19,6 +18,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -59,7 +59,7 @@ class LibraryAdapter extends InstallerAdapter
                 // From this point we'll consider this an update
                 $this->setRoute('update');
             } else {
-                // Abort the install, no upgrade possible
+                // Stop the install, no upgrade possible
                 throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
             }
         }
@@ -274,7 +274,11 @@ class LibraryAdapter extends InstallerAdapter
     protected function removeExtensionFiles()
     {
         $this->parent->removeFiles($this->getManifest()->files, -1);
-        File::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
+        $manifest = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
+
+        if (is_file($manifest)) {
+            File::delete($manifest);
+        }
 
         // @todo: Change this so it walked up the path backwards so we clobber multiple empties
         // If the folder is empty, let's delete it

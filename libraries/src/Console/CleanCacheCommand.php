@@ -52,7 +52,7 @@ class CleanCacheCommand extends AbstractCommand
         $symfonyStyle->title('Cleaning System Cache');
 
         $cache = $this->getApplication()->bootComponent('com_cache')->getMVCFactory();
-        /** @var Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+        /** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
         $model = $cache->createModel('Cache', 'Administrator', ['ignore_request' => true]);
 
         if ($input->getArgument('expired')) {

@@ -395,12 +395,11 @@ $doNotPackage = [
     'appveyor-phpunit.xml',
     'build',
     'build.xml',
-    'codeception.yml',
     'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',
     'crowdin.yml',
-    'cypress.config.dist.js',
+    'cypress.config.dist.mjs',
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',
@@ -412,7 +411,6 @@ $doNotPackage = [
     'README.md',
     'renovate.json',
     'ruleset.xml',
-    'selenium.log',
     'tests',
 ];
 
@@ -681,21 +679,26 @@ if ($includeExtraTextfiles) {
         }
     }
 
-    echo "Generating checksums.txt file\n";
+    echo "Generating checksums files\n";
 
-    $checksumsContent = '';
+    $checksumsContent       = '';
+    $checksumsContentUpdate = '';
 
     foreach ($checksums as $packageName => $packageHashes) {
         $checksumsContent .= "Filename: $packageName\n";
 
         foreach ($packageHashes as $hashType => $hash) {
             $checksumsContent .= "$hashType: $hash\n";
+            if (strpos($packageName, 'Update_Package.zip') !== false) {
+                $checksumsContentUpdate .= "<$hashType>$hash</$hashType>\n";
+            }
         }
 
         $checksumsContent .= "\n";
     }
 
     file_put_contents('checksums.txt', $checksumsContent);
+    file_put_contents('checksums_update.txt', $checksumsContentUpdate);
 
     echo "Generating github_release.txt file\n";
 

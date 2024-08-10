@@ -138,7 +138,7 @@ class FilterModel extends AdminModel
     /**
      * Method to get the total indexed items
      *
-     * @return  number the number of indexed items
+     * @return  integer  The count of indexed items
      *
      * @since  3.5
      */

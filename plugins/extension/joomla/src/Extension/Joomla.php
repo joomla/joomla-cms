@@ -21,7 +21,7 @@ use Joomla\Database\ParameterType;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Joomla! master extension plugin.
+ * Joomla! main extension plugin.
  *
  * @since  1.6
  */

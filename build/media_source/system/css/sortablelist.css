@@ -38,7 +38,6 @@
 
 .dndlist-dragged-row {
   background-color: #5bb75b !important;
-  *background-color: #51a351 !important;
   background-image: -ms-linear-gradient(top, #62c462, #51a351) !important;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351)) !important;
   background-image: -webkit-linear-gradient(top, #62c462, #51a351) !important;

@@ -50,5 +50,26 @@
       "error",
       "as-needed"
     ]
-  }
+  },
+  "overrides": [
+	{
+	  "files": ["tests/**/*.js"],
+	  "rules": {
+		"no-undef": ["off"],
+		"import/no-extraneous-dependencies": ["off"]
+	  }
+	},
+	{
+	  "files": ["tests/System/support/index.js"],
+	  "rules": {
+		"no-console": ["off"]
+	  }
+	},
+	{
+	  "files": ["tests/System/support/commands/db.js","tests/System/plugins/index.js"],
+	  "rules": {
+		"no-useless-escape": ["off"]
+	  }
+	}
+  ]
 }

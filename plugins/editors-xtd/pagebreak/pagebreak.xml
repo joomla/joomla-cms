@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_EDITORSXTD_PAGEBREAK_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\EditorsXtd\PageBreak</namespace>
 	<files>
-		<filename plugin="pagebreak">pagebreak.php</filename>
+		<folder plugin="pagebreak">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_pagebreak.ini</language>

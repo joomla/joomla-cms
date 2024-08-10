@@ -19,17 +19,21 @@ $wa = $this->getWebAssetManager();
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
+$linkColor = $this->params->get('link-color', '#2a69b8');
+list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
+
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->useStyle('template.active.language')
     ->useStyle('template.user')
     ->addInlineStyle(':root {
 		--hue: ' . $matches[1] . ';
-		--template-bg-light: ' . $this->params->get('bg-light', '--template-bg-light') . ';
-		--template-text-dark: ' . $this->params->get('text-dark', '--template-text-dark') . ';
-		--template-text-light: ' . $this->params->get('text-light', '--template-text-light') . ';
-		--template-link-color: ' . $this->params->get('link-color', '--template-link-color') . ';
-		--template-special-color: ' . $this->params->get('special-color', '--template-special-color') . ';
+		--template-bg-light: ' . $this->params->get('bg-light', 'var(--template-bg-light)') . ';
+		--template-text-dark: ' . $this->params->get('text-dark', 'var(--template-text-dark)') . ';
+		--template-text-light: ' . $this->params->get('text-light', 'var(--template-text-light)') . ';
+		--link-color: ' . $linkColor . ';
+        --link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
+		--template-special-color: ' . $this->params->get('special-color', 'var(--template-special-color)') . ';
 	}');
 
 // No template.js for modals

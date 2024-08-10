@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Tags\Site\Helper;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -85,7 +84,7 @@ class RouteHelper extends CMSRouteHelper
      * @return  string  URL link to pass to the router
      *
      * @since      3.1
-     * @throws     Exception
+     * @throws     \Exception
      *
      * @deprecated  4.3 will be removed in 6.0
      *              Use RouteHelper::getComponentTagRoute() instead
@@ -106,7 +105,7 @@ class RouteHelper extends CMSRouteHelper
      * @return  string  URL link to pass to the router
      *
      * @since   4.2.0
-     * @throws  Exception
+     * @throws  \Exception
      */
     public static function getComponentTagRoute(string $id, string $language = '*'): string
     {
@@ -140,7 +139,7 @@ class RouteHelper extends CMSRouteHelper
      * @return  string  URL link to pass to the router
      *
      * @since      3.7
-     * @throws     Exception
+     * @throws     \Exception
      *
      * @deprecated  4.3 will be removed in 6.0
      *              Use RouteHelper::getComponentTagsRoute() instead
@@ -161,7 +160,7 @@ class RouteHelper extends CMSRouteHelper
      * @return  string  URL link to pass to the router
      *
      * @since   4.2.0
-     * @throws  Exception
+     * @throws  \Exception
      */
     public static function getComponentTagsRoute(string $language = '*'): string
     {
@@ -177,7 +176,7 @@ class RouteHelper extends CMSRouteHelper
      *
      * @return null
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected static function _findItem($needles = null)
     {

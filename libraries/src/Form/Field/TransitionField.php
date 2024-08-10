@@ -53,7 +53,7 @@ class TransitionField extends GroupedlistField
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
-     * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
      *
@@ -87,15 +87,12 @@ class TransitionField extends GroupedlistField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of HTMLHelper options.
+     * @return  array[]  An array of HTMLHelper options.
      *
      * @since  4.0.0
      */
     protected function getGroups()
     {
-        // Let's get the id for the current item, either category or content item.
-        $jinput = Factory::getApplication()->getInput();
-
         // Initialise variable.
         $db            = $this->getDatabase();
         $extension     = $this->extension;

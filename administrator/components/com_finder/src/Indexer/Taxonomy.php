@@ -440,7 +440,7 @@ class Taxonomy
      *
      * @param   integer  $id  Id of the taxonomy
      *
-     * @return  object|array  A taxonomy object or an array of all taxonomies
+     * @return  object|object[]  A taxonomy object or an array of all taxonomies
      *
      * @since   4.0.0
      */
@@ -474,7 +474,7 @@ class Taxonomy
      *
      * @param   string  $title  Title of the branch
      *
-     * @return  object|array  The object with the branch data or an array of all branches
+     * @return  object|object[]  The object with the branch data or an array of all branches
      *
      * @since   4.0.0
      */

@@ -38,7 +38,7 @@ return new class () implements ServiceProviderInterface {
                     (array) PluginHelper::getPlugin('filesystem', 'local'),
                     JPATH_ROOT
                 );
-                $plugin->setApplication(Factory::getApplication());
+                $plugin->setLanguage(Factory::getApplication()->getLanguage());
 
                 return $plugin;
             }

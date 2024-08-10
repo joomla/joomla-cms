@@ -366,7 +366,7 @@ class ModuleAdapter extends InstallerAdapter
                     $source = $path . '/' . $folder;
                 }
 
-                $client = (string) $this->getManifest()->attributes()->client;
+                $client = (string) $this->getManifest()->attributes()->client ?: 'site';
                 $this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
             }
         }
@@ -643,6 +643,7 @@ class ModuleAdapter extends InstallerAdapter
             $module->params    = '';
             $module->client_id = $this->clientId;
             $module->language  = '*';
+            $module->position  = '';
 
             $module->store();
         }

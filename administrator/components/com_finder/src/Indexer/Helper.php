@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -39,7 +38,7 @@ class Helper
      * @return  string  The parsed input.
      *
      * @since   2.5
-     * @throws  Exception on invalid parser.
+     * @throws  \Exception on invalid parser.
      */
     public static function parse($input, $format = 'html')
     {
@@ -215,7 +214,7 @@ class Helper
      * @return  integer  The id of the content type.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public static function addContentType($title, $mime = null)
     {
@@ -248,8 +247,16 @@ class Helper
         $db->setQuery($query);
         $db->execute();
 
+        // Cache the result
+        $type        = new \stdClass();
+        $type->title = $title;
+        $type->mime  = $mime ?? '';
+        $type->id    = (int) $db->insertid();
+
+        $types[$title] = $type;
+
         // Return the new id.
-        return (int) $db->insertid();
+        return $type->id;
     }
 
     /**
@@ -264,7 +271,7 @@ class Helper
      */
     public static function isCommon($token, $lang)
     {
-        static $data, $default, $multilingual;
+        static $data = [], $default, $multilingual;
 
         if (is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
@@ -300,7 +307,7 @@ class Helper
      * @return  array  Array of common terms.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public static function getCommonWords($lang)
     {
@@ -348,7 +355,7 @@ class Helper
      */
     public static function getPrimaryLanguage($lang)
     {
-        static $data;
+        static $data = [];
 
         // Only parse the identifier if necessary.
         if (!isset($data[$lang])) {
@@ -373,7 +380,7 @@ class Helper
      * @return  boolean  True on success, false on failure.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public static function getContentExtras(Result $item)
     {
@@ -390,7 +397,7 @@ class Helper
      *
      * @param   string    $text    The content to process.
      * @param   Registry  $params  The parameters object. [optional]
-     * @param   Result    $item    The item which get prepared. [optional]
+     * @param   ?Result   $item    The item which get prepared. [optional]
      *
      * @return  string  The processed content.
      *

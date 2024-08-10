@@ -186,15 +186,13 @@ class TextField extends FormField
             $inputmode       = preg_replace('/\s+/', ' ', trim($inputmode));
             $inputmode       = explode(' ', $inputmode);
 
-            if (!empty($inputmode)) {
-                $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
+            $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
-                foreach (array_keys($inputmode, 'default') as $key) {
-                    unset($inputmode[$key]);
-                }
-
-                $this->inputmode = $defaultInputmode . implode(' ', $inputmode);
+            foreach (array_keys($inputmode, 'default') as $key) {
+                unset($inputmode[$key]);
             }
+
+            $this->inputmode = $defaultInputmode . implode(' ', $inputmode);
 
             // Set the dirname.
             $dirname       = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
@@ -255,7 +253,7 @@ class TextField extends FormField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.4
      */

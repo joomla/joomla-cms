@@ -616,7 +616,7 @@ abstract class FormField implements DatabaseAwareInterface
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
-     * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
      *
@@ -806,7 +806,7 @@ abstract class FormField implements DatabaseAwareInterface
         $data = $this->getLayoutData();
 
         // Forcing the Alias field to display the tip below
-        $position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
+        $position = ((string) $this->element['name']) === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
         // Here mainly for B/C with old layouts. This can be done in the layouts directly
         $extraData = [
@@ -1015,11 +1015,24 @@ abstract class FormField implements DatabaseAwareInterface
             }
         }
 
-        $options['inlineHelp'] = isset($this->form->getXml()->config->inlinehelp['button'])
+        $options['inlineHelp'] = isset($this->form, $this->form->getXml()->config->inlinehelp['button'])
             ? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
             : false;
 
-        if ($this->showon) {
+        // Check if the field has showon in nested option
+        $hasOptionShowOn = false;
+
+        if (!empty((array) $this->element->xpath('option'))) {
+            foreach ($this->element->xpath('option') as $option) {
+                if ((string) $option['showon']) {
+                    $hasOptionShowOn = true;
+
+                    break;
+                }
+            }
+        }
+
+        if ($this->showon || $hasOptionShowOn) {
             $options['rel']           = ' data-showon=\'' .
                 json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
             $options['showonEnabled'] = true;
@@ -1039,10 +1052,10 @@ abstract class FormField implements DatabaseAwareInterface
     /**
      * Method to filter a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
      *
      * @return  mixed   The filtered value.
      *
@@ -1118,10 +1131,10 @@ abstract class FormField implements DatabaseAwareInterface
     /**
      * Method to validate a FormField object based on field data.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to validate
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to validate
+     *                             against the entire form.
      *
      * @return  boolean|\Exception  Boolean true if field value is valid, Exception on failure.
      *
@@ -1229,10 +1242,10 @@ abstract class FormField implements DatabaseAwareInterface
     /**
      * Method to post-process a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
      *
      * @return  mixed   The processed value.
      *
@@ -1252,17 +1265,12 @@ abstract class FormField implements DatabaseAwareInterface
      */
     protected function getLayoutData()
     {
-        // Label preprocess
-        $label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
-        $label = $label && $this->translateLabel ? Text::_($label) : $label;
-
-        // Description preprocess
+        $label       = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+        $label       = $label && $this->translateLabel ? Text::_($label) : $label;
         $description = !empty($this->description) ? $this->description : null;
         $description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
-
-        $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-
-        return [
+        $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+        $options     = [
             'autocomplete'   => $this->autocomplete,
             'autofocus'      => $this->autofocus,
             'class'          => $this->class,
@@ -1292,6 +1300,8 @@ abstract class FormField implements DatabaseAwareInterface
             'dataAttributes' => $this->dataAttributes,
             'parentclass'    => $this->parentclass,
         ];
+
+        return $options;
     }
 
     /**

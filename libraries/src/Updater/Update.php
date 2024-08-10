@@ -199,12 +199,20 @@ class Update extends CMSObject
     protected $currentUpdate;
 
     /**
-     * Object containing the latest update data
+     * Object containing the latest update data which meets the PHP and DB version requirements
      *
      * @var    \stdClass
      * @since  3.0.0
      */
     protected $latest;
+
+    /**
+     * Object containing details if the latest update does not meet the PHP and DB version requirements
+     *
+     * @var    \stdClass
+     * @since  4.4.2
+     */
+    protected $otherUpdateInfo;
 
     /**
      * The minimum stability required for updates to be taken into account. The possible values are:
@@ -342,11 +350,21 @@ class Update extends CMSObject
                     && $product == $this->currentUpdate->targetplatform->name
                     && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
                 ) {
+                    // Collect information on updates which do not meet PHP and DB version requirements
+                    $otherUpdateInfo          = new \stdClass();
+                    $otherUpdateInfo->version = $this->currentUpdate->version->_data;
+
                     $phpMatch = false;
 
                     // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
                     if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>=')) {
                         $phpMatch = true;
+                    }
+
+                    if (!$phpMatch) {
+                        $otherUpdateInfo->php           = new \stdClass();
+                        $otherUpdateInfo->php->required = $this->currentUpdate->php_minimum->_data;
+                        $otherUpdateInfo->php->used     = PHP_VERSION;
                     }
 
                     $dbMatch = false;
@@ -372,6 +390,13 @@ class Update extends CMSObject
                         if (isset($supportedDbs->$dbType)) {
                             $minimumVersion = $supportedDbs->$dbType;
                             $dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
+
+                            if (!$dbMatch) {
+                                $otherUpdateInfo->db           = new \stdClass();
+                                $otherUpdateInfo->db->type     = $dbType;
+                                $otherUpdateInfo->db->required = $minimumVersion;
+                                $otherUpdateInfo->db->used     = $dbVersion;
+                            }
                         }
                     } else {
                         // Set to true if the <supported_databases> tag is not set
@@ -396,6 +421,11 @@ class Update extends CMSObject
                         ) {
                             $this->latest = $this->currentUpdate;
                         }
+                    } elseif (
+                        !isset($this->otherUpdateInfo)
+                        || version_compare($otherUpdateInfo->version, $this->otherUpdateInfo->version, '>')
+                    ) {
+                        $this->otherUpdateInfo = $otherUpdateInfo;
                     }
                 }
                 break;

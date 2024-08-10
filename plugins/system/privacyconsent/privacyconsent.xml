@@ -11,8 +11,8 @@
 	<description>PLG_SYSTEM_PRIVACYCONSENT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\System\PrivacyConsent</namespace>
 	<files>
-		<filename plugin="privacyconsent">privacyconsent.php</filename>
 		<folder>forms</folder>
+		<folder plugin="privacyconsent">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

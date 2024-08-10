@@ -30,7 +30,7 @@ $isModal  = $input->get('layout') === 'modal';
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);
-$lang     = Factory::getLanguage()->getTag();
+$lang     = $this->getLanguage()->getTag();
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=workflow&extension=' . $input->getCmd('extension') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" aria-label="<?php echo Text::_('COM_WORKFLOW_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">

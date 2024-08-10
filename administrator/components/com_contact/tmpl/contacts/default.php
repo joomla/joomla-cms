@@ -68,7 +68,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col">
-                                    <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
+                                    <?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-10 d-none">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>

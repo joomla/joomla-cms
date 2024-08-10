@@ -31,7 +31,7 @@ class RedirectStatusField extends PredefinedlistField
     /**
      * Available statuses
      *
-     * @var  array
+     * @var  string[]
      * @since  3.8.0
      */
     protected $predefinedOptions = [

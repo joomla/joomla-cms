@@ -16,7 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -108,7 +108,7 @@ class TagsHelper extends CMSHelper
         $typeId = $ucm->getTypeId();
 
         // Insert the new tag maps
-        if (strpos('#', implode(',', $tags)) === false) {
+        if (strpos(implode(',', $tags), '#') !== false) {
             $tags = self::createTagsFromField($tags);
         }
 
@@ -297,7 +297,7 @@ class TagsHelper extends CMSHelper
     }
 
     /**
-     * Method to delete the tag mappings and #__ucm_content record for for an item
+     * Method to delete the tag mappings and #__ucm_content record for an item
      *
      * @param   TableInterface  $table          Table object of content table where delete occurred
      * @param   integer|array   $contentItemId  ID of the content item. Or an array of key/value pairs with array key
@@ -338,7 +338,7 @@ class TagsHelper extends CMSHelper
      * @param   integer  $id           Id of the item to retrieve tags for.
      * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
      *
-     * @return  array    Array of of tag objects
+     * @return  array    Array of tag objects
      *
      * @since   3.1
      */
@@ -397,7 +397,7 @@ class TagsHelper extends CMSHelper
      * @param   array    $ids          Id of the item to retrieve tags for.
      * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
      *
-     * @return  array    Array of of tag objects grouped by Id.
+     * @return  array    Array of tag objects grouped by Id.
      *
      * @since   4.2.0
      */
@@ -407,8 +407,8 @@ class TagsHelper extends CMSHelper
 
         $ids = array_map('intval', $ids);
 
-        /** @var DatabaseDriver $db */
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select($db->quoteName(['m.tag_id', 'm.content_item_id']))
@@ -766,7 +766,7 @@ class TagsHelper extends CMSHelper
      * @param   array    $selectTypes  Optional array of type ids or aliases to limit the results to. Often from a request.
      * @param   boolean  $useAlias     If true, the alias is used to match, if false the type_id is used.
      *
-     * @return  array   Array of of types
+     * @return  array   Array of types
      *
      * @since   3.1
      */
@@ -1044,7 +1044,7 @@ class TagsHelper extends CMSHelper
      */
     public function tagItem($ucmId, TableInterface $table, $tags = [], $replace = true)
     {
-        $key     = $table->get('_tbl_key');
+        $key     = $table->getKeyName();
         $oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
         $oldTags = explode(',', $oldTags);
         $result  = $this->unTagItem($ucmId, $table);
@@ -1106,5 +1106,35 @@ class TagsHelper extends CMSHelper
         $db->setQuery($query);
 
         return (bool) $db->execute();
+    }
+
+    /**
+     * Function that converts tag ids to their tag id and tag names
+     *
+     * @param   array  $tagIds  Array of integer tag ids.
+     *
+     * @return  array  An array of tag id and name.
+     *
+     * @since   4.4.0
+     */
+    public function getTags($tagIds)
+    {
+        $tagNames = [];
+
+        if (\is_array($tagIds) && \count($tagIds) > 0) {
+            $tagIds = ArrayHelper::toInteger($tagIds);
+
+            $db    = Factory::getDbo();
+            $query = $db->getQuery(true)
+                ->select([$db->quoteName('id'), $db->quoteName('title')])
+                ->from($db->quoteName('#__tags'))
+                ->whereIn($db->quoteName('id'), $tagIds)
+                ->order($db->quoteName('title'));
+
+            $db->setQuery($query);
+            $tagNames = $db->loadAssocList('id', 'title');
+        }
+
+        return $tagNames;
     }
 }

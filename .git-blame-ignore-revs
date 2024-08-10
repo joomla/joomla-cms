@@ -1,0 +1,9 @@
+# Short array syntax change https://github.com/joomla/joomla-cms/pull/39616
+10f250f418851674c2e4104b6b39b9b665496544
+
+# Code style fixes from PHP CS fixer https://github.com/joomla/joomla-cms/pull/39745
+1e7527b60ec42032abe7bfb9c000bacf38f65845
+
+# PSR 12
+dd91072a956a19a43798515239892edd2b49ac7b
+e7f5cc182bb1cd39c7f085d529888ac4fa6fc77e

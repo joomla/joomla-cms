@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use DateInterval;
-use DateTimeZone;
-use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -20,7 +17,6 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\ParameterType;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -39,7 +35,7 @@ class MethodsModel extends BaseDatabaseModel
      * @param   User|null  $user  The user object. Skip to use the current user.
      *
      * @return  array
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -84,7 +80,7 @@ class MethodsModel extends BaseDatabaseModel
      * @param   User|null  $user  The user object to reset MFA for. Null to use the current user.
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -95,9 +91,9 @@ class MethodsModel extends BaseDatabaseModel
             $user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
         }
 
-        // If the user object is a guest (who can't have MFA) we abort with an error
+        // If the user object is a guest (who can't have MFA) we stop with an error
         if ($user->guest) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         $db    = $this->getDatabase();
@@ -117,7 +113,7 @@ class MethodsModel extends BaseDatabaseModel
      * @param   string  $dateTimeText  The database time string to use, e.g. "2017-01-13 13:25:36"
      *
      * @return  string  The formatted, human-readable date
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -128,9 +124,10 @@ class MethodsModel extends BaseDatabaseModel
         }
 
         // The timestamp is given in UTC. Make sure Joomla! parses it as such.
-        $utcTimeZone = new DateTimeZone('UTC');
+        $utcTimeZone = new \DateTimeZone('UTC');
         $jDate       = new Date($dateTimeText, $utcTimeZone);
         $unixStamp   = $jDate->toUnix();
+        $app         = Factory::getApplication();
 
         // I'm pretty sure we didn't have MFA in Joomla back in 1970 ;)
         if ($unixStamp < 0) {
@@ -139,8 +136,8 @@ class MethodsModel extends BaseDatabaseModel
 
         // I need to display the date in the user's local timezone. That's how you do it.
         $user   = $this->getCurrentUser();
-        $userTZ = $user->getParam('timezone', 'UTC');
-        $tz     = new DateTimeZone($userTZ);
+        $userTZ = $user->getParam('timezone', $app->get('offset', 'UTC'));
+        $tz     = new \DateTimeZone($userTZ);
         $jDate->setTimezone($tz);
 
         // Default format string: way in the past, the time of the day is not important
@@ -162,7 +159,7 @@ class MethodsModel extends BaseDatabaseModel
                 // Is this timestamp yesterday?
                 $jYesterday = clone $jNow;
                 $jYesterday->setTime(0, 0, 0);
-                $oneSecond = new DateInterval('PT1S');
+                $oneSecond = new \DateInterval('PT1S');
                 $jYesterday->sub($oneSecond);
                 $checkYesterday = $jYesterday->format('Ymd', true);
 
@@ -200,7 +197,7 @@ class MethodsModel extends BaseDatabaseModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
 

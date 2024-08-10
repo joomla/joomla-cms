@@ -146,7 +146,7 @@ class MediaHelper
             );
 
             // Get the mime type configuration
-            $allowedMime = array_map('trim', explode(',', $allowedMime));
+            $allowedMime = array_map('trim', explode(',', str_replace('\\', '', $allowedMime)));
 
             // Mime should be available and in the allowed list
             return !empty($mime) && \in_array($mime, $allowedMime);
@@ -196,9 +196,9 @@ class MediaHelper
     /**
      * Checks if the file can be uploaded
      *
-     * @param   array   $file                File information
-     * @param   string  $component           The option name for the component storing the parameters
-     * @param   string  $allowedExecutables  Array of executable file types that shall be whitelisted
+     * @param   array     $file                File information
+     * @param   string    $component           The option name for the component storing the parameters
+     * @param   string[]  $allowedExecutables  Array of executable file types that shall be whitelisted
      *
      * @return  boolean
      *
@@ -240,6 +240,9 @@ class MediaHelper
             $executables = array_diff($executables, $allowedExecutables);
         }
 
+        // Ensure lowercase extension
+        $filetypes = array_map('strtolower', $filetypes);
+
         $check = array_intersect($filetypes, $executables);
 
         if (!empty($check)) {
@@ -274,7 +277,7 @@ class MediaHelper
                 // If tmp_name is empty, then the file was bigger than the PHP limit
                 if (!empty($file['tmp_name'])) {
                     // Get the mime type this is an image file
-                    $mime = static::getMimeType($file['tmp_name'], true);
+                    $mime = static::getMimeType($file['tmp_name'], static::isImage($file['tmp_name']));
 
                     // Did we get anything useful?
                     if ($mime != false) {

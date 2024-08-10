@@ -216,7 +216,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.2
      */
     public function getOptions()
     {

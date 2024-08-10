@@ -121,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php elseif ($item->home != '0' && $item->home != '1') : ?>
                                         <?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $this->escape($item->language_title)); ?>
                                     <?php elseif ($item->assigned > 0) : ?>
-                                        <?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_SELECTED', $this->escape($item->assigned)); ?>
+                                        <?php echo Text::plural('COM_TEMPLATES_STYLES_PAGES_SELECTED', $this->escape($item->assigned)); ?>
                                     <?php else : ?>
                                         <?php echo Text::_('COM_TEMPLATES_STYLES_PAGES_NONE'); ?>
                                     <?php endif; ?>

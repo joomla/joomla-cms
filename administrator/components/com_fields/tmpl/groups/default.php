@@ -166,7 +166,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                    <?php //Load the batch processing form. ?>
+                    <?php // Load the batch processing form. ?>
                     <?php
                     if (
                         $user->authorise('core.create', $component)

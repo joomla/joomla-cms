@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -198,10 +199,10 @@ class Filter
     /**
      * Method to generate filters using select box dropdown controls.
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string|null  A rendered HTML widget on success, null otherwise.
      *
      * @since   2.5
      */
@@ -292,11 +293,19 @@ class Filter
                 $query->clear()
                     ->select('t.*')
                     ->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-                    ->where('t.lft > ' . (int) $bv->lft)
-                    ->where('t.rgt < ' . (int) $bv->rgt)
+                    ->where('t.lft > :lft')
+                    ->where('t.rgt < :rgt')
                     ->where('t.state = 1')
-                    ->where('t.access IN (' . $groups . ')')
-                    ->order('t.title');
+                    ->whereIn('t.access', $user->getAuthorisedViewLevels())
+                    ->order('t.level, t.parent_id, t.title')
+                    ->bind(':lft', $bv->lft, ParameterType::INTEGER)
+                    ->bind(':rgt', $bv->rgt, ParameterType::INTEGER);
+
+                // Apply multilanguage filter
+                if (Multilanguage::isEnabled()) {
+                    $language = [Factory::getLanguage()->getTag(), '*'];
+                    $query->whereIn($db->quoteName('t.language'), $language, ParameterType::STRING);
+                }
 
                 // Self-join to get the parent title.
                 $query->select('e.title AS parent_title')
@@ -304,7 +313,7 @@ class Filter
 
                 // Limit the nodes to a predefined filter.
                 if (!empty($filter->data)) {
-                    $query->where('t.id IN(' . $filter->data . ')');
+                    $query->whereIn('t.id', explode(",", $filter->data));
                 }
 
                 // Load the branches.
@@ -318,6 +327,7 @@ class Filter
 
                 // Translate branch nodes if possible.
                 $language = Factory::getLanguage();
+                $root     = [];
 
                 foreach ($branches[$bk]->nodes as $node_id => $node) {
                     if (trim($node->parent_title, '*') === 'Language') {
@@ -331,8 +341,18 @@ class Filter
                         $branches[$bk]->nodes[$node_id]->title = str_repeat('-', $node->level - 2) . $title;
                     } else {
                         $branches[$bk]->nodes[$node_id]->title = $title;
+                        $root[]                                = $branches[$bk]->nodes[$node_id];
+                    }
+
+                    if ($node->parent_id && isset($branches[$bk]->nodes[$node->parent_id])) {
+                        if (!isset($branches[$bk]->nodes[$node->parent_id]->children)) {
+                            $branches[$bk]->nodes[$node->parent_id]->children = [];
+                        }
+                        $branches[$bk]->nodes[$node->parent_id]->children[] = $node;
                     }
                 }
+
+                $branches[$bk]->nodes = $this->reduce($root);
 
                 // Add the Search All option to the branch.
                 array_unshift($branches[$bk]->nodes, ['id' => null, 'title' => Text::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')]);
@@ -400,10 +420,10 @@ class Filter
     /**
      * Method to generate fields for filtering dates
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string  A rendered HTML widget.
      *
      * @since   2.5
      */
@@ -477,5 +497,28 @@ class Filter
         }
 
         return $html;
+    }
+
+    /**
+     * Method to flatten a tree to a sorted array
+     *
+     * @param   \stdClass[]  $array
+     *
+     * @return  \stdClass[]  Flat array of all nodes of a tree with the children after each parent
+     *
+     * @since   4.4.4
+     */
+    private function reduce(array $array)
+    {
+        $return = [];
+
+        foreach ($array as $item) {
+            $return[] = $item;
+            if (isset($item->children)) {
+                $return = array_merge($return, $this->reduce($item->children));
+            }
+        }
+
+        return $return;
     }
 }

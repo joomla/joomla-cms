@@ -90,7 +90,7 @@
 			name="default_value"
 			type="textarea"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
-			filter="raw"
+			filter="safehtml"
 		/>
 
 		<field
@@ -270,6 +270,7 @@
 					label="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_LABEL"
 					description="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_DESC"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field

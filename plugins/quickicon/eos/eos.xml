@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="quickicon" method="upgrade">
+	<name>plg_quickicon_eos</name>
+	<author>Joomla! Project</author>
+	<creationDate>2023-05</creationDate>
+	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.4.0</version>
+	<description>PLG_QUICKICON_EOS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Quickicon\Eos</namespace>
+	<files>
+		<folder plugin="eos">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_quickicon_eos.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_eos.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="last_snoozed_id"
+					type="hidden"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

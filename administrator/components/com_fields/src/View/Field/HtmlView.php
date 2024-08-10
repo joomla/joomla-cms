@@ -107,7 +107,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load component language file
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_ADMINISTRATOR)
         || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
@@ -162,6 +162,6 @@ class HtmlView extends BaseHtmlView
             $toolbar->cancel('field.cancel');
         }
 
-        $toolbar->help('Component:_New_or_Edit_Field');
+        $toolbar->help('Fields:_Edit');
     }
 }

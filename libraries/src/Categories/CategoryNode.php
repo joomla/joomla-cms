@@ -489,7 +489,7 @@ class CategoryNode extends CMSObject implements NodeInterface
     /**
      * Serialize the node.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.2
      */
     public function __serialize()
     {
@@ -508,7 +508,7 @@ class CategoryNode extends CMSObject implements NodeInterface
      *
      * @param   array  $data
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.2
      */
     public function __unserialize($data)
     {

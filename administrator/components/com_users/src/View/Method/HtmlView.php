@@ -17,6 +17,7 @@ use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Button\LinkButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
 
@@ -168,7 +169,9 @@ class HtmlView extends BaseHtmlView
         }
 
         $returnUrl = empty($this->returnURL) ? '' : base64_decode($this->returnURL);
-        $returnUrl = $returnUrl ?: Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
+        $returnUrl = ($returnUrl && Uri::isInternal($returnUrl))
+            ? $returnUrl
+            : Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
 
         if ($this->isAdmin && $this->getLayout() === 'edit') {
             $button = (new BasicButton('user-mfa-edit-save'))

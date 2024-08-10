@@ -16,7 +16,6 @@ use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\OutputFilter;
@@ -24,6 +23,8 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
@@ -32,6 +33,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -45,8 +47,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.2
  */
-class ApplicationModel extends FormModel
+class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 {
+    use MailerFactoryAwareTrait;
+
     /**
      * Array of protected password fields from the configuration.php
      *
@@ -187,7 +191,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslca']))) {
+                if (!is_file(Path::clean($data['dbsslca']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -219,7 +223,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslkey']))) {
+                if (!is_file(Path::clean($data['dbsslkey']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -243,7 +247,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslcert']))) {
+                if (!is_file(Path::clean($data['dbsslcert']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -1178,28 +1182,30 @@ class ApplicationModel extends FormModel
         $input    = $app->getInput()->json;
         $smtppass = $input->get('smtppass', null, 'RAW');
 
-        $app->set('smtpauth', $input->get('smtpauth'));
-        $app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
-        $app->set('smtphost', $input->get('smtphost'));
-        $app->set('smtpsecure', $input->get('smtpsecure'));
-        $app->set('smtpport', $input->get('smtpport'));
-        $app->set('mailfrom', $input->get('mailfrom', '', 'STRING'));
-        $app->set('fromname', $input->get('fromname', '', 'STRING'));
-        $app->set('mailer', $input->get('mailer'));
-        $app->set('mailonline', $input->get('mailonline'));
+        $config = new Registry();
+        $config->set('smtpauth', $input->get('smtpauth'));
+        $config->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
+        $config->set('smtphost', $input->get('smtphost'));
+        $config->set('smtpsecure', $input->get('smtpsecure'));
+        $config->set('smtpport', $input->get('smtpport'));
+        $config->set('mailfrom', $input->get('mailfrom', '', 'STRING'));
+        $config->set('fromname', $input->get('fromname', '', 'STRING'));
+        $config->set('mailer', $input->get('mailer'));
+        $config->set('mailonline', $input->get('mailonline'));
 
         // Use smtppass only if it was submitted
         if ($smtppass !== null) {
-            $app->set('smtppass', $smtppass);
+            $config->set('smtppass', $smtppass);
         }
 
-        $mail = Factory::getMailer();
+        $mail = $this->getMailerFactory()->createMailer($config);
 
         // Prepare email and try to send it
         $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
         $mailer->addTemplateData(
             [
-                'sitename' => $app->get('sitename'),
+                // Replace the occurrences of "@" and "|" in the site name
+                'sitename' => str_replace(['@', '|'], '', $app->get('sitename')),
                 'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );

@@ -10,7 +10,7 @@ if (!Joomla) {
 const getCookie = () => document.cookie.length && document.cookie
   .split('; ')
   .find((row) => row.startsWith('atumSidebarState='))
-  .split('=')[1];
+  ?.split('=')[1];
 
 const mobile = window.matchMedia('(max-width: 992px)');
 const small = window.matchMedia('(max-width: 575.98px)');
@@ -241,4 +241,21 @@ window.addEventListener('joomla:menu-toggle', (event) => {
   } else {
     changeLogo(event.detail);
   }
+});
+
+/**
+ * Close any open data-bs-toggle="collapse" when opening a data-bs-toggle="dropdown"
+ *
+ * @since 4.4
+ */
+document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach((cb) => {
+      const target = document.querySelector(cb.getAttribute('data-bs-target'));
+      const collapseMenu = bootstrap.Collapse.getInstance(target) || new bootstrap.Collapse(target, {
+        toggle: false,
+      });
+      collapseMenu.hide();
+    });
+  });
 });

@@ -15,7 +15,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -338,7 +337,7 @@ class Changelog extends CMSObject
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $response = null;
         }
 

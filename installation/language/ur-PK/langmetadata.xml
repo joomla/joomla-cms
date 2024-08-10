@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metafile client="installation">
+	<name>اردو (پاکستان)ایک پیارا ملک ھے</name>
+	<version>4.4.6</version>
+	<creationDate>2024-05</creationDate>
+	<author>جوملا پروجیکٹ</author>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>joomla.ini</filename>
+	</files>
+	<metadata>
+		<name>انگریزی (en-GB)</name>
+		<nativeName>انگریزی (برطانیہ)</nativeName>
+		<tag>ur-PK</tag>
+		<rtl>1</rtl>
+	</metadata>
+	<params/>
+</metafile>

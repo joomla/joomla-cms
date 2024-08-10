@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.2.0</version>
 	<description>PLG_SYSTEM_JOOA11Y_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Jooa11y</namespace>
 	<files>
-		<filename plugin="jooa11y">jooa11y.php</filename>
+		<folder plugin="jooa11y">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_jooa11y.ini</language>

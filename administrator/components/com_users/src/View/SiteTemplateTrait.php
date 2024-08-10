@@ -10,11 +10,8 @@
 
 namespace Joomla\Component\Users\Administrator\View;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use ReflectionException;
-use ReflectionObject;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -31,7 +28,7 @@ trait SiteTemplateTrait
      * Set a specific site template style in the frontend application
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     private function setSiteTemplateStyle(): void
@@ -52,11 +49,11 @@ trait SiteTemplateTrait
         $app->getInput()->set('templateStyle', $templateStyle);
 
         try {
-            $refApp      = new ReflectionObject($app);
+            $refApp      = new \ReflectionObject($app);
             $refTemplate = $refApp->getProperty('template');
             $refTemplate->setAccessible(true);
             $refTemplate->setValue($app, null);
-        } catch (ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             return;
         }
 

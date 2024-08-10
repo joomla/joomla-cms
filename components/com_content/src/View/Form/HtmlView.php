@@ -171,7 +171,7 @@ class HtmlView extends BaseHtmlView
 
         // Propose current language as default when creating new article
         if (empty($this->item->id) && Multilanguage::isEnabled() && $params->get('enable_category') != 1) {
-            $lang = Factory::getLanguage()->getTag();
+            $lang = $this->getLanguage()->getTag();
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
@@ -223,11 +223,11 @@ class HtmlView extends BaseHtmlView
         $app->getPathway()->addItem($title);
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

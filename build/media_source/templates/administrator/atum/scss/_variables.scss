@@ -1,3 +1,9 @@
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
+
+// Disable dark mode in J4.4 - it's going to cause major b/c breaks to introduce. We will enable it in 5.0
+$enable-dark-mode:                 false;
+
 // Variables
 $white:                            #fff;
 $whiteoffset:                      #fefefe;
@@ -47,18 +53,17 @@ $theme-colors: (
   "light":                           $gray-100,
   "dark":                            $gray-900,
   "action":                          $base-color,
-  "error":                           $red-dark,
-  "alert-success":                   $green-dark) !default;
+  "error":                           $red-dark) !default;
 
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),
   template-sidebar-font-color:     $white,
   template-sidebar-link-color:     $white,
   template-bg-light:               #f0f4fb, //light background color, frontend dashboard background
+  template-link-color:             var(--link-color),
   template-text-light:             $white,
+  template-text-dark:              $atum-text-dark,
   template-special-color:          $dark-blue,
-  template-link-color:             $light-blue,
-  template-link-hover-color:       darken($light-blue, 20%),
   template-contrast:               $light-blue,
   template-bg-dark:                hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:              hsl(var(--hue), 40%, 97%),
@@ -269,8 +274,8 @@ $grid-gutter-width-s:              15px;
 $breadcrumb-bg:                    var(--white);
 
 // Links
-$link-color:                       var(--template-link-color);
-$link-hover-color:                 var(--template-link-hover-color);
+$link-color:                       $light-blue;
+$link-hover-color:                 darken($light-blue, 20%);
 $link-decoration:                  none;
 
 // Z-Index list

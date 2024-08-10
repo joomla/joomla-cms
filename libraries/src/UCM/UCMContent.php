@@ -37,7 +37,7 @@ class UCMContent extends UCMBase
     /**
      * The UCM data array
      *
-     * @var    array
+     * @var    array[]
      * @since  3.1
      */
     public $ucmData;
@@ -127,7 +127,7 @@ class UCMContent extends UCMBase
      * @param   array    $original  The original data array
      * @param   UCMType  $type      Type object for this data
      *
-     * @return  array  $ucmData  The mapped UCM data
+     * @return  array[]  $ucmData  The mapped UCM data
      *
      * @since   3.1
      */

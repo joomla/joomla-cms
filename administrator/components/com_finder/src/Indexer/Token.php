@@ -144,8 +144,9 @@ class Token
         // Tokens can be a single word or an array of words representing a phrase.
         if (is_array($term)) {
             // Populate the token instance.
+            $langs         = array_fill(0, count($term), $lang);
             $this->term    = implode($spacer, $term);
-            $this->stem    = implode($spacer, array_map([Helper::class, 'stem'], $term, [$lang]));
+            $this->stem    = implode($spacer, array_map([Helper::class, 'stem'], $term, $langs));
             $this->numeric = false;
             $this->common  = false;
             $this->phrase  = true;

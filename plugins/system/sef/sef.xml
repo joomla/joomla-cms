@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_SEF_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Sef</namespace>
 	<files>
-		<filename plugin="sef">sef.php</filename>
+		<folder plugin="sef">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_sef.ini</language>

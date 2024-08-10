@@ -37,7 +37,7 @@ class VcfView extends AbstractView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  string  A string if successful
+     * @return  void
      *
      * @throws  GenericDataException
      */
@@ -51,7 +51,7 @@ class VcfView extends AbstractView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        $this->document->setMimeEncoding('text/directory', true);
+        $this->getDocument()->setMimeEncoding('text/directory', true);
 
         // Compute lastname, firstname and middlename
         $item->name = trim($item->name);
@@ -88,21 +88,21 @@ class VcfView extends AbstractView
 
         Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
 
-        $vcard = [];
-        $vcard[] .= 'BEGIN:VCARD';
-        $vcard[] .= 'VERSION:3.0';
-        $vcard[]  = 'N:' . $lastname . ';' . $firstname . ';' . $middlename;
-        $vcard[]  = 'FN:' . $item->name;
-        $vcard[]  = 'TITLE:' . $item->con_position;
-        $vcard[]  = 'TEL;TYPE=WORK,VOICE:' . $item->telephone;
-        $vcard[]  = 'TEL;TYPE=WORK,FAX:' . $item->fax;
-        $vcard[]  = 'TEL;TYPE=WORK,MOBILE:' . $item->mobile;
-        $vcard[]  = 'ADR;TYPE=WORK:;;' . $item->address . ';' . $item->suburb . ';' . $item->state . ';' . $item->postcode . ';' . $item->country;
-        $vcard[]  = 'LABEL;TYPE=WORK:' . $item->address . "\n" . $item->suburb . "\n" . $item->state . "\n" . $item->postcode . "\n" . $item->country;
-        $vcard[]  = 'EMAIL;TYPE=PREF,INTERNET:' . $item->email_to;
-        $vcard[]  = 'URL:' . $item->webpage;
-        $vcard[]  = 'REV:' . $rev . 'Z';
-        $vcard[]  = 'END:VCARD';
+        $vcard   = [];
+        $vcard[] = 'BEGIN:VCARD';
+        $vcard[] = 'VERSION:3.0';
+        $vcard[] = 'N:' . $lastname . ';' . $firstname . ';' . $middlename;
+        $vcard[] = 'FN:' . $item->name;
+        $vcard[] = 'TITLE:' . $item->con_position;
+        $vcard[] = 'TEL;TYPE=WORK,VOICE:' . $item->telephone;
+        $vcard[] = 'TEL;TYPE=WORK,FAX:' . $item->fax;
+        $vcard[] = 'TEL;TYPE=WORK,MOBILE:' . $item->mobile;
+        $vcard[] = 'ADR;TYPE=WORK:;;' . $item->address . ';' . $item->suburb . ';' . $item->state . ';' . $item->postcode . ';' . $item->country;
+        $vcard[] = 'LABEL;TYPE=WORK:' . $item->address . "\n" . $item->suburb . "\n" . $item->state . "\n" . $item->postcode . "\n" . $item->country;
+        $vcard[] = 'EMAIL;TYPE=PREF,INTERNET:' . $item->email_to;
+        $vcard[] = 'URL:' . $item->webpage;
+        $vcard[] = 'REV:' . $rev . 'Z';
+        $vcard[] = 'END:VCARD';
 
         echo implode("\n", $vcard);
     }

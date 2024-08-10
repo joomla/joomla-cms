@@ -47,7 +47,7 @@ class DisplayController extends BaseController
     public function display($cachable = false, $urlparams = false)
     {
         // Verify menu
-        $menuType = $this->input->post->getCmd('menutype', '');
+        $menuType = $this->input->post->getString('menutype', '');
 
         if ($menuType !== '') {
             $uri = Uri::getInstance();

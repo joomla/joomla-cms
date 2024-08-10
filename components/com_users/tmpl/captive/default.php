@@ -20,12 +20,10 @@ use Joomla\Utilities\ArrayHelper;
  * @var HtmlView     $this  View object
  * @var CaptiveModel $model The model
  */
-$model           = $this->getModel();
+$model = $this->getModel();
 
-if ($this->renderOptions['field_type'] !== 'custom') {
-    $this->document->getWebAssetManager()
-            ->useScript('com_users.two-factor-focus');
-}
+$this->document->getWebAssetManager()
+    ->useScript('com_users.two-factor-focus');
 
 ?>
 <div class="users-mfa-captive card card-body">

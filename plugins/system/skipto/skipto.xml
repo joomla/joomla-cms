@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_SYSTEM_SKIPTO_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Skipto</namespace>
 	<files>
-		<filename plugin="skipto">skipto.php</filename>
+		<folder plugin="skipto">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_skipto.ini</language>

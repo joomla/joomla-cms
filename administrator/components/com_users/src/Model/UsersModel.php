@@ -235,7 +235,7 @@ class UsersModel extends ListModel
                 return false;
             }
 
-            // Second pass: collect the group counts into the master items array.
+            // Second pass: collect the group counts into the main items array.
             foreach ($items as &$item) {
                 if (isset($userGroups[$item->id])) {
                     $item->group_count = $userGroups[$item->id]->group_count;
@@ -365,10 +365,7 @@ class UsersModel extends ListModel
         $groups  = $this->getState('filter.groups');
 
         if ($groupId || isset($groups)) {
-            $query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
-                ->group(
-                    $db->quoteName(
-                        [
+            $group_by = [
                             'a.id',
                             'a.name',
                             'a.username',
@@ -385,9 +382,14 @@ class UsersModel extends ListModel
                             'a.otpKey',
                             'a.otep',
                             'a.requireReset',
-                        ]
-                    )
-                );
+            ];
+
+            if (PluginHelper::isEnabled('multifactorauth')) {
+                $group_by[] = 'mfa.mfaRecords';
+            }
+
+            $query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
+                ->group($db->quoteName($group_by));
 
             if ($groupId) {
                 $groupId = (int) $groupId;

@@ -172,6 +172,7 @@ class ExtensionHelper
         ['plugin', 'ldap', 'authentication', 0],
 
         // Core plugin extensions - behaviour
+        ['plugin', 'compat', 'behaviour', 0],
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
 
@@ -273,6 +274,7 @@ class ExtensionHelper
         ['plugin', 'overridecheck', 'quickicon', 0],
         ['plugin', 'phpversioncheck', 'quickicon', 0],
         ['plugin', 'privacycheck', 'quickicon', 0],
+        ['plugin', 'eos', 'quickicon', 0],
 
         // Core plugin extensions - sample data
         ['plugin', 'blog', 'sampledata', 0],
@@ -391,14 +393,25 @@ class ExtensionHelper
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'));
 
+        $values = [];
+
         foreach (self::$coreExtensions as $extension) {
-            $values = $query->bindArray($extension, [ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]);
-            $query->where(
-                '(' . $db->quoteName('type') . ' = ' . $values[0] . ' AND ' . $db->quoteName('element') . ' = ' . $values[1]
-                . ' AND ' . $db->quoteName('folder') . ' = ' . $values[2] . ' AND ' . $db->quoteName('client_id') . ' = ' . $values[3] . ')',
-                'OR'
-            );
+            $values[] = $extension[0] . '|' . $extension[1] . '|' . $extension[2] . '|' . $extension[3];
         }
+
+        $query->whereIn(
+            $query->concatenate(
+                [
+                    $db->quoteName('type'),
+                    $db->quoteName('element'),
+                    $db->quoteName('folder'),
+                    $db->quoteName('client_id'),
+                ],
+                '|'
+            ),
+            $values,
+            ParameterType::STRING
+        );
 
         $db->setQuery($query);
         self::$coreExtensionIds = $db->loadColumn();

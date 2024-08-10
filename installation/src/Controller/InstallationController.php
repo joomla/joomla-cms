@@ -144,7 +144,7 @@ class InstallationController extends JSONController
         $schema     = $files[$step];
         $serverType = $db->getServerType();
 
-        if (in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql')) {
+        if (in_array($step, ['custom1', 'custom2']) && !is_file(JPATH_INSTALLATION . '/sql/' . $serverType . '/' . $schema . '.sql')) {
             $this->sendJsonResponse($r);
 
             return;
