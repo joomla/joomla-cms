@@ -79,17 +79,16 @@ for ($i = $stars; $i < 5; $i++) {
 ?>
 <div class="content_rating" role="img" aria-label="<?php echo Text::sprintf('PLG_VOTE_STAR_RATING', $rating); ?>">
     <?php if ($rcount) : ?>
-    <div class="visually-hidden" itemscope itemtype="https://schema.org/Product">
-        <span itemprop="name"><?php echo $row->title; ?></span>
-        <p class="visually-hidden" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-            <?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
-            <meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
-            <meta itemprop="worstRating" content="1">
-        </p>
+        <div class="visually-hidden">
+            <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                <?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
+                <meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
+                <meta itemprop="worstRating" content="1">
+            </p>
+        </div>
         <?php if ($this->params->get('show_total_votes', 0)) : ?>
             <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
         <?php endif; ?>
-    </div>
     <?php endif; ?>
     <ul>
         <?php echo $img; ?>
