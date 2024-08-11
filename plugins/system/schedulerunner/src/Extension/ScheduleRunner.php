@@ -152,7 +152,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // Since the the request from the frontend may time out, try allowing execution after disconnect.
+        // Since the request from the frontend may time out, try allowing execution after disconnect.
         if (\function_exists('ignore_user_abort')) {
             ignore_user_abort(true);
         }
