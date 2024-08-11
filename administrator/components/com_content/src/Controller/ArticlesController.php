@@ -193,17 +193,16 @@ class ArticlesController extends AdminController
 	public function delete()
 	{
         // Check for request forgeries
-		$this->checkToken();
+        $this->checkToken();
 
-		$articlesModel = $this->getModel('articles');
-		$featured = $articlesModel->isFeatured();
+        $articlesModel = $this->getModel('articles');
+        $featured      = $articlesModel->isFeatured();
 
         // Delete unfeatured items.
         if ($featured === '0') {
-			parent::delete();
-
+            parent::delete();
             return;
-		}
+        }
 
         // Delete featured items.
         $user = $this->app->getIdentity();
@@ -211,8 +210,7 @@ class ArticlesController extends AdminController
 
         // Access checks.
         foreach ($ids as $i => $id) {
-            if (!$user->authorise('core.delete', 'com_content.article.' . (int) $id))
-            {
+            if (!$user->authorise('core.delete', 'com_content.article.' . (int) $id)) {
                 // Prune items that you can't delete.
                 unset($ids[$i]);
                 $this->app->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
@@ -221,7 +219,6 @@ class ArticlesController extends AdminController
 
         if (empty($ids)) {
             $this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
-
             return;
         }
 
@@ -229,8 +226,7 @@ class ArticlesController extends AdminController
         $featureModel = $this->getModel('Feature');
 
         // Remove the items.
-        if (!$featureModel->featured($ids, 0))
-        {
+        if (!$featureModel->featured($ids, 0)) {
             $this->app->enqueueMessage($featureModel->getError(), 'error');
         }
 
