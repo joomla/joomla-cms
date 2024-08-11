@@ -624,14 +624,8 @@ Joomla.request = (options) => {
       const token = Joomla.getOptions('csrf.token', '');
 
       // Use the CSRF only on the site's domain
-      if (
-        token && (
-          (!newOptions.url.startsWith('http:') && !newOptions.url.startsWith('https:'))
-          || newOptions.url.startsWith(location.origin)
-        )
-      ) {
-        xhr.setRequestHeader('X-CSRF-Token', token);
-      }
+							xhr.setRequestHeader('X-CSRF-Token', token);
+						}
 
       if (typeof newOptions.data === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
