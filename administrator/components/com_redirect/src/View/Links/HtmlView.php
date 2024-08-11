@@ -193,7 +193,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('links.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('links.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
