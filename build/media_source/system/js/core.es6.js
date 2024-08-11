@@ -443,9 +443,9 @@ Joomla.isChecked = (isitchecked, form) => {
     newForm = document.getElementById(form);
   }
 
-    newForm.boxchecked.value = isitchecked
-      ? parseInt(newForm.boxchecked.value, 10) + 1
-      : parseInt(newForm.boxchecked.value, 10) - 1;
+  newForm.boxchecked.value = isitchecked
+    ? parseInt(newForm.boxchecked.value, 10) + 1
+    : parseInt(newForm.boxchecked.value, 10) - 1;
 
   newForm.boxchecked.dispatchEvent(new CustomEvent('change', {
     bubbles: true,
