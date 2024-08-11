@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="administrator" method="upgrade">
+	<name>mod_redirect</name>
+	<author>Joomla! Project</author>
+	<creationDate>2024-08</creationDate>
+	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>MOD_REDIRECT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Redirect</namespace>
+	<files>
+		<folder module="mod_redirect">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/mod_redirect.ini</language>
+		<language tag="en-GB">language/en-GB/mod_redirect.sys.ini</language>
+	</languages>
+	<help key="Admin_Modules:_Redirect" />
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Redirect\Administrator\Field">
+
+				<field
+					name="state"
+					type="RedirectStatus"
+					label="JSTATUS"
+					default="0"
+					class="js-select-submit-on-change"
+				>
+					<option value="">JOPTION_SELECT_PUBLISHED</option>
+				</field>
+				<field
+					name="http_status"
+					type="Redirect"
+					label="MOD_REDIRECT_HEADING_STATUS_CODE"
+					default="301"
+					class="js-select-submit-on-change"
+				>
+					<option value="">MOD_REDIRECT_FILTER_SELECT_OPTION_HTTP_HEADER</option>
+				</field>
+				<field
+					name="ordering"
+					type="list"
+					label="JGLOBAL_SORT_BY"
+					class="js-select-submit-on-change"
+					default="a.hits DESC"
+					validate="options"
+				>
+					<option value="">JGLOBAL_SORT_BY</option>
+					<option value="a.published ASC">JSTATUS_ASC</option>
+					<option value="a.published DESC">JSTATUS_DESC</option>
+					<option value="a.old_url ASC">MOD_REDIRECT_HEADING_OLD_URL_ASC</option>
+					<option value="a.old_url DESC">MOD_REDIRECT_HEADING_OLD_URL_DESC</option>
+					<option value="a.new_url ASC">MOD_REDIRECT_HEADING_NEW_URL_ASC</option>
+					<option value="a.new_url DESC">MOD_REDIRECT_HEADING_NEW_URL_DESC</option>
+					<option value="a.referer ASC">MOD_REDIRECT_HEADING_REFERRER_ASC</option>
+					<option value="a.referer DESC">MOD_REDIRECT_HEADING_REFERRER_DESC</option>
+					<option value="a.created_date ASC">MOD_REDIRECT_HEADING_CREATED_DATE_ASC</option>
+					<option value="a.created_date DESC">MOD_REDIRECT_HEADING_CREATED_DATE_DESC</option>
+					<option value="a.hits ASC">MOD_REDIRECT_HEADING_HITS_ASC</option>
+					<option value="a.hits DESC">MOD_REDIRECT_HEADING_HITS_DESC</option>
+					<option value="a.header ASC">MOD_REDIRECT_HEADING_STATUS_CODE_ASC</option>
+					<option value="a.header DESC">MOD_REDIRECT_HEADING_STATUS_CODE_DESC</option>
+					<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+					<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+				</field>
+				<field
+					name="count"
+					type="number"
+					label="MOD_REDIRECT_FIELD_COUNT_LABEL"
+					default="5"
+					filter="integer"
+					min="1"
+					validate="number"
+				/>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="form-select"
+					validate="moduleLayout"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+					validate="CssIdentifier"
+				/>
+
+				<field
+					name="automatic_title"
+					type="radio"
+					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="cache"
+					type="list"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					default="1"
+					filter="integer"
+					validate="options"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_time"
+					type="number"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					default="900"
+					filter="integer"
+					min="1"
+					validate="number"
+				/>
+
+				<field
+					name="cachemode"
+					type="hidden"
+					default="static"
+					>
+					<option value="static"></option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
