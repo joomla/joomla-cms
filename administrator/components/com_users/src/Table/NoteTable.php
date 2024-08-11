@@ -47,7 +47,7 @@ class NoteTable extends Table implements VersionableTableInterface, CurrentUserI
      *
      * @since   2.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_users.note';
         parent::__construct('#__user_notes', 'id', $db, $dispatcher);
@@ -67,7 +67,7 @@ class NoteTable extends Table implements VersionableTableInterface, CurrentUserI
     public function store($updateNulls = true)
     {
         $date   = Factory::getDate()->toSql();
-        $userId = $this->getCurrentUser()->get('id');
+        $userId = $this->getCurrentUser()->id;
 
         if (!((int) $this->review_time)) {
             $this->review_time = null;

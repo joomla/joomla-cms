@@ -30,7 +30,5 @@ const initScheduler = () => {
 };
 
 ((document) => {
-  document.addEventListener('DOMContentLoaded', () => {
-    initScheduler();
-  });
+  document.addEventListener('DOMContentLoaded', initScheduler);
 })(document);

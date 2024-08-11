@@ -783,14 +783,14 @@ class WebAssetManager implements WebAssetManagerInterface
     /**
      * Update Dependencies state for all active Assets or only for given
      *
-     * @param   string        $type   The asset type, script or style
-     * @param   WebAssetItem  $asset  The asset instance to which need to enable dependencies
+     * @param   ?string        $type   The asset type, script or style
+     * @param   ?WebAssetItem  $asset  The asset instance to which need to enable dependencies
      *
      * @return  self
      *
      * @since  4.0.0
      */
-    protected function enableDependencies(string $type = null, WebAssetItem $asset = null): self
+    protected function enableDependencies(?string $type = null, ?WebAssetItem $asset = null): self
     {
         if ($type === 'preset') {
             // Preset items already was enabled by usePresetItems()
@@ -1004,11 +1004,11 @@ class WebAssetManager implements WebAssetManagerInterface
     /**
      * Return dependencies for Asset as array of WebAssetItem objects
      *
-     * @param   string        $type           The asset type, script or style
-     * @param   WebAssetItem  $asset          Asset instance
-     * @param   boolean       $recursively    Whether to search for dependency recursively
-     * @param   string        $recursionType  The type of initial item to prevent loop
-     * @param   WebAssetItem  $recursionRoot  Initial item to prevent loop
+     * @param   string         $type           The asset type, script or style
+     * @param   WebAssetItem   $asset          Asset instance
+     * @param   boolean        $recursively    Whether to search for dependency recursively
+     * @param   ?string        $recursionType  The type of initial item to prevent loop
+     * @param   ?WebAssetItem  $recursionRoot  Initial item to prevent loop
      *
      * @return  array
      *
@@ -1022,8 +1022,8 @@ class WebAssetManager implements WebAssetManagerInterface
         string $type,
         WebAssetItem $asset,
         $recursively = false,
-        string $recursionType = null,
-        WebAssetItem $recursionRoot = null
+        ?string $recursionType = null,
+        ?WebAssetItem $recursionRoot = null
     ): array {
         return $this->getAllDependenciesForAsset($type, $asset, $recursively);
     }
