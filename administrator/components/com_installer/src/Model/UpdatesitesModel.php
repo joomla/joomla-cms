@@ -37,13 +37,13 @@ class UpdatesitesModel extends InstallerModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Model\ListModel
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -466,40 +466,6 @@ class UpdatesitesModel extends InstallerModel
      */
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
-        // Load the filter state.
-        $stateKeys = [
-            'search'    => 'string',
-            'client_id' => 'int',
-            'enabled'   => 'string',
-            'type'      => 'string',
-            'folder'    => 'string',
-            'supported' => 'int',
-        ];
-
-        foreach ($stateKeys as $key => $filterType) {
-            $stateKey = 'filter.' . $key;
-
-            switch ($filterType) {
-                case 'int':
-                case 'bool':
-                    $default = null;
-                    break;
-
-                default:
-                    $default = '';
-                    break;
-            }
-
-            $stateValue = $this->getUserStateFromRequest(
-                $this->context . '.' . $stateKey,
-                'filter_' . $key,
-                $default,
-                $filterType
-            );
-
-            $this->setState($stateKey, $stateValue);
-        }
-
         parent::populateState($ordering, $direction);
     }
 
