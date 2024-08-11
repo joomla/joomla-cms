@@ -1,7 +1,8 @@
-const { readdir } = require('fs').promises;
-const { extname } = require('path');
-const { compressFile } = require('./utils/compressFile.es6.js');
-const { Timer } = require('./utils/timer.es6.js');
+import { readdir } from 'node:fs/promises';
+import { extname } from 'node:path';
+
+import { compressFile } from './utils/compressFile.mjs';
+import { Timer } from './utils/timer.mjs';
 
 /**
  * Get files recursively
@@ -19,7 +20,7 @@ async function getFiles(path) {
  * Method that will pre compress (gzip) all .css/.js files
  * in the templates and in the media folder
  */
-module.exports.compressFiles = async (enableBrotli = false) => {
+export const compressFiles = async (enableBrotli = false) => {
   const bench = new Timer('Gzip');
   const paths = [
     `${process.cwd()}/media`,

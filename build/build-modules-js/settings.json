@@ -31,10 +31,7 @@
           {
             "name": "awesomplete",
             "type": "preset",
-            "dependencies": [
-              "awesomplete#style",
-              "awesomplete#script"
-            ]
+            "dependencies": ["awesomplete#style", "awesomplete#script"]
           }
         ],
         "dependencies": [],
@@ -69,17 +66,13 @@
             "name": "bootstrap.css.grid",
             "type": "style",
             "uri": "bootstrap-grid.min.css",
-            "dependencies": [
-              "bootstrap.css"
-            ]
+            "dependencies": ["bootstrap.css"]
           },
           {
             "name": "bootstrap.alert",
             "type": "script",
             "uri": "alert.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -88,9 +81,7 @@
             "name": "bootstrap.button",
             "type": "script",
             "uri": "button.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -99,9 +90,7 @@
             "name": "bootstrap.carousel",
             "type": "script",
             "uri": "carousel.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -110,9 +99,7 @@
             "name": "bootstrap.collapse",
             "type": "script",
             "uri": "collapse.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -121,9 +108,7 @@
             "name": "bootstrap.dropdown",
             "type": "script",
             "uri": "dropdown.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -132,9 +117,7 @@
             "name": "bootstrap.modal",
             "type": "script",
             "uri": "modal.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -143,9 +126,7 @@
             "name": "bootstrap.offcanvas",
             "type": "script",
             "uri": "offcanvas.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -154,9 +135,7 @@
             "name": "bootstrap.popover",
             "type": "script",
             "uri": "popover.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -165,9 +144,7 @@
             "name": "bootstrap.scrollspy",
             "type": "script",
             "uri": "scrollspy.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -176,9 +153,7 @@
             "name": "bootstrap.tab",
             "type": "script",
             "uri": "tab.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -187,9 +162,7 @@
             "name": "bootstrap.toast",
             "type": "script",
             "uri": "toast.min.js",
-            "dependencies": [
-              "core"
-            ],
+            "dependencies": ["core"],
             "attributes": {
               "type": "module"
             }
@@ -233,10 +206,7 @@
           {
             "name": "cropperjs",
             "type": "preset",
-            "dependencies": [
-              "cropperjs#style",
-              "cropperjs#script"
-            ]
+            "dependencies": ["cropperjs#style", "cropperjs#script"]
           }
         ],
         "dependencies": [],
@@ -273,10 +243,7 @@
           {
             "name": "choicesjs",
             "type": "preset",
-            "dependencies": [
-              "choicesjs#style",
-              "choicesjs#script"
-            ]
+            "dependencies": ["choicesjs#style", "choicesjs#script"]
           }
         ],
         "dependencies": [],
@@ -327,10 +294,7 @@
           {
             "name": "dragula",
             "type": "preset",
-            "dependencies": [
-              "dragula#style",
-              "dragula#script"
-            ]
+            "dependencies": ["dragula#style", "dragula#script"]
           }
         ],
         "dependencies": [],
@@ -448,14 +412,10 @@
             "name": "jquery-migrate",
             "type": "script",
             "uri": "jquery-migrate.min.js",
-            "dependencies": [
-              "jquery"
-            ]
+            "dependencies": ["jquery"]
           }
         ],
-        "dependencies": [
-          "jquery"
-        ],
+        "dependencies": ["jquery"],
         "licenseFilename": "LICENSE.txt"
       },
       "joomla-ui-custom-elements": {
@@ -486,9 +446,7 @@
               "nomodule": true,
               "defer": true
             },
-            "dependencies": [
-              "wcpolyfill"
-            ]
+            "dependencies": ["wcpolyfill"]
           },
           {
             "name": "webcomponent.joomla-alert",
@@ -497,9 +455,7 @@
             "attributes": {
               "type": "module"
             },
-            "dependencies": [
-              "wcpolyfill"
-            ]
+            "dependencies": ["wcpolyfill"]
           },
           {
             "name": "webcomponent.joomla-tab",
@@ -514,9 +470,7 @@
               "nomodule": true,
               "defer": true
             },
-            "dependencies": [
-              "wcpolyfill"
-            ]
+            "dependencies": ["wcpolyfill"]
           },
           {
             "name": "webcomponent.joomla-tab",
@@ -525,9 +479,7 @@
             "attributes": {
               "type": "module"
             },
-            "dependencies": [
-              "wcpolyfill"
-            ]
+            "dependencies": ["wcpolyfill"]
           }
         ],
         "dependencies": [],
@@ -575,9 +527,7 @@
             "name": "minicolors",
             "type": "script",
             "uri": "jquery.minicolors.min.js",
-            "dependencies": [
-              "jquery"
-            ],
+            "dependencies": ["jquery"],
             "attributes": {
               "defer": true
             }
@@ -585,15 +535,10 @@
           {
             "name": "minicolors",
             "type": "preset",
-            "dependencies": [
-              "minicolors#style",
-              "minicolors#script"
-            ]
+            "dependencies": ["minicolors#style", "minicolors#script"]
           }
         ],
-        "dependencies": [
-          "jquery"
-        ],
+        "dependencies": ["jquery"],
         "licenseFilename": "LICENSE.md"
       },
       "@codemirror/view": {
@@ -620,9 +565,7 @@
               "nomodule": true,
               "defer": true
             },
-            "dependencies": [
-              "core"
-            ]
+            "dependencies": ["core"]
           }
         ]
       },
@@ -646,17 +589,12 @@
             "name": "chosen",
             "type": "script",
             "uri": "chosen.jquery.js",
-            "dependencies": [
-              "jquery"
-            ]
+            "dependencies": ["jquery"]
           },
           {
             "name": "chosen",
             "type": "preset",
-            "dependencies": [
-              "chosen#style",
-              "chosen#script"
-            ]
+            "dependencies": ["chosen#style", "chosen#script"]
           }
         ]
       },
@@ -814,17 +752,13 @@
             "name": "qrcode_SJIS",
             "type": "script",
             "uri": "qrcode_SJIS.js",
-            "dependencies": [
-              "qrcode"
-            ]
+            "dependencies": ["qrcode"]
           },
           {
             "name": "qrcode_UTF8",
             "type": "script",
             "uri": "qrcode_UTF8.js",
-            "dependencies": [
-              "qrcode"
-            ]
+            "dependencies": ["qrcode"]
           },
           {
             "name": "qrcode",
@@ -845,9 +779,7 @@
         "text": "It looks like you are trying to run Joomla! from our git repository. To do so requires you complete a couple of extra steps first.",
         "link": "J5.x:Setting_Up_Your_Local_Environment",
         "linkText": "More Details",
-        "destFile": [
-          "/templates/system/build_incomplete.html"
-        ]
+        "destFile": ["/templates/system/build_incomplete.html"]
       },
       "unsupported": {
         "title": "Joomla: unsupported PHP version",
@@ -866,9 +798,7 @@
         "text": "Your host needs to use PHP with support for the XML library to run this version of Joomla!",
         "link": "J4.x:Missing_XML_Library",
         "linkText": "Help me resolve this",
-        "destFile": [
-          "/media/system/html/noxml.html"
-        ]
+        "destFile": ["/media/system/html/noxml.html"]
       },
       "fatal": {
         "title": "An Error Occurred: {{statusText}}",
@@ -876,9 +806,7 @@
         "text": "The server returned a \"{{statusCode_statusText}}\"",
         "link": "J4.x:FatalError",
         "linkText": "Help me resolve this",
-        "destFile": [
-          "/templates/system/fatal-error.html"
-        ]
+        "destFile": ["/templates/system/fatal-error.html"]
       }
     }
   }

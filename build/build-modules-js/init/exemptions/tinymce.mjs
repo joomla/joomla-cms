@@ -1,11 +1,12 @@
-const {
-  existsSync, copy, readFile, writeFile, mkdir, removeSync,
-} = require('fs-extra');
+import { existsSync } from 'node:fs';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
-const { join } = require('path');
+import pkg from 'fs-extra';
 
-const { copyAllFiles } = require('../common/copy-all-files.es6.js');
+import { copyAllFiles } from '../common/copy-all-files.mjs';
 
+const { copy, removeSync } = pkg;
 const RootPath = process.cwd();
 const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
 
@@ -36,7 +37,7 @@ const copyArrayFiles = async (dirName, files, name, type) => {
 /**
  * tinyMCE needs special treatment
  */
-module.exports.tinyMCE = async (packageName, version) => {
+export const tinyMCE = async (packageName, version) => {
   const itemvendorPath = join(RootPath, `media/vendor/${packageName}`);
 
   if (!await existsSync(itemvendorPath)) {

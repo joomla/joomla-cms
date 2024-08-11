@@ -1,9 +1,12 @@
-const { stat } = require('fs-extra');
-const { sep } = require('path');
-const recursive = require('recursive-readdir');
-const { handleScssFile } = require('./stylesheets/handle-scss.es6.js');
-const { handleCssFile } = require('./stylesheets/handle-css.es6.js');
+import { sep } from 'node:path';
 
+import recursive from 'recursive-readdir';
+import pkg from 'fs-extra';
+
+import { handleScssFile } from './stylesheets/handle-scss.mjs';
+import { handleCssFile } from './stylesheets/handle-css.mjs';
+
+const { stat } = pkg;
 const RootPath = process.cwd();
 
 /**
@@ -19,7 +22,7 @@ const RootPath = process.cwd();
  * @param {object} options  The options
  * @param {string} path     The folder that needs to be compiled, optional
  */
-module.exports.stylesheets = async (options, path) => {
+export const stylesheets = async (options, path) => {
   const files = [];
   let folders = [];
 
@@ -77,7 +80,8 @@ module.exports.stylesheets = async (options, path) => {
 
   // eslint-disable-next-line no-restricted-syntax
   for (const file of files) {
-    const outputFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
+    const outputFile = file
+      .replace(`${sep}scss${sep}`, `${sep}css${sep}`)
       .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)
       .replace('.scss', '.css');
 

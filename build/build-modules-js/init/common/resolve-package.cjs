@@ -1,4 +1,4 @@
-const { existsSync, readdirSync } = require('fs-extra');
+const { existsSync, readdirSync } =require("node:fs");
 
 /**
  * Find full path for package file.

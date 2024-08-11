@@ -1,9 +1,11 @@
-const {
-  stat, mkdir, copy, remove,
-} = require('fs-extra');
-const { join } = require('path');
+import { join } from 'node:path';
+
+import pkg from 'fs-extra';
 
 const RootPath = process.cwd();
+const {
+  stat, mkdir, copy, remove,
+} = pkg;
 
 /**
  * Method that will erase the media/vendor folder
@@ -11,7 +13,7 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-module.exports.cleanVendors = async () => {
+export const cleanVendors = async () => {
   if (process.env.SKIP_COMPOSER_CHECK === 'YES') {
     await mkdir('media/vendor/debugbar', { recursive: true, mode: 0o755 });
     // eslint-disable-next-line no-console

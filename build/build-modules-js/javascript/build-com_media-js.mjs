@@ -1,22 +1,26 @@
-const { resolve } = require('path');
-const { writeFile, copyFile } = require('fs').promises;
-const rollup = require('rollup');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const replace = require('@rollup/plugin-replace');
-const { babel } = require('@rollup/plugin-babel');
-const VuePlugin = require('rollup-plugin-vue');
-const commonjs = require('@rollup/plugin-commonjs');
-const { minifyJsCode } = require('./minify.es6.js');
-require('dotenv').config();
+import { writeFile, copyFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+
+import { rollup, watch } from 'rollup';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import { babel } from '@rollup/plugin-babel';
+import VuePlugin from 'rollup-plugin-vue';
+import commonjs from '@rollup/plugin-commonjs';
+import dotenv from 'dotenv';
+
+import { minifyCode } from './minify.mjs';
+
+dotenv.config();
 
 const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
 const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';
 
-module.exports.mediaManager = async () => {
+export const mediaManager = async () => {
   // eslint-disable-next-line no-console
   console.log('Building Media Manager ES Module...');
 
-  const bundle = await rollup.rollup({
+  const bundle = await rollup({
     input: resolve(inputJS),
     plugins: [
       VuePlugin({
@@ -69,7 +73,7 @@ module.exports.mediaManager = async () => {
     sourcemap: !isProduction ? 'inline' : false,
     file: 'media/com_media/js/media-manager.js',
   })
-    .then((value) => (isProduction ? minifyJsCode(value.output[0].code) : value.output[0]))
+    .then((value) => (isProduction ? minifyCode(value.output[0].code) : value.output[0]))
     .then((content) => {
       if (isProduction) {
         // eslint-disable-next-line no-console
@@ -89,12 +93,12 @@ module.exports.mediaManager = async () => {
   await bundle.close();
 };
 
-module.exports.watchMediaManager = async () => {
+export const watchMediaManager = async () => {
   // eslint-disable-next-line no-console
   console.log('Watching Media Manager js+vue files...');
   // eslint-disable-next-line no-console
   console.log('=========');
-  const watcher = rollup.watch({
+  const watcher = watch({
     input: resolve(inputJS),
     plugins: [
       VuePlugin({

@@ -1,14 +1,19 @@
-const {
+import {
   readdir, readFile, writeFile, unlink,
-} = require('fs').promises;
-const { resolve } = require('path');
-const { transform } = require('esbuild');
-const rimraf = require('rimraf');
-const rollup = require('rollup');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const replace = require('@rollup/plugin-replace');
-const { babel } = require('@rollup/plugin-babel');
-const bsVersion = require('../../../package.json').dependencies.bootstrap.replace(/^\^|~/, '');
+} from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { transform } from 'esbuild';
+import rimraf from 'rimraf';
+import { rollup } from 'rollup';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import { babel } from '@rollup/plugin-babel';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const opts = require('../../../package.json');
+
+const bsVersion = opts.dependencies.bootstrap.replace(/^\^|~/, '');
 
 const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
@@ -28,7 +33,7 @@ const build = async () => {
   const domImports = await readdir(resolve('node_modules/bootstrap', 'js/src/dom'));
   const utilImports = await readdir(resolve('node_modules/bootstrap', 'js/src/util'));
 
-  const bundle = await rollup.rollup({
+  const bundle = await rollup({
     input: resolve(inputFolder, 'index.es6.js'),
     plugins: [
       nodeResolve(),
@@ -87,7 +92,7 @@ const build = async () => {
   await bundle.close();
 };
 
-module.exports.bootstrapJs = async () => {
+export const bootstrapJs = async () => {
   rimraf.sync(resolve(outputFolder));
 
   try {

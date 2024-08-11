@@ -1,27 +1,27 @@
-const {
+import {
   access, mkdir, readFile, writeFile,
-} = require('fs').promises;
-const Ini = require('ini');
-const { dirname } = require('path');
-const Recurs = require('recursive-readdir');
-const { transform } = require('esbuild');
-const LightningCSS = require('lightningcss');
+} from 'node:fs/promises';
+import Ini from 'ini';
+import { dirname } from 'node:path';
+import Recurs from 'recursive-readdir';
+import { transform } from 'esbuild';
+import { transform as transformCss } from 'lightningcss';
 
 const RootPath = process.cwd();
 const dir = `${RootPath}/installation/language`;
 const srcPath = `${RootPath}/build/warning_page`;
 
 /**
- * Will produce as many .html files as defined in settings.json
+ * Will produce as many .html files as defined in package.json
  * Expects three files:
  *     build/warning_page/template.css
  *     build/warning_page/template.html
  *     build/warning_page/template.js
  *
  * And also specific strings in the languages in the installation folder!
- * Also the base strings are held in build/build-modules-js/settings.json
+ * Also the base strings are held in package.json
  */
-module.exports.createErrorPages = async (options) => {
+export const createErrorPages = async (options) => {
   const iniFilesProcess = [];
   const processPages = [];
   global.incompleteObj = {};
@@ -29,11 +29,17 @@ module.exports.createErrorPages = async (options) => {
   global.fatalObj = {};
   global.noxmlObj = {};
 
-  const initTemplate = await readFile(`${srcPath}/template.html`, { encoding: 'utf8' });
-  let cssContent = await readFile(`${srcPath}/template.css`, { encoding: 'utf8' });
-  let jsContent = await readFile(`${srcPath}/template.js`, { encoding: 'utf8' });
+  const initTemplate = await readFile(`${srcPath}/template.html`, {
+    encoding: 'utf8',
+  });
+  let cssContent = await readFile(`${srcPath}/template.css`, {
+    encoding: 'utf8',
+  });
+  let jsContent = await readFile(`${srcPath}/template.js`, {
+    encoding: 'utf8',
+  });
 
-  const { code } = LightningCSS.transform({
+  const { code } = transformCss({
     code: Buffer.from(cssContent),
     minify: true,
   });
@@ -42,7 +48,9 @@ module.exports.createErrorPages = async (options) => {
   jsContent = await transform(jsContent, { minify: true });
 
   const processIni = async (file) => {
-    const languageStrings = Ini.parse(await readFile(file, { encoding: 'utf8' }));
+    const languageStrings = Ini.parse(
+      await readFile(file, { encoding: 'utf8' }),
+    );
 
     // Build the variables into json for the unsupported page
     if (languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE) {
@@ -116,17 +124,34 @@ module.exports.createErrorPages = async (options) => {
   });
 
   const processPage = async (name) => {
-    const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
+    const sortedJson = Object.fromEntries(
+      Object.entries(global[`${name}Obj`]).sort(),
+    );
     const jsonContent = `window.errorLocale=${JSON.stringify(sortedJson)};`;
 
     let template = initTemplate;
 
     template = template.replace('{{jsonContents}}', jsonContent);
-    template = template.replace('{{Title}}', options.settings.errorPages[name].title);
-    template = template.replace('{{Header}}', options.settings.errorPages[name].header);
-    template = template.replace('{{Description}}', options.settings.errorPages[name].text);
-    template = template.replace('{{Link}}', options.settings.errorPages[name].link);
-    template = template.replace('{{LinkText}}', options.settings.errorPages[name].linkText);
+    template = template.replace(
+      '{{Title}}',
+      options.settings.errorPages[name].title,
+    );
+    template = template.replace(
+      '{{Header}}',
+      options.settings.errorPages[name].header,
+    );
+    template = template.replace(
+      '{{Description}}',
+      options.settings.errorPages[name].text,
+    );
+    template = template.replace(
+      '{{Link}}',
+      options.settings.errorPages[name].link,
+    );
+    template = template.replace(
+      '{{LinkText}}',
+      options.settings.errorPages[name].linkText,
+    );
 
     if (cssContent) {
       template = template.replace('{{cssContents}}', cssContent);
@@ -146,10 +171,16 @@ module.exports.createErrorPages = async (options) => {
       }
 
       if (!mediaExists) {
-        await mkdir(dirname(`${RootPath}${folder}`), { recursive: true, mode: 0o755 });
+        await mkdir(dirname(`${RootPath}${folder}`), {
+          recursive: true,
+          mode: 0o755,
+        });
       }
 
-      await writeFile(`${RootPath}${folder}`, template, { encoding: 'utf8', mode: 0o644 });
+      await writeFile(`${RootPath}${folder}`, template, {
+        encoding: 'utf8',
+        mode: 0o644,
+      });
 
       // eslint-disable-next-line no-console
       console.error(`✅ Created the file: ${folder}`);

@@ -1,10 +1,16 @@
-const {
-  existsSync, copy, writeFile, mkdir, mkdirs, ensureDir,
-} = require('fs-extra');
-const { dirname, join } = require('path');
-const { tinyMCE } = require('./exemptions/tinymce.es6.js');
-const { resolvePackageFile } = require('./common/resolve-package.es6.js');
+import { dirname, join } from 'node:path';
+import { createRequire } from 'node:module';
+import { existsSync } from 'node:fs';
 
+import pkg from 'fs-extra';
+
+import { tinyMCE } from './exemptions/tinymce.mjs';
+import { resolvePackageFile } from './common/resolve-package.cjs';
+
+const require = createRequire(import.meta.url);
+const {
+  copy, mkdirs, mkdir, ensureDir, writeFile,
+} = pkg;
 const RootPath = process.cwd();
 
 /**
@@ -113,7 +119,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
  *
  * @returns {Promise}
  */
-module.exports.localisePackages = async (options) => {
+export const localisePackages = async (options) => {
   const mediaVendorPath = join(RootPath, 'media/vendor');
   const registry = {
     $schema: 'https://developer.joomla.org/schemas/json-schema/web_assets.json',

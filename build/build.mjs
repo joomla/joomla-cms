@@ -5,43 +5,44 @@
  * npm ci
  *
  * For dedicated tasks, please run:
- * node build.js --build-pages      will create the error pages (for incomplete repo build PHP+NPM)
- * node build.js --copy-assets      will clean the media/vendor folder and then will populate the folder from node_modules
- * node build.js --compile-js       will transpile ES6 files and also uglify the ES6,ES5 files
- * node build.js --compile-css      will compile all the scss defined files and also create a minified version of the css
- * node build.js --compile-bs       will compile all the Bootstrap javascript components
- * node build.js --com-media        will compile the media manager Vue application
- * node build.js --watch-com-media  will watch and compile the media manager Vue application
- * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
- * node build.js --cssversioning    will update all the url entries providing accurate versions for stylesheets.
- * node build.js --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
+ * node build.mjs --build-pages      will create the error pages (for incomplete repo build PHP+NPM)
+ * node build.mjs --copy-assets      will clean the media/vendor folder and then will populate the folder from node_modules
+ * node build.mjs --compile-js       will transpile `.mjs` files and also uglify the legacy `.js` files
+ * node build.mjs --compile-css      will compile all the scss defined files and also create a minified version of the css
+ * node build.mjs --compile-bs       will compile all the Bootstrap javascript components
+ * node build.mjs --com-media        will compile the media manager Vue application
+ * node build.mjs --watch-com-media  will watch and compile the media manager Vue application
+ * node build.mjs --gzip             will create gzip files for all the minified stylesheets and scripts.
+ * node build.mjs --cssversioning    will update all the url entries providing accurate versions for stylesheets.
+ * node build.mjs --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
-
-const { Command } = require('commander');
-const semver = require('semver');
+import { createRequire } from 'node:module';
+import { Command } from 'commander';
+import semver from 'semver';
 
 // Joomla Build modules
-const { createErrorPages } = require('./build-modules-js/error-pages.es6.js');
-const { stylesheets } = require('./build-modules-js/compilecss.es6.js');
-const { scripts } = require('./build-modules-js/compilejs.es6.js');
-const { bootstrapJs } = require('./build-modules-js/javascript/build-bootstrap-js.es6.js');
-const { localisePackages } = require('./build-modules-js/init/localise-packages.es6.js');
-const { minifyVendor } = require('./build-modules-js/init/minify-vendor.es6.js');
-const { patchPackages } = require('./build-modules-js/init/patches.es6.js');
-const { cleanVendors } = require('./build-modules-js/init/cleanup-media.es6.js');
-const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.es6');
-const { watching } = require('./build-modules-js/watch.es6.js');
-const { mediaManager, watchMediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
-const { compressFiles } = require('./build-modules-js/compress.es6.js');
-const { cssVersioning } = require('./build-modules-js/css-versioning.es6.js');
-const { versioning } = require('./build-modules-js/versioning.es6.js');
-const { Timer } = require('./build-modules-js/utils/timer.es6.js');
-const { compileCodemirror } = require('./build-modules-js/javascript/build-codemirror.es6.js');
+import { createErrorPages } from './build-modules-js/error-pages.mjs';
+import { stylesheets } from './build-modules-js/compilecss.mjs';
+import { scripts } from './build-modules-js/compilejs.mjs';
+import { bootstrapJs } from './build-modules-js/javascript/build-bootstrap-js.mjs';
+import { localisePackages } from './build-modules-js/init/localise-packages.mjs';
+import { minifyVendor } from './build-modules-js/init/minify-vendor.mjs';
+import { patchPackages } from './build-modules-js/init/patches.mjs';
+import { cleanVendors } from './build-modules-js/init/cleanup-media.mjs';
+import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs';
+import { watching } from './build-modules-js/watch.mjs';
+import { mediaManager, watchMediaManager } from './build-modules-js/javascript/build-com_media-js.mjs';
+import { compressFiles } from './build-modules-js/compress.mjs';
+import { cssVersioning } from './build-modules-js/css-versioning.mjs';
+import { versioning } from './build-modules-js/versioning.mjs';
+import { Timer } from './build-modules-js/utils/timer.mjs';
+import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
+
+const require = createRequire(import.meta.url);
 
 // The settings
 const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
-
 
 const handleError = (err, terminateCode) => {
   console.error(err); // eslint-disable-line no-console

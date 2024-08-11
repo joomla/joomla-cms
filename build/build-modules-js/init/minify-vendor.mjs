@@ -1,7 +1,8 @@
-const { lstat, readFile, writeFile } = require('fs-extra');
-const { sep, basename } = require('path');
-const recursive = require('recursive-readdir');
-const { transform } = require('esbuild');
+import { sep, basename } from 'node:path';
+import { lstat, readFile, writeFile } from 'node:fs/promises';
+
+import recursive from 'recursive-readdir';
+import { transform } from 'esbuild';
 
 const RootPath = process.cwd();
 
@@ -87,7 +88,7 @@ const minifyJS = async (file) => {
  *
  * @returns {Promise}
  */
-module.exports.minifyVendor = async () => {
+export const minifyVendor = async () => {
   const folderPromises = [];
   const filesPromises = [];
 

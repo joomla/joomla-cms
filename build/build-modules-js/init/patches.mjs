@@ -1,5 +1,5 @@
-const { readFile, writeFile } = require('fs-extra');
-const { join } = require('path');
+import { join } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
 
 const RootPath = process.cwd();
 
@@ -10,7 +10,7 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-module.exports.patchPackages = async (options) => {
+export const patchPackages = async (options) => {
   const mediaVendorPath = join(RootPath, 'media/vendor');
 
   // Joomla's hack to expose the chosen base classes so we can extend it ourselves
