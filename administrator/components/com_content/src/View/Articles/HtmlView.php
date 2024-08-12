@@ -173,11 +173,10 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-        $user    = $this->getCurrentUser();
+        $canDo    = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+        $user     = $this->getCurrentUser();
         $featured = $this->state->get('filter.featured');
-
-        $toolbar = Toolbar::getInstance();
+        $toolbar  = Toolbar::getInstance();
 
 		if ($featured === '1') {
 			ToolbarHelper::title(Text::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
@@ -225,11 +224,9 @@ class HtmlView extends BaseHtmlView
 
                 $childBar->unpublish('articles.unpublish')->listCheck(true);
 
-                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')
-                    ->listCheck(true);
+                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')->listCheck(true);
 
-                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')
-                    ->listCheck(true);
+                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')->listCheck(true);
 
                 $childBar->archive('articles.archive')->listCheck(true);
 
