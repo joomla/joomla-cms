@@ -10,17 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\View\Featured;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

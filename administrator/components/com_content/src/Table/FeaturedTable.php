@@ -13,8 +13,6 @@
 namespace Joomla\Component\Content\Administrator\Table;
 
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

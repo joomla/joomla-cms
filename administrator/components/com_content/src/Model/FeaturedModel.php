@@ -11,8 +11,6 @@
 namespace Joomla\Component\Content\Administrator\Model;
 
 // phpcs:disable PSR1.Files.SideEffects
-use Joomla\Database\QueryInterface;
-
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
