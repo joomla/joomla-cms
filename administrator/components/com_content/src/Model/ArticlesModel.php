@@ -533,7 +533,7 @@ class ArticlesModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $orderCol = $this->state->get('list.ordering', $defaultOrdering);
+        $orderCol  = $this->state->get('list.ordering', $defaultOrdering);
         $orderDirn = $this->state->get('list.direction', 'DESC');
 
         if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {
