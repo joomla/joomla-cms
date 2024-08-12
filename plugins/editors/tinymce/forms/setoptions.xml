@@ -243,7 +243,9 @@
 			type="subform"
 			label="PLG_TINY_FIELD_SANDBOX_IFRAMES_EXCLUSIONS_LIST_LABEL"
 			description="PLG_TINY_FIELD_SANDBOX_IFRAMES_EXCLUSIONS_LIST_DESC"
-			multiple="true">
+			multiple="true"
+			showon="sandbox_iframes:1"
+			>
 			<form>
 				<field
 					name="exclusion_url"
