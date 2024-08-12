@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import { Jooa11y, Lang } from '@joomla/joomla-a11y-checker/dist/js/joomla-a11y-checker.esm.js';
 
 if (!Joomla) {

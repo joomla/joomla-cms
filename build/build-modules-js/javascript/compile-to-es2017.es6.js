@@ -10,6 +10,13 @@ const { renderSync } = require('sass-embedded');
 const { minifyJsCode } = require('./minify.es6.js');
 const { handleESMToLegacy } = require('./compile-to-es5.es6.js');
 
+function esmOrIife(file) {
+  if (file.endsWith('core.es6.js') || file.endsWith('validate.es6.js')) {
+    return 'iife';
+  }
+  return 'es';
+}
+
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;
   const scssFile = file.replace(`${sep}js${sep}`, `${sep}scss${sep}`).replace(/\.w-c\.es6\.js$/, '.scss');
@@ -89,7 +96,7 @@ module.exports.handleESMFile = async (file) => {
   });
 
   bundle.write({
-    format: 'es',
+    format: esmOrIife(file),
     sourcemap: false,
     file: resolve(`${newPath}.js`),
   })
