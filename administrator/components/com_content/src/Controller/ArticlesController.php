@@ -141,7 +141,7 @@ class ArticlesController extends AdminController
      *
      * @since   4.0.0
      */
-    public function getQuickiconContent($featured = 0)  // Change the method signature
+    public function getQuickiconContent()
     {
         $model = $this->getModel('articles');
 
@@ -163,7 +163,7 @@ class ArticlesController extends AdminController
      *
      * @return  void
      *
-     * @since   4.3.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getQuickiconFeatured()
     {
