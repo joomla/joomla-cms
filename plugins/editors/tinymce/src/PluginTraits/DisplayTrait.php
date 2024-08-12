@@ -415,10 +415,15 @@ trait DisplayTrait
 
         // Build the list of additional domains to add to the sandbox_iframes_exclusions list
         if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
-            $sandboxIframesExclusions .= ',';
-            $sandboxIframesExclusions .= implode(',', $extraOptions->sandbox_iframes_exclusions);
+            $exclusionsArray = [];
+            foreach ($extraOptions->sandbox_iframes_exclusions as $value) {
+                if (isset($value->exclusion_url)) {
+                    $exclusionsArray[] = $value->exclusion_url;
+                }
+            }
+            // Join the URLs into a comma-separated string and add to the sandbox_iframes_exclusions list
+            $sandboxIframesExclusions .= ', ' . implode(', ', $exclusionsArray);
         }
-        print_r($extraOptions->sandbox_iframes_exclusions);
 
         // Build the final options set
         $scriptOptions   = array_merge(
