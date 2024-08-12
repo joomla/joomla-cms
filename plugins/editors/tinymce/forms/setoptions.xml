@@ -238,7 +238,24 @@
 			<option value="0">JOFF</option>
 			<option value="1">JON</option>
 		</field>
-
+		<field
+			name="sandbox_iframes_exclusions"
+			type="subform"
+			label="PLG_TINY_FIELD_SANDBOX_IFRAMES_EXCLUSIONS_LIST_LABEL"
+			description="PLG_TINY_FIELD_SANDBOX_IFRAMES_EXCLUSIONS_LIST_DESC"
+			multiple="true">
+			<form>
+				<field
+					name="exclusion_url"
+					type="url"
+					label="PLG_TINY_FIELD_SANDBOX_IFRAMES_EXCLUSION_DOMAIN_LABEL"
+					required="true"
+					filter="url"
+					validate="url"
+					hint="https://"
+				/>
+			</form>
+		</field>
 		<!-- Extra plugins -->
 		<field
 			name="resizing"
