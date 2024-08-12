@@ -369,7 +369,7 @@ trait DisplayTrait
             }
         }
 
-        // Should load the template plugin?
+        // Load the template plugin?
         if (!empty($allButtons['jtemplate'])) {
             $wa->useScript('plg_editors_tinymce.jtemplate');
             $plugins[] = 'jtemplate';
@@ -409,6 +409,16 @@ trait DisplayTrait
                 }
             }
         }
+
+        // Add the current domain to the sandbox_iframes_exclusions list
+        $sandboxIframesExclusions = Uri::root();
+
+        // Build the list of additional domains to add to the sandbox_iframes_exclusions list
+        if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
+            $sandboxIframesExclusions .= ',';
+            $sandboxIframesExclusions .= implode(',', $extraOptions->sandbox_iframes_exclusions);
+        }
+        print_r($extraOptions->sandbox_iframes_exclusions);
 
         // Build the final options set
         $scriptOptions   = array_merge(
@@ -494,9 +504,9 @@ trait DisplayTrait
                 'license_key' => 'gpl',
 
                 // Hardened security
-                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
-                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
-                'convert_unsafe_embeds' => true,
+                'sandbox_iframes'             => (bool) $levelParams->get('sandbox_iframes', true),
+                'sandbox_iframes_exclusions'  => $sandboxIframesExclusions,
+                'convert_unsafe_embeds'       => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',
@@ -548,3 +558,4 @@ trait DisplayTrait
         return $editor;
     }
 }
+
