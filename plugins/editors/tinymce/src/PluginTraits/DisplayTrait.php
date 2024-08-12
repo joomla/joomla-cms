@@ -563,4 +563,3 @@ trait DisplayTrait
         return $editor;
     }
 }
-
