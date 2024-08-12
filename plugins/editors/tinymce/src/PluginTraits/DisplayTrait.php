@@ -490,6 +490,9 @@ trait DisplayTrait
                 'branding'  => false,
                 'promotion' => false,
 
+                // Set License
+                'license_key' => 'gpl',
+
                 // Hardened security
                 // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
                 'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
