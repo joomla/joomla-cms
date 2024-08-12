@@ -137,8 +137,9 @@ export default {
      */
     onClick(event) {
       const data = {
-        path: this.item.path,
         type: this.item.type,
+        name: this.item.name,
+        path: this.item.path,
         thumb: false,
         fileType: this.item.mime_type ? this.item.mime_type : false,
         extension: this.item.extension ? this.item.extension : false,
