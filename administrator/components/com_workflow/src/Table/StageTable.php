@@ -45,7 +45,7 @@ class StageTable extends Table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__workflow_stages', 'id', $db, $dispatcher);
     }
@@ -250,14 +250,14 @@ class StageTable extends Table
     /**
      * Get the parent asset id for the record
      *
-     * @param   Table|null    $table  A Table object for the asset parent.
-     * @param   integer|null  $id     The id for the asset
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     The id for the asset
      *
      * @return  integer  The id of the asset's parent
      *
      * @since  4.0.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $asset = new Asset($this->getDbo(), $this->getDispatcher());
 
