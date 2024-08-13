@@ -40,7 +40,7 @@ class RegexRule extends FormRule
      * @since   5.1.0
      * @throws  \UnexpectedValueException if rule is invalid.
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         if ((string) $element['validate_regex']) {
             $this->regex = (string) $element['validate_regex'];
