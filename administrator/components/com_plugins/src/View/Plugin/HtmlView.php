@@ -159,5 +159,7 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->cancel('plugin.cancel');
+
+        $toolbar->inlinehelp();
     }
 }

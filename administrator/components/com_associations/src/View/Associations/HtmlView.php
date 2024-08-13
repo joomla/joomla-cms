@@ -102,6 +102,19 @@ class HtmlView extends BaseHtmlView
      */
     public $typeFields;
 
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
     /**
      * Display the view
      *
