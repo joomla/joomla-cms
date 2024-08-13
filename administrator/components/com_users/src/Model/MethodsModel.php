@@ -110,7 +110,7 @@ class MethodsModel extends BaseDatabaseModel
      * Today, 08:33
      * January 1, 2015
      *
-     * @param   string  $dateTimeText  The database time string to use, e.g. "2017-01-13 13:25:36"
+     * @param   ?string  $dateTimeText  The database time string to use, e.g. "2017-01-13 13:25:36"
      *
      * @return  string  The formatted, human-readable date
      * @throws  \Exception
