@@ -554,7 +554,7 @@ class TaskModel extends AdminModel
             $basisDayOfMonth           = $data['execution_rules']['exec-day'];
             [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
 
-            $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
+            $data['last_execution'] = Factory::getDate('now', 'UTC')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
         } else {
             $data['last_execution'] = $this->getItem($id)->last_execution;
