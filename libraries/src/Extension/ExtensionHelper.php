@@ -122,6 +122,7 @@ class ExtensionHelper
         ['module', 'mod_privacy_dashboard', '', 1],
         ['module', 'mod_privacy_status', '', 1],
         ['module', 'mod_quickicon', '', 1],
+        ['module', 'mod_redirect', '', 1],
         ['module', 'mod_sampledata', '', 1],
         ['module', 'mod_stats_admin', '', 1],
         ['module', 'mod_submenu', '', 1],

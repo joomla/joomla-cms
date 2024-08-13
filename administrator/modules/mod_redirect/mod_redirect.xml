@@ -51,22 +51,12 @@
 					validate="options"
 				>
 					<option value="">JGLOBAL_SORT_BY</option>
-					<option value="a.published ASC">JSTATUS_ASC</option>
-					<option value="a.published DESC">JSTATUS_DESC</option>
 					<option value="a.old_url ASC">MOD_REDIRECT_HEADING_OLD_URL_ASC</option>
 					<option value="a.old_url DESC">MOD_REDIRECT_HEADING_OLD_URL_DESC</option>
-					<option value="a.new_url ASC">MOD_REDIRECT_HEADING_NEW_URL_ASC</option>
-					<option value="a.new_url DESC">MOD_REDIRECT_HEADING_NEW_URL_DESC</option>
-					<option value="a.referer ASC">MOD_REDIRECT_HEADING_REFERRER_ASC</option>
-					<option value="a.referer DESC">MOD_REDIRECT_HEADING_REFERRER_DESC</option>
 					<option value="a.created_date ASC">MOD_REDIRECT_HEADING_CREATED_DATE_ASC</option>
 					<option value="a.created_date DESC">MOD_REDIRECT_HEADING_CREATED_DATE_DESC</option>
 					<option value="a.hits ASC">MOD_REDIRECT_HEADING_HITS_ASC</option>
 					<option value="a.hits DESC">MOD_REDIRECT_HEADING_HITS_DESC</option>
-					<option value="a.header ASC">MOD_REDIRECT_HEADING_STATUS_CODE_ASC</option>
-					<option value="a.header DESC">MOD_REDIRECT_HEADING_STATUS_CODE_DESC</option>
-					<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
-					<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 				</field>
 				<field
 					name="count"
