@@ -184,12 +184,12 @@ class ArticlesController extends AdminController
     }
 
     /**
-	 * Removes an item.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
+     * Removes an item.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
 	public function delete()
 	{
         // Check for request forgeries

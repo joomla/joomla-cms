@@ -347,21 +347,21 @@ class ArticlesModel extends ListModel
             $query->whereIn($db->quoteName('a.access'), $access);
         }
 
-		// Filter by featured.
-		$featured = $this->isFeatured();
+        // Filter by featured.
+        $featured = $this->isFeatured();
 
-		if ($featured === '1') {
-			$query->select($db->quoteName('fp.ordering'));
-			$defaultOrdering = 'fp.ordering';
-		} else {
-			$defaultOrdering = 'a.id';
-		}
+        if ($featured === '1') {
+            $query->select($db->quoteName('fp.ordering'));
+            $defaultOrdering = 'fp.ordering';
+        } else {
+            $defaultOrdering = 'a.id';
+        }
 
-		if (\in_array($featured, ['0', '1'])) {
-			$featured = (int) $featured;
-			$query->where($db->quoteName('a.featured') . ' = :featured')
-				->bind(':featured', $featured, ParameterType::INTEGER);
-		}
+        if (\in_array($featured, ['0', '1'])) {
+            $featured = (int) $featured;
+            $query->where($db->quoteName('a.featured') . ' = :featured')
+            ->bind(':featured', $featured, ParameterType::INTEGER);
+        }
 
         // Filter by access level on categories.
         if (!$user->authorise('core.admin')) {
