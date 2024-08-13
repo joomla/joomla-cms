@@ -47,6 +47,13 @@ class HtmlView extends BaseHtmlView
     protected $stage;
 
     /**
+     * The model state
+     *
+     * @var  object
+     */
+    protected $state;
+
+    /**
      * The HTML for displaying sidebar
      *
      * @var    string

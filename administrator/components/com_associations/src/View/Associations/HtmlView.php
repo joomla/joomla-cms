@@ -67,6 +67,56 @@ class HtmlView extends BaseHtmlView
     public $itemType = null;
 
     /**
+     * Main Extension Name
+     *
+     * @var    string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $extensionName;
+
+    /**
+     * Subtype of the extension
+     *
+     * @var    string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $typeName;
+
+    /**
+     * Supported features
+     *
+     * @var    string[]
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $typeSupports;
+
+    /**
+     * Fields
+     *
+     * @var    string[]
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $typeFields;
+
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

@@ -127,6 +127,7 @@ export default {
             cancelable: false,
             detail: {
               type: this.item.type,
+              name: this.item.name,
               path: this.item.path,
               thumb: this.item.thumb,
               fileType: this.item.mime_type ? this.item.mime_type : false,
@@ -145,6 +146,7 @@ export default {
             cancelable: false,
             detail: {
               type: this.item.type,
+              name: this.item.name,
               path: this.item.path,
             },
           }),
