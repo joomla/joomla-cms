@@ -34,6 +34,13 @@ class HtmlView extends BaseHtmlView
     protected $items;
 
     /**
+     * Total number of items
+     *
+     * @var    integer
+     */
+    protected $total = 0;
+
+    /**
      * The pagination object
      *
      * @var  \Joomla\CMS\Pagination\Pagination

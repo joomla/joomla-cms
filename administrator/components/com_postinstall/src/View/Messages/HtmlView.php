@@ -28,6 +28,15 @@ use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * An array of items
+     *
+     * @var   array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $items;
+
+    /**
      * Executes before rendering the page for the Browse task.
      *
      * @param   string  $tpl  Subtemplate to use

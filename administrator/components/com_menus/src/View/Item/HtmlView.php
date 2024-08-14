@@ -74,6 +74,15 @@ class HtmlView extends BaseHtmlView
     protected $levels;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
