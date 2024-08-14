@@ -66,7 +66,7 @@ class ControllerLoader extends NamespaceBased
             }
         }
 
-        // Search in all namespaces, eg. when a admin model is loaded on site
+        // Search in all namespaces, eg. when an admin model is loaded on site
         foreach ($this->getNamespaces() as $ns => $path) {
             foreach (['Model', 'View'] as $type) {
                 if (($methodReflection->getName() !== 'create' . $type && $methodReflection->getName() !== 'get' . $type)
