@@ -6,6 +6,7 @@ includes:
 parameters:
 	level: 0
 	phpVersion: 80100
+	reportUnmatchedIgnoredErrors: false
 	scanDirectories:
 		- libraries/php-encryption
 		- libraries/phpass
