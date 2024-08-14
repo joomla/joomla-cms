@@ -63,7 +63,7 @@ class ViewModelLoader extends NamespaceBased
             return new ObjectType($ns . 'Model\\' . $name . 'Model');
         }
 
-        // Search in all namespaces, eg. when a admin model is loaded on site
+        // Search in all namespaces, eg. when an admin model is loaded on site
         foreach ($this->getNamespaces() as $ns => $path) {
             if (!class_exists($ns . 'Model\\' . $name . 'Model')) {
                 continue;
