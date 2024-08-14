@@ -13,16 +13,13 @@
 \define('JPATH_PLATFORM', 1);
 \define('JPATH_BASE', \dirname(__DIR__, 2));
 
-
-// Load the Joomla class loader
+// Load the Joomla environment
 require_once JPATH_BASE . '/includes/defines.php';
 
+// Load the Joomla class loader
 require_once JPATH_LIBRARIES . '/loader.php';
 JLoader::setup();
 require_once JPATH_LIBRARIES . '/vendor/autoload.php';
-
-// Rector crashes as it is inside a phar
-//require_once JPATH_BASE . '/libraries/bootstrap.php';
 
 // Load the extension namespaces
 JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');

@@ -31,13 +31,6 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
-  - name: phan
-    image: joomlaprojects/docker-images:php8.1-ast
-    depends_on: [ phpcs ]
-    failure: ignore
-    commands:
-      - ./libraries/vendor/bin/phan
-
   - name: phpstan
     image: joomlaprojects/docker-images:php8.2
     depends_on: [ phpcs ]
@@ -437,6 +430,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 74b2bf309c95831161344b6812bfe6f5140e4438c4db679af08213373109d316
+hmac: 903759c59028cc757ba3faef044e3b9122d00f99ea0367caadceb710cb88030f
 
 ...
