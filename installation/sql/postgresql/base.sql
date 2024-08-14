@@ -677,7 +677,7 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (109, 96, 'Guided Tours', '', '', 1, 'status', NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*'),
 (110, 100, 'Redirects: Links', '', '', 1, 'cpanel', NULL, NULL, 0, 'mod_redirect', 1, 1, '{"state":"0","http_status":"301","ordering":"a.hits DESC","count":5,"layout":"_:default","moduleclass_sfx":"","automatic_title":0,"cache":1,"cache_time":900,"cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*');
 
-SELECT setval('#__modules_id_seq', 110, false);
+SELECT setval('#__modules_id_seq', 111, false);
 
 --
 -- Table structure for table `#__modules_menu`
@@ -732,7 +732,8 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (106, 0),
 (107, 0),
 (108, 0),
-(109, 0);
+(109, 0),
+(110, 0);
 
 --
 -- Table structure for table `#__schemas`
