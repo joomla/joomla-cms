@@ -135,7 +135,7 @@ steps:
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.js cypress.config.js
+      - mv cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -162,6 +162,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpnext-system-mysql
     depends_on:
@@ -177,6 +181,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmin-system-postgres
     depends_on:
@@ -189,6 +197,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-postgres
     depends_on:
@@ -216,6 +228,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
@@ -414,6 +430,6 @@ trigger:
 
 ---
 kind: signature
-hmac: d4131ffaa91f4925cae9118af99cf2a7d8bd6fc2dc59fb50259c7ced220c48d5
+hmac: da473d9b50d583b1545f5cf2a927682dd7a428583c898337136c3dfaf9a0a2e2
 
 ...

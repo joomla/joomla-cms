@@ -646,6 +646,9 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $this->input = null;
         $this->label = null;
 
+        // Reset the cached layout data
+        $this->layoutData = [];
+
         // Set the XML element object.
         $this->element = $element;
 
@@ -1073,7 +1076,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * @since   4.0.0
      * @throws  \UnexpectedValueException
      */
-    public function filter($value, $group = null, Registry $input = null)
+    public function filter($value, $group = null, ?Registry $input = null)
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
@@ -1169,7 +1172,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * @throws  \InvalidArgumentException
      * @throws  \UnexpectedValueException
      */
-    public function validate($value, $group = null, Registry $input = null)
+    public function validate($value, $group = null, ?Registry $input = null)
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
@@ -1286,7 +1289,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      *
      * @since   4.0.0
      */
-    public function postProcess($value, $group = null, Registry $input = null)
+    public function postProcess($value, $group = null, ?Registry $input = null)
     {
         return $value;
     }
