@@ -38,6 +38,13 @@ steps:
     commands:
       - ./libraries/vendor/bin/phan
 
+  - name: phpstan
+    image: joomlaprojects/docker-images:php8.2
+    depends_on: [ phpcs ]
+    failure: ignore
+    commands:
+      - ./libraries/vendor/bin/phpstan
+
   - name: npm
     image: node:20-bullseye-slim
     depends_on: [ phpcs ]
@@ -430,6 +437,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 66d331abed02e76707b26cbf12fef3ec4506858cc748acdb5aee2c256e92ba4f
+hmac: 74b2bf309c95831161344b6812bfe6f5140e4438c4db679af08213373109d316
 
 ...
