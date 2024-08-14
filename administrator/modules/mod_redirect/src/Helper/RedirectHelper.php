@@ -27,14 +27,14 @@ class RedirectHelper
     /**
      * Get a list of redirect links.
      *
-     * @param   Registry  &$params The module parameters.
+     * @param   Registry  &$params  The module parameters.
      *
      * @return  mixed  An array of redirect links, or false on error.
      *
      * @throws  \Exception
      * @since   __DEPLOY_VERSION__
      */
-    public function getRedirectLinks(&$params)
+    public function getRedirectLinks(Registry &$params)
     {
         /** @var \Joomla\Component\Redirect\Administrator\Model\LinksModel $model */
         $model = Factory::getApplication()->bootComponent('com_redirect')->getMVCFactory()
