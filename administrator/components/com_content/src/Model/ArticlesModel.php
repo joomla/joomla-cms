@@ -360,7 +360,7 @@ class ArticlesModel extends ListModel
         if (\in_array($featured, ['0', '1'])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
-            ->bind(':featured', $featured, ParameterType::INTEGER);
+                ->bind(':featured', $featured, ParameterType::INTEGER);
         }
 
         // Filter by access level on categories.
@@ -674,14 +674,14 @@ class ArticlesModel extends ListModel
     }
 
     /**
-	 * Method to get the value of featured selector.
-	 *
-	 * @return  string  Returns the value of featured selector.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function isFeatured()
-	{
-		return $this->getUserStateFromRequest($this->context . '.featured', 'featured', 'int');
-	}
+     * Method to get the value of featured selector.
+     *
+     * @return  string  Returns the value of featured selector.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function isFeatured()
+    {
+        return $this->getUserStateFromRequest($this->context . '.featured', 'featured', 'int');
+    }
 }

@@ -190,8 +190,8 @@ class ArticlesController extends AdminController
      *
      * @since   __DEPLOY_VERSION__
      */
-	public function delete()
-	{
+    public function delete()
+    {
         // Check for request forgeries
         $this->checkToken();
 
@@ -232,6 +232,5 @@ class ArticlesController extends AdminController
 
         $this->setMessage(Text::plural('COM_CONTENT_N_ITEMS_DELETED', \count($ids)));
         $this->setRedirect('index.php?option=com_content&view=articles&featured=1');
-
 	}
 }
