@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
@@ -77,6 +78,11 @@ class ToursModel extends ListModel
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'ASC')
     {
+        $app       = Factory::getApplication();
+        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
+
+        $this->setState('filter.extension', $extension);
+
         parent::populateState($ordering, $direction);
     }
 

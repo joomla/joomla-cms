@@ -466,6 +466,40 @@ class UpdatesitesModel extends InstallerModel
      */
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
+        // Load the filter state.
+        $stateKeys = [
+            'search'    => 'string',
+            'client_id' => 'int',
+            'enabled'   => 'string',
+            'type'      => 'string',
+            'folder'    => 'string',
+            'supported' => 'int',
+        ];
+
+        foreach ($stateKeys as $key => $filterType) {
+            $stateKey = 'filter.' . $key;
+
+            switch ($filterType) {
+                case 'int':
+                case 'bool':
+                    $default = null;
+                    break;
+
+                default:
+                    $default = '';
+                    break;
+            }
+
+            $stateValue = $this->getUserStateFromRequest(
+                $this->context . '.' . $stateKey,
+                'filter_' . $key,
+                $default,
+                $filterType
+            );
+
+            $this->setState($stateKey, $stateValue);
+        }
+
         parent::populateState($ordering, $direction);
     }
 

@@ -82,6 +82,15 @@ class ManageModel extends InstallerModel
     {
         $app = Factory::getApplication();
 
+        // Load the filter state.
+        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+        $this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+        $this->setState('filter.package_id', $this->getUserStateFromRequest($this->context . '.filter.package_id', 'filter_package_id', null, 'int'));
+        $this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
+        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
+        $this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+        $this->setState('filter.core', $this->getUserStateFromRequest($this->context . '.filter.core', 'filter_core', '', 'string'));
+
         $this->setState('message', $app->getUserState('com_installer.message'));
         $this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
         $app->setUserState('com_installer.message', '');

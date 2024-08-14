@@ -70,7 +70,7 @@ class InstallerModel extends ListModel
         $listDirn  = $this->getState('list.direction', 'asc');
 
         // Replace slashes so preg_match will work
-        $search = $this->getState('filter.search', '');
+        $search = $this->getState('filter.search');
         $search = str_replace('/', ' ', $search);
         $db     = $this->getDatabase();
 

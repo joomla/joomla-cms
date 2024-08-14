@@ -245,6 +245,8 @@ class LanguagesModel extends ListModel
      */
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
+        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+
         $this->setState('extension_message', Factory::getApplication()->getUserState('com_installer.extension_message'));
 
         parent::populateState($ordering, $direction);

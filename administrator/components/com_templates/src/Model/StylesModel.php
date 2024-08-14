@@ -70,6 +70,11 @@ class StylesModel extends ListModel
         $app = Factory::getApplication();
 
         if (!$app->isClient('api')) {
+            // Load the filter state.
+            $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+            $this->setState('filter.template', $this->getUserStateFromRequest($this->context . '.filter.template', 'filter_template', '', 'string'));
+            $this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
+
             // Special case for the client id.
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
             $clientId = !\in_array($clientId, [0, 1]) ? 0 : $clientId;
