@@ -44,7 +44,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Joomla\\Tests\\": "tests"
+      "Joomla\\Tests\\": "tests",
+      "Joomla\\PHPStan\\": "build/phpstan/src"
     }
   },
   "require": {
@@ -115,7 +116,9 @@
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
     "joomla/mediawiki": "^3.0",
     "joomla/test": "~3.0",
-    "phan/phan": "^5.4.3"
+    "phan/phan": "^5.4.3",
+    "phpstan/phpstan": "^1.11.10",
+    "phpstan/phpstan-deprecation-rules": "^1.2.0"
   },
   "replace": {
     "paragonie/random_compat": "9.99.99",
