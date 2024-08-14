@@ -29,6 +29,9 @@ use Tuf\Exception\MetadataException;
  * TUF Update Adapter Class
  *
  * @since   5.1.0
+ *
+ * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
+ *           Don't extend this class in your own code, it is subject to change without notice.
  */
 class TufAdapter extends UpdateAdapter
 {
@@ -48,8 +51,8 @@ class TufAdapter extends UpdateAdapter
 
         if ($targets) {
             foreach ($targets as $target) {
-                $updateTable = Table::getInstance('update');
-                $updateTable->set('update_site_id', $options['update_site_id']);
+                $updateTable                 = Table::getInstance('update');
+                $updateTable->update_site_id = $options['update_site_id'];
 
                 $updateTable->bind($target);
 

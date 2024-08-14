@@ -239,8 +239,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         // Create and add new
         this.choicesInstance.setChoices([{
-          value: this.newItemPrefix + event.target.value,
-          label: event.target.value,
+          value: new DOMParser().parseFromString(this.newItemPrefix + event.target.value, 'text/html').body.textContent,
+          label: new DOMParser().parseFromString(event.target.value, 'text/html').body.textContent,
           selected: true,
           customProperties: {
             value: event.target.value, // Store real value, just in case

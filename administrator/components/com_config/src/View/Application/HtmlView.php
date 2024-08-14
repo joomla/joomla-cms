@@ -54,6 +54,34 @@ class HtmlView extends BaseHtmlView
     public $data;
 
     /**
+     * Title of the fieldset
+     *
+     * @var    string
+     */
+    public $name;
+
+    /**
+     * Name of the fields to display
+     *
+     * @var    string
+     */
+    public $fieldsname;
+
+    /**
+     * CSS class of the form
+     *
+     * @var    string
+     */
+    protected $formclass;
+
+    /**
+     * Description of the fieldset
+     *
+     * @var    string
+     */
+    protected $description;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

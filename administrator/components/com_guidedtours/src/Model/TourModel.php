@@ -125,7 +125,7 @@ class TourModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return \JForm|boolean  A JForm object on success, false on failure
+     * @return \JForm|boolean  A Form object on success, false on failure
      *
      * @since  4.3.0
      */
@@ -510,7 +510,7 @@ class TourModel extends AdminModel
      * @param   int  $id         Id of a tour
      * @param   int  $autostart  The autostart value of a tour
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public function setAutostart($id, $autostart)
     {
@@ -532,7 +532,7 @@ class TourModel extends AdminModel
      *
      * @param   string  $uid  the uid of a tour
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public function isAutostart($uid)
     {
