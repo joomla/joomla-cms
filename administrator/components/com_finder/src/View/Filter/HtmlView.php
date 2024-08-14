@@ -126,7 +126,7 @@ class HtmlView extends BaseHtmlView
         $isNew      = ($this->item->filter_id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
         $canDo      = ContentHelper::getActions('com_finder');
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Configure the toolbar.
         ToolbarHelper::title(

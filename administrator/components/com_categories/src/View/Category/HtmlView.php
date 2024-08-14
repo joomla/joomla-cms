@@ -154,7 +154,7 @@ class HtmlView extends BaseHtmlView
 
         $user      = $this->getCurrentUser();
         $userId    = $user->id;
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
@@ -336,7 +336,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
         if ($extension == 'com_categories') {
