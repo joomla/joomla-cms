@@ -531,7 +531,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         $option = $this->getApplication()->getInput()->getCmd('option');
 
-        if ($table->get('module') != null) {
+        if ($table->module != null) {
             $option = 'com_modules';
         }
 
@@ -561,13 +561,15 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $messageLanguageKey = $defaultLanguageKey;
         }
 
-        $message = [
+        $id_holder    = $params->id_holder;
+        $title_holder = $params->title_holder;
+        $message      = [
             'action'         => $isNew ? 'add' : 'update',
             'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $params->type_title,
-            'id'             => $table->get($params->id_holder),
-            'title'          => $table->get($params->title_holder),
-            'extension_name' => $table->get($params->title_holder),
-            'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->get($params->id_holder), $params->id_holder),
+            'id'             => $table->$id_holder,
+            'title'          => $table->$title_holder,
+            'extension_name' => $table->$title_holder,
+            'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->$id_holder, $id_holder),
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -601,10 +603,11 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
-        $message = [
+        $title_holder = $params->title_holder;
+        $message      = [
             'action' => 'delete',
             'type'   => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $params->type_title,
-            'title'  => $table->get($params->title_holder),
+            'title'  => $table->$title_holder,
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
