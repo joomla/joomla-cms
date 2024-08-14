@@ -56,7 +56,7 @@ class User extends Table
      *
      * @since  1.7.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__users', 'id', $db, $dispatcher);
 

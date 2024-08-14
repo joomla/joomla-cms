@@ -75,6 +75,15 @@ class HtmlView extends BaseHtmlView
     protected $total;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Method to display the view.
      *
      * @param   string  $tpl  A template file to load. [optional]

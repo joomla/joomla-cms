@@ -54,7 +54,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_content.article';
 
@@ -95,14 +95,14 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
     /**
      * Method to get the parent asset id for the record
      *
-     * @param   Table    $table  A Table object (optional) for the asset parent
-     * @param   integer  $id     The id (optional) of the content.
+     * @param   ?Table    $table  A Table object (optional) for the asset parent
+     * @param   ?integer  $id     The id (optional) of the content.
      *
      * @return  integer
      *
      * @since   1.6
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
 
@@ -330,6 +330,9 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             // Existing item
             $this->modified_by = $user->id;
             $this->modified    = $date;
+            if (empty($this->created_by)) {
+                $this->created_by = 0;
+            }
         } else {
             // Field created_by can be set by the user, so we don't touch it if it's set.
             if (empty($this->created_by)) {
