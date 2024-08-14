@@ -38,9 +38,11 @@ class DIContainer implements DynamicMethodReturnTypeExtension
 
         $arg  = $methodCall->getArgs()[0]->value;
         $type = $scope->getType($arg);
-        if(!method_exists($type, 'getValue')) {
+
+        if (!method_exists($type, 'getValue')) {
             return null;
         }
+
         return new ObjectType($type->getValue());
     }
 }
