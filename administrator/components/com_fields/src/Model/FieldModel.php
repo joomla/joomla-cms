@@ -1192,7 +1192,7 @@ class FieldModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
