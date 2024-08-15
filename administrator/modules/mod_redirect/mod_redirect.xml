@@ -25,12 +25,15 @@
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Redirect\Administrator\Field">
 				<field
 					name="state"
-					type="RedirectStatus"
+					type="list"
 					label="JSTATUS"
 					default="0"
 					class="js-select-submit-on-change"
 					>
 					<option value="">JOPTION_SELECT_PUBLISHED</option>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+					<option value="*">JALL</option>
 				</field>
 				<field
 					name="http_status"

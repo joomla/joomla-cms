@@ -1,16 +1,17 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  mod_redirect
+ * @package         Joomla.Administrator
+ * @subpackage      mod_redirect
  *
  * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\Redirect\Administrator\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 
@@ -32,11 +33,12 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  void
      *
+     * @throws \Exception
      * @since __DEPLOY_VERSION__
      */
     public function dispatch()
     {
-        if (!$this->getApplication()->getIdentity()->authorise('core.admin')) {
+        if (!Factory::getApplication()->getIdentity()->authorise('core.edit', 'com_redirect')) {
             return;
         }
 

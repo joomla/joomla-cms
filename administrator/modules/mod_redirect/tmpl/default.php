@@ -14,8 +14,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+$moduleId = str_replace(' ', '', $module->title) . $module->id;
 ?>
-<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+<table class="table" id="<?php echo $moduleId; ?>">
     <caption class="visually-hidden"><?php echo $module->title; ?></caption>
     <thead>
     <tr>
@@ -31,12 +32,12 @@ use Joomla\CMS\Router\Route;
             <?php $hits = (int) $item->hits; ?>
             <?php $hits_class = ($hits >= 1000 ? 'danger' : ($hits >= 100 ? 'warning' : ($hits >= 10 ? 'info' : 'secondary'))); ?>
             <tr>
-                <td>
+                <th scope="row">
                     <a href="<?php echo Route::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>"
                        title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars($item->old_url, ENT_QUOTES, 'UTF-8'); ?>">
                         <?php echo htmlspecialchars($item->old_url, ENT_QUOTES, 'UTF-8'); ?>
                     </a>
-                </td>
+                </th>
                 <td>
                     <span class="badge bg-<?php echo $hits_class; ?>"><?php echo $item->hits; ?></span>
                 </td>
@@ -47,7 +48,7 @@ use Joomla\CMS\Router\Route;
         <?php endforeach; ?>
     <?php else : ?>
         <tr>
-            <td colspan="2">
+            <td colspan="3">
                 <?php echo Text::_('MOD_REDIRECT_NO_MATCHING_RESULTS'); ?>
             </td>
         </tr>
