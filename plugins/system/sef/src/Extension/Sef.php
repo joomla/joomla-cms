@@ -109,6 +109,11 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if ($app->get('sef') && !$app->get('sef_suffix') && $this->params->get('trailingslash', '-1') != '-1') {
             $this->enforceTrailingSlash();
         }
+
+        // Enforce SEF URLs
+        if ($this->params->get('strictrouting') && $app->getInput()->getMethod() == 'GET') {
+            $this->enforceSEF();
+        }
     }
 
     /**
@@ -359,6 +364,36 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             // Add trailingslash
             $originalUri->setPath($originalUri->getPath() . '/');
             $this->getApplication()->redirect($originalUri->toString(), 301);
+        }
+    }
+
+    /**
+     * Enforce a redirect from URL with query parameters to SEF URL
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function enforceSEF()
+    {
+        $app     = $this->getApplication();
+        $origUri = clone Uri::getInstance();
+
+        if (\count($origUri->getQuery(true))) {
+            $parsedVars = $app->getInput()->getArray();
+
+            if ($app->getLanguageFilter()) {
+                $parsedVars['lang'] = $parsedVars['language'];
+                unset($parsedVars['language']);
+            }
+
+            $route    = $origUri->toString(['path', 'query']);
+            $newRoute = Route::_($parsedVars, false);
+            $newUri   = new Uri($newRoute);
+
+            if (!\count($newUri->getQuery(true)) && $route !== $newRoute) {
+                $app->redirect($newRoute, 301);
+            }
         }
     }
 
