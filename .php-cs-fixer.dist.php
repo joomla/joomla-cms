@@ -61,33 +61,36 @@ $finder = PhpCsFixer\Finder::create()
 
 $config = new PhpCsFixer\Config();
 $config
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRiskyAllowed(true)
     ->setHideProgress(false)
     ->setUsingCache(false)
     ->setRules(
         [
             // Basic ruleset is PSR 12
-            '@PSR12'                         => true,
+            '@PSR12'                                           => true,
             // Short array syntax
-            'array_syntax'                   => ['syntax' => 'short'],
+            'array_syntax'                                     => ['syntax' => 'short'],
             // List of values separated by a comma is contained on a single line should not have a trailing comma like [$foo, $bar,] = ...
-            'no_trailing_comma_in_singleline' => true,
+            'no_trailing_comma_in_singleline'                  => true,
             // Arrays on multiline should have a trailing comma
-            'trailing_comma_in_multiline'    => ['elements' => ['arrays']],
+            'trailing_comma_in_multiline'                      => ['elements' => ['arrays']],
             // Align elements in multiline array and variable declarations on new lines below each other
-            'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
+            'binary_operator_spaces'                           => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
             // The "No break" comment in switch statements
-            'no_break_comment'               => ['comment_text' => 'No break'],
+            'no_break_comment'                                 => ['comment_text' => 'No break'],
             // Remove unused imports
-            'no_unused_imports'              => true,
+            'no_unused_imports'                                => true,
             // Classes from the global namespace should not be imported
-            'global_namespace_import'        => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
+            'global_namespace_import'                          => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
             // Alpha order imports
-            'ordered_imports'                => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
+            'ordered_imports'                                  => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
             // There should not be useless else cases
-            'no_useless_else'                => true,
+            'no_useless_else'                                  => true,
             // Native function invocation
-            'native_function_invocation'     => ['include' => ['@compiler_optimized']],
+            'native_function_invocation'                       => ['include' => ['@compiler_optimized']],
+            // Adds null to type declarations when parameter have a default null value
+            'nullable_type_declaration_for_default_null_value' => true,
         ]
     )
     ->setFinder($finder);
