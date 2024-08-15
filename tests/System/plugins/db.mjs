@@ -6,20 +6,7 @@ let insertedItems = [];
 
 // Use of the PostgreSQL connection pool to limit the number of sessions, see
 // https://github.com/porsager/postgres?tab=readme-ov-file#connection-details
-let pgPool = null;
-function getPgPool(config) {
-  if (!pgPool) {
-    pgPool = postgres({
-      host: config.env.db_host,
-      port: config.env.db_port,
-      database: config.env.db_name,
-      username: config.env.db_user,
-      password: config.env.db_password,
-      max: 10, // Use only this (unchanged default) maximum number of connections in the pool
-    });
-  }
-  return pgPool;
-}
+let postgresConnectionPool = null;
 
 /**
  * Does run the given query against the database from the configuration. It caches all inserted items.
@@ -49,8 +36,17 @@ function queryTestDB(joomlaQuery, config) {
   // Do we use PostgreSQL?
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
 
-    // Gets a connection from the PostgreSQL connection pool, including initialisation on the first call.
-    const connection = getPgPool(config);
+    if (postgresConnectionPool === null) {
+      // Initialisation on the first call
+      postgresConnectionPool = postgres({
+        host: config.env.db_host,
+        port: config.env.db_port,
+        database: config.env.db_name,
+        username: config.env.db_user,
+        password: config.env.db_password,
+        max: 10, // Use only this (unchanged default) maximum number of connections in the pool
+      });
+    }
 
     // Postgres delivers the data direct as result of the insert query
     if (insertItem) {
@@ -60,7 +56,7 @@ function queryTestDB(joomlaQuery, config) {
     // Postgres needs double quotes
     query = query.replaceAll('`', '"');
 
-    return connection.unsafe(query).then((result) => {
+    return postgresConnectionPool.unsafe(query).then((result) => {
       // Select query should always return an array
       if (query.indexOf('SELECT') === 0 && !Array.isArray(result)) {
         return [result];
