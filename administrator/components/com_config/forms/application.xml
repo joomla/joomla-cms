@@ -186,7 +186,14 @@
 			required="true"
 			filter="string"
 		/>
-
+		<field
+			name="db_port"
+			type="text"
+			label="COM_CONFIG_DATABASE_PORT_DESC"
+			class="form-control"
+			default="3306"
+			required="true"
+		/>
 		<field
 			name="user"
 			type="text"

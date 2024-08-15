@@ -60,6 +60,7 @@ class ConfigurationModel extends BaseInstallationModel
             $db = DatabaseHelper::getDbo(
                 $options->db_type,
                 $options->db_host,
+                $options->db_port,
                 $options->db_user,
                 $options->db_pass_plain,
                 $options->db_name,
@@ -380,6 +381,7 @@ class ConfigurationModel extends BaseInstallationModel
         // Database settings.
         $registry->set('dbtype', $options->db_type);
         $registry->set('host', $options->db_host);
+        $registry->set('port', $options->db_port);
         $registry->set('user', $options->db_user);
         $registry->set('password', $options->db_pass_plain);
         $registry->set('db', $options->db_name);

@@ -85,6 +85,7 @@ class Database implements ServiceProviderInterface
                     $options = [
                         'driver'   => $dbtype,
                         'host'     => $conf->get('host'),
+                        'port'     => $conf->get('port'),
                         'user'     => $conf->get('user'),
                         'password' => $conf->get('password'),
                         'database' => $conf->get('db'),

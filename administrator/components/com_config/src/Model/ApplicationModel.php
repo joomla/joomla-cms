@@ -293,6 +293,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $options = [
             'driver'   => $data['dbtype'],
             'host'     => $data['host'],
+            'port'     => $data['db_port'],
             'user'     => $data['user'],
             'password' => $data['password'],
             'database' => $data['db'],

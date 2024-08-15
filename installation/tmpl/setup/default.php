@@ -82,6 +82,9 @@ HTMLHelper::_('behavior.formvalidator');
                     <?php echo $this->form->renderField('db_host'); ?>
                 </div>
                 <div class="mb-3">
+                    <?php echo $this->form->renderField('db_port'); ?>
+                </div>
+                <div class="mb-3">
                     <?php echo $this->form->renderField('db_user'); ?>
                 </div>
                 <div class="mb-3">

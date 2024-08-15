@@ -72,6 +72,14 @@
 			required="true"
 		/>
 		<field
+			name="db_port"
+			type="text"
+			label="INSTL_DATABASE_PORT_DESC"
+			class="form-control"
+			default="3306"
+			required="true"
+		/>
+		<field
 			name="db_user"
 			type="text"
 			label="INSTL_DATABASE_USER_DESC"

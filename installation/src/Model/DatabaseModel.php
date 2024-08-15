@@ -88,6 +88,7 @@ class DatabaseModel extends BaseInstallationModel
             return DatabaseHelper::getDbo(
                 $options->db_type,
                 $options->db_host,
+                $options->db_port,
                 $options->db_user,
                 $options->db_pass_plain,
                 $options->db_name,
