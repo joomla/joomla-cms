@@ -68,13 +68,13 @@ npm run cypress:run
 
 You can execute single test specs, e.g. to run the installation step only.
 ```
-npm run cypress:run --spec tests/System/integration/install/Installation.cy.js
+npx cypress run --spec tests/System/integration/install/Installation.cy.js
 ```
 
-You can run multiple test specs separated by commas and use patterns. For example, to execute all the tests from the
-administrator, site, api and plugins specs without the installation step:
+You can run multiple test specs separated by commas and use patterns.
+For example, to run all tests without the installation step:
 ```
-npm run cypress:run --spec 'tests/System/integration/{administrator,site,api,plugins}/**/*.cy.js'
+npx cypress run --spec 'tests/System/integration/{administrator,site,api,plugins}/**/*.cy.js'
 ```
 
 > [!NOTE]
@@ -293,7 +293,7 @@ sudo npm run cypress:run
 
 If the `root` user does not have a Cypress installation, you can use the Cypress installation cache of the current user:
 ```
-sudo CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npm run cypress:run
+CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress sudo npm run cypress:run
 ```
 
 
@@ -310,6 +310,8 @@ If the used SMTP server port is already in use you will see an error like:
 
 :point_right: Configure a different, unused port in the `cypress.config.mjs` file as `smtp_port`.
 
+:point_right: If you use `npx` instead of `npm`, you may see `Your configFile threw an error from: cypress.config.js`,
+but you still need to configure `cypress.config.mjs` file.
 
 ### Timeout Error on Slow Machines
 

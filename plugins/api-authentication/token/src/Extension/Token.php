@@ -252,8 +252,8 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $response->username      = $user->username;
         $response->email         = $user->email;
         $response->fullname      = $user->name;
-        $response->timezone      = $user->get('timezone');
-        $response->language      = $user->get('language');
+        $response->timezone      = $user->getParam('timezone', $this->getApplication()->get('offset', 'UTC'));
+        $response->language      = $user->getParam('language', $this->getApplication()->get('language'));
 
         // Stop event propagation when status is STATUS_SUCCESS
         $event->stopPropagation();
