@@ -138,7 +138,7 @@ class FormattedtextLogger extends Logger
         $lines = array_map([$this, 'formatLine'], $this->deferredEntries);
 
         try {
-            File::append($this->path, implode("\n", $lines) . "\n");
+            File::write($this->path, implode("\n", $lines) . "\n", false, true);
         } catch (FilesystemException $exception) {
             throw new \RuntimeException('Cannot write to log file.');
         }
@@ -169,7 +169,7 @@ class FormattedtextLogger extends Logger
             $line .= "\n";
 
             try {
-                File::append($this->path, $line);
+                File::write($this->path, $line, false, true);
             } catch (FilesystemException $exception) {
                 throw new \RuntimeException('Cannot write to log file.');
             }
