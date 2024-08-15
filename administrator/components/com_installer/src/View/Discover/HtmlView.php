@@ -11,7 +11,6 @@
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
 use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,12 +25,44 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
 class HtmlView extends InstallerViewDefault
 {
     /**
+     * An array of items
+     *
+     * @var   array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $items;
+
+    /**
+     * The pagination object
+     *
+     * @var    \Joomla\CMS\Pagination\Pagination
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $pagination;
+
+    /**
      * Is this view an Empty State
      *
      * @var  boolean
      * @since 4.0.0
      */
     private $isEmptyState = false;
+
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
 
     /**
      * Display the view.
@@ -76,7 +107,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if (!$this->isEmptyState) {
             $toolbar->standardButton('upload', 'JTOOLBAR_INSTALL', 'discover.install')
