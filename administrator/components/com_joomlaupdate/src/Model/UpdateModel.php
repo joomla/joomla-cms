@@ -997,7 +997,7 @@ ENDDATA;
         try {
             File::upload($tmp_src, $tmp_dest, false);
         } catch (FilesystemException $exception) {
-            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500, $exception);
         }
 
         Factory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);

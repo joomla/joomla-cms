@@ -140,7 +140,7 @@ class FormattedtextLogger extends Logger
         try {
             File::write($this->path, implode("\n", $lines) . "\n", false, true);
         } catch (FilesystemException $exception) {
-            throw new \RuntimeException('Cannot write to log file.');
+            throw new \RuntimeException('Cannot write to log file.', 500, $exception);
         }
     }
 
@@ -171,7 +171,7 @@ class FormattedtextLogger extends Logger
             try {
                 File::write($this->path, $line, false, true);
             } catch (FilesystemException $exception) {
-                throw new \RuntimeException('Cannot write to log file.');
+                throw new \RuntimeException('Cannot write to log file.', 500, $exception);
             }
         }
     }
@@ -277,7 +277,7 @@ class FormattedtextLogger extends Logger
         try {
             File::write($this->path, $head);
         } catch (FilesystemException $exception) {
-            throw new \RuntimeException('Cannot write to log file.');
+            throw new \RuntimeException('Cannot write to log file.', 500, $exception);
         }
     }
 
