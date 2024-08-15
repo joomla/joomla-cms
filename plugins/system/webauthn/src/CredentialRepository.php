@@ -40,11 +40,11 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
     /**
      * Public constructor.
      *
-     * @param   DatabaseInterface|null  $db  The database driver object to use for persistence.
+     * @param   ?DatabaseInterface  $db  The database driver object to use for persistence.
      *
      * @since   4.2.0
      */
-    public function __construct(DatabaseInterface $db = null)
+    public function __construct(?DatabaseInterface $db = null)
     {
         $this->setDatabase($db);
     }
@@ -477,7 +477,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             return null;
         }
 
-        if (is_null($numRecords) || ($numRecords < 1)) {
+        if (\is_null($numRecords) || ($numRecords < 1)) {
             return null;
         }
 
@@ -617,7 +617,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $tz = null;
 
         if ($tzAware !== false) {
-            $userId = is_bool($tzAware) ? null : (int) $tzAware;
+            $userId = \is_bool($tzAware) ? null : (int) $tzAware;
 
             try {
                 $tzDefault = Factory::getApplication()->get('offset');

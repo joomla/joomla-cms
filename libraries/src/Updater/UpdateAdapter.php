@@ -19,7 +19,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,7 +32,7 @@ abstract class UpdateAdapter extends AdapterInstance
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  3.0.0
      */
     protected $xmlParser;
@@ -277,7 +277,10 @@ abstract class UpdateAdapter extends AdapterInstance
             // Log the exact update site name and URL which could not be loaded
             Log::add('Error opening url: ' . $url . ' for update site: ' . $this->updateSiteName, Log::WARNING, 'updater');
             $app = Factory::getApplication();
-            $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
+            $app->enqueueMessage(
+                html_entity_decode(Text::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url)),
+                'warning'
+            );
 
             return false;
         }

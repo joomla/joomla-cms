@@ -23,7 +23,8 @@
 	 */
 	window.processModalParent = function (fieldPrefix, id, title, catid, url, language, object)
 	{
-		var fieldId = document.getElementById(fieldPrefix + '_id'), fieldTitle = document.getElementById(fieldPrefix + '_name');
+		var fieldId = document.getElementById(fieldPrefix + '_id') || document.getElementById(fieldPrefix + '_value'),
+			fieldTitle = document.getElementById(fieldPrefix + '_name') || document.getElementById(fieldPrefix);
 
 		// Default values.
 		id       = id || '';
@@ -32,6 +33,8 @@
 		object   = object || '';
 		url      = url || '';
 		language = language || '';
+
+		var isChanged = fieldId.value !== id;
 
 		if (id)
 		{
@@ -84,6 +87,10 @@
 			{
 				document.getElementById(fieldPrefix + '_propagate').classList.add('hidden');
 			}
+		}
+
+		if (isChanged) {
+			fieldId.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
 		}
 
 		if (fieldId.getAttribute('data-required') == '1')

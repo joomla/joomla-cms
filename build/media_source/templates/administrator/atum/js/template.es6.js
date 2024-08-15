@@ -218,7 +218,51 @@ function subheadScrolling() {
   }
 }
 
+/**
+ * Watch for Dark mode changes
+ *
+ * @since   5.1.0
+ */
+function darkModeWatch() {
+  const docEl = document.documentElement;
+  // Update data-bs-theme when scheme has been changed
+  document.addEventListener('joomla:color-scheme-change', () => {
+    docEl.dataset.bsTheme = docEl.dataset.colorScheme;
+  });
+
+  // Look for User choose with data-color-scheme-switch button
+  const buttons = document.querySelectorAll('button[data-color-scheme-switch]');
+  buttons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      const { colorScheme } = docEl.dataset;
+      const newScheme = colorScheme !== 'dark' ? 'dark' : 'light';
+      docEl.dataset.colorScheme = newScheme;
+      document.cookie = `userColorScheme=${newScheme};`;
+      document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
+    });
+  });
+
+  // Look for data-color-scheme-os attribute
+  const { colorSchemeOs } = docEl.dataset;
+  if (colorSchemeOs === undefined) return;
+  // Watch on media changes
+  const mql = window.matchMedia('(prefers-color-scheme: dark)');
+  const check = () => {
+    const newScheme = mql.matches ? 'dark' : 'light';
+    // Check if theme already was set
+    if (docEl.dataset.colorScheme === newScheme) return;
+    docEl.dataset.colorScheme = newScheme;
+    // Store theme in cookies, so php will know the last choice
+    document.cookie = `osColorScheme=${newScheme};`;
+    document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
+  };
+  mql.addEventListener('change', check);
+  check();
+}
+
 // Initialize
+darkModeWatch();
 headerItemsInDropdown();
 reactToResize();
 subheadScrolling();

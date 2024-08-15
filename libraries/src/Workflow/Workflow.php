@@ -11,6 +11,7 @@ namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -21,7 +22,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -353,7 +354,7 @@ class Workflow
 
         $transition = $this->getValidTransition($pks, $transitionId);
 
-        if (is_null($transition)) {
+        if (\is_null($transition)) {
             return false;
         }
 
@@ -403,7 +404,7 @@ class Workflow
                 AbstractEvent::create(
                     'onWorkflowAfterTransition',
                     [
-                        'eventClass' => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+                        'eventClass' => WorkflowTransitionEvent::class,
                         'subject'    => $this,
                         'extension'  => $this->extension,
                         'pks'        => $pks,

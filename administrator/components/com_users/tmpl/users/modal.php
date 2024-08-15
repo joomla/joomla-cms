@@ -16,26 +16,28 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Administrator\View\Users\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect');
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('multiselect')->useScript('modal-content-select');
 
 $input           = Factory::getApplication()->getInput();
-$field           = $input->getCmd('field');
-$listOrder       = $this->escape($this->state->get('list.ordering'));
-$listDirn        = $this->escape($this->state->get('list.direction'));
+$field           = $input->getCmd('field', '');
+$listOrder       = $this->escape($this->state->get('list.ordering', ''));
+$listDirn        = $this->escape($this->state->get('list.direction', ''));
 $enabledStates   = [0 => 'icon-check', 1 => 'icon-times'];
 $activatedStates = [0 => 'icon-check', 1 => 'icon-times'];
 $userRequired    = (int) $input->get('required', 0, 'int');
-$onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.getCurrent().close()";
 
 ?>
 <div class="container-popup">
     <form action="<?php echo Route::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm">
         <?php if (!$userRequired) : ?>
         <div>
-            <button type="button" class="btn btn-primary button-select" data-user-value="0" data-user-name="<?php echo $this->escape(Text::_('JLIB_FORM_SELECT_USER')); ?>"
-                data-user-field="<?php echo $this->escape($field); ?>"><?php echo Text::_('JOPTION_NO_USER'); ?></button>&nbsp;
+            <button type="button" class="btn btn-primary button-select"
+                data-content-select data-content-type="com_users.user" data-id="" data-name=""
+                data-user-value="" data-user-name="" data-user-field="<?php echo $this->escape($field); ?>"><?php echo Text::_('JOPTION_NO_USER'); ?></button>&nbsp;
         </div>
         <?php endif; ?>
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
@@ -75,11 +77,18 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
             </thead>
             <tbody>
                 <?php $i = 0; ?>
-                <?php foreach ($this->items as $item) : ?>
+                <?php foreach ($this->items as $item) :
+                    $attribs = 'data-content-select data-content-type="com_users.user"'
+                        . ' data-id="' . ((int) $item->id) . '"'
+                        . ' data-name="' . $this->escape($item->name) . '"'
+                        // @TODO: data-user-value, data-user-name, data-user-field is for backward compatibility, remove in Joomla 6
+                        . ' data-user-value="' . ((int) $item->id) . '"'
+                        . ' data-user-name="' . $this->escape($item->name) . '"'
+                        . ' data-user-field="' . $this->escape($field) . '"';
+                    ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <th scope="row">
-                            <a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
-                                data-user-field="<?php echo $this->escape($field); ?>">
+                            <a class="pointer button-select" href="#" <?php echo $attribs; ?>>
                                 <?php echo $this->escape($item->name); ?>
                             </a>
                         </th>

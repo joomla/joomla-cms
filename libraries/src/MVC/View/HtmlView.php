@@ -11,15 +11,16 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -193,7 +194,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             AbstractEvent::create(
                 'onBeforeDisplay',
                 [
-                    'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+                    'eventClass' => DisplayEvent::class,
                     'subject'    => $this,
                     'extension'  => $context,
                 ]
@@ -207,7 +208,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             AbstractEvent::create(
                 'onAfterDisplay',
                 [
-                    'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+                    'eventClass' => DisplayEvent::class,
                     'subject'    => $this,
                     'extension'  => $context,
                     'source'     => $result,
@@ -347,7 +348,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      *
      * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
      *
-     * @return  string  The output of the the template script.
+     * @return  string  The output of the template script.
      *
      * @since   3.0
      * @throws  \Exception
@@ -416,8 +417,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
             // Done with the requested template; get the buffer and
             // clear it.
-            $this->_output = ob_get_contents();
-            ob_end_clean();
+            $this->_output = ob_get_clean();
 
             return $this->_output;
         }

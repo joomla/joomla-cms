@@ -31,13 +31,13 @@ class OverridesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   2.5
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -71,7 +71,7 @@ class OverridesModel extends ListModel
         $client = strtoupper($this->getState('filter.client'));
 
         // Parse the override.ini file in order to get the keys and strings.
-        $fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+        $fileName = \constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 
         // Delete the override.ini file if empty.
@@ -106,7 +106,7 @@ class OverridesModel extends ListModel
 
         // Consider the pagination.
         if (!$all && $this->getState('list.limit') && $this->getTotal() > $this->getState('list.limit')) {
-            $strings = array_slice($strings, $this->getStart(), $this->getState('list.limit'), true);
+            $strings = \array_slice($strings, $this->getStart(), $this->getState('list.limit'), true);
         }
 
         // Add the items to the internal cache.
@@ -133,7 +133,7 @@ class OverridesModel extends ListModel
         }
 
         // Add the total to the internal cache.
-        $this->cache[$store] = count($this->getOverrides(true));
+        $this->cache[$store] = \count($this->getOverrides(true));
 
         return $this->cache[$store];
     }
@@ -165,13 +165,7 @@ class OverridesModel extends ListModel
         $client          = substr($language_client, -1);
         $language        = substr($language_client, 0, -1);
 
-        // Sets the search filter.
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
         $this->setState('language_client', $language . $client);
-        $this->setState('filter.client', $client ? 'administrator' : 'site');
-        $this->setState('filter.language', $language);
 
         // Add the 'language_client' value to the session to display a message if none selected
         $app->setUserState('com_languages.overrides.language_client', $language . $client);
@@ -210,7 +204,7 @@ class OverridesModel extends ListModel
         }
 
         // Parse the override.ini file in order to get the keys and strings.
-        $fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+        $fileName = \constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 
         // Unset strings that shall be deleted
@@ -227,13 +221,13 @@ class OverridesModel extends ListModel
 
         $this->cleanCache();
 
-        return count($cids);
+        return \count($cids);
     }
 
     /**
      * Removes all of the cached strings from the table.
      *
-     * @return  boolean  result of operation
+     * @return  void|\RuntimeException
      *
      * @since   3.4.2
      */

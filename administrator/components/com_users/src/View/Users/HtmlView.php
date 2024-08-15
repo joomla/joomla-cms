@@ -15,9 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Database\DatabaseDriver;
 
@@ -51,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      * @since 1.6
      */
     protected $state;
@@ -76,7 +74,7 @@ class HtmlView extends BaseHtmlView
     /**
      * An ACL object to verify user rights.
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.6.3
      */
     protected $canDo;
@@ -111,7 +109,7 @@ class HtmlView extends BaseHtmlView
         $this->db            = Factory::getDbo();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -132,7 +130,7 @@ class HtmlView extends BaseHtmlView
         $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
@@ -150,8 +148,8 @@ class HtmlView extends BaseHtmlView
 
             $childBar = $dropdown->getChildToolbar();
 
-            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE');
+            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK');
             $childBar->standardButton('unblock', 'COM_USERS_TOOLBAR_UNBLOCK', 'users.unblock')
                 ->listCheck(true);
 
@@ -162,7 +160,11 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit.state', 'com_users')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_USERS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
 

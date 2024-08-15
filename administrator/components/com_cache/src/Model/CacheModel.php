@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
+use Joomla\CMS\Event\Cache\AfterPurgeEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -87,9 +88,6 @@ class CacheModel extends ListModel
      */
     protected function populateState($ordering = 'group', $direction = 'asc')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-
         parent::populateState($ordering, $direction);
     }
 
@@ -192,7 +190,7 @@ class CacheModel extends ListModel
     public function getTotal()
     {
         if (empty($this->_total)) {
-            $this->_total = count($this->getData());
+            $this->_total = \count($this->getData());
         }
 
         return $this->_total;
@@ -230,7 +228,7 @@ class CacheModel extends ListModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterPurge', [$group]);
+        $this->getDispatcher()->dispatch('onAfterPurge', new AfterPurgeEvent('onAfterPurge', ['subject' => $group]));
 
         return true;
     }
@@ -270,7 +268,7 @@ class CacheModel extends ListModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterPurge', []);
+        $this->getDispatcher()->dispatch('onAfterPurge', new AfterPurgeEvent('onAfterPurge'));
 
         return true;
     }

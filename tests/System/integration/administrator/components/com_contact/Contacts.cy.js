@@ -29,7 +29,6 @@ describe('Test in backend that the contacts list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Contact published.').should('exist');
     });
@@ -42,7 +41,6 @@ describe('Test in backend that the contacts list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Contact unpublished.').should('exist');
     });
@@ -55,7 +53,6 @@ describe('Test in backend that the contacts list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('.button-featured', 'Feature').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Contact featured.').should('exist');
     });
@@ -68,7 +65,6 @@ describe('Test in backend that the contacts list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unfeature').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Contact unfeatured.').should('exist');
     });
@@ -81,7 +77,6 @@ describe('Test in backend that the contacts list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Contact trashed.').should('exist');
     });
@@ -94,7 +89,7 @@ describe('Test in backend that the contacts list', () => {
       cy.searchForItem('Test contact');
       cy.checkAllResults();
       cy.clickToolbarButton('empty trash');
-      cy.on('window:confirm', () => true);
+      cy.clickDialogConfirm(true);
 
       cy.get('#system-message-container').contains('Contact deleted.').should('exist');
     });

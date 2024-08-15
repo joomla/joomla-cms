@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -83,7 +82,7 @@ class HtmlView extends InstallerViewDefault
         $this->activeFilters = $model->getActiveFilters();
 
         // Check for errors.
-        if (count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -103,7 +102,7 @@ class HtmlView extends InstallerViewDefault
         $canDo = ContentHelper::getActions('com_installer');
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($canDo->get('core.edit.state')) {
             /** @var DropdownButton $dropdown */

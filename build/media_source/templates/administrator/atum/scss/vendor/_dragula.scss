@@ -5,12 +5,23 @@
   z-index: $zindex-popover !important;
   display: table;
   margin: 0 !important;
+  color: var(--drag-color) !important;
   cursor: move;
-  background-color: $teal;
+  background-color: var(--drag-background-color);
   opacity: .8;
 
   td, th {
-    background-color: $teal;
+    color: var(--drag-color) !important;
+    background-color: var(--drag-background-color);
+
+    a {
+      color: var(--drag-color) !important;
+    }
+
+    .tbody-icon [class^="icon-"] {
+      color: var(--drag-color) !important;
+      border-color: var(--drag-color) !important;
+    }
   }
 }
 

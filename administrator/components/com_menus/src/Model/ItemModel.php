@@ -13,7 +13,6 @@ namespace Joomla\Component\Menus\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
@@ -23,6 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -168,11 +168,11 @@ class ItemModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Non-fatal error
-                    $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                    $parentId = 0;
                 }
+
+                // Non-fatal error
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
             }
         }
 
@@ -226,11 +226,11 @@ class ItemModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Copy is a bit tricky, because we also need to copy the children
@@ -250,7 +250,7 @@ class ItemModel extends AdminModel
 
             // Add child IDs to the array only if they aren't already there.
             foreach ($childIds as $childId) {
-                if (!in_array($childId, $pks)) {
+                if (!\in_array($childId, $pks)) {
                     $pks[] = $childId;
                 }
             }
@@ -264,7 +264,7 @@ class ItemModel extends AdminModel
 
             // If we a copying children, the Old ID will turn up in the parents list
             // otherwise it's a new top level item
-            $table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+            $table->parent_id = $parents[$oldParentId] ?? $parentId;
             $table->menutype  = $menuType;
 
             // Set the new location in the tree for the node.
@@ -297,7 +297,7 @@ class ItemModel extends AdminModel
             }
 
             // Get the new item ID
-            $newId = $table->get('id');
+            $newId = $table->id;
 
             // Add the new ID to the array
             $newIds[$pk] = $newId;
@@ -356,11 +356,11 @@ class ItemModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Non-fatal error
-                    $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                    $parentId = 0;
                 }
+
+                // Non-fatal error
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
             }
         }
 
@@ -393,11 +393,11 @@ class ItemModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Set the new location in the tree for the node.
@@ -568,7 +568,7 @@ class ItemModel extends AdminModel
         // Only merge if there is a session and itemId or itemid is null.
         if (
             isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
-            || is_null($itemData['id'])
+            || \is_null($itemData['id'])
         ) {
             $data = array_merge($itemData, $sessionData);
         } else {
@@ -974,7 +974,7 @@ class ItemModel extends AdminModel
         if ($pk) {
             $table = $this->getTable();
             $table->load($pk);
-            $forcedClientId = $table->get('client_id', $forcedClientId);
+            $forcedClientId = isset($table->client_id) ? $table->client_id : $forcedClientId;
         }
 
         if (isset($forcedClientId) && $forcedClientId != $clientId) {
@@ -1092,11 +1092,7 @@ class ItemModel extends AdminModel
                 $view = $args['view'];
 
                 // Determine the layout to search for.
-                if (isset($args['layout'])) {
-                    $layout = $args['layout'];
-                } else {
-                    $layout = 'default';
-                }
+                $layout = $args['layout'] ?? 'default';
 
                 // Check for the layout XML file. Use standard xml file if it exists.
                 $tplFolders = [
@@ -1132,7 +1128,7 @@ class ItemModel extends AdminModel
                     ];
                     $metaPath = Path::find($metadataFolders, 'metadata.xml');
 
-                    if (is_file($path = Path::clean($metaPath))) {
+                    if ($metaPath !== false && is_file($path = Path::clean($metaPath))) {
                         $formFile = $path;
                     }
                 } elseif ($base) {
@@ -1193,7 +1189,7 @@ class ItemModel extends AdminModel
         if ($clientId == 0 && Associations::isEnabled()) {
             $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
                 $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
@@ -1315,7 +1311,7 @@ class ItemModel extends AdminModel
      */
     public function save($data)
     {
-        $pk      = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
+        $pk      = $data['id'] ?? (int) $this->getState('item.id');
         $isNew   = true;
         $db      = $this->getDatabase();
         $query   = $db->getQuery(true);
@@ -1408,7 +1404,7 @@ class ItemModel extends AdminModel
         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             $this->setError($table->getError());
 
             return false;
@@ -1458,9 +1454,9 @@ class ItemModel extends AdminModel
         $this->setState('item.menutype', $table->menutype);
 
         // Load associated menu items, for now not supported for admin menu… may be later
-        if ($table->get('client_id') == 0 && Associations::isEnabled()) {
+        if ($table->client_id == 0 && Associations::isEnabled()) {
             // Adding self to the association
-            $associations = isset($data['associations']) ? $data['associations'] : [];
+            $associations = $data['associations'] ?? [];
 
             // Unset any invalid associations
             $associations = ArrayHelper::toInteger($associations);
@@ -1528,7 +1524,7 @@ class ItemModel extends AdminModel
                 $associations[$table->language] = (int) $table->id;
             }
 
-            if (count($associations) > 1) {
+            if (\count($associations) > 1) {
                 // Adding new association for these items
                 $key   = md5(json_encode($associations));
                 $query = $db->getQuery(true)
@@ -1634,7 +1630,7 @@ class ItemModel extends AdminModel
         // so we need to loop through the primary key array.
         foreach ($pks as $i => $pk) {
             if ($table->load($pk)) {
-                if (!array_key_exists($table->language, $languages)) {
+                if (!\array_key_exists($table->language, $languages)) {
                     $languages[$table->language] = true;
 
                     if ($table->home == $value) {

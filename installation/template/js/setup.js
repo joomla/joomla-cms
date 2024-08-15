@@ -58,23 +58,36 @@ Joomla.checkInputs = function() {
   inputs.forEach(function(item) {
     if (!item.valid) state = false;
   });
+  document.getElementById('progress-text').classList.remove('error');
+  document.getElementById('progress-text').setAttribute('role', 'status');
+  document.getElementById('progress-text').innerText = Joomla.Text._('INSTL_IN_PROGRESS');
+  document.getElementById('progressbar').setAttribute('value', 0);
 
   // Reveal everything
   document.getElementById('installStep1').classList.add('active');
   document.getElementById('installStep2').classList.add('active');
   document.getElementById('installStep3').classList.add('active');
 
-
   if (Joomla.checkFormField(['#jform_site_name', '#jform_admin_user', '#jform_admin_email', '#jform_admin_password', '#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'])) {
     Joomla.checkDbCredentials();
   }
 };
 
-
 Joomla.checkDbCredentials = function() {
-  document.body.appendChild(document.createElement('joomla-core-loader'));
+  const progress = document.getElementById('progressbar');
+  const progress_text = document.getElementById('progress-text');
   var form = document.getElementById('adminForm'),
     data = Joomla.serialiseForm(form);
+
+  // Remove potential messages
+  Joomla.removeMessages();
+
+  // Hide form and show progress bar
+  document.getElementById('installStep1').classList.remove('active');
+  document.getElementById('installStep2').classList.remove('active');
+  document.getElementById('installStep3').classList.remove('active');
+  document.getElementById('installStep4').classList.add('active');
+  progress_text.innerText = Joomla.Text._('INSTL_IN_PROGRESS');
 
   Joomla.request({
     method: "POST",
@@ -83,11 +96,12 @@ Joomla.checkDbCredentials = function() {
     perform: true,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     onSuccess: function(response, xhr){
-      var loaderElement = document.querySelector('joomla-core-loader');
       try {
         response = JSON.parse(response);
       } catch (e) {
-        loaderElement.parentNode.removeChild(loaderElement);
+        progress_text.setAttribute('role', 'alert');
+        progress_text.classList.add('error');
+        progress_text.innerText = response;
         console.error('Error in DB Check Endpoint');
         console.error(response);
         Joomla.renderMessages({'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')]});
@@ -100,21 +114,27 @@ Joomla.checkDbCredentials = function() {
       }
 
       Joomla.replaceTokens(response.token);
-      loaderElement.parentNode.removeChild(loaderElement);
 
       if (response.error) {
-        Joomla.renderMessages({'error': [response.message]});
+        document.getElementById('installStep1').classList.add('active');
+        document.getElementById('installStep2').classList.add('active');
+        document.getElementById('installStep3').classList.add('active');
+        document.getElementById('installStep4').classList.remove('active');
+        progress_text.innerText = Joomla.Text._('INSTL');
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
         // @todo: Convert to promises
+        progress.setAttribute('value', parseInt(progress.getAttribute('value')) + 1);
+        progress_text.innerText = Joomla.Text._('INSTL_IN_PROGRESS');
         Joomla.install(['create', 'populate1', 'populate2', 'populate3', 'custom1', 'custom2', 'config'], form);
       }
     },
     onError:   function(xhr){
       Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
+      progress_text.setAttribute('role', 'alert');
+      progress_text.classList.add('error');
+      progress_text.innerText = response.message;
       //Install.goToPage('summary');
-      var loaderElement = document.querySelector('joomla-core-loader');
-      loaderElement.parentNode.removeChild(loaderElement);
 
       try {
         var r = JSON.parse(xhr.responseText);
@@ -199,5 +219,4 @@ Joomla.checkDbCredentials = function() {
       Joomla.checkInputs();
     })
   }
-
 })();

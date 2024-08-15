@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\BasicButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
@@ -128,7 +127,7 @@ class HtmlView extends BaseHtmlView
             $codesModel        = $this->getModel('Backupcodes');
             $backupCodesRecord = $codesModel->getBackupCodesRecord();
 
-            if (!is_null($backupCodesRecord)) {
+            if (!\is_null($backupCodesRecord)) {
                 $backupCodesRecord->title = Text::_('COM_USERS_USER_BACKUPCODES');
                 $this->records[]          = $backupCodesRecord;
             }
@@ -140,7 +139,7 @@ class HtmlView extends BaseHtmlView
             $this->record = reset($this->records);
 
             // If we have multiple records try to make this record the default
-            if (count($this->records) > 1) {
+            if (\count($this->records) > 1) {
                 foreach ($this->records as $record) {
                     if ($record->default) {
                         $this->record = $record;
@@ -155,7 +154,7 @@ class HtmlView extends BaseHtmlView
         $this->setLayout('default');
 
         // If we have no record selected or explicitly asked to run the 'select' task use the correct layout
-        if (is_null($this->record) || ($model->getState('task') == 'select')) {
+        if (\is_null($this->record) || ($model->getState('task') == 'select')) {
             $this->setLayout('select');
         }
 
@@ -192,7 +191,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->isAdmin && $this->getLayout() === 'default') {
-            $bar    = Toolbar::getInstance();
+            $bar    = $this->getDocument()->getToolbar();
             $button = (new BasicButton('user-mfa-submit'))
                 ->text($this->renderOptions['submit_text'])
                 ->icon($this->renderOptions['submit_icon']);
@@ -204,7 +203,7 @@ class HtmlView extends BaseHtmlView
                 ->icon('icon icon-lock');
             $bar->appendButton($button);
 
-            if (count($this->records) > 1) {
+            if (\count($this->records) > 1) {
                 $arrow  = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
                 $button = (new BasicButton('user-mfa-choose-another'))
                     ->text('COM_USERS_MFA_USE_DIFFERENT_METHOD')

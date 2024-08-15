@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -55,7 +55,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      * @since   3.6
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config['events_map'] = $config['events_map'] ?? [];
 
@@ -101,7 +101,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
             $checkedOutField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.
-            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.manage', 'com_checkin')) {
+            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->id && !$user->authorise('core.manage', 'com_checkin')) {
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
                 return false;
@@ -160,14 +160,14 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
             $checkedOutField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.
-            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id')) {
+            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->id) {
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
                 return false;
             }
 
             // Attempt to check the row out.
-            if (!$table->checkOut($user->get('id'), $pk)) {
+            if (!$table->checkOut($user->id, $pk)) {
                 $this->setError($table->getError());
 
                 return false;
@@ -192,22 +192,28 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      */
     public function validate($form, $data, $group = null)
     {
-        // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['validate']);
+        $dispatcher = $this->getDispatcher();
 
-        $dispatcher = Factory::getContainer()->get('dispatcher');
+        // Include the plugins for the delete events.
+        PluginHelper::importPlugin($this->events_map['validate'], null, true, $dispatcher);
 
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
             @trigger_error(
-                'The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0.'
+                'The `onUserBeforeDataValidation` event is deprecated and will be removed in 6.0.'
                 . 'Use the `onContentValidateData` event instead.',
                 E_USER_DEPRECATED
             );
 
-            Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', [$form, &$data]);
+            $data = $dispatcher->dispatch('onUserBeforeDataValidation', new Model\BeforeValidateDataEvent('onUserBeforeDataValidation', [
+                'subject' => $form,
+                'data'    => &$data, // @todo: Remove reference in Joomla 6, see BeforeValidateDataEvent::__constructor()
+            ]))->getArgument('data', $data);
         }
 
-        Factory::getApplication()->triggerEvent('onContentBeforeValidateData', [$form, &$data]);
+        $data = $dispatcher->dispatch('onContentBeforeValidateData', new Model\BeforeValidateDataEvent('onContentBeforeValidateData', [
+            'subject' => $form,
+            'data'    => &$data, // @todo: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
+        ]))->getArgument('data', $data);
 
         // Filter and validate the form data.
         $return = $form->process($data, $group);

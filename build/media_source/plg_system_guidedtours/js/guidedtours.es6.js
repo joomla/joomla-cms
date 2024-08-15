@@ -46,14 +46,13 @@ function getTourInstance() {
 function addProgressIndicator(stepElement, index, total) {
   const header = stepElement.querySelector('.shepherd-header');
   const progress = document.createElement('div');
-  progress.classList.add('shepherd-progress');
+  progress.classList.add('shepherd-progress', 'badge', 'bg-secondary', 'px-2');
   progress.setAttribute('role', 'status');
-  progress.setAttribute('aria-label', Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total));
   const progressText = document.createElement('span');
-  progressText.setAttribute('aria-hidden', true);
-  progressText.innerText = `${index}/${total}`;
+  progressText.classList.add('m-0');
+  progressText.innerText = Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total);
   progress.appendChild(progressText);
-  header.insertBefore(progress, stepElement.querySelector('.shepherd-cancel-icon'));
+  header.insertBefore(progress, header.querySelector('.shepherd-title'));
 }
 
 function setFocus(primaryButton, secondaryButton, cancelButton) {
@@ -66,6 +65,17 @@ function setFocus(primaryButton, secondaryButton, cancelButton) {
   }
 }
 
+function enableButton(eventElement) {
+  const element = eventElement instanceof Event ? document.querySelector(`.step-next-button-${eventElement.currentTarget.step_id}`) : eventElement;
+  element.removeAttribute('disabled');
+  element.classList.remove('disabled');
+}
+function disableButton(eventElement) {
+  const element = eventElement instanceof Event ? document.querySelector(`.step-next-button-${eventElement.currentTarget.step_id}`) : eventElement;
+  element.setAttribute('disabled', 'disabled');
+  element.classList.add('disabled');
+}
+
 function addStepToTourButton(tour, stepObj, buttons) {
   const step = new Shepherd.Step(tour, {
     title: stepObj.title,
@@ -74,6 +84,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
     buttons,
     id: stepObj.id,
     arrow: true,
+    params: stepObj.params,
     beforeShowPromise() {
       return new Promise((resolve) => {
         // Set graceful fallbacks in case there is an issue with the target.
@@ -116,6 +127,14 @@ function addStepToTourButton(tour, stepObj, buttons) {
         const element = this.getElement();
         const target = this.getTarget();
 
+        // if target element doesn't exist e.g. because we have navigated to a new page mid-tour then end the tour here!
+        // Take care though since some steps have no target to we check for these too
+        if (!target && this.options.attachTo.element) {
+          emptyStorage();
+          this.cancel();
+          return;
+        }
+
         // Force the screen reader to only read the content of the popup after a refresh
         element.setAttribute('aria-live', 'assertive');
 
@@ -127,19 +146,66 @@ function addStepToTourButton(tour, stepObj, buttons) {
           const primaryButton = element.querySelector('.shepherd-button-primary');
           const secondaryButton = element.querySelector('.shepherd-button-secondary');
 
-          // The 'next' button should always be enabled if the target input field of type 'text' has a value
-          if (
-            target.tagName.toLowerCase() === 'input'
-            && target.hasAttribute('required')
-            && (['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
-          ) {
-            if (target.value.trim().length) {
-              primaryButton.removeAttribute('disabled');
-              primaryButton.classList.remove('disabled');
-            } else {
-              primaryButton.setAttribute('disabled', 'disabled');
-              primaryButton.classList.add('disabled');
-            }
+          // Check to see if the 'next' button should be enabled before showing the step based on being required or
+          // matching the required value
+          switch (this.options.attachTo.interactive_type) {
+            case 'text':
+              if (
+                (target.hasAttribute('required') || (this.options.params.required || 0))
+                && (
+                  (target.tagName.toLowerCase() === 'input' && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
+                    || target.tagName.toLowerCase() === 'textarea'
+                )
+              ) {
+                if ((this.options.params.requiredvalue || '') !== '') {
+                  if (target.value.trim() === this.options.params.requiredvalue) {
+                    enableButton(primaryButton);
+                  } else {
+                    disableButton(primaryButton);
+                  }
+                } else if (target.value.trim().length) {
+                  enableButton(primaryButton);
+                } else {
+                  disableButton(primaryButton);
+                }
+              }
+              break;
+
+            case 'checkbox_radio':
+              if (
+                target.tagName.toLowerCase() === 'input'
+                && (target.hasAttribute('required') || (this.options.params.required || 0))
+                && ['checkbox', 'radio'].includes(target.type)
+              ) {
+                if (target.checked) {
+                  enableButton(primaryButton);
+                } else {
+                  disableButton(primaryButton);
+                }
+              }
+              break;
+
+            case 'select':
+              if (
+                target.tagName.toLowerCase() === 'select'
+                && (target.hasAttribute('required') || (this.options.params.required || 0))
+              ) {
+                if ((this.options.params.requiredvalue || '') !== '') {
+                  if (target.value.trim() === this.options.params.requiredvalue) {
+                    enableButton(primaryButton);
+                  } else {
+                    disableButton(primaryButton);
+                  }
+                } else if (target.value.trim().length) {
+                  enableButton(primaryButton);
+                } else {
+                  disableButton(primaryButton);
+                }
+              }
+              break;
+
+            default:
+              break;
           }
 
           cancelButton.addEventListener('keydown', (event) => {
@@ -206,6 +272,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
         url: stepObj.url,
         type: stepObj.type,
         interactive_type: stepObj.interactive_type,
+        params: stepObj.params,
       },
     });
   } else {
@@ -214,6 +281,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
         url: stepObj.url,
         type: stepObj.type,
         interactive_type: stepObj.interactive_type,
+        params: stepObj.params,
       },
     });
   }
@@ -292,17 +360,6 @@ function addBackButton(buttons, step) {
   });
 }
 
-function enableButton(event) {
-  const element = document.querySelector(`.step-next-button-${event.currentTarget.step_id}`);
-  element.removeAttribute('disabled');
-  element.classList.remove('disabled');
-}
-function disableButton(event) {
-  const element = document.querySelector(`.step-next-button-${event.currentTarget.step_id}`);
-  element.setAttribute('disabled', 'disabled');
-  element.classList.add('disabled');
-}
-
 function startTour(obj) {
   // We store the tour id to restart on site refresh
   sessionStorage.setItem('tourId', obj.id);
@@ -342,7 +399,7 @@ function startTour(obj) {
     ind = 1;
   }
 
-  // Now let's add all follow up steps
+  // Now let's add all followup steps
   const len = obj.steps.length;
   let buttons;
 
@@ -362,6 +419,12 @@ function startTour(obj) {
       && obj.steps[index].target
       && obj.steps[index].type === 'interactive'
     ) {
+      if (typeof obj.steps[index].params === 'string' && obj.steps[index].params !== '') {
+        obj.steps[index].params = JSON.parse(obj.steps[index].params);
+      } else {
+        obj.steps[index].params = [];
+      }
+
       const ele = document.querySelector(obj.steps[index].target);
       if (ele) {
         if (obj && obj.steps && obj.steps[index] && obj.steps[index].interactive_type) {
@@ -377,12 +440,63 @@ function startTour(obj) {
 
             case 'text':
               ele.step_id = index;
-              if (ele.hasAttribute('required') && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)) {
+              if (
+                (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
+                && (
+                  (ele.tagName.toLowerCase() === 'input' && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type))
+                  || ele.tagName.toLowerCase() === 'textarea'
+                )
+              ) {
                 ['input', 'focus'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
                   if (!sessionStorage.getItem('tourId')) {
                     return;
                   }
-                  if (event.target.value.trim().length) {
+                  if ((obj.steps[index].params.requiredvalue || '') !== '') {
+                    if (event.target.value.trim() === obj.steps[index].params.requiredvalue) {
+                      enableButton(event);
+                    } else {
+                      disableButton(event);
+                    }
+                  } else if (event.target.value.trim().length) {
+                    enableButton(event);
+                  } else {
+                    disableButton(event);
+                  }
+                }));
+              }
+              break;
+
+            case 'checkbox_radio':
+              ele.step_id = index;
+              if (
+                ele.tagName.toLowerCase() === 'input'
+                && (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
+                && ['checkbox', 'radio'].includes(ele.type)
+              ) {
+                ['click'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if (event.target.checked) {
+                    enableButton(event);
+                  } else {
+                    disableButton(event);
+                  }
+                }));
+              }
+              break;
+
+            case 'select':
+              ele.step_id = index;
+              if (
+                ele.tagName.toLowerCase() === 'select'
+                && (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
+              ) {
+                ['change'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if ((obj.steps[index].params.requiredvalue || '') !== '') {
+                    if (event.target.value.trim() === obj.steps[index].params.requiredvalue) {
+                      enableButton(event);
+                    } else {
+                      disableButton(event);
+                    }
+                  } else if (event.target.value.trim().length) {
                     enableButton(event);
                   } else {
                     disableButton(event);
@@ -410,8 +524,7 @@ function startTour(obj) {
     if (index < len - 1) {
       if (
         (obj && obj.steps[index].type !== 'interactive')
-        || (obj && obj.steps[index].interactive_type === 'text')
-        || (obj && obj.steps[index].interactive_type === 'other')
+        || (obj && ['text', 'checkbox_radio', 'select', 'other'].includes(obj.steps[index].interactive_type))
       ) {
         pushNextButton(buttons, obj.steps[index]);
       }
@@ -427,8 +540,16 @@ function startTour(obj) {
 }
 
 function loadTour(tourId) {
-  if (tourId > 0) {
-    const url = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=guidedtours&group=system&format=json&id=${tourId}`;
+  const tourUid = Number.parseInt(tourId, 10) > 0 ? '' : encodeURI(tourId);
+  const tourNumber = Number.parseInt(tourId, 10) > 0 ? Number.parseInt(tourId, 10) : 0;
+
+  if (tourNumber > 0 || tourUid !== '') {
+    let url = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=guidedtours&group=system&format=json`;
+    if (tourNumber > 0) {
+      url += `&id=${tourNumber}`;
+    } else {
+      url += `&uid=${tourUid}`;
+    }
     fetch(url)
       .then((response) => response.json())
       .then((result) => {
@@ -455,26 +576,35 @@ function loadTour(tourId) {
 }
 
 // Opt-in Start buttons
-document.querySelector('body').addEventListener('click', (event) => {
+document.querySelector('body').addEventListener('click', ({ target }) => {
   // Click somewhere else
-  if (!event.target || !event.target.classList.contains('button-start-guidedtour')) {
+  if (!target || !target.classList.contains('button-start-guidedtour')) {
     return;
   }
 
   // Click button but missing data-id
-  if (typeof event.target.getAttribute('data-id') === 'undefined' || event.target.getAttribute('data-id') <= 0) {
+  if (
+    (!target.hasAttribute('data-id') || target.getAttribute('data-id') <= 0)
+  && (!target.hasAttribute('data-gt-uid') || target.getAttribute('data-gt-uid') === '')
+  ) {
     Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')] });
     return;
   }
 
   sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
-  loadTour(event.target.getAttribute('data-id'));
+  loadTour(target.getAttribute('data-id') || target.getAttribute('data-gt-uid'));
 });
 
 // Start a given tour
-const tourId = sessionStorage.getItem('tourId');
+let tourId = sessionStorage.getItem('tourId');
 
-if (tourId > 0 && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
+// Autostart tours have priority
+if (Joomla.getOptions('com_guidedtours.autotour', '') !== '') {
+  sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
+  tourId = Joomla.getOptions('com_guidedtours.autotour');
+}
+
+if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
   loadTour(tourId);
 } else {
   emptyStorage();

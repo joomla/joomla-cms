@@ -12,7 +12,7 @@ namespace Joomla\CMS\Input;
 use Joomla\CMS\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,15 +28,15 @@ class Cookie extends Input
     /**
      * Constructor.
      *
-     * @param   array  $source   Ignored.
-     * @param   array  $options  Array of configuration parameters (Optional)
+     * @param   ?array  $source   Ignored.
+     * @param   array   $options  Array of configuration parameters (Optional)
      *
      * @since   1.7.0
      *
      * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Cookie instead
      */
-    public function __construct(array $source = null, array $options = [])
+    public function __construct(?array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -76,7 +76,7 @@ class Cookie extends Input
     public function set($name, $value, $options = [])
     {
         // BC layer to convert old method parameters.
-        if (is_array($options) === false) {
+        if (\is_array($options) === false) {
             trigger_deprecation(
                 'joomla/input',
                 '1.4.0',
@@ -87,7 +87,7 @@ class Cookie extends Input
                 __METHOD__
             );
 
-            $argList = func_get_args();
+            $argList = \func_get_args();
 
             $options = [
                 'expires'  => $argList[2] ?? 0,
@@ -109,23 +109,23 @@ class Cookie extends Input
             }
         } else {
             // Using the setcookie function before php 7.3, make sure we have default values.
-            if (array_key_exists('expires', $options) === false) {
+            if (\array_key_exists('expires', $options) === false) {
                 $options['expires'] = 0;
             }
 
-            if (array_key_exists('path', $options) === false) {
+            if (\array_key_exists('path', $options) === false) {
                 $options['path'] = '';
             }
 
-            if (array_key_exists('domain', $options) === false) {
+            if (\array_key_exists('domain', $options) === false) {
                 $options['domain'] = '';
             }
 
-            if (array_key_exists('secure', $options) === false) {
+            if (\array_key_exists('secure', $options) === false) {
                 $options['secure'] = false;
             }
 
-            if (array_key_exists('httponly', $options) === false) {
+            if (\array_key_exists('httponly', $options) === false) {
                 $options['httponly'] = false;
             }
 

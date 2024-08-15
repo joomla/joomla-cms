@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
         $this->db                 = Factory::getDbo();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -139,13 +139,14 @@ class HtmlView extends BaseHtmlView
         unset($this->data->text);
 
         // Check for layout from menu item.
-        $query = Factory::getApplication()->getMenu()->getActive()->query;
+        $active = Factory::getApplication()->getMenu()->getActive();
 
         if (
-            isset($query['layout']) && isset($query['option']) && $query['option'] === 'com_users'
-            && isset($query['view']) && $query['view'] === 'profile'
+            $active && isset($active->query['layout'])
+            && isset($active->query['option']) && $active->query['option'] === 'com_users'
+            && isset($active->query['view']) && $active->query['view'] === 'profile'
         ) {
-            $this->setLayout($query['layout']);
+            $this->setLayout($active->query['layout']);
         }
 
         // Escape strings for HTML output

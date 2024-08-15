@@ -11,8 +11,8 @@
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -152,8 +152,8 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // Since the the request from the frontend may time out, try allowing execution after disconnect.
-        if (function_exists('ignore_user_abort')) {
+        // Since the request from the frontend may time out, try allowing execution after disconnect.
+        if (\function_exists('ignore_user_abort')) {
             ignore_user_abort(true);
         }
 
@@ -198,7 +198,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        if (!strlen($hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
+        if (!\strlen($hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -288,7 +288,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
     /**
      * Enhance the scheduler config form by dynamically populating or removing display fields.
      *
-     * @param   EventInterface  $event  The onContentPrepareForm event.
+     * @param   Model\PrepareFormEvent  $event  The onContentPrepareForm event.
      *
      * @return void
      *
@@ -297,10 +297,10 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      *
      * @todo  Move to another plugin?
      */
-    public function enhanceSchedulerConfig(EventInterface $event): void
+    public function enhanceSchedulerConfig(Model\PrepareFormEvent $event): void
     {
-        /** @var Form $form */
-        [$form, $data] = array_values($event->getArguments());
+        $form = $event->getForm();
+        $data = $event->getData();
 
         if (
             $form->getName() !== 'com_config.component'

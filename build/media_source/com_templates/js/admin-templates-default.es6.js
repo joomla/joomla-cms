@@ -6,11 +6,11 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const folders = [...document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url')];
-    const innerLists = [...document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul')];
-    const openLists = [...document.querySelectorAll('.show > ul')];
-    const fileModalFolders = [...document.querySelectorAll('#fileModal .folder-url')];
-    const folderModalFolders = [...document.querySelectorAll('#folderModal .folder-url')];
+    const folders = document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url');
+    const innerLists = document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul');
+    const openLists = document.querySelectorAll('.show > ul');
+    const fileModalFolders = document.querySelectorAll('#fileModal .folder-url');
+    const folderModalFolders = document.querySelectorAll('#folderModal .folder-url');
     // Hide all the folders when the page loads
     innerLists.forEach((innerList) => {
       innerList.classList.add('hidden');
@@ -52,11 +52,11 @@
         event.currentTarget.classList.add('selected');
         const ismedia = event.currentTarget.dataset.base === 'media' ? 1 : 0;
 
-        [...document.querySelectorAll('#fileModal input.address')].forEach((element) => {
+        document.querySelectorAll('#fileModal input.address').forEach((element) => {
           element.value = event.currentTarget.getAttribute('data-id');
         });
 
-        [...document.querySelectorAll('#fileModal input[name="isMedia"]')].forEach((el) => {
+        document.querySelectorAll('#fileModal input[name="isMedia"]').forEach((el) => {
           el.value = ismedia;
         });
       });
@@ -74,18 +74,18 @@
         event.currentTarget.classList.add('selected');
         const ismedia = event.currentTarget.dataset.base === 'media' ? 1 : 0;
 
-        [...document.querySelectorAll('#folderModal input.address')].forEach((element) => {
+        document.querySelectorAll('#folderModal input.address').forEach((element) => {
           element.value = event.currentTarget.getAttribute('data-id');
         });
 
-        [...document.querySelectorAll('#folderModal input[name="isMedia"]')].forEach((el) => {
+        document.querySelectorAll('#folderModal input[name="isMedia"]').forEach((el) => {
           el.value = ismedia;
         });
       });
     });
 
     const treeContainer = document.querySelector('#treeholder .treeselect');
-    const listEls = [...treeContainer.querySelectorAll('.folder.show')];
+    const listEls = treeContainer.querySelectorAll('.folder.show');
     const filePathEl = document.querySelector('p.lead.hidden.path');
 
     if (filePathEl) {
@@ -101,7 +101,7 @@
           if (index === listEls.length - 1) {
             const parentUl = element.querySelector('ul');
 
-            [...parentUl.querySelectorAll('li')].forEach((liElement) => {
+            parentUl.querySelectorAll('li').forEach((liElement) => {
               const aEl = liElement.querySelector('a');
               const spanEl = aEl.querySelector('span');
 

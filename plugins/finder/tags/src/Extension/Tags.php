@@ -18,7 +18,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -246,16 +246,23 @@ final class Tags extends Adapter
         $item->addInstruction(Indexer::META_CONTEXT, 'author');
         $item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
 
+        // Get taxonomies to display
+        $taxonomies = $this->params->get('taxonomies', ['type', 'author', 'language']);
+
         // Add the type taxonomy data.
-        $item->addTaxonomy('Type', 'Tag');
+        if (\in_array('type', $taxonomies)) {
+            $item->addTaxonomy('Type', 'Tag');
+        }
 
         // Add the author taxonomy data.
-        if (!empty($item->author) || !empty($item->created_by_alias)) {
+        if (\in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
             $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author);
         }
 
         // Add the language taxonomy data.
-        $item->addTaxonomy('Language', $item->language);
+        if (\in_array('language', $taxonomies)) {
+            $item->addTaxonomy('Language', $item->language);
+        }
 
         // Get content extras.
         Helper::getContentExtras($item);
@@ -279,9 +286,9 @@ final class Tags extends Adapter
     /**
      * Method to get the SQL query used to retrieve the list of content items.
      *
-     * @param   mixed  $query  A DatabaseQuery object or null.
+     * @param   mixed  $query  An object implementing QueryInterface or null.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   3.1
      */
@@ -290,7 +297,7 @@ final class Tags extends Adapter
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
             ->select('a.id, a.title, a.alias, a.description AS summary')
             ->select('a.created_time AS start_date, a.created_user_id AS created_by')
             ->select('a.metakey, a.metadesc, a.metadata, a.language, a.access')
@@ -321,7 +328,7 @@ final class Tags extends Adapter
     /**
      * Method to get a SQL query to load the published and access states for the given tag.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   3.1
      */
@@ -341,7 +348,7 @@ final class Tags extends Adapter
      *
      * @param   string  $time  The modified timestamp.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   3.1
      */

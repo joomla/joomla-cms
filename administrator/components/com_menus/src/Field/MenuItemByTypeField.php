@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -132,7 +132,7 @@ class MenuItemByTypeField extends GroupedlistField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -229,7 +229,7 @@ class MenuItemByTypeField extends GroupedlistField
                     $levelPrefix . $text . $lang,
                     'value',
                     'text',
-                    in_array($link->type, $this->disable)
+                    \in_array($link->type, $this->disable)
                 );
             }
         } else {
@@ -258,7 +258,7 @@ class MenuItemByTypeField extends GroupedlistField
                         $levelPrefix . $text . $lang,
                         'value',
                         'text',
-                        in_array($link->type, $this->disable)
+                        \in_array($link->type, $this->disable)
                     );
                 }
             }

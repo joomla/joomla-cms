@@ -11,9 +11,10 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,13 +27,14 @@ class Language extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__languages', 'lang_id', $db);
+        parent::__construct('#__languages', 'lang_id', $db, $dispatcher);
     }
 
     /**
@@ -72,7 +74,7 @@ class Language extends Table
      */
     public function store($updateNulls = false)
     {
-        $table = Table::getInstance('Language', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         // Verify that the language code is unique
         if ($table->load(['lang_code' => $this->lang_code]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
@@ -131,17 +133,17 @@ class Language extends Table
      * The extended class can define a table and id to lookup.  If the
      * asset does not exist it will be created.
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     Id to look up
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     Id to look up
      *
      * @return  integer
      *
      * @since   3.8.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
-        $asset   = Table::getInstance('asset');
+        $asset   = new Asset($this->getDbo(), $this->getDispatcher());
 
         if ($asset->loadByName('com_languages')) {
             $assetId = $asset->id;

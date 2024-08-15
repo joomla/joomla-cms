@@ -20,7 +20,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -130,33 +130,33 @@ class ModuleAdapter extends InstallerAdapter
 
         foreach ($site_list as $module) {
             if (file_exists(JPATH_SITE . "/modules/$module/$module.xml")) {
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'module');
-                $extension->set('client_id', $site_info->id);
-                $extension->set('element', $module);
-                $extension->set('folder', '');
-                $extension->set('name', $module);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = clone $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'module';
+                $extension->client_id      = $site_info->id;
+                $extension->element        = $module;
+                $extension->folder         = '';
+                $extension->name           = $module;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = clone $extension;
             }
         }
 
         foreach ($admin_list as $module) {
             if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml")) {
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'module');
-                $extension->set('client_id', $admin_info->id);
-                $extension->set('element', $module);
-                $extension->set('folder', '');
-                $extension->set('name', $module);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = clone $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'module';
+                $extension->client_id      = $admin_info->id;
+                $extension->element        = $module;
+                $extension->folder         = '';
+                $extension->name           = $module;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = clone $extension;
             }
         }
 
@@ -359,14 +359,14 @@ class ModuleAdapter extends InstallerAdapter
             $extension = $this->getElement();
 
             if ($extension) {
-                $source = $path ?: ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
+                $source = $path ?: $client . '/modules/' . $extension;
                 $folder = (string) $this->getManifest()->files->attributes()->folder;
 
                 if ($folder && file_exists($path . '/' . $folder)) {
                     $source = $path . '/' . $folder;
                 }
 
-                $client = (string) $this->getManifest()->attributes()->client;
+                $client = (string) $this->getManifest()->attributes()->client ?: 'site';
                 $this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
             }
         }
@@ -421,11 +421,11 @@ class ModuleAdapter extends InstallerAdapter
 
         if ($this->parent->extension->store()) {
             return true;
-        } else {
-            Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
-
-            return false;
         }
+
+        Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+
+        return false;
     }
 
     /**

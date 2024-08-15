@@ -12,7 +12,7 @@ namespace Joomla\CMS\Event\Workflow;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,7 +47,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
         }
 
         if (!\array_key_exists('extensionName', $arguments) || !\array_key_exists('section', $arguments)) {
-            $parts = \explode('.', $arguments['extension']);
+            $parts = explode('.', $arguments['extension']);
 
             $arguments['extensionName'] = $arguments['extensionName'] ?? $parts[0];
             $arguments['section']       = $arguments['section'] ?? $parts[1];

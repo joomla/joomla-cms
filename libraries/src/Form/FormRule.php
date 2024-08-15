@@ -12,7 +12,7 @@
 
 namespace Joomla\CMS\Form;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -69,7 +69,7 @@ class FormRule
      * @since   1.6
      * @throws  \UnexpectedValueException if rule is invalid.
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // Check for a valid regex.
         if (empty($this->regex)) {
@@ -80,7 +80,7 @@ class FormRule
         static $unicodePropertiesSupport = null;
 
         if ($unicodePropertiesSupport === null) {
-            $unicodePropertiesSupport = (bool) @\preg_match('/\pL/u', 'a');
+            $unicodePropertiesSupport = (bool) @preg_match('/\pL/u', 'a');
         }
 
         // Add unicode property support if available.

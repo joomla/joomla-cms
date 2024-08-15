@@ -15,7 +15,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 
@@ -33,6 +33,7 @@ use Joomla\Database\DatabaseAwareTrait;
 final class Cookie extends CMSPlugin
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Reports the privacy related capabilities for this plugin to site administrators.
@@ -89,7 +90,7 @@ final class Cookie extends CMSPlugin
         $cookieArray = explode('.', $cookieValue);
 
         // Check for valid cookie value
-        if (count($cookieArray) !== 2) {
+        if (\count($cookieArray) !== 2) {
             // Destroy the cookie in the browser.
             $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
             Log::add('Invalid cookie detected.', Log::WARNING, 'error');
@@ -135,7 +136,7 @@ final class Cookie extends CMSPlugin
             return false;
         }
 
-        if (count($results) !== 1) {
+        if (\count($results) !== 1) {
             // Destroy the cookie in the browser.
             $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
             $response->status = Authentication::STATUS_FAILURE;
@@ -194,7 +195,7 @@ final class Cookie extends CMSPlugin
 
         if ($result) {
             // Bring this in line with the rest of the system
-            $user = User::getInstance($result->id);
+            $user = $this->getUserFactory()->loadUserById($result->id);
 
             // Set response data.
             $response->username = $result->username;

@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -20,13 +19,16 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Contact\Site\View\Contact\HtmlView $this */
 $tparams = $this->item->params;
 $canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
-$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === Factory::getUser()->id);
+$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === $this->getCurrentUser()->id);
 $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
+$htag2   = ($tparams->get('show_page_heading') && $tparams->get('show_name')) ? 'h3' : 'h2';
+
 ?>
 
-<div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
+<div class="com-contact contact">
     <?php if ($tparams->get('show_page_heading')) : ?>
         <h1>
             <?php echo $this->escape($tparams->get('page_heading')); ?>
@@ -39,7 +41,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
                 <?php if ($this->item->published == 0) : ?>
                     <span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
                 <?php endif; ?>
-                <span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
+                <span class="contact-name"><?php echo $this->item->name; ?></span>
             </<?php echo $htag; ?>>
         </div>
     <?php endif; ?>
@@ -57,16 +59,16 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
     <?php $show_contact_category = $tparams->get('show_contact_category'); ?>
 
     <?php if ($show_contact_category === 'show_no_link') : ?>
-        <h3>
+        <<?php echo $htag2; ?>>
             <span class="contact-category"><?php echo $this->item->category_title; ?></span>
-        </h3>
+        </<?php echo $htag2; ?>>
     <?php elseif ($show_contact_category === 'show_with_link') : ?>
         <?php $contactLink = RouteHelper::getCategoryRoute($this->item->catid, $this->item->language); ?>
-        <h3>
+        <<?php echo $htag2; ?>>
             <span class="contact-category"><a href="<?php echo $contactLink; ?>">
                 <?php echo $this->escape($this->item->category_title); ?></a>
             </span>
-        </h3>
+        </<?php echo $htag2; ?>>
     <?php endif; ?>
 
     <?php echo $this->item->event->afterDisplayTitle; ?>
@@ -98,7 +100,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
     <?php if ($this->params->get('show_info', 1)) : ?>
         <div class="com-contact__container">
-            <?php echo '<h3>' . Text::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
+            <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_DETAILS') . '</' . $htag2 . '>'; ?>
 
             <?php if ($this->item->image && $tparams->get('show_image')) : ?>
                 <div class="com-contact__thumbnail thumbnail">
@@ -107,7 +109,6 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
                         [
                             'src'      => $this->item->image,
                             'alt'      => $this->item->name,
-                            'itemprop' => 'image',
                         ]
                     ); ?>
                 </div>
@@ -116,7 +117,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
             <?php if ($this->item->con_position && $tparams->get('show_position')) : ?>
                 <dl class="com-contact__position contact-position dl-horizontal">
                     <dt><?php echo Text::_('COM_CONTACT_POSITION'); ?>:</dt>
-                    <dd itemprop="jobTitle">
+                    <dd>
                         <?php echo $this->item->con_position; ?>
                     </dd>
                 </dl>
@@ -136,23 +137,25 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
     <?php endif; ?>
 
     <?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>
-        <?php echo '<h3>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
+        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</' . $htag2 . '>'; ?>
 
         <?php echo $this->loadTemplate('form'); ?>
     <?php endif; ?>
 
     <?php if ($tparams->get('show_links')) : ?>
+        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_LINKS') . '</' . $htag2 . '>'; ?>
+
         <?php echo $this->loadTemplate('links'); ?>
     <?php endif; ?>
 
     <?php if ($tparams->get('show_articles') && $this->item->user_id && $this->item->articles) : ?>
-        <?php echo '<h3>' . Text::_('JGLOBAL_ARTICLES') . '</h3>'; ?>
+        <?php echo '<' . $htag2 . '>' . Text::_('JGLOBAL_ARTICLES') . '</' . $htag2 . '>'; ?>
 
         <?php echo $this->loadTemplate('articles'); ?>
     <?php endif; ?>
 
     <?php if ($tparams->get('show_profile') && $this->item->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
-        <?php echo '<h3>' . Text::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
+        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_PROFILE') . '</' . $htag2 . '>'; ?>
 
         <?php echo $this->loadTemplate('profile'); ?>
     <?php endif; ?>
@@ -162,7 +165,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
     <?php endif; ?>
 
     <?php if ($this->item->misc && $tparams->get('show_misc')) : ?>
-        <?php echo '<h3>' . Text::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
+        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_OTHER_INFORMATION') . '</' . $htag2 . '>'; ?>
 
         <div class="com-contact__miscinfo contact-miscinfo">
             <dl class="dl-horizontal">

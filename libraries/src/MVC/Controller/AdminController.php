@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -20,7 +20,7 @@ use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,6 +33,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class AdminController extends BaseController
 {
+    /**
+     * The Application. Redeclared to show this class requires a web application.
+     *
+     * @var    CMSWebApplicationInterface
+     * @since  5.0.0
+     */
+    protected $app;
+
     /**
      * The URL option for the component.
      *
@@ -60,16 +68,17 @@ class AdminController extends BaseController
     /**
      * Constructor.
      *
-     * @param   array                 $config   An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                          'view_path' (this list is not meant to be comprehensive).
-     * @param   ?MVCFactoryInterface  $factory  The factory.
-     * @param   ?CMSApplication       $app      The Application for the dispatcher
-     * @param   ?Input                $input    The Input object for the request
+     * @param   array                        $config   An optional associative array of configuration settings.
+     *                                                 Recognized key values include 'name', 'default_task',
+     *                                                 'model_path', and 'view_path' (this list is not meant to be
+     *                                                 comprehensive).
+     * @param   ?MVCFactoryInterface         $factory  The factory.
+     * @param   ?CMSWebApplicationInterface  $app      The Application for the dispatcher
+     * @param   ?Input                       $input    The Input object for the request
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -134,7 +143,7 @@ class AdminController extends BaseController
         $cid = array_filter($cid);
 
         if (empty($cid)) {
-            $this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
+            $this->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             // Get the model.
             $model = $this->getModel();
@@ -196,7 +205,7 @@ class AdminController extends BaseController
         $cid = array_filter($cid);
 
         if (empty($cid)) {
-            $this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
+            $this->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             // Get the model.
             $model = $this->getModel();
@@ -209,7 +218,10 @@ class AdminController extends BaseController
 
                 if ($value === 1) {
                     if ($errors) {
-                        $this->app->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)), 'error');
+                        $this->app->enqueueMessage(
+                            Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)),
+                            CMSWebApplicationInterface::MSG_ERROR
+                        );
                     } else {
                         $ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
                     }
@@ -267,13 +279,13 @@ class AdminController extends BaseController
             $this->setRedirect($redirect, $message, 'error');
 
             return false;
-        } else {
-            // Reorder succeeded.
-            $message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-            $this->setRedirect($redirect, $message);
-
-            return true;
         }
+
+        // Reorder succeeded.
+        $message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+        $this->setRedirect($redirect, $message);
+
+        return true;
     }
 
     /**
@@ -314,13 +326,13 @@ class AdminController extends BaseController
             $this->setRedirect($redirect, $message, 'error');
 
             return false;
-        } else {
-            // Reorder succeeded.
-            $this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-            $this->setRedirect($redirect);
-
-            return true;
         }
+
+        // Reorder succeeded.
+        $this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+        $this->setRedirect($redirect);
+
+        return true;
     }
 
     /**
@@ -335,7 +347,7 @@ class AdminController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->post->get('cid', [], 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
@@ -356,19 +368,19 @@ class AdminController extends BaseController
             );
 
             return false;
-        } else {
-            // Checkin succeeded.
-            $message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
-            $this->setRedirect(
-                Route::_(
-                    'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
-                    false
-                ),
-                $message
-            );
-
-            return true;
         }
+
+        // Checkin succeeded.
+        $message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
+        $this->setRedirect(
+            Route::_(
+                'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
+                false
+            ),
+            $message
+        );
+
+        return true;
     }
 
     /**

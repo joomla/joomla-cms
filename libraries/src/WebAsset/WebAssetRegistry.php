@@ -10,14 +10,15 @@
 namespace Joomla\CMS\WebAsset;
 
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\Event\Dispatcher as EventDispatcher;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -151,7 +152,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
     {
         $type = strtolower($type);
 
-        if (!array_key_exists($type, $this->assets)) {
+        if (!\array_key_exists($type, $this->assets)) {
             $this->assets[$type] = [];
         }
 
@@ -221,11 +222,11 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
     /**
      * Prepare new Asset instance.
      *
-     * @param   string  $name          The asset name
-     * @param   string  $uri           The URI for the asset
-     * @param   array   $options       Additional options for the asset
-     * @param   array   $attributes    Attributes for the asset
-     * @param   array   $dependencies  Asset dependencies
+     * @param   string   $name          The asset name
+     * @param   ?string  $uri           The URI for the asset
+     * @param   array    $options       Additional options for the asset
+     * @param   array    $attributes    Attributes for the asset
+     * @param   array    $dependencies  Asset dependencies
      *
      * @return  WebAssetItem
      *
@@ -233,7 +234,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function createAsset(
         string $name,
-        string $uri = null,
+        ?string $uri = null,
         array $options = [],
         array $attributes = [],
         array $dependencies = []
@@ -442,7 +443,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
         $event = AbstractEvent::create(
             'onWebAssetRegistryChangedAsset' . ucfirst($change),
             [
-                'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetRegistryAssetChanged',
+                'eventClass' => WebAssetRegistryAssetChanged::class,
                 'subject'    => $this,
                 'assetType'  => $type,
                 'asset'      => $asset,
