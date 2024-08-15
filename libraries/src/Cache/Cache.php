@@ -67,8 +67,8 @@ class Cache
 
         // Overwrite default options with given options
         foreach ($options as $option => $value) {
-            if (isset($options[$option]) && $options[$option] !== '') {
-                $this->_options[$option] = $options[$option];
+            if ($value !== null && $value !== '') {
+                $this->_options[$option] = $value;
             }
         }
 

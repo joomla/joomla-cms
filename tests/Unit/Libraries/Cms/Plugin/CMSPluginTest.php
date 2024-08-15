@@ -378,7 +378,7 @@ class CMSPluginTest extends UnitTestCase
         $dispatcher = new Dispatcher();
 
         $plugin = new class ($dispatcher, []) extends CMSPlugin {
-            public function onTest(\stdClass $event = null)
+            public function onTest(?\stdClass $event = null)
             {
             }
         };
