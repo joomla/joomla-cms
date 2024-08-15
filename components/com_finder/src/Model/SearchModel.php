@@ -471,37 +471,35 @@ class SearchModel extends ListModel
         $params   = $app->getParams();
         $user     = $this->getCurrentUser();
         $language = $app->getLanguage();
+        $options  = [];
 
         $this->setState('filter.language', Multilanguage::isEnabled());
-
-        $request = $input->request;
-        $options = [];
 
         // Get the empty query setting.
         $options['empty'] = $params->get('allow_empty_query', 0);
 
         // Get the static taxonomy filters.
-        $options['filter'] = $request->getInt('f', $params->get('f', ''));
+        $options['filter'] = $input->getInt('f', $params->get('f', ''));
 
         // Get the dynamic taxonomy filters.
-        $options['filters'] = $request->get('t', $params->get('t', []), 'array');
+        $options['filters'] = $input->get('t', $params->get('t', []), 'array');
 
         // Get the query string.
-        $options['input'] = $request->getString('q', $params->get('q', ''));
+        $options['input'] = $input->getString('q', $params->get('q', ''));
 
         // Get the query language.
-        $options['language'] = $request->getCmd('l', $params->get('l', $language->getTag()));
+        $options['language'] = $input->getCmd('l', $params->get('l', $language->getTag()));
 
         // Set the word match mode
         $options['word_match'] = $params->get('word_match', 'exact');
 
         // Get the start date and start date modifier filters.
-        $options['date1'] = $request->getString('d1', $params->get('d1', ''));
-        $options['when1'] = $request->getString('w1', $params->get('w1', ''));
+        $options['date1'] = $input->getString('d1', $params->get('d1', ''));
+        $options['when1'] = $input->getString('w1', $params->get('w1', ''));
 
         // Get the end date and end date modifier filters.
-        $options['date2'] = $request->getString('d2', $params->get('d2', ''));
-        $options['when2'] = $request->getString('w2', $params->get('w2', ''));
+        $options['date2'] = $input->getString('d2', $params->get('d2', ''));
+        $options['when2'] = $input->getString('w2', $params->get('w2', ''));
 
         // Load the query object.
         $this->searchquery = new Query($options, $this->getDatabase());

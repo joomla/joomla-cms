@@ -13,7 +13,9 @@ namespace Joomla\CMS\Form\Field;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\Database\ParameterType;
 
 /**
  * Provides a modal content selection
@@ -71,6 +73,30 @@ class ModalSelectField extends FormField
     protected $buttonIcons = [];
 
     /**
+     * The table name to select the title related to the field value.
+     *
+     * @var     string
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $sql_title_table = '';
+
+    /**
+     * The column name in the $sql_title_table, to select the title related to the field value.
+     *
+     * @var     string
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $sql_title_column = '';
+
+    /**
+     * The key name in the $sql_title_table that represent the field value, to select the title related to the field value.
+     *
+     * @var     string
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $sql_title_key = '';
+
+    /**
      * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
@@ -97,7 +123,10 @@ class ModalSelectField extends FormField
         $this->__set('clear', (string) $this->element['clear'] != 'false');
 
         // Prepare Urls and titles
-        foreach (['urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit', 'iconSelect'] as $attr) {
+        foreach (
+            ['urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit', 'iconSelect',
+                     'sql_title_table', 'sql_title_column', 'sql_title_key',] as $attr
+        ) {
             $this->__set($attr, (string) $this->element[$attr]);
         }
 
@@ -140,6 +169,10 @@ class ModalSelectField extends FormField
                 return $this->modalTitles['edit'] ?? '';
             case 'iconSelect':
                 return $this->buttonIcons['select'] ?? '';
+            case 'sql_title_table':
+            case 'sql_title_column':
+            case 'sql_title_key':
+                return $this->$name;
             default:
                 return parent::__get($name);
         }
@@ -194,6 +227,11 @@ class ModalSelectField extends FormField
             case 'iconSelect':
                 $this->buttonIcons['select'] = (string) $value;
                 break;
+            case 'sql_title_table':
+            case 'sql_title_column':
+            case 'sql_title_key':
+                $this->$name = (string) $value;
+                break;
             default:
                 parent::__set($name, $value);
         }
@@ -230,6 +268,23 @@ class ModalSelectField extends FormField
      */
     protected function getValueTitle()
     {
+        // Selecting the title for the field value, when required info were given
+        if ($this->value && $this->sql_title_table && $this->sql_title_column && $this->sql_title_key) {
+            try {
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select($db->quoteName($this->sql_title_column))
+                    ->from($db->quoteName($this->sql_title_table))
+                    ->where($db->quoteName($this->sql_title_key) . ' = :value')
+                    ->bind(':value', $this->value, ParameterType::INTEGER);
+                $db->setQuery($query);
+
+                return $db->loadResult() ?: $this->value;
+            } catch (\Throwable $e) {
+                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            }
+        }
+
         return $this->value;
     }
 
