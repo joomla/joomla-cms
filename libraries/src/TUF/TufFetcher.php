@@ -20,6 +20,7 @@ use Tuf\Exception\Attack\RollbackAttackException;
 use Tuf\Exception\Attack\SignatureThresholdException;
 use Tuf\Exception\DownloadSizeException;
 use Tuf\Exception\MetadataException;
+use Tuf\Exception\TufException;
 use Tuf\Loader\SizeCheckingLoader;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -28,6 +29,9 @@ use Tuf\Loader\SizeCheckingLoader;
 
 /**
  * @since  5.1.0
+ *
+ * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
+ *           Don't extend this class in your own code, it is subject to change without notice.
  */
 class TufFetcher
 {
@@ -133,6 +137,8 @@ class TufFetcher
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), CMSApplicationInterface::MSG_ERROR);
         } catch (SignatureThresholdException $e) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), CMSApplicationInterface::MSG_ERROR);
+        } catch (TufException $e) {
+            $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ERROR_GENERIC'), CMSApplicationInterface::MSG_ERROR);
         }
 
         $this->rollBackTufMetadata();

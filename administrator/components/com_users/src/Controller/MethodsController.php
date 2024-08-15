@@ -39,14 +39,14 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
     /**
      * Public constructor
      *
-     * @param   array                     $config   Plugin configuration
-     * @param   MVCFactoryInterface|null  $factory  MVC Factory for the com_users component
-     * @param   CMSApplication|null       $app      CMS application object
-     * @param   Input|null                $input    Joomla CMS input object
+     * @param   array                 $config   Plugin configuration
+     * @param   ?MVCFactoryInterface  $factory  MVC Factory for the com_users component
+     * @param   ?CMSApplication       $app      CMS application object
+     * @param   ?Input                $input    Joomla CMS input object
      *
      * @since 4.2.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         // We have to tell Joomla what is the name of the view, otherwise it defaults to the name of the *component*.
         $config['default_view'] = 'Methods';

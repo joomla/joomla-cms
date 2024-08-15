@@ -27,7 +27,8 @@ module.exports.compile = async (file) => {
   await FsExtra.mkdirs(dirname(cssFile), {});
   await Fs.writeFile(
     cssFile,
-    code,
+    `@charset "UTF-8";
+${code}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 
@@ -41,7 +42,7 @@ module.exports.compile = async (file) => {
   FsExtra.mkdirs(dirname(cssFile.replace('.css', '.min.css')), {});
   await Fs.writeFile(
     cssFile.replace('.css', '.min.css'),
-    cssMin.code,
+    `@charset "UTF-8";${cssMin.code}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 

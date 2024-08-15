@@ -104,7 +104,8 @@ class ExecRuleHelper
             case 'cron-expression':
                 // @todo: testing
                 $cExp     = new CronExpression((string) $this->rule->exp);
-                $nextExec = $cExp->getNextRunDate('now', 0, false, 'UTC');
+                $nextExec = $cExp->getNextRunDate('now', 0, false, Factory::getApplication()->get('offset', 'UTC'));
+                $nextExec->setTimezone(new \DateTimeZone('UTC'));
                 $nextExec = $string ? $this->dateTimeToSql($nextExec) : $nextExec;
                 break;
             default:

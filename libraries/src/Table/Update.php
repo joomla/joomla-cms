@@ -26,7 +26,7 @@ use Joomla\Event\DispatcherInterface;
 class Update extends Table
 {
     /**
-     * Ensure the params in json encoded in the bind method
+     * Ensure the params are json encoded in the bind method
      *
      * @var    array
      * @since  4.0.0
@@ -41,7 +41,7 @@ class Update extends Table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__updates', 'update_id', $db, $dispatcher);
     }

@@ -57,7 +57,7 @@ class TourTable extends Table implements CurrentUserInterface
      *
      * @since   4.3.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__guidedtours', 'id', $db, $dispatcher);
     }
@@ -107,6 +107,12 @@ class TourTable extends Table implements CurrentUserInterface
         // set missing Uid
         if (empty($this->uid)) {
             $this->setTourUid();
+        }
+
+        // set autostart
+        // @todo: remove once autostart has been added to the tour form
+        if (\is_null($this->autostart)) {
+            $this->autostart = 0;
         }
 
         // make sure the uid is unique
