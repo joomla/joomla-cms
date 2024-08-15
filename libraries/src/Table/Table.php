@@ -160,14 +160,14 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * be overridden by child classes to explicitly set the table and key fields
      * for a particular database table.
      *
-     * @param   string               $table       Name of the table to model.
-     * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
-     * @param   DatabaseDriver       $db          DatabaseDriver object.
-     * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
+     * @param   string                $table       Name of the table to model.
+     * @param   mixed                 $key         Name of the primary key field in the table or array of field names that compose the primary key.
+     * @param   DatabaseDriver        $db          DatabaseDriver object.
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct($table, $key, DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         // Set internal variables.
         $this->_tbl = $table;
@@ -424,14 +424,14 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * By default, all assets are registered to the ROOT node with ID, which will default to 1 if none exists.
      * An extended class can define a table and ID to lookup.  If the asset does not exist it will be created.
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     Id to look up
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     Id to look up
      *
      * @return  integer
      *
      * @since   1.7.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         // For simple cases, parent to the asset root.
         $assets = new Asset($this->getDbo(), $this->getDispatcher());
@@ -1380,7 +1380,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Handle the non-static case.
         if (isset($this) && ($this instanceof Table) && \is_null($against)) {
             $checkedOutField = $this->getColumnAlias('checked_out');
-            $against         = $this->get($checkedOutField);
+            $against         = $this->$checkedOutField;
         }
 
         // The item is not checked out or is checked out by the same user.
