@@ -88,13 +88,13 @@ class DatabaseModel extends BaseInstallationModel
             return DatabaseHelper::getDbo(
                 $options->db_type,
                 $options->db_host,
-                $options->db_port,
                 $options->db_user,
                 $options->db_pass_plain,
                 $options->db_name,
                 $options->db_prefix,
                 $select,
-                DatabaseHelper::getEncryptionSettings($options)
+                DatabaseHelper::getEncryptionSettings($options),
+                $options->db_port,
             );
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');

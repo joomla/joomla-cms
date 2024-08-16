@@ -72,7 +72,7 @@ abstract class DatabaseHelper
      *
      * @since   1.6
      */
-    public static function getDbo($driver, $host, $port, $user, $password, $database, $prefix, $select = true, array $ssl = [])
+    public static function getDbo($driver, $host, $user, $password, $database, $prefix, $select = true, array $ssl = [], $port = 3306)
     {
         static $db;
 
