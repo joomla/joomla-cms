@@ -109,14 +109,14 @@ class TaskModel extends AdminModel
     /**
      * TaskModel constructor. Needed just to set $app
      *
-     * @param   array                      $config       An array of configuration options
-     * @param   MVCFactoryInterface|null   $factory      The factory
-     * @param   FormFactoryInterface|null  $formFactory  The form factory
+     * @param   array                  $config       An array of configuration options
+     * @param   ?MVCFactoryInterface   $factory      The factory
+     * @param   ?FormFactoryInterface  $formFactory  The form factory
      *
      * @since  4.1.0
      * @throws \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config['events_map'] = $config['events_map'] ?? [];
 
@@ -699,7 +699,7 @@ class TaskModel extends AdminModel
                 // Prune items that are already at the given state.
                 $lockedColumnName = $table->getColumnAlias('locked');
 
-                if (property_exists($table, $lockedColumnName) && \is_null($table->get($lockedColumnName))) {
+                if (property_exists($table, $lockedColumnName) && \is_null($table->$lockedColumnName)) {
                     unset($pks[$i]);
                 }
             }

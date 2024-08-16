@@ -31,12 +31,12 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
-  - name: phan
-    image: joomlaprojects/docker-images:php8.1-ast
+  - name: phpstan
+    image: joomlaprojects/docker-images:php8.2
     depends_on: [ phpcs ]
     failure: ignore
     commands:
-      - ./libraries/vendor/bin/phan
+      - ./libraries/vendor/bin/phpstan
 
   - name: npm
     image: node:20-bullseye-slim
@@ -162,6 +162,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpnext-system-mysql
     depends_on:
@@ -177,6 +181,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmin-system-postgres
     depends_on:
@@ -189,6 +197,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-postgres
     depends_on:
@@ -216,6 +228,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
@@ -414,6 +430,6 @@ trigger:
 
 ---
 kind: signature
-hmac: bd41423d85abadb875c8fc911f87596ead88b62d26fabf6a283737c5a7b4c5b9
+hmac: 903759c59028cc757ba3faef044e3b9122d00f99ea0367caadceb710cb88030f
 
 ...

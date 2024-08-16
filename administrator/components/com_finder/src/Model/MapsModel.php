@@ -39,7 +39,7 @@ class MapsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -289,12 +289,6 @@ class MapsModel extends ListModel
      */
     protected function populateState($ordering = 'branch_title, a.lft', $direction = 'ASC')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-        $this->setState('filter.branch', $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '', 'cmd'));
-        $this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
-
         // Load the parameters.
         $params = ComponentHelper::getParams('com_finder');
         $this->setState('params', $params);
