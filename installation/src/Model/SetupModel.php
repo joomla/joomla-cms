@@ -255,7 +255,7 @@ class SetupModel extends BaseInstallationModel
         try {
             $db = DatabaseHelper::getDbo(
                 $options->db_type,
-                $options->db_host,                
+                $options->db_host,
                 $options->db_user,
                 $options->db_pass_plain,
                 $options->db_name,
