@@ -417,8 +417,8 @@ trait DisplayTrait
         if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
             $exclusionsArray = [];
             foreach ($extraOptions->sandbox_iframes_exclusions as $value) {
-                if (isset($value->exclusion_url)) {
-                    $exclusionsArray[] = $value->exclusion_url;
+                if (isset($value->exclusion_domain)) {
+                    $exclusionsArray[] = $value->exclusion_domain;
                 }
             }
             // Join the URLs into a comma-separated string and add to the sandbox_iframes_exclusions list

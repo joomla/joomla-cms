@@ -248,7 +248,7 @@
 			>
 			<form>
 				<field
-					name="exclusion_url"
+					name="exclusion_domain"
 					type="text"
 					label="PLG_TINY_FIELD_SANDBOX_IFRAMES_EXCLUSION_DOMAIN_LABEL"
 					required="true"
