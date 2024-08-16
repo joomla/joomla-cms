@@ -173,7 +173,7 @@ class UserController extends FormController
     public function active(): void
     {
         // Get the ID of the user
-        $userId          = $this->input->getString('userid', '');
+        $userId = $this->input->getString('userid', '');
 
         // Prepare the default response
         $responseError   = false;
