@@ -83,8 +83,7 @@ for ($i = $stars; $i < 5; $i++) {
 ?>
 <div class="content_rating" role="img" aria-label="<?php echo Text::sprintf('PLG_VOTE_STAR_RATING', $rating); ?>">
     <?php if ($rcount) : ?>
-        <div class="visually-hidden" itemscope itemtype="https://schema.org/Product">
-            <span itemprop="name"><?php echo $row->title; ?></span>
+        <div class="visually-hidden">
             <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
                 <?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
                 <meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
