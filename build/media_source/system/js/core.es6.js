@@ -153,9 +153,9 @@ Joomla.extend = (destination, source) => {
     newDestination = {};
   }
 
-    Object.keys(source).forEach((key) => {
-      newDestination[key] = source[key];
-    });
+  Object.keys(source).forEach((key) => {
+    newDestination[key] = source[key];
+  });
 
   return destination;
 };
@@ -188,22 +188,22 @@ Joomla.getOptions = (key, def) => {
   return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
 };
 
-  /**
-   * Load new options from given options object or from Element
-   *
-   * @param  {Object|undefined}  options  The options object to load.
-   * Eg {"com_foobar" : {"option1": 1, "option2": 2}}
-   *
-   * @since 3.7.0
-   */
-  Joomla.loadOptions = (options) => {
-    // Load form the script container
-    if (!options) {
-      let counter = 0;
+/**
+ * Load new options from given options object or from Element
+ *
+ * @param  {Object|undefined}  options  The options object to load.
+ * Eg {"com_foobar" : {"option1": 1, "option2": 2}}
+ *
+ * @since 3.7.0
+ */
+Joomla.loadOptions = (options) => {
+  // Load form the script container
+  if (!options) {
+    let counter = 0;
 
-      document.querySelectorAll('.joomla-script-options.new').forEach((element) => {
-        const str = element.text || element.textContent;
-        const option = JSON.parse(str);
+    document.querySelectorAll('.joomla-script-options.new').forEach((element) => {
+      const str = element.text || element.textContent;
+      const option = JSON.parse(str);
 
       if (option) {
         Joomla.loadOptions(option);
@@ -218,27 +218,27 @@ Joomla.getOptions = (key, def) => {
     }
   }
 
-    // Initial loading
-    if (!Joomla.optionsStorage) {
-      Joomla.optionsStorage = options || {};
-    } else if (options) {
-      // Merge with existing
-      Object.keys(options).forEach((key) => {
-        /**
-         * If both existing and new options are objects, merge them with Joomla.extend().
-         * But test for new option being null, as null is an object, but we want to allow
-         * clearing of options with ...
-         *
-         * Joomla.loadOptions({'joomla.jtext': null});
-         */
-        if (options[key] !== null && typeof Joomla.optionsStorage[key] === 'object' && typeof options[key] === 'object') {
-          Joomla.optionsStorage[key] = Joomla.extend(Joomla.optionsStorage[key], options[key]);
-        } else {
-          Joomla.optionsStorage[key] = options[key];
-        }
-      });
-    }
-  };
+  // Initial loading
+  if (!Joomla.optionsStorage) {
+    Joomla.optionsStorage = options || {};
+  } else if (options) {
+    // Merge with existing
+    Object.keys(options).forEach((key) => {
+      /**
+       * If both existing and new options are objects, merge them with Joomla.extend().
+       * But test for new option being null, as null is an object, but we want to allow
+       * clearing of options with ...
+       *
+       * Joomla.loadOptions({'joomla.jtext': null});
+       */
+      if (options[key] !== null && typeof Joomla.optionsStorage[key] === 'object' && typeof options[key] === 'object') {
+        Joomla.optionsStorage[key] = Joomla.extend(Joomla.optionsStorage[key], options[key]);
+      } else {
+        Joomla.optionsStorage[key] = options[key];
+      }
+    });
+  }
+};
 
 /**
  * Custom behavior for JavaScript I18N in Joomla! 1.6
@@ -277,16 +277,16 @@ Joomla.Text = {
     return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;
   },
 
-    /**
-     * Load new strings in to Joomla.Text
-     *
-     * @param {Object} object  Object with new strings
-     * @returns {Joomla.Text}
-     */
-    load: (object) => {
-      Object.keys(object).forEach((key) => {
-        Joomla.Text.strings[key.toUpperCase()] = object[key];
-      });
+  /**
+   * Load new strings in to Joomla.Text
+   *
+   * @param {Object} object  Object with new strings
+   * @returns {Joomla.Text}
+   */
+  load: (object) => {
+    Object.keys(object).forEach((key) => {
+      Joomla.Text.strings[key.toUpperCase()] = object[key];
+    });
 
     return Joomla.Text;
   },
@@ -635,12 +635,12 @@ Joomla.request = (options) => {
       }
     }
 
-      // Custom headers
-      if (newOptions.headers) {
-        Object.keys(newOptions.headers).forEach((key) => {
-          // Allow request without Content-Type
-          // eslint-disable-next-line no-empty
-          if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') {
+    // Custom headers
+    if (newOptions.headers) {
+      Object.keys(newOptions.headers).forEach((key) => {
+        // Allow request without Content-Type
+        // eslint-disable-next-line no-empty
+        if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') {
 
         } else {
           xhr.setRequestHeader(key, newOptions.headers[key]);
