@@ -71,7 +71,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      */
-    protected $formclass;
+    public $formclass;
 
     /**
      * Description of the fieldset
