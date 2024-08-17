@@ -109,6 +109,16 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if ($app->get('sef') && !$app->get('sef_suffix') && $this->params->get('trailingslash', '-1') != '-1') {
             $this->enforceTrailingSlash();
         }
+
+        // Enforce adding a suffix with a redirect
+        if ($app->get('sef') && $app->get('sef_suffix') && $this->params->get('enforcesuffix')) {
+            $this->enforceSuffix();
+        }
+
+        // Enforce SEF URLs
+        if ($this->params->get('strictrouting') && $app->getInput()->getMethod() == 'GET') {
+            $this->enforceSEF();
+        }
     }
 
     /**
@@ -275,6 +285,48 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * Enforce the URL suffix with a redirect
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function enforceSuffix()
+    {
+        $origUri = Uri::getInstance();
+        $route   = $origUri->getPath();
+
+        if (substr($route, -9) === 'index.php' || substr($route, -1) === '/') {
+            // We don't want suffixes when the URL ends in index.php or with a /
+            return;
+        }
+
+        $suffix       = pathinfo($route, PATHINFO_EXTENSION);
+        $nonSEFSuffix = $origUri->getVar('format');
+
+        if ($nonSEFSuffix && $suffix !== $nonSEFSuffix) {
+            // There is a URL query parameter named "format", which isn't the same to the suffix
+            $pathWithoutSuffix = ($suffix !== '') ? substr($route, 0, -(\strlen($suffix) + 1)) : $route;
+
+            $origUri->delVar('format');
+            $origUri->setPath($pathWithoutSuffix . '.' . $nonSEFSuffix);
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
+
+        if ($suffix && $suffix == $nonSEFSuffix) {
+            // There is a URL query parameter named "format", which is identical to the suffix
+            $origUri->delVar('format');
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
+
+        if (!$suffix) {
+            // We don't have a suffix, so we default to .html at the end
+            $origUri->setPath($route . '.html');
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
+    }
+
+    /**
      * Enforce removal of index.php with a redirect
      *
      * @return  void
@@ -359,6 +411,36 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             // Add trailingslash
             $originalUri->setPath($originalUri->getPath() . '/');
             $this->getApplication()->redirect($originalUri->toString(), 301);
+        }
+    }
+
+    /**
+     * Enforce a redirect from URL with query parameters to SEF URL
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function enforceSEF()
+    {
+        $app     = $this->getApplication();
+        $origUri = clone Uri::getInstance();
+
+        if (\count($origUri->getQuery(true))) {
+            $parsedVars = $app->getInput()->getArray();
+
+            if ($app->getLanguageFilter()) {
+                $parsedVars['lang'] = $parsedVars['language'];
+                unset($parsedVars['language']);
+            }
+
+            $route    = $origUri->toString(['path', 'query']);
+            $newRoute = Route::_($parsedVars, false);
+            $newUri   = new Uri($newRoute);
+
+            if (!\count($newUri->getQuery(true)) && $route !== $newRoute) {
+                $app->redirect($newRoute, 301);
+            }
         }
     }
 

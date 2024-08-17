@@ -11,7 +11,6 @@
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
 use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -108,7 +107,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if (!$this->isEmptyState) {
             $toolbar->standardButton('upload', 'JTOOLBAR_INSTALL', 'discover.install')

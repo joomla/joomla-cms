@@ -31,12 +31,12 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
-  - name: phan
-    image: joomlaprojects/docker-images:php8.1-ast
+  - name: phpstan
+    image: joomlaprojects/docker-images:php8.2
     depends_on: [ phpcs ]
     failure: ignore
     commands:
-      - ./libraries/vendor/bin/phan
+      - ./libraries/vendor/bin/phpstan
 
   - name: npm
     image: node:20-bullseye-slim
@@ -430,6 +430,6 @@ trigger:
 
 ---
 kind: signature
-hmac: da473d9b50d583b1545f5cf2a927682dd7a428583c898337136c3dfaf9a0a2e2
+hmac: 74050d2d2bc8ce5b051e23b2deece0b88387564c7e646c9d1c11f26516b42d07
 
 ...

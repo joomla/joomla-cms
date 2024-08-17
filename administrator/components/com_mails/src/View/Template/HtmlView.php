@@ -129,7 +129,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             Text::_('COM_MAILS_PAGE_EDIT_MAIL'),
