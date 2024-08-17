@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      */
-    protected $description;
+    public $description;
 
     /**
      * Execute and display a template script.
