@@ -42,7 +42,7 @@ abstract class AbstractLogoutEvent extends UserEvent
      */
     public function __construct($name, array $arguments = [])
     {
-        if (count($arguments) === 1) {
+        if (\count($arguments) === 1) {
             // @TODO: Remove in Joomla 7, and set 'options' argument as required.
             $missingKey = empty($arguments['subject']) ? 'subject' : 'options';
 
