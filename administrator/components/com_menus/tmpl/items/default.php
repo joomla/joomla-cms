@@ -275,7 +275,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <?php echo $this->filterForm->renderControlFields();  ?>
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>
