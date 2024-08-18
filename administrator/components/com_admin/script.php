@@ -2340,6 +2340,23 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.ttf',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.woff',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.woff2',
+            // From 5.2.0-alpha3 to 5.2.0-beta1
+            '/libraries/vendor/joomla/application/rector.php',
+            '/libraries/vendor/joomla/console/.drone.jsonnet',
+            '/libraries/vendor/joomla/console/.drone.yml',
+            '/libraries/vendor/joomla/database/.drone.jsonnet',
+            '/libraries/vendor/joomla/database/.drone.yml',
+            '/libraries/vendor/joomla/database/phpunit.appveyor_sql2012sp1.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.appveyor_sql2014.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.appveyor_sql2017.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.mariadb.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.mysql.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.mysqli.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.pgsql.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.sqlite.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.sqlsrv.xml.dist',
+            '/libraries/vendor/joomla/session/.drone.jsonnet',
+            '/libraries/vendor/joomla/session/.drone.yml',
         ];
 
         $folders = [
