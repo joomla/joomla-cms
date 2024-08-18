@@ -9,7 +9,9 @@
       "name": "com_users.admin-users-groups",
       "type": "script",
       "uri": "com_users/admin-users-groups.min.js",
-      "dependencies": ["core"],
+      "dependencies": [
+        "core"
+      ],
       "attributes": {
         "type": "module"
       }
@@ -29,7 +31,9 @@
       "name": "com_users.two-factor-list",
       "type": "script",
       "uri": "com_users/two-factor-list.min.js",
-      "dependencies": ["com_users.two-factor-list.es5"],
+      "dependencies": [
+        "core"
+      ],
       "attributes": {
         "type": "module"
       }
@@ -38,7 +42,9 @@
       "name": "com_users.activate-user-send-email",
       "type": "script",
       "uri": "com_users/activate-user-send-email.min.js",
-      "dependencies": ["core"],
+      "dependencies": [
+        "core"
+      ],
       "attributes": {
         "type": "module"
       }
