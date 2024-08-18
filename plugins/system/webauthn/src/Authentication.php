@@ -87,17 +87,17 @@ final class Authentication
     /**
      * Public constructor.
      *
-     * @param   ApplicationInterface|null                 $app       The app we are running in
-     * @param   SessionInterface|null                     $session   The app session object
-     * @param   PublicKeyCredentialSourceRepository|null  $credRepo  Credentials repo
-     * @param   MetadataStatementRepository|null          $mdsRepo   Authenticator metadata repo
+     * @param   ?ApplicationInterface                 $app       The app we are running in
+     * @param   ?SessionInterface                     $session   The app session object
+     * @param   ?PublicKeyCredentialSourceRepository  $credRepo  Credentials repo
+     * @param   ?MetadataStatementRepository          $mdsRepo   Authenticator metadata repo
      *
      * @since   4.2.0
      */
     public function __construct(
-        ApplicationInterface $app = null,
-        SessionInterface $session = null,
-        PublicKeyCredentialSourceRepository $credRepo = null,
+        ?ApplicationInterface $app = null,
+        ?SessionInterface $session = null,
+        ?PublicKeyCredentialSourceRepository $credRepo = null,
         ?MetadataStatementRepository $mdsRepo = null
     ) {
         $this->app                   = $app;

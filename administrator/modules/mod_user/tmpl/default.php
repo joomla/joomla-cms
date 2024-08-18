@@ -54,10 +54,10 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
         <?php if ($colorSchemeSwitch) : ?>
             <button type="button" class="dropdown-item" data-color-scheme-switch>
                 <span class="d-dark-scheme-none">
-                    <span class="fa fa-sun icon-fw me-1" aria-hidden="true"></span> <?php echo Text::_('MOD_USER_LIGHT_MODE'); ?>
+                    <span class="fa fa-sun icon-fw me-1" aria-hidden="true"></span> <?php echo Text::_('MOD_USER_LIGHTDARK_MODE'); ?>
                 </span>
                 <span class="d-light-scheme-none">
-                    <span class="fa fa-moon icon-fw me-1" aria-hidden="true"></span> <?php echo Text::_('MOD_USER_DARK_MODE'); ?>
+                    <span class="fa fa-moon icon-fw me-1" aria-hidden="true"></span> <?php echo Text::_('MOD_USER_LIGHTDARK_MODE'); ?>
                 </span>
             </button>
         <?php endif; ?>
