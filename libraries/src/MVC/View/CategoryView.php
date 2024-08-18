@@ -40,7 +40,7 @@ class CategoryView extends HtmlView
      *
      * @var    \Joomla\Registry\Registry
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $params;
 
