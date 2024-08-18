@@ -100,7 +100,7 @@
     "ext-dom": "*",
     "composer/ca-bundle": "^1.5.0",
     "dragonmantank/cron-expression": "^3.3.3",
-    "enshrined/svg-sanitize": "^0.15.4",
+    "enshrined/svg-sanitize": "^0.19.0",
     "lcobucci/jwt": "^4.3.0",
     "web-token/jwt-library": "^3.3.1",
     "phpseclib/bcmath_compat": "^2.0.2",
