@@ -411,7 +411,7 @@ trait DisplayTrait
         }
 
         // Add the current domain to the sandbox_iframes_exclusions list
-        $sandboxIframesExclusions = Uri::root();
+        $sandboxIframesExclusions = Uri::getInstance()->getHost();
 
         // Build the list of additional domains to add to the sandbox_iframes_exclusions list
         if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
