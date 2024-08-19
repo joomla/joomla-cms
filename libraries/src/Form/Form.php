@@ -1951,7 +1951,7 @@ class Form implements CurrentUserInterface
                 $attrStr = implode(' ', $attr);
             }
 
-            $html[] = '<input type="hidden" name="' . htmlspecialchars($n) . '" value="' . htmlspecialchars($v['value']) . '" ' . $attrStr . '/>';
+            $html[] = '<input type="hidden" name="' . htmlspecialchars($n) . '" value="' . htmlspecialchars($v['value']) . '" ' . $attrStr . '>';
         }
 
         // The Token should be added in any case
