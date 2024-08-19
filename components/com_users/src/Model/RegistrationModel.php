@@ -508,6 +508,7 @@ class RegistrationModel extends FormModel
             $mailer = new MailTemplate($mailtemplate, $app->getLanguage()->getTag());
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
+            $mailer->addUnsafeTags(['username', 'password_clear', 'name']);
             $return = $mailer->send();
         } catch (\Exception $exception) {
             try {

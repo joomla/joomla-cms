@@ -31,6 +31,10 @@
       "type": "vcs",
       "url": "https://github.com/joomla-backports/json-api-php.git",
       "no-api":  true
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/joomla-framework/security-filter.git"
     }
   ],
   "autoload": {
@@ -54,7 +58,7 @@
     "joomla/database": "^2.1.1",
     "joomla/di": "^2.0.1",
     "joomla/event": "^2.0.2",
-    "joomla/filter": "^2.0.4",
+    "joomla/filter": "dev-2x-outputfilter-case as 2.0.5",
     "joomla/filesystem": "^2.0.2",
     "joomla/http": "^2.0.4",
     "joomla/input": "^2.0.4",
