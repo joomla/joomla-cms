@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'beta1';
+    public const EXTRA_VERSION = 'beta2-dev';
 
     /**
      * Development status.
@@ -74,7 +74,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const DEV_STATUS = 'Beta';
+    public const DEV_STATUS = 'Development';
 
     /**
      * Code name.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '20-August-2024';
+    public const RELDATE = '3-September-2024';
 
     /**
      * Release time.
