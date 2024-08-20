@@ -79,8 +79,8 @@ class ArticlesModel extends ListModel
             ];
 
             if ($this->isFeatured() === '1') {
-				$config['filter_fields'][] = 'fp.ordering';
-			}
+                $config['filter_fields'][] = 'fp.ordering';
+            }
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
