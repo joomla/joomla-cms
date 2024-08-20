@@ -76,10 +76,10 @@ $assoc = Associations::isEnabled();
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-            <?php
-				// Search tools bar
-				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => ['selectorFieldName' => 'featured']));
-				?>
+                <?php
+                // Search tools bar
+                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => ['selectorFieldName' => 'featured']));
+                ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -88,7 +88,7 @@ $assoc = Associations::isEnabled();
                 <?php else : ?>
                     <table class="table itemList" id="articleList">
                         <caption class="visually-hidden">
-                            <?php echo $featured === '1' ? Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION') :Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
+                            <?php echo $featured === '1' ? Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION') : Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
                             <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
                             <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
@@ -157,8 +157,8 @@ $assoc = Associations::isEnabled();
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
                             $ordering             = ($listOrder == 'fp.ordering');
-							$assetId              = 'com_content.article.' . $item->id;
-							$canCreate            = $user->authorise('core.create',     'com_content.category.' . $item->catid);
+                            $assetId              = 'com_content.article.' . $item->id;
+                            $canCreate            = $user->authorise('core.create', 'com_content.category.' . $item->catid);
                             $canEdit              = $user->authorise('core.edit', 'com_content.article.' . $item->id);
                             $canCheckin           = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
                             $canEditOwn           = $user->authorise('core.edit.own', 'com_content.article.' . $item->id) && $item->created_by == $userId;
