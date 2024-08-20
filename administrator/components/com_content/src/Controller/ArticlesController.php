@@ -232,5 +232,5 @@ class ArticlesController extends AdminController
 
         $this->setMessage(Text::plural('COM_CONTENT_N_ITEMS_DELETED', \count($ids)));
         $this->setRedirect('index.php?option=com_content&view=articles&featured=1');
-	}
+    }
 }
