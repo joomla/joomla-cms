@@ -155,14 +155,14 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 
         // Add additional parameters
         $queryParameterList = [
-            "f"  => "int",
-            "t"  => "array",
-            "q"  => "string",
-            "l"  => "cmd",
-            "d1" => "string",
-            "d2" => "string",
-            "w1" => "string",
-            "w2" => "string",
+            'f'  => 'int',
+            't'  => 'array',
+            'q'  => 'string',
+            'l'  => 'cmd',
+            'd1' => 'string',
+            'd2' => 'string',
+            'w1' => 'string',
+            'w2' => 'string',
         ];
 
         foreach ($queryParameterList as $parameter => $filter) {
