@@ -77,6 +77,15 @@ class HtmlView extends BaseHtmlView
     protected $checkTags = false;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display the view.
      *
      * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -142,9 +151,10 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $extension = Factory::getApplication()->getInput()->get('extension');
+
         $user      = $this->getCurrentUser();
         $userId    = $user->id;
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
@@ -203,9 +213,14 @@ class HtmlView extends BaseHtmlView
             $saveGroup = $toolbar->dropdownButton('save-group');
 
             $saveGroup->configure(
-                function (Toolbar $childBar) {
+                function (Toolbar $childBar) use ($canDo, $component) {
                     $childBar->save('category.save');
                     $childBar->save2new('category.save2new');
+
+                    if ($canDo->get('core.create', 'com_menus.menu') && $component === 'com_content') {
+                        $childBar->save('category.save2menulist', 'JTOOLBAR_SAVE_TO_MENU_AS_LIST');
+                        $childBar->save('category.save2menublog', 'JTOOLBAR_SAVE_TO_MENU_AS_BLOG');
+                    }
                 }
             );
 
@@ -223,7 +238,7 @@ class HtmlView extends BaseHtmlView
             $saveGroup = $toolbar->dropdownButton('save-group');
 
             $saveGroup->configure(
-                function (Toolbar $childBar) use ($checkedOut, $canDo, $itemEditable) {
+                function (Toolbar $childBar) use ($checkedOut, $canDo, $itemEditable, $component) {
                     // Can't save the record if it's checked out and editable
                     if (!$checkedOut && $itemEditable) {
                         $childBar->save('category.save');
@@ -231,6 +246,11 @@ class HtmlView extends BaseHtmlView
                         if ($canDo->get('core.create')) {
                             $childBar->save2new('category.save2new');
                         }
+                    }
+
+                    if ($canDo->get('core.create', 'com_menus.menu') && $component === 'com_content') {
+                        $childBar->save('category.save2menulist', 'JTOOLBAR_SAVE_TO_MENU_AS_LIST');
+                        $childBar->save('category.save2menublog', 'JTOOLBAR_SAVE_TO_MENU_AS_BLOG');
                     }
 
                     // If an existing item, can save to a copy.
@@ -316,7 +336,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
         if ($extension == 'com_categories') {
