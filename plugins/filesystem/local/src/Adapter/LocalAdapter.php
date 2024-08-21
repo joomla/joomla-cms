@@ -337,10 +337,14 @@ class LocalAdapter implements AdapterInterface
                 throw new FileNotFoundException();
             }
 
-            $success = Folder::delete($localPath);
+            try {
+                $success = Folder::delete($localPath);
 
-            if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_dir($thumbnailPaths['fs'])) {
-                Folder::delete($thumbnailPaths['fs']);
+                if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_dir($thumbnailPaths['fs'])) {
+                    Folder::delete($thumbnailPaths['fs']);
+                }
+            } catch (FilesystemException $exception) {
+                throw new \Exception('Delete not possible!');
             }
         }
 
