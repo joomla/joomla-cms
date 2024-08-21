@@ -43,7 +43,7 @@ class TimeRule extends FormRule
      *
      * @throws \Exception
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): bool
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null): bool
     {
         // Check if the field is required.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');

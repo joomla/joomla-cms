@@ -113,15 +113,15 @@ class Pagination
     /**
      * Constructor.
      *
-     * @param   integer         $total       The total number of items.
-     * @param   integer         $limitstart  The offset of the item to start at.
-     * @param   integer         $limit       The number of items to display per page.
-     * @param   string          $prefix      The prefix used for request variables.
-     * @param   CMSApplication  $app         The application object
+     * @param   integer          $total       The total number of items.
+     * @param   integer          $limitstart  The offset of the item to start at.
+     * @param   integer          $limit       The number of items to display per page.
+     * @param   string           $prefix      The prefix used for request variables.
+     * @param   ?CMSApplication  $app         The application object
      *
      * @since   1.5
      */
-    public function __construct($total, $limitstart, $limit, $prefix = '', CMSApplication $app = null)
+    public function __construct($total, $limitstart, $limit, $prefix = '', ?CMSApplication $app = null)
     {
         // Value/type checking.
         $this->total      = (int) $total;
@@ -663,20 +663,44 @@ class Pagination
     {
         $data = new \stdClass();
 
-        // Build the additional URL parameters string.
-        $params = '';
+        // Platform defaults
+        $defaultUrlParams = [
+            'format' => 'WORD',
+            'option' => 'WORD',
+            'view'   => 'WORD',
+            'layout' => 'WORD',
+            'tpl'    => 'CMD',
+            'id'     => 'INT',
+            'Itemid' => 'INT',
+        ];
+
+        // Prepare the routes
+        $params = [];
+
+        // Use platform defaults if parameter doesn't already exist.
+        foreach ($defaultUrlParams as $param => $filter) {
+            $value = $this->app->input->get($param, null, $filter);
+
+            if ($value === null) {
+                continue;
+            }
+
+            $params[$param] = $value;
+        }
 
         if (!empty($this->additionalUrlParams)) {
             foreach ($this->additionalUrlParams as $key => $value) {
-                $params .= '&' . $key . '=' . $value;
+                $params[$key] = $value;
             }
         }
+
+        $params = http_build_query($params);
 
         $data->all = new PaginationObject(Text::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
 
         if (!$this->viewall) {
             $data->all->base = '0';
-            $data->all->link = Route::_($params . '&' . $this->prefix . 'limitstart=');
+            $data->all->link = Route::_('index.php?' . $params . '&' . $this->prefix . 'limitstart=');
         }
 
         // Set the start and previous data objects.
@@ -687,9 +711,9 @@ class Pagination
             $page = ($this->pagesCurrent - 2) * $this->limit;
 
             if ($this->hideEmptyLimitstart) {
-                $data->start->link = Route::_($params . '&' . $this->prefix . 'limitstart=');
+                $data->start->link = Route::_('index.php?' . $params . '&' . $this->prefix . 'limitstart=');
             } else {
-                $data->start->link = Route::_($params . '&' . $this->prefix . 'limitstart=0');
+                $data->start->link = Route::_('index.php?' . $params . '&' . $this->prefix . 'limitstart=0');
             }
 
             $data->start->base    = '0';
@@ -698,7 +722,7 @@ class Pagination
             if ($page === 0 && $this->hideEmptyLimitstart) {
                 $data->previous->link = $data->start->link;
             } else {
-                $data->previous->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+                $data->previous->link = Route::_('index.php?' . $params . '&' . $this->prefix . 'limitstart=' . $page);
             }
         }
 
@@ -711,9 +735,9 @@ class Pagination
             $end  = ($this->pagesTotal - 1) * $this->limit;
 
             $data->next->base = $next;
-            $data->next->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $next);
+            $data->next->link = Route::_('index.php?' . $params . '&' . $this->prefix . 'limitstart=' . $next);
             $data->end->base  = $end;
-            $data->end->link  = Route::_($params . '&' . $this->prefix . 'limitstart=' . $end);
+            $data->end->link  = Route::_('index.php?' . $params . '&' . $this->prefix . 'limitstart=' . $end);
         }
 
         $data->pages = [];
@@ -730,7 +754,9 @@ class Pagination
                 if ($offset === 0 && $this->hideEmptyLimitstart) {
                     $data->pages[$i]->link = $data->start->link;
                 } else {
-                    $data->pages[$i]->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+                    $data->pages[$i]->link = Route::_(
+                        'index.php?' . $params . '&' . $this->prefix . 'limitstart=' . $offset
+                    );
                 }
             } else {
                 $data->pages[$i]->active = true;
