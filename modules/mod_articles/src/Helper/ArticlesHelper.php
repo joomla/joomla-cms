@@ -278,14 +278,14 @@ class ArticlesHelper implements DatabaseAwareInterface
                     $item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
                     $item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
 
-                    if ($images->image_intro_caption) {
+                    if (!empty($images->image_intro_caption)) {
                         $item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
                     }
                 } elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext)) {
                     $item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
                     $item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
 
-                    if ($images->image_fulltext_caption) {
+                    if (!empty($images->image_fulltext_caption)) {
                         $item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
                     }
                 }
