@@ -669,7 +669,7 @@ class Pagination
             'option'        => 'CMD',
             'controller'    => 'CMD',
             'view'          => 'CMD',
-            'layout'        => 'CMD',
+            'layout'        => 'STRING',
             'task'          => 'CMD',
             'template'      => 'CMD',
             'templateStyle' => 'INT',
