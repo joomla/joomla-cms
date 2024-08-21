@@ -18,7 +18,6 @@ use Joomla\CMS\Event\Extension\BeforeInstallEvent;
 use Joomla\CMS\Event\Extension\BeforeUninstallEvent;
 use Joomla\CMS\Event\Extension\BeforeUpdateEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -31,6 +30,7 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -538,7 +538,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
                 case 'folder':
                     // Remove the folder
-                    if (Folder::exists($step['path']) && !($stepval = Folder::delete($step['path']))) {
+                    if (is_dir($step['path']) && !($stepval = Folder::delete($step['path']))) {
                         Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $step['path']), Log::WARNING, 'jerror');
                     }
                     break;
@@ -1443,7 +1443,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 foreach ($deletions['folders'] as $deleted_folder) {
                     $folder = $destination . '/' . $deleted_folder;
 
-                    if (Folder::exists($folder) && !Folder::delete($folder)) {
+                    if (is_dir($folder) && !Folder::delete($folder)) {
                         Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder), Log::WARNING, 'jerror');
                     }
                 }
