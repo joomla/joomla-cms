@@ -665,13 +665,17 @@ class Pagination
 
         // Platform defaults
         $defaultUrlParams = [
-            'format' => 'WORD',
-            'option' => 'WORD',
-            'view'   => 'WORD',
-            'layout' => 'WORD',
-            'tpl'    => 'CMD',
-            'id'     => 'INT',
-            'Itemid' => 'INT',
+            'format'        => 'CMD',
+            'option'        => 'CMD',
+            'controller'    => 'CMD',
+            'view'          => 'CMD',
+            'layout'        => 'CMD',
+            'task'          => 'CMD',
+            'template'      => 'CMD',
+            'templateStyle' => 'INT',
+            'tmpl'          => 'CMD',
+            'id'            => 'INT',
+            'Itemid'        => 'INT',
         ];
 
         // Prepare the routes
