@@ -59,7 +59,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.1
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name.
         $this->name = 'installation';
@@ -340,13 +340,13 @@ final class InstallationApplication extends CMSApplication
     /**
      * Returns the installed language files in the administrative and frontend area.
      *
-     * @param   DatabaseInterface|null  $db  Database driver.
+     * @param   ?DatabaseInterface  $db  Database driver.
      *
      * @return  array  Array with installed language packs in admin and site area.
      *
      * @since   3.1
      */
-    public function getLocaliseAdmin(DatabaseInterface $db = null)
+    public function getLocaliseAdmin(?DatabaseInterface $db = null)
     {
         $langfiles = [];
 
@@ -471,13 +471,13 @@ final class InstallationApplication extends CMSApplication
      * but for many applications it will make sense to override this method and create a document,
      * if required, based on more specific needs.
      *
-     * @param   Document|null  $document  An optional document object. If omitted, the factory document is created.
+     * @param   ?Document  $document  An optional document object. If omitted, the factory document is created.
      *
      * @return  InstallationApplication This method is chainable.
      *
      * @since   3.2
      */
-    public function loadDocument(Document $document = null)
+    public function loadDocument(?Document $document = null)
     {
         if ($document === null) {
             $lang = $this->getLanguage();

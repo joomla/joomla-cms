@@ -46,14 +46,13 @@ function getTourInstance() {
 function addProgressIndicator(stepElement, index, total) {
   const header = stepElement.querySelector('.shepherd-header');
   const progress = document.createElement('div');
-  progress.classList.add('shepherd-progress');
+  progress.classList.add('shepherd-progress', 'badge', 'bg-secondary', 'px-2');
   progress.setAttribute('role', 'status');
-  progress.setAttribute('aria-label', Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total));
   const progressText = document.createElement('span');
-  progressText.setAttribute('aria-hidden', true);
-  progressText.innerText = `${index}/${total}`;
+  progressText.classList.add('m-0');
+  progressText.innerText = Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total);
   progress.appendChild(progressText);
-  header.insertBefore(progress, stepElement.querySelector('.shepherd-cancel-icon'));
+  header.insertBefore(progress, header.querySelector('.shepherd-title'));
 }
 
 function setFocus(primaryButton, secondaryButton, cancelButton) {
