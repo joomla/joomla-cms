@@ -674,6 +674,7 @@ class Pagination
             'template'      => 'CMD',
             'templateStyle' => 'INT',
             'tmpl'          => 'CMD',
+            'tpl'           => 'CMD',
             'id'            => 'INT',
             'Itemid'        => 'INT',
         ];
