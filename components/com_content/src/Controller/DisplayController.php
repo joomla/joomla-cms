@@ -38,7 +38,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *
      * @since   3.0.1
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         $this->input = Factory::getApplication()->getInput();
 

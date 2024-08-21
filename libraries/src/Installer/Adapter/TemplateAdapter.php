@@ -621,17 +621,17 @@ class TemplateAdapter extends InstallerAdapter
                     continue;
                 }
 
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'template');
-                $extension->set('client_id', $site_info->id);
-                $extension->set('element', $template);
-                $extension->set('folder', '');
-                $extension->set('name', $template);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'template';
+                $extension->client_id      = $site_info->id;
+                $extension->element        = $template;
+                $extension->folder         = '';
+                $extension->name           = $template;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 
@@ -642,17 +642,17 @@ class TemplateAdapter extends InstallerAdapter
                     continue;
                 }
 
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'template');
-                $extension->set('client_id', $admin_info->id);
-                $extension->set('element', $template);
-                $extension->set('folder', '');
-                $extension->set('name', $template);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'template';
+                $extension->client_id      = $admin_info->id;
+                $extension->element        = $template;
+                $extension->folder         = '';
+                $extension->name           = $template;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 
