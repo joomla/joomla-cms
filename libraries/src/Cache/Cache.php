@@ -687,7 +687,7 @@ class Cache
             'view'   => 'WORD',
             'layout' => 'WORD',
             'tpl'    => 'CMD',
-            'id'     => 'INT',
+            'id'     => 'STRING',
         ];
 
         // Use platform defaults if parameter doesn't already exist.
