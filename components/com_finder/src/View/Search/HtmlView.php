@@ -169,7 +169,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         foreach ($queryParameterList as $parameter => $filter) {
             $value = $app->input->get($parameter, null, $filter);
 
-            if (is_null($value)) {
+            if (\is_null($value)) {
                 continue;
             }
 
