@@ -24,6 +24,7 @@ use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
