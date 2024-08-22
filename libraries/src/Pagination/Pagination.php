@@ -665,21 +665,27 @@ class Pagination
 
         // Platform defaults
         $defaultUrlParams = [
-            'format' => 'WORD',
-            'option' => 'WORD',
-            'view'   => 'WORD',
-            'layout' => 'WORD',
-            'tpl'    => 'CMD',
-            'id'     => 'INT',
-            'Itemid' => 'INT',
+            'format'        => 'WORD',
+            'option'        => 'WORD',
+            'controller'    => 'WORD',
+            'view'          => 'WORD',
+            'layout'        => 'STRING',
+            'task'          => 'CMD',
+            'template'      => 'CMD',
+            'templateStyle' => 'INT',
+            'tmpl'          => 'CMD',
+            'tpl'           => 'CMD',
+            'id'            => 'INT',
+            'Itemid'        => 'INT',
         ];
 
         // Prepare the routes
         $params = [];
+        $input = $this->app->getInput();
 
         // Use platform defaults if parameter doesn't already exist.
         foreach ($defaultUrlParams as $param => $filter) {
-            $value = $this->app->input->get($param, null, $filter);
+            $value = $input->get($param, null, $filter);
 
             if ($value === null) {
                 continue;
