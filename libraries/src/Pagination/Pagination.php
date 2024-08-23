@@ -681,7 +681,7 @@ class Pagination
 
         // Prepare the routes
         $params = [];
-        $input  = $this->app->getInput();
+        $input  = $this->app->getInput()->get;
 
         // Use platform defaults if parameter doesn't already exist.
         foreach ($defaultUrlParams as $param => $filter) {
