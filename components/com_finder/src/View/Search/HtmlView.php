@@ -165,7 +165,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
             'd2' => 'string',
             'w1' => 'string',
             'w2' => 'string',
-            'o' => 'word',
+            'o'  => 'word',
             'od' => 'word',
         ];
 
