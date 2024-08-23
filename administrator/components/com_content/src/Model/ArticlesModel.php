@@ -428,7 +428,7 @@ class ArticlesModel extends ListModel
             } elseif (stripos($search, 'checkedout:') === 0) {
                 $search = '%' . substr($search, 11) . '%';
                 $query->where('(' . $db->quoteName('ua.name') . ' LIKE :search1 OR ' . $db->quoteName('ua.username') . ' LIKE :search2)'
-                    . 'AND ' . $db->quoteName('a.checked_out') . ' IS NOT NULL')
+                    . ' AND ' . $db->quoteName('a.checked_out') . ' IS NOT NULL')
                     ->bind([':search1', ':search2'], $search);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
