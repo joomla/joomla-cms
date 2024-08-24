@@ -280,6 +280,7 @@ class ContactController extends FormController
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
                 $mailer->addTemplateData($templateData);
+                $mailer->addUnsafeTags(['name', 'email', 'body', 'customfields']);
                 $sent = $mailer->send();
             }
         } catch (MailDisabledException | phpMailerException $exception) {
