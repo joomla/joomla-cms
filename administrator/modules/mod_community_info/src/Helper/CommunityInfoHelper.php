@@ -10,14 +10,12 @@
 
 namespace Joomla\Module\CommunityInfo\Administrator\Helper;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Filter\OutputFilter;
@@ -53,7 +51,7 @@ class CommunityInfoHelper
      * 
      * @var array
      */
-    const DEFAULT_INFO = [
+    public const DEFAULT_INFO = [
         "name"        => "joomla.org",
         "type"        => "default",
         "level"       => "0",
@@ -275,7 +273,7 @@ class CommunityInfoHelper
                         Text::_('MOD_COMMUNITY_INFO_TERMS_' . strtoupper($match[1])),
                         [
                             'target' => '_blank',
-                            'rel'    => 'noopener nofollow'
+                            'rel'    => 'noopener nofollow',
                         ]
                     );
                 } else {
