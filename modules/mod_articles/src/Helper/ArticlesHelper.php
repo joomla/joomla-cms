@@ -257,14 +257,15 @@ class ArticlesHelper implements DatabaseAwareInterface
 
             if ($show_introtext) {
                 $item->displayIntrotext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles.content');
+
+                // Remove any images belongs to the text
+                if (!$params->get('image')) {
+                    $item->displayIntrotext = preg_replace('/<img[^>]*>/', '', $item->introtext);
+                }
+
                 if ($introtext_limit != 0) {
                     $item->displayIntrotext = SpecialStringHelper::truncate($item->introtext, $introtext_limit, true, false);
                 }
-            }
-
-            // Remove any images belongs to the text
-            if (!$params->get('image')) {
-                $item->displayIntrotext = preg_replace('/<img[^>]*>/', '', $item->introtext);
             }
 
             // Show the Intro/Full image field of the article
