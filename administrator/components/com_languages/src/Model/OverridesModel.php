@@ -165,7 +165,13 @@ class OverridesModel extends ListModel
         $client          = substr($language_client, -1);
         $language        = substr($language_client, 0, -1);
 
+        // Sets the search filter.
+        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+        $this->setState('filter.search', $search);
+
         $this->setState('language_client', $language . $client);
+        $this->setState('filter.client', $client ? 'administrator' : 'site');
+        $this->setState('filter.language', $language);
 
         // Add the 'language_client' value to the session to display a message if none selected
         $app->setUserState('com_languages.overrides.language_client', $language . $client);

@@ -239,7 +239,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(sprintf($this->text('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
+                throw new \Exception(sprintf($this->getLanguage()->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
             }
         }
 
