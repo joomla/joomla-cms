@@ -217,9 +217,11 @@ class ArticlesHelper implements DatabaseAwareInterface
         foreach ($items as &$item) {
             $item->slug = $item->id . ':' . $item->alias;
 
+            $articleLink = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
+
             if ($access || \in_array($item->access, $authorised)) {
                 // We know that user has the privilege to view the article
-                $item->link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
+                $item->link = $articleLink;
             } else {
                 $menu      = $app->getMenu();
                 $menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
@@ -231,7 +233,9 @@ class ArticlesHelper implements DatabaseAwareInterface
                     $Itemid = $input->getInt('Itemid');
                 }
 
-                $item->link = Route::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);
+                $return = base64_encode($articleLink);
+
+                $item->link = Route::_('index.php?option=com_users&view=login&Itemid=' . $Itemid . '&return=' . $return);
             }
 
             // Used for styling the active article
@@ -260,7 +264,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
                 // Remove any images belongs to the text
                 if (!$params->get('image')) {
-                    $item->displayIntrotext = preg_replace('/<img[^>]*>/', '', $item->introtext);
+                    $item->displayIntrotext = preg_replace('/<img[^>]*>/', '', $item->displayIntrotext);
                 }
 
                 if ($introtext_limit != 0) {
@@ -270,27 +274,20 @@ class ArticlesHelper implements DatabaseAwareInterface
 
             // Show the Intro/Full image field of the article
             if ($params->get('img_intro_full') !== 'none') {
-                $images             = json_decode($item->images);
+                $images             = (new Registry($item->images))->toObject();
                 $item->imageSrc     = '';
-                $item->imageAlt     = '';
-                $item->imageCaption = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
                     $item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
-                    $item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
-
-                    if (!empty($images->image_intro_caption)) {
-                        $item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
-                    }
+                    $images->float_intro = 'mod-articles-image';
                 } elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext)) {
                     $item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
-                    $item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
-
-                    if (!empty($images->image_fulltext_caption)) {
-                        $item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
-                    }
+                    $images->float_fulltext = 'mod-articles-image';
                 }
+
+                $item->images = json_encode($images);
             }
+
             $item->displayReadmore  = $item->alternative_readmore;
         }
 
