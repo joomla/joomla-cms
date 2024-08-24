@@ -666,7 +666,7 @@ class Pagination
         // Platform defaults
         $defaultUrlParams = [
             'format' => 'WORD',
-            'option' => 'WORD',
+            'option' => 'CMD',
             'view'   => 'WORD',
             'layout' => 'WORD',
             'tpl'    => 'CMD',
