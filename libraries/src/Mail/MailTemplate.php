@@ -72,7 +72,7 @@ class MailTemplate
     /**
      *
      * @var    string[]
-     * @since  5.2.0
+     * @since  5.1.3
      */
     protected $unsafe_tags = [];
 
@@ -224,7 +224,7 @@ class MailTemplate
      *
      * @return  void
      *
-     * @since   5.2.0
+     * @since   5.1.3
      */
     public function addUnsafeTags($tags)
     {
