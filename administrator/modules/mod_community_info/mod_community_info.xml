@@ -12,7 +12,6 @@
 	<namespace path="src">Joomla\Module\CommunityInfo</namespace>
 	<files>
 		<folder module="mod_community_info">services</folder>
-    <folder>includes</folder>
     <folder>language</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
