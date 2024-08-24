@@ -191,20 +191,6 @@
 				</field>
 
 				<field
-					name="card_link"
-					type="radio"
-					label="MOD_ARTICLES_FIELD_LINKCARD_LABEL"
-					description="MOD_ARTICLES_FIELD_LINKCARD_DESC"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
-					showon="title_only:0[AND]item_title:1[AND]link_titles:1"
-					filter="integer"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
 					name="show_author"
 					type="radio"
 					label="JAUTHOR"
