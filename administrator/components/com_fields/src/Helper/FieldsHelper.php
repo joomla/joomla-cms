@@ -21,7 +21,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
@@ -98,11 +97,11 @@ class FieldsHelper
      * The values of the fields can be overridden by an associative array where the keys
      * have to be a name and its corresponding value.
      *
-     * @param   string      $context              The context of the content passed to the helper
-     * @param   null        $item                 The item being edited in the form
-     * @param   int|bool    $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
-     * @param   array|null  $valuesToOverride     The values to override
-     * @param   bool        $includeSubformFields Should I include fields marked as Only Use In Subform?
+     * @param   string             $context              The context of the content passed to the helper
+     * @param   object|array|null  $item                 The item being edited in the form
+     * @param   int|bool           $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
+     * @param   array|null         $valuesToOverride     The values to override
+     * @param   bool               $includeSubformFields Should I include fields marked as Only Use In Subform?
      *
      * @return  array
      *
@@ -227,7 +226,10 @@ class FieldsHelper
                     ]))->getArgument('result', []);
 
                     if (\is_array($value)) {
-                        $value = implode(' ', $value);
+                        $value = array_filter($value, function ($v) {
+                            return $v !== '' && $v !== null;
+                        });
+                        $value = $value ? implode(' ', $value) : '';
                     }
 
                     /*
@@ -315,7 +317,7 @@ class FieldsHelper
         $context = $parts[0] . '.' . $parts[1];
 
         // When no fields available return here
-        $fields = self::getFields($parts[0] . '.' . $parts[1], new CMSObject());
+        $fields = self::getFields($parts[0] . '.' . $parts[1]);
 
         if (! $fields) {
             return true;

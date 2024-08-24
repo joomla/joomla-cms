@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Item\HtmlView $this */
+
 $icon     = 'icon-check';
 $title    = $this->item ? $this->item->title : '';
 $content  = $this->item ? $this->item->alias : '';

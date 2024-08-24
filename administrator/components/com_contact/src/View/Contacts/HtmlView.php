@@ -99,13 +99,6 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        // Preprocess the list of items to find ordering divisions.
-        // @todo: Complete the ordering stuff with nested sets
-        foreach ($this->items as &$item) {
-            $item->order_up = true;
-            $item->order_dn = true;
-        }
-
         // We don't need toolbar in the modal window.
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
@@ -188,7 +181,11 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit.state', 'com_contact')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_CONTACT_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }

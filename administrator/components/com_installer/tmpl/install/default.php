@@ -16,6 +16,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Install\HtmlView $this */
+
 // Load JavaScript message titles
 Text::script('ERROR');
 Text::script('WARNING');

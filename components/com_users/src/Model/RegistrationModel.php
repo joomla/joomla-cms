@@ -339,7 +339,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         return $form;
@@ -512,6 +512,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             $mailer = new MailTemplate($mailtemplate, $app->getLanguage()->getTag());
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
+            $mailer->addUnsafeTags(['username', 'password_clear', 'name']);
             $return = $mailer->send();
         } catch (\Exception $exception) {
             try {

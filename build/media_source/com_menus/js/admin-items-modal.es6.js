@@ -44,9 +44,7 @@
   };
 
   // Get the elements
-  const elements = [].slice.call(document.querySelectorAll('.select-link'));
-
-  elements.forEach((element) => {
+  document.querySelectorAll('.select-link').forEach((element) => {
     // Listen for click event
     element.addEventListener('click', (event) => {
       event.preventDefault();

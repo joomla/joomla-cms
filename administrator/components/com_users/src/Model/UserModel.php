@@ -142,7 +142,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         $userId = (int) $form->getValue('id');
@@ -266,6 +266,15 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
                 return false;
             }
+        }
+
+        // Unset the username if it should not be overwritten
+        if (
+            !$my->authorise('core.manage', 'com_users')
+            && (int) $user->id === (int) $my->id
+            && !ComponentHelper::getParams('com_users')->get('change_login_name')
+        ) {
+            unset($data['username']);
         }
 
         // Bind the data.
@@ -703,20 +712,20 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         switch ($action) {
-                // Sets users to a selected group
             case 'set':
+                // Sets users to a selected group
                 $doDelete = 'all';
                 $doAssign = true;
                 break;
 
-                // Remove users from a selected group
             case 'del':
+                // Remove users from a selected group
                 $doDelete = 'group';
                 break;
 
-                // Add users to a selected group
             case 'add':
             default:
+                // Add users to a selected group
                 $doAssign = true;
                 break;
         }

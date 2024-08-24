@@ -231,6 +231,10 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
             $this->modified_by = $this->created_by;
         }
 
+        if (empty($this->hits)) {
+            $this->hits = 0;
+        }
+
         return true;
     }
 

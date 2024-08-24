@@ -73,6 +73,12 @@ class HtmlView extends BaseHtmlView
         $this->item  = $this->get('Item');
         $this->form  = $this->get('Form');
 
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
+        }
+
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
@@ -91,7 +97,12 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
+
         parent::display($tpl);
     }
 
@@ -160,5 +171,38 @@ class HtmlView extends BaseHtmlView
 
         $toolbar->divider();
         $toolbar->help('News_Feeds:_Edit');
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $user       = $this->getCurrentUser();
+        $isNew      = ($this->item->id == 0);
+        $toolbar    = Toolbar::getInstance();
+
+        // Since we don't track these assets at the item level, use the category id.
+        $canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
+
+        $title = $isNew ? Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
+        ToolbarHelper::title($title, 'rss newsfeeds');
+
+        $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0);
+        $canEdit   = $canDo->get('core.edit');
+
+        // For new records, check the create permission.
+        if ($canCreate || $canEdit) {
+            $toolbar->apply('newsfeed.apply');
+            $toolbar->save('newsfeed.save');
+        }
+
+        $toolbar->cancel('newsfeed.cancel');
     }
 }

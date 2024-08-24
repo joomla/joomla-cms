@@ -330,6 +330,9 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             // Existing item
             $this->modified_by = $user->get('id');
             $this->modified    = $date;
+            if (empty($this->created_by)) {
+                $this->created_by = 0;
+            }
         } else {
             // Field created_by can be set by the user, so we don't touch it if it's set.
             if (empty($this->created_by)) {

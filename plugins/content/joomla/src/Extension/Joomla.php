@@ -307,7 +307,7 @@ final class Joomla extends CMSPlugin
             }, [$id]);
         } elseif (\in_array($view, ['category', 'featured', 'archive'])) {
             $additionalSchemas = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
-                $menu = $app->getMenu()->getActive();
+                $menu     = $app->getMenu()->getActive();
                 $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
 
                 $additionalSchemas = [];
@@ -1011,7 +1011,7 @@ final class Joomla extends CMSPlugin
         // Display error if catid is not set when enable_category is enabled
         $params = json_decode($table->params, true);
 
-        if (isset($params['enable_category']) && $params['enable_category'] == 1 && empty($params['catid'])) {
+        if (isset($params['enable_category']) && $params['enable_category'] === 1 && empty($params['catid'])) {
             $table->setError($this->getApplication()->getLanguage()->_('COM_CONTENT_CREATE_ARTICLE_ERROR'));
 
             return false;

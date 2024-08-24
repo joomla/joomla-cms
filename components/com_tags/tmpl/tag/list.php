@@ -28,7 +28,7 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
     <?php if ($this->params->get('show_tag_title', 1)) : ?>
         <<?php echo $htag; ?>>
-            <?php echo HTMLHelper::_('content.prepare', $this->tags_title, '', 'com_tag.tag'); ?>
+            <?php echo HTMLHelper::_('content.prepare', $this->tags_title, '', 'com_tags.tag'); ?>
         </<?php echo $htag; ?>>
     <?php endif; ?>
 

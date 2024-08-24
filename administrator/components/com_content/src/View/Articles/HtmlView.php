@@ -190,7 +190,7 @@ class HtmlView extends BaseHtmlView
 
             $childBar = $dropdown->getChildToolbar();
 
-            if (\count($this->transitions)) {
+            if ($canDo->get('core.execute.transition') && \count($this->transitions)) {
                 $childBar->separatorButton('transition-headline')
                     ->text('COM_CONTENT_RUN_TRANSITIONS')
                     ->buttonClass('text-center py-2 h3');
@@ -234,7 +234,6 @@ class HtmlView extends BaseHtmlView
             if (
                 $user->authorise('core.create', 'com_content')
                 && $user->authorise('core.edit', 'com_content')
-                && $user->authorise('core.execute.transition', 'com_content')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->popupType('inline')

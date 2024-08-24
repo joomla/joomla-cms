@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\Component\Media\Administrator\View\Media\HtmlView $this */
+
 $app    = Factory::getApplication();
 $params = ComponentHelper::getParams('com_media');
 $input  = $app->getInput();
@@ -41,7 +43,7 @@ $config = [
     'fileBaseUrl'         => Uri::root() . $params->get('file_path', 'images'),
     'fileBaseRelativeUrl' => $params->get('file_path', 'images'),
     'editViewUrl'         => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '')  . $mediaTypes,
-    'imagesExtensions'    => array_map('trim', explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp'))),
+    'imagesExtensions'    => array_map('trim', explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif'))),
     'audioExtensions'     => array_map('trim', explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg'))),
     'videoExtensions'     => array_map('trim', explode(',', $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm'))),
     'documentExtensions'  => array_map('trim', explode(',', $params->get('doc_extensions', 'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'))),

@@ -8,6 +8,7 @@
 }
 
 .calendar-container {
+  --fallback-url: url("../../images/select-bg.svg");
   z-index: 1100 !important;
   float: left;
   min-width: 160px;
@@ -98,8 +99,8 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 }
 
 .calendar-container table tbody td.day.selected { /* Cell showing today date */
-  color: #fff;
-  background: #3071a9;
+  color: var(--btn-primary-color);
+  background: var(--btn-primary-bg);
   border: 0;
 }
 
@@ -126,9 +127,9 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 }
 
 .calendar-container table tbody td.day:hover {
-  color: #fff;
+  color: var(--btn-primary-color);
   cursor: pointer;
-  background: #3d8fd7;
+  background: var(--btn-primary-bg);
 }
 
 .calendar-container table tbody td.day:hover:after {
@@ -136,8 +137,8 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 }
 
 .calendar-container table tbody .disabled {
-  color: #999;
-  background-color: #fafafa;
+  color: var(--calendar-disabled-color);
+  background-color: var(--calendar-disabled-bg);
 }
 
 .calendar-container table tbody .emptycell { /* Empty cells (the best is to hide them) */
@@ -179,13 +180,17 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   line-height: 1.5;
   color: var(--calendar-select-color, #212529);
   background-color: var(--calendar-select-bg-color, #f0f4fb);
-  background-image: var(--calendar-select-bg-url, url("../../images/select-bg.svg"));
   background-repeat: no-repeat;
-  background-position: right center;
   background-size: max(100%, 58rem);
   border: 1px solid #cdcdcd;
   border-radius: .25rem;
   appearance: none;
+}
+
+/* Fix select dropdown background rtl / ltr */
+html:not([dir="rtl"]) .calendar-container .time td select {
+  background-image: var(--calendar-select-bg-url, var(--fallback-url));
+  background-position: right center;
 }
 
 .buttons-wrapper {
@@ -199,14 +204,15 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   padding: 0 16px;
   margin-right: 0;
   line-height: 2.375rem;
-  color: var(--calendar-buttons-color, #495057);
-  border: 1px solid var(--calendar-buttons-color, #495057);
+  color: var(--btn-primary-color);
+  background: var(--btn-primary-bg);
+  border: 1px solid var(--body-bg);
   box-shadow: 1px 1px 1px 0 rgba(0,0,0,.25);
 }
 
 .buttons-wrapper .btn:hover {
-  color: #fff;
-  background: #1a466b;
+  color: var(--btn-primary-color);
+  background: var(--btn-primary-bg);
 }
 
 .buttons-wrapper .btn:last-child {

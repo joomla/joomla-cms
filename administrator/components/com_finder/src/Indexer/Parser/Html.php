@@ -38,7 +38,7 @@ class Html extends Parser
     public function parse($input)
     {
         // Strip invalid UTF-8 characters.
-        $oldSetting = ini_get('mbstring.substitute_character');
+        $oldSetting = \ini_get('mbstring.substitute_character');
         ini_set('mbstring.substitute_character', 'none');
         $input = mb_convert_encoding($input, 'UTF-8', 'UTF-8');
         ini_set('mbstring.substitute_character', $oldSetting);

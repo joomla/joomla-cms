@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\CoreUpdateChannelCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
@@ -18,6 +19,7 @@ use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
+use Joomla\CMS\Console\MaintenanceDatabaseCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -225,6 +227,21 @@ class Console implements ServiceProviderInterface
             TasksStateCommand::class,
             function (Container $container) {
                 return new TasksStateCommand();
+            }
+        );
+
+        $container->share(
+            MaintenanceDatabaseCommand::class,
+            function (Container $container) {
+                return new MaintenanceDatabaseCommand();
+            },
+            true
+        );
+
+        $container->share(
+            CoreUpdateChannelCommand::class,
+            function (Container $container) {
+                return new CoreUpdateChannelCommand($container->get(DatabaseInterface::class));
             }
         );
     }

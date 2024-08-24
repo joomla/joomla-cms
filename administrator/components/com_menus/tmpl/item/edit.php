@@ -17,6 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Item\HtmlView $this */
+
 $this->useCoreUI = true;
 
 Text::script('ERROR');

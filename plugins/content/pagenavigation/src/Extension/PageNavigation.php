@@ -86,20 +86,20 @@ final class PageNavigation extends CMSPlugin
                 $orderDate = $params->get('order_date');
 
                 switch ($orderDate) {
-                    // Use created if modified is not set
                     case 'modified':
+                        // Use created if modified is not set
                         $orderby = 'CASE WHEN ' . $db->quoteName('a.modified') . ' IS NULL THEN ' .
                             $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
                         break;
 
-                    // Use created if publish_up is not set
                     case 'published':
+                        // Use created if publish_up is not set
                         $orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' .
                             $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
                         break;
 
-                    // Use created as default
                     default:
+                        // Use created as default
                         $orderby = $db->quoteName('a.created');
                         break;
                 }
