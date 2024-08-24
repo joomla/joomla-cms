@@ -48,7 +48,7 @@ class CommunityInfoHelper
 
     /**
      * Fallback community info
-     * 
+     *
      * @var array
      */
     public const DEFAULT_INFO = [
