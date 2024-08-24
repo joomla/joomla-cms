@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Messages\Administrator\View\Message\HtmlView $this */
@@ -41,7 +42,7 @@ $wa->useScript('core');
             <dd><?php echo $this->item->subject; ?></dd>
 
             <dt><?php echo Text::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?></dt>
-            <dd><?php echo $this->item->message; ?></dd>
+            <dd><?php echo MailHelper::convertRelativeToAbsoluteUrls($this->item->message); ?></dd>
         </dl>
     </div>
 </div>

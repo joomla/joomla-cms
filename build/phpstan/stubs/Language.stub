@@ -1,0 +1,16 @@
+<?php
+
+namespace Joomla\CMS\Language;
+
+class Language
+{
+	/**
+	 * As the framework package has the _ function deprecated and the CMS one not, PHPStan will report it as deprecated.
+	 * We revert that.
+	 *
+     * @not-deprecated
+	 *
+	 * @return string
+     */
+    public function _();
+}

@@ -61,6 +61,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             'onContentPrepareData' => 'onContentPrepareData',
             'onContentPrepareForm' => 'onContentPrepareForm',
             'onContentAfterSave'   => 'onContentAfterSave',
+            'onContentAfterDelete' => 'onContentAfterDelete',
         ];
     }
 
@@ -204,16 +205,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $itemId = (int) $table->id;
 
         if (empty($data['schema']) || empty($data['schema']['schemaType']) || $data['schema']['schemaType'] === 'None') {
-            $query = $db->getQuery(true);
-
-            $query->delete($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
-
-            $db->setQuery($query)->execute();
-
+            $this->deleteSchemaOrg($itemId, $context);
             return;
         }
 
@@ -536,5 +528,46 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         }
 
         return false;
+    }
+
+    /**
+     * The delete event.
+     *
+     * @param   Object    $event  The event
+     *
+     * @return  void
+     *
+     * @since   5.1.3
+     */
+    public function onContentAfterDelete(Model\AfterDeleteEvent $event)
+    {
+        $context = $event->getContext();
+        $itemId  = $event->getItem()->id;
+
+        $this->deleteSchemaOrg($itemId, $context);
+    }
+
+    /**
+     * Delete SchemaOrg record from Database.
+     *
+     * @param   Integer   $itemId
+     * @param   String    $context
+     *
+     * @return  void
+     *
+     * @since   5.1.3
+     */
+    public function deleteSchemaOrg($itemId, $context)
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
+
+        $query->delete($db->quoteName('#__schemaorg'))
+            ->where($db->quoteName('itemId') . '= :itemId')
+            ->where($db->quoteName('context') . '= :context')
+            ->bind(':itemId', $itemId, ParameterType::INTEGER)
+            ->bind(':context', $context, ParameterType::STRING);
+
+        $db->setQuery($query)->execute();
     }
 }
