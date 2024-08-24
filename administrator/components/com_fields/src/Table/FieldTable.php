@@ -15,7 +15,10 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -28,8 +31,10 @@ use Joomla\String\StringHelper;
  *
  * @since  3.7.0
  */
-class FieldTable extends Table
+class FieldTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -41,23 +46,24 @@ class FieldTable extends Table
     /**
      * Class constructor.
      *
-     * @param   DatabaseDriver  $db  DatabaseDriver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.7.0
      */
-    public function __construct($db = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__fields', 'id', $db);
+        parent::__construct('#__fields', 'id', $db, $dispatcher);
 
         $this->setColumnAlias('published', 'state');
     }
 
     /**
-     * Method to bind an associative array or object to the JTable instance.This
+     * Method to bind an associative array or object to the \Joomla\CMS\Table\Table instance.This
      * method only binds properties that are publicly accessible and optionally
      * takes an array of properties to ignore when binding.
      *
-     * @param   mixed  $src     An associative array or object to bind to the JTable instance.
+     * @param   mixed  $src     An associative array or object to bind to the \Joomla\CMS\Table\Table instance.
      * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
      *
      * @return  boolean  True on success.
@@ -67,20 +73,20 @@ class FieldTable extends Table
      */
     public function bind($src, $ignore = '')
     {
-        if (isset($src['params']) && is_array($src['params'])) {
+        if (isset($src['params']) && \is_array($src['params'])) {
             $registry = new Registry();
             $registry->loadArray($src['params']);
             $src['params'] = (string) $registry;
         }
 
-        if (isset($src['fieldparams']) && is_array($src['fieldparams'])) {
+        if (isset($src['fieldparams']) && \is_array($src['fieldparams'])) {
             // Make sure $registry->options contains no duplicates when the field type is subform
             if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options'])) {
                 // Fast lookup map to check which custom field ids we have already seen
-                $seen_customfields = array();
+                $seen_customfields = [];
 
                 // Container for the new $src['fieldparams']['options']
-                $options = array();
+                $options = [];
 
                 // Iterate through the old options
                 $i = 0;
@@ -90,7 +96,7 @@ class FieldTable extends Table
                     if (!isset($seen_customfields[$option['customfield']])) {
                         // We haven't, so add it to the final options
                         $seen_customfields[$option['customfield']] = true;
-                        $options['option' . $i] = $option;
+                        $options['option' . $i]                    = $option;
                         $i++;
                     }
                 }
@@ -105,7 +111,7 @@ class FieldTable extends Table
         }
 
         // Bind the rules.
-        if (isset($src['rules']) && is_array($src['rules'])) {
+        if (isset($src['rules']) && \is_array($src['rules'])) {
             $rules = new Rules($src['rules']);
             $this->setRules($rules);
         }
@@ -114,7 +120,7 @@ class FieldTable extends Table
     }
 
     /**
-     * Method to perform sanity checks on the JTable instance properties to ensure
+     * Method to perform sanity checks on the \Joomla\CMS\Table\Table instance properties to ensure
      * they are safe to store in the database.  Child classes should override this
      * method to make sure the data they are storing in the database is safe and
      * as expected before storage.
@@ -146,9 +152,9 @@ class FieldTable extends Table
         $this->name = str_replace(',', '-', $this->name);
 
         // Verify that the name is unique
-        $table = new static($this->_db);
+        $table = new self($this->_db, $this->getDispatcher());
 
-        if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
             return false;
@@ -165,7 +171,7 @@ class FieldTable extends Table
         }
 
         $date = Factory::getDate()->toSql();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created_time) {
@@ -175,14 +181,14 @@ class FieldTable extends Table
         if ($this->id) {
             // Existing item
             $this->modified_time = $date;
-            $this->modified_by = $user->get('id');
+            $this->modified_by   = $user->id;
         } else {
             if (!(int) $this->modified_time) {
                 $this->modified_time = $this->created_time;
             }
 
             if (empty($this->created_user_id)) {
-                $this->created_user_id = $user->get('id');
+                $this->created_user_id = $user->id;
             }
 
             if (empty($this->modified_by)) {
@@ -252,17 +258,17 @@ class FieldTable extends Table
      * The extended class can define a table and id to lookup.  If the
      * asset does not exist it will be created.
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     Id to look up
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   integer   $id     Id to look up
      *
      * @return  integer
      *
      * @since   3.7.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $contextArray = explode('.', $this->context);
-        $component = $contextArray[0];
+        $component    = $contextArray[0];
 
         if ($this->group_id) {
             $assetId = $this->getAssetId($component . '.fieldgroup.' . (int) $this->group_id);
@@ -292,7 +298,7 @@ class FieldTable extends Table
      */
     private function getAssetId($name)
     {
-        $db = $this->getDbo();
+        $db    = $this->getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__assets'))

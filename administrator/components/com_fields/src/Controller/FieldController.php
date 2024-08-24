@@ -51,22 +51,22 @@ class FieldController extends FormController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * Recognized key values include 'name', 'default_task', 'model_path', and
-     * 'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.7.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
         $this->internalContext = $this->app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
-        $parts = FieldsHelper::extract($this->internalContext);
-        $this->component = $parts ? $parts[0] : null;
+        $parts                 = FieldsHelper::extract($this->internalContext);
+        $this->component       = $parts ? $parts[0] : null;
     }
 
     /**
@@ -78,7 +78,7 @@ class FieldController extends FormController
      *
      * @since   3.7.0
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         return $this->app->getIdentity()->authorise('core.create', $this->component);
     }
@@ -93,7 +93,7 @@ class FieldController extends FormController
      *
      * @since   3.7.0
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
         $user     = $this->app->getIdentity();
@@ -183,11 +183,11 @@ class FieldController extends FormController
      *
      * @since   3.7.0
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         $item = $model->getItem();
 
-        if (isset($item->params) && is_array($item->params)) {
+        if (isset($item->params) && \is_array($item->params)) {
             $registry = new Registry();
             $registry->loadArray($item->params);
             $item->params = (string) $registry;

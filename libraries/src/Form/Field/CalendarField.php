@@ -9,14 +9,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -64,7 +63,7 @@ class CalendarField extends FormField
     /**
      * The filter.
      *
-     * @var    integer
+     * @var    string
      * @since  3.2
      */
     protected $filter;
@@ -84,6 +83,54 @@ class CalendarField extends FormField
      * @since  3.7.0
      */
     protected $maxyear;
+
+    /**
+     * The today button flag
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $todaybutton;
+
+    /**
+     * The week numbers flag
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $weeknumbers;
+
+    /**
+     * The show time flag
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $showtime;
+
+    /**
+     * The fill table flag
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $filltable;
+
+    /**
+     * The time format
+     *
+     * @var    integer
+     * @since  4.3.0
+     */
+    protected $timeformat;
+
+    /**
+     * The single header flag
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $singleheader;
 
     /**
      * Name of the layout being used to render the field
@@ -145,6 +192,8 @@ class CalendarField extends FormField
     {
         switch ($name) {
             case 'maxlength':
+            case 'maxyear':
+            case 'minyear':
             case 'timeformat':
                 $this->$name = (int) $value;
                 break;
@@ -156,8 +205,6 @@ class CalendarField extends FormField
             case 'format':
             case 'filterFormat':
             case 'filter':
-            case 'minyear':
-            case 'maxyear':
                 $this->$name = (string) $value;
                 break;
 
@@ -187,6 +234,7 @@ class CalendarField extends FormField
         if ($return) {
             $this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
             $this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
+            $this->filterFormat = (string) $this->element['filterformat'] ? (string) $this->element['filterformat'] : '';
             $this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
             $this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : 'true';
             $this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : 'true';
@@ -194,8 +242,8 @@ class CalendarField extends FormField
             $this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
             $this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
             $this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
-            $this->minyear      = \strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
-            $this->maxyear      = \strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
+            $this->minyear      = \strlen((string) $this->element['minyear']) ? (int) $this->element['minyear'] : null;
+            $this->maxyear      = \strlen((string) $this->element['maxyear']) ? (int) $this->element['maxyear'] : null;
 
             if ($this->maxyear < 0 || $this->minyear > 0) {
                 $this->todaybutton = 'false';
@@ -233,52 +281,56 @@ class CalendarField extends FormField
      */
     protected function getInput()
     {
-        $user = Factory::getApplication()->getIdentity();
+        $user  = Factory::getApplication()->getIdentity();
+        $data  = $this->collectLayoutData();
+        $value = $data['value'];
 
         // If a known filter is given use it.
         switch (strtoupper($this->filter)) {
             case 'SERVER_UTC':
                 // Convert a date to UTC based on the server timezone.
-                if ($this->value && $this->value != $this->getDatabase()->getNullDate()) {
+                if ($value && $value != $this->getDatabase()->getNullDate()) {
                     // Get a date object based on the correct timezone.
-                    $date = Factory::getDate($this->value, 'UTC');
+                    $date = Factory::getDate($value, 'UTC');
                     $date->setTimezone(new \DateTimeZone(Factory::getApplication()->get('offset')));
 
                     // Transform the date string.
-                    $this->value = $date->format('Y-m-d H:i:s', true, false);
+                    $value = $date->format('Y-m-d H:i:s', true, false);
                 }
                 break;
             case 'USER_UTC':
                 // Convert a date to UTC based on the user timezone.
-                if ($this->value && $this->value != $this->getDatabase()->getNullDate()) {
+                if ($value && $value != $this->getDatabase()->getNullDate()) {
                     // Get a date object based on the correct timezone.
-                    $date = Factory::getDate($this->value, 'UTC');
+                    $date = Factory::getDate($value, 'UTC');
                     $date->setTimezone($user->getTimezone());
 
                     // Transform the date string.
-                    $this->value = $date->format('Y-m-d H:i:s', true, false);
+                    $value = $date->format('Y-m-d H:i:s', true, false);
                 }
                 break;
         }
 
         // Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-        if ($this->value && $this->value != $this->getDatabase()->getNullDate() && strtotime($this->value) !== false) {
+        if ($value && $value != $this->getDatabase()->getNullDate() && strtotime($value) !== false) {
             $tz = date_default_timezone_get();
             date_default_timezone_set('UTC');
 
             if ($this->filterFormat) {
-                $date = \DateTimeImmutable::createFromFormat('U', strtotime($this->value));
-                $this->value = $date->format($this->filterFormat);
+                $date  = \DateTimeImmutable::createFromFormat('U', strtotime($value));
+                $value = $date->format($this->filterFormat);
             } else {
-                $this->value = strftime($this->format, strtotime($this->value));
+                $value = strftime($this->format, strtotime($value));
             }
 
             date_default_timezone_set($tz);
         } else {
-            $this->value = '';
+            $value = '';
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        $data['value'] = $value;
+
+        return $this->getRenderer($this->layout)->render($data);
     }
 
     /**
@@ -302,7 +354,7 @@ class CalendarField extends FormField
             $helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
         }
 
-        $extraData = array(
+        $extraData = [
             'value'        => $this->value,
             'maxLength'    => $this->maxlength,
             'format'       => $this->format,
@@ -320,7 +372,7 @@ class CalendarField extends FormField
             'calendar'     => $calendar,
             'firstday'     => $lang->getFirstDay(),
             'weekend'      => explode(',', $lang->getWeekEnd()),
-        );
+        ];
 
         return array_merge($data, $extraData);
     }
@@ -328,16 +380,16 @@ class CalendarField extends FormField
     /**
      * Method to filter a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
      *
      * @return  mixed   The filtered value.
      *
      * @since   4.0.0
      */
-    public function filter($value, $group = null, Registry $input = null)
+    public function filter($value, $group = null, ?Registry $input = null)
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
@@ -349,7 +401,7 @@ class CalendarField extends FormField
         }
 
         if ($this->filterFormat) {
-            $value = DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
+            $value = \DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
         }
 
         $app = Factory::getApplication();
@@ -366,8 +418,8 @@ class CalendarField extends FormField
                 $return = Factory::getDate($value, $app->get('offset'))->toSql();
                 break;
 
-            // Convert a date to UTC based on the user timezone offset.
             case 'USER_UTC':
+                // Convert a date to UTC based on the user timezone offset.
                 // Get the user timezone setting defaulting to the server timezone setting.
                 $offset = $app->getIdentity()->getParam('timezone', $app->get('offset'));
 

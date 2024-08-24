@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -65,7 +65,7 @@ class AtomRenderer extends DocumentRenderer
 
         $data = $this->_doc;
 
-        $url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+        $url            = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port']);
         $syndicationURL = Route::_('&format=feed&type=atom');
 
         $title = $data->getTitle();
@@ -86,7 +86,7 @@ class AtomRenderer extends DocumentRenderer
 
         $feed .= ">\n";
         $feed .= "	<title type=\"text\">" . $feed_title . "</title>\n";
-        $feed .= "	<subtitle type=\"text\">" . htmlspecialchars($data->getDescription(), ENT_COMPAT, 'UTF-8') . "</subtitle>\n";
+        $feed .= "	<subtitle type=\"text\">" . htmlspecialchars($data->getDescription() ?? '', ENT_COMPAT, 'UTF-8') . "</subtitle>\n";
 
         if (!empty($data->category)) {
             if (\is_array($data->category)) {

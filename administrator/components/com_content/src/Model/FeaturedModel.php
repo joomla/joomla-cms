@@ -11,6 +11,8 @@
 namespace Joomla\Component\Content\Administrator\Model;
 
 // phpcs:disable PSR1.Files.SideEffects
+use Joomla\Database\QueryInterface;
+
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
@@ -29,10 +31,10 @@ class FeaturedModel extends ArticlesModel
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -59,7 +61,7 @@ class FeaturedModel extends ArticlesModel
                 'tag',
                 'rating_count', 'rating',
                 'ws.title',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -88,7 +90,7 @@ class FeaturedModel extends ArticlesModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   4.0.0
      */

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Users\Site\View\Profile\HtmlView $this */
 $fieldsets = $this->form->getFieldsets();
 
 if (isset($fieldsets['core'])) {
@@ -23,8 +24,8 @@ if (isset($fieldsets['params'])) {
     unset($fieldsets['params']);
 }
 
-$tmp          = $this->data->jcfields ?? array();
-$customFields = array();
+$tmp          = $this->data->jcfields ?? [];
+$customFields = [];
 
 foreach ($tmp as $customField) {
     $customFields[$customField->name] = $customField;

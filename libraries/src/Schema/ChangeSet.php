@@ -9,11 +9,11 @@
 
 namespace Joomla\CMS\Schema;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,7 +32,7 @@ class ChangeSet
      * @var    ChangeItem[]
      * @since  2.5
      */
-    protected $changeItems = array();
+    protected $changeItems = [];
 
     /**
      * DatabaseDriver object
@@ -69,9 +69,9 @@ class ChangeSet
      */
     public function __construct($db, $folder = null)
     {
-        $this->db = $db;
+        $this->db     = $db;
         $this->folder = $folder;
-        $updateFiles = $this->getUpdateFiles();
+        $updateFiles  = $this->getUpdateFiles();
 
         // If no files were found nothing more we can do - continue
         if ($updateFiles === false) {
@@ -82,50 +82,6 @@ class ChangeSet
 
         foreach ($updateQueries as $obj) {
             $this->changeItems[] = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
-        }
-
-        // If on mysql, add a query at the end to check for utf8mb4 conversion status
-        if ($this->db->getServerType() === 'mysql') {
-            // Check if the #__utf8_conversion table exists
-            $this->db->setQuery('SHOW TABLES LIKE ' . $this->db->quote($this->db->getPrefix() . 'utf8_conversion'));
-
-            try {
-                $rows = $this->db->loadRowList(0);
-
-                $tableExists = \count($rows);
-            } catch (\RuntimeException $e) {
-                $tableExists = 0;
-            }
-
-            // If the table exists add a change item for utf8mb4 conversion to the end
-            if ($tableExists > 0) {
-                // Let the update query do nothing
-                $tmpSchemaChangeItem = ChangeItem::getInstance(
-                    $db,
-                    'database.php',
-                    'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-                    . ' SET ' . $this->db->quoteName('converted') . ' = '
-                    . $this->db->quoteName('converted') . ';'
-                );
-
-                // Set to not skipped
-                $tmpSchemaChangeItem->checkStatus = 0;
-
-                // Set the check query
-                $tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
-
-                $tmpSchemaChangeItem->checkQuery = 'SELECT '
-                    . $this->db->quoteName('converted')
-                    . ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-                    . ' WHERE ' . $this->db->quoteName('converted') . ' = 5';
-
-                // Set expected records from check query
-                $tmpSchemaChangeItem->checkQueryExpected = 1;
-
-                $tmpSchemaChangeItem->msgElements = array();
-
-                $this->changeItems[] = $tmpSchemaChangeItem;
-            }
         }
     }
 
@@ -159,7 +115,7 @@ class ChangeSet
      */
     public function check()
     {
-        $errors = array();
+        $errors = [];
 
         foreach ($this->changeItems as $item) {
             if ($item->check() === -2) {
@@ -196,7 +152,7 @@ class ChangeSet
      */
     public function getStatus()
     {
-        $result = array('unchecked' => array(), 'ok' => array(), 'error' => array(), 'skipped' => array());
+        $result = ['unchecked' => [], 'ok' => [], 'error' => [], 'skipped' => []];
 
         foreach ($this->changeItems as $item) {
             switch ($item->checkStatus) {
@@ -232,7 +188,7 @@ class ChangeSet
     {
         $updateFiles = $this->getUpdateFiles();
 
-        // No schema files found - abort and return empty string
+        // No schema files found - stop and return empty string
         if (empty($updateFiles)) {
             return '';
         }
@@ -254,11 +210,6 @@ class ChangeSet
         // Get the folder from the database name
         $sqlFolder = $this->db->getServerType();
 
-        // For `mssql` server types, convert the type to `sqlazure`
-        if ($sqlFolder === 'mssql') {
-            $sqlFolder = 'sqlazure';
-        }
-
         // Default folder to core com_admin
         if (!$this->folder) {
             $this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
@@ -275,8 +226,8 @@ class ChangeSet
             '\.sql$',
             1,
             true,
-            array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-            array('^\..*', '.*~'),
+            ['.svn', 'CVS', '.DS_Store', '__MACOSX'],
+            ['^\..*', '.*~'],
             true
         );
     }
@@ -295,7 +246,7 @@ class ChangeSet
     private function getUpdateQueries(array $sqlfiles)
     {
         // Hold results as array of objects
-        $result = array();
+        $result = [];
 
         foreach ($sqlfiles as $file) {
             $buffer = file_get_contents($file);
@@ -304,10 +255,10 @@ class ChangeSet
             $queries = DatabaseDriver::splitSql($buffer);
 
             foreach ($queries as $query) {
-                $fileQueries = new \stdClass();
-                $fileQueries->file = $file;
+                $fileQueries              = new \stdClass();
+                $fileQueries->file        = $file;
                 $fileQueries->updateQuery = $query;
-                $result[] = $fileQueries;
+                $result[]                 = $fileQueries;
             }
         }
 

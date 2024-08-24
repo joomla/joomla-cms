@@ -16,13 +16,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Fields\Administrator\View\Group\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
 $app = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 
 $this->useCoreUI = true;
 
@@ -41,23 +43,23 @@ $this->useCoreUI = true;
             <div class="col-lg-3">
                 <?php $this->set(
                     'fields',
-                    array(
-                            array(
+                    [
+                            [
                                 'published',
                                 'state',
                                 'enabled',
-                            ),
+                            ],
                             'access',
                             'language',
                             'note',
-                        )
+                        ]
                 ); ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
                 <?php $this->set('fields', null); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
-        <?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
+        <?php $this->set('ignore_fieldsets', ['fieldparams']); ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
         <fieldset id="fieldset-rules" class="options-form">

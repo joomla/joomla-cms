@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="params">
@@ -28,21 +28,19 @@
 			/>
 
 			<field
-				name="menu-anchor_title"
-				type="text"
-				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
-			/>
-
-			<field
 				name="menu_icon"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
+				validate="CssIdentifier"
 			/>
 
 			<field
 				name="menu_image"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 			/>
 

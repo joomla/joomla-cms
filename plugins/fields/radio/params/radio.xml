@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
@@ -27,23 +27,16 @@
 			</field>
 		</fieldset>
 	</fields>
-
 	<fields name="params">
 		<fieldset name="basic">
-			<field
-				name="class"
-				type="textarea"
-				label="COM_FIELDS_FIELD_CLASS_LABEL"
-				default="btn-group"
-				validate="CssIdentifier"
-			/>
 			<fieldset name="formoptions">
 				<field
 					name="form_layout"
 					type="list"
-					label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
 					class="form-select"
 					>
+					<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 					<option value="joomla.form.field.radio.buttons">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_BUTTONS</option>
 					<option value="joomla.form.field.radio.switcher">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_SWITCHER</option>
 				</field>

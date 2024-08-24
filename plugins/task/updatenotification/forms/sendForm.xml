@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params">
+		<fieldset name="task_params">
+			<field
+				name="email"
+				type="text"
+				label="PLG_TASK_UPDATENOTIFICATION_EMAIL_LBL"
+				description="PLG_TASK_UPDATENOTIFICATION_EMAIL_DESC"
+				default=""
+			/>
+			<field
+				name="language_override"
+				type="language"
+				label="PLG_TASK_UPDATENOTIFICATION_LANGUAGE_OVERRIDE_LBL"
+				description="PLG_TASK_UPDATENOTIFICATION_LANGUAGE_OVERRIDE_DESC"
+				default=""
+				client="administrator"
+				>
+				<option value="">PLG_TASK_UPDATENOTIFICATION_LANGUAGE_OVERRIDE_NONE</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

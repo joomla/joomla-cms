@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_jooa11y</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.2.0</version>
 	<description>PLG_SYSTEM_JOOA11Y_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Jooa11y</namespace>
 	<files>
-		<filename plugin="jooa11y">jooa11y.php</filename>
+		<folder plugin="jooa11y">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_jooa11y.ini</language>
@@ -24,6 +26,66 @@
 					type="radio"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_SHOW_ALWAYS"
 					description="PLG_SYSTEM_JOOA11Y_FIELD_SHOW_ALWAYS_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+				<field
+					name="contrastPlugin"
+					type="radio"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_CONTRAST"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_CONTRAST_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+				<field
+					name="formLabelsPlugin"
+					type="radio"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_FORM_LABELS"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_FORM_LABELS_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+				<field
+					name="linksAdvancedPlugin"
+					type="radio"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_LINKS_ADVANCED"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_LINKS_ADVANCED_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+				<field
+					name="colourFilterPlugin"
+					type="radio"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_COLOUR_FILTER"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_COLOUR_FILTER_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+				<field
+					name="additionalChecks"
+					type="radio"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_ADDITIONAL_CHECKS"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_ADDITIONAL_CHECKS_DESC"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
@@ -54,6 +116,25 @@
 					description="PLG_SYSTEM_JOOA11Y_FIELD_CONTAINER_IGNORE_DESC"
 					filter="string"
 				/>
+				<field
+					name="shadowComponents"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_WEB_COMPONENTS"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_WEB_COMPONENTS_DESC"
+					filter="string"
+				/>
+				<field
+					name="extraProps"
+					type="subform"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS_DESC"
+					multiple="true"
+					>
+					<form>
+						<field type="text" name="key" label="PLG_SYSTEM_JOOA11Y_KEY"/>
+						<field type="text" name="value" label="PLG_SYSTEM_JOOA11Y_VALUE"/>
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

@@ -120,7 +120,17 @@ HTMLHelper::_('behavior.formvalidator');
                 </div>
             </div>
         </fieldset>
-
+        <fieldset id="installStep4" class="j-install-step" >
+            <legend class="j-install-step-header">
+                <span class="icon-cogs" aria-hidden="true"></span> <?php echo Text::_('INSTL_PROGRESS'); ?>
+            </legend>
+            <div class="j-install-step-form" aria-live="polite" >
+                <label class="progresslabel text-center">
+                    <progress class="progressbar" id="progressbar" value="0" max="8"></progress>
+                    <span id="progress-text" role="status"><?php echo Text::_('INSTL'); ?></span>
+                </label>
+            </div>
+        </fieldset>
         <input type="hidden" name="admin_password2" id="jform_admin_password2">
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>

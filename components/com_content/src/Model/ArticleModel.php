@@ -52,17 +52,17 @@ class ArticleModel extends ItemModel
         $app = Factory::getApplication();
 
         // Load state from the request.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('article.id', $pk);
 
-        $offset = $app->input->getUint('limitstart');
+        $offset = $app->getInput()->getUint('limitstart');
         $this->setState('list.offset', $offset);
 
         // Load the parameters.
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // If $pk is set then authorise on complete asset, else on component only
         $asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
@@ -84,17 +84,17 @@ class ArticleModel extends ItemModel
      */
     public function getItem($pk = null)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $pk = (int) ($pk ?: $this->getState('article.id'));
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {
             try {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true);
 
                 $query->select(
@@ -204,7 +204,7 @@ class ArticleModel extends ItemModel
 
                 // Filter by published state.
                 $published = $this->getState('filter.published');
-                $archived = $this->getState('filter.archived');
+                $archived  = $this->getState('filter.archived');
 
                 if (is_numeric($published)) {
                     $query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
@@ -232,9 +232,9 @@ class ArticleModel extends ItemModel
                 $data->metadata = new Registry($data->metadata);
 
                 // Technically guest could edit an article, but lets not check that to improve performance a little.
-                if (!$user->get('guest')) {
-                    $userId = $user->get('id');
-                    $asset = 'com_content.article.' . $data->id;
+                if (!$user->guest) {
+                    $userId = $user->id;
+                    $asset  = 'com_content.article.' . $data->id;
 
                     // Check general edit permission first.
                     if ($user->authorise('core.edit', $asset)) {
@@ -254,13 +254,13 @@ class ArticleModel extends ItemModel
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
-                    $user = Factory::getUser();
+                    $user   = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
-                        $data->params->set('access-view', in_array($data->access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups));
                     } else {
-                        $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
                     }
                 }
 
@@ -269,10 +269,10 @@ class ArticleModel extends ItemModel
                 if ($e->getCode() == 404) {
                     // Need to go through the error handler to allow Redirect to work.
                     throw $e;
-                } else {
-                    $this->setError($e);
-                    $this->_item[$pk] = false;
                 }
+
+                $this->setError($e);
+                $this->_item[$pk] = false;
             }
         }
 
@@ -288,13 +288,13 @@ class ArticleModel extends ItemModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
             $pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
-            $table = Table::getInstance('Content', 'JTable');
+            $table = Table::getInstance('Content', '\\Joomla\\CMS\\Table\\');
             $table->hit($pk);
         }
 
@@ -415,7 +415,8 @@ class ArticleModel extends ItemModel
      * Cleans the cache of com_content and content modules
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

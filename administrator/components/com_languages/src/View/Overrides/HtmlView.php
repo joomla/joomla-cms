@@ -60,6 +60,20 @@ class HtmlView extends BaseHtmlView
     protected $languages;
 
     /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
+    /**
      * Displays the view.
      *
      * @param   string  $tpl  The name of the template file to parse.
@@ -78,7 +92,7 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors));
         }
 
@@ -96,27 +110,31 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         // Get the results for each action
-        $canDo = ContentHelper::getActions('com_languages');
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments langmanager');
 
         if ($canDo->get('core.create')) {
-            ToolbarHelper::addNew('override.add');
+            $toolbar->addNew('override.add');
         }
 
         if ($canDo->get('core.delete') && $this->pagination->total) {
-            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
+            $toolbar->delete('overrides.delete')
+                ->message('JGLOBAL_CONFIRM_DELETE');
         }
 
         if ($this->getCurrentUser()->authorise('core.admin')) {
-            ToolbarHelper::custom('overrides.purge', 'refresh', '', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
+            $toolbar->standardButton('purge', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', 'overrides.purge')
+                ->listCheck(false)
+                ->icon('icon-refresh');
         }
 
         if ($canDo->get('core.admin')) {
-            ToolbarHelper::preferences('com_languages');
+            $toolbar->preferences('com_languages');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Languages:_Overrides');
+        $toolbar->divider();
+        $toolbar->help('Languages:_Overrides');
     }
 }

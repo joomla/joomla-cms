@@ -97,7 +97,7 @@ class TaskController extends FormController
      *
      * @since  4.1.0
      */
-    protected function allowEdit($data = array(), $key = 'id'): bool
+    protected function allowEdit($data = [], $key = 'id'): bool
     {
         // Extract the recordId from $data, will come in handy
         $recordId = (int) $data[$key] ?? 0;

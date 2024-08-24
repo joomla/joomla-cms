@@ -20,12 +20,10 @@ use Joomla\Utilities\ArrayHelper;
  * @var HtmlView     $this  View object
  * @var CaptiveModel $model The model
  */
-$model           = $this->getModel();
+$model = $this->getModel();
 
-if ($this->renderOptions['field_type'] !== 'custom') {
-    $this->document->getWebAssetManager()
-            ->useScript('com_users.two-factor-focus');
-}
+$this->getDocument()->getWebAssetManager()
+    ->useScript('com_users.two-factor-focus');
 
 ?>
 <div class="users-mfa-captive card card-body">
@@ -81,12 +79,13 @@ if ($this->renderOptions['field_type'] !== 'custom') {
                     <?php
                     $attributes = array_merge(
                         [
-                            'type'        => $this->renderOptions['input_type'],
-                            'name'        => 'code',
-                            'value'       => '',
-                            'placeholder' => $this->renderOptions['placeholder'] ?? null,
-                            'id'          => 'users-mfa-code',
-                            'class'       => 'form-control'
+                            'type'         => $this->renderOptions['input_type'],
+                            'name'         => 'code',
+                            'value'        => '',
+                            'placeholder'  => $this->renderOptions['placeholder'] ?? null,
+                            'id'           => 'users-mfa-code',
+                            'class'        => 'form-control',
+                            'autocomplete' => $this->renderOptions['autocomplete'] ?? 'one-time-code'
                         ],
                         $this->renderOptions['input_attributes']
                     );

@@ -61,7 +61,7 @@ class MenuHelper
             $end            = (int) $params->get('endLevel', 0);
             $showAll        = $params->get('showAllChildren', 1);
             $items          = $menu->getItems('menutype', $params->get('menutype'));
-            $hidden_parents = array();
+            $hidden_parents = [];
             $lastitem       = 0;
 
             if ($items) {

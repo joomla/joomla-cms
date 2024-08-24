@@ -12,12 +12,13 @@ namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Component\Plugins\Administrator\Model\PluginModel;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,9 +30,10 @@ use Joomla\Filter\InputFilter;
  *
  * @since  4.0.0
  */
-final class Token extends CMSPlugin
+final class Token extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * The prefix of the user profile keys, without the dot.
@@ -50,14 +52,6 @@ final class Token extends CMSPlugin
     private $allowedAlgos = ['sha256', 'sha512'];
 
     /**
-     * The user factory
-     *
-     * @var    UserFactoryInterface
-     * @since  4.2.0
-     */
-    private $userFactory;
-
-    /**
      * The input filter
      *
      * @var    InputFilter
@@ -66,36 +60,46 @@ final class Token extends CMSPlugin
     private $filter;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return ['onUserAuthenticate' => 'onUserAuthenticate'];
+    }
+
+    /**
      * Constructor.
      *
      * @param   DispatcherInterface   $dispatcher   The dispatcher
      * @param   array                 $config       An optional associative array of configuration settings
-     * @param   UserFactoryInterface  $userFactory  The user factory
      * @param   InputFilter           $filter       The input filter
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory, InputFilter $filter)
+    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter)
     {
         parent::__construct($dispatcher, $config);
 
-        $this->userFactory = $userFactory;
-        $this->filter      = $filter;
+        $this->filter = $filter;
     }
 
     /**
      * This method should handle any authentication and report back to the subject
      *
-     * @param   array   $credentials  Array holding the user credentials
-     * @param   array   $options      Array of extra options
-     * @param   object  $response     Authentication response object
+     * @param   AuthenticationEvent  $event    Authentication event
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onUserAuthenticate($credentials, $options, &$response): void
+    public function onUserAuthenticate(AuthenticationEvent $event): void
     {
+        $response = $event->getAuthenticationResponse();
+
         // Default response is authentication failure.
         $response->type          = 'Token';
         $response->status        = Authentication::STATUS_FAILURE;
@@ -107,19 +111,24 @@ final class Token extends CMSPlugin
          * Do keep in mind that Bearer is **case-sensitive**. Whitespace between Bearer and the
          * token, as well as any whitespace following the token is discarded.
          */
-        $authHeader  = $this->getApplication()->input->server->get('HTTP_AUTHORIZATION', '', 'string');
+        $authHeader  = $this->getApplication()->getInput()->server->get('HTTP_AUTHORIZATION', '', 'string');
         $tokenString = '';
 
         // Apache specific fixes. See https://github.com/symfony/symfony/issues/19693
         if (
             empty($authHeader) && \PHP_SAPI === 'apache2handler'
-            && function_exists('apache_request_headers') && apache_request_headers() !== false
+            && \function_exists('apache_request_headers') && apache_request_headers() !== false
         ) {
             $apacheHeaders = array_change_key_case(apache_request_headers(), CASE_LOWER);
 
-            if (array_key_exists('authorization', $apacheHeaders)) {
+            if (\array_key_exists('authorization', $apacheHeaders)) {
                 $authHeader = $this->filter->clean($apacheHeaders['authorization'], 'STRING');
             }
+        }
+
+        // Another Apache specific fix. See https://github.com/symfony/symfony/issues/1813
+        if (empty($authHeader)) {
+            $authHeader  = $this->getApplication()->getInput()->server->get('REDIRECT_HTTP_AUTHORIZATION', '', 'string');
         }
 
         if (substr($authHeader, 0, 7) == 'Bearer ') {
@@ -129,7 +138,7 @@ final class Token extends CMSPlugin
         }
 
         if (empty($tokenString)) {
-            $tokenString = $this->getApplication()->input->server->get('HTTP_X_JOOMLA_TOKEN', '', 'string');
+            $tokenString = $this->getApplication()->getInput()->server->get('HTTP_X_JOOMLA_TOKEN', '', 'string');
         }
 
         // No token: authentication failure
@@ -150,7 +159,7 @@ final class Token extends CMSPlugin
          */
         $parts = explode(':', $authString, 3);
 
-        if (count($parts) != 3) {
+        if (\count($parts) != 3) {
             return;
         }
 
@@ -159,7 +168,7 @@ final class Token extends CMSPlugin
         /**
          * Verify the HMAC algorithm requested in the token string is allowed
          */
-        $allowedAlgo = in_array($algo, $this->allowedAlgos);
+        $allowedAlgo = \in_array($algo, $this->allowedAlgos);
 
         /**
          * Make sure the user ID is an integer
@@ -228,7 +237,7 @@ final class Token extends CMSPlugin
         }
 
         // Get the actual user record
-        $user = $this->userFactory->loadUserById($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         // Disallow login for blocked, inactive or password reset required users
         if ($user->block || !empty(trim($user->activation)) || $user->requireReset) {
@@ -243,8 +252,11 @@ final class Token extends CMSPlugin
         $response->username      = $user->username;
         $response->email         = $user->email;
         $response->fullname      = $user->name;
-        $response->timezone      = $user->get('timezone');
-        $response->language      = $user->get('language');
+        $response->timezone      = $user->getParam('timezone', $this->getApplication()->get('offset', 'UTC'));
+        $response->language      = $user->getParam('language', $this->getApplication()->get('language'));
+
+        // Stop event propagation when status is STATUS_SUCCESS
+        $event->stopPropagation();
     }
 
     /**
@@ -319,7 +331,7 @@ final class Token extends CMSPlugin
      */
     private function getPluginParameter(string $folder, string $plugin, string $param, $default = null)
     {
-        /** @var PluginModel $model */
+        /** @var \Joomla\Component\Plugins\Administrator\Model\PluginModel $model */
         $model = $this->getApplication()->bootComponent('plugins')
             ->getMVCFactory()->createModel('Plugin', 'Administrator', ['ignore_request' => true]);
 
@@ -346,7 +358,7 @@ final class Token extends CMSPlugin
             return [];
         }
 
-        if (!is_array($userGroups)) {
+        if (!\is_array($userGroups)) {
             $userGroups = [$userGroups];
         }
 
@@ -365,7 +377,7 @@ final class Token extends CMSPlugin
     {
         $allowedUserGroups = $this->getAllowedUserGroups();
 
-        $user = $this->userFactory->loadUserById($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         if ($user->id != $userId) {
             return false;

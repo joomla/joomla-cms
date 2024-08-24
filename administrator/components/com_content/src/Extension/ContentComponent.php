@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Extension;
 
-use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Categories\CategoryServiceInterface;
@@ -20,11 +19,14 @@ use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsFormServiceInterface;
+use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
+use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
@@ -35,7 +37,7 @@ use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -46,8 +48,9 @@ use Psr\Container\ContainerInterface;
 class ContentComponent extends MVCComponent implements
     BootableExtensionInterface,
     CategoryServiceInterface,
-    FieldsServiceInterface,
+    FieldsFormServiceInterface,
     AssociationServiceInterface,
+    SchemaorgServiceInterface,
     WorkflowServiceInterface,
     RouterServiceInterface,
     TagServiceInterface
@@ -56,15 +59,17 @@ class ContentComponent extends MVCComponent implements
     use RouterServiceTrait;
     use HTMLRegistryAwareTrait;
     use WorkflowServiceTrait;
-    use CategoryServiceTrait, TagServiceTrait {
+    use SchemaorgServiceTrait;
+    use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::prepareForm insteadof FieldsServiceTrait;
     }
 
     /** @var array Supported functionality */
     protected $supportedFunctionality = [
         'core.featured' => true,
-        'core.state' => true,
+        'core.state'    => true,
     ];
 
     /**
@@ -173,10 +178,28 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
+        $contexts = [
             'com_content.article'    => Text::_('COM_CONTENT'),
-            'com_content.categories' => Text::_('JCATEGORY')
-        );
+            'com_content.categories' => Text::_('JCATEGORY'),
+        ];
+
+        return $contexts;
+    }
+
+    /**
+     * Returns valid contexts for schemaorg
+     *
+     * @return  array
+     *
+     * @since  5.0.0
+     */
+    public function getSchemaorgContexts(): array
+    {
+        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+        $contexts = [
+            'com_content.article' => Text::_('COM_CONTENT'),
+        ];
 
         return $contexts;
     }
@@ -192,9 +215,9 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
-            'com_content.article'    => Text::_('COM_CONTENT')
-        );
+        $contexts = [
+            'com_content.article' => Text::_('COM_CONTENT'),
+        ];
 
         return $contexts;
     }
@@ -202,7 +225,7 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns the workflow context based on the given category section
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
@@ -218,13 +241,13 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns the table for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getTableNameForSection(string $section = null)
+    protected function getTableNameForSection(?string $section = null)
     {
         return '#__content';
     }
@@ -232,7 +255,7 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns a table name for the state association
      *
-     * @param   string  $section  An optional section to separate different areas in the component
+     * @param   ?string  $section  An optional section to separate different areas in the component
      *
      * @return  string
      *
@@ -254,7 +277,7 @@ class ContentComponent extends MVCComponent implements
     {
         $parts = explode('.', $context);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return '';
         }
 
@@ -264,7 +287,9 @@ class ContentComponent extends MVCComponent implements
 
         if ($modelname === 'article' && Factory::getApplication()->isClient('site')) {
             return 'Form';
-        } elseif ($modelname === 'featured' && Factory::getApplication()->isClient('administrator')) {
+        }
+
+        if ($modelname === 'featured' && Factory::getApplication()->isClient('administrator')) {
             return 'Article';
         }
 
@@ -298,14 +323,14 @@ class ContentComponent extends MVCComponent implements
      */
     public function countItems(array $items, string $section)
     {
-        $config = (object) array(
-            'related_tbl'    => 'content',
-            'state_col'      => 'state',
-            'group_col'      => 'catid',
-            'relation_type'  => 'category_or_group',
-            'uses_workflows' => true,
-            'workflows_component' => 'com_content'
-        );
+        $config = (object) [
+            'related_tbl'         => 'content',
+            'state_col'           => 'state',
+            'group_col'           => 'catid',
+            'relation_type'       => 'category_or_group',
+            'uses_workflows'      => true,
+            'workflows_component' => 'com_content',
+        ];
 
         LibraryContentHelper::countRelations($items, $config);
     }
@@ -324,15 +349,15 @@ class ContentComponent extends MVCComponent implements
     public function countTagItems(array $items, string $extension)
     {
         $parts   = explode('.', $extension);
-        $section = count($parts) > 1 ? $parts[1] : null;
+        $section = \count($parts) > 1 ? $parts[1] : null;
 
-        $config = (object) array(
+        $config = (object) [
             'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),
             'state_col'     => ($section === 'category' ? 'published' : 'state'),
             'group_col'     => 'tag_id',
             'extension'     => $extension,
             'relation_type' => 'tag_assigments',
-        );
+        ];
 
         LibraryContentHelper::countRelations($items, $config);
     }

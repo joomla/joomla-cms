@@ -73,7 +73,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
     public function getWidgets(): array
     {
         return [
-            'untranslated'       => [
+            'untranslated' => [
                 'icon'    => 'question-circle',
                 'widget'  => 'PhpDebugBar.Widgets.languageStringsWidget',
                 'map'     => $this->name . '.data',

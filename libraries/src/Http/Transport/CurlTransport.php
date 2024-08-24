@@ -20,7 +20,7 @@ use Joomla\Uri\UriInterface;
 use Laminas\Diactoros\Stream as StreamResponse;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -50,7 +50,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         // Setup the cURL handle.
         $ch = curl_init();
 
-        $options = array();
+        $options = [];
 
         // Set the request method.
         switch (strtoupper($method)) {
@@ -77,7 +77,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         // If data exists let's encode it and make sure our Content-type header is set.
         if (isset($data)) {
             // If the data is a scalar value simply add it to the cURL post fields.
-            if (is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0)) {
+            if (\is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0)) {
                 $options[CURLOPT_POSTFIELDS] = $data;
             } else {
                 // Otherwise we need to encode the value first.
@@ -89,13 +89,13 @@ class CurlTransport extends AbstractTransport implements TransportInterface
             }
 
             // Add the relevant headers.
-            if (is_scalar($options[CURLOPT_POSTFIELDS])) {
+            if (\is_scalar($options[CURLOPT_POSTFIELDS])) {
                 $headers['Content-Length'] = \strlen($options[CURLOPT_POSTFIELDS]);
             }
         }
 
         // Build the headers string for the request.
-        $headerArray = array();
+        $headerArray = [];
 
         if (isset($headers)) {
             foreach ($headers as $key => $value) {
@@ -113,7 +113,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
         // If an explicit timeout is given user it.
         if (isset($timeout)) {
-            $options[CURLOPT_TIMEOUT] = (int) $timeout;
+            $options[CURLOPT_TIMEOUT]        = (int) $timeout;
             $options[CURLOPT_CONNECTTIMEOUT] = (int) $timeout;
         }
 
@@ -152,13 +152,13 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         }
 
         // Set any custom transport options
-        foreach ($this->getOption('transport.curl', array()) as $key => $value) {
+        foreach ($this->getOption('transport.curl', []) as $key => $value) {
             $options[$key] = $value;
         }
 
         // Authentication, if needed
         if ($this->getOption('userauth') && $this->getOption('passwordauth')) {
-            $options[CURLOPT_USERPWD] = $this->getOption('userauth') . ':' . $this->getOption('passwordauth');
+            $options[CURLOPT_USERPWD]  = $this->getOption('userauth') . ':' . $this->getOption('passwordauth');
             $options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
         }
 
@@ -190,9 +190,9 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
         // Manually follow redirects if server doesn't allow to follow location using curl
         if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']) && (bool) $this->getOption('follow_location', true)) {
-            $redirect_uri = new Uri($response->headers['Location']);
+            $redirect_uri = new Uri($response->headers['Location'][0]);
 
-            if (\in_array($redirect_uri->getScheme(), array('file', 'scp'))) {
+            if (\in_array($redirect_uri->getScheme(), ['file', 'scp'])) {
                 throw new \RuntimeException('Curl redirect cannot be used in file or scp requests.');
             }
 
@@ -288,7 +288,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         $curlVersion = curl_version();
 
         // If open_basedir is enabled we also need to check if libcurl version is 7.19.4 or higher
-        if (!ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>=')) {
+        if (!\ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>=')) {
             return true;
         }
 

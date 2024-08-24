@@ -43,7 +43,7 @@ class SearchfilterField extends ListField
     public function getOptions()
     {
         // Build the query.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('f.title AS text, f.filter_id AS value')
             ->from($db->quoteName('#__finder_filters') . ' AS f')

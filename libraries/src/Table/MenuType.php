@@ -10,13 +10,15 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -24,18 +26,21 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class MenuType extends Table
+class MenuType extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__menu_types', 'id', $db);
+        parent::__construct('#__menu_types', 'id', $db, $dispatcher);
     }
 
     /**
@@ -106,11 +111,11 @@ class MenuType extends Table
     {
         if ($this->id) {
             // Get the user id
-            $userId = (int) Factory::getUser()->id;
+            $userId = (int) $this->getCurrentUser()->id;
             $notIn  = [0, $userId];
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+            $table = new Menutype($this->getDbo(), $this->getDispatcher());
             $table->load($this->id);
 
             // Verify that no items are checked out
@@ -191,18 +196,18 @@ class MenuType extends Table
      */
     public function delete($pk = null)
     {
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = $pk === null ? $this->$k : $pk;
 
         // If no primary key is given, return false.
         if ($pk !== null) {
             // Get the user id
-            $userId = (int) Factory::getUser()->id;
+            $userId = (int) $this->getCurrentUser()->id;
             $notIn  = [0, $userId];
             $star   = '*';
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+            $table = new Menutype($this->getDbo(), $this->getDispatcher());
             $table->load($pk);
 
             // Verify that no items are checked out
@@ -295,17 +300,17 @@ class MenuType extends Table
      * The extended class can define a table and id to lookup.  If the
      * asset does not exist it will be created.
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     Id to look up
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     Id to look up
      *
      * @return  integer
      *
      * @since   3.6
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
-        $asset = Table::getInstance('asset');
+        $asset   = Table::getInstance('asset');
 
         if ($asset->loadByName('com_menus')) {
             $assetId = $asset->id;

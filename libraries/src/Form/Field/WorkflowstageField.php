@@ -53,7 +53,7 @@ class WorkflowstageField extends GroupedlistField
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
-     * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
      *
@@ -69,7 +69,7 @@ class WorkflowstageField extends GroupedlistField
             if (\strlen($element['extension'])) {
                 $this->extension = (string) $element['extension'];
             } else {
-                $this->extension = Factory::getApplication()->input->getCmd('extension');
+                $this->extension = Factory::getApplication()->getInput()->getCmd('extension');
             }
 
             if ((string) $element['activeonly'] === '1' || (string) $element['activeonly'] === 'true') {
@@ -83,7 +83,7 @@ class WorkflowstageField extends GroupedlistField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since  4.0.0
      * @throws  \UnexpectedValueException
@@ -135,7 +135,7 @@ class WorkflowstageField extends GroupedlistField
 
         $stages = $db->setQuery($query)->loadObjectList();
 
-        $workflowStages = array();
+        $workflowStages = [];
 
         // Grouping the stages by workflow
         foreach ($stages as $stage) {
@@ -143,7 +143,7 @@ class WorkflowstageField extends GroupedlistField
             $workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
             if (!\array_key_exists($workflowStageKey, $workflowStages)) {
-                $workflowStages[$workflowStageKey] = array();
+                $workflowStages[$workflowStageKey] = [];
             }
 
             $workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));

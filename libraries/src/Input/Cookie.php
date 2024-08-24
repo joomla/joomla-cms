@@ -12,27 +12,31 @@ namespace Joomla\CMS\Input;
 use Joomla\CMS\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Input Cookie Class
  *
  * @since       1.7.0
- * @deprecated  5.0  Use Joomla\Input\Cookie instead
+ *
+ * @deprecated   4.3 will be removed in 6.0.
+ *               Use Joomla\Input\Cookie instead
  */
 class Cookie extends Input
 {
     /**
      * Constructor.
      *
-     * @param   array  $source   Ignored.
-     * @param   array  $options  Array of configuration parameters (Optional)
+     * @param   ?array  $source   Ignored.
+     * @param   array   $options  Array of configuration parameters (Optional)
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Cookie instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Cookie instead
      */
-    public function __construct(array $source = null, array $options = array())
+    public function __construct(?array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -41,7 +45,7 @@ class Cookie extends Input
         }
 
         // Set the data source.
-        $this->data = & $_COOKIE;
+        $this->data = &$_COOKIE;
 
         // Set the options for the class.
         $this->options = $options;
@@ -52,48 +56,102 @@ class Cookie extends Input
      *
      * @param   string   $name      Name of the value to set.
      * @param   mixed    $value     Value to assign to the input.
-     * @param   integer  $expire    The time the cookie expires. This is a Unix timestamp so is in number
-     *                              of seconds since the epoch. In other words, you'll most likely set this
-     *                              with the time() function plus the number of seconds before you want it
-     *                              to expire. Or you might use mktime(). time()+60*60*24*30 will set the
-     *                              cookie to expire in 30 days. If set to 0, or omitted, the cookie will
-     *                              expire at the end of the session (when the browser closes).
-     * @param   string   $path      The path on the server in which the cookie will be available on. If set
-     *                              to '/', the cookie will be available within the entire domain. If set to
-     *                              '/foo/', the cookie will only be available within the /foo/ directory and
-     *                              all sub-directories such as /foo/bar/ of domain. The default value is the
-     *                              current directory that the cookie is being set in.
-     * @param   string   $domain    The domain that the cookie is available to. To make the cookie available
-     *                              on all subdomains of example.com (including example.com itself) then you'd
-     *                              set it to '.example.com'. Although some browsers will accept cookies without
-     *                              the initial ., RFC 2109 requires it to be included. Setting the domain to
-     *                              'www.example.com' or '.www.example.com' will make the cookie only available
-     *                              in the www subdomain.
-     * @param   boolean  $secure    Indicates that the cookie should only be transmitted over a secure HTTPS
-     *                              connection from the client. When set to TRUE, the cookie will only be set
-     *                              if a secure connection exists. On the server-side, it's on the programmer
-     *                              to send this kind of cookie only on secure connection (e.g. with respect
-     *                              to $_SERVER["HTTPS"]).
-     * @param   boolean  $httpOnly  When TRUE the cookie will be made accessible only through the HTTP protocol.
-     *                              This means that the cookie won't be accessible by scripting languages, such
-     *                              as JavaScript. This setting can effectively help to reduce identity theft
-     *                              through XSS attacks (although it is not supported by all browsers).
+     * @param   array    $options   An associative array which may have any of the keys expires, path, domain,
+     *                              secure, httponly and samesite. The values have the same meaning as described
+     *                              for the parameters with the same name. The value of the samesite element
+     *                              should be either Lax or Strict. If any of the allowed options are not given,
+     *                              their default values are the same as the default values of the explicit
+     *                              parameters. If the samesite element is omitted, no SameSite cookie attribute
+     *                              is set.
      *
      * @return  void
      *
      * @link    http://www.ietf.org/rfc/rfc2109.txt
      * @see     setcookie()
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Cookie instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Cookie instead
      */
-    public function set($name, $value, $expire = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
+    public function set($name, $value, $options = [])
     {
-        if (\is_array($value)) {
-            foreach ($value as $key => $val) {
-                setcookie($name . "[$key]", $val, $expire, $path, $domain, $secure, $httpOnly);
+        // BC layer to convert old method parameters.
+        if (\is_array($options) === false) {
+            trigger_deprecation(
+                'joomla/input',
+                '1.4.0',
+                'The %s($name, $value, $expire, $path, $domain, $secure, $httpOnly) signature is deprecated and'
+                . ' will not be supported once support'
+                . ' for PHP 7.2 and earlier is dropped, use the %s($name, $value, $options) signature instead',
+                __METHOD__,
+                __METHOD__
+            );
+
+            $argList = \func_get_args();
+
+            $options = [
+                'expires'  => $argList[2] ?? 0,
+                'path'     => $argList[3] ?? '',
+                'domain'   => $argList[4] ?? '',
+                'secure'   => $argList[5] ?? false,
+                'httponly' => $argList[6] ?? false,
+            ];
+        }
+
+        // Set the cookie
+        if (version_compare(PHP_VERSION, '7.3', '>=')) {
+            if (\is_array($value)) {
+                foreach ($value as $key => $val) {
+                    setcookie($name . "[$key]", $val, $options);
+                }
+            } else {
+                setcookie($name, $value, $options);
             }
         } else {
-            setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+            // Using the setcookie function before php 7.3, make sure we have default values.
+            if (\array_key_exists('expires', $options) === false) {
+                $options['expires'] = 0;
+            }
+
+            if (\array_key_exists('path', $options) === false) {
+                $options['path'] = '';
+            }
+
+            if (\array_key_exists('domain', $options) === false) {
+                $options['domain'] = '';
+            }
+
+            if (\array_key_exists('secure', $options) === false) {
+                $options['secure'] = false;
+            }
+
+            if (\array_key_exists('httponly', $options) === false) {
+                $options['httponly'] = false;
+            }
+
+            if (\is_array($value)) {
+                foreach ($value as $key => $val) {
+                    setcookie(
+                        $name . "[$key]",
+                        $val,
+                        $options['expires'],
+                        $options['path'],
+                        $options['domain'],
+                        $options['secure'],
+                        $options['httponly']
+                    );
+                }
+            } else {
+                setcookie(
+                    $name,
+                    $value,
+                    $options['expires'],
+                    $options['path'],
+                    $options['domain'],
+                    $options['secure'],
+                    $options['httponly']
+                );
+            }
         }
 
         $this->data[$name] = $value;

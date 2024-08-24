@@ -12,7 +12,7 @@ namespace Joomla\CMS\Feed;
 use Joomla\CMS\Date\Date;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -38,15 +38,15 @@ class FeedEntry
      * @var    array  The entry properties.
      * @since  3.1.4
      */
-    protected $properties = array(
-        'uri'  => '',
-        'title' => '',
-        'updatedDate' => '',
-        'content' => '',
-        'categories' => array(),
-        'contributors' => array(),
-        'links' => array(),
-    );
+    protected $properties = [
+        'uri'          => '',
+        'title'        => '',
+        'updatedDate'  => '',
+        'content'      => '',
+        'categories'   => [],
+        'contributors' => [],
+        'links'        => [],
+    ];
 
     /**
      * Magic method to return values for feed entry properties.
@@ -85,7 +85,7 @@ class FeedEntry
                 sprintf(
                     '%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
                     \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    \is_object($value) ? \get_class($value) : \gettype($value)
                 )
             );
         }
@@ -96,13 +96,13 @@ class FeedEntry
                 sprintf(
                     '%1$s "source" must be an instance of Joomla\\CMS\\Feed\\Feed. %2$s given.',
                     \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    \is_object($value) ? \get_class($value) : \gettype($value)
                 )
             );
         }
 
         // Disallow setting categories, contributors, or links directly.
-        if (\in_array($name, array('categories', 'contributors', 'links'))) {
+        if (\in_array($name, ['categories', 'contributors', 'links'])) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Cannot directly set %1$s property "%2$s".',

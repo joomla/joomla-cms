@@ -11,6 +11,7 @@
 namespace Joomla\Component\Newsfeeds\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
@@ -37,10 +38,10 @@ class NewsfeedController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
-        $allow = null;
+        $allow      = null;
 
         if ($categoryId) {
             // If the category has been passed in the URL check it.
@@ -50,9 +51,9 @@ class NewsfeedController extends FormController
         if ($allow === null) {
             // In the absence of better information, revert to the component permissions.
             return parent::allowAdd($data);
-        } else {
-            return $allow;
         }
+
+        return $allow;
     }
 
     /**
@@ -65,7 +66,7 @@ class NewsfeedController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
@@ -105,11 +106,59 @@ class NewsfeedController extends FormController
         $this->checkToken();
 
         // Set the model
-        $model = $this->getModel('Newsfeed', '', array());
+        $model = $this->getModel('Newsfeed', '', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_newsfeeds&view=newsfeeds' . $this->getRedirectToListAppend(), false));
 
         return parent::batch($model);
+    }
+
+    /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   5.1.0
+     */
+    public function cancel($key = null)
+    {
+        $result = parent::cancel($key);
+
+        // When editing in modal then redirect to modalreturn layout
+        if ($result && $this->input->get('layout') === 'modal') {
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
+
+            $this->setRedirect(Route::_($return, false));
+        }
+
+        return $result;
+    }
+
+    /**
+     * Function that allows child controller access to model data
+     * after the data has been saved.
+     *
+     * @param   BaseDatabaseModel  $model      The data model object.
+     * @param   array              $validData  The validated data.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
+    {
+        // When editing in modal then redirect to modalreturn layout
+        if ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+            $id     = $model->getState('newsfeed.id', '');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=save';
+
+            $this->setRedirect(Route::_($return, false));
+        }
     }
 }

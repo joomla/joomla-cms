@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Cache;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Defines the trait for a CacheControllerFactoryInterface Aware Class.
@@ -37,8 +40,7 @@ trait CacheControllerFactoryAwareTrait
      */
     protected function getCacheControllerFactory(): CacheControllerFactoryInterface
     {
-        if ($this->cacheControllerFactory)
-        {
+        if ($this->cacheControllerFactory) {
             return $this->cacheControllerFactory;
         }
 
@@ -53,13 +55,13 @@ trait CacheControllerFactoryAwareTrait
     /**
      * Set the cache controller factory to use.
      *
-     * @param   CacheControllerFactoryInterface  $cacheControllerFactory  The cache controller factory to use.
+     * @param   ?CacheControllerFactoryInterface  $cacheControllerFactory  The cache controller factory to use.
      *
      * @return  void
      *
      * @since   4.2.0
      */
-    public function setCacheControllerFactory(CacheControllerFactoryInterface $cacheControllerFactory = null): void
+    public function setCacheControllerFactory(?CacheControllerFactoryInterface $cacheControllerFactory = null): void
     {
         $this->cacheControllerFactory = $cacheControllerFactory;
     }

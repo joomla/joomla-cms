@@ -12,7 +12,7 @@ namespace Joomla\CMS\Response;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -78,8 +78,9 @@ class JsonResponse
         // Get the message queue if requested and available
         $app = Factory::getApplication();
 
-        if (!$ignoreMessages && $app !== null && \is_callable(array($app, 'getMessageQueue'))) {
+        if (!$ignoreMessages && $app !== null && \is_callable([$app, 'getMessageQueue'])) {
             $messages = $app->getMessageQueue();
+            $lists    = [];
 
             // Build the sorted messages list
             if (\is_array($messages) && \count($messages)) {
@@ -91,7 +92,7 @@ class JsonResponse
             }
 
             // If messages exist add them to the output
-            if (isset($lists) && \is_array($lists)) {
+            if (\count($lists)) {
                 $this->messages = $lists;
             }
         }

@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -45,7 +46,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -54,7 +55,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  False if unsuccessful, otherwise void.
+     * @return  void
      *
      * @since   1.6
      */
@@ -65,7 +66,7 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -82,41 +83,44 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $isNew = ($this->item->id == 0);
-        $canDo = ContentHelper::getActions('com_redirect');
+        $isNew   = ($this->item->id == 0);
+        $canDo   = ContentHelper::getActions('com_redirect');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title($isNew ? Text::_('COM_REDIRECT_MANAGER_LINK_NEW') : Text::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'map-signs redirect');
 
-        $toolbarButtons = [];
-
-        // If not checked out, can save the item.
         if ($canDo->get('core.edit')) {
-            ToolbarHelper::apply('link.apply');
-            $toolbarButtons[] = ['save', 'link.save'];
+            $toolbar->apply('link.apply');
         }
 
-        /**
-         * This component does not support Save as Copy due to uniqueness checks.
-         * While it can be done, it causes too much confusion if the user does
-         * not change the Old URL.
-         */
-        if ($canDo->get('core.edit') && $canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2new', 'link.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo) {
+                // If not checked out, can save the item.
+                if ($canDo->get('core.edit')) {
+                    $childBar->save('link.save');
+                }
+
+                /**
+                 * This component does not support Save as Copy due to uniqueness checks.
+                 * While it can be done, it causes too much confusion if the user does
+                 * not change the Old URL.
+                 */
+                if ($canDo->get('core.edit') && $canDo->get('core.create')) {
+                    $childBar->save2new('link.save2new');
+                }
+            }
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('link.cancel');
+            $toolbar->cancel('link.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('link.cancel');
         }
 
-        ToolbarHelper::help('Redirects:_New_or_Edit');
+        $toolbar->help('Redirects:_New_or_Edit');
     }
 }

@@ -10,19 +10,18 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Module;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -54,16 +53,16 @@ class CaptiveModel extends BaseDatabaseModel
      * Similar code paths are followed by any canonical code which tries to load modules. So even if your template does
      * not use jdoc tags this code will still work as expected.
      *
-     * @param   CMSApplication|null  $app  The CMS application to manipulate
+     * @param   ?CMSApplication  $app  The CMS application to manipulate
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function suppressAllModules(CMSApplication $app = null): void
+    public function suppressAllModules(?CMSApplication $app = null): void
     {
-        if (is_null($app)) {
+        if (\is_null($app)) {
             $app = Factory::getApplication();
         }
 
@@ -73,19 +72,18 @@ class CaptiveModel extends BaseDatabaseModel
     /**
      * Get the MFA records for the user which correspond to active plugins
      *
-     * @param   User|null  $user                The user for which to fetch records. Skip to use the current user.
-     * @param   bool       $includeBackupCodes  Should I include the backup codes record?
+     * @param   ?User  $user                The user for which to fetch records. Skip to use the current user.
+     * @param   bool   $includeBackupCodes  Should I include the backup codes record?
      *
      * @return  array
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function getRecords(User $user = null, bool $includeBackupCodes = false): array
+    public function getRecords(?User $user = null, bool $includeBackupCodes = false): array
     {
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser();
         }
 
         // Get the user's MFA records
@@ -116,7 +114,7 @@ class CaptiveModel extends BaseDatabaseModel
 
         foreach ($records as $record) {
             // Backup codes must not be included in the list. We add them in the View, at the end of the list.
-            if (in_array($record->method, $methodNames)) {
+            if (\in_array($record->method, $methodNames)) {
                 $ret[$record->id] = $record;
             }
         }
@@ -132,7 +130,7 @@ class CaptiveModel extends BaseDatabaseModel
      */
     private function getActiveMethodNames(): ?array
     {
-        if (!is_null($this->activeMFAMethodNames)) {
+        if (!\is_null($this->activeMFAMethodNames)) {
             return $this->activeMFAMethodNames;
         }
 
@@ -163,7 +161,7 @@ class CaptiveModel extends BaseDatabaseModel
      * @param   User|null  $user  The user for which to fetch records. Skip to use the current user.
      *
      * @return  MfaTable|null
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -175,9 +173,8 @@ class CaptiveModel extends BaseDatabaseModel
             return null;
         }
 
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser();
         }
 
         /** @var MfaTable $record */
@@ -195,7 +192,7 @@ class CaptiveModel extends BaseDatabaseModel
 
         $methodNames = $this->getActiveMethodNames();
 
-        if (!in_array($record->method, $methodNames) && ($record->method != 'backupcodes')) {
+        if (!\in_array($record->method, $methodNames) && ($record->method != 'backupcodes')) {
             return null;
         }
 
@@ -205,7 +202,7 @@ class CaptiveModel extends BaseDatabaseModel
     /**
      * Load the Captive login page render options for a specific MFA record
      *
-     * @param   MfaTable  $record  The MFA record to process
+     * @param   ?MfaTable  $record  The MFA record to process
      *
      * @return  CaptiveRenderOptions  The rendering options
      * @since 4.2.0
@@ -229,8 +226,8 @@ class CaptiveModel extends BaseDatabaseModel
                 return $renderOptions->merge(
                     [
                         'pre_message' => Text::_('COM_USERS_USER_BACKUPCODES_CAPTIVE_PROMPT'),
-                        'input_type' => 'number',
-                        'label' => Text::_('COM_USERS_USER_BACKUPCODE'),
+                        'input_type'  => 'number',
+                        'label'       => Text::_('COM_USERS_USER_BACKUPCODE'),
                     ]
                 );
             }
@@ -280,7 +277,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         static $map = null;
 
-        if (!is_array($map)) {
+        if (!\is_array($map)) {
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
@@ -310,7 +307,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         static $map = null;
 
-        if (!is_array($map)) {
+        if (!\is_array($map)) {
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
@@ -337,24 +334,23 @@ class CaptiveModel extends BaseDatabaseModel
      * the way this event is handled, taking its return into account. For now, we just abuse the mutable event
      * properties - a feature of the event objects we discussed in the Joomla! 4 Working Group back in August 2015.
      *
-     * @param   Event  $event  The Joomla! event object
+     * @param   Module\AfterModuleListEvent  $event  The Joomla! event object
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function onAfterModuleList(Event $event): void
+    public function onAfterModuleList(Module\AfterModuleListEvent $event): void
     {
-        $modules = $event->getArgument(0);
+        $modules = $event->getModules();
 
         if (empty($modules)) {
             return;
         }
 
         $this->filterModules($modules);
-
-        $event->setArgument(0, $modules);
+        $event->updateModules($modules);
     }
 
     /**
@@ -365,7 +361,7 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @return  void  The by-reference value is modified instead.
      * @since 4.2.0
-     * @throws  Exception
+     * @throws  \Exception
      */
     private function filterModules(array &$modules): void
     {
@@ -380,7 +376,7 @@ class CaptiveModel extends BaseDatabaseModel
         $filtered = [];
 
         foreach ($modules as $module) {
-            if (in_array($module->position, $allowedPositions)) {
+            if (\in_array($module->position, $allowedPositions)) {
                 $filtered[] = $module;
             }
         }
@@ -392,7 +388,7 @@ class CaptiveModel extends BaseDatabaseModel
      * Get a list of module positions we are allowed to display
      *
      * @return  array
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -411,5 +407,44 @@ class CaptiveModel extends BaseDatabaseModel
         }
 
         return $res;
+    }
+
+    /**
+     * Method to check if the mfa method in question has reached it's usage limit
+     *
+     * @param   MfaTable  $method  Mfa method record
+     *
+     * @return  boolean true if user can use the method, false if not
+     *
+     * @since    4.3.2
+     * @throws  \Exception
+     */
+    public function checkTryLimit(MfaTable $method)
+    {
+        $params     = ComponentHelper::getParams('com_users');
+        $jNow       = Date::getInstance();
+        $maxTries   = (int) $params->get('mfatrycount', 10);
+        $blockHours = (int) $params->get('mfatrytime', 1);
+
+        $lastTryTime       = strtotime($method->last_try) ?: 0;
+        $hoursSinceLastTry = (strtotime(Factory::getDate()->toSql()) - $lastTryTime) / 3600;
+
+        if ($method->last_try !== null && $hoursSinceLastTry > $blockHours) {
+            // If it's been long enough, start a new reset count
+            $method->last_try = null;
+            $method->tries    = 0;
+        } elseif ($method->tries < $maxTries) {
+            // If we are under the max count, just increment the counter
+            ++$method->tries;
+            $method->last_try = $jNow->toSql();
+        } else {
+            // At this point, we know we have exceeded the maximum resets for the time period
+            return false;
+        }
+
+        // Store changes to try counter and/or the timestamp
+        $method->store();
+
+        return true;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_media
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Media\Api\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
 use Joomla\CMS\MVC\Model\BaseModel;
@@ -19,6 +18,10 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Model\ApiModel;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media web service model supporting lists of media items.
@@ -72,12 +75,9 @@ class MediaModel extends BaseModel implements ListModelInterface
         ];
 
         ['adapter' => $adapterName, 'path' => $path] = $this->resolveAdapterAndPath($this->getState('path', ''));
-        try
-        {
+        try {
             $files = $this->mediaApiModel->getFiles($adapterName, $path, $options);
-        }
-        catch (FileNotFoundException $e)
-        {
+        } catch (FileNotFoundException $e) {
             throw new ResourceNotFound(
                 Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
                 404

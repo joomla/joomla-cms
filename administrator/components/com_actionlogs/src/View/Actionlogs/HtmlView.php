@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
@@ -9,19 +10,19 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\View\Actionlogs;
 
-\defined('_JEXEC') or die;
-
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of logs.
@@ -95,7 +96,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null)
     {
@@ -110,8 +111,7 @@ class HtmlView extends BaseHtmlView
         $this->showIpColumn  = (bool) $params->get('ip_logging', 0);
         $this->dateRelative  = (bool) $params->get('date_relative', 1);
 
-        if (\count($errors = $model->getErrors()))
-        {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -133,13 +133,24 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'icon-list-2');
+        $toolbar = $this->getDocument()->getToolbar();
 
-        ToolbarHelper::custom('actionlogs.exportSelectedLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_CSV', true);
-        ToolbarHelper::custom('actionlogs.exportLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', false);
-        ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'actionlogs.delete');
-        $bar = Toolbar::getInstance('toolbar');
-        $bar->appendButton('Confirm', 'COM_ACTIONLOGS_PURGE_CONFIRM', 'delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge', false);
-        ToolbarHelper::preferences('com_actionlogs');
-        ToolbarHelper::help('User_Actions_Log');
+        $toolbar->standardButton('download', 'COM_ACTIONLOGS_EXPORT_CSV', 'actionlogs.exportSelectedLogs')
+            ->icon('icon-download')
+            ->listCheck(true);
+
+        $toolbar->standardButton('download', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', 'actionlogs.exportLogs')
+            ->icon('icon-download')
+            ->listCheck(false);
+
+        $toolbar->delete('actionlogs.delete')
+            ->message('JGLOBAL_CONFIRM_DELETE');
+
+        $toolbar->confirmButton('delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge')
+            ->message('COM_ACTIONLOGS_PURGE_CONFIRM')
+            ->listCheck(false);
+
+        $toolbar->preferences('com_actionlogs');
+        $toolbar->help('User_Actions_Log');
     }
 }

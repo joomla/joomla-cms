@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Router\Exception;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -23,13 +23,13 @@ class RouteNotFoundException extends \InvalidArgumentException
     /**
      * Constructor
      *
-     * @param   string      $message   The Exception message to throw.
-     * @param   integer     $code      The Exception code.
-     * @param   \Exception  $previous  The previous exception used for the exception chaining.
+     * @param   string       $message   The Exception message to throw.
+     * @param   integer      $code      The Exception code.
+     * @param   ?\Exception  $previous  The previous exception used for the exception chaining.
      *
      * @since   3.8.0
      */
-    public function __construct($message = '', $code = 404, \Exception $previous = null)
+    public function __construct($message = '', $code = 404, ?\Exception $previous = null)
     {
         if (empty($message)) {
             $message = 'URL was not found';

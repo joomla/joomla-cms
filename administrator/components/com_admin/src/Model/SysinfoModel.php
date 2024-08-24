@@ -11,12 +11,15 @@
 namespace Joomla\Component\Admin\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -140,7 +143,7 @@ class SysinfoModel extends BaseDatabaseModel
             'smtphost',
             'tmp_path',
             'open_basedir',
-        ]
+        ],
     ];
 
     /**
@@ -241,17 +244,17 @@ class SysinfoModel extends BaseDatabaseModel
         }
 
         $this->php_settings = [
-            'memory_limit'        => ini_get('memory_limit'),
-            'upload_max_filesize' => ini_get('upload_max_filesize'),
-            'post_max_size'       => ini_get('post_max_size'),
-            'display_errors'      => ini_get('display_errors') == '1',
-            'short_open_tag'      => ini_get('short_open_tag') == '1',
-            'file_uploads'        => ini_get('file_uploads') == '1',
-            'output_buffering'    => (int) ini_get('output_buffering') !== 0,
-            'open_basedir'        => ini_get('open_basedir'),
-            'session.save_path'   => ini_get('session.save_path'),
-            'session.auto_start'  => ini_get('session.auto_start'),
-            'disable_functions'   => ini_get('disable_functions'),
+            'memory_limit'        => \ini_get('memory_limit'),
+            'upload_max_filesize' => \ini_get('upload_max_filesize'),
+            'post_max_size'       => \ini_get('post_max_size'),
+            'display_errors'      => \ini_get('display_errors') == '1',
+            'short_open_tag'      => \ini_get('short_open_tag') == '1',
+            'file_uploads'        => \ini_get('file_uploads') == '1',
+            'output_buffering'    => (int) \ini_get('output_buffering') !== 0,
+            'open_basedir'        => \ini_get('open_basedir'),
+            'session.save_path'   => \ini_get('session.save_path'),
+            'session.auto_start'  => \ini_get('session.auto_start'),
+            'disable_functions'   => \ini_get('disable_functions'),
             'xml'                 => \extension_loaded('xml'),
             'zlib'                => \extension_loaded('zlib'),
             'zip'                 => \function_exists('zip_open') && \function_exists('zip_read'),
@@ -260,7 +263,7 @@ class SysinfoModel extends BaseDatabaseModel
             'gd'                  => \extension_loaded('gd'),
             'iconv'               => \function_exists('iconv'),
             'intl'                => \function_exists('transliterator_transliterate'),
-            'max_input_vars'      => ini_get('max_input_vars'),
+            'max_input_vars'      => \ini_get('max_input_vars'),
         ];
 
         return $this->php_settings;
@@ -279,12 +282,12 @@ class SysinfoModel extends BaseDatabaseModel
             return $this->config;
         }
 
-        $registry = new Registry(new \JConfig());
+        $registry     = new Registry(new \JConfig());
         $this->config = $registry->toArray();
-        $hidden = [
+        $hidden       = [
             'host', 'user', 'password', 'ftp_user', 'ftp_pass',
             'smtpuser', 'smtppass', 'redis_server_auth', 'session_redis_server_auth',
-            'proxy_user', 'proxy_pass', 'secret'
+            'proxy_user', 'proxy_pass', 'secret',
         ];
 
         foreach ($hidden as $key) {
@@ -321,10 +324,25 @@ class SysinfoModel extends BaseDatabaseModel
             'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
             'sapi_name'              => PHP_SAPI,
             'version'                => (new Version())->getLongVersion(),
+            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat'),
+            'compatpluginparameters' => $this->getCompatPluginParameters(),
             'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
         ];
 
         return $this->info;
+    }
+
+    private function getCompatPluginParameters()
+    {
+        $record = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
+
+        if ($record) {
+            $params = new Registry($record->params);
+
+            return ArrayHelper::toString($params->toArray(), ':', ', ');
+        }
+
+        return '';
     }
 
     /**
@@ -336,7 +354,9 @@ class SysinfoModel extends BaseDatabaseModel
      */
     public function phpinfoEnabled(): bool
     {
-        return !\in_array('phpinfo', explode(',', ini_get('disable_functions')));
+        // remove any spaces from the ini value before exploding it
+        $disabledFunctions = str_replace(' ', '', \ini_get('disable_functions'));
+        return !\in_array('phpinfo', explode(',', $disabledFunctions));
     }
 
     /**
@@ -390,16 +410,15 @@ class SysinfoModel extends BaseDatabaseModel
         ob_start();
         date_default_timezone_set('UTC');
         phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
-        $phpInfo = ob_get_contents();
-        ob_end_clean();
+        $phpInfo = ob_get_clean();
         preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
-        $output = preg_replace('#<table[^>]*>#', '<table class="table">', $output[1][0]);
-        $output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
-        $output = preg_replace('#<hr />#', '', $output);
-        $output = str_replace('<div class="text-center">', '', $output);
-        $output = preg_replace('#<tr class="h">(.*)</tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
-        $output = str_replace('</table>', '</tbody></table>', $output);
-        $output = str_replace('</div>', '', $output);
+        $output         = preg_replace('#<table[^>]*>#', '<table class="table">', $output[1][0]);
+        $output         = preg_replace('#(\w),(\w)#', '\1, \2', $output);
+        $output         = str_replace('<hr />', '', $output);
+        $output         = str_replace('<div class="text-center">', '', $output);
+        $output         = preg_replace('#<tr class="h">(.*)</tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
+        $output         = str_replace('</table>', '</tbody></table>', $output);
+        $output         = str_replace('</div>', '', $output);
         $this->php_info = $output;
 
         return $this->php_info;
@@ -436,8 +455,8 @@ class SysinfoModel extends BaseDatabaseModel
     public function getExtensions(): array
     {
         $installed = [];
-        $db = Factory::getContainer()->get('DatabaseDriver');
-        $query = $db->getQuery(true)
+        $db        = $this->getDatabase();
+        $query     = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);
@@ -482,7 +501,7 @@ class SysinfoModel extends BaseDatabaseModel
                 'author'       => $manifest->get('author', ''),
                 'version'      => $manifest->get('version', ''),
                 'creationDate' => $manifest->get('creationDate', ''),
-                'authorUrl'    => $manifest->get('authorUrl', '')
+                'authorUrl'    => $manifest->get('authorUrl', ''),
             ];
 
             $installed[$extension->name] = array_merge($installed[$extension->name], $extraData);
@@ -647,7 +666,7 @@ class SysinfoModel extends BaseDatabaseModel
      */
     private function addDirectory(string $name, string $path, string $message = ''): void
     {
-        $this->directories[$name] = ['writable' => is_writable($path), 'message' => $message,];
+        $this->directories[$name] = ['writable' => is_writable($path), 'message' => $message];
     }
 
     /**
@@ -660,7 +679,7 @@ class SysinfoModel extends BaseDatabaseModel
      */
     public function &getEditor(): string
     {
-        if (!is_null($this->editor)) {
+        if (!\is_null($this->editor)) {
             return $this->editor;
         }
 
@@ -681,15 +700,15 @@ class SysinfoModel extends BaseDatabaseModel
      */
     protected function parsePhpInfo(string $html): array
     {
-        $html = strip_tags($html, '<h2><th><td>');
-        $html = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $html);
-        $html = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $html);
-        $t = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
-        $r = [];
+        $html  = strip_tags($html, '<h2><th><td>');
+        $html  = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $html);
+        $html  = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $html);
+        $t     = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $r     = [];
         $count = \count($t);
-        $p1 = '<info>([^<]+)<\/info>';
-        $p2 = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
-        $p3 = '/' . $p1 . '\s*' . $p1 . '/';
+        $p1    = '<info>([^<]+)<\/info>';
+        $p2    = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
+        $p3    = '/' . $p1 . '\s*' . $p1 . '/';
 
         for ($i = 1; $i < $count; $i++) {
             if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matches)) {
@@ -699,7 +718,7 @@ class SysinfoModel extends BaseDatabaseModel
                 foreach ($vals as $val) {
                     // 3cols
                     if (preg_match($p2, $val, $matches)) {
-                        $r[$name][trim($matches[1])] = [trim($matches[2]), trim($matches[3]),];
+                        $r[$name][trim($matches[1])] = [trim($matches[2]), trim($matches[3])];
                     } elseif (preg_match($p3, $val, $matches)) {
                         // 2cols
                         $r[$name][trim($matches[1])] = trim($matches[2]);

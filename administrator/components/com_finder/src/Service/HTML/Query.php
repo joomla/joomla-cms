@@ -37,7 +37,7 @@ class Query
      */
     public static function explained(IndexerQuery $query)
     {
-        $parts = array();
+        $parts = [];
 
         // Process the required tokens.
         foreach ($query->included as $token) {
@@ -62,22 +62,22 @@ class Query
 
         // Process the start date.
         if ($query->date1) {
-            $date = Factory::getDate($query->date1)->format(Text::_('DATE_FORMAT_LC'));
+            $date          = Factory::getDate($query->date1)->format(Text::_('DATE_FORMAT_LC'));
             $datecondition = Text::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when1));
-            $parts[] = '<span class="query-start-date">' . Text::sprintf('COM_FINDER_QUERY_START_DATE', $datecondition, $date) . '</span>';
+            $parts[]       = '<span class="query-start-date">' . Text::sprintf('COM_FINDER_QUERY_START_DATE', $datecondition, $date) . '</span>';
         }
 
         // Process the end date.
         if ($query->date2) {
-            $date = Factory::getDate($query->date2)->format(Text::_('DATE_FORMAT_LC'));
+            $date          = Factory::getDate($query->date2)->format(Text::_('DATE_FORMAT_LC'));
             $datecondition = Text::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when2));
-            $parts[] = '<span class="query-end-date">' . Text::sprintf('COM_FINDER_QUERY_END_DATE', $datecondition, $date) . '</span>';
+            $parts[]       = '<span class="query-end-date">' . Text::sprintf('COM_FINDER_QUERY_END_DATE', $datecondition, $date) . '</span>';
         }
 
         // Process the taxonomy filters.
         if (!empty($query->filters)) {
             // Get the filters in the request.
-            $t = Factory::getApplication()->input->request->get('t', array(), 'array');
+            $t = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
             // Process the taxonomy branches.
             foreach ($query->filters as $branch => $nodes) {
@@ -93,7 +93,7 @@ class Query
                     }
 
                     // Don't include the node if it is not in the request.
-                    if (!in_array($id, $t)) {
+                    if (!\in_array($id, $t)) {
                         continue;
                     }
 
@@ -106,7 +106,7 @@ class Query
         }
 
         // Build the interpreted query.
-        return count($parts) ? implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts) : null;
+        return \count($parts) ? implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts) : null;
     }
 
     /**
@@ -128,7 +128,7 @@ class Query
         }
 
         // Check if there were any ignored or included keywords.
-        if (count($query->ignored) || count($query->included)) {
+        if (\count($query->ignored) || \count($query->included)) {
             $suggested = $query->input;
 
             // Replace the ignored keyword suggestions.

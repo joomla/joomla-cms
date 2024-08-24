@@ -19,15 +19,15 @@ use Joomla\CMS\Router\Route;
 /** @var Joomla\Component\Users\Administrator\View\User\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
-$settings  = array();
+$settings  = [];
 
 $this->useCoreUI = true;
 ?>
@@ -60,7 +60,7 @@ $this->useCoreUI = true;
         <?php endif; ?>
 
         <?php
-        $this->ignore_fieldsets = array('user_details');
+        $this->ignore_fieldsets = ['user_details'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 

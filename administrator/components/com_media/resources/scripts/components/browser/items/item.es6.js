@@ -6,10 +6,15 @@ import Video from './video.vue';
 import Audio from './audio.vue';
 import Doc from './document.vue';
 import * as types from '../../../store/mutation-types.es6';
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
 
 export default {
-  props: ['item'],
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       hoverActive: false,
@@ -121,6 +126,8 @@ export default {
             bubbles: true,
             cancelable: false,
             detail: {
+              type: this.item.type,
+              name: this.item.name,
               path: this.item.path,
               thumb: this.item.thumb,
               fileType: this.item.mime_type ? this.item.mime_type : false,
@@ -137,7 +144,11 @@ export default {
           new CustomEvent('onMediaFileSelected', {
             bubbles: true,
             cancelable: false,
-            detail: {},
+            detail: {
+              type: this.item.type,
+              name: this.item.name,
+              path: this.item.path,
+            },
           }),
         );
       }
@@ -174,8 +185,7 @@ export default {
      * @param active
      */
     toggleSettings(active) {
-      // eslint-disable-next-line no-unused-expressions
-      active ? this.mouseover() : this.mouseleave();
+      this[`mouse${active ? 'over' : 'leave'}`]();
     },
   },
   render() {
@@ -196,6 +206,7 @@ export default {
         h(this.itemType(), {
           item: this.item,
           onToggleSettings: this.toggleSettings,
+          focused: false,
         }),
       ],
     );

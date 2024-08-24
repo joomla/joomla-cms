@@ -4,20 +4,24 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,7 +37,7 @@ trait FormBehaviorTrait
      * @var    Form[]
      * @since  4.0.0
      */
-    protected $_forms = array();
+    protected $_forms = [];
 
     /**
      * Method to get a form object.
@@ -50,7 +54,7 @@ trait FormBehaviorTrait
      * @since   4.0.0
      * @throws  \Exception
      */
-    protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = null)
+    protected function loadForm($name, $source = null, $options = [], $clear = false, $xpath = null)
     {
         // Handle the optional arguments.
         $options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
@@ -84,6 +88,10 @@ trait FormBehaviorTrait
 
         $form = $formFactory->createForm($name, $options);
 
+        if ($form instanceof CurrentUserInterface && method_exists($this, 'getCurrentUser')) {
+            $form->setCurrentUser($this->getCurrentUser());
+        }
+
         // Load the data.
         if (substr($source, 0, 1) === '<') {
             if ($form->load($source, false, $xpath) == false) {
@@ -99,7 +107,7 @@ trait FormBehaviorTrait
             // Get the data for the form.
             $data = $this->loadFormData();
         } else {
-            $data = array();
+            $data = [];
         }
 
         // Allow for additional modification of the form, and events to be triggered.
@@ -140,11 +148,24 @@ trait FormBehaviorTrait
      */
     protected function preprocessData($context, &$data, $group = 'content')
     {
+        if ($this instanceof DispatcherAwareInterface) {
+            $dispatcher = $this->getDispatcher();
+        } else {
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
         // Get the dispatcher and load the users plugins.
-        PluginHelper::importPlugin($group);
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array($context, &$data));
+        $data = $dispatcher->dispatch(
+            'onContentPrepareData',
+            new Model\PrepareDataEvent('onContentPrepareData', [
+                'context' => $context,
+                'data'    => &$data, // @todo: Remove reference in Joomla 6, see PrepareDataEvent::__constructor()
+                'subject' => new \stdClass(),
+            ])
+        )->getArgument('data', $data);
     }
 
     /**
@@ -162,11 +183,20 @@ trait FormBehaviorTrait
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
+        if ($this instanceof DispatcherAwareInterface) {
+            $dispatcher = $this->getDispatcher();
+        } else {
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
         // Import the appropriate plugin group.
-        PluginHelper::importPlugin($group);
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+        $dispatcher->dispatch(
+            'onContentPrepareForm',
+            new Model\PrepareFormEvent('onContentPrepareForm', ['subject' => $form, 'data' => $data])
+        );
     }
 
     /**

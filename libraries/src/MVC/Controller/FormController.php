@@ -9,9 +9,10 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-use Joomla\CMS\Application\CMSApplication;
+use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -23,7 +24,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,6 +36,14 @@ use Joomla\Input\Input;
 class FormController extends BaseController implements FormFactoryAwareInterface
 {
     use FormFactoryAwareTrait;
+
+    /**
+     * The Application. Redeclared to show this class requires a web application.
+     *
+     * @var    CMSWebApplicationInterface
+     * @since  5.0.0
+     */
+    protected $app;
 
     /**
      * The context for storing internal data, e.g. record.
@@ -79,22 +88,23 @@ class FormController extends BaseController implements FormFactoryAwareInterface
     /**
      * Constructor.
      *
-     * @param   array                 $config       An optional associative array of configuration settings.
-     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                              'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   CMSApplication        $app          The Application for the dispatcher
-     * @param   Input                 $input        Input
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                        $config       An optional associative array of configuration settings.
+     *                                                     Recognized key values include 'name', 'default_task',
+     *                                                     'model_path', and 'view_path' (this list is not meant to be
+     *                                                     comprehensive).
+     * @param   ?MVCFactoryInterface         $factory      The factory.
+     * @param   ?CMSWebApplicationInterface  $app          The Application for the dispatcher
+     * @param   ?Input                       $input        Input
+     * @param   ?FormFactoryInterface        $formFactory  The form factory.
      *
      * @since   3.0
      */
     public function __construct(
-        $config = array(),
-        MVCFactoryInterface $factory = null,
-        ?CMSApplication $app = null,
+        $config = [],
+        ?MVCFactoryInterface $factory = null,
+        ?CMSWebApplicationInterface $app = null,
         ?Input $input = null,
-        FormFactoryInterface $formFactory = null
+        ?FormFactoryInterface $formFactory = null
     ) {
         parent::__construct($config, $factory, $app, $input);
 
@@ -124,7 +134,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             }
 
             // Remove the backslashes and the suffix controller
-            $this->context = str_replace(array('\\', 'controller'), '', strtolower($r[2]));
+            $this->context = str_replace(['\\', 'controller'], '', strtolower($r[2]));
         }
 
         // Guess the item view as the context.
@@ -134,7 +144,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // Guess the list view as the plural of the item view.
         if (empty($this->view_list)) {
-            $this->view_list = \Joomla\String\Inflector::getInstance()->toPlural($this->view_item);
+            $this->view_list = InflectorFactory::create()->build()->pluralize($this->view_item);
         }
 
         $this->setFormFactory($formFactory);
@@ -166,7 +176,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_list
-                    . $this->getRedirectToListAppend(),
+                        . $this->getRedirectToListAppend(),
                     false
                 )
             );
@@ -181,7 +191,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $this->setRedirect(
             Route::_(
                 'index.php?option=' . $this->option . '&view=' . $this->view_item
-                . $this->getRedirectToItemAppend(),
+                    . $this->getRedirectToItemAppend(),
                 false
             )
         );
@@ -242,9 +252,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         if ($recordId) {
             return $this->allowEdit($data, $key);
-        } else {
-            return $this->allowAdd($data);
         }
+
+        return $this->allowAdd($data);
     }
 
     /**
@@ -258,14 +268,14 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      */
     public function batch($model)
     {
-        $vars = $this->input->post->get('batch', array(), 'array');
-        $cid  = (array) $this->input->post->get('cid', array(), 'int');
+        $vars = $this->input->post->get('batch', [], 'array');
+        $cid  = (array) $this->input->post->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
         // Build an array of item contexts to check
-        $contexts = array();
+        $contexts = [];
 
         $option = $this->extension ?? $this->option;
 
@@ -279,11 +289,11 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_BATCH'));
 
             return true;
-        } else {
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
-
-            return false;
         }
+
+        $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
+
+        return false;
     }
 
     /**
@@ -299,8 +309,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
     {
         $this->checkToken();
 
-        $model = $this->getModel();
-        $table = $model->getTable();
+        $model   = $this->getModel();
+        $table   = $model->getTable();
         $context = "$this->option.edit.$this->context";
 
         if (empty($key)) {
@@ -317,7 +327,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend($recordId, $key),
+                        . $this->getRedirectToItemAppend($recordId, $key),
                     false
                 )
             );
@@ -361,9 +371,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         // Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
         $this->app->allowCache(false);
 
-        $model = $this->getModel();
-        $table = $model->getTable();
-        $cid   = (array) $this->input->post->get('cid', array(), 'int');
+        $model   = $this->getModel();
+        $table   = $model->getTable();
+        $cid     = (array) $this->input->post->get('cid', [], 'int');
         $context = "$this->option.edit.$this->context";
 
         // Determine the name of the primary key for the data.
@@ -378,16 +388,16 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // Get the previous record id (if any) and the current record id.
         $recordId = (int) (\count($cid) ? $cid[0] : $this->input->getInt($urlVar));
-        $checkin = $table->hasField('checked_out');
+        $checkin  = $table->hasField('checked_out');
 
         // Access check.
-        if (!$this->allowEdit(array($key => $recordId), $key)) {
+        if (!$this->allowEdit([$key => $recordId], $key)) {
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_list
-                    . $this->getRedirectToListAppend(),
+                        . $this->getRedirectToListAppend(),
                     false
                 )
             );
@@ -403,27 +413,27 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend($recordId, $urlVar),
+                        . $this->getRedirectToItemAppend($recordId, $urlVar),
                     false
                 )
             );
 
             return false;
-        } else {
-            // Check-out succeeded, push the new record id into the session.
-            $this->holdEditId($context, $recordId);
-            $this->app->setUserState($context . '.data', null);
-
-            $this->setRedirect(
-                Route::_(
-                    'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend($recordId, $urlVar),
-                    false
-                )
-            );
-
-            return true;
         }
+
+        // Check-out succeeded, push the new record id into the session.
+        $this->holdEditId($context, $recordId);
+        $this->app->setUserState($context . '.data', null);
+
+        $this->setRedirect(
+            Route::_(
+                'index.php?option=' . $this->option . '&view=' . $this->view_item
+                    . $this->getRedirectToItemAppend($recordId, $urlVar),
+                false
+            )
+        );
+
+        return true;
     }
 
     /**
@@ -437,7 +447,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   1.6
      */
-    public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+    public function getModel($name = '', $prefix = '', $config = ['ignore_request' => true])
     {
         if (empty($name)) {
             $name = $this->context;
@@ -520,7 +530,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   1.6
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
     }
 
@@ -539,13 +549,12 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         // Check for request forgeries.
         $this->checkToken();
 
-        $app   = $this->app;
-        $model = $this->getModel();
-        $table = $model->getTable();
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $model   = $this->getModel();
+        $table   = $model->getTable();
+        $data    = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
         $context = "$this->option.edit.$this->context";
-        $task = $this->getTask();
+        $task    = $this->getTask();
 
         // Determine the name of the primary key for the data.
         if (empty($key)) {
@@ -572,7 +581,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
                 $this->setRedirect(
                     Route::_(
                         'index.php?option=' . $this->option . '&view=' . $this->view_item
-                        . $this->getRedirectToItemAppend($recordId, $urlVar),
+                            . $this->getRedirectToItemAppend($recordId, $urlVar),
                         false
                     )
                 );
@@ -581,9 +590,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             }
 
             // Reset the ID, the multilingual associations and then treat the request as for Apply.
-            $data[$key] = 0;
-            $data['associations'] = array();
-            $task = 'apply';
+            $data[$key]           = 0;
+            $data['associations'] = [];
+            $task                 = 'apply';
         }
 
         // Access check.
@@ -593,7 +602,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_list
-                    . $this->getRedirectToListAppend(),
+                        . $this->getRedirectToListAppend(),
                     false
                 )
             );
@@ -606,16 +615,20 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $form = $model->getForm($data, false);
 
         if (!$form) {
-            $app->enqueueMessage($model->getError(), 'error');
+            $this->app->enqueueMessage($model->getError(), CMSWebApplicationInterface::MSG_ERROR);
 
             return false;
         }
 
         // Send an object which can be modified through the plugin event
         $objData = (object) $data;
-        $app->triggerEvent(
+        $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            array($this->option . '.' . $this->context, $objData, $form)
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+                'context' => $this->option . '.' . $this->context,
+                'data'    => $objData,
+                'subject' => $form,
+            ])
         );
         $data = (array) $objData;
 
@@ -630,9 +643,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             // Push up to three validation messages out to the user.
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+                    $this->app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $app->enqueueMessage($errors[$i], 'warning');
+                    $this->app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 
@@ -654,13 +667,13 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             }
 
             // Save the data in the session.
-            $app->setUserState($context . '.data', $data);
+            $this->app->setUserState($context . '.data', $data);
 
             // Redirect back to the edit screen.
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend($recordId, $urlVar),
+                        . $this->getRedirectToItemAppend($recordId, $urlVar),
                     false
                 )
             );
@@ -669,13 +682,13 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         }
 
         if (!isset($validData['tags'])) {
-            $validData['tags'] = array();
+            $validData['tags'] = [];
         }
 
         // Attempt to save the data.
         if (!$model->save($validData)) {
             // Save the data in the session.
-            $app->setUserState($context . '.data', $validData);
+            $this->app->setUserState($context . '.data', $validData);
 
             // Redirect back to the edit screen.
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
@@ -683,7 +696,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend($recordId, $urlVar),
+                        . $this->getRedirectToItemAppend($recordId, $urlVar),
                     false
                 )
             );
@@ -694,7 +707,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         // Save succeeded, so check-in the record.
         if ($checkin && $model->checkin($validData[$key]) === false) {
             // Save the data in the session.
-            $app->setUserState($context . '.data', $validData);
+            $this->app->setUserState($context . '.data', $validData);
 
             // Check-in failed, so go back to the record and display a notice.
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
@@ -702,7 +715,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend($recordId, $urlVar),
+                        . $this->getRedirectToItemAppend($recordId, $urlVar),
                     false
                 )
             );
@@ -710,10 +723,10 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             return false;
         }
 
-        $langKey = $this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
+        $langKey = $this->text_prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
         $prefix  = $this->app->getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
 
-        $this->setMessage(Text::_($prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
+        $this->setMessage(Text::_($prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
         // Redirect the user and adjust session state based on the chosen task.
         switch ($task) {
@@ -721,14 +734,14 @@ class FormController extends BaseController implements FormFactoryAwareInterface
                 // Set the record data in the session.
                 $recordId = $model->getState($model->getName() . '.id');
                 $this->holdEditId($context, $recordId);
-                $app->setUserState($context . '.data', null);
+                $this->app->setUserState($context . '.data', null);
                 $model->checkout($recordId);
 
                 // Redirect back to the edit screen.
                 $this->setRedirect(
                     Route::_(
                         'index.php?option=' . $this->option . '&view=' . $this->view_item
-                        . $this->getRedirectToItemAppend($recordId, $urlVar),
+                            . $this->getRedirectToItemAppend($recordId, $urlVar),
                         false
                     )
                 );
@@ -737,13 +750,13 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             case 'save2new':
                 // Clear the record id and data from the session.
                 $this->releaseEditId($context, $recordId);
-                $app->setUserState($context . '.data', null);
+                $this->app->setUserState($context . '.data', null);
 
                 // Redirect back to the edit screen.
                 $this->setRedirect(
                     Route::_(
                         'index.php?option=' . $this->option . '&view=' . $this->view_item
-                        . $this->getRedirectToItemAppend(null, $urlVar),
+                            . $this->getRedirectToItemAppend(null, $urlVar),
                         false
                     )
                 );
@@ -752,7 +765,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             default:
                 // Clear the record id and data from the session.
                 $this->releaseEditId($context, $recordId);
-                $app->setUserState($context . '.data', null);
+                $this->app->setUserState($context . '.data', null);
 
                 $url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
                     . $this->getRedirectToListAppend();
@@ -790,9 +803,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         // Check for request forgeries.
         $this->checkToken();
 
-        $app     = $this->app;
         $model   = $this->getModel();
-        $data    = $this->input->post->get('jform', array(), 'array');
+        $data    = $this->input->post->get('jform', [], 'array');
 
         // Determine the name of the primary key for the data.
         if (empty($key)) {
@@ -814,7 +826,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_list
-                    . $this->getRedirectToListAppend(),
+                        . $this->getRedirectToListAppend(),
                     false
                 )
             );
@@ -824,7 +836,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         // The redirect url
         $redirectUrl = Route::_(
             'index.php?option=' . $this->option . '&view=' . $this->view_item .
-            $this->getRedirectToItemAppend($recordId, $urlVar),
+                $this->getRedirectToItemAppend($recordId, $urlVar),
             false
         );
 
@@ -855,7 +867,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         }
 
         // Save the data in the session.
-        $app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);
+        $this->app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);
 
         $this->setRedirect($redirectUrl);
         $this->redirect();
@@ -868,16 +880,15 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   3.9.0
      *
-     * @deprecated 5.0  It is handled by regular save method now.
+     * @deprecated  4.3 will be removed in 6.0
+     *              It is handled by regular save method now.
      */
     public function editAssociations()
     {
         // Initialise variables.
-        $app   = $this->app;
-        $input = $app->input;
         $model = $this->getModel();
+        $data  = $this->input->get('jform', [], 'array');
 
-        $data = $input->get('jform', array(), 'array');
         $model->editAssociations($data);
     }
 }

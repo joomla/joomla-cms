@@ -11,7 +11,7 @@
     class="media-browser-actions"
     :class="{ active: showActions }"
   >
-    <media-browser-action-item-toggle
+    <MediaBrowserActionItemToggle
       ref="actionToggle"
       :main-action="openActions"
       @on-focused="focused"
@@ -30,15 +30,15 @@
       class="media-browser-actions-list"
       role="toolbar"
       aria-orientation="vertical"
-      :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',(this.$parent.$props.item.name))"
+      :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',($parent.$props.item.name))"
     >
       <span
         aria-hidden="true"
         class="media-browser-actions-item-name"
       >
-        <strong>{{ this.$parent.$props.item.name }}</strong>
+        <strong>{{ $parent.$props.item.name }}</strong>
       </span>
-      <media-browser-action-item-preview
+      <MediaBrowserActionItemPreview
         v-if="previewable"
         ref="actionPreview"
         :on-focused="focused"
@@ -55,7 +55,7 @@
         @keyup.esc="hideActions"
         @keydown.tab="hideActions"
       />
-      <media-browser-action-item-download
+      <MediaBrowserActionItemDownload
         v-if="downloadable"
         ref="actionDownload"
         :on-focused="focused"
@@ -72,7 +72,7 @@
         @keydown.home.prevent
         @keydown.end.prevent
       />
-      <media-browser-action-item-rename
+      <MediaBrowserActionItemRename
         v-if="canEdit"
         ref="actionRename"
         :on-focused="focused"
@@ -89,7 +89,7 @@
         @keydown.home.prevent
         @keydown.end.prevent
       />
-      <media-browser-action-item-edit
+      <MediaBrowserActionItemEdit
         v-if="canEdit && canOpenEditView"
         ref="actionEdit"
         :on-focused="focused"
@@ -106,7 +106,7 @@
         @keydown.home.prevent
         @keydown.end.prevent
       />
-      <media-browser-action-item-share
+      <MediaBrowserActionItemShare
         v-if="shareable"
         ref="actionShare"
         :on-focused="focused"
@@ -123,7 +123,7 @@
         @keydown.home.prevent
         @keydown.end.prevent
       />
-      <media-browser-action-item-delete
+      <MediaBrowserActionItemDelete
         v-if="canDelete"
         ref="actionDelete"
         :on-focused="focused"
@@ -146,10 +146,27 @@
 
 <script>
 import * as types from '../../../store/mutation-types.es6';
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
+
+import MediaBrowserActionItemEdit from './edit.vue';
+import MediaBrowserActionItemDelete from './delete.vue';
+import MediaBrowserActionItemDownload from './download.vue';
+import MediaBrowserActionItemPreview from './preview.vue';
+import MediaBrowserActionItemRename from './rename.vue';
+import MediaBrowserActionItemShare from './share.vue';
+import MediaBrowserActionItemToggle from './toggle.vue';
 
 export default {
   name: 'MediaBrowserActionItemsContainer',
+  components: {
+    MediaBrowserActionItemEdit,
+    MediaBrowserActionItemDelete,
+    MediaBrowserActionItemDownload,
+    MediaBrowserActionItemPreview,
+    MediaBrowserActionItemRename,
+    MediaBrowserActionItemShare,
+    MediaBrowserActionItemToggle,
+  },
   props: {
     item: { type: Object, default: () => {} },
     edit: { type: Function, default: () => {} },
@@ -171,12 +188,12 @@ export default {
       return api.canDelete && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
     },
     canOpenEditView() {
+      // @TODO pass the array of allowed to edit files from PHP
       return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
   },
   watch: {
-    // eslint-disable-next-line
-    "$store.state.showRenameModal"(show) {
+    '$store.state.showRenameModal': function (show) {
       if (
         !show
         && this.$refs.actionToggle

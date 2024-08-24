@@ -35,16 +35,16 @@ class ArticleController extends FormController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * Recognized key values include 'name', 'default_task', 'model_path', and
-     * 'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -54,6 +54,31 @@ class ArticleController extends FormController
             $this->view_list = 'featured';
             $this->view_item = 'article&return=featured';
         }
+    }
+
+    /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   5.0.0
+     */
+    public function cancel($key = null)
+    {
+        $result = parent::cancel($key);
+
+        // When editing in modal then redirect to modalreturn layout
+        if ($result && $this->input->get('layout') === 'modal') {
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
+
+            $this->setRedirect(Route::_($return, false));
+        }
+
+        return $result;
     }
 
     /**
@@ -67,7 +92,7 @@ class ArticleController extends FormController
      *
      * @since   4.0.0
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         if ($this->getTask() === 'save2menu') {
             $editState = [];
@@ -77,18 +102,26 @@ class ArticleController extends FormController
             $link = 'index.php?option=com_content&view=article';
             $type = 'component';
 
-            $editState['id'] = $id;
-            $editState['link']  = $link;
-            $editState['title'] = $model->getItem($id)->title;
-            $editState['type']  = $type;
+            $editState['id']            = $id;
+            $editState['link']          = $link;
+            $editState['title']         = $model->getItem($id)->title;
+            $editState['type']          = $type;
             $editState['request']['id'] = $id;
 
-            $this->app->setUserState('com_menus.edit.item', array(
+            $this->app->setUserState('com_menus.edit.item', [
                 'data' => $editState,
                 'type' => $type,
-                'link' => $link));
+                'link' => $link,
+            ]);
 
             $this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
+        } elseif ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+            // When editing in modal then redirect to modalreturn layout
+            $id     = $model->getState('article.id', '');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=save';
+
+            $this->setRedirect(Route::_($return, false));
         }
     }
 
@@ -101,7 +134,7 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 
@@ -124,10 +157,10 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
@@ -170,7 +203,7 @@ class ArticleController extends FormController
 
         // Set the model
         /** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
-        $model = $this->getModel('Article', 'Administrator', array());
+        $model = $this->getModel('Article', 'Administrator', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));

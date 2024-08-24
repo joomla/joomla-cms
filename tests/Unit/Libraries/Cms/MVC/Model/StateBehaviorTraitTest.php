@@ -10,8 +10,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 
+use Joomla\CMS\MVC\Model\State;
 use Joomla\CMS\MVC\Model\StateBehaviorTrait;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -35,12 +35,11 @@ class StateBehaviorTraitTest extends UnitTestCase
      */
     public function testGetEmptyState()
     {
-        $trait = new class
-        {
+        $trait = new class () {
             use StateBehaviorTrait;
         };
 
-        $this->assertInstanceOf(CMSObject::class, $trait->getState());
+        $this->assertInstanceOf(State::class, $trait->getState());
     }
 
     /**
@@ -52,8 +51,7 @@ class StateBehaviorTraitTest extends UnitTestCase
      */
     public function testStatePopulation()
     {
-        $trait = new class
-        {
+        $trait = new class () {
             use StateBehaviorTrait;
 
             protected function populateState()
@@ -74,8 +72,7 @@ class StateBehaviorTraitTest extends UnitTestCase
      */
     public function testStatePopulationIgnored()
     {
-        $trait = new class
-        {
+        $trait = new class () {
             use StateBehaviorTrait;
 
             public function __construct()
@@ -101,8 +98,7 @@ class StateBehaviorTraitTest extends UnitTestCase
      */
     public function testSetState()
     {
-        $trait = new class
-        {
+        $trait = new class () {
             use StateBehaviorTrait;
         };
         $trait->setState('state.set', true);
@@ -119,8 +115,7 @@ class StateBehaviorTraitTest extends UnitTestCase
      */
     public function testSetStateWithPopulation()
     {
-        $trait = new class
-        {
+        $trait = new class () {
             use StateBehaviorTrait;
 
             protected function populateState()
@@ -142,8 +137,7 @@ class StateBehaviorTraitTest extends UnitTestCase
      */
     public function testSetStateWithPrePopulation()
     {
-        $trait = new class
-        {
+        $trait = new class () {
             use StateBehaviorTrait;
 
             protected function populateState()

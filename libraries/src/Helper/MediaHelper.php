@@ -19,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,11 +37,11 @@ class MediaHelper
      * @var    string[]
      * @since  4.0.0
      */
-    public const EXECUTABLES = array(
+    public const EXECUTABLES = [
         'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
         'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi'
-    );
+        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi',
+    ];
 
     /**
      * Checks if the file is an image
@@ -54,7 +54,7 @@ class MediaHelper
      */
     public static function isImage($fileName)
     {
-        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp';
+        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp|avif';
 
         return preg_match("/\.(?:$imageTypes)$/i", $fileName);
     }
@@ -113,6 +113,13 @@ class MediaHelper
             $mime = static::getMimeType($file, false);
         }
 
+        if (
+            ($mime === 'application/octet-stream' || $mime === 'image/svg' || $mime === 'image/svg+xml')
+            && !$isImage && strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'svg' && self::isValidSvg($file, false)
+        ) {
+            return 'image/svg+xml';
+        }
+
         // We have a mime here
         return $mime;
     }
@@ -134,12 +141,12 @@ class MediaHelper
         if ($params->get('check_mime', 1)) {
             $allowedMime = $params->get(
                 'upload_mime',
-                'image/jpeg,image/gif,image/png,image/bmp,image/webp,application/msword,application/excel,' .
-                    'application/pdf,application/powerpoint,text/plain,application/x-zip'
+                'image/jpeg,image/gif,image/png,image/bmp,image/webp,image/avif,application/msword,' .
+                    'application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip'
             );
 
             // Get the mime type configuration
-            $allowedMime = array_map('trim', explode(',', $allowedMime));
+            $allowedMime = array_map('trim', explode(',', str_replace('\\', '', $allowedMime)));
 
             // Mime should be available and in the allowed list
             return !empty($mime) && \in_array($mime, $allowedMime);
@@ -159,7 +166,7 @@ class MediaHelper
      *
      * @since   4.0.0
      */
-    public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = array()): bool
+    public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = []): bool
     {
         $params = ComponentHelper::getParams($component);
 
@@ -167,15 +174,15 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (count($allowedExecutables)) {
+        if (\count($allowedExecutables)) {
             $executables = array_diff($executables, $allowedExecutables);
         }
 
-        if (in_array($extension, $executables, true)) {
+        if (\in_array($extension, $executables, true)) {
             return false;
         }
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
         if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
@@ -189,15 +196,15 @@ class MediaHelper
     /**
      * Checks if the file can be uploaded
      *
-     * @param   array   $file                File information
-     * @param   string  $component           The option name for the component storing the parameters
-     * @param   string  $allowedExecutables  Array of executable file types that shall be whitelisted
+     * @param   array     $file                File information
+     * @param   string    $component           The option name for the component storing the parameters
+     * @param   string[]  $allowedExecutables  Array of executable file types that shall be whitelisted
      *
      * @return  boolean
      *
      * @since   3.2
      */
-    public function canUpload($file, $component = 'com_media', $allowedExecutables = array())
+    public function canUpload($file, $component = 'com_media', $allowedExecutables = [])
     {
         $app    = Factory::getApplication();
         $params = ComponentHelper::getParams($component);
@@ -229,9 +236,12 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (count($allowedExecutables)) {
+        if (\count($allowedExecutables)) {
             $executables = array_diff($executables, $allowedExecutables);
         }
+
+        // Ensure lowercase extension
+        $filetypes = array_map('strtolower', $filetypes);
 
         $check = array_intersect($filetypes, $executables);
 
@@ -243,7 +253,7 @@ class MediaHelper
 
         $filetype = array_pop($filetypes);
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
         if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored))) {
@@ -261,13 +271,13 @@ class MediaHelper
         }
 
         if ($params->get('restrict_uploads', 1)) {
-            $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+            $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 
             if (\in_array($filetype, $allowedExtensions)) {
                 // If tmp_name is empty, then the file was bigger than the PHP limit
                 if (!empty($file['tmp_name'])) {
                     // Get the mime type this is an image file
-                    $mime = static::getMimeType($file['tmp_name'], true);
+                    $mime = static::getMimeType($file['tmp_name'], static::isImage($file['tmp_name']));
 
                     // Did we get anything useful?
                     if ($mime != false) {
@@ -320,35 +330,7 @@ class MediaHelper
         }
 
         if ($filetype === 'svg') {
-            $sanitizer = new Sanitizer();
-
-            $isValid = $sanitizer->sanitize(file_get_contents($file['tmp_name']));
-
-            $svgErrors = $sanitizer->getXmlIssues();
-
-            /*
-            * We allow comments and temp fix for bugs in svg-santitizer
-            * https://github.com/darylldoyle/svg-sanitizer/issues/64
-            * https://github.com/darylldoyle/svg-sanitizer/issues/63
-            * https://github.com/darylldoyle/svg-sanitizer/pull/65
-            * https://github.com/darylldoyle/svg-sanitizer/issues/82
-            */
-            foreach ($svgErrors as $i => $error) {
-                if (
-                    ($error['message'] === 'Suspicious node \'#comment\'')
-                    || ($error['message'] === 'Suspicious attribute \'space\'')
-                    || ($error['message'] === 'Suspicious attribute \'enable-background\'')
-                    || ($error['message'] === 'Suspicious node \'svg\'')
-                ) {
-                    unset($svgErrors[$i]);
-                }
-            }
-
-            if ($isValid === false || count($svgErrors)) {
-                $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
-
-                return false;
-            }
+            return self::isValidSvg($file['tmp_name'], true);
         }
 
         return true;
@@ -382,7 +364,7 @@ class MediaHelper
         $width  = round($width * $percentage);
         $height = round($height * $percentage);
 
-        return array($width, $height);
+        return [$width, $height];
     }
 
     /**
@@ -415,7 +397,7 @@ class MediaHelper
             $d->close();
         }
 
-        return array($total_file, $total_dir);
+        return [$total_file, $total_dir];
     }
 
     /**
@@ -465,7 +447,7 @@ class MediaHelper
 
             // Do a check if default settings are not saved by user
             // If not initialize them manually
-            if (is_string($directories)) {
+            if (\is_string($directories)) {
                 $directories = json_decode($directories);
             }
 
@@ -497,5 +479,52 @@ class MediaHelper
         }
 
         return $value;
+    }
+
+    /**
+     * Check if a file is a valid SVG
+     *
+     * @param  string  $file
+     * @param  bool    $shouldLogErrors
+     *
+     * @return  boolean
+     *
+     * @since   4.3.0
+     */
+    private static function isValidSvg($file, $shouldLogErrors = true): bool
+    {
+        $sanitizer = new Sanitizer();
+
+        $isValid = $sanitizer->sanitize(file_get_contents($file));
+
+        $svgErrors = $sanitizer->getXmlIssues();
+
+        /**
+         * We allow comments and temp fix for bugs in svg-santitizer
+         * https://github.com/darylldoyle/svg-sanitizer/issues/64
+         * https://github.com/darylldoyle/svg-sanitizer/issues/63
+         * https://github.com/darylldoyle/svg-sanitizer/pull/65
+         * https://github.com/darylldoyle/svg-sanitizer/issues/82
+         */
+        foreach ($svgErrors as $i => $error) {
+            if (
+                ($error['message'] === 'Suspicious node \'#comment\'')
+                || ($error['message'] === 'Suspicious attribute \'space\'')
+                || ($error['message'] === 'Suspicious attribute \'enable-background\'')
+                || ($error['message'] === 'Suspicious node \'svg\'')
+            ) {
+                unset($svgErrors[$i]);
+            }
+        }
+
+        if ($isValid === false || \count($svgErrors)) {
+            if ($shouldLogErrors) {
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+            }
+
+            return false;
+        }
+
+        return true;
     }
 }

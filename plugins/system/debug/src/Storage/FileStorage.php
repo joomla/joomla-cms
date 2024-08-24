@@ -11,9 +11,9 @@
 namespace Joomla\Plugin\System\Debug\Storage;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -84,7 +84,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             if ($file->getExtension() == 'php') {
                 $files[] = [
                     'time' => $file->getMTime(),
-                    'id' => $file->getBasename('.php'),
+                    'id'   => $file->getBasename('.php'),
                 ];
             }
         }
@@ -103,7 +103,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 
         // Load the metadata and filter the results.
         $results = [];
-        $i = 0;
+        $i       = 0;
 
         foreach ($files as $file) {
             // When filter is empty, skip loading the offset
@@ -161,12 +161,12 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         /**
          * We only started this collector in Joomla 4.2.4 - any older files we have to assume are insecure.
          */
-        if (!array_key_exists('juser', $data)) {
+        if (!\array_key_exists('juser', $data)) {
             return false;
         }
 
-        $currentUser = Factory::getUser();
-        $currentUserId = $currentUser->id;
+        $currentUser           = Factory::getUser();
+        $currentUserId         = $currentUser->id;
         $currentUserSuperAdmin = $currentUser->authorise('core.admin');
 
         /**

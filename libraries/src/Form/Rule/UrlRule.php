@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
@@ -17,7 +18,7 @@ use Joomla\String\StringHelper;
 use Joomla\Uri\UriHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,8 +36,8 @@ class UrlRule extends FormRule
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *
@@ -44,7 +45,7 @@ class UrlRule extends FormRule
      * @link    https://www.w3.org/Addressing/URL/url-spec.txt
      * @see     \Joomla\String\StringHelper
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
@@ -53,13 +54,19 @@ class UrlRule extends FormRule
             return true;
         }
 
+        // Check the value for XSS payloads
+        if ((string) $element['disableXssCheck'] !== 'true' && InputFilter::checkAttribute(['href', $value])) {
+            $element->addAttribute('message', Text::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_INJECTION_DETECTED', $element['name']));
+            return false;
+        }
+
         $urlParts = UriHelper::parse_url($value);
 
         // See https://www.w3.org/Addressing/URL/url-spec.txt
         // Use the full list or optionally specify a list of permitted schemes.
         if ($element['schemes'] == '') {
-            $scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais',
-                'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
+            $scheme = ['http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais',
+                'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', ];
         } else {
             $scheme = explode(',', $element['schemes']);
         }
@@ -99,7 +106,7 @@ class UrlRule extends FormRule
         }
 
         // For some schemes here must be two slashes.
-        $scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git');
+        $scheme = ['http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git'];
 
         if (\in_array($urlScheme, $scheme) && substr($value, \strlen($urlScheme), 3) !== '://') {
             return false;
@@ -111,7 +118,7 @@ class UrlRule extends FormRule
             return false;
         }
 
-        if (\array_key_exists('port', $urlParts) && !\is_int((int) $urlParts['port'])) {
+        if (\array_key_exists('port', $urlParts) && 0 === (int) $urlParts['port']) {
             return false;
         }
 

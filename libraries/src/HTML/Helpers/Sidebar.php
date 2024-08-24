@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\FileLayout;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,7 +29,7 @@ abstract class Sidebar
      * @var    array
      * @since  3.0
      */
-    protected static $entries = array();
+    protected static $entries = [];
 
     /**
      * Filters
@@ -37,7 +37,7 @@ abstract class Sidebar
      * @var    array
      * @since  3.0
      */
-    protected static $filters = array();
+    protected static $filters = [];
 
     /**
      * Value for the action attribute of the form.
@@ -61,9 +61,9 @@ abstract class Sidebar
         $data->list           = static::getEntries();
         $data->filters        = static::getFilters();
         $data->action         = static::getAction();
-        $data->displayMenu    = count($data->list);
-        $data->displayFilters = count($data->filters);
-        $data->hide           = Factory::getApplication()->input->getBool('hidemainmenu');
+        $data->displayMenu    = \count($data->list);
+        $data->displayFilters = \count($data->filters);
+        $data->hide           = Factory::getApplication()->getInput()->getBool('hidemainmenu');
 
         // Create a layout object and ask it to render the sidebar
         $layout      = new FileLayout('joomla.sidebars.submenu');
@@ -84,7 +84,7 @@ abstract class Sidebar
      */
     public static function addEntry($name, $link = '', $active = false)
     {
-        static::$entries[] = array($name, $link, $active);
+        static::$entries[] = [$name, $link, $active];
     }
 
     /**
@@ -113,7 +113,7 @@ abstract class Sidebar
      */
     public static function addFilter($label, $name, $options, $noDefault = false)
     {
-        static::$filters[] = array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault);
+        static::$filters[] = ['label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault];
     }
 
     /**

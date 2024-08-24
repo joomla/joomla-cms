@@ -14,9 +14,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Privacy\Administrator\Model\ConsentsModel;
 
@@ -68,7 +66,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.9.0
      */
     protected $state;
@@ -102,12 +100,12 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
-        if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new Genericdataexception(implode("\n", $errors), 500);
         }
 
@@ -127,34 +125,25 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_CONSENTS'), 'lock');
 
-        $bar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Add a button to invalidate a consent
         if (!$this->isEmptyState) {
-            $bar->appendButton(
-                'Confirm',
-                'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_CONFIRM_MSG',
-                'trash',
-                'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE',
-                'consents.invalidate',
-                true
-            );
+            $toolbar->confirmButton('trash', 'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE', 'consents.invalidate')
+                ->message('COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE')
+                ->icon('icon-trash')
+                ->listCheck(true);
         }
 
         // If the filter is restricted to a specific subject, show the "Invalidate all" button
         if ($this->state->get('filter.subject') != '') {
-            $bar->appendButton(
-                'Confirm',
-                'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL_CONFIRM_MSG',
-                'cancel',
-                'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL',
-                'consents.invalidateAll',
-                false
-            );
+            $toolbar->confirmButton('cancel', 'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL', 'consents.invalidateAll')
+                ->message('COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL_CONFIRM_MSG')
+                ->icon('icon-cancel')
+                ->listCheck(false);
         }
 
-        ToolbarHelper::preferences('com_privacy');
-
-        ToolbarHelper::help('Privacy:_Consents');
+        $toolbar->preferences('com_privacy');
+        $toolbar->help('Privacy:_Consents');
     }
 }

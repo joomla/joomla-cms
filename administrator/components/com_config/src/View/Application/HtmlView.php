@@ -31,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      * @since  3.2
      */
     public $state;
@@ -51,6 +51,34 @@ class HtmlView extends BaseHtmlView
      * @since 3.2
      */
     public $data;
+
+    /**
+     * Title of the fieldset
+     *
+     * @var    string
+     */
+    public $name;
+
+    /**
+     * Name of the fields to display
+     *
+     * @var    string
+     */
+    public $fieldsname;
+
+    /**
+     * CSS class of the form
+     *
+     * @var    string
+     */
+    public $formclass;
+
+    /**
+     * Description of the fieldset
+     *
+     * @var    string
+     */
+    public $description;
 
     /**
      * Execute and display a template script.
@@ -109,14 +137,16 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
+        $toolbar    = $this->getDocument()->getToolbar();
+
         ToolbarHelper::title(Text::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'cog config');
-        ToolbarHelper::apply('application.apply');
-        ToolbarHelper::divider();
-        ToolbarHelper::save('application.save');
-        ToolbarHelper::divider();
-        ToolbarHelper::cancel('application.cancel', 'JTOOLBAR_CLOSE');
-        ToolbarHelper::divider();
-        ToolbarHelper::inlinehelp();
-        ToolbarHelper::help('Site_Global_Configuration');
+        $toolbar->apply('application.apply');
+        $toolbar->divider();
+        $toolbar->save('application.save');
+        $toolbar->divider();
+        $toolbar->cancel('application.cancel');
+        $toolbar->divider();
+        $toolbar->inlinehelp();
+        $toolbar->help('Site_Global_Configuration');
     }
 }

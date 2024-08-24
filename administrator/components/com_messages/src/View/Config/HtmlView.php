@@ -44,7 +44,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -85,12 +85,12 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         ToolbarHelper::title(Text::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS'), 'envelope');
 
-        ToolbarHelper::apply('config.save', 'JSAVE');
-
-        ToolbarHelper::cancel('config.cancel', 'JCANCEL');
+        $toolbar = $this->getDocument()->getToolbar();
+        $toolbar->apply('config.save', 'JSAVE');
+        $toolbar->cancel('config.cancel', 'JCANCEL');
     }
 }

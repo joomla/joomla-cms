@@ -109,12 +109,12 @@ class JsonapiView extends BaseApiView
         }
 
         $serializer = new JoomlaSerializer($this->type);
-        $element = (new Resource($displayItem, $serializer))
+        $element    = (new Resource($displayItem, $serializer))
             ->fields([$this->type => $this->fieldsToRenderItem]);
 
-        $this->document->setData($element);
-        $this->document->addLink('self', Uri::current());
+        $this->getDocument()->setData($element);
+        $this->getDocument()->addLink('self', Uri::current());
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 }

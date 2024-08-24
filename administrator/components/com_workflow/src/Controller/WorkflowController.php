@@ -48,15 +48,15 @@ class WorkflowController extends FormController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   4.0.0
      * @throws  \InvalidArgumentException when no extension is set
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -87,7 +87,7 @@ class WorkflowController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         return $this->app->getIdentity()->authorise('core.create', $this->extension);
     }
@@ -102,10 +102,10 @@ class WorkflowController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         $record = $this->getModel()->getItem($recordId);
 
@@ -170,7 +170,7 @@ class WorkflowController extends FormController
      *
      * @since  4.0.0
      */
-    public function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    public function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         $task = $this->getTask();
 
@@ -183,7 +183,7 @@ class WorkflowController extends FormController
             $recordId = (int) $this->input->getInt($key);
 
             // @todo Moves queries out of the controller.
-            $db = $model->getDbo();
+            $db    = $model->getDbo();
             $query = $db->getQuery(true);
 
             $query->select('*')
@@ -205,7 +205,7 @@ class WorkflowController extends FormController
                 $oldID = $status['id'];
 
                 $status['workflow_id'] = $workflowID;
-                $status['id'] = 0;
+                $status['id']          = 0;
 
                 unset($status['asset_id']);
 
@@ -228,10 +228,10 @@ class WorkflowController extends FormController
                 $table = $tmodel->getTable();
 
                 $transition['from_stage_id'] = $transition['from_stage_id'] != -1 ? $mapping[$transition['from_stage_id']] : -1;
-                $transition['to_stage_id'] = $mapping[$transition['to_stage_id']];
+                $transition['to_stage_id']   = $mapping[$transition['to_stage_id']];
 
                 $transition['workflow_id'] = $workflowID;
-                $transition['id'] = 0;
+                $transition['id']          = 0;
 
                 unset($transition['asset_id']);
 

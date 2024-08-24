@@ -51,7 +51,7 @@ class AssociationController extends FormController
             return false;
         }
 
-        return parent::display();
+        return $this->display();
     }
 
     /**
@@ -71,7 +71,7 @@ class AssociationController extends FormController
 
         // Only check in, if component item type allows to check out.
         if (AssociationsHelper::typeSupportsCheckout($extensionName, $typeName)) {
-            $ids      = array();
+            $ids      = [];
             $targetId = $this->input->get('target-id', '', 'string');
 
             if ($targetId !== '') {

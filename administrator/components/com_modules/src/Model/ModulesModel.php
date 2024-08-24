@@ -14,8 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -38,10 +38,10 @@ class ModulesModel extends ListModel
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'checked_out', 'a.checked_out',
@@ -60,7 +60,7 @@ class ModulesModel extends ListModel
                 'pages',
                 'name', 'e.name',
                 'menuitem',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -82,7 +82,7 @@ class ModulesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $layout = $app->input->get('layout', '', 'cmd');
+        $layout = $app->getInput()->get('layout', '', 'cmd');
 
         // Adjust the context to support modal layouts.
         if ($layout) {
@@ -90,23 +90,12 @@ class ModulesModel extends ListModel
         }
 
         // Make context client aware
-        $this->context .= '.' . $app->input->get->getInt('client_id', 0);
-
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
-        $this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
-        $this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
-        $this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
+        $this->context .= '.' . $app->getInput()->get->getInt('client_id', 0);
 
         // If in modal layout on the frontend, state and language are always forced.
         if ($app->isClient('site') && $layout === 'modal') {
             $this->setState('filter.language', 'current');
             $this->setState('filter.state', 1);
-        } else {
-            // If in backend (modal or not) we get the same fields from the user request.
-            $this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
-            $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
         }
 
         // Special case for the client id.
@@ -115,7 +104,7 @@ class ModulesModel extends ListModel
             $clientId = 0;
         } else {
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-            $clientId = (!in_array($clientId, array(0, 1))) ? 0 : $clientId;
+            $clientId = (!\in_array($clientId, [0, 1])) ? 0 : $clientId;
             $this->setState('client_id', $clientId);
         }
 
@@ -161,9 +150,9 @@ class ModulesModel extends ListModel
     /**
      * Returns an object list
      *
-     * @param   DatabaseQuery  $query       The query
-     * @param   int            $limitstart  Offset
-     * @param   int            $limit       The number of records
+     * @param   QueryInterface  $query       The query
+     * @param   int             $limitstart  Offset
+     * @param   int             $limit       The number of records
      *
      * @return  array
      */
@@ -175,7 +164,7 @@ class ModulesModel extends ListModel
         $db = $this->getDatabase();
 
         // If ordering by fields that need translate we need to sort the array of objects after translating them.
-        if (in_array($listOrder, array('pages', 'name'))) {
+        if (\in_array($listOrder, ['pages', 'name'])) {
             // Fetch the results.
             $db->setQuery($query);
             $result = $db->loadObjectList();
@@ -187,7 +176,7 @@ class ModulesModel extends ListModel
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, true, true);
 
             // Process pagination.
-            $total = count($result);
+            $total                                      = \count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -195,7 +184,7 @@ class ModulesModel extends ListModel
                 $this->setState('list.start', 0);
             }
 
-            return array_slice($result, $limitstart, $limit ?: null);
+            return \array_slice($result, $limitstart, $limit ?: null);
         }
 
         // If ordering by fields that doesn't need translate just order the query.
@@ -223,21 +212,21 @@ class ModulesModel extends ListModel
      *
      * @param   array  &$items  The array of objects
      *
-     * @return  array The array of translated objects
+     * @return  void
      */
     protected function translate(&$items)
     {
-        $lang = Factory::getLanguage();
+        $lang       = Factory::getLanguage();
         $clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
         foreach ($items as $item) {
             $extension = $item->module;
-            $source = $clientPath . "/modules/$extension";
+            $source    = $clientPath . "/modules/$extension";
             $lang->load("$extension.sys", $clientPath)
                 || $lang->load("$extension.sys", $source);
             $item->name = Text::_($item->name);
 
-            if (is_null($item->pages)) {
+            if (\is_null($item->pages)) {
                 $item->pages = Text::_('JNONE');
             } elseif ($item->pages < 0) {
                 $item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
@@ -252,12 +241,12 @@ class ModulesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields.
@@ -308,7 +297,7 @@ class ModulesModel extends ListModel
             ->bind(':eclientid', $clientId, ParameterType::INTEGER);
 
         // Filter by current user access level.
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Get the current user for authorisation checks
         if ($user->authorise('core.admin') !== true) {
@@ -324,7 +313,7 @@ class ModulesModel extends ListModel
         }
 
         // Filter by published state.
-        $state = $this->getState('filter.state');
+        $state = $this->getState('filter.state', '');
 
         if (is_numeric($state)) {
             $state = (int) $state;
@@ -425,7 +414,7 @@ class ModulesModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

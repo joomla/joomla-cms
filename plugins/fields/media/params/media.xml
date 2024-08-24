@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
 			<field
 				name="directory"
-				type="folderlist"
+				type="media"
 				label="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_LABEL"
-				directory="images"
-				hide_none="true"
-				recursive="true"
-				validate="options"
+				preview="false"
+				types="directories"
 			/>
 
 			<field

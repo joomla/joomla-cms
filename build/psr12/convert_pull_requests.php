@@ -219,7 +219,6 @@ foreach ($list as $pr) {
     $output = [];
     exec($cmd, $output, $result);
     if ($result !== 0) {
-
         echo "Upmerge with strategy ort failed using fallback ours\n";
         var_dump([$cmd, $result]);
         $cmd    = $git . ' merge --abort';

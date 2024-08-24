@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_CONTACT_CATEGORY_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CATEGORY_VIEW_DEFAULT_OPTION">
 		<help
@@ -757,6 +757,7 @@
 				name="custom_reply"
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"

@@ -13,6 +13,7 @@ namespace Joomla\Component\Banners\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -32,18 +33,18 @@ class ClientsModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'contact', 'a.contact',
                 'state', 'a.state',
                 'checked_out', 'a.checked_out',
                 'checked_out_time', 'a.checked_out_time',
-                'purchase_type', 'a.purchase_type'
-            );
+                'purchase_type', 'a.purchase_type',
+            ];
         }
 
         parent::__construct($config);
@@ -94,7 +95,7 @@ class ClientsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
@@ -214,14 +215,14 @@ class ClientsModel extends ListModel
 
         // If empty or an error, just return.
         if (empty($items)) {
-            return array();
+            return [];
         }
 
         // Getting the following metric by joins is WAY TOO SLOW.
         // Faster to do three queries for very large banner trees.
 
         // Get the clients in the list.
-        $db = $this->getDatabase();
+        $db        = $this->getDatabase();
         $clientIds = array_column($items, 'id');
 
         $query = $db->getQuery(true)
@@ -241,7 +242,7 @@ class ClientsModel extends ListModel
 
         // Get the published banners count.
         try {
-            $state = 1;
+            $state          = 1;
             $countPublished = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());
@@ -251,7 +252,7 @@ class ClientsModel extends ListModel
 
         // Get the unpublished banners count.
         try {
-            $state = 0;
+            $state            = 0;
             $countUnpublished = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());
@@ -261,7 +262,7 @@ class ClientsModel extends ListModel
 
         // Get the trashed banners count.
         try {
-            $state = -2;
+            $state        = -2;
             $countTrashed = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());
@@ -271,7 +272,7 @@ class ClientsModel extends ListModel
 
         // Get the archived banners count.
         try {
-            $state = 2;
+            $state         = 2;
             $countArchived = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());
@@ -281,10 +282,10 @@ class ClientsModel extends ListModel
 
         // Inject the values back into the array.
         foreach ($items as $item) {
-            $item->count_published   = isset($countPublished[$item->id]) ? $countPublished[$item->id] : 0;
-            $item->count_unpublished = isset($countUnpublished[$item->id]) ? $countUnpublished[$item->id] : 0;
-            $item->count_trashed     = isset($countTrashed[$item->id]) ? $countTrashed[$item->id] : 0;
-            $item->count_archived    = isset($countArchived[$item->id]) ? $countArchived[$item->id] : 0;
+            $item->count_published   = $countPublished[$item->id] ?? 0;
+            $item->count_unpublished = $countUnpublished[$item->id] ?? 0;
+            $item->count_trashed     = $countTrashed[$item->id] ?? 0;
+            $item->count_archived    = $countArchived[$item->id] ?? 0;
         }
 
         // Add the items to the internal cache.

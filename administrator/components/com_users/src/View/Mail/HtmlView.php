@@ -67,14 +67,18 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         ToolbarHelper::title(Text::_('COM_USERS_MASS_MAIL'), 'users massmail');
-        ToolbarHelper::custom('mail.send', 'envelope', '', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
-        ToolbarHelper::cancel('mail.cancel');
-        ToolbarHelper::divider();
-        ToolbarHelper::preferences('com_users');
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Mass_Mail_Users');
+        $toolbar = $this->getDocument()->getToolbar();
+        $toolbar->standardButton('send', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', 'mail.send')
+            ->icon('icon-envelope')
+            ->formValidation(true);
+
+        $toolbar->cancel('mail.cancel', 'JTOOLBAR_CANCEL');
+        $toolbar->divider();
+        $toolbar->preferences('com_users');
+        $toolbar->divider();
+        $toolbar->help('Mass_Mail_Users');
     }
 }

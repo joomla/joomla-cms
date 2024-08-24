@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
@@ -42,14 +43,19 @@ class FeedView extends BaseHtmlView
         $app = Factory::getApplication();
 
         // Adjust the list limit to the feed limit.
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
 
         // Get view data.
-        $state = $this->get('State');
-        $params = $state->get('params');
-        $query = $this->get('Query');
+        $state   = $this->get('State');
+        $params  = $state->get('params');
+        $query   = $this->get('Query');
         $results = $this->get('Items');
-        $total = $this->get('Total');
+        $total   = $this->get('Total');
+
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
 
         // Push out the query data.
         $explained = HTMLHelper::_('query.explained', $query);
@@ -59,11 +65,11 @@ class FeedView extends BaseHtmlView
 
         // Configure the document description.
         if (!empty($explained)) {
-            $this->document->setDescription(html_entity_decode(strip_tags($explained), ENT_QUOTES, 'UTF-8'));
+            $this->getDocument()->setDescription(html_entity_decode(strip_tags($explained), ENT_QUOTES, 'UTF-8'));
         }
 
         // Set the document link.
-        $this->document->link = Route::_($query->toUri());
+        $this->getDocument()->link = Route::_($query->toUri());
 
         // If we don't have any results, we are done.
         if (empty($results)) {
@@ -82,7 +88,7 @@ class FeedView extends BaseHtmlView
             $item->date        = (int) $result->start_date ? HTMLHelper::_('date', $result->start_date, 'U') : $result->indexdate;
 
             // Loads item info into RSS array
-            $this->document->addItem($item);
+            $this->getDocument()->addItem($item);
         }
     }
 }

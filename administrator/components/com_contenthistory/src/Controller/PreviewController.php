@@ -34,7 +34,7 @@ class PreviewController extends BaseController
      *
      * @since   3.2
      */
-    public function getModel($name = 'Preview', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Preview', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

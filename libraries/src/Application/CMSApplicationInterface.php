@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
@@ -23,8 +23,8 @@ use Joomla\Input\Input;
  * Interface defining a Joomla! CMS Application class
  *
  * @since  4.0.0
- * @note   In Joomla 5 this interface will no longer extend EventAwareInterface
- * @property-read   Input  $input  {@deprecated 5.0} The Joomla Input property. Deprecated in favour of getInput()
+ * @note   In Joomla 6 this interface will no longer extend EventAwareInterface
+ * @property-read   Input  $input  {@deprecated 4.0 will be removed in 6.0} The Joomla Input property. Deprecated in favour of getInput()
  */
 interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface
 {
@@ -132,7 +132,9 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
      */
     public function isCli();
 
@@ -175,11 +177,11 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     /**
      * Allows the application to load a custom or default identity.
      *
-     * @param   User  $identity  An optional identity object. If omitted, the factory user is created.
+     * @param   ?User  $identity  An optional identity object. If omitted, the factory user is created.
      *
      * @return  $this
      *
      * @since   4.0.0
      */
-    public function loadIdentity(User $identity = null);
+    public function loadIdentity(?User $identity = null);
 }

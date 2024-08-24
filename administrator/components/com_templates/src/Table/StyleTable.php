@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,13 +31,14 @@ class StyleTable extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__template_styles', 'id', $db);
+        parent::__construct('#__template_styles', 'id', $db, $dispatcher);
     }
 
     /**
@@ -51,8 +53,8 @@ class StyleTable extends Table
      */
     public function bind($array, $ignore = '')
     {
-        if (isset($array['params']) && is_array($array['params'])) {
-            $registry = new Registry($array['params']);
+        if (isset($array['params']) && \is_array($array['params'])) {
+            $registry        = new Registry($array['params']);
             $array['params'] = (string) $registry;
         }
 
@@ -105,7 +107,7 @@ class StyleTable extends Table
     {
         if ($this->home != '0') {
             $clientId = (int) $this->client_id;
-            $query = $this->_db->getQuery(true)
+            $query    = $this->_db->getQuery(true)
                 ->update($this->_db->quoteName('#__template_styles'))
                 ->set($this->_db->quoteName('home') . ' = ' . $this->_db->quote('0'))
                 ->where($this->_db->quoteName('client_id') . ' = :clientid')
@@ -130,12 +132,12 @@ class StyleTable extends Table
      */
     public function delete($pk = null)
     {
-        $k = $this->_tbl_key;
-        $pk = is_null($pk) ? $this->$k : $pk;
+        $k  = $this->_tbl_key;
+        $pk = \is_null($pk) ? $this->$k : $pk;
 
-        if (!is_null($pk)) {
+        if (!\is_null($pk)) {
             $clientId = (int) $this->client_id;
-            $query = $this->_db->getQuery(true)
+            $query    = $this->_db->getQuery(true)
                 ->select($this->_db->quoteName('id'))
                 ->from($this->_db->quoteName('#__template_styles'))
                 ->where($this->_db->quoteName('client_id') . ' = :clientid')
@@ -145,7 +147,7 @@ class StyleTable extends Table
             $this->_db->setQuery($query);
             $results = $this->_db->loadColumn();
 
-            if (count($results) == 1 && $results[0] == $pk) {
+            if (\count($results) == 1 && $results[0] == $pk) {
                 $this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 
                 return false;

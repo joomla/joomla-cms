@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Plugins master display controller.
+ * Actionlogs display controller.
  *
  * @since  4.0.0
  */

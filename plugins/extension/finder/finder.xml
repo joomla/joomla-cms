@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="extension" method="upgrade">
 	<name>plg_extension_finder</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_EXTENSION_FINDER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Extension\Finder</namespace>
 	<files>
-		<filename plugin="finder">finder.php</filename>
+		<folder plugin="finder">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_extension_finder.ini</language>

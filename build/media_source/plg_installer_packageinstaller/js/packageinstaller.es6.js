@@ -63,9 +63,7 @@ Joomla = window.Joomla || {};
       uploadUrl += `&return=${returnUrl}`;
     }
 
-    button.addEventListener('click', () => {
-      fileInput.click();
-    });
+    button.addEventListener('click', () => fileInput.click());
 
     fileInput.addEventListener('change', () => {
       if (uploading) {

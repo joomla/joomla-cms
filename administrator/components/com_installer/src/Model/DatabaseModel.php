@@ -19,9 +19,9 @@ use Joomla\CMS\Schema\ChangeSet;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -49,7 +49,7 @@ class DatabaseModel extends InstallerModel
      *
      * @since  4.0.0
      */
-    private $changeSetList = array();
+    private $changeSetList = [];
 
     /**
      * Total of errors
@@ -63,16 +63,16 @@ class DatabaseModel extends InstallerModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     ListModel
      * @since   4.0.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'update_site_name',
                 'name',
                 'client_id',
@@ -80,8 +80,8 @@ class DatabaseModel extends InstallerModel
                 'status',
                 'type', 'type_translated',
                 'folder', 'folder_translated',
-                'extension_id'
-            );
+                'extension_id',
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -115,7 +115,7 @@ class DatabaseModel extends InstallerModel
     private function fetchSchemaCache($cid = 0)
     {
         // We already have it
-        if (array_key_exists($cid, $this->changeSetList)) {
+        if (\array_key_exists($cid, $this->changeSetList)) {
             return;
         }
 
@@ -128,7 +128,7 @@ class DatabaseModel extends InstallerModel
         $results = $this->_getList($this->getListQuery());
 
         foreach ($results as $result) {
-            $errorMessages = array();
+            $errorMessages = [];
             $errorCount    = 0;
 
             if (strcmp($result->element, 'joomla') === 0) {
@@ -178,7 +178,7 @@ class DatabaseModel extends InstallerModel
 
                 if ($installationXML !== null) {
                     $folderTmp = (string) $installationXML->update->schemas->schemapath[0];
-                    $a = explode('/', $folderTmp);
+                    $a         = explode('/', $folderTmp);
                     array_pop($a);
                     $folderTmp = $basePath . '/' . implode('/', $a);
                 }
@@ -231,14 +231,14 @@ class DatabaseModel extends InstallerModel
             $this->errorCount += $errorCount;
 
             // Collect the extension details
-            $this->changeSetList[$result->extension_id] = array(
+            $this->changeSetList[$result->extension_id] = [
                 'folderTmp'     => $folderTmp,
                 'errorsMessage' => $errorMessages,
                 'errorsCount'   => $errorCount,
                 'results'       => $changeSet->getStatus(),
                 'schema'        => $schema,
-                'extension'     => $result
-            );
+                'extension'     => $result,
+            ];
         }
     }
 
@@ -256,11 +256,6 @@ class DatabaseModel extends InstallerModel
      */
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
-        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
-        $this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
-
         parent::populateState($ordering, $direction);
     }
 
@@ -275,7 +270,7 @@ class DatabaseModel extends InstallerModel
      *
      * @since   4.0.0
      */
-    public function fix($cids = array())
+    public function fix($cids = [])
     {
         $db = $this->getDatabase();
 
@@ -283,7 +278,7 @@ class DatabaseModel extends InstallerModel
             // Load the database issues
             $this->fetchSchemaCache($cid);
 
-            $changeSet = $this->changeSetList[$cid];
+            $changeSet              = $this->changeSetList[$cid];
             $changeSet['changeset'] = new ChangeSet($db, $changeSet['folderTmp']);
             $changeSet['changeset']->fix();
 
@@ -294,16 +289,6 @@ class DatabaseModel extends InstallerModel
                 $installer = new \JoomlaInstallerScript();
                 $installer->deleteUnexistingFiles();
                 $this->fixDefaultTextFilters();
-
-                /*
-                 * Finally, if the schema updates succeeded, make sure the database table is
-                 * converted to utf8mb4 or, if not supported by the server, compatible to it.
-                 */
-                $statusArray = $changeSet['changeset']->getStatus();
-
-                if (count($statusArray['error']) == 0) {
-                    $installer->convertTablesToUtf8mb4(false);
-                }
             }
         }
     }
@@ -330,7 +315,7 @@ class DatabaseModel extends InstallerModel
     /**
      * Method to get the database query
      *
-     * @return  DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   4.0.0
      */
@@ -348,7 +333,7 @@ class DatabaseModel extends InstallerModel
                         'extensions.manifest_cache',
                         'extensions.name',
                         'extensions.type',
-                        'schemas.version_id'
+                        'schemas.version_id',
                     ]
                 )
             )
@@ -386,7 +371,7 @@ class DatabaseModel extends InstallerModel
                 ->bind(':extensionid', $extensionId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, array('plugin', 'library', ''))) {
+        if ($folder != '' && \in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('extensions.folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -416,10 +401,10 @@ class DatabaseModel extends InstallerModel
     protected function mergeSchemaCache($results)
     {
         $changeSetList = $this->changeSetList;
-        $finalResults  = array();
+        $finalResults  = [];
 
         foreach ($results as $result) {
-            if (array_key_exists($result->extension_id, $changeSetList) && $changeSetList[$result->extension_id]) {
+            if (\array_key_exists($result->extension_id, $changeSetList) && $changeSetList[$result->extension_id]) {
                 $finalResults[] = $changeSetList[$result->extension_id];
             }
         }
@@ -537,7 +522,7 @@ class DatabaseModel extends InstallerModel
     /**
      * Get a message of the tables skipped and checked
      *
-     * @param   array  $status  status of of the update files
+     * @param   array  $status  status of the update files
      *
      * @return  array  Messages with the errors with the update version
      *
@@ -545,9 +530,9 @@ class DatabaseModel extends InstallerModel
      */
     private function getOtherInformationMessage($status)
     {
-        $problemsMessage = array();
-        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok']));
-        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped']));
+        $problemsMessage   = [];
+        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', \count($status['ok']));
+        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', \count($status['skipped']));
 
         return $problemsMessage;
     }
@@ -563,15 +548,15 @@ class DatabaseModel extends InstallerModel
      */
     private function getErrorsMessage($errors)
     {
-        $errorMessages = array();
+        $errorMessages = [];
 
         foreach ($errors as $line => $error) {
             $key             = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
             $messages        = $error->msgElements;
             $file            = basename($error->file);
-            $message0        = isset($messages[0]) ? $messages[0] : ' ';
-            $message1        = isset($messages[1]) ? $messages[1] : ' ';
-            $message2        = isset($messages[2]) ? $messages[2] : ' ';
+            $message0        = $messages[0] ?? ' ';
+            $message1        = $messages[1] ?? ' ';
+            $message2        = $messages[2] ?? ' ';
             $errorMessages[] = Text::sprintf($key, $file, $message0, $message1, $message2);
         }
 
@@ -591,18 +576,18 @@ class DatabaseModel extends InstallerModel
     {
         $table = new Extension($this->getDatabase());
         $table->load($extensionId);
-        $cache = new Registry($table->manifest_cache);
+        $cache         = new Registry($table->manifest_cache);
         $updateVersion = $cache->get('version');
 
-        if ($table->get('type') === 'file' && $table->get('element') === 'joomla') {
+        if ($table->type === 'file' && $table->element === 'joomla') {
             $extensionVersion = new Version();
             $extensionVersion = $extensionVersion->getShortVersion();
         } else {
             $installationXML = InstallerHelper::getInstallationXML(
-                $table->get('element'),
-                $table->get('type'),
-                $table->get('client_id'),
-                $table->get('type') === 'plugin' ? $table->get('folder') : null
+                $table->element,
+                $table->type,
+                $table->client_id,
+                $table->type === 'plugin' ? $table->folder : null
             );
             $extensionVersion = (string) $installationXML->version;
         }
@@ -612,7 +597,7 @@ class DatabaseModel extends InstallerModel
         }
 
         $cache->set('version', $extensionVersion);
-        $table->set('manifest_cache', $cache->toString());
+        $table->manifest_cache = $cache->toString();
 
         if ($table->store()) {
             return $extensionVersion;
@@ -632,7 +617,7 @@ class DatabaseModel extends InstallerModel
     public function getDefaultTextFilters()
     {
         $table = new Extension($this->getDatabase());
-        $table->load($table->find(array('name' => 'com_config')));
+        $table->load($table->find(['name' => 'com_config']));
 
         return $table->params;
     }
@@ -648,7 +633,7 @@ class DatabaseModel extends InstallerModel
     private function fixDefaultTextFilters()
     {
         $table = new Extension($this->getDatabase());
-        $table->load($table->find(array('name' => 'com_config')));
+        $table->load($table->find(['name' => 'com_config']));
 
         // Check for empty $config and non-empty content filters.
         if (!$table->params) {

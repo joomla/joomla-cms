@@ -63,17 +63,17 @@ abstract class TemplateHelper
         }
 
         // Media file names should never have executable extensions buried in them.
-        $executable = array(
+        $executable = [
             'exe', 'phtml','java', 'perl', 'py', 'asp','dll', 'go', 'jar',
             'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
             'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-            'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
-        );
+            'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
+        ];
         $explodedFileName = explode('.', $file['name']);
 
-        if (count($explodedFileName) > 2) {
+        if (\count($explodedFileName) > 2) {
             foreach ($executable as $extensionName) {
-                if (in_array($extensionName, $explodedFileName)) {
+                if (\in_array($extensionName, $explodedFileName)) {
                     $app = Factory::getApplication();
                     $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXECUTABLE'), 'error');
 
@@ -91,21 +91,21 @@ abstract class TemplateHelper
 
         $format = strtolower(File::getExt($file['name']));
 
-        $imageTypes   = explode(',', $params->get('image_formats'));
-        $sourceTypes  = explode(',', $params->get('source_formats'));
-        $fontTypes    = explode(',', $params->get('font_formats'));
-        $archiveTypes = explode(',', $params->get('compressed_formats'));
+        $imageTypes   = explode(',', $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
+        $sourceTypes  = explode(',', $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
+        $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
+        $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
 
         $allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
-        if ($format == '' || $format == false || (!in_array($format, $allowable))) {
+        if ($format == '' || $format == false || (!\in_array($format, $allowable))) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
 
             return false;
         }
 
-        if (in_array($format, $archiveTypes)) {
+        if (\in_array($format, $archiveTypes)) {
             $zip = new \ZipArchive();
 
             if ($zip->open($file['tmp_name']) === true) {
@@ -117,7 +117,7 @@ abstract class TemplateHelper
                         $explodeArray = explode('.', $entry);
                         $ext          = end($explodeArray);
 
-                        if (!in_array($ext, $allowable)) {
+                        if (!\in_array($ext, $allowable)) {
                             $app = Factory::getApplication();
                             $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UNSUPPORTED_ARCHIVE'), 'error');
 
@@ -144,7 +144,7 @@ abstract class TemplateHelper
         }
 
         $xss_check = file_get_contents($file['tmp_name'], false, null, -1, 256);
-        $html_tags = array(
+        $html_tags = [
             'abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink', 'blockquote',
             'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del', 'dfn', 'dir', 'div',
             'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'hr', 'html',
@@ -152,8 +152,8 @@ abstract class TemplateHelper
             'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object', 'ol', 'optgroup', 'option',
             'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike',
             'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'ul', 'var', 'wbr', 'xml',
-            'xmp', '!DOCTYPE', '!--'
-        );
+            'xmp', '!DOCTYPE', '!--',
+        ];
 
         foreach ($html_tags as $tag) {
             // A tag is '<tagname ', so we need to add < and a space or '<tagname>'
