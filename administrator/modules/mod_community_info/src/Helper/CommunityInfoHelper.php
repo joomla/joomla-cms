@@ -186,14 +186,14 @@ class CommunityInfoHelper
         try {
             $ff   = new FeedFactory();
             $feed = $ff->getFeed($url);
-        } catch (\InvalidArgumentException $e) {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, $e->getCode(), $e), 'warning');
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, $e->getCode(), $e), 'warning');
+        } catch (\Exception $e) {
+            return $items;
         }
 
         if (empty($feed)) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'Parsing error.'), 'warning');
+
+            return $items;
         }
 
         // Collect the newsfeed entries
