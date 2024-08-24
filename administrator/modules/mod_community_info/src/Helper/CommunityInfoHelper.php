@@ -13,6 +13,7 @@ namespace Joomla\Module\CommunityInfo\Administrator\Helper;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
@@ -208,7 +209,7 @@ class CommunityInfoHelper
 
             // Strip unneeded objects
             $obj->text = OutputFilter::stripImages($obj->text);
-            echo str_replace('&apos;', "'", $obj->text);
+            $obj->text = str_replace('&apos;', "'", $obj->text);
 
             $items[] = $obj;
         }
@@ -264,7 +265,14 @@ class CommunityInfoHelper
             foreach ($matches as $match) {
                 if ($links->exists(strtolower($match[1]))) {
                     // replace with link
-                    $output = '<a href="' . $links->get(strtolower($match[1])) . '" target="_blank">' . Text::_('MOD_COMMUNITY_INFO_TERMS_' . strtoupper($match[1])) . '</a>';
+                    $output = HTMLHelper::link(
+                        $links->get(strtolower($match[1])),
+                        Text::_('MOD_COMMUNITY_INFO_TERMS_' . strtoupper($match[1])),
+                        [
+                            'target' => '_blank',
+                            'rel'    => 'noopener nofollow'
+                        ]
+                    );
                 } else {
                     // replace without link
                     $output = Text::_('MOD_COMMUNITY_INFO_TERMS_' . strtoupper($match[1]));
