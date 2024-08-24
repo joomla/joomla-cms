@@ -35,5 +35,5 @@
   background-color: var(--btn-primary-bg) !important;
 }
 .mod-community-info .float-right {
-  float: right;
+  float: inline-end;
 }
