@@ -238,7 +238,7 @@ class CommunityInfoHelper
         $vars           = [];
         $upcomingEvents = [];
 
-        if ($events  = self::fetchAPI($url, $vars, 'json')) {
+        if ($events  = self::fetchAPI($url, $vars)) {
             // Sort the array by the 'start' property to ensure events are in chronological order
             usort($events, fn ($a, $b) => strtotime($a['start']) <=> strtotime($b['start']));
 
@@ -554,17 +554,16 @@ class CommunityInfoHelper
     }
 
     /**
-     * Fetches data from endpoints
+     * Fetches data from endpoints providing json respond data
      *
      * @param   string   $url         Request url
      * @param   array    $variables   Request variables
-     * @param   string   $format      The expected format of the returned content
      *
      * @return  mixed    The fetched content on success, false otherwise
      *
      * @since   4.5.0
      */
-    protected static function fetchAPI(string $url, array $variables, string $format = 'json')
+    protected static function fetchAPI(string $url, array $variables)
     {
         $domain    = str_replace(Uri::base(true), '', Uri::base());
         $target    = $url . '?' . http_build_query($variables);
@@ -592,21 +591,7 @@ class CommunityInfoHelper
         // Decode received data
         if ($response->body) {
             try {
-                if ($format == 'json') {
-                    $data = json_decode($response->body, true, 512, JSON_THROW_ON_ERROR);
-                } elseif ($format == 'xml') {
-                    libxml_use_internal_errors(true);
-                    $data = simplexml_load_string($response->body);
-
-                    if ($data === false) {
-                        $errors                       = libxml_get_errors();
-                        [$xml_err_code, $xml_err_msg] = self::xmlError($errors);
-                        Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, $xml_err_code, 'Invalid XML.' . $xml_err_msg), 'warning');
-                        libxml_clear_errors();
-                    }
-                } else {
-                    $data = $response->body;
-                }
+                $data = json_decode($response->body, true, 512, JSON_THROW_ON_ERROR);
             } catch (\Exception $e) {
                 Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, 200, $e->getMessage()), 'warning');
 
