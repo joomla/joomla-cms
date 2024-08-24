@@ -587,14 +587,12 @@ class CommunityInfoHelper
         }
 
         // Decode received data
-        if ($response->body) {
-            try {
-                $data = json_decode($response->body, true, 512, JSON_THROW_ON_ERROR);
-            } catch (\Exception $e) {
-                Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, 200, $e->getMessage()), 'warning');
+        try {
+            $data = json_decode($response->body, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, 200, $e->getMessage()), 'warning');
 
-                return false;
-            }
+            return false;
         }
 
         return $data;
