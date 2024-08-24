@@ -130,7 +130,7 @@ class JsonapiView extends BaseApiView
      *
      * @param   array|null  $items  Array of items
      *
-     * @return  string
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -140,7 +140,7 @@ class JsonapiView extends BaseApiView
             $this->fieldsToRenderList[] = $field->name;
         }
 
-        return parent::displayList();
+        parent::displayList();
     }
 
     /**
