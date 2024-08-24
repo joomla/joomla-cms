@@ -12,12 +12,14 @@ namespace Joomla\Module\CommunityInfo\Administrator\Helper;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -175,40 +177,41 @@ class CommunityInfoHelper
     public static function getNewsFeed(string $url, int $num = 3)
     {
         // Load rss xml from endpoint
-        $vars  = [];
         $items = [];
 
         try {
-            $feed         = new FeedFactory();
-            $rssDoc = $feed->getFeed($url);
+            $ff   = new FeedFactory();
+            $feed = $ff->getFeed($url);
         } catch (\InvalidArgumentException $e) {
-            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, $e->getCode(), $e), 'warning');
         } catch (\RuntimeException $e) {
-            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, $e->getCode(), $e), 'warning');
         }
 
-        if (empty($rssDoc)) {
-            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+        if (empty($feed)) {
+            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'Parsing error.'), 'warning');
         }
 
-        // if ($rss  = self::fetchAPI($url, $vars, 'xml')) {
-        //     foreach ($rss->channel->item as $item) {
-        //         $obj              = new \stdClass();
-        //         $obj->title       = (string) $item->title;
-        //         $obj->link        = (string) $item->link;
-        //         $obj->guid        = (string) $item->guid;
-        //         $obj->description = (string) $item->description;
-        //         $obj->category    = (string) $item->category;
-        //         $obj->pubDate     = (string) $item->pubDate;
-        //         $items[]          = $obj;
-        //     }
+        // Collect the newsfeet entries
+        for ($i = 0; $i < $num; $i++) {
+            if (!$feed->offsetExists($i)) {
+                break;
+            }
 
-        //     // Sort the items by pubDate in descending order
-        //     usort($items, fn ($a, $b) => strtotime($b->pubDate) <=> strtotime($a->pubDate));
+            $obj           = new \stdClass();
+            $obj->title    = trim($feed[$i]->title);
+            $obj->link     = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+            $obj->guid     = trim($feed[$i]->guid);
+            $obj->text     = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
+            $obj->category = (string) trim($feed->title);
+            $obj->pubDate  = $feed[$i]->publishedDate;
 
-        //     // Select n most recent items
-        //     $items = \array_slice($items, 0, $num);
-        // }
+            // Strip unneeded objects
+            $obj->text = OutputFilter::stripImages($obj->text);
+            echo str_replace('&apos;', "'", $obj->text);
+
+            $items[] = $obj;
+        }
 
         return $items;
     }
@@ -663,8 +666,9 @@ class CommunityInfoHelper
                     $data = $response->body;
                 }
             } catch (\Exception $e) {
-                $data = false;
                 Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, 200, $e->getMessage()), 'warning');
+
+                return false;
             }
         }
 
