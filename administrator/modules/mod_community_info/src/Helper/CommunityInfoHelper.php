@@ -532,76 +532,6 @@ class CommunityInfoHelper
     }
 
     /**
-     * Returns the Super Users email information
-     *
-     * @return  array  The list of Super User emails
-     *
-     * @since   4.5.0
-     */
-    protected static function getSuperUserMails()
-    {
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
-
-        // Get a list of groups which have Super User privileges
-        $ret = ['info@example.org'];
-
-        try {
-            $rootId    = Table::getInstance('Asset')->getRootId();
-            $rules     = Access::getAssetRules($rootId)->getData();
-            $rawGroups = $rules['core.admin']->getData();
-            $groups    = [];
-
-            if (empty($rawGroups)) {
-                return $ret;
-            }
-
-            foreach ($rawGroups as $g => $enabled) {
-                if ($enabled) {
-                    $groups[] = $g;
-                }
-            }
-
-            if (empty($groups)) {
-                return $ret;
-            }
-        } catch (\Exception $exc) {
-            return $ret;
-        }
-
-        // Get the user IDs of users belonging to the SA groups
-        try {
-            $query = $db->getQuery(true)
-              ->select($db->quoteName('user_id'))
-              ->from($db->quoteName('#__user_usergroup_map'))
-              ->whereIn($db->quoteName('group_id'), $groups);
-
-            $db->setQuery($query);
-            $userIDs = $db->loadColumn(0);
-
-            if (empty($userIDs)) {
-                return $ret;
-            }
-        } catch (\Exception $exc) {
-            return $ret;
-        }
-
-        // Get the user information for the Super Administrator users
-        try {
-            $query = $db->getQuery(true)
-              ->select('email')
-              ->from($db->quoteName('#__users'))
-              ->whereIn($db->quoteName('id'), $userIDs);
-
-            $db->setQuery($query);
-            $ret = $db->loadColumn();
-        } catch (\Exception $exc) {
-            return $ret;
-        }
-
-        return $ret;
-    }
-
-    /**
      * Fix a geolocation string
      *
      * @param   string   $geolocation   Geolocation string
@@ -637,12 +567,11 @@ class CommunityInfoHelper
     protected static function fetchAPI(string $url, array $variables, string $format = 'json')
     {
         $domain    = str_replace(Uri::base(true), '', Uri::base());
-        $email     = self::getSuperUserMails()[0];
         $target    = $url . '?' . http_build_query($variables);
 
         // Create options
         $options = new Registry();
-        $options->set('userAgent', $email);
+        $options->set('userAgent', (new Joomla\CMS\Version())->getUserAgent('Joomla', true, false));
         $options->set('headers', ['Referer' => trim($domain)]);
 
         // Fetch address from joomla.org
