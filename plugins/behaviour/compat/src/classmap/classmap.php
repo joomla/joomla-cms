@@ -467,14 +467,14 @@ JLoader::registerAlias('JExtensionHelper', '\\Joomla\\CMS\\Extension\\ExtensionH
 
 JLoader::registerAlias('JHtml', '\\Joomla\\CMS\\HTML\\HTMLHelper', '6.0');
 
-JLoader::registerAlias('JFile', '\\Joomla\\CMS\\Filesystem\\File', '6.0');
-JLoader::registerAlias('JFolder', '\\Joomla\\CMS\\Filesystem\\Folder', '6.0');
-JLoader::registerAlias('JFilesystemHelper', '\\Joomla\\CMS\\Filesystem\\FilesystemHelper', '6.0');
-JLoader::registerAlias('JFilesystemPatcher', '\\Joomla\\CMS\\Filesystem\\Patcher', '6.0');
-JLoader::registerAlias('JPath', '\\Joomla\\CMS\\Filesystem\\Path', '6.0');
-JLoader::registerAlias('JStream', '\\Joomla\\CMS\\Filesystem\\Stream', '6.0');
-JLoader::registerAlias('JStreamString', '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString', '6.0');
-JLoader::registerAlias('JStringController', '\\Joomla\\CMS\\Filesystem\\Support\\StringController', '6.0');
+JLoader::registerAlias('JFile', '\\Joomla\\Filesystem\\File', '6.0');
+JLoader::registerAlias('JFolder', '\\Joomla\\Filesystem\\Folder', '6.0');
+JLoader::registerAlias('JFilesystemHelper', '\\Joomla\\Filesystem\\Helper', '6.0');
+JLoader::registerAlias('JFilesystemPatcher', '\\Joomla\\Filesystem\\Patcher', '6.0');
+JLoader::registerAlias('JPath', '\\Joomla\\Filesystem\\Path', '6.0');
+JLoader::registerAlias('JStream', '\\Joomla\\Filesystem\\Stream', '6.0');
+JLoader::registerAlias('JStreamString', '\\Joomla\\Filesystem\\Streams\\StreamString', '6.0');
+JLoader::registerAlias('JStringController', '\\Joomla\\Filesystem\\Support\\StringController', '6.0');
 
 JLoader::registerAlias('JClassLoader', '\\Joomla\\CMS\\Autoload\\ClassLoader', '6.0');
 

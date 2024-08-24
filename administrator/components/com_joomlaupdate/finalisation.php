@@ -237,11 +237,11 @@ namespace Joomla\Filesystem
         }
     }
 
-    if (!class_exists('\Joomla\CMS\Filesystem\File')) {
+    if (!class_exists('\Joomla\Filesystem\File')) {
         class_alias('\\Joomla\\Filesystem\\File', '\\Joomla\\CMS\\Filesystem\\File');
     }
 
-    if (!class_exists('\Joomla\CMS\Filesystem\Folder')) {
+    if (!class_exists('\Joomla\Filesystem\Folder')) {
         class_alias('\\Joomla\\Filesystem\\Folder', '\\Joomla\\CMS\\Filesystem\\Folder');
     }
 }
