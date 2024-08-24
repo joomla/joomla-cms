@@ -20,7 +20,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Fields Number Plugin
  *
- * @since  5.3.0
+ * @since  __DEPLOY_VERSION__
  */
 final class Number extends FieldsPlugin implements SubscriberInterface
 {

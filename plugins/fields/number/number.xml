@@ -41,7 +41,6 @@
 					default="1.0"
 					filter="float"
 				/>
-
 				<field
 					name="max"
 					type="number"
@@ -49,7 +48,6 @@
 					default="100.0"
 					filter="float"
 				/>
-
 				<field
 					name="step"
 					type="number"
