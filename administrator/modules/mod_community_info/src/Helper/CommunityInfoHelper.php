@@ -178,24 +178,37 @@ class CommunityInfoHelper
         $vars  = [];
         $items = [];
 
-        if ($rss  = self::fetchAPI($url, $vars, 'xml')) {
-            foreach ($rss->channel->item as $item) {
-                $obj              = new \stdClass();
-                $obj->title       = (string) $item->title;
-                $obj->link        = (string) $item->link;
-                $obj->guid        = (string) $item->guid;
-                $obj->description = (string) $item->description;
-                $obj->category    = (string) $item->category;
-                $obj->pubDate     = (string) $item->pubDate;
-                $items[]          = $obj;
-            }
-
-            // Sort the items by pubDate in descending order
-            usort($items, fn ($a, $b) => strtotime($b->pubDate) <=> strtotime($a->pubDate));
-
-            // Select n most recent items
-            $items = \array_slice($items, 0, $num);
+        try {
+            $feed         = new FeedFactory();
+            $rssDoc = $feed->getFeed($url);
+        } catch (\InvalidArgumentException $e) {
+            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+        } catch (\RuntimeException $e) {
+            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
         }
+
+        if (empty($rssDoc)) {
+            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+        }
+
+        // if ($rss  = self::fetchAPI($url, $vars, 'xml')) {
+        //     foreach ($rss->channel->item as $item) {
+        //         $obj              = new \stdClass();
+        //         $obj->title       = (string) $item->title;
+        //         $obj->link        = (string) $item->link;
+        //         $obj->guid        = (string) $item->guid;
+        //         $obj->description = (string) $item->description;
+        //         $obj->category    = (string) $item->category;
+        //         $obj->pubDate     = (string) $item->pubDate;
+        //         $items[]          = $obj;
+        //     }
+
+        //     // Sort the items by pubDate in descending order
+        //     usort($items, fn ($a, $b) => strtotime($b->pubDate) <=> strtotime($a->pubDate));
+
+        //     // Select n most recent items
+        //     $items = \array_slice($items, 0, $num);
+        // }
 
         return $items;
     }
