@@ -198,7 +198,7 @@ class CommunityInfoHelper
             Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'Parsing error.'), 'warning');
         }
 
-        // Collect the newsfeet entries
+        // Collect the newsfeed entries
         for ($i = 0; $i < $num; $i++) {
             if (!$feed->offsetExists($i)) {
                 break;
@@ -570,7 +570,7 @@ class CommunityInfoHelper
 
         // Create options
         $options = new Registry();
-        $options->set('userAgent', (new Joomla\CMS\Version())->getUserAgent('Joomla', true, false));
+        $options->set('userAgent', (new \Joomla\CMS\Version())->getUserAgent('Joomla', true, false));
         $options->set('headers', ['Referer' => trim($domain)]);
 
         // Fetch address from joomla.org

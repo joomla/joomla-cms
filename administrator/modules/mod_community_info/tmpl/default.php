@@ -65,7 +65,7 @@ CommunityInfoHelper::addText();
         <tbody>
           <?php foreach ($news as $n => $article) : ?>
             <tr>
-              <td><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></td>
+              <th scope="row"><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></th>
               <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>
             </tr>
           <?php endforeach; ?>
@@ -100,7 +100,7 @@ CommunityInfoHelper::addText();
         <tbody>
           <?php foreach ($events as $e => $event) : ?>
             <tr>
-              <td><strong><a href="<?php echo $event->url; ?>" target="_blank"><?php echo $event->title; ?></a></strong><br><span class="small"><?php echo $event->location; ?></span></td>
+              <th scope="row"><strong><a href="<?php echo $event->url; ?>" target="_blank"><?php echo $event->title; ?></a></strong><br><span class="small"><?php echo $event->location; ?></span></th>
               <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'D, M j, Y'); ?></span><br><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'H:i T'); ?></span></td>
             </tr>
           <?php endforeach; ?>
