@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Filesystem\Path;
@@ -127,7 +126,7 @@ class HtmlView extends BaseHtmlView
         $component = $this->state->get('filter.component');
         $section   = $this->state->get('filter.section');
         $canDo     = ContentHelper::getActions($component, 'field', $fieldId);
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
         if ($component == 'com_fields') {
@@ -185,7 +184,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component)) {
-            $toolbar->delete('fields.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('fields.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
