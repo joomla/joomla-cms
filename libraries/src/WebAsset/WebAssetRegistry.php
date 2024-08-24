@@ -222,11 +222,11 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
     /**
      * Prepare new Asset instance.
      *
-     * @param   string  $name          The asset name
-     * @param   string  $uri           The URI for the asset
-     * @param   array   $options       Additional options for the asset
-     * @param   array   $attributes    Attributes for the asset
-     * @param   array   $dependencies  Asset dependencies
+     * @param   string   $name          The asset name
+     * @param   ?string  $uri           The URI for the asset
+     * @param   array    $options       Additional options for the asset
+     * @param   array    $attributes    Attributes for the asset
+     * @param   array    $dependencies  Asset dependencies
      *
      * @return  WebAssetItem
      *
@@ -234,7 +234,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function createAsset(
         string $name,
-        string $uri = null,
+        ?string $uri = null,
         array $options = [],
         array $attributes = [],
         array $dependencies = []

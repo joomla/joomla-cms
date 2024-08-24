@@ -455,7 +455,7 @@ class Helper
      *
      * @since   2.5
      */
-    public static function prepareContent($text, $params = null, Result $item = null)
+    public static function prepareContent($text, $params = null, ?Result $item = null)
     {
         static $loaded;
 

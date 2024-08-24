@@ -95,12 +95,12 @@ class Toolbar
     /**
      * Constructor
      *
-     * @param   string                   $name     The toolbar name.
-     * @param   ToolbarFactoryInterface  $factory  The toolbar factory.
+     * @param   string                    $name     The toolbar name.
+     * @param   ?ToolbarFactoryInterface  $factory  The toolbar factory.
      *
      * @since   1.5
      */
-    public function __construct($name = 'toolbar', ToolbarFactoryInterface $factory = null)
+    public function __construct($name = 'toolbar', ?ToolbarFactoryInterface $factory = null)
     {
         $this->_name = $name;
 
