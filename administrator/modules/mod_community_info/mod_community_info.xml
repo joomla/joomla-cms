@@ -38,14 +38,6 @@
           hint ="http://www.example.com"          
         />
         <field
-          name="fallback-location"
-          type="locationlist"
-          label="MOD_COMMUNITY_INFO_FIELD_FALLBACK_LOCATION_LABEL"
-          description="MOD_COMMUNITY_INFO_FIELD_FALLBACK_LOCATION_DESC"
-          default="en-GB"
-          layout="joomla.form.field.list-fancy-select"          
-        />
-        <field
           name="location"
           type="text"
           label="MOD_COMMUNITY_INFO_FIELD_LOCATION_LABEL"

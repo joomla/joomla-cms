@@ -130,30 +130,16 @@ class CommunityInfoHelper
         self::setParams($params);
 
         $location = null;
+        $matches  = [];
 
-        // Get the list of countries
-        require JPATH_ADMINISTRATOR . '/modules/mod_community_info/includes/country_list.php';
-
-        $matches = [];
-
-        // Startegy 1: Location stored in parameters
+        // Take location stored in module parameters
         if (\is_null($location) && !empty($params->get('location', 0))) {
-            if (key_exists($params->get('location'), $countryListArray)) {
-                // Location based on language code
-                $location = $countryListArray[$params->get('location')][$key];
-            } else {
-                $location = $params->get('location');
-            }
+            $location = $params->get('location');
         }
 
-        // Strategy 2: Location based on current language
-        if (\is_null($location) && key_exists($lang, $countryListArray)) {
-            $location = $countryListArray[$lang][$key];
-        }
-
-        // Strategy 3: Fallback location
+        // Fallback location: London
         if (\is_null($location)) {
-            $location = $countryListArray[$params->get('fallback-location', 'en-GB')][$key];
+            $location = '51.5000,0.0000';
         }
 
         if ($key == 'label' && preg_match('/[-]*\d{1,4}\.\d{1,4}\,[ ,-]*\d{1,4}\.\d{1,4}/m', $location, $matches)) {
@@ -278,7 +264,7 @@ class CommunityInfoHelper
                     $output = Text::_('MOD_COMMUNITY_INFO_TERMS_' . strtoupper($match[1]));
                 }
 
-                $text   = str_replace($match[0], $output, $text);
+                $text = str_replace($match[0], $output, $text);
             }
         }
 
