@@ -32,7 +32,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var   array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $items;
 
