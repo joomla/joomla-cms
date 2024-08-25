@@ -64,25 +64,29 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data = parent::getLayoutData();
 
         // Initialize the helper class
-        $this->getHelperFactory()->getHelper('CommunityInfoHelper')->initialize($this->module->id, $data['params']);
+        $helper = $this->getHelperFactory()->getHelper('CommunityInfoHelper', [$this->module->id, $data['params']]);
 
         // Update location by form values
         $task = $this->input->getCmd('module_task', '');
 
         if (\in_array($task, ['saveLocation', 'autoLocation'])) {
-            $this->getHelperFactory()->getHelper('CommunityInfoHelper')->setLocationForm($task);
+            $helper->setLocationForm($task);
         }
 
         // Get links and location
-        $data['links']      = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getLinks($data['params']);
-        $data['currentLoc'] = explode(',', $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getLocation($data['params'], 'geolocation'), 2);
+        $data['links']            = $helper->getLinks();
+        $data['currentLoc']       = $helper->getLocation('geolocation');
+        $data['currentLocLabel']  = $helper->getLocation('label');
+        $data['currentLocArrary'] = explode(',', $data['currentLoc'], 2);
 
+        // Fetch news feed
         if ($data['links']->exists('news_feed')) {
-            $data['news'] = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getNewsFeed($data['links']->get('news_feed'), 3);
+            $data['news'] = $helper->getNewsFeed($data['links']->get('news_feed'), 3);
         }
 
+        // Fetch evets feed
         if ($data['links']->exists('events_feed')) {
-            $data['events'] = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getEventsFeed($data['links']->get('events_feed'), 3);
+            $data['events'] = $helper->getEventsFeed($data['links']->get('events_feed'), 3);
         }
 
         return $data;

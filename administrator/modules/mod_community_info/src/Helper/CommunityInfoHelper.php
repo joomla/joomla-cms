@@ -37,14 +37,14 @@ class CommunityInfoHelper
      *
      * @var Registry
      */
-    protected static $params = null;
+    protected $params = null;
 
     /**
      * ID of the current module
      *
      * @var integer
      */
-    protected static $moduleId = null;
+    protected $moduleId = 0;
 
     /**
      * Fallback community info
@@ -67,42 +67,38 @@ class CommunityInfoHelper
     ];
 
     /**
-     * Initialize the helper variables
+     * Constructor
      *
-     * @param   integer    $id      Id of the current module
-     * @param   Registry   $params  Object holding the module parameters
-     *
-     * @return  void
-     *
-     * @since   4.5.0
+     * @param   array   $config     Module configs
      */
-    public static function initialize(int $id, Registry $params)
+    public function __construct(array $config = [])
     {
-        self::setID($id);
-        self::setParams($params);
+      if(\count($config) > 0) {
+        $this->moduleId = (int) $config[0];
+      }
+
+      if(\count($config) > 1) {
+        $this->setParams($config[1]);
+      }
     }
 
     /**
      * Get a list of links from the endpoint given in the module params.
      *
-     * @param   Registry   $params   Object holding the module parameters
-     *
      * @return  Registry   Object with community links
      *
      * @since   4.5.0
      */
-    public static function getLinks(Registry $params)
+    public function getLinks()
     {
-        self::setParams($params);
-
         // Load the local default values
         $links = new Registry(self::DEFAULT_INFO);
 
         // Load links from endpoint
-        $vars = ['location' => self::getLocation($params, 'geolocation')];
-        $url  = $params->get('endpoint', 'https://test.joomla.spuur.ch/joomla-community-api/links.php');
+        $vars = ['location' => $this->getLocation('geolocation')];
+        $url  = $this->params->get('endpoint', 'https://test.joomla.spuur.ch/joomla-community-api/links.php');
 
-        if ($api_link_sets = self::fetchAPI($url, $vars)) {
+        if ($api_link_sets = $this->fetchAPI($url, $vars)) {
             // Sort the returned data based on level with descending order
             usort($api_link_sets, fn ($a, $b) => $b['level'] <=> $a['level']);
 
@@ -135,23 +131,20 @@ class CommunityInfoHelper
     /**
      * Get location info
      *
-     * @param   Registry   $params  Object holding the module parameters
      * @param   string     $key     The key for the location info
      *
      * @return  string     Location info string
      *
      * @since   4.5.0
      */
-    public static function getLocation(Registry $params, string $key = 'geolocation')
+    public function getLocation(string $key = 'geolocation')
     {
-        self::setParams($params);
-
         $location = null;
         $matches  = [];
 
         // Take location stored in module parameters
-        if (\is_null($location) && !empty($params->get('location', 0))) {
-            $location = $params->get('location');
+        if (\is_null($location) && !empty($this->params->get('location', 0))) {
+            $location = $this->params->get('location');
         }
 
         // Fallback location: London
@@ -162,7 +155,7 @@ class CommunityInfoHelper
         if ($key == 'label' && preg_match('/[-]*\d{1,4}\.\d{1,4}\,[ ,-]*\d{1,4}\.\d{1,4}/m', $location, $matches)) {
             // We are asking for a location name. Turn coordinates into location name.
             $coor_arr = explode(',', $matches[0], 2);
-            $location = self::resolveLocation($coor_arr[0], $coor_arr[1]);
+            $location = $this->resolveLocation($coor_arr[0], $coor_arr[1]);
         }
 
         return $location;
@@ -178,7 +171,7 @@ class CommunityInfoHelper
      *
      * @since   4.5.0
      */
-    public static function getNewsFeed(string $url, int $num = 3)
+    public function getNewsFeed(string $url, int $num = 3)
     {
         // Load rss xml from endpoint
         $items = [];
@@ -230,13 +223,13 @@ class CommunityInfoHelper
      *
      * @since   4.5.0
      */
-    public static function getEventsFeed(string $url, int $num = 3)
+    public function getEventsFeed(string $url, int $num = 3)
     {
         // Load json from endpoint
         $vars           = [];
         $upcomingEvents = [];
 
-        if ($events  = self::fetchAPI($url, $vars)) {
+        if ($events  = $this->fetchAPI($url, $vars)) {
             // Sort the array by the 'start' property to ensure events are in chronological order
             usort($events, fn ($a, $b) => strtotime($a['start']) <=> strtotime($b['start']));
 
@@ -295,7 +288,7 @@ class CommunityInfoHelper
      *
      * @since   4.5.0
      */
-    public static function setLocationAjax()
+    public function setLocationAjax()
     {
         $input = Factory::getApplication()->input;
 
@@ -311,18 +304,19 @@ class CommunityInfoHelper
             return 'You must provide a "current_location" variable with the request!';
         }
 
-        self::setID($moduleId);
-        $params           = self::setParams();
-        $current_location = self::fixGeolocation($current_location);
+        $this->moduleId = $moduleId;
+        $this->setParams();
 
-        if ($params->get('auto_location', 1) && $params->get('location') != $current_location) {
+        $current_location = $this->fixGeolocation($current_location);
+
+        if ($this->params->get('auto_location', 1) && $this->params->get('location') != $current_location) {
             // Update location param
-            $params->set('location_name', self::resolveLocation(trim($current_location)));
-            $params->set('location', trim($current_location));
+            $this->params->set('location_name', self::resolveLocation(trim($current_location)));
+            $this->params->set('location', trim($current_location));
 
             // Write updates to db
             try {
-                $res = self::writeParams($params);
+                $res = $this->writeParams($this->params);
             } catch (\Exception $e) {
                 return Text::_('MOD_COMMUNITY_ERROR_SAVE_LOCATION') . ' ' . $e->getMessage();
             }
@@ -344,13 +338,11 @@ class CommunityInfoHelper
      *
      * @since   4.5.0
      */
-    public static function setLocationForm($task = 'saveLocation')
+    public function setLocationForm($task = 'saveLocation')
     {
         if (!Session::checkToken('post')) {
             return;
         }
-
-        $params = self::setParams();
 
         // Get input data
         $input            = Factory::getApplication()->input;
@@ -358,13 +350,13 @@ class CommunityInfoHelper
         $current_location = self::fixGeolocation($jform['jform']['lat'] . ',' . $jform['jform']['lng']);
 
         // Update module params
-        $params->set('location_name', self::resolveLocation(trim($current_location)));
-        $params->set('location', trim($current_location));
-        $params->set('auto_location', \intval($jform['jform']['autoloc']));
+        $this->params->set('location_name', $this->resolveLocation(trim($current_location)));
+        $this->params->set('location', trim($current_location));
+        $this->params->set('auto_location', \intval($jform['jform']['autoloc']));
 
         // Write updates to db
         try {
-            $res = self::writeParams($params);
+            $res = $this->writeParams($this->params);
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage(Text::_('MOD_COMMUNITY_ERROR_SAVE_LOCATION') . ' ' . $e->getMessage(), 'error');
         }
@@ -377,39 +369,24 @@ class CommunityInfoHelper
     /**
      * Setter for the params
      *
-     * @return  Registry  Module parameters
+     * @param  mixed  $params   Module parameters
      *
      * @since   4.5.0
      * @throws  \Exception
      */
-    protected static function setParams($params = null)
+    protected function setParams($params = [])
     {
-        if (\is_null(self::$params)) {
-            if (!\is_null($params)) {
-                self::$params = $params;
+        if (\is_null($this->params) || empty($this->params)) {
+            if (!\is_null($params) && !empty($params)) {
+                $this->params = new Registry($params);
             } else {
-                if (\is_null(self::$moduleId)) {
-                    throw new \Exception('Module ID is needed in order to load params from db!', 1);
+                if ($this->moduleId > 0) {
+                    $this->loadParams();
+                } else {
+                  throw new \Exception('Module ID is needed in order to load params from db!', 1);
                 }
-                self::loadParams();
             }
         }
-
-        return self::$params;
-    }
-
-    /**
-     * Setter for the moduleId
-     *
-     * @return  int
-     *
-     * @since   4.5.0
-     */
-    protected static function setID(int $id): int
-    {
-        self::$moduleId = $id;
-
-        return $id;
     }
 
     /**
@@ -420,18 +397,22 @@ class CommunityInfoHelper
      * @since   4.5.0
      * @throws \Exception
      */
-    protected static function loadParams()
+    protected function loadParams()
     {
+        if (!$this->moduleId) {
+          throw new \Exception('Module id must be set before calling this method!', 1);
+        }
+
         $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
                     ->select($db->quoteName('params'))
                     ->from($db->quoteName('#__modules'))
-                    ->where($db->quoteName('id') . ' = ' . self::$moduleId);
+                    ->where($db->quoteName('id') . ' = ' . $this->moduleId);
 
         $db->setQuery($query);
 
-        self::$params = new Registry($db->loadResult());
+        $this->params = new Registry($db->loadResult());
     }
 
     /**
@@ -444,9 +425,9 @@ class CommunityInfoHelper
      * @since   4.5.0
      * @throws \Exception
      */
-    protected static function writeParams(Registry $params)
+    protected function writeParams(Registry $params)
     {
-        if (\is_null(self::$moduleId)) {
+        if (\is_null($this->moduleId) || $this->moduleId < 1) {
             throw new \Exception('Module ID is needed in order to write params to db!', 1);
         }
 
@@ -455,7 +436,7 @@ class CommunityInfoHelper
 
         $query->update($db->quoteName('#__modules'))
                           ->set($db->quoteName('params') . ' = ' . $db->quote($params->toString('json')))
-                          ->where($db->quoteName('id') . ' = ' . self::$moduleId);
+                          ->where($db->quoteName('id') . ' = ' . $this->moduleId);
 
         $db->setQuery($query);
 
@@ -472,7 +453,7 @@ class CommunityInfoHelper
      *
      * @since   4.5.0
      */
-    protected static function resolveLocation($lat, $lng = '')
+    protected function resolveLocation($lat, $lng = '')
     {
         if ($lng == '') {
             $loc_arr = explode(',', $lat, 2);
@@ -480,14 +461,14 @@ class CommunityInfoHelper
             $lng     = trim($loc_arr[1]);
         }
 
-        if (self::$params->get('location', '51.5000,0.0000') == $lat . ',' . $lng) {
-            return self::$params->get('location_name', 'London, England, GB');
+        if ($this->params->get('location', '51.5000,0.0000') == $lat . ',' . $lng) {
+            return $this->params->get('location_name', 'London, England, GB');
         }
 
         $url  = 'https://nominatim.openstreetmap.org/reverse';
         $vars = ['format' => 'jsonv2', 'lat' => trim($lat), 'lon' => trim($lng)];
 
-        if (!$data = self::fetchAPI($url, $vars)) {
+        if (!$data = $this->fetchAPI($url, $vars)) {
             return $lat . ', ' . $lng;
         }
 
@@ -515,8 +496,8 @@ class CommunityInfoHelper
 
             // Write updates to db
             try {
-                self::$params->set('location_name', $loc);
-                self::writeParams(self::$params);
+              $this->params->set('location_name', $loc);
+                $this->writeParams($this->params);
             } catch (\Exception $e) {
                 Factory::getApplication()->enqueueMessage(Text::_('MOD_COMMUNITY_ERROR_SAVE_LOCATION') . ' ' . $e->getMessage(), 'warning');
             }
@@ -538,7 +519,7 @@ class CommunityInfoHelper
      *
      * @since   4.5.0
      */
-    protected static function fixGeolocation(string $geolocation): string
+    protected function fixGeolocation(string $geolocation): string
     {
         $coor_arr = explode(',', $geolocation, 2);
 
@@ -561,7 +542,7 @@ class CommunityInfoHelper
      *
      * @since   4.5.0
      */
-    protected static function fetchAPI(string $url, array $variables)
+    protected function fetchAPI(string $url, array $variables)
     {
         $domain    = str_replace(Uri::base(true), '', Uri::base());
         $target    = $url . '?' . http_build_query($variables);
@@ -625,7 +606,7 @@ class CommunityInfoHelper
      *
      * @since   4.5.0
      */
-    protected static function xmlError($errors, $limit = 1)
+    protected function xmlError($errors, $limit = 1)
     {
         $return = '';
 

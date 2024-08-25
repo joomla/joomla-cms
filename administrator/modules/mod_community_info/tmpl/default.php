@@ -119,10 +119,10 @@ CommunityInfoHelper::addText();
 
 <template id="template-location-picker">
   <div class="select-location">
-    <a href="#" data-modal-id="location-modal<?php echo strval($module->id); ?>" data-geolocation="<?php echo CommunityInfoHelper::getLocation($params, 'geolocation'); ?>">
+    <a href="#" data-modal-id="location-modal<?php echo strval($module->id); ?>" data-geolocation="<?php echo $currentLoc; ?>">
       <span class="icon-location" aria-hidden="true"></span>
       <?php echo Text::_('MOD_COMMUNITY_INFO_CHOOSE_LOCATION'); ?>
-    </a><span> (<?php echo Text::_('JCURRENT'); ?>: <?php echo CommunityInfoHelper::getLocation($params, 'label'); ?>)</span>
+    </a><span> (<?php echo Text::_('JCURRENT'); ?>: <?php echo $currentLocLabel; ?>)</span>
   </div>
 </template>
 
@@ -139,8 +139,8 @@ CommunityInfoHelper::addText();
         </div>
         <div id="locsearch_results<?php echo strval($module->id); ?>" class="input-group mb-3"></div>
         <input id="module_task<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="module_task" value="">
-        <input id="jform_lat<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[lat]" value="<?php echo \trim($currentLoc[0]); ?>">
-        <input id="jform_lng<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[lng]" value="<?php echo \trim($currentLoc[1]); ?>">        
+        <input id="jform_lat<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[lat]" value="<?php echo \trim($currentLocArrary[0]); ?>">
+        <input id="jform_lng<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[lng]" value="<?php echo \trim($currentLocArrary[1]); ?>">        
         <input id="jform_modid<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[modid]" value="<?php echo $module->id; ?>">
         <input id="jform_autoloc<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[autoloc]" value="<?php echo $params->get('auto_location', '1'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
