@@ -84,7 +84,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
      *
      * @since 4.2.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__user_mfa', 'id', $db, $dispatcher);
 

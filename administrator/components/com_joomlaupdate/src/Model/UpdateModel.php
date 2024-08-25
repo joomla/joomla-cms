@@ -62,7 +62,7 @@ class UpdateModel extends BaseDatabaseModel
      * @since   4.4.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -745,7 +745,7 @@ ENDDATA;
             $row->load($id);
 
             // Update name.
-            $row->set('name', 'files_joomla');
+            $row->name = 'files_joomla';
 
             // Update manifest.
             $row->manifest_cache = $installer->generateManifestCache();
@@ -761,18 +761,18 @@ ENDDATA;
             }
         } else {
             // Add an entry to the extension table with a whole heap of defaults.
-            $row->set('name', 'files_joomla');
-            $row->set('type', 'file');
-            $row->set('element', 'joomla');
+            $row->name    = 'files_joomla';
+            $row->type    = 'file';
+            $row->element = 'joomla';
 
             // There is no folder for files so leave it blank.
-            $row->set('folder', '');
-            $row->set('enabled', 1);
-            $row->set('protected', 0);
-            $row->set('access', 0);
-            $row->set('client_id', 0);
-            $row->set('params', '');
-            $row->set('manifest_cache', $installer->generateManifestCache());
+            $row->folder         = '';
+            $row->enabled        = 1;
+            $row->protected      = 0;
+            $row->access         = 0;
+            $row->client_id      = 0;
+            $row->params         = '';
+            $row->manifest_cache = $installer->generateManifestCache();
 
             if (!$row->store()) {
                 $this->collectError('Write the manifest_cache', new \Exception('Writing the manifest_cache finished with "false" result.'));
@@ -783,7 +783,7 @@ ENDDATA;
             }
 
             // Set the insert id.
-            $row->set('extension_id', $db->insertid());
+            $row->extension_id = $db->insertid();
 
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.

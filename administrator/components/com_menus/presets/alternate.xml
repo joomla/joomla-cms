@@ -225,11 +225,11 @@
 			type="separator"
 			title="JSITE"
 			hidden="false"
-			sql_select="a.id, a.title, a.menutype, CASE COALESCE(SUM(m.home), 0) WHEN 0 THEN '' WHEN 1 THEN CASE m.language WHEN '*' THEN 'class:icon-home' ELSE CONCAT('image:', l.lang_code) END ELSE 'image:mod_languages/icon-16-language.png' END AS icon"
+			sql_select="a.id, a.title, a.menutype, CASE COALESCE(SUM(m.home), 0) WHEN 0 THEN '' WHEN 1 THEN CASE MAX(m.language) WHEN '*' THEN 'class:icon-home' ELSE CONCAT('image:', MAX(l.lang_code)) END ELSE 'class:icon-home' END AS icon"
 			sql_from="#__menu_types AS a"
 			sql_where="a.client_id = 0"
 			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
-			sql_group="a.id, a.title, a.menutype, m.language, l.lang_code"
+			sql_group="a.id, a.title, a.menutype"
 			sql_order="a.id DESC"
 			>
 			<menuitem

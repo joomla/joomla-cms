@@ -791,7 +791,7 @@ class User
 
             // Set the id for the User object in case we created a new user.
             if (empty($this->id)) {
-                $this->id = $table->get('id');
+                $this->id = $table->id;
             }
 
             if ($my->id == $table->id) {

@@ -550,7 +550,7 @@ class MenusHelper extends ContentHelper
                 throw new \Exception($table->getError());
             }
 
-            $item->id = $table->get('id');
+            $item->id = $table->id;
 
             if ($item->hasChildren()) {
                 static::installPresetItems($item, $menutype);
