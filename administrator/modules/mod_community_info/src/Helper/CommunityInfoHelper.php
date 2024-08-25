@@ -73,13 +73,13 @@ class CommunityInfoHelper
      */
     public function __construct(array $config = [])
     {
-      if(\count($config) > 0) {
-        $this->moduleId = (int) $config[0];
-      }
+        if(\count($config) > 0) {
+          $this->moduleId = (int) $config[0];
+        }
 
-      if(\count($config) > 1) {
-        $this->setParams($config[1]);
-      }
+        if(\count($config) > 1) {
+          $this->setParams($config[1]);
+        }
     }
 
     /**
@@ -383,7 +383,7 @@ class CommunityInfoHelper
                 if ($this->moduleId > 0) {
                     $this->loadParams();
                 } else {
-                  throw new \Exception('Module ID is needed in order to load params from db!', 1);
+                    throw new \Exception('Module ID is needed in order to load params from db!', 1);
                 }
             }
         }
@@ -400,7 +400,7 @@ class CommunityInfoHelper
     protected function loadParams()
     {
         if (!$this->moduleId) {
-          throw new \Exception('Module id must be set before calling this method!', 1);
+            throw new \Exception('Module id must be set before calling this method!', 1);
         }
 
         $db = Factory::getContainer()->get(DatabaseInterface::class);
@@ -496,7 +496,7 @@ class CommunityInfoHelper
 
             // Write updates to db
             try {
-              $this->params->set('location_name', $loc);
+                $this->params->set('location_name', $loc);
                 $this->writeParams($this->params);
             } catch (\Exception $e) {
                 Factory::getApplication()->enqueueMessage(Text::_('MOD_COMMUNITY_ERROR_SAVE_LOCATION') . ' ' . $e->getMessage(), 'warning');
