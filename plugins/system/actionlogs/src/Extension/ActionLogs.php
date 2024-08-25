@@ -353,9 +353,9 @@ final class ActionLogs extends CMSPlugin
      * On Saving extensions logging method
      * Method is called when an extension is being saved
      *
-     * @param   string   $context  The extension
-     * @param   Table    $table    DataBase Table object
-     * @param   boolean  $isNew    If the extension is new or not
+     * @param   string                   $context  The extension
+     * @param   \Joomla\CMS\Table\Table  $table    DataBase Table object
+     * @param   boolean                  $isNew    If the extension is new or not
      *
      * @return  void
      *

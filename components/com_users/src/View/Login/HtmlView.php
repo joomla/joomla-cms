@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function prepareDocument()
     {
-        $login = (bool) $this->getCurrentUser()->get('guest');
+        $login = (bool) $this->getCurrentUser()->guest;
 
         // Because the application sets a default page title,
         // we need to get it from the menu item itself

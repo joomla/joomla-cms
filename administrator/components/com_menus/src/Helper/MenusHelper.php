@@ -550,7 +550,7 @@ class MenusHelper extends ContentHelper
                 throw new \Exception($table->getError());
             }
 
-            $item->id = $table->get('id');
+            $item->id = $table->id;
 
             if ($item->hasChildren()) {
                 static::installPresetItems($item, $menutype);
@@ -889,6 +889,14 @@ class MenusHelper extends ContentHelper
             $params->set('menu-quicktask-title', (string) $node['quicktask-title']);
             $params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
             $params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
+        }
+
+        if ($item->ajaxbadge) {
+            $params->set('ajax-badge', $item->ajaxbadge);
+        }
+
+        if ($item->dashboard) {
+            $params->set('dashboard', $item->dashboard);
         }
 
         // Translate attributes for iterator values

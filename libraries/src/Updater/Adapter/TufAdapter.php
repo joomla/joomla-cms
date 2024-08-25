@@ -14,11 +14,14 @@ namespace Joomla\CMS\Updater\Adapter;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\CMS\Updater\UpdateAdapter;
+use Joomla\CMS\Updater\Updater;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tuf\Exception\MetadataException;
 
@@ -26,6 +29,9 @@ use Tuf\Exception\MetadataException;
  * TUF Update Adapter Class
  *
  * @since   5.1.0
+ *
+ * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
+ *           Don't extend this class in your own code, it is subject to change without notice.
  */
 class TufAdapter extends UpdateAdapter
 {
@@ -45,8 +51,8 @@ class TufAdapter extends UpdateAdapter
 
         if ($targets) {
             foreach ($targets as $target) {
-                $updateTable = Table::getInstance('update');
-                $updateTable->set('update_site_id', $options['update_site_id']);
+                $updateTable                 = Table::getInstance('update');
+                $updateTable->update_site_id = $options['update_site_id'];
 
                 $updateTable->bind($target);
 
@@ -74,16 +80,16 @@ class TufAdapter extends UpdateAdapter
         $metadataTable = new MetadataTable($this->db);
         $metadataTable->load(['update_site_id' => $options['update_site_id']]);
 
-        $tufFetcher = new TufFetcher($metadataTable, $options['location']);
+        $tufFetcher = new TufFetcher($metadataTable, $options['location'], $this->db, (new HttpFactory())->getHttp(), Factory::getApplication());
         $metaData   = $tufFetcher->getValidUpdate();
 
         $metaData = json_decode((string) $metaData, true);
 
-        if (!isset($metaData["signed"]["targets"])) {
+        if (!isset($metaData['signed']['targets'])) {
             return false;
         }
 
-        foreach ($metaData["signed"]["targets"] as $filename => $target) {
+        foreach ($metaData['signed']['targets'] as $filename => $target) {
             $version = $this->processTufTarget($filename, $target);
 
             if (!$version) {
@@ -106,7 +112,7 @@ class TufAdapter extends UpdateAdapter
             // Return the version as a match if either all constraints are matched
             // or "only" env related constraints fail - the later one is the existing behavior of the XML updater
             if (
-                $constraintChecker->check($version) === true
+                $constraintChecker->check($version, $options['minimum_stability'] ?? Updater::STABILITY_STABLE) === true
                 || !empty((array) $constraintChecker->getFailedEnvironmentConstraints())
             ) {
                 return [$version];

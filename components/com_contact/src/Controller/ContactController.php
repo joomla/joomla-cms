@@ -247,7 +247,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
         if ($contact->email_to == '' && $contact->user_id != 0) {
             $contact_user      = $this->getUserFactory()->loadUserById($contact->user_id);
-            $contact->email_to = $contact_user->get('email');
+            $contact->email_to = $contact_user->email;
         }
 
         $templateData = [
@@ -283,6 +283,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
             $mailer->addRecipient($contact->email_to);
             $mailer->setReplyTo($templateData['email'], $templateData['name']);
             $mailer->addTemplateData($templateData);
+            $mailer->addUnsafeTags(['name', 'email', 'body', 'customfields']);
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.

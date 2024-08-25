@@ -35,6 +35,10 @@
     --alert-border: var(--state-success-bg-hvr);
     --alert-heading-bg: var(--state-success-bg-hvr);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
+    a {
+      color: var(--state-success-text);
+      text-decoration: underline;
+    }
   }
 
   &[type="info"],
@@ -44,6 +48,10 @@
     --alert-border: var(--state-info-bg-hvr);
     --alert-heading-bg: var(--state-info-bg-hvr);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
+    a {
+      color: var(--state-info-text);
+      text-decoration: underline;
+    }
   }
 
   &[type="warning"] {
@@ -53,9 +61,13 @@
 
     --alert-accent-color: var(--state-warning-text);
     --alert-bg-color: var(--state-warning-bg);
-    --alert-border: var(--state-warning-border); //TODO Change to --state-warning-heading-bg in another PR
-    --alert-heading-bg: var(--state-warning-heading-bg); //TODO Change to --state-warning-heading-bg in another PR
+    --alert-border: var(--state-warning-border); // TODO Change to --state-warning-heading-bg in another PR
+    --alert-heading-bg: var(--state-warning-heading-bg); // TODO Change to --state-warning-heading-bg in another PR
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
+    a {
+      color: var(--state-warning-text);
+      text-decoration: underline;
+    }
   }
 
   &[type="error"],
@@ -65,6 +77,10 @@
     --alert-border: var(--state-danger-bg-hvr);
     --alert-heading-bg: var(--state-danger-bg-hvr);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
+    a {
+      color: var(--state-danger-text);
+      text-decoration: underline;
+    }
   }
 
   .alert-heading {

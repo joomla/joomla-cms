@@ -35,7 +35,7 @@ class LoginHelper
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getLanguages(CMSApplicationInterface $app)
     {
@@ -69,7 +69,7 @@ class LoginHelper
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getReturnUriString()
     {
@@ -88,7 +88,7 @@ class LoginHelper
      *
      * @return  string
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getLanguages
      *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
      *                            ->getHelper('LoginHelper')
@@ -104,7 +104,7 @@ class LoginHelper
      *
      * @return  string
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getReturnUriString
      *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
      *                            ->getHelper('LoginHelper')
