@@ -265,6 +265,15 @@ class UserModel extends AdminModel
             }
         }
 
+        // Unset the username if it should not be overwritten
+        if (
+            !$my->authorise('core.manage', 'com_users')
+            && (int) $user->id === (int) $my->id
+            && !ComponentHelper::getParams('com_users')->get('change_login_name')
+        ) {
+            unset($data['username']);
+        }
+
         // Bind the data.
         if (!$user->bind($data)) {
             $this->setError($user->getError());
