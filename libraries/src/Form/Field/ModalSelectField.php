@@ -76,7 +76,7 @@ class ModalSelectField extends FormField
      * The table name to select the title related to the field value.
      *
      * @var     string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     protected $sql_title_table = '';
 
@@ -84,7 +84,7 @@ class ModalSelectField extends FormField
      * The column name in the $sql_title_table, to select the title related to the field value.
      *
      * @var     string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     protected $sql_title_column = '';
 
@@ -92,7 +92,7 @@ class ModalSelectField extends FormField
      * The key name in the $sql_title_table that represent the field value, to select the title related to the field value.
      *
      * @var     string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     protected $sql_title_key = '';
 
