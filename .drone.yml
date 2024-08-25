@@ -149,7 +149,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql mysqli mysql 3306
 
   - name: phpmax-system-mysql
     depends_on:
@@ -161,7 +161,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql 3306
     when:
       event:
         exclude:
@@ -180,7 +180,7 @@ steps:
     commands:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql 3306
     when:
       event:
         exclude:
@@ -196,7 +196,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres 5432
     when:
       event:
         exclude:
@@ -212,7 +212,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres 5432
 
   - name: phpnext-system-postgres
     depends_on:
@@ -227,7 +227,7 @@ steps:
     commands:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres 5432
     when:
       event:
         exclude:

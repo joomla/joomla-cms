@@ -12,12 +12,15 @@ describe('Install Joomla', () => {
       db_password: Cypress.env('db_password'),
       db_name: Cypress.env('db_name'),
       db_prefix: Cypress.env('db_prefix'),
+      db_port: Cypress.env('db_port'),
     };
 
     // If exists, delete PHP configuration file to force a new installation
     cy.task('deleteRelativePath', 'configuration.php');
     cy.installJoomla(config);
 
+    // set the db port
+    cy.config_setParameter('port', Cypress.env('db_port'));
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
     cy.disableStatistics();
