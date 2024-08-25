@@ -1,4 +1,4 @@
-name: Create translation pull request
+name: Create translation pull request J5
 
 on:
   push:
