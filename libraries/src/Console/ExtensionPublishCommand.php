@@ -166,7 +166,6 @@ class ExtensionPublishCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
-        
 
         $extensionId = $this->cliInput->getArgument('extensionId');
         $disable     = $input->getOption('disable');
