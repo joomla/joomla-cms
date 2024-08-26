@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -22,6 +23,11 @@ $wa->useScript('bootstrap.modal');
 $wa->useScript('bootstrap.collapse');
 $wa->useStyle('communityinfo.style');
 $wa->useScript('communityinfo.script');
+$wa->addInlineScript('window.', ['position' => 'after'], [], ['communityinfo.script']);
+
+/** @var Joomla\CMS\Document\HtmlDocument $doc */
+$doc = Factory::getApplication()->getDocument();
+$doc->addScriptOptions('mod_community_info', ['debug' => (int) $app->get('debug', false)]);
 
 $lang         = $app->getLanguage();
 $extension    = $app->getInput()->get('option');
