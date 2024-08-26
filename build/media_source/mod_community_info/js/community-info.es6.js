@@ -30,10 +30,10 @@ const fixGeolocation = function (geolocation) {
   const lngArr = coorArr[1].split('.', 2);
 
   // Trim and format the geolocation to the form 51.5000,0.0000
-  const fixedGeolocation = latArr[0].trim() + '.' + latArr[1].trim().substring(0, 4) + ',' + lngArr[0].trim() + '.' + lngArr[1].trim().substring(0, 4);
+  const fixedGeolocation = `${latArr[0].trim()}.${latArr[1].trim().substring(0, 4)},${lngArr[0].trim()}.${lngArr[1].trim().substring(0, 4)}`;
 
   return fixedGeolocation;
-}
+};
 
 /**
  * Get current position of device
@@ -384,7 +384,7 @@ const openModal = function (moduleId, modalId) {
  *
  * @param   {String}   datetime   Timestamp of the cached data
  * @param   {Integer}  moduleId   ID of the module
- * 
+ *
  * @returns {Bool}     True if cached data is still valid, false otherwise
  */
 const checkCache = function (datetime, moduleId) {
@@ -392,7 +392,7 @@ const checkCache = function (datetime, moduleId) {
   const date = new Date(datetime.replace(' ', 'T'));
 
   // Get cachtime param of module
-  const cachetime = parseInt(document.getElementById('CommunityInfo'+moduleId).getAttribute('data-cachetime'));
+  const cachetime = parseInt(document.getElementById(`CommunityInfo${moduleId}`).getAttribute('data-cachetime'), 10);
 
   // Calculate the cachetime limit
   const now = new Date();
@@ -401,11 +401,11 @@ const checkCache = function (datetime, moduleId) {
   if (date < limit) {
     // Datetime is older than allowed cachetime
     return false;
-  } else {
-    // Datetime is within the allowed cachetime
-    return true;
   }
-}
+
+  // Datetime is within the allowed cachetime
+  return true;
+};
 
 /**
  * Fetches new content and updates it in the module
@@ -413,88 +413,91 @@ const checkCache = function (datetime, moduleId) {
  * @param {Integer}  moduleId      ID of the module
  * @param {Bool}     forceUpdate   True to force an update of the content
  */
-const updateContent = async function (moduleId, forceUpdate=false) {
-
+const updateContent = async function (moduleId, forceUpdate = false) {
   let update = false;
-  const links_time = document.getElementById('contactTxt'+moduleId).getAttribute('data-fetch-time');
+  let communityLinks = {};
+  let communityNews = {};
+  let communityEvents = {};
 
-  if(forceUpdate || !checkCache(links_time, moduleId)) {
+  const linksTime = document.getElementById(`contactTxt${moduleId}`).getAttribute('data-fetch-time');
+
+  if (forceUpdate || !checkCache(linksTime, moduleId)) {
     // Links are outdated and need update
     try {
-      var community_links = await ajaxTask(moduleId, 'getLinks', {}, 'FETCH_LINKS');
-      console.log('Fetched community links:', community_links);
+      communityLinks = await ajaxTask(moduleId, 'getLinks', {}, 'FETCH_LINKS');
+      console.log('Fetched community links:', communityLinks);
 
       // Get current link texts
-      let contactTxt = document.getElementById('contactTxt'+moduleId);
-      let contributeTxt = document.getElementById('contributeTxt'+moduleId);
+      const contactTxt = document.getElementById(`contactTxt${moduleId}`);
+      const contributeTxt = document.getElementById(`contactTxt${moduleId}`);
 
-      if (community_links && contactTxt !== null) {
+      if (communityLinks && contactTxt !== null) {
         // Exchange contact link text
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = community_links.html.contact;
+        tempDiv.innerHTML = communityLinks.html.contact;
         contactTxt.parentNode.replaceChild(tempDiv.firstChild, contactTxt);
       }
 
-      if (community_links && contributeTxt !== null) {
+      if (communityLinks && contributeTxt !== null) {
         // Exchange contribute link text
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = community_links.html.contribute;
+        tempDiv.innerHTML = communityLinks.html.contribute;
         const contributeTxtParent = contributeTxt.parentNode;
         contributeTxtParent.replaceChild(tempDiv.firstChild, contributeTxt);
         contributeTxtParent.appendChild(tempDiv.lastChild);
       }
 
       // Links successfully updated
-      update = true;      
+      update = true;
     } catch (error) {
       console.error('Error fetching community links:', error);
     }
   }
 
-  const news_time = document.getElementById('collapseNews'+moduleId).getAttribute('data-fetch-time');
+  const newsTime = document.getElementById(`collapseNews${moduleId}`).getAttribute('data-fetch-time');
 
-  if(update || !checkCache(news_time, moduleId)) {
+  if (update || !checkCache(newsTime, moduleId)) {
     // Fetch news feed
     try {
-      var community_news = await ajaxTask(moduleId, 'getNewsFeed', {'url': community_links.links.news_feed}, 'FETCH_NEWS');
-      console.log('Fetched news feed:', community_news);
-    
-      // Get current news feed table
-      let newsFeetTable = document.getElementById('collapseNews'+moduleId);
+      communityNews = await ajaxTask(moduleId, 'getNewsFeed', { 'url': communityLinks.links.news_feed }, 'FETCH_NEWS');
+      console.log('Fetched news feed:', communityNews);
 
-      if (community_news && newsFeetTable !== null) {
+      // Get current news feed table
+      let newsFeetTable = document.getElementById(`collapseNews${moduleId}`);
+
+      if (communityNews && newsFeetTable !== null) {
         // Exchange news feed table
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = community_news.html;
+        tempDiv.innerHTML = communityNews.html;
         newsFeetTable.parentNode.replaceChild(tempDiv.firstChild, newsFeetTable);
       }
     } catch (error) {
       console.error('Error fetching news feed:', error);
     }
   }
-  
-  const events_time = document.getElementById('collapseEvents'+moduleId).getAttribute('data-fetch-time');
 
-  if(update || !checkCache(events_time, moduleId)) {
+  const eventsTime = document.getElementById(`collapseEvents${moduleId}`).getAttribute('data-fetch-time');
+
+  if (update || !checkCache(eventsTime, moduleId)) {
     // Fetch events feed
     try {
-      var community_events = await ajaxTask(moduleId, 'getEventsFeed', {'url': community_links.links.events_feed}, 'FETCH_EVENTS');
-      console.log('Fetched events feed:', community_events);
+      communityEvents = await ajaxTask(moduleId, 'getEventsFeed', { url: communityLinks.links.events_feed }, 'FETCH_EVENTS');
+      console.log('Fetched events feed:', communityEvents);
 
       // Get current events feed table
-      let eventsFeetTable = document.getElementById('collapseEvents'+moduleId);
+      const eventsFeetTable = document.getElementById(`collapseEvents${moduleId}`);
 
-      if (community_events && eventsFeetTable !== null) {
+      if (communityEvents && eventsFeetTable !== null) {
         // Exchange events feed table
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = community_events.html;
+        tempDiv.innerHTML = communityEvents.html;
         eventsFeetTable.parentNode.replaceChild(tempDiv.firstChild, eventsFeetTable);
       }
     } catch (error) {
       console.error('Error fetching events feed:', error);
     }
   }
-}
+};
 
 /**
  * Initialize all com_community_info modules
@@ -540,7 +543,7 @@ const iniModules = async function () {
 
     // Get old location from html
     let locChanged = false;
-    let oldLocation = document.querySelectorAll('[data-modal-id="location-modal'+moduleId+'"]')[0].getAttribute('data-geolocation');
+    let oldLocation = document.querySelectorAll(`[data-modal-id="location-modal${moduleId}"]`)[0].getAttribute('data-geolocation');
     oldLocation = fixGeolocation(oldLocation);
 
     // Get auto location
@@ -549,10 +552,10 @@ const iniModules = async function () {
         let location = await getCurrentLocation();
         location = fixGeolocation(location);
 
-        if(oldLocation != location) {
+        if (oldLocation !== location) {
           // Location has changed
           locChanged = true;
-          const response = await ajaxTask(moduleId, 'setLocation', {'current_location': location}, 'SAVE_LOCATION');
+          const response = await ajaxTask(moduleId, 'setLocation', { current_location: location }, 'SAVE_LOCATION');
           console.log('Update location:', Joomla.Text._(response));
         } else {
           console.log('Location is up to date.');
