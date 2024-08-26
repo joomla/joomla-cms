@@ -73,6 +73,13 @@ class MailTemplate
     /**
      *
      * @var    string[]
+     * @since  5.1.3
+     */
+    protected $unsafe_tags = [];
+
+    /**
+     *
+     * @var    string[]
      * @since  4.0.0
      */
     protected $attachments = [];
@@ -97,20 +104,20 @@ class MailTemplate
      * Layout mailtemplate options of the email
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $layoutTemplateData = [];
 
     /**
      * Constructor for the mail templating class
      *
-     * @param   string  $templateId  Id of the mail template.
-     * @param   string  $language    Language of the template to use.
-     * @param   Mail    $mailer      Mail object to send the mail with.
+     * @param   string   $templateId  Id of the mail template.
+     * @param   string   $language    Language of the template to use.
+     * @param   ?Mail    $mailer      Mail object to send the mail with.
      *
      * @since   4.0.0
      */
-    public function __construct($templateId, $language, Mail $mailer = null)
+    public function __construct($templateId, $language, ?Mail $mailer = null)
     {
         $this->template_id = $templateId;
         $this->language    = $language;
@@ -185,7 +192,7 @@ class MailTemplate
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function addLayoutTemplateData($data)
     {
@@ -209,6 +216,20 @@ class MailTemplate
         } else {
             $this->plain_data = array_merge($this->plain_data, $data);
         }
+    }
+
+    /**
+     * Mark tags as unsafe to ensure escaping in HTML mails
+     *
+     * @param   array   $tags  Tag names
+     *
+     * @return  void
+     *
+     * @since   5.1.3
+     */
+    public function addUnsafeTags($tags)
+    {
+        $this->unsafe_tags = array_merge($this->unsafe_tags, array_map('strtoupper', $tags));
     }
 
     /**
@@ -283,7 +304,7 @@ class MailTemplate
         // Use the plain-text replacement data, if specified.
         $plainData = $this->plain_data ?: $this->data;
         $plainBody = $this->replaceTags(Text::_($mail->body), $plainData);
-        $htmlBody  = $useLayout ? Text::_($mail->htmlbody) : $this->replaceTags(Text::_($mail->htmlbody), $this->data);
+        $htmlBody  = $useLayout ? Text::_($mail->htmlbody) : $this->replaceTags(Text::_($mail->htmlbody), $this->data, true);
 
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
             // If the Plain template is empty try to convert the HTML template to a Plain text
@@ -304,7 +325,7 @@ class MailTemplate
 
             // If HTML body is empty try to convert the Plain template to html
             if (!$htmlBody) {
-                $htmlBody = nl2br($plainBody, false);
+                $htmlBody = nl2br($this->replaceTags(Text::_($mail->body), $plainData, true), false);
             }
 
             $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
@@ -415,14 +436,15 @@ class MailTemplate
     /**
      * Replace tags with their values recursively
      *
-     * @param   string  $text  The template to process
-     * @param   array   $tags  An associative array to replace in the template
+     * @param   string  $text    The template to process
+     * @param   array   $tags    An associative array to replace in the template
+     * @param   bool    $isHtml  Is the text an HTML text and requires escaping
      *
      * @return  string  Rendered mail template
      *
      * @since   4.0.0
      */
-    protected function replaceTags($text, $tags)
+    protected function replaceTags($text, $tags, $isHtml = false)
     {
         foreach ($tags as $key => $value) {
             // If the value is NULL, replace with an empty string. NULL itself throws notices
@@ -440,10 +462,22 @@ class MailTemplate
 
                         foreach ($value as $name => $subvalue) {
                             if (\is_array($subvalue) && $name == $matches[1][$i]) {
+                                $subvalue = implode("\n", $subvalue);
+
+                                // Escape if necessary
+                                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
+                                    $subvalue = htmlspecialchars($subvalue, ENT_QUOTES, 'UTF-8');
+                                }
+
                                 $replacement .= implode("\n", $subvalue);
                             } elseif (\is_array($subvalue)) {
-                                $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
+                                $replacement .= $this->replaceTags($matches[1][$i], $subvalue, $isHtml);
                             } elseif (\is_string($subvalue) && $name == $matches[1][$i]) {
+                                // Escape if necessary
+                                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
+                                    $subvalue = htmlspecialchars($subvalue, ENT_QUOTES, 'UTF-8');
+                                }
+
                                 $replacement .= $subvalue;
                             }
                         }
@@ -452,6 +486,11 @@ class MailTemplate
                     }
                 }
             } else {
+                // Escape if necessary
+                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
+                    $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+                }
+
                 $text = str_replace('{' . strtoupper($key) . '}', $value, $text);
             }
         }
