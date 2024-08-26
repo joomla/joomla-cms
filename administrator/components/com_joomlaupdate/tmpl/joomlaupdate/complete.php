@@ -19,6 +19,7 @@ use Joomla\CMS\Uri\Uri;
 
 $hadErrors    = $this->state->get('update_finished_with_error');
 $errors       = $this->state->get('update_errors');
+$channelReset = $this->state->get('update_channel_reset');
 $logFile      = $this->state->get('log_file');
 $installerMsg = $this->state->get('installer_message');
 $forumLink    = '<a href="https://forum.joomla.org/" target="_blank" rel="noopener noreferrer">https://forum.joomla.org/</a>';
@@ -27,6 +28,17 @@ $forumLink    = '<a href="https://forum.joomla.org/" target="_blank" rel="noopen
 <div class="card">
     <h2 class="card-header"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_COMPLETE_HEADING'); ?></h2>
     <div class="card-body">
+        <?php if ($channelReset) : ?>
+            <div class="alert alert-success">
+                <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('NOTICE'); ?></span>
+                <?php echo Text::sprintf('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK', Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'), Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')); ?>
+            </div>
+        <?php elseif ($channelReset !== null) : ?>
+            <div class="alert alert-warning">
+                <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
+                <?php echo Text::sprintf('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED', Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'), Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')); ?>
+            </div>
+        <?php endif; ?>
         <?php if (!$hadErrors) : ?>
             <div class="alert alert-success">
                 <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('NOTICE'); ?></span>

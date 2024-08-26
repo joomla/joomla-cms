@@ -124,6 +124,10 @@ trait CoreEventAware
         'onUserBeforeDelete'         => User\BeforeDeleteEvent::class,
         'onUserAfterDelete'          => User\AfterDeleteEvent::class,
         'onUserAfterRemind'          => User\AfterRemindEvent::class,
+        'onUserBeforeResetRequest'   => User\BeforeResetRequestEvent::class,
+        'onUserAfterResetRequest'    => User\AfterResetRequestEvent::class,
+        'onUserBeforeResetComplete'  => User\BeforeResetCompleteEvent::class,
+        'onUserAfterResetComplete'   => User\AfterResetCompleteEvent::class,
         // User Group
         'onUserBeforeSaveGroup'   => Model\BeforeSaveEvent::class,
         'onUserAfterSaveGroup'    => Model\AfterSaveEvent::class,
@@ -197,6 +201,8 @@ trait CoreEventAware
         'onPageCacheSetCaching' => PageCache\SetCachingEvent::class,
         'onPageCacheGetKey'     => PageCache\GetKeyEvent::class,
         'onPageCacheIsExcluded' => PageCache\IsExcludedEvent::class,
+        // Mail
+        'onMailBeforeRendering' => Mail\BeforeRenderingMailTemplateEvent::class,
     ];
 
     /**
