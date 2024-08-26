@@ -12,9 +12,11 @@ namespace Joomla\Module\CommunityInfo\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
@@ -47,6 +49,13 @@ class CommunityInfoHelper
     protected $moduleId = 0;
 
     /**
+     * Default API endpoint to fetch the links
+     *
+     * @var string
+     */
+    public const DEFAULT_ENDPOINT = 'https://test.joomla.spuur.ch/joomla-community-api/links.php';
+
+    /**
      * Fallback community info
      *
      * @var array
@@ -74,11 +83,11 @@ class CommunityInfoHelper
     public function __construct(array $config = [])
     {
         if(\count($config) > 0) {
-          $this->moduleId = (int) $config[0];
+            $this->moduleId = (int) $config[0];
         }
 
         if(\count($config) > 1) {
-          $this->setParams($config[1]);
+            $this->setParams($config[1]);
         }
     }
 
@@ -94,36 +103,9 @@ class CommunityInfoHelper
         // Load the local default values
         $links = new Registry(self::DEFAULT_INFO);
 
-        // Load links from endpoint
-        $vars = ['location' => $this->getLocation('geolocation')];
-        $url  = $this->params->get('endpoint', 'https://test.joomla.spuur.ch/joomla-community-api/links.php');
-
-        if ($api_link_sets = $this->fetchAPI($url, $vars)) {
-            // Sort the returned data based on level with descending order
-            usort($api_link_sets, fn ($a, $b) => $b['level'] <=> $a['level']);
-
-            // Search for a suitable link value in returned data
-            foreach ($links as $k => $link_val) {
-                foreach ($api_link_sets as $api_set_k => $api_link_set) {
-                    $found = false;
-
-                    foreach ($api_link_set as $api_k => $api_link_val) {
-                        if ($k == $api_k) {
-                            // As soon as we found a suitable value, we override it with the local default one
-                            $links->set($k, $api_link_val);
-                            $found = true;
-
-                            break;
-                        }
-                    }
-
-                    // If we already found a suitable value, we went on to the next link
-                    if ($found) {
-                        break;
-                    }
-                }
-            }
-        }
+        // Load links from Session
+        $links_session = new Registry(Factory::getApplication()->getUserState('mod_community_info.links', []));
+        $links->merge($links_session);
 
         return $links;
     }
@@ -164,50 +146,25 @@ class CommunityInfoHelper
     /**
      * Get the most recent news articles
      *
-     * @param   string   $url   The url of the RSS news feed
-     * @param   int      $num   Number of articles to be returned
-     *
      * @return  array    List of articles
      *
      * @since   4.5.0
      */
-    public function getNewsFeed(string $url, int $num = 3)
+    public function getNewsFeed()
     {
-        // Load rss xml from endpoint
         $items = [];
 
-        try {
-            $ff   = new FeedFactory();
-            $feed = $ff->getFeed($url);
-        } catch (\Exception $e) {
-            return $items;
-        }
-
-        if (empty($feed)) {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'Parsing error.'), 'warning');
-
-            return $items;
-        }
-
-        // Collect the newsfeed entries
-        for ($i = 0; $i < $num; $i++) {
-            if (!$feed->offsetExists($i)) {
-                break;
+        if($this->params->get('cache', 1)) {
+            // Get timestamp of cached data
+            $datetime = Factory::getApplication()->getUserState('mod_community_info.news_time', '');
+            
+            if($this->checkCache($datetime)) {
+                // Load news from session
+                $items = Factory::getApplication()->getUserState('mod_community_info.news', []);                
+            } else {
+                // Cached data is outdated
+                Factory::getApplication()->setUserState('mod_community_info.news', []);
             }
-
-            $obj           = new \stdClass();
-            $obj->title    = trim($feed[$i]->title);
-            $obj->link     = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-            $obj->guid     = trim($feed[$i]->guid);
-            $obj->text     = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
-            $obj->category = (string) trim($feed->title);
-            $obj->pubDate  = $feed[$i]->publishedDate;
-
-            // Strip unneeded objects
-            $obj->text = OutputFilter::stripImages($obj->text);
-            $obj->text = str_replace('&apos;', "'", $obj->text);
-
-            $items[] = $obj;
         }
 
         return $items;
@@ -216,30 +173,25 @@ class CommunityInfoHelper
     /**
      * Get the next events
      *
-     * @param   string    $url     The url of the JSON events feed
-     * @param   int       $num     Number of articles to be returned
-     *
      * @return  array    List of events
      *
      * @since   4.5.0
      */
-    public function getEventsFeed(string $url, int $num = 3)
+    public function getEventsFeed()
     {
-        // Load json from endpoint
-        $vars           = [];
         $upcomingEvents = [];
 
-        if ($events  = $this->fetchAPI($url, $vars)) {
-            // Sort the array by the 'start' property to ensure events are in chronological order
-            usort($events, fn ($a, $b) => strtotime($a['start']) <=> strtotime($b['start']));
-
-            // Select the next n upcoming events
-            $nextThreeEvents = \array_slice($events, 0, $num);
-
-            // Convert each event to an stdClass object and store them in a new array
-            $upcomingEvents = array_map(function ($event) {
-                return (object) $event;
-            }, $nextThreeEvents);
+        if($this->params->get('cache', 1)) {
+            // Get timestamp of cached data
+            $datetime = Factory::getApplication()->getUserState('mod_community_info.events_time', '');
+            
+            if($this->checkCache($datetime)) {
+                // Load news from session
+                $upcomingEvents = Factory::getApplication()->getUserState('mod_community_info.events', []);                
+            } else {
+                // Cached data is outdated
+                Factory::getApplication()->setUserState('mod_community_info.events', []);
+            }
         }
 
         return $upcomingEvents;
@@ -282,7 +234,7 @@ class CommunityInfoHelper
     }
 
     /**
-     * Set location string to module params
+     * Set location string to module params with com_ajax
      *
      * @return  string  The ajax return message
      *
@@ -327,6 +279,216 @@ class CommunityInfoHelper
         }
 
         return Text::_('MOD_COMMUNITY_MSG_SAVE_LOCATION_NOT_NEEDED');
+    }
+
+    /**
+     * Get a list of links from the endpoint with com_ajax
+     *
+     * @return  Registry   Object with community links
+     *
+     * @since   4.5.0
+     */
+    public function getLinksAjax()
+    {
+        $input = Factory::getApplication()->input;
+
+        if ($input->getCmd('option') !== 'com_ajax' || $input->getCmd('module') !== 'community_info') {
+            return 'Permission denied!';
+        }
+
+        if (!$moduleId = $input->get('module_id', false, 'int')) {
+          return 'You must provide a "module_id" variable with the request!';
+        }
+
+        $this->moduleId = $moduleId;
+        $this->setParams();
+
+        // Load module language file
+        $lang  = Factory::getApplication()->getLanguage();
+        $lang->load('mod_community_info', JPATH_ADMINISTRATOR.'/modules/mod_community_info');
+
+        // Load the local default values
+        $links = new Registry(self::DEFAULT_INFO);
+
+        // Load links from endpoint
+        $vars = ['location' => $this->getLocation('geolocation')];
+        $url  = $this->params->get('endpoint', self::DEFAULT_ENDPOINT);
+
+        if ($api_link_sets = $this->fetchAPI($url, $vars)) {
+            // Sort the returned data based on level with descending order
+            usort($api_link_sets, fn ($a, $b) => $b['level'] <=> $a['level']);
+
+            // Search for a suitable link value in returned data
+            foreach ($links as $k => $link_val) {
+                foreach ($api_link_sets as $api_set_k => $api_link_set) {
+                    $found = false;
+
+                    foreach ($api_link_set as $api_k => $api_link_val) {
+                        if ($k == $api_k) {
+                            // As soon as we found a suitable value, we override it with the local default one
+                            $links->set($k, $api_link_val);
+                            $found = true;
+
+                            break;
+                        }
+                    }
+
+                    // If we already found a suitable value, we went on to the next link
+                    if ($found) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Set links to Session
+        Factory::getApplication()->setUserState('mod_community_info.links', $links);
+        Factory::getApplication()->setUserState('mod_community_info.links_time', date('Y-m-d H:i:s'));
+
+        // Create contact text
+        $contact_html = '<p>' . CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTACT_TEXT'), $links) . '</p>';
+
+        // Create contact text
+        $contribute_html  = '<p>' . CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_TEXT'), $links) . '</p>';
+        $contribute_html .= '<p>' . CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_CONTACT'), $links) . '</p>';
+
+        return ['links' => $links, 'html' => ['contact' => $contact_html, 'contribute' => $contribute_html]];
+    }
+
+    /**
+     * Get the most recent news articles with com_ajax
+     *
+     * @return  array    List of articles
+     *
+     * @since   4.5.0
+     */
+    public function getNewsFeedAjax()
+    {
+        $input = Factory::getApplication()->input;
+
+        if ($input->getCmd('option') !== 'com_ajax' || $input->getCmd('module') !== 'community_info') {
+            return 'Permission denied!';
+        }
+
+        if (!$moduleId = $input->get('module_id', false, 'int')) {
+            return 'You must provide a "module_id" variable with the request!';
+        }
+
+        if (!$url = $input->get('url', false, 'string')) {
+            return 'You must provide a "url" variable with the request!';
+        }
+
+        $this->moduleId = $moduleId;
+        $this->setParams();
+
+        // Load module language file
+        $lang  = Factory::getApplication()->getLanguage();
+        $lang->load('mod_community_info', JPATH_ADMINISTRATOR.'/modules/mod_community_info');
+
+        // Load rss xml from endpoint
+        $items = [];
+
+        try {
+            $ff   = new FeedFactory();
+            $feed = $ff->getFeed($url);
+        } catch (\Exception $e) {
+            return $items;
+        }
+
+        if (empty($feed)) {
+            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'Parsing error.'), 'warning');
+
+            return $items;
+        }
+
+        // Collect the newsfeed entries
+        for ($i = 0; $i < $this->params->get('num_news', 3); $i++) {
+            if (!$feed->offsetExists($i)) {
+                break;
+            }
+
+            $obj           = new \stdClass();
+            $obj->title    = trim($feed[$i]->title);
+            $obj->link     = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+            $obj->guid     = trim($feed[$i]->guid);
+            $obj->text     = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
+            $obj->category = (string) trim($feed->title);
+            $obj->pubDate  = $feed[$i]->publishedDate;
+
+            // Strip unneeded objects
+            $obj->text = OutputFilter::stripImages($obj->text);
+            $obj->text = str_replace('&apos;', "'", $obj->text);
+
+            $items[] = $obj;
+        }
+
+        // Set news to Session
+        Factory::getApplication()->setUserState('mod_community_info.news', $items);
+        Factory::getApplication()->setUserState('mod_community_info.news_time', date('Y-m-d H:i:s'));
+
+        // Create html
+        $displayData = ['module' => (object) ['id' => $moduleId], 'news_time' => date('Y-m-d H:i:s'), 'params' => $this->params, 'news' => $items];
+        $layoutName  = \str_replace('_:', '', $this->params->get('layout', 'default') . '_news');
+        $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
+        $html        = LayoutHelper::render($layoutName, $displayData, \str_replace($layoutName . '.php', '', $layoutPath));
+
+        return ['items' => $items, 'html' => trim($html)];
+    }
+
+    /**
+     * Get the next events with com_ajax
+     *
+     * @return  array    List of events
+     *
+     * @since   4.5.0
+     */
+    public function getEventsFeedAjax()
+    {
+        $input = Factory::getApplication()->input;
+
+        if ($input->getCmd('option') !== 'com_ajax' || $input->getCmd('module') !== 'community_info') {
+            return 'Permission denied!';
+        }
+
+        if (!$moduleId = $input->get('module_id', false, 'int')) {
+            return 'You must provide a "module_id" variable with the request!';
+        }
+
+        if (!$url = $input->get('url', false, 'string')) {
+            return 'You must provide a "url" variable with the request!';
+        }
+
+        $this->moduleId = $moduleId;
+        $this->setParams();
+
+        // Load json from endpoint
+        $vars           = [];
+        $upcomingEvents = [];
+
+        if ($events  = $this->fetchAPI($url, $vars)) {
+            // Sort the array by the 'start' property to ensure events are in chronological order
+            usort($events, fn ($a, $b) => strtotime($a['start']) <=> strtotime($b['start']));
+
+            // Select the next n upcoming events
+            $nextEvents = \array_slice($events, 0, $this->params->get('num_events', 3));
+
+            // Convert each event to an stdClass object and store them in a new array
+            $upcomingEvents = array_map(function ($event) {
+                return (object) $event;
+            }, $nextEvents);
+        }
+
+        // Set news to Session
+        Factory::getApplication()->setUserState('mod_community_info.events', $upcomingEvents);
+        Factory::getApplication()->setUserState('mod_community_info.events_time', date('Y-m-d H:i:s'));
+
+        // Create html
+        $displayData = ['module' => (object) ['id' => $moduleId], 'events_time' => date('Y-m-d H:i:s'), 'params' => $this->params, 'events' => $upcomingEvents];
+        $layoutName  = \str_replace('_:', '', $this->params->get('layout', 'default') . '_events');
+        $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
+        $html        = LayoutHelper::render($layoutName, $displayData, \str_replace($layoutName . '.php', '', $layoutPath));
+
+        return ['items' => $upcomingEvents, 'html' => trim($html)];
     }
 
     /**
@@ -634,5 +796,34 @@ class CommunityInfoHelper
         }
 
         return [$errors[0]->code, $return];
+    }
+
+    /**
+     * Check if chached data is still valid
+     *
+     * @param   string   $datetime   Timestamp of the cached data
+     *
+     * @return  bool     True if cached data is still valid, false otherwise
+     *
+     * @since   4.5.0
+     */
+    protected function checkCache(string $datetime)
+    {
+        if($this->params->get('cache', 1)) {            
+            // Create DateTime object
+            $datetime = $datetime ? new \DateTime($datetime) : false;
+
+            // Create DateTime object from x hours ago
+            $now = new \DateTime();
+            $cache_time = (int) $this->params->get('cache_time', 3);
+            $now->modify('-' . $cache_time . ' hours');
+
+            if($datetime && $datetime > $now) {
+                // The date is within the last x hours. Cached data is still valid
+                return true;
+            }
+        }
+
+        return false;
     }
 }

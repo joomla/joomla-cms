@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -30,12 +31,14 @@ $currentURL   = Uri::getInstance()->toString();
 CommunityInfoHelper::addText();
 ?>
 
-<div id="CommunityInfo<?php echo strval($module->id); ?>" class="mod-community-info px-3" data-autoloc="<?php echo $params->get('auto_location', '1'); ?>">
+<div id="CommunityInfo<?php echo strval($module->id); ?>" class="mod-community-info px-3" data-autoloc="<?php echo $params->get('auto_location', '1'); ?>" data-cachetime="<?php echo $params->get('cache_time', '3'); ?>">
   <p><?php echo Text::_('MOD_COMMUNITY_INFO_JOOMLA_DESC'); ?></p>
   <hr>
   <div class="info-block contact">
     <h3><?php echo Text::_('MOD_COMMUNITY_INFO_CONTACT_TITLE'); ?></h3>
-    <p><?php echo CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTACT_TEXT'), $links); ?></p>
+    <div id="contactTxt<?php echo strval($module->id); ?>" data-fetch-time="<?php echo $links_time; ?>">
+      <p><?php echo CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTACT_TEXT'), $links); ?></p>
+    </div>
   </div>
   <hr>
   <div class="info-block news">
@@ -54,23 +57,7 @@ CommunityInfoHelper::addText();
         </div>
       </div>
     <?php else : ?>
-      <table id="collapseNews<?php echo strval($module->id); ?>" class="table community-info-news collapse">
-        <caption class="hidden"><?php echo Text::_('MOD_COMMUNITY_INFO_NEWS_TITLE_FEED'); ?></caption>
-        <thead class="hidden">
-          <tr>
-            <th scope="col"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
-            <th scope="col"><?php echo Text::_('JGLOBAL_PUBLISHED_DATE'); ?></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($news as $n => $article) : ?>
-            <tr>
-              <th scope="row"><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></th>
-              <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
+      <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_news'); ?>
     <?php endif; ?>
   </div>
   <hr>
@@ -89,31 +76,17 @@ CommunityInfoHelper::addText();
         </div>
       </div>
     <?php else : ?>
-      <table id="collapseEvents<?php echo strval($module->id); ?>" class="table table-sm community-info-events collapse">
-        <caption class="hidden"><?php echo Text::_('MOD_COMMUNITY_INFO_EVENTS_TITLE_FEED'); ?></caption>
-        <thead class="hidden">
-          <tr>
-            <th scope="col"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
-            <th scope="col"><?php echo Text::_('JDATE'); ?></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($events as $e => $event) : ?>
-            <tr>
-              <th scope="row"><strong><a href="<?php echo $event->url; ?>" target="_blank"><?php echo $event->title; ?></a></strong><br><span class="small"><?php echo $event->location; ?></span></th>
-              <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'D, M j, Y'); ?></span><br><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'H:i T'); ?></span></td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
+      <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_events'); ?>
     <?php endif; ?>
   </div>
   <hr>
   <div class="info-block contribute">
     <a class="no-link" href="https://magazine.joomla.org/all-issues/june-2024/holopin-is-ready-to-launch,-claim-your-digital-badge" target="_blank"><img class="float-right" src="<?php echo Uri::root(true) . '/media/mod_community_info/images/holopin-badge-board.png'; ?>" alt="joomla volunteer badge"></a>
     <h3><?php echo Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_TITLE'); ?></h3>
-    <p><?php echo CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_TEXT'), $links); ?></p>
-    <p><?php echo CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_CONTACT'), $links); ?></p>
+    <div id="contributeTxt<?php echo strval($module->id); ?>">
+      <p><?php echo CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_TEXT'), $links); ?></p>
+      <p><?php echo CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_CONTACT'), $links); ?></p>
+    </div>    
   </div>
 </div>
 
