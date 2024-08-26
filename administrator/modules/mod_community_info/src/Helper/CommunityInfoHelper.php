@@ -428,9 +428,9 @@ class CommunityInfoHelper
 
         // Create html
         $displayData = ['module' => (object) ['id' => $moduleId], 'news_time' => date('Y-m-d H:i:s'), 'params' => $this->params, 'news' => $items];
-        $layoutName  = \str_replace('_:', '', $this->params->get('layout', 'default') . '_news');
+        $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . '_news');
         $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
-        $html        = LayoutHelper::render($layoutName, $displayData, \str_replace($layoutName . '.php', '', $layoutPath));
+        $html        = LayoutHelper::render($layoutName, $displayData, str_replace($layoutName . '.php', '', $layoutPath));
 
         return ['items' => $items, 'html' => trim($html)];
     }
@@ -484,9 +484,9 @@ class CommunityInfoHelper
 
         // Create html
         $displayData = ['module' => (object) ['id' => $moduleId], 'events_time' => date('Y-m-d H:i:s'), 'params' => $this->params, 'events' => $upcomingEvents];
-        $layoutName  = \str_replace('_:', '', $this->params->get('layout', 'default') . '_events');
+        $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . '_events');
         $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
-        $html        = LayoutHelper::render($layoutName, $displayData, \str_replace($layoutName . '.php', '', $layoutPath));
+        $html        = LayoutHelper::render($layoutName, $displayData, str_replace($layoutName . '.php', '', $layoutPath));
 
         return ['items' => $upcomingEvents, 'html' => trim($html)];
     }
