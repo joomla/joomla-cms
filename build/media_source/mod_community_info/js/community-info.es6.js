@@ -20,10 +20,10 @@ const sprintf = function (text, ...args) {
  * @param   {Integer}   prio   The logging priority (1: log always, 2: log only when debug is enabled)
  */
 const consoleLog = function (prio, ...args) {
-  if (prio <= 1 || Joomla.getOptions('mod_community_info').debug == 1) {
+  if (prio <= 1 || Joomla.getOptions('mod_community_info').debug === 1) {
     console.log(...args);
   }
-}
+};
 
 /**
  * Fix a geolocation string
