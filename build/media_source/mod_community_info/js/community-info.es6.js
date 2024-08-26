@@ -15,6 +15,17 @@ const sprintf = function (text, ...args) {
 };
 
 /**
+ * Logging debug information to the browser console
+ *
+ * @param   {Integer}   prio   The logging priority (1: log always, 2: log only when debug is enabled)
+ */
+const consoleLog = function (prio, ...args) {
+  if (prio <= 1 || Joomla.getOptions('mod_community_info').debug == 1) {
+    console.log(...args);
+  }
+}
+
+/**
  * Fix a geolocation string
  *
  * @param   {String}   geolocation   Geolocation string
@@ -139,7 +150,7 @@ const fetchAPI = async function (url, variables = {}, format = 'json') {
     // Catch network error
     const message = Joomla.Text._('MOD_COMMUNITY_ERROR_FETCH_API');
     Joomla.renderMessages({ error: [sprintf(message, targetUrl, response.status, response.statusText)] });
-    console.log(`mod_community_info: fetchAPI request failed. Status Code: ${response.status}. Message: ${response.statusText}`);
+    consoleLog(2, `mod_community_info: fetchAPI request failed. Status Code: ${response.status}. Message: ${response.statusText}`);
 
     return data;
   }
@@ -172,7 +183,7 @@ const fetchAPI = async function (url, variables = {}, format = 'json') {
     // Parsing error
     const message = Joomla.Text._('MOD_COMMUNITY_ERROR_FETCH_API');
     Joomla.renderMessages({ error: [sprintf(message, targetUrl, '-', errorcode)] });
-    console.log(`mod_community_info: fetchAPI request failed. Status Code: -. Message: ${errorcode}`);
+    consoleLog(2, `mod_community_info: fetchAPI request failed. Status Code: -. Message: ${errorcode}`);
 
     return null;
   }
@@ -278,8 +289,8 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
     const message2 = Joomla.Text._('MOD_COMMUNITY_ERROR_BROWSER_CONSOLE');
     Joomla.renderMessages({ error: [`${message} ${sprintf(message2, 'Network error')}`] });
 
-    console.log(`mod_community_info: ${method} request failed.`);
-    console.log(`Status Code: ${response.status}. Message: ${response.statusText}`);
+    consoleLog(2, `mod_community_info: ${method} request failed.`);
+    consoleLog(2, `Status Code: ${response.status}. Message: ${response.statusText}`);
 
     return data;
   }
@@ -299,8 +310,8 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
     const message2 = Joomla.Text._('MOD_COMMUNITY_ERROR_BROWSER_CONSOLE');
     Joomla.renderMessages({ error: [`${message} ${sprintf(message2, 'PHP error')}`] });
 
-    console.log(`mod_community_info: ${method} request failed.`);
-    console.log(txt);
+    consoleLog(2, `mod_community_info: ${method} request failed.`);
+    consoleLog(2, txt);
   } else {
     // Response is not of type json --> probably some php warnings/notices
     const split = txt.split('\n{"');
@@ -310,10 +321,10 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
     const message = Joomla.Text._(`MOD_COMMUNITY_ERROR_${msgString}`);
     const message2 = Joomla.Text._('MOD_COMMUNITY_ERROR_BROWSER_CONSOLE');
     Joomla.renderMessages({ error: [`${message} ${sprintf(message2, 'PHP warnings')}`] });
-    console.log(`mod_community_info: ${method} request failed.`);
-    console.log(`Message: ${split[0]}`);
-    console.log(`Messages: ${temp.messages}`);
-    console.log(`Data: ${data}`);
+    consoleLog(2, `mod_community_info: ${method} request failed.`);
+    consoleLog(2, `Message: ${split[0]}`);
+    consoleLog(2, `Messages: ${temp.messages}`);
+    consoleLog(2, `Data: ${data}`);
   }
 
   return data;
@@ -425,11 +436,11 @@ const updateContent = async function (moduleId, forceUpdate = false) {
     // Links are outdated and need update
     try {
       communityLinks = await ajaxTask(moduleId, 'getLinks', {}, 'FETCH_LINKS');
-      console.log('Fetched community links:', communityLinks);
+      consoleLog(2, 'Fetched community links:', communityLinks);
 
       // Get current link texts
       const contactTxt = document.getElementById(`contactTxt${moduleId}`);
-      const contributeTxt = document.getElementById(`contactTxt${moduleId}`);
+      const contributeTxt = document.getElementById(`contributeTxt${moduleId}`);
 
       if (communityLinks && contactTxt !== null) {
         // Exchange contact link text
@@ -450,7 +461,7 @@ const updateContent = async function (moduleId, forceUpdate = false) {
       // Links successfully updated
       update = true;
     } catch (error) {
-      console.error('Error fetching community links:', error);
+      consoleLog(1, 'Error fetching community links:', error);
     }
   }
 
@@ -460,7 +471,7 @@ const updateContent = async function (moduleId, forceUpdate = false) {
     // Fetch news feed
     try {
       communityNews = await ajaxTask(moduleId, 'getNewsFeed', { url: communityLinks.links.news_feed }, 'FETCH_NEWS');
-      console.log('Fetched news feed:', communityNews);
+      consoleLog(2, 'Fetched news feed:', communityNews);
 
       // Get current news feed table
       const newsFeetTable = document.getElementById(`collapseNews${moduleId}`);
@@ -472,7 +483,7 @@ const updateContent = async function (moduleId, forceUpdate = false) {
         newsFeetTable.parentNode.replaceChild(tempDiv.firstChild, newsFeetTable);
       }
     } catch (error) {
-      console.error('Error fetching news feed:', error);
+      consoleLog(1, 'Error fetching news feed:', error);
     }
   }
 
@@ -482,7 +493,7 @@ const updateContent = async function (moduleId, forceUpdate = false) {
     // Fetch events feed
     try {
       communityEvents = await ajaxTask(moduleId, 'getEventsFeed', { url: communityLinks.links.events_feed }, 'FETCH_EVENTS');
-      console.log('Fetched events feed:', communityEvents);
+      consoleLog(2, 'Fetched events feed:', communityEvents);
 
       // Get current events feed table
       const eventsFeetTable = document.getElementById(`collapseEvents${moduleId}`);
@@ -494,7 +505,7 @@ const updateContent = async function (moduleId, forceUpdate = false) {
         eventsFeetTable.parentNode.replaceChild(tempDiv.firstChild, eventsFeetTable);
       }
     } catch (error) {
-      console.error('Error fetching events feed:', error);
+      consoleLog(1, 'Error fetching events feed:', error);
     }
   }
 };
@@ -556,12 +567,12 @@ const iniModules = async function () {
           // Location has changed
           locChanged = true;
           const response = await ajaxTask(moduleId, 'setLocation', { current_location: location }, 'SAVE_LOCATION');
-          console.log('Update location:', Joomla.Text._(response));
+          consoleLog(2, 'Update location:', Joomla.Text._(response));
         } else {
-          console.log('Location is up to date.');
+          consoleLog(2, 'Location is up to date.');
         }
       } catch (error) {
-        console.error('Error during autolocation:', error);
+        consoleLog(2, 'Error during autolocation:', error);
       }
     }
 
