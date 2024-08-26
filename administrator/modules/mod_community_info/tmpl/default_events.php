@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 
-if(!isset($module) && isset($displayData)) {
-  $module      = $displayData['module'];
-  $events_time = $displayData['events_time'];
-  $params      = $displayData['params'];
-  $events      = $displayData['events'];
+if (!isset($module) && isset($displayData)) {
+    $module      = $displayData['module'];
+    $events_time = $displayData['events_time'];
+    $params      = $displayData['params'];
+    $events      = $displayData['events'];
 }
 
 ?>
@@ -32,7 +32,7 @@ if(!isset($module) && isset($displayData)) {
   </thead>
   <tbody>
     <?php foreach ($events as $e => $event) : ?>
-      <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_events_item'); ?>
+        <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_events_item'); ?>
     <?php endforeach; ?>
   </tbody>
 </table>

@@ -82,11 +82,11 @@ class CommunityInfoHelper
      */
     public function __construct(array $config = [])
     {
-        if(\count($config) > 0) {
+        if (\count($config) > 0) {
             $this->moduleId = (int) $config[0];
         }
 
-        if(\count($config) > 1) {
+        if (\count($config) > 1) {
             $this->setParams($config[1]);
         }
     }
@@ -154,11 +154,11 @@ class CommunityInfoHelper
     {
         $items = [];
 
-        if($this->params->get('cache', 1)) {
+        if ($this->params->get('cache', 1)) {
             // Get timestamp of cached data
             $datetime = Factory::getApplication()->getUserState('mod_community_info.news_time', '');
 
-            if($this->checkCache($datetime)) {
+            if ($this->checkCache($datetime)) {
                 // Load news from session
                 $items = Factory::getApplication()->getUserState('mod_community_info.news', []);
             } else {
@@ -181,11 +181,11 @@ class CommunityInfoHelper
     {
         $upcomingEvents = [];
 
-        if($this->params->get('cache', 1)) {
+        if ($this->params->get('cache', 1)) {
             // Get timestamp of cached data
             $datetime = Factory::getApplication()->getUserState('mod_community_info.events_time', '');
 
-            if($this->checkCache($datetime)) {
+            if ($this->checkCache($datetime)) {
                 // Load news from session
                 $upcomingEvents = Factory::getApplication()->getUserState('mod_community_info.events', []);
             } else {
@@ -305,7 +305,7 @@ class CommunityInfoHelper
 
         // Load module language file
         $lang  = Factory::getApplication()->getLanguage();
-        $lang->load('mod_community_info', JPATH_ADMINISTRATOR.'/modules/mod_community_info');
+        $lang->load('mod_community_info', JPATH_ADMINISTRATOR . '/modules/mod_community_info');
 
         // Load the local default values
         $links = new Registry(self::DEFAULT_INFO);
@@ -383,7 +383,7 @@ class CommunityInfoHelper
 
         // Load module language file
         $lang  = Factory::getApplication()->getLanguage();
-        $lang->load('mod_community_info', JPATH_ADMINISTRATOR.'/modules/mod_community_info');
+        $lang->load('mod_community_info', JPATH_ADMINISTRATOR . '/modules/mod_community_info');
 
         // Load rss xml from endpoint
         $items = [];
@@ -809,7 +809,7 @@ class CommunityInfoHelper
      */
     protected function checkCache(string $datetime)
     {
-        if($this->params->get('cache', 1)) {
+        if ($this->params->get('cache', 1)) {
             // Create DateTime object
             $datetime = $datetime ? new \DateTime($datetime) : false;
 
@@ -818,7 +818,7 @@ class CommunityInfoHelper
             $cache_time = (int) $this->params->get('cache_time', 3);
             $now->modify('-' . $cache_time . ' hours');
 
-            if($datetime && $datetime > $now) {
+            if ($datetime && $datetime > $now) {
                 // The date is within the last x hours. Cached data is still valid
                 return true;
             }

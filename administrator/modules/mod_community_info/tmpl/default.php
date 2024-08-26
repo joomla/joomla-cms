@@ -57,7 +57,7 @@ CommunityInfoHelper::addText();
         </div>
       </div>
     <?php else : ?>
-      <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_news'); ?>
+        <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_news'); ?>
     <?php endif; ?>
   </div>
   <hr>
@@ -76,7 +76,7 @@ CommunityInfoHelper::addText();
         </div>
       </div>
     <?php else : ?>
-      <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_events'); ?>
+        <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_events'); ?>
     <?php endif; ?>
   </div>
   <hr>
