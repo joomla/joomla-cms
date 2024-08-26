@@ -342,11 +342,11 @@ class MailTemplate
                     $logo   = $params->get('disable_logofile', 1) ? $logo : '' ;
                 }
 
-                // Add the logo to the mail as inline attachement
+                // Add the logo to the mail as inline attachment
                 if ($logo) {
                     $logo = Path::check(JPATH_ROOT . '/' . HTMLHelper::_('cleanImageURL', $logo)->url);
                     if (is_file(urldecode($logo))) {
-                        # Attach the logo as inline attachement
+                        # Attach the logo as inline attachment
                         $this->mailer->addAttachment($logo, 'site-logo', 'base64', mime_content_type($logo), 'inline');
 
                         // We need only the cid for attached logo file
