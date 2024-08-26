@@ -157,10 +157,10 @@ class CommunityInfoHelper
         if($this->params->get('cache', 1)) {
             // Get timestamp of cached data
             $datetime = Factory::getApplication()->getUserState('mod_community_info.news_time', '');
-            
+
             if($this->checkCache($datetime)) {
                 // Load news from session
-                $items = Factory::getApplication()->getUserState('mod_community_info.news', []);                
+                $items = Factory::getApplication()->getUserState('mod_community_info.news', []);
             } else {
                 // Cached data is outdated
                 Factory::getApplication()->setUserState('mod_community_info.news', []);
@@ -184,10 +184,10 @@ class CommunityInfoHelper
         if($this->params->get('cache', 1)) {
             // Get timestamp of cached data
             $datetime = Factory::getApplication()->getUserState('mod_community_info.events_time', '');
-            
+
             if($this->checkCache($datetime)) {
                 // Load news from session
-                $upcomingEvents = Factory::getApplication()->getUserState('mod_community_info.events', []);                
+                $upcomingEvents = Factory::getApplication()->getUserState('mod_community_info.events', []);
             } else {
                 // Cached data is outdated
                 Factory::getApplication()->setUserState('mod_community_info.events', []);
@@ -809,12 +809,12 @@ class CommunityInfoHelper
      */
     protected function checkCache(string $datetime)
     {
-        if($this->params->get('cache', 1)) {            
+        if($this->params->get('cache', 1)) {
             // Create DateTime object
             $datetime = $datetime ? new \DateTime($datetime) : false;
 
             // Create DateTime object from x hours ago
-            $now = new \DateTime();
+            $now        = new \DateTime();
             $cache_time = (int) $this->params->get('cache_time', 3);
             $now->modify('-' . $cache_time . ' hours');
 

@@ -88,7 +88,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         // Fetch evets feed
         if ($data['links']->exists('events_feed')) {
-            $data['events']    = $helper->getEventsFeed();
+            $data['events']      = $helper->getEventsFeed();
             $data['events_time'] = Factory::getApplication()->getUserState('mod_community_info.events_time', '');
         }
 
