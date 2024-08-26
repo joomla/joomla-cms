@@ -459,11 +459,11 @@ const updateContent = async function (moduleId, forceUpdate = false) {
   if (update || !checkCache(newsTime, moduleId)) {
     // Fetch news feed
     try {
-      communityNews = await ajaxTask(moduleId, 'getNewsFeed', { 'url': communityLinks.links.news_feed }, 'FETCH_NEWS');
+      communityNews = await ajaxTask(moduleId, 'getNewsFeed', { url: communityLinks.links.news_feed }, 'FETCH_NEWS');
       console.log('Fetched news feed:', communityNews);
 
       // Get current news feed table
-      let newsFeetTable = document.getElementById(`collapseNews${moduleId}`);
+      const newsFeetTable = document.getElementById(`collapseNews${moduleId}`);
 
       if (communityNews && newsFeetTable !== null) {
         // Exchange news feed table
