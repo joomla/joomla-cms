@@ -249,7 +249,7 @@ class CommunityInfoHelper
         }
 
         if (!$moduleId = $input->get('module_id', false, 'int')) {
-              return 'You must provide a "module_id" variable with the request!';
+            return 'You must provide a "module_id" variable with the request!';
         }
 
         if (!$current_location = $input->get('current_location', false, 'string')) {
@@ -297,7 +297,7 @@ class CommunityInfoHelper
         }
 
         if (!$moduleId = $input->get('module_id', false, 'int')) {
-          return 'You must provide a "module_id" variable with the request!';
+            return 'You must provide a "module_id" variable with the request!';
         }
 
         $this->moduleId = $moduleId;
