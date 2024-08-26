@@ -19,7 +19,7 @@ namespace Joomla\Component\Content\Administrator\Model;
  *
  * @since  1.6
  *
- * @deprecated  6.0 will be removed in 7.0
+ * @deprecated  6.0 will be removed in 8.0
  *              Use \Joomla\Component\Conent\Administrator\Model\ArticlesModel&amp;featured=1 instead
  */
 class FeaturedModel extends ArticlesModel

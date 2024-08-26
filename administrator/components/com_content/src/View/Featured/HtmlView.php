@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
  *
  * @since  1.6
  *
- * @deprecated  6.0 will be removed in 7.0 is integrated in Articles view
+ * @deprecated  6.0 will be removed in 8.0 is integrated in Articles view
  */
 class HtmlView extends BaseHtmlView
 {
