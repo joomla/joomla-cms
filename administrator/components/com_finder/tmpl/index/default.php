@@ -43,7 +43,7 @@ if ($this->finderPluginId) {
         Text::_('COM_FINDER_CONTENT_PLUGIN'),
         [
             'class'                 => 'alert-link',
-            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)),
+            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
             'data-checkin-url'      => Route::_('index.php?option=com_plugins&task=plugins.checkin&format=json&cid[]=' . $this->finderPluginId),
             'data-close-on-message' => '',
             'data-reload-on-close'  => '',
