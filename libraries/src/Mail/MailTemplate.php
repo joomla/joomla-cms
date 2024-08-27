@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Mail\BeforeRenderingMailTemplateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -290,7 +291,10 @@ class MailTemplate
             $useLayout   = $params->get('disable_htmllayout', $useLayout);
         }
 
-        $app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
+        $app->getDispatcher()->dispatch('onMailBeforeRendering', new BeforeRenderingMailTemplateEvent(
+            'onMailBeforeRendering',
+            ['templateId' => $this->template_id, 'subject' => $this]
+        ));
 
         $subject = $this->replaceTags(Text::_($mail->subject), $this->data);
         $this->mailer->setSubject($subject);
