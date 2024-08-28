@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\User;
 /**
  * Class for User reset event.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 abstract class AbstractResetEvent extends UserEvent
 {
@@ -25,8 +25,8 @@ abstract class AbstractResetEvent extends UserEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @since  5.2.0
+     * @deprecated 5.2.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject'];
 
@@ -37,7 +37,7 @@ abstract class AbstractResetEvent extends UserEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function onSetSubject(object $value): object
     {
@@ -49,7 +49,7 @@ abstract class AbstractResetEvent extends UserEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public function getUser(): object
     {
