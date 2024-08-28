@@ -201,6 +201,8 @@ trait CoreEventAware
         'onPageCacheSetCaching' => PageCache\SetCachingEvent::class,
         'onPageCacheGetKey'     => PageCache\GetKeyEvent::class,
         'onPageCacheIsExcluded' => PageCache\IsExcludedEvent::class,
+        // Mail
+        'onMailBeforeRendering' => Mail\BeforeRenderingMailTemplateEvent::class,
     ];
 
     /**

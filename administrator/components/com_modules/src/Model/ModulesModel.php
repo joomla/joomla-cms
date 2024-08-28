@@ -313,7 +313,7 @@ class ModulesModel extends ListModel
         }
 
         // Filter by published state.
-        $state = $this->getState('filter.state');
+        $state = $this->getState('filter.state', '');
 
         if (is_numeric($state)) {
             $state = (int) $state;
