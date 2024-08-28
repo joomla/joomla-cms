@@ -9,10 +9,7 @@
 
 namespace Joomla\CMS\Component\Router\Rules;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
@@ -78,7 +75,7 @@ class PreprocessRules implements RulesInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct(RouterViewConfiguration $view, $table, $key = null, $parent_key = null)
+    public function __construct(RouterViewConfiguration $view, $table, $key, $parent_key = null)
     {
         $this->view       = $view;
         $this->table      = $table;
