@@ -427,7 +427,7 @@ class Result implements \Serializable
      *
      * @since   4.0.0
      */
-    public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '')
+    public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '*')
     {
         // We can't add taxonomies with empty titles
         if (!trim($contentNode->title)) {
