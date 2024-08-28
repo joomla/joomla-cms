@@ -157,4 +157,80 @@ class ArticlesController extends AdminController
 
         echo new JsonResponse($result);
     }
+
+    /**
+     * Method to get the number of published featured articles for quickicons
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getQuickiconFeatured()
+    {
+        $model = $this->getModel('articles');
+
+        $model->setState('filter.published', 1);
+        $model->setState('filter.featured', 1);
+
+        $amount = (int) $model->getTotal();
+
+        $result = [];
+
+        $result['amount'] = $amount;
+        $result['sronly'] = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON_SRONLY', $amount);
+        $result['name']   = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON', $amount);
+
+        echo new JsonResponse($result);
+    }
+
+    /**
+     * Removes an item.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function delete()
+    {
+        // Check for request forgeries
+        $this->checkToken();
+
+        $articlesModel = $this->getModel('articles');
+        $featured      = $articlesModel->isFeatured();
+
+        // Delete unfeatured items.
+        if ($featured === '0') {
+            parent::delete();
+            return;
+        }
+
+        // Delete featured items.
+        $user = $this->app->getIdentity();
+        $ids  = (array) $this->input->get('cid', [], 'array');
+
+        // Access checks.
+        foreach ($ids as $i => $id) {
+            if (!$user->authorise('core.delete', 'com_content.article.' . (int) $id)) {
+                // Prune items that you can't delete.
+                unset($ids[$i]);
+                $this->app->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
+            }
+        }
+
+        if (empty($ids)) {
+            $this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+            return;
+        }
+
+        /** @var \Joomla\Component\Content\Administrator\Model\FeatureModel $model */
+        $featureModel = $this->getModel('Feature');
+
+        // Remove the items.
+        if (!$featureModel->featured($ids, 0)) {
+            $this->app->enqueueMessage($featureModel->getError(), 'error');
+        }
+
+        $this->setMessage(Text::plural('COM_CONTENT_N_ITEMS_DELETED', \count($ids)));
+        $this->setRedirect('index.php?option=com_content&view=articles&featured=1');
+    }
 }
