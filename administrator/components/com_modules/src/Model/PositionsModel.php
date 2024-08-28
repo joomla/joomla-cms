@@ -110,7 +110,7 @@ class PositionsModel extends ListModel
                     ->bind(':clientid', $clientId, ParameterType::INTEGER);
 
                 if ($search) {
-                    $search = '%' . str_replace(' ', '%', trim($search), true) . '%';
+                    $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                     $query->where($db->quoteName('position') . ' LIKE :position')
                         ->bind(':position', $search);
                 }

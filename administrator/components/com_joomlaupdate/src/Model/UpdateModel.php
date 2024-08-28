@@ -12,6 +12,8 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Extension\AfterJoomlaUpdateEvent;
+use Joomla\CMS\Event\Extension\BeforeJoomlaUpdateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -580,7 +582,7 @@ class UpdateModel extends BaseDatabaseModel
         $app      = Factory::getApplication();
 
         // Trigger event before joomla update.
-        $app->triggerEvent('onJoomlaBeforeUpdate');
+        $app->getDispatcher()->dispatch('onJoomlaBeforeUpdate', new BeforeJoomlaUpdateEvent('onJoomlaBeforeUpdate'));
 
         // Get the absolute path to site's root.
         $siteroot = JPATH_SITE;
@@ -890,7 +892,8 @@ ENDDATA;
         $app = Factory::getApplication();
 
         // Trigger event after joomla update.
-        $app->triggerEvent('onJoomlaAfterUpdate');
+        // @TODO: The event dispatched twice, here and at the end of current method. One of it should be removed.
+        $app->getDispatcher()->dispatch('onJoomlaAfterUpdate', new AfterJoomlaUpdateEvent('onJoomlaAfterUpdate'));
 
         // Remove the update package.
         $tempdir = $app->get('tmp_path');
@@ -920,7 +923,9 @@ ENDDATA;
         $oldVersion = $app->getUserState('com_joomlaupdate.oldversion');
 
         // Trigger event after joomla update.
-        $app->triggerEvent('onJoomlaAfterUpdate', [$oldVersion]);
+        $app->getDispatcher()->dispatch('onJoomlaAfterUpdate', new AfterJoomlaUpdateEvent('onJoomlaAfterUpdate', [
+            'oldVersion' => $oldVersion ?: '',
+        ]));
         $app->setUserState('com_joomlaupdate.oldversion', null);
 
         try {
