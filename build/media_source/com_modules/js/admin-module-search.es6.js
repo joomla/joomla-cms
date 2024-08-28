@@ -39,7 +39,6 @@ const elSearchContainer = document.getElementById('comModulesSelectSearchContain
 const elSearchHeader = document.getElementById('comModulesSelectTypeHeader');
 const elSearchResults = document.getElementById('comModulesSelectResultsContainer');
 const alertElement = document.querySelector('.modules-alert');
-const elCards = [].slice.call(document.querySelectorAll('.comModulesSelectCard'));
 
 if (elSearch && elSearchContainer) {
   // Add the keyboard event listener which performs the live search in the cards
@@ -54,7 +53,7 @@ if (elSearch && elSearchContainer) {
     }
 
     // Iterate all the module cards
-    elCards.forEach((card) => {
+    document.querySelectorAll('.comModulesSelectCard').forEach((card) => {
       // First remove the class which hide the module cards
       card.classList.remove('d-none');
 

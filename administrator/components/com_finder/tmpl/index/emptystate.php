@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Finder\Administrator\View\Index\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_FINDER',
     'formURL'    => 'index.php?option=com_finder&view=index',
@@ -31,7 +33,7 @@ echo LayoutHelper::render('joomla.content.emptystate', $displayData);
 // Show warning that the content - finder plugin is disabled
 if ($this->finderPluginId) {
     /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-    $wa = $this->document->getWebAssetManager();
+    $wa = $this->getDocument()->getWebAssetManager();
     $wa->useScript('joomla.dialog-autocreate');
 
     $popupOptions = [
@@ -45,7 +47,7 @@ if ($this->finderPluginId) {
         Text::_('COM_FINDER_CONTENT_PLUGIN'),
         [
             'class'                 => 'alert-link',
-            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)),
+            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
             'data-checkin-url'      => Route::_('index.php?option=com_plugins&task=plugins.checkin&format=json&cid[]=' . $this->finderPluginId),
             'data-close-on-message' => '',
             'data-reload-on-close'  => '',

@@ -16,9 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -35,7 +33,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The list of newsfeeds
      *
-     * @var    CMSObject
+     * @var    array
      *
      * @since  1.6
      */
@@ -148,7 +146,7 @@ class HtmlView extends BaseHtmlView
         $state   = $this->get('State');
         $canDo   = ContentHelper::getActions('com_newsfeeds', 'category', $state->get('filter.category_id'));
         $user    = $this->getCurrentUser();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'rss newsfeeds');
 
@@ -195,7 +193,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && $state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('newsfeeds.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

@@ -26,6 +26,7 @@ use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\CMS\Console\Loader\WritableLoaderInterface;
+use Joomla\CMS\Console\MaintenanceDatabaseCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -165,6 +166,7 @@ class Application implements ServiceProviderInterface
                         TasksListCommand::getDefaultName()                => TasksListCommand::class,
                         TasksRunCommand::getDefaultName()                 => TasksRunCommand::class,
                         TasksStateCommand::getDefaultName()               => TasksStateCommand::class,
+                        MaintenanceDatabaseCommand::getDefaultName()      => MaintenanceDatabaseCommand::class,
                     ];
 
                     return new WritableContainerLoader($container, $mapping);

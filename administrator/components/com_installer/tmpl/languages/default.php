@@ -16,8 +16,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Languages\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
     ->useScript('webcomponent.core-loader');
@@ -91,7 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
                                         <?php // Display a Note if language pack version is not equal to Joomla version ?>
                                         <?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
-                                            <span class="badge bg-warning text-dark"><?php echo $language->version; ?></span>
+                                            <span class="badge bg-warning"><?php echo $language->version; ?></span>
                                             <span class="icon-info-circle" aria-hidden="true" tabindex="0"></span>
                                             <div role="tooltip" class="text-start" id="tip<?php echo $language->code; ?>">
                                             <?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>

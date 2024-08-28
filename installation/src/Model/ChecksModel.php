@@ -35,7 +35,7 @@ class ChecksModel extends BaseInstallationModel
      */
     public function getIniParserAvailability()
     {
-        $disabled_functions = ini_get('disable_functions');
+        $disabled_functions = \ini_get('disable_functions');
 
         if (!empty($disabled_functions)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
@@ -95,7 +95,7 @@ class ChecksModel extends BaseInstallationModel
             // Check for default MB language.
             $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
-            $option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
+            $option->state  = (strtolower(\ini_get('mbstring.language')) == 'neutral');
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_MBLANG_NOTDEFAULT');
             $options[]      = $option;
         }
@@ -161,28 +161,28 @@ class ChecksModel extends BaseInstallationModel
         // Check for display errors.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_DISPLAY_ERRORS');
-        $setting->state       = (bool) ini_get('display_errors');
+        $setting->state       = (bool) \ini_get('display_errors');
         $setting->recommended = false;
         $settings[]           = $setting;
 
         // Check for file uploads.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_FILE_UPLOADS');
-        $setting->state       = (bool) ini_get('file_uploads');
+        $setting->state       = (bool) \ini_get('file_uploads');
         $setting->recommended = true;
         $settings[]           = $setting;
 
         // Check for output buffering.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_OUTPUT_BUFFERING');
-        $setting->state       = (int) ini_get('output_buffering') !== 0;
+        $setting->state       = (int) \ini_get('output_buffering') !== 0;
         $setting->recommended = false;
         $settings[]           = $setting;
 
         // Check for session auto-start.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_SESSION_AUTO_START');
-        $setting->state       = (bool) ini_get('session.auto_start');
+        $setting->state       = (bool) \ini_get('session.auto_start');
         $setting->recommended = false;
         $settings[]           = $setting;
 
@@ -215,20 +215,6 @@ class ChecksModel extends BaseInstallationModel
         $settings[]           = $setting;
 
         return $settings;
-    }
-
-    /**
-     * Get the current setup options from the session.
-     *
-     * @return  array  An array of options from the session.
-     *
-     * @since   3.1
-     */
-    public function getOptions()
-    {
-        if (!empty(Factory::getSession()->get('setup.options', []))) {
-            return Factory::getSession()->get('setup.options', []);
-        }
     }
 
     /**

@@ -19,6 +19,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -282,7 +283,7 @@ class LibraryAdapter extends InstallerAdapter
 
         // @todo: Change this so it walked up the path backwards so we clobber multiple empties
         // If the folder is empty, let's delete it
-        if (Folder::exists($this->parent->getPath('extension_root'))) {
+        if (is_dir(Path::clean($this->parent->getPath('extension_root')))) {
             if (is_dir($this->parent->getPath('extension_root'))) {
                 $files = Folder::files($this->parent->getPath('extension_root'));
 
@@ -461,16 +462,16 @@ class LibraryAdapter extends InstallerAdapter
             $element       = str_replace([$mainFolder . DIRECTORY_SEPARATOR, '.xml'], '', $file);
             $manifestCache = Installer::parseXMLInstallFile($file);
 
-            $extension = Table::getInstance('extension');
-            $extension->set('type', 'library');
-            $extension->set('client_id', 0);
-            $extension->set('element', $element);
-            $extension->set('folder', '');
-            $extension->set('name', $element);
-            $extension->set('state', -1);
-            $extension->set('manifest_cache', json_encode($manifestCache));
-            $extension->set('params', '{}');
-            $results[] = $extension;
+            $extension                 = Table::getInstance('extension');
+            $extension->type           = 'library';
+            $extension->client_id      = 0;
+            $extension->element        = $element;
+            $extension->folder         = '';
+            $extension->name           = $element;
+            $extension->state          = -1;
+            $extension->manifest_cache = json_encode($manifestCache);
+            $extension->params         = '{}';
+            $results[]                 = $extension;
         }
 
         return $results;

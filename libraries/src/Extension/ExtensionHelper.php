@@ -280,6 +280,7 @@ class ExtensionHelper
         ['plugin', 'article', 'schemaorg', 0],
         ['plugin', 'blogposting', 'schemaorg', 0],
         ['plugin', 'book', 'schemaorg', 0],
+        ['plugin', 'custom', 'schemaorg', 0],
         ['plugin', 'event', 'schemaorg', 0],
         ['plugin', 'jobposting', 'schemaorg', 0],
         ['plugin', 'organization', 'schemaorg', 0],

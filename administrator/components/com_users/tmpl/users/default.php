@@ -22,7 +22,7 @@ use Joomla\CMS\String\PunycodeHelper;
 
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -131,7 +131,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     </div>
                                     <?php echo HTMLHelper::_('users.notesModal', $item->note_count, $item->id); ?>
                                     <?php if ($item->requireReset == '1') : ?>
-                                        <span class="badge bg-warning text-dark"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+                                        <span class="badge bg-warning"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
                                     <?php endif; ?>
                                 </th>
                                 <td class="break-word d-none d-md-table-cell">

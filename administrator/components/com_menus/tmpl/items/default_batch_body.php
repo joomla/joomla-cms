@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
+
 $options = [
     HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
     HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
@@ -26,7 +28,7 @@ $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype',
 
 if ($clientId == 1) {
     /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-    $wa = $this->document->getWebAssetManager();
+    $wa = $this->getDocument()->getWebAssetManager();
     $wa->useScript('com_menus.batch-body');
     $wa->useScript('joomla.batch-copymove');
 }

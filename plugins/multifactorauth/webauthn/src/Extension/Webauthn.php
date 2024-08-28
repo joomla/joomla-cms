@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Extension;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
@@ -29,7 +28,6 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use Joomla\Plugin\Multifactorauth\Webauthn\Helper\Credentials;
-use RuntimeException;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
 // phpcs:disable PSR1.Files.SideEffects

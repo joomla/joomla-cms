@@ -16,13 +16,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Guidedtours\Administrator\View\Tour\HtmlView $this */
+
 $app   = Factory::getApplication();
 $user  = $app->getIdentity();
 $input = $app->getInput();
 $lang  = $this->getLanguage()->getTag();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 ?>
@@ -71,6 +73,7 @@ $wa->useScript('keepalive')
                         'access',
                         'language',
                         'extensions',
+                        'autostart',
                         'note',
                     ];
 

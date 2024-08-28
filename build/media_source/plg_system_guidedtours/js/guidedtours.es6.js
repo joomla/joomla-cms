@@ -46,14 +46,13 @@ function getTourInstance() {
 function addProgressIndicator(stepElement, index, total) {
   const header = stepElement.querySelector('.shepherd-header');
   const progress = document.createElement('div');
-  progress.classList.add('shepherd-progress');
+  progress.classList.add('shepherd-progress', 'badge', 'bg-secondary', 'px-2');
   progress.setAttribute('role', 'status');
-  progress.setAttribute('aria-label', Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total));
   const progressText = document.createElement('span');
-  progressText.setAttribute('aria-hidden', true);
-  progressText.innerText = `${index}/${total}`;
+  progressText.classList.add('m-0');
+  progressText.innerText = Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total);
   progress.appendChild(progressText);
-  header.insertBefore(progress, stepElement.querySelector('.shepherd-cancel-icon'));
+  header.insertBefore(progress, header.querySelector('.shepherd-title'));
 }
 
 function setFocus(primaryButton, secondaryButton, cancelButton) {
@@ -577,27 +576,33 @@ function loadTour(tourId) {
 }
 
 // Opt-in Start buttons
-document.querySelector('body').addEventListener('click', (event) => {
+document.querySelector('body').addEventListener('click', ({ target }) => {
   // Click somewhere else
-  if (!event.target || !event.target.classList.contains('button-start-guidedtour')) {
+  if (!target || !target.classList.contains('button-start-guidedtour')) {
     return;
   }
 
   // Click button but missing data-id
   if (
-    (!event.target.hasAttribute('data-id') || event.target.getAttribute('data-id') <= 0)
-  && (!event.target.hasAttribute('data-gt-uid') || event.target.getAttribute('data-gt-uid') === '')
+    (!target.hasAttribute('data-id') || target.getAttribute('data-id') <= 0)
+  && (!target.hasAttribute('data-gt-uid') || target.getAttribute('data-gt-uid') === '')
   ) {
     Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')] });
     return;
   }
 
   sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
-  loadTour(event.target.getAttribute('data-id') || event.target.getAttribute('data-gt-uid'));
+  loadTour(target.getAttribute('data-id') || target.getAttribute('data-gt-uid'));
 });
 
 // Start a given tour
-const tourId = sessionStorage.getItem('tourId');
+let tourId = sessionStorage.getItem('tourId');
+
+// Autostart tours have priority
+if (Joomla.getOptions('com_guidedtours.autotour', '') !== '') {
+  sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
+  tourId = Joomla.getOptions('com_guidedtours.autotour');
+}
 
 if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
   loadTour(tourId);
