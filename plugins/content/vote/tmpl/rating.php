@@ -14,7 +14,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+
+/**
+ * @var Joomla\CMS\WebAsset\WebAssetManager $wa
+ * @var \Joomla\Plugin\Content\Vote\Extension\Vote $this
+ */
 $wa = $this->getApplication()->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
 

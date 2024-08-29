@@ -36,7 +36,7 @@ class MapTable extends Nested
      *
      * @since   2.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__finder_taxonomy', 'id', $db, $dispatcher);
 
