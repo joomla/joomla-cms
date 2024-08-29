@@ -159,7 +159,7 @@ class Router extends RouterView
      */
     public function getContactSegment($id, $query)
     {
-        if ($this->noIDs) {
+        if ($this->noIDs && strpos($id, ':')) {
             list($void, $segment) = explode(':', $id, 2);
 
             return [$void => $segment];
