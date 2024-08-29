@@ -195,6 +195,9 @@ final class SiteApplication extends CMSApplication
                 break;
         }
 
+        // Clear out article.ids
+        $this->setUserState('article.ids', '');
+
         $document->setTitle($params->get('page_title'));
         $document->setDescription($params->get('page_description'));
 
