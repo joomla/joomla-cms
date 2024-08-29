@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $extensionName;
 
@@ -79,7 +79,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $typeName;
 
@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $typeSupports;
 
@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $typeFields;
 

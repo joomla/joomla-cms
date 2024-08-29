@@ -371,8 +371,10 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $this->contacts    = &$contacts;
         $this->contactUser = $contactUser;
 
-        $model = $this->getModel();
-        $model->hit();
+        if (\in_array($app->getInput()->getMethod(), ['GET', 'POST'])) {
+            $model = $this->getModel();
+            $model->hit();
+        }
 
         $captchaSet = $item->params->get('captcha', $app->get('captcha', '0'));
 

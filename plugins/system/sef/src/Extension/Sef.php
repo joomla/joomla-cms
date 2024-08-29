@@ -289,7 +289,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function enforceSuffix()
     {
@@ -419,7 +419,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     protected function enforceSEF()
     {
