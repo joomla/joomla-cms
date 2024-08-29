@@ -54,7 +54,7 @@
     "joomla/database": "^2.1.1",
     "joomla/di": "^2.0.1",
     "joomla/event": "^2.0.2",
-    "joomla/filter": "^2.0.4",
+    "joomla/filter": "^2.0.5",
     "joomla/filesystem": "^2.0.2",
     "joomla/http": "^2.0.4",
     "joomla/input": "^2.0.4",
