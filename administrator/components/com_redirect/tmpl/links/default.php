@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
-/** @var \Joomla\Component\Redirect\Administrator\View\Link\HtmlView $this */
+/** @var \Joomla\Component\Redirect\Administrator\View\Links\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
@@ -51,7 +51,7 @@ if ($pluginEnabled && $collectUrlsEnabled) {
         Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
         [
             'class'                 => 'alert-link',
-            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)),
+            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
             'data-checkin-url'      => Route::_('index.php?option=com_plugins&task=plugins.checkin&format=json&cid[]=' . $redirectPluginId),
             'data-close-on-message' => '',
             'data-reload-on-close'  => '',
