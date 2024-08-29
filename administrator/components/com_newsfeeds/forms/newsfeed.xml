@@ -79,7 +79,7 @@
 			label="JGLOBAL_DESCRIPTION"
 			buttons="true"
 			hide="pagebreak,readmore"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 
 		<field
@@ -231,7 +231,7 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
-			maxlength="160"
+			maxlength="300"
 			charcounter="true"
 		/>
 
@@ -242,6 +242,9 @@
 				<field
 					name="image_first"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="COM_NEWSFEEDS_FIELD_FIRST_LABEL"
 				/>
 
@@ -285,6 +288,9 @@
 				<field
 					name="image_second"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="COM_NEWSFEEDS_FIELD_SECOND_LABEL"
 				/>
 

@@ -28,35 +28,50 @@ if (!defaultDisk) {
   throw new TypeError('No default media drive was found');
 }
 
-let currentPath;
 const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
 
-// Gracefully use the given path, the session storage state or fall back to sensible default
-if (options.currentPath) {
-  let useDrive = false;
-  Object.values(loadedDisks).forEach((drive) => drive.drives.forEach((curDrive) => {
-    if (options.currentPath.indexOf(curDrive.root) === 0) {
-      useDrive = true;
-    }
-  }));
-
-  if (useDrive) {
-    if ((storedState && storedState.selectedDirectory && storedState.selectedDirectory !== options.currentPath)) {
-      storedState.selectedDirectory = options.currentPath;
-      persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
-      currentPath = options.currentPath;
-    } else {
-      currentPath = options.currentPath;
-    }
-  } else {
-    currentPath = defaultDisk.drives[0].root;
-  }
-} else if (storedState && storedState.selectedDirectory) {
-  currentPath = storedState.selectedDirectory;
+function setSession(path) {
+  persistedStateOptions.storage.setItem(
+    persistedStateOptions.key,
+    JSON.stringify({ ...storedState, ...{ selectedDirectory: path } }),
+  );
 }
 
-if (!currentPath) {
-  currentPath = defaultDisk.drives[0].root;
+// Gracefully use the given path, the session storage state or fall back to sensible default
+function getCurrentPath() {
+  let path = options.currentPath;
+
+  // Set the path from the session when available
+  if (!path && storedState && storedState.selectedDirectory) {
+    path = storedState.selectedDirectory;
+  }
+
+  // No path available, use the root of the first drive
+  if (!path) {
+    setSession(defaultDisk.drives[0].root);
+    return defaultDisk.drives[0].root;
+  }
+
+  // Get the fragments
+  const fragment = path.split(':/');
+
+  // Check that we have a drive
+  if (!fragment.length) {
+    setSession(defaultDisk.drives[0].root);
+    return defaultDisk.drives[0].root;
+  }
+
+  const drivesTmp = Object.values(loadedDisks).map((drive) => drive.drives);
+
+  // Drive doesn't exist
+  if (!drivesTmp.flat().find((drive) => drive.root.startsWith(fragment[0]))) {
+    setSession(defaultDisk.drives[0].root);
+    return defaultDisk.drives[0].root;
+  }
+
+  // Session mismatch
+  setSession(path);
+  return path;
 }
 
 // The initial state
@@ -77,7 +92,7 @@ export default {
   files: [],
   // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
   // in the list as the default provider and load first drive on it as default
-  selectedDirectory: currentPath,
+  selectedDirectory: getCurrentPath(),
   // The currently selected items
   selectedItems: [],
   // The state of the infobar

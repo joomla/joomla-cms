@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = \Joomla\CMS\Factory\Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa = \Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('core');
 
 $title = $displayData['title'];

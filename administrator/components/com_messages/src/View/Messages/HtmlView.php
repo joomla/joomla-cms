@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Messages\Administrator\View\Messages;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -46,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -117,7 +116,7 @@ class HtmlView extends BaseHtmlView
     {
         $state = $this->get('State');
         $canDo = ContentHelper::getActions('com_messages');
-        $user  = Factory::getApplication()->getIdentity();
+        $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
         $toolbar = Toolbar::getInstance('toolbar');
@@ -152,8 +151,9 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $toolbar->appendButton('Link', 'cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config');
-        ToolbarHelper::divider();
+        $toolbar->linkButton('cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS')
+            ->url('index.php?option=com_messages&amp;view=config');
+        $toolbar->divider();
 
         if (!$this->isEmptyState && $this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
             $toolbar->delete('messages.delete')

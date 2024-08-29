@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
@@ -15,7 +15,7 @@ use Joomla\Event\Event;
 use Psr\Log\LoggerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -83,7 +83,11 @@ trait EventAware
      *
      * @since       4.0.0
      * @throws      \InvalidArgumentException
-     * @deprecated  5.0
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the Dispatcher method instead
+     *              Example: Factory::getApplication()->getDispatcher()->dispatch($eventName, $event);
+     *
      */
     public function triggerEvent($eventName, $args = [])
     {

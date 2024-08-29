@@ -10,20 +10,17 @@
 
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Extension;
 
-use Exception;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
@@ -31,7 +28,6 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use Joomla\Plugin\Multifactorauth\Webauthn\Helper\Credentials;
-use RuntimeException;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -45,6 +41,8 @@ use Webauthn\PublicKeyCredentialRequestOptions;
  */
 class Webauthn extends CMSPlugin implements SubscriberInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Auto-load the plugin's language files
      *
@@ -95,7 +93,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
                     'name'               => $this->mfaMethodName,
                     'display'            => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_DISPLAYEDAS'),
                     'shortinfo'          => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_SHORTINFO'),
-                    'image'              => 'media/plg_multifactorauth_webauthn/images/webauthn.svg',
+                    'image'              => 'media/plg_multifactorauth_webauthn/images/passkeys.svg',
                     'allowMultiple'      => true,
                     'allowEntryBatching' => true,
                 ]
@@ -111,7 +109,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
      * @param   GetSetup  $event  The event we are handling
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function onUserMultifactorGetSetup(GetSetup $event): void
@@ -139,7 +137,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
          * If there are no authenticators set up yet I need to show a different message and take a different action when
          * my user clicks the submit button.
          */
-        if (!is_array($record->options) || empty($record->options['credentialId'] ?? '')) {
+        if (!\is_array($record->options) || empty($record->options['credentialId'] ?? '')) {
             $document = $this->getApplication()->getDocument();
             $wam      = $document->getWebAssetManager();
             $wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
@@ -156,8 +154,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             $document->addScriptOptions('com_users.pagetype', 'setup', false);
 
             // Save the WebAuthn request to the session
-            $user                    = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user                    = $this->getApplication()->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
             $hiddenData['pkRequest'] = base64_encode(Credentials::requestAttestation($user));
 
             // Special button handling
@@ -216,7 +213,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         }
 
         // Editing an existing authenticator: only the title is saved
-        if (is_array($record->options) && !empty($record->options['credentialId'] ?? '')) {
+        if (\is_array($record->options) && !empty($record->options['credentialId'] ?? '')) {
             $event->addResult($record->options);
 
             return;
@@ -228,7 +225,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
         // If there was no registration request BUT there is a registration response throw an error
         if (empty($registrationRequest) && !empty($code)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         // If there is no registration request (and there isn't a registration response) we are just saving the title.
@@ -241,8 +238,8 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         // In any other case try to authorize the registration
         try {
             $publicKeyCredentialSource = Credentials::verifyAttestation($code);
-        } catch (Exception $err) {
-            throw new RuntimeException($err->getMessage(), 403);
+        } catch (\Exception $err) {
+            throw new \RuntimeException($err->getMessage(), 403);
         } finally {
             // Unset the request data from the session.
             $session->set('plg_multifactorauth_webauthn.publicKeyCredentialCreationOptions', null);
@@ -266,7 +263,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
      * @param   Captive  $event  The event we are handling
      *
      * @return  void
-     * @throws Exception
+     * @throws \Exception
      * @since   4.2.0
      */
     public function onUserMultifactorCaptive(Captive $event): void
@@ -318,22 +315,22 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
         try {
             if ($force) {
-                throw new RuntimeException('Expected exception (good): force a new key request');
+                throw new \RuntimeException('Expected exception (good): force a new key request');
             }
 
             if (empty($pkOptionsEncoded)) {
-                throw new RuntimeException('Expected exception (good): we do not have a pending key request');
+                throw new \RuntimeException('Expected exception (good): we do not have a pending key request');
             }
 
             $serializedOptions = base64_decode($pkOptionsEncoded);
             $pkOptions         = unserialize($serializedOptions);
 
-            if (!is_object($pkOptions) || empty($pkOptions) || !($pkOptions instanceof PublicKeyCredentialRequestOptions)) {
-                throw new RuntimeException('The pending key request is corrupt; a new one will be created');
+            if (!\is_object($pkOptions) || empty($pkOptions) || !($pkOptions instanceof PublicKeyCredentialRequestOptions)) {
+                throw new \RuntimeException('The pending key request is corrupt; a new one will be created');
             }
 
             $pkRequest = json_encode($pkOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $pkRequest = Credentials::requestAssertion($record->user_id);
         }
 
@@ -342,14 +339,12 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         $wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
         try {
-            /** @var CMSApplication $app */
-            $app = Factory::getApplication();
-            $app->getDocument()->addScriptOptions('com_users.authData', base64_encode($pkRequest), false);
+            $document->addScriptOptions('com_users.authData', base64_encode($pkRequest), false);
             $layoutPath = PluginHelper::getLayoutPath('multifactorauth', 'webauthn');
             ob_start();
             include $layoutPath;
             $html = ob_get_clean();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
 
@@ -424,10 +419,10 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
         try {
             Credentials::verifyAssertion($code);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             try {
                 $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
 
             $event->addResult(false);

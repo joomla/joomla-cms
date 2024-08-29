@@ -258,7 +258,7 @@ Joomla = window.Joomla || {};
       }
 
       self.getFilterFields().forEach((i) => {
-        if (exceptElement && i === exceptElement) {
+        if ((exceptElement && i === exceptElement) || !i.closest(this.options.filterContainerSelector)) {
           return;
         }
 
@@ -303,6 +303,9 @@ Joomla = window.Joomla || {};
       let activeFilterCount = 0;
 
       this.getFilterFields().forEach((item) => {
+        if (!item.closest(this.options.filterContainerSelector)) {
+          return;
+        }
         if (item.classList.contains('active')) {
           activeFilterCount += 1;
           if (cont.filterButton) {

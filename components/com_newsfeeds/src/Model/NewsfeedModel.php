@@ -186,7 +186,7 @@ class NewsfeedModel extends ItemModel
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
                     $user   = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
-                    $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+                    $data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
                 }
 
                 $this->_item[$pk] = $data;

@@ -240,7 +240,7 @@ class LanguageModel extends AdminModel
         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
 
         // Check the event responses.
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
 
             return false;
@@ -268,7 +268,8 @@ class LanguageModel extends AdminModel
      * Custom clean cache method.
      *
      * @param   string   $group     Optional cache group name.
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

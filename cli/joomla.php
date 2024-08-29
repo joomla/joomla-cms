@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /**
@@ -11,7 +12,7 @@
 const _JEXEC = 1;
 
 // Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
-const JOOMLA_MINIMUM_PHP = '7.2.5';
+const JOOMLA_MINIMUM_PHP = '8.1.0';
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
     echo 'Sorry, your PHP version is not supported.' . PHP_EOL;
@@ -24,12 +25,12 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
 }
 
 // Load system defines
-if (file_exists(dirname(__DIR__) . '/defines.php')) {
-    require_once dirname(__DIR__) . '/defines.php';
+if (file_exists(\dirname(__DIR__) . '/defines.php')) {
+    require_once \dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
-    define('JPATH_BASE', dirname(__DIR__));
+if (!\defined('_JDEFINES')) {
+    \define('JPATH_BASE', \dirname(__DIR__));
     require_once JPATH_BASE . '/includes/defines.php';
 }
 
@@ -37,7 +38,7 @@ if (!defined('_JDEFINES')) {
 if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor')) {
     echo 'It looks like you are trying to run Joomla! from our git repository.' . PHP_EOL;
     echo 'To do so requires you complete a couple of extra steps first.' . PHP_EOL;
-    echo 'Please see https://docs.joomla.org/Special:MyLanguage/J4.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
+    echo 'Please see https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
 
     exit;
 }

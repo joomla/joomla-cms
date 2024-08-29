@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Filesystem;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -19,6 +19,8 @@ namespace Joomla\CMS\Filesystem;
  * Holds support functions for the filesystem, particularly the stream
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Helper instead.
  */
 class FilesystemHelper
 {
@@ -31,6 +33,8 @@ class FilesystemHelper
      *
      * @link    https://www.php.net/manual/en/function.filesize.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::remotefsize() instead.
      */
     public static function remotefsize($url)
     {
@@ -114,6 +118,8 @@ class FilesystemHelper
      *
      * @link    https://www.php.net/manual/en/function.ftp-chmod.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::ftpChmod() instead.
      */
     public static function ftpChmod($url, $mode)
     {
@@ -177,6 +183,8 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getWriteModes() instead.
      */
     public static function getWriteModes()
     {
@@ -192,6 +200,8 @@ class FilesystemHelper
      * @return  array  Streams
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getSupported() instead.
      */
     public static function getSupported()
     {
@@ -211,6 +221,8 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getTransports() instead.
      */
     public static function getTransports()
     {
@@ -224,6 +236,8 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getFilters() instead.
      */
     public static function getFilters()
     {
@@ -238,6 +252,8 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getJStreams() instead.
      */
     public static function getJStreams()
     {
@@ -268,6 +284,8 @@ class FilesystemHelper
      * @return  boolean  True for a Joomla Stream
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::isJoomlaStream() instead.
      */
     public static function isJoomlaStream($streamname)
     {
@@ -291,8 +309,8 @@ class FilesystemHelper
         static $output_type = true;
 
         if ($max_size === false || $output_type != $unitOutput) {
-            $max_size   = self::parseSize(ini_get('post_max_size'));
-            $upload_max = self::parseSize(ini_get('upload_max_filesize'));
+            $max_size   = self::parseSize(\ini_get('post_max_size'));
+            $upload_max = self::parseSize(\ini_get('upload_max_filesize'));
 
             if ($upload_max > 0 && ($upload_max < $max_size || $max_size == 0)) {
                 $max_size = $upload_max;

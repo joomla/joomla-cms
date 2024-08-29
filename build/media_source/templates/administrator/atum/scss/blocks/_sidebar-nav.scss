@@ -15,22 +15,22 @@
       display: block;
       padding: .25rem;
       font-weight: $font-weight-normal;
-      color: var(--template-text-dark);
+      color: $text-normal;
       text-decoration: none;
 
       &::before {
         margin-inline-end: .5rem;
-        font-family: "Font Awesome 5 Free";
+        font-family: "Font Awesome 6 Free";
         font-weight: 900;
         content: "\f054" #{"/*!rtl:\"\f053\"*/"};
       }
     }
 
     &.item:hover, &.active {
-      background-color: var(--template-bg-dark-60);
+      background-color: var(--sidebar-item-bg-hvr);
 
       a {
-        color: var(--template-text-light);
+        color: var(--sidebar-item-color);
       }
     }
   }

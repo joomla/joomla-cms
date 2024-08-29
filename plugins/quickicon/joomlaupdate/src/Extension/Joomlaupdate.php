@@ -64,17 +64,17 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $subject   The object to observe
-     * @param   Document             $document  The document
-     * @param   array                $config    An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'group', 'params', 'language'
-     *                                          (this list is not meant to be comprehensive).
+     * @param   DispatcherInterface  $dispatcher   The object to observe
+     * @param   Document             $document     The document
+     * @param   array                $config       An optional associative array of configuration settings.
+     *                                             Recognized key values include 'name', 'group', 'params', 'language'
+     *                                             (this list is not meant to be comprehensive).
      *
      * @since   4.0.0
      */
-    public function __construct($subject, Document $document, $config = [])
+    public function __construct($dispatcher, Document $document, array $config = [])
     {
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
 
         $this->document = $document;
     }

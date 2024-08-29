@@ -18,7 +18,7 @@ use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -259,7 +259,7 @@ class FormattedtextLogger extends Logger
     protected function initFile()
     {
         // We only need to make sure the file exists
-        if (File::exists($this->path)) {
+        if (is_file($this->path)) {
             return;
         }
 

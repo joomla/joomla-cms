@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
+
 $clientId  = $this->state->get('client_id');
 
 // Show only Module Positions of published Templates
@@ -80,4 +82,9 @@ $this->document->getWebAssetManager()
         <?php endif; ?>
         </div>
     </div>
+</div>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="module.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
 </div>

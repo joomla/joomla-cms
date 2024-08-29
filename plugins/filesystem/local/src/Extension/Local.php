@@ -95,7 +95,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      */
     public function getDisplayName()
     {
-        return $this->getApplication()->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+        return $this->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
     }
 
     /**
@@ -111,7 +111,7 @@ final class Local extends CMSPlugin implements ProviderInterface
         $directories = $this->params->get('directories', '[{"directory": "images", "thumbs": 0}]');
 
         // Do a check if default settings are not saved by user, if not initialize them manually
-        if (is_string($directories)) {
+        if (\is_string($directories)) {
             $directories = json_decode($directories);
         }
 
@@ -133,6 +133,10 @@ final class Local extends CMSPlugin implements ProviderInterface
                 $directoryEntity->thumbs,
                 [200, 200]
             );
+
+            if ($this->getApplication()->getIdentity()) {
+                $adapter->setCurrentUser($this->getApplication()->getIdentity());
+            }
 
             $adapters[$adapter->getAdapterName()] = $adapter;
         }

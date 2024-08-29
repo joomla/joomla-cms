@@ -6,23 +6,10 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "plg_system_schedulerunner.run-schedule.es5",
-      "type": "script",
-      "uri": "plg_system_schedulerunner/run-schedule-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "plg_system_schedulerunner.run-schedule",
       "type": "script",
       "uri": "plg_system_schedulerunner/run-schedule.min.js",
       "dependencies": [
-        "plg_system_schedulerunner.run-schedule.es5",
         "core"
       ],
       "attributes": {

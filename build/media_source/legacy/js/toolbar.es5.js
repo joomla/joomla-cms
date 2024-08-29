@@ -21,7 +21,8 @@ Joomla = window.Joomla || {};
    *
    * @since 4.0.0
    *
-   * @deprecated 5.0.0 Without replacement
+   * @deprecated  4.3 will be removed in 6.0
+   *             Will be removed without replacement. Use browser native call instead
    */
   Joomla.popupWindow = function (mypage, myname, w, h, scroll) {
     const winl = (screen.width - w) / 2;
@@ -42,7 +43,7 @@ Joomla = window.Joomla || {};
     // Handle Help buttons
     document.querySelectorAll('.js-toolbar-help-btn').forEach((button) => {
       button.addEventListener('click', (event) => {
-        const btn = event.target;
+        const btn = event.currentTarget;
         const winprops = `height=${parseInt(btn.dataset.height, 10)},width=${parseInt(btn.dataset.width, 10)},top=${(window.innerHeight - parseInt(btn.dataset.height, 10)) / 2},`
           + `left=${(window.innerWidth - parseInt(btn.dataset.width, 10)) / 2},scrollbars=${btn.dataset.width === 'true'},resizable`;
 

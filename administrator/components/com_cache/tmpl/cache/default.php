@@ -58,10 +58,10 @@ $wa->useScript('keepalive')
                                 <th scope="col" class="title">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
                                 </th>
-                                <th scope="col" class="w-10 text-center">
+                                <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
                                 </th>
-                                <th scope="col" class="w-10 text-end">
+                                <th scope="col" class="w-10 text-end d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
                                 </th>
                             </tr>
@@ -76,10 +76,10 @@ $wa->useScript('keepalive')
                                     <th scope="row">
                                         <?php echo $this->escape($item->group); ?>
                                     </th>
-                                    <td class="text-center">
+                                    <td class="text-center d-none d-md-table-cell">
                                         <?php echo $item->count; ?>
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-end d-none d-md-table-cell">
                                         <?php echo '&#x200E;' . HTMLHelper::_('number.bytes', $item->size); ?>
                                     </td>
                                 </tr>

@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
 
-use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
@@ -181,7 +180,7 @@ class FeedTest extends UnitTestCase
      */
     public function testSetAuthorWithInvalidAuthor()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feed->author = 'Jack Sprat';
     }
 
@@ -194,7 +193,7 @@ class FeedTest extends UnitTestCase
      */
     public function testSetCategoriesWithInvalidProperty()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feed->categories = 'Can\'t touch this';
     }
 
@@ -207,7 +206,7 @@ class FeedTest extends UnitTestCase
      */
     public function testSetContributorsWithInvalidProperty()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feed->contributors = 'Can\'t touch this';
     }
 
@@ -439,7 +438,7 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetSetWithString()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feed->offsetSet(1, 'My string');
     }
 

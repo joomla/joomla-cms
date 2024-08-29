@@ -10,19 +10,20 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\Archive\Archive;
+use Joomla\CMS\Event\Installer\BeforePackageDownloadEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -68,18 +69,21 @@ abstract class InstallerHelper
      */
     public static function downloadPackage($url, $target = false)
     {
-        // Capture PHP errors
-        $track_errors = ini_get('track_errors');
-        ini_set('track_errors', true);
-
         // Set user agent
         $version = new Version();
         ini_set('user_agent', $version->getUserAgent('Installer'));
 
         // Load installer plugins, and allow URL and headers modification
-        $headers = [];
-        PluginHelper::importPlugin('installer');
-        Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', [&$url, &$headers]);
+        $headers    = [];
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
+        $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
+            'url'     => &$url, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+            'headers' => &$headers, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+        ]);
+        $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
+        $url     = $event->getArgument('url', $url);
+        $headers = $event->getArgument('headers', $headers);
 
         try {
             $response = HttpFactory::getHttp()->get($url, $headers);
@@ -94,7 +98,9 @@ abstract class InstallerHelper
 
         if (302 == $response->code && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
-        } elseif (200 != $response->code) {
+        }
+
+        if (200 != $response->code) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
 
             return false;
@@ -118,14 +124,16 @@ abstract class InstallerHelper
             $target = $tmpPath . '/' . basename($target);
         }
 
-        // Write buffer to file
-        File::write($target, $response->body);
+        // Fix Indirect Modification of Overloaded Property
+        $body = $response->body;
 
-        // Restore error tracking to what it was before
-        ini_set('track_errors', $track_errors);
+        // Write buffer to file
+        File::write($target, $body);
 
         // Bump the max execution time because not using built in php zip libs are slow
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(\ini_get('max_execution_time'));
+        }
 
         // Return the name of the downloaded package
         return basename($target);
@@ -200,7 +208,7 @@ abstract class InstallerHelper
         $dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
         if (\count($dirList) === 1) {
-            if (Folder::exists($extractdir . '/' . $dirList[0])) {
+            if (is_dir(Path::clean($extractdir . '/' . $dirList[0]))) {
                 $extractdir = Path::clean($extractdir . '/' . $dirList[0]);
             }
         }
@@ -219,9 +227,9 @@ abstract class InstallerHelper
 
         if ($alwaysReturnArray || $retval['type']) {
             return $retval;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

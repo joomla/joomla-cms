@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\View\Captive;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\BeforeDisplayMethods;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
@@ -24,7 +23,6 @@ use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -50,7 +48,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The currently selected MFA Method record against which we'll be authenticating
      *
-     * @var   null|stdClass
+     * @var   null|\stdClass
      * @since 4.2.0
      */
     public $record = null;
@@ -102,7 +100,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void  A string if successful, otherwise an Error object.
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public function display($tpl = null)
@@ -130,7 +128,7 @@ class HtmlView extends BaseHtmlView
             $codesModel        = $this->getModel('Backupcodes');
             $backupCodesRecord = $codesModel->getBackupCodesRecord();
 
-            if (!is_null($backupCodesRecord)) {
+            if (!\is_null($backupCodesRecord)) {
                 $backupCodesRecord->title = Text::_('COM_USERS_USER_BACKUPCODES');
                 $this->records[]          = $backupCodesRecord;
             }
@@ -142,7 +140,7 @@ class HtmlView extends BaseHtmlView
             $this->record = reset($this->records);
 
             // If we have multiple records try to make this record the default
-            if (count($this->records) > 1) {
+            if (\count($this->records) > 1) {
                 foreach ($this->records as $record) {
                     if ($record->default) {
                         $this->record = $record;
@@ -157,7 +155,7 @@ class HtmlView extends BaseHtmlView
         $this->setLayout('default');
 
         // If we have no record selected or explicitly asked to run the 'select' task use the correct layout
-        if (is_null($this->record) || ($model->getState('task') == 'select')) {
+        if (\is_null($this->record) || ($model->getState('task') == 'select')) {
             $this->setLayout('select');
         }
 
@@ -206,7 +204,7 @@ class HtmlView extends BaseHtmlView
                 ->icon('icon icon-lock');
             $bar->appendButton($button);
 
-            if (count($this->records) > 1) {
+            if (\count($this->records) > 1) {
                 $arrow  = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
                 $button = (new BasicButton('user-mfa-choose-another'))
                     ->text('COM_USERS_MFA_USE_DIFFERENT_METHOD')

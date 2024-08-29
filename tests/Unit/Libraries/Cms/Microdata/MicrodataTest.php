@@ -12,7 +12,6 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Microdata;
 
 use Joomla\CMS\Microdata\Microdata;
 use Joomla\Tests\Unit\UnitTestCase;
-use ReflectionClass;
 
 /**
  * Test class for JMicrodata
@@ -928,7 +927,7 @@ class MicrodataTest extends UnitTestCase
         );
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new ReflectionClass($microdata);
+        $reflectionClass = new \ReflectionClass($microdata);
         $method          = $reflectionClass->getMethod('getExpectedDisplayType');
         $method->setAccessible(true);
 

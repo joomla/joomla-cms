@@ -40,6 +40,9 @@
 		<position>bottom-b</position>
 		<position>footer</position>
 		<position>debug</position>
+		<!-- used directly in the error.php and included here so the position will appear in the list of available positions -->
+		<position>error-403</position>
+		<position>error-404</position>
 	</positions>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/tpl_cassiopeia.ini</language>
@@ -54,7 +57,7 @@
 					label="TPL_CASSIOPEIA_BRAND_LABEL"
 					default="1"
 					layout="joomla.form.field.radio.switcher"
-					filter="boolean"
+					filter="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -63,6 +66,9 @@
 				<field
 					name="logoFile"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					default=""
 					label="TPL_CASSIOPEIA_LOGO_LABEL"
 					showon="brand:1"
@@ -94,6 +100,9 @@
 					default="0"
 					>
 					<option value="0">JNONE</option>
+					<group label="TPL_CASSIOPEIA_FONT_SYSTEM">
+						<option value="system">TPL_CASSIOPEIA_FONT_SYSTEM_SELECT</option>
+					</group>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
 						<option value="media/templates/site/cassiopeia/css/global/fonts-local_roboto.css">Roboto (local)</option>
 					</group>
@@ -101,6 +110,56 @@
 						<option value="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300;400;700&amp;display=swap">Fira Sans (web)</option>
 						<option value="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;400;700&amp;family=Roboto:wght@100;300;400;700&amp;display=swap">Roboto + Noto Sans (web)</option>
 					</group>
+				</field>
+
+				<field
+					name="systemFontBody"
+					type="list"
+					label="TPL_CASSIOPEIA_FONT_SYSTEM_BODY"
+					default=""
+					validate="options"
+					showon="useFontScheme:system"
+					>
+					<option value="">JSELECT</option>
+					<option value="Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_TRANSITIONAL</option>
+					<option value="'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_OLDSTYLE</option>
+					<option value="Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_HUMANIST</option>
+					<option value="Avenir, 'Avenir Next LT Pro', Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_GEOMETRIC</option>
+					<option value="Optima, Candara, 'Noto Sans', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_CLASSICAL</option>
+					<option value="Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_GROTESQUE</option>
+					<option value="'Nimbus Mono PS', 'Courier New', 'Cutive Mono', monospace">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_MONOSPACE</option>
+					<option value="ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_CODE</option>
+					<option value="Bahnschrift, 'DIN Alternate', 'Franklin Gothic Medium', 'Nimbus Sans Narrow', sans-serif-condensed, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_INDUSTRIAL</option>
+					<option value="ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa, Manjari, 'Arial Rounded MT Bold', Calibri, source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_ROUNDED</option>
+					<option value="Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_SLAB</option>
+					<option value="Superclarendon, 'Bookman Old Style', 'URW Bookman', 'URW Bookman L', 'Georgia Pro', Georgia, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_ANTIQUE</option>
+					<option value="Didot, 'Bodoni MT', 'Noto Serif Display', 'URW Palladio L', P052, Sylfaen, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_DIDONE</option>
+					<option value="'Segoe Print', 'Bradley Hand', Chilanka, TSCu_Comic, casual, cursive">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_HANDWRITTEN</option>
+				</field>
+
+				<field
+					name="systemFontHeading"
+					type="list"
+					label="TPL_CASSIOPEIA_FONT_SYSTEM_HEADING"
+					default=""
+					validate="options"
+					showon="useFontScheme:system"
+					>
+					<option value="">JSELECT</option>
+					<option value="Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_TRANSITIONAL</option>
+					<option value="'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_OLDSTYLE</option>
+					<option value="Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_HUMANIST</option>
+					<option value="Avenir, 'Avenir Next LT Pro', Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_GEOMETRIC</option>
+					<option value="Optima, Candara, 'Noto Sans', source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_CLASSICAL</option>
+					<option value="Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_GROTESQUE</option>
+					<option value="'Nimbus Mono PS', 'Courier New', 'Cutive Mono', monospace">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_MONOSPACE</option>
+					<option value="ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_CODE</option>
+					<option value="Bahnschrift, 'DIN Alternate', 'Franklin Gothic Medium', 'Nimbus Sans Narrow', sans-serif-condensed, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_INDUSTRIAL</option>
+					<option value="ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa, Manjari, 'Arial Rounded MT Bold', Calibri, source-sans-pro, sans-serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_ROUNDED</option>
+					<option value="Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_SLAB</option>
+					<option value="Superclarendon, 'Bookman Old Style', 'URW Bookman', 'URW Bookman L', 'Georgia Pro', Georgia, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_ANTIQUE</option>
+					<option value="Didot, 'Bodoni MT', 'Noto Serif Display', 'URW Palladio L', P052, Sylfaen, serif">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_DIDONE</option>
+					<option value="'Segoe Print', 'Bradley Hand', Chilanka, TSCu_Comic, casual, cursive">TPL_CASSIOPEIA_FONT_SYSTEM_STACK_SYSTEM_HANDWRITTEN</option>
 				</field>
 
 				<field

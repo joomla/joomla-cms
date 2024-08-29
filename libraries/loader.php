@@ -5,11 +5,11 @@
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
-
+ *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 /**
  * Static class to handle loading of libraries.
@@ -93,8 +93,10 @@ abstract class JLoader
      * @return  void
      *
      * @since       1.7.0
-     * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
-     *                    your files.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
+     *              register an autoloader for your files.
      */
     public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
     {
@@ -173,8 +175,10 @@ abstract class JLoader
      * @return  boolean  True on success.
      *
      * @since       1.7.0
-     * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
-     *                    your files.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
+     *              register an autoloader for your files.
      */
     public static function import($key, $base = null)
     {
@@ -253,7 +257,7 @@ abstract class JLoader
             // If the class doesn't exists, we probably have a class alias available
             if (!class_exists($class, false)) {
                 // Search the alias class, first none namespaced and then namespaced
-                $original = array_search($class, self::$classAliases) ? : array_search('\\' . $class, self::$classAliases);
+                $original = array_search($class, self::$classAliases) ?: array_search('\\' . $class, self::$classAliases);
 
                 // When we have an original and the class exists an alias should be created
                 if ($original && class_exists($original, false)) {
@@ -277,8 +281,10 @@ abstract class JLoader
      * @return  void
      *
      * @since       1.7.0
-     * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
-     *                    your files.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
+     *              register an autoloader for your files.
      */
     public static function register($class, $path, $force = true)
     {
@@ -459,7 +465,9 @@ abstract class JLoader
      * @return  boolean  True on success, false otherwise.
      *
      * @since       3.7.0
-     * @deprecated  5.0 Use JLoader::loadByPsr instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use JLoader::loadByPsr instead
      */
     public static function loadByPsr4($class)
     {
@@ -530,7 +538,7 @@ abstract class JLoader
      *
      * @param   string  $class  The fully qualified class name to autoload.
      *
-     * @return  boolean  True on success, false otherwise.
+     * @return  void
      *
      * @since   3.2
      */
@@ -691,12 +699,12 @@ if (!function_exists('jexit')) {
      *
      * @param   mixed  $message  Exit code or string. Defaults to zero.
      *
-     * @return  void
+     * @return  never
      *
      * @codeCoverageIgnore
      * @since   1.7.0
      */
-    function jexit($message = 0)
+    function jexit($message = 0): never
     {
         exit($message);
     }
@@ -711,8 +719,10 @@ if (!function_exists('jexit')) {
  * @return  boolean  True on success.
  *
  * @since       1.7.0
- * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
- *                    your files.
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
+ *              register an autoloader for your files.
  */
 function jimport($path, $base = null)
 {

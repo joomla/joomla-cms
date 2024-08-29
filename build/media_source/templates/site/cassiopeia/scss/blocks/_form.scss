@@ -148,3 +148,76 @@ fieldset {
     }
   }
 }
+
+// Subform - non table layout
+div.subform-repeatable-group {
+  position: relative;
+  padding: 32px 32px 16px 28px;
+  margin-top: 20px;
+  margin-left: 32px;
+  border: $input-border-width solid $input-border-color;
+  @include border-radius($border-radius);
+
+  > .control-group {
+    margin-top: 0;
+  }
+
+  > .btn-toolbar {
+
+    .btn-group {
+      position: static;
+      margin: 0;
+    }
+
+    .btn {
+      position: absolute;
+
+      &.group-add {
+        right: -1px;
+        bottom: -1px;
+        border-radius: $border-radius 0 $border-radius 0;
+      }
+      &.group-remove {
+        top: -1px;
+        right: -1px;
+        border-radius: 0 $border-radius 0 $border-radius;
+      }
+      &.group-move {
+        top: 50%;
+        right: 100%;
+        padding: 0;
+        border-radius: $border-radius 0 0 $border-radius;
+        transform: translateY(-50%);
+
+        span {
+          padding: 1.5rem .5rem;
+        }
+      }
+      &.group-move-up {
+        top: 50%;
+        right: 100%;
+        margin-top: -45px;
+        border-radius: 0;
+        transform: translateY(-50%);
+      }
+      &.group-move-down {
+        top: 50%;
+        right: 100%;
+        margin-top: 45px;
+        border-radius: 0;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
+
+// Highlight draggable section
+.subform-repeatable-group[draggable="true"] {
+  // For non table layout
+  background-color: $teal;
+
+  // For table layout
+  > td {
+    background-color: $teal;
+  }
+}

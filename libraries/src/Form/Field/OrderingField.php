@@ -12,11 +12,11 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\UCM\UCMType;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -146,7 +146,7 @@ class OrderingField extends FormField
     /**
      * Builds the query for the ordering list.
      *
-     * @return  DatabaseQuery  The query for the ordering form field
+     * @return  QueryInterface  The query for the ordering form field
      *
      * @since   3.2
      */

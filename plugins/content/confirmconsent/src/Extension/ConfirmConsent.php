@@ -57,7 +57,7 @@ final class ConfirmConsent extends CMSPlugin
      */
     public function onContentPrepareForm(Form $form, $data)
     {
-        if ($this->getApplication()->isClient('administrator') || !in_array($form->getName(), $this->supportedContext)) {
+        if ($this->getApplication()->isClient('administrator') || !\in_array($form->getName(), $this->supportedContext)) {
             return true;
         }
 

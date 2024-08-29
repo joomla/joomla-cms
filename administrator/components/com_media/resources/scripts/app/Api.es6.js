@@ -107,35 +107,26 @@ class Api {
 
   /**
      * Get the contents of a directory from the server
-     * @param {string}  dir  The directory path
-     * @param {number}  full whether or not the persistent url should be returned
-     * @param {number}  content whether or not the content should be returned
+     * @param {string}   dir  The directory path
+     * @param {boolean}  full whether or not the persistent url should be returned
+     * @param {boolean}  content whether or not the content should be returned
      * @returns {Promise}
      */
-  getContents(dir, full, content) {
+  getContents(dir, full = false, content = false) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      // Do a check on full
-      if (['0', '1'].indexOf(full) !== -1) {
-        throw Error('Invalid parameter: full');
-      }
-      // Do a check on download
-      if (['0', '1'].indexOf(content) !== -1) {
-        throw Error('Invalid parameter: content');
-      }
-
-      let url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`;
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`);
 
       if (full) {
-        url += `&url=${full}`;
+        url.searchParams.append('url', full);
       }
 
       if (content) {
-        url += `&content=${content}`;
+        url.searchParams.append('content', content);
       }
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         onSuccess: (response) => {
@@ -157,11 +148,11 @@ class Api {
   createDirectory(name, parent) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
       const data = { [this.csrfToken]: '1', name };
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'POST',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
@@ -188,7 +179,7 @@ class Api {
   upload(name, parent, content, override) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
       const data = {
         [this.csrfToken]: '1',
         name,
@@ -201,7 +192,7 @@ class Api {
       }
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'POST',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
@@ -225,14 +216,14 @@ class Api {
   rename(path, newPath) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`;
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`);
       const data = {
         [this.csrfToken]: '1',
         newPath,
       };
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'PUT',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
@@ -256,11 +247,11 @@ class Api {
   delete(path) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`;
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`);
       const data = { [this.csrfToken]: '1' };
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'DELETE',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },

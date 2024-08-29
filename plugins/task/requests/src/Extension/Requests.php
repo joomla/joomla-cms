@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Task\Requests\Extension;
 
-use Exception;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
@@ -111,7 +110,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
      * @return integer  The exit code
      *
      * @since 4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     protected function makeGetRequest(ExecuteTaskEvent $event): int
     {
@@ -126,12 +125,12 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         $headers  = [];
 
         if ($auth && $authType && $authKey) {
-            $headers = [$authType => $authKey];
+            $headers = ['Authorization' => $authType . ' ' . $authKey];
         }
 
         try {
             $response = $this->httpFactory->getHttp([])->get($url, $headers, $timeout);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
 
             return TaskStatus::TIMEOUT;
@@ -147,7 +146,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
             File::write($responseFilename, $responseBody);
             $this->snapshot['output_file'] = $responseFilename;
             $responseStatus                = 'SAVED';
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
             $responseStatus = 'NOT_SAVED';
         }

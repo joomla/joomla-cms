@@ -15,6 +15,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Select\HtmlView $this */
+
 $app = Factory::getApplication();
 
 $function  = $app->getInput()->getCmd('function');
@@ -68,7 +70,7 @@ endif;
                     aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
                     <div class="new-module-details">
                         <h3 class="new-module-title"><?php echo $name; ?></h3>
-                        <p class="card-body new-module-caption p-0">
+                        <p class="new-module-caption p-0">
                             <?php echo $desc; ?>
                         </p>
                     </div>

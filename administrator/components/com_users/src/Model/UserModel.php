@@ -20,7 +20,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -34,8 +35,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class UserModel extends AdminModel
+class UserModel extends AdminModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * An item.
      *
@@ -139,7 +142,7 @@ class UserModel extends AdminModel
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         $userId = (int) $form->getValue('id');
@@ -222,7 +225,7 @@ class UserModel extends AdminModel
     public function save($data)
     {
         $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
-        $user = User::getInstance($pk);
+        $user = $this->getUserFactory()->loadUserById($pk);
 
         $my            = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');
@@ -263,6 +266,15 @@ class UserModel extends AdminModel
 
                 return false;
             }
+        }
+
+        // Unset the username if it should not be overwritten
+        if (
+            !$my->authorise('core.manage', 'com_users')
+            && (int) $user->id === (int) $my->id
+            && !ComponentHelper::getParams('com_users')->get('change_login_name')
+        ) {
+            unset($data['username']);
         }
 
         // Bind the data.
@@ -310,7 +322,7 @@ class UserModel extends AdminModel
 
         PluginHelper::importPlugin($this->events_map['delete']);
 
-        if (in_array($user->id, $pks)) {
+        if (\in_array($user->id, $pks)) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
 
             return false;
@@ -327,7 +339,7 @@ class UserModel extends AdminModel
 
                 if ($allow) {
                     // Get users data for the users to delete.
-                    $user_to_delete = Factory::getUser($pk);
+                    $user_to_delete = $this->getUserFactory()->loadUserById($pk);
 
                     // Fire the before delete event.
                     Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
@@ -336,10 +348,10 @@ class UserModel extends AdminModel
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
                     }
+
+                    // Trigger the after delete event.
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -421,7 +433,7 @@ class UserModel extends AdminModel
                         // Trigger the before save event.
                         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
-                        if (in_array(false, $result, true)) {
+                        if (\in_array(false, $result, true)) {
                             // Plugin will have to raise its own error or throw an exception.
                             return false;
                         }
@@ -508,7 +520,7 @@ class UserModel extends AdminModel
                         // Trigger the before save event.
                         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
-                        if (in_array(false, $result, true)) {
+                        if (\in_array(false, $result, true)) {
                             // Plugin will have to raise it's own error or throw an exception.
                             return false;
                         }
@@ -700,20 +712,20 @@ class UserModel extends AdminModel
         $db = $this->getDatabase();
 
         switch ($action) {
-            // Sets users to a selected group
             case 'set':
+                // Sets users to a selected group
                 $doDelete = 'all';
                 $doAssign = true;
                 break;
 
-            // Remove users from a selected group
             case 'del':
+                // Remove users from a selected group
                 $doDelete = 'group';
                 break;
 
-            // Add users to a selected group
             case 'add':
             default:
+                // Add users to a selected group
                 $doAssign = true;
                 break;
         }
@@ -801,7 +813,7 @@ class UserModel extends AdminModel
             $groups = false;
 
             foreach ($userIds as $id) {
-                if (!in_array($id, $users)) {
+                if (!\in_array($id, $users)) {
                     $query->values($id . ',' . $groupId);
                     $groups = true;
                 }
@@ -846,9 +858,9 @@ class UserModel extends AdminModel
                 ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 
             return $model->getItems();
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -896,7 +908,9 @@ class UserModel extends AdminModel
      * @return  \stdClass
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 6.0.
+     *               Will be removed without replacement
      */
     public function getOtpConfig($userId = null)
     {
@@ -925,7 +939,9 @@ class UserModel extends AdminModel
      * @return  boolean  True on success
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 5.0.
+     *               Will be removed without replacement
      */
     public function setOtpConfig($userId, $otpConfig)
     {
@@ -946,7 +962,9 @@ class UserModel extends AdminModel
      * @return  string
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 6.0.
+     *               Use \Joomla\CMS\Factory::getApplication()->get('secret') instead'
      */
     public function getOtpConfigEncryptionKey()
     {
@@ -971,7 +989,8 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     * @deprecated   4.2 will be removed in 5.0.
+     *               Will be removed without replacement
      */
     public function getTwofactorform($userId = null)
     {
@@ -995,7 +1014,9 @@ class UserModel extends AdminModel
      * @return  array  Empty array
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     *
+     * @deprecated   4.2 will be removed in 5.0
+     *               Will be removed without replacement
      */
     public function generateOteps($userId, $count = 10)
     {
@@ -1022,7 +1043,8 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated 4.2.0 Will be removed in 5.0. MFA validation is done in the captive login.
+     * @deprecated   4.2 will be removed in 5.0
+     *               Will be removed without replacement
      */
     public function isValidSecretKey($userId, $secretKey, $options = [])
     {
@@ -1047,7 +1069,9 @@ class UserModel extends AdminModel
      * @return  boolean  Always true
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 5.0
+     *               Will be removed without replacement
      */
     public function isValidOtep($userId, $otep, $otpConfig = null)
     {

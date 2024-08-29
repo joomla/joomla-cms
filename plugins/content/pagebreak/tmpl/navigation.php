@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -19,7 +18,7 @@ use Joomla\CMS\Router\Route;
  * @var $page    integer  The page number
  */
 
-$lang = Factory::getLanguage();
+$lang = $this->getApplication()->getLanguage();
 ?>
 <ul class="pagination">
     <li class="previous page-item">

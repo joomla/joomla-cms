@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -186,22 +186,20 @@ class TextField extends FormField
             $inputmode       = preg_replace('/\s+/', ' ', trim($inputmode));
             $inputmode       = explode(' ', $inputmode);
 
-            if (!empty($inputmode)) {
-                $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
+            $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
-                foreach (array_keys($inputmode, 'default') as $key) {
-                    unset($inputmode[$key]);
-                }
-
-                $this->inputmode = $defaultInputmode . implode(' ', $inputmode);
+            foreach (array_keys($inputmode, 'default') as $key) {
+                unset($inputmode[$key]);
             }
+
+            $this->inputmode = $defaultInputmode . implode(' ', $inputmode);
 
             // Set the dirname.
             $dirname       = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
             $this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
             $this->maxLength   = (int) $this->element['maxlength'];
-            $this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'true' : false;
+            $this->charcounter = isset($this->element['charcounter']) && strtolower($this->element['charcounter']) === 'true';
 
             $this->addonBefore = (string) $this->element['addonBefore'];
             $this->addonAfter  = (string) $this->element['addonAfter'];
@@ -249,13 +247,13 @@ class TextField extends FormField
             }
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.4
      */

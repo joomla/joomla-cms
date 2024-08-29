@@ -12,7 +12,7 @@ namespace Joomla\CMS\Uri;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -148,7 +148,7 @@ class Uri extends \Joomla\Uri\Uri
             } else {
                 static::$base['prefix'] = $uri->toString(['scheme', 'host', 'port']);
 
-                if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
+                if (strpos(PHP_SAPI, 'cgi') !== false && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
                     // PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
 
                     // We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case
@@ -249,9 +249,9 @@ class Uri extends \Joomla\Uri\Uri
         // @see UriTest
         if (
             empty($host) && strpos($uri->path, 'index.php') === 0
-            || !empty($host) && preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
+            || !empty($host) && preg_match('#^' . preg_quote(static::base(), '#') . '#', $base)
             || !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
-            || !empty($host) && $base === $host && preg_match('#' . preg_quote($base, '#') . '#', static::base())
+            || !empty($host) && $base === $host && preg_match('#^' . preg_quote($base, '#') . '#', static::base())
         ) {
             return true;
         }

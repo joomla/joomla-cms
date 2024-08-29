@@ -32,8 +32,8 @@ class MapsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
@@ -118,7 +118,7 @@ class MapsModel extends ListModel
                     // Trigger the onContentBeforeDelete event.
                     $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$context, $table]);
 
-                    if (in_array(false, $result, true)) {
+                    if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
 
                         return false;
@@ -346,7 +346,7 @@ class MapsModel extends ListModel
         // Trigger the onContentChangeState event.
         $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
 
             return false;

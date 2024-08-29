@@ -112,7 +112,7 @@ class UpdatesitesController extends AdminController
 
         $ntext = ($value == 0) ? 'COM_INSTALLER_N_UPDATESITES_UNPUBLISHED' : 'COM_INSTALLER_N_UPDATESITES_PUBLISHED';
 
-        $this->setMessage(Text::plural($ntext, count($ids)));
+        $this->setMessage(Text::plural($ntext, \count($ids)));
 
         $this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
     }

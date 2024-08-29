@@ -79,7 +79,7 @@ class HtmlView extends InstallerViewDefault
 
         $this->paths = &$paths;
 
-        if (count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (\count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         } else {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');
@@ -128,9 +128,12 @@ class HtmlView extends InstallerViewDefault
                 ->icon('icon-upload');
         }
 
-        $toolbar->standardButton('search', 'COM_INSTALLER_TOOLBAR_UPDATE', 'update.find')
+        $toolbar->standardButton('search', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', 'update.find')
             ->listCheck(false)
             ->icon('icon-refresh');
+
+        $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE')
+            ->url('index.php?option=com_installer&view=manage');
 
         $toolbar->divider();
 

@@ -12,15 +12,15 @@ namespace Joomla\CMS\Mail;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -59,6 +59,20 @@ class MailTemplate
      * @since  4.0.0
      */
     protected $data = [];
+
+    /**
+     *
+     * @var    string[]
+     * @since  5.1.0
+     */
+    protected $plain_data = [];
+
+    /**
+     *
+     * @var    string[]
+     * @since  5.1.3
+     */
+    protected $unsafe_tags = [];
 
     /**
      *
@@ -164,14 +178,33 @@ class MailTemplate
      * Add data to replace in the template
      *
      * @param   array  $data  Associative array of strings to replace
+     * @param   bool   $plain Only use the data for plain-text emails.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function addTemplateData($data)
+    public function addTemplateData($data, $plain = false)
     {
-        $this->data = array_merge($this->data, $data);
+        if (!$plain) {
+            $this->data = array_merge($this->data, $data);
+        } else {
+            $this->plain_data = array_merge($this->plain_data, $data);
+        }
+    }
+
+    /**
+     * Mark tags as unsafe to ensure escaping in HTML mails
+     *
+     * @param   array   $tags  Tag names
+     *
+     * @return  void
+     *
+     * @since   5.1.3
+     */
+    public function addUnsafeTags($tags)
+    {
+        $this->unsafe_tags = array_merge($this->unsafe_tags, array_map('strtoupper', $tags));
     }
 
     /**
@@ -233,8 +266,10 @@ class MailTemplate
         $this->mailer->setSubject($subject);
 
         $mailStyle = $config->get('mail_style', 'plaintext');
-        $plainBody = $this->replaceTags(Text::_($mail->body), $this->data);
-        $htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
+        // Use the plain-text replacement data, if specified.
+        $plainData = $this->plain_data ?: $this->data;
+        $plainBody = $this->replaceTags(Text::_($mail->body), $plainData);
+        $htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data, true);
 
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
             // If the Plain template is empty try to convert the HTML template to a Plain text
@@ -255,7 +290,7 @@ class MailTemplate
 
             // If HTML body is empty try to convert the Plain template to html
             if (!$htmlBody) {
-                $htmlBody = nl2br($plainBody, false);
+                $htmlBody = nl2br($this->replaceTags(Text::_($mail->body), $plainData, true), false);
             }
 
             $htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
@@ -315,29 +350,48 @@ class MailTemplate
     /**
      * Replace tags with their values recursively
      *
-     * @param   string  $text  The template to process
-     * @param   array   $tags  An associative array to replace in the template
+     * @param   string  $text    The template to process
+     * @param   array   $tags    An associative array to replace in the template
+     * @param   bool    $isHtml  Is the text an HTML text and requires escaping
      *
      * @return  string  Rendered mail template
      *
      * @since   4.0.0
      */
-    protected function replaceTags($text, $tags)
+    protected function replaceTags($text, $tags, $isHtml = false)
     {
         foreach ($tags as $key => $value) {
-            if (is_array($value)) {
-                $matches = [];
+            // If the value is NULL, replace with an empty string. NULL itself throws notices
+            if (\is_null($value)) {
+                $value = '';
+            }
 
-                if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches)) {
+            if (\is_array($value)) {
+                $matches = [];
+                $pregKey = preg_quote(strtoupper($key), '/');
+
+                if (preg_match_all('/{' . $pregKey . '}(.*?){\/' . $pregKey . '}/s', $text, $matches)) {
                     foreach ($matches[0] as $i => $match) {
                         $replacement = '';
 
                         foreach ($value as $name => $subvalue) {
-                            if (is_array($subvalue) && $name == $matches[1][$i]) {
+                            if (\is_array($subvalue) && $name == $matches[1][$i]) {
+                                $subvalue = implode("\n", $subvalue);
+
+                                // Escape if necessary
+                                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
+                                    $subvalue = htmlspecialchars($subvalue, ENT_QUOTES, 'UTF-8');
+                                }
+
                                 $replacement .= implode("\n", $subvalue);
-                            } elseif (is_array($subvalue)) {
-                                $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
-                            } elseif (is_string($subvalue) && $name == $matches[1][$i]) {
+                            } elseif (\is_array($subvalue)) {
+                                $replacement .= $this->replaceTags($matches[1][$i], $subvalue, $isHtml);
+                            } elseif (\is_string($subvalue) && $name == $matches[1][$i]) {
+                                // Escape if necessary
+                                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
+                                    $subvalue = htmlspecialchars($subvalue, ENT_QUOTES, 'UTF-8');
+                                }
+
                                 $replacement .= $subvalue;
                             }
                         }
@@ -346,6 +400,11 @@ class MailTemplate
                     }
                 }
             } else {
+                // Escape if necessary
+                if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
+                    $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+                }
+
                 $text = str_replace('{' . strtoupper($key) . '}', $value, $text);
             }
         }
@@ -406,9 +465,10 @@ class MailTemplate
         $template->subject     = $subject;
         $template->body        = $body;
         $template->htmlbody    = $htmlbody;
+        $template->extension   = explode('.', $key, 2)[0] ?? '';
         $template->attachments = '';
         $params                = new \stdClass();
-        $params->tags          = [$tags];
+        $params->tags          = (array) $tags;
         $template->params      = json_encode($params);
 
         return $db->insertObject('#__mail_templates', $template);
@@ -438,7 +498,7 @@ class MailTemplate
         $template->body        = $body;
         $template->htmlbody    = $htmlbody;
         $params                = new \stdClass();
-        $params->tags          = [$tags];
+        $params->tags          = (array) $tags;
         $template->params      = json_encode($params);
 
         return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);

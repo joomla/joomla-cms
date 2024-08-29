@@ -15,8 +15,8 @@
  * default configuration. Command line arguments will be applied
  * after this file is read.
  *
- * @see https://github.com/phan/phan/wiki/Phan-Config-Settings for all configurable options
- * @see https://github.com/phan/phan/tree/v4/src/Phan/Config.php
+ * @link https://github.com/phan/phan/wiki/Phan-Config-Settings for all configurable options
+ * @link https://github.com/phan/phan/tree/v4/src/Phan/Config.php
  *
  * A Note About Paths
  * ==================
@@ -49,8 +49,8 @@ return [
     //
     // Note that the **only** effect of choosing `'5.6'` is to infer that functions removed in php 7.0 exist.
     // (See `backward_compatibility_checks` for additional options)
-    // Automatically inferred from composer.json requirement for "php" of "^7.2.5"
-    'target_php_version' => '7.2',
+    // Automatically inferred from composer.json requirement for "php" of "^8.1.0"
+    'target_php_version' => '8.1',
 
     // If enabled, missing properties will be created when
     // they are first seen. If false, we'll report an

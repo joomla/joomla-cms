@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Task\SiteStatus\Extension;
 
-use Exception;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
@@ -120,11 +119,11 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      * @return void
      *
      * @since 4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     public function alterSiteStatus(ExecuteTaskEvent $event): void
     {
-        if (!array_key_exists($event->getRoutineId(), self::TASKS_MAP)) {
+        if (!\array_key_exists($event->getRoutineId(), self::TASKS_MAP)) {
             return;
         }
 
@@ -156,7 +155,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      * @return  integer  The task exit code
      *
      * @since  4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     private function writeConfigFile(Registry $config): int
     {
@@ -172,14 +171,14 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
             // Attempt to write the configuration file as a PHP class named JConfig.
             $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
             File::write($file, $configuration);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
 
             return Status::KNOCKOUT;
         }
 
         // Invalidates the cached configuration file
-        if (function_exists('opcache_invalidate')) {
+        if (\function_exists('opcache_invalidate')) {
             opcache_invalidate($file);
         }
 

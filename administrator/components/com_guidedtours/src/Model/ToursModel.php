@@ -13,6 +13,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -51,6 +52,7 @@ class ToursModel extends ListModel
                 'created_by', 'a.created_by',
                 'modified', 'a.modified',
                 'modified_by', 'a.modified_by',
+                'note', 'a.note',
             ];
         }
 
@@ -192,7 +194,7 @@ class ToursModel extends ListModel
             $access = (int) $access;
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
-        } elseif (is_array($access)) {
+        } elseif (\is_array($access)) {
             $access = ArrayHelper::toInteger($access);
             $query->whereIn($db->quoteName('a.access'), $access);
         }
@@ -220,9 +222,10 @@ class ToursModel extends ListModel
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.title') . ' LIKE :search1'
-                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2)'
+                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2'
+                    . ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
                 )
-                    ->bind([':search1', ':search2'], $search);
+                    ->bind([':search1', ':search2', ':search3'], $search);
             }
         }
 
@@ -246,13 +249,15 @@ class ToursModel extends ListModel
     {
         $items = parent::getItems();
 
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
-        foreach ($items as $item) {
+        foreach ($items as & $item) {
+            if (!empty($item->uid)) {
+                GuidedtoursHelper::loadTranslationFiles($item->uid, false);
+            }
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
             $item->extensions  = (new Registry($item->extensions))->toArray();
         }
+        unset($item);
 
         return $items;
     }

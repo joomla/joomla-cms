@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -23,7 +23,12 @@ use Joomla\Registry\Registry;
  *
  * @since       3.0
  *
- * @deprecated  5.0  Without replacement
+ * @deprecated  4.0 will be removed in 6.0
+ *              Will be removed without replacement
+ *              Use choice.js instead
+ *              Example:
+ *              Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
+ *              HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
  */
 abstract class FormBehavior
 {
@@ -84,7 +89,7 @@ abstract class FormBehavior
         }
 
         // Options array to json options string
-        $options_str = \json_encode($options, ($debug && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
+        $options_str = json_encode($options, ($debug && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
         // Add chosen.js assets
 

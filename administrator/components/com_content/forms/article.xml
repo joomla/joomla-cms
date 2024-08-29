@@ -53,7 +53,7 @@
 			name="articletext"
 			type="editor"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			buttons="true"
 		/>
 
@@ -208,7 +208,7 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
-			maxlength="160"
+			maxlength="300"
 			charcounter="true"
 		/>
 
@@ -723,6 +723,9 @@
 				name="image_intro"
 				type="media"
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 			/>
 
 			<field
@@ -744,6 +747,7 @@
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
 				useglobal="true"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -758,6 +762,9 @@
 			<field
 				name="image_fulltext"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_FULL_LABEL"
 			/>
 
@@ -780,6 +787,7 @@
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
 				useglobal="true"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -927,13 +935,13 @@
 		<field
 			name="introtext"
 			label="COM_CONTENT_FIELD_INTROTEXT"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 
 		<field
 			name="fulltext"
 			label="COM_CONTENT_FIELD_FULLTEXT"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 	</fields>
 

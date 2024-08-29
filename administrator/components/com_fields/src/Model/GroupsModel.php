@@ -155,7 +155,7 @@ class GroupsModel extends ListModel
 
         // Filter by access level.
         if ($access = $this->getState('filter.access')) {
-            if (is_array($access)) {
+            if (\is_array($access)) {
                 $access = ArrayHelper::toInteger($access);
                 $query->whereIn($db->quoteName('a.access'), $access);
             } else {
@@ -189,7 +189,7 @@ class GroupsModel extends ListModel
             if (stripos($search, 'id:') === 0) {
                 $search = (int) substr($search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
-                    ->bind(':id', $search, ParameterType::INTEGER);
+                    ->bind(':search', $search, ParameterType::INTEGER);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where($db->quoteName('a.title') . ' LIKE :search')
@@ -229,7 +229,7 @@ class GroupsModel extends ListModel
     {
         $result = parent::_getList($query, $limitstart, $limit);
 
-        if (is_array($result)) {
+        if (\is_array($result)) {
             foreach ($result as $group) {
                 $group->params = new Registry($group->params);
             }

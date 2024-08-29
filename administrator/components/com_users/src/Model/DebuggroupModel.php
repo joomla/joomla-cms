@@ -15,7 +15,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Users\Administrator\Helper\DebugHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
@@ -170,7 +169,7 @@ class DebuggroupModel extends ListModel
     /**
      * Get the group being debugged.
      *
-     * @return  CMSObject
+     * @return  \stdClass
      *
      * @since   1.6
      */

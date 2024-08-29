@@ -159,7 +159,7 @@ class FeaturedModel extends ArticlesModel
         // Filter by categories
         $featuredCategories = $this->getState('filter.frontpage.categories');
 
-        if (is_array($featuredCategories) && !in_array('', $featuredCategories)) {
+        if (\is_array($featuredCategories) && !\in_array('', $featuredCategories)) {
             $query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($featuredCategories)) . ')');
         }
 

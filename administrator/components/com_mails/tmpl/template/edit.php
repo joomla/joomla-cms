@@ -18,6 +18,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
+/** @var \Joomla\Component\Mails\Administrator\View\Template\HtmlView $this */
+
 $app = Factory::getApplication();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */

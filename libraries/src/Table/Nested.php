@@ -15,7 +15,7 @@ use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -285,9 +285,9 @@ class Nested extends Table
 
         if ($referenceId) {
             return $this->moveByReference($referenceId, $position, $pk);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -527,10 +527,8 @@ class Nested extends Table
 
         // If tracking assets, remove the asset first.
         if ($this->_trackAssets) {
-            $name = $this->_getAssetName();
-
-            /** @var Asset $asset */
-            $asset = Table::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+            $name  = $this->_getAssetName();
+            $asset = new Asset($this->getDbo(), $this->getDispatcher());
 
             if ($asset->loadByName($name)) {
                 // Delete the node in assets table.
@@ -874,10 +872,11 @@ class Nested extends Table
     {
         $k = $this->_tbl_key;
 
-        $query     = $this->_db->getQuery(true);
-        $table     = $this->_db->quoteName($this->_tbl);
-        $published = $this->_db->quoteName($this->getColumnAlias('published'));
-        $key       = $this->_db->quoteName($k);
+        $query      = $this->_db->getQuery(true);
+        $table      = $this->_db->quoteName($this->_tbl);
+        $published  = $this->_db->quoteName($this->getColumnAlias('published'));
+        $checkedOut = $this->_db->quoteName($this->getColumnAlias('checked_out'));
+        $key        = $this->_db->quoteName($k);
 
         // Sanitize input.
         $pks    = ArrayHelper::toInteger($pks);
@@ -919,7 +918,7 @@ class Nested extends Table
                     ->select('COUNT(' . $k . ')')
                     ->from($this->_tbl)
                     ->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt)
-                    ->where('(checked_out <> 0 AND checked_out <> ' . (int) $userId . ')');
+                    ->where('(' . $checkedOut . ' <> 0 AND ' . $checkedOut . ' <> ' . (int) $userId . ')');
                 $this->_db->setQuery($query);
 
                 // Check for checked out children.
@@ -1389,9 +1388,9 @@ class Nested extends Table
                 }
 
                 return $this->rebuild();
-            } else {
-                return false;
             }
+
+            return false;
         } catch (\Exception $e) {
             $this->_unlock();
             throw $e;

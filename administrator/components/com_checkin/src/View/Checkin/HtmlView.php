@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -45,7 +44,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -123,7 +122,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->checkin('checkin');
         }
 
-        if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_checkin')) {
+        if ($this->getCurrentUser()->authorise('core.admin', 'com_checkin')) {
             $toolbar->divider();
             $toolbar->preferences('com_checkin');
             $toolbar->divider();

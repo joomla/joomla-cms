@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Finder\Administrator\View\Indexer\HtmlView $this */
+
 Text::script('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
 Text::script('COM_FINDER_AN_ERROR_HAS_OCCURRED');
 Text::script('COM_FINDER_MESSAGE_RETURNED');

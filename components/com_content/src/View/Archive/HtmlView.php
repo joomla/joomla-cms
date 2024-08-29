@@ -31,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state = null;
 
@@ -115,6 +115,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
         $state      = $this->get('State');
         $items      = $this->get('Items');
@@ -196,7 +197,7 @@ class HtmlView extends BaseHtmlView
         $years       = [];
         $years[]     = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
-        for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++) {
+        for ($i = 0, $iMax = \count($this->years); $i < $iMax; $i++) {
             $years[] = HTMLHelper::_('select.option', $this->years[$i], $this->years[$i]);
         }
 
@@ -219,6 +220,8 @@ class HtmlView extends BaseHtmlView
         $this->pagination = &$pagination;
         $this->pagination->setAdditionalUrlParam('month', $state->get('filter.month'));
         $this->pagination->setAdditionalUrlParam('year', $state->get('filter.year'));
+        $this->pagination->setAdditionalUrlParam('filter-search', $state->get('list.filter'));
+        $this->pagination->setAdditionalUrlParam('catid', $app->getInput()->get->get('catid', [], 'array'));
 
         $this->_prepareDocument();
 
@@ -245,11 +248,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

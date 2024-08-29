@@ -95,7 +95,7 @@ class SubfieldsField extends ListField
             }
         );
 
-        if (count($options) == 0) {
+        if (\count($options) == 0) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'), 'warning');
         }
 
@@ -103,7 +103,7 @@ class SubfieldsField extends ListField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.

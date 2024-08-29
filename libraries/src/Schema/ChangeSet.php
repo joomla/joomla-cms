@@ -9,11 +9,11 @@
 
 namespace Joomla\CMS\Schema;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -82,50 +82,6 @@ class ChangeSet
 
         foreach ($updateQueries as $obj) {
             $this->changeItems[] = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
-        }
-
-        // If on mysql, add a query at the end to check for utf8mb4 conversion status
-        if ($this->db->getServerType() === 'mysql') {
-            // Check if the #__utf8_conversion table exists
-            $this->db->setQuery('SHOW TABLES LIKE ' . $this->db->quote($this->db->getPrefix() . 'utf8_conversion'));
-
-            try {
-                $rows = $this->db->loadRowList(0);
-
-                $tableExists = \count($rows);
-            } catch (\RuntimeException $e) {
-                $tableExists = 0;
-            }
-
-            // If the table exists add a change item for utf8mb4 conversion to the end
-            if ($tableExists > 0) {
-                // Let the update query do nothing
-                $tmpSchemaChangeItem = ChangeItem::getInstance(
-                    $db,
-                    'database.php',
-                    'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-                    . ' SET ' . $this->db->quoteName('converted') . ' = '
-                    . $this->db->quoteName('converted') . ';'
-                );
-
-                // Set to not skipped
-                $tmpSchemaChangeItem->checkStatus = 0;
-
-                // Set the check query
-                $tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
-
-                $tmpSchemaChangeItem->checkQuery = 'SELECT '
-                    . $this->db->quoteName('converted')
-                    . ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-                    . ' WHERE ' . $this->db->quoteName('converted') . ' = 5';
-
-                // Set expected records from check query
-                $tmpSchemaChangeItem->checkQueryExpected = 1;
-
-                $tmpSchemaChangeItem->msgElements = [];
-
-                $this->changeItems[] = $tmpSchemaChangeItem;
-            }
         }
     }
 
@@ -232,7 +188,7 @@ class ChangeSet
     {
         $updateFiles = $this->getUpdateFiles();
 
-        // No schema files found - abort and return empty string
+        // No schema files found - stop and return empty string
         if (empty($updateFiles)) {
             return '';
         }
@@ -253,11 +209,6 @@ class ChangeSet
     {
         // Get the folder from the database name
         $sqlFolder = $this->db->getServerType();
-
-        // For `mssql` server types, convert the type to `sqlazure`
-        if ($sqlFolder === 'mssql') {
-            $sqlFolder = 'sqlazure';
-        }
 
         // Default folder to core com_admin
         if (!$this->folder) {

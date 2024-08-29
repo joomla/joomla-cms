@@ -20,7 +20,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -62,7 +62,7 @@ class TosField extends RadioField
 
         // Build the class for the label.
         $class = !empty($this->description) ? 'hasPopover' : '';
-        $class = $class . ' required';
+        $class .= ' required';
         $class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
         // Add the opening label tag and main attributes attributes.

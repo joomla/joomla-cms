@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,7 +42,7 @@ class MenuitemField extends GroupedlistField
     /**
      * The client id.
      *
-     * @var    string
+     * @var    int
      * @since  3.2
      */
     protected $clientId;
@@ -50,7 +50,7 @@ class MenuitemField extends GroupedlistField
     /**
      * The language.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $language;
@@ -58,7 +58,7 @@ class MenuitemField extends GroupedlistField
     /**
      * The published status.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $published;
@@ -66,7 +66,7 @@ class MenuitemField extends GroupedlistField
     /**
      * The disabled status.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $disable;
@@ -159,7 +159,7 @@ class MenuitemField extends GroupedlistField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.6
      */

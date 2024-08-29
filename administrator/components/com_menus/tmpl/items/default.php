@@ -19,12 +19,14 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $app       = Factory::getApplication();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -159,7 +161,14 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     </td>
                                 <?php endif; ?>
                                 <td class="text-center">
-                                    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+                                    <?php if ($item->type === 'component' && !$item->enabled) : ?>
+                                        <span class="icon-warning" aria-hidden="true"></span>
+                                        <div role="tooltip" id="warning<?php echo $item->id; ?>">
+                                            <?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
+                                        </div>
+                                    <?php else : ?>
+                                        <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+                                    <?php endif; ?>
                                 </td>
                                 <th scope="row">
                                     <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
@@ -262,15 +271,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 
                     <?php // Load the batch processing form if user is allowed ?>
                     <?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            [
-                                'title'  => Text::_('COM_MENUS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer')
-                            ],
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
 
