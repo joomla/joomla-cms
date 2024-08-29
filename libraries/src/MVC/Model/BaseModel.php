@@ -92,7 +92,7 @@ abstract class BaseModel implements ModelInterface, StatefulModelInterface
      * @deprecated  4.3 will be removed in 6.0
      *              Will be removed without replacement. Get the model through the MVCFactory + namespace instead
      *
-     * @see LegacyModelLoaderTrait::getInstance(...)
+     * @see LegacyModelLoaderTrait::getInstance()
      */
     public static function addIncludePath($path = '', $prefix = '')
     {

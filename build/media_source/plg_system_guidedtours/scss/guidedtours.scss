@@ -5,6 +5,10 @@
 
 @import "../../../../node_modules/shepherd.js/dist/css/shepherd";
 
+.shepherd-target.shepherd-enabled {
+  z-index: 9998;
+}
+
 .shepherd-element {
   width: max-content;
   max-width: min(600px, 90%);
