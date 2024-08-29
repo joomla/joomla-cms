@@ -59,6 +59,7 @@ class DisplayController extends BaseController
 
         if (
             $vName === 'tag'
+            && \in_array($this->input->getMethod(), ['GET', 'POST'])
             && ComponentHelper::getParams('com_tags')->get('record_hits', 1) == 1
             && $model = $this->getModel($vName)
         ) {
