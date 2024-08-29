@@ -682,12 +682,12 @@ class Cache
 
         // Platform defaults
         $defaulturlparams = [
-            'format' => 'WORD',
-            'option' => 'WORD',
-            'view'   => 'WORD',
-            'layout' => 'WORD',
+            'format' => 'CMD',
+            'option' => 'CMD',
+            'view'   => 'CMD',
+            'layout' => 'CMD',
             'tpl'    => 'CMD',
-            'id'     => 'INT',
+            'id'     => 'STRING',
         ];
 
         // Use platform defaults if parameter doesn't already exist.
