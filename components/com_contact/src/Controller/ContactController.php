@@ -271,7 +271,7 @@ class ContactController extends FormController
             $mailer->addRecipient($contact->email_to);
             $mailer->setReplyTo($templateData['email'], $templateData['name']);
             $mailer->addTemplateData($templateData);
-            $mailer->addUnsafeTags(['name', 'email', 'body', 'customfields']);
+            $mailer->addUnsafeTags(['name', 'email', 'body']);
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.
@@ -280,6 +280,7 @@ class ContactController extends FormController
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
                 $mailer->addTemplateData($templateData);
+                $mailer->addUnsafeTags(['name', 'email', 'body']);
                 $sent = $mailer->send();
             }
         } catch (MailDisabledException | phpMailerException $exception) {
