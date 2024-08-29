@@ -287,9 +287,12 @@ class JoomlaFieldSubform extends HTMLElement {
         // Set the id for fieldset and group label
         if (!countMulti) {
           // Look for <fieldset class="checkboxes"></fieldset> or <fieldset><div class="checkboxes"></div></fieldset>
-          let fieldset = $el.closest('.checkboxes');
+          let fieldset = $el.closest('.checkboxes, fieldset');
           // eslint-disable-next-line no-nested-ternary
-          fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
+          if (fieldset) {
+            // eslint-disable-next-line no-nested-ternary
+            fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
+          }
 
           if (fieldset) {
             const oldSetId = fieldset.id;
@@ -313,10 +316,17 @@ class JoomlaFieldSubform extends HTMLElement {
 
         // Set the id for fieldset and group label
         if (!countMulti) {
-          // Look for <fieldset class="radio"></fieldset> or <fieldset><div class="radio"></div></fieldset>
-          let fieldset = $el.closest('.radio');
-          // eslint-disable-next-line no-nested-ternary
-          fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
+          /**
+           * Look for one of:
+           * - <fieldset class="radio"></fieldset>
+           * - <fieldset><div class="radio"></div></fieldset>
+           * - <fieldset><div class="switcher"></div></fieldset>
+           */
+          let fieldset = $el.closest('.radio, .switcher, fieldset');
+          if (fieldset) {
+            // eslint-disable-next-line no-nested-ternary
+            fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
+          }
 
           if (fieldset) {
             const oldSetId = fieldset.id;
