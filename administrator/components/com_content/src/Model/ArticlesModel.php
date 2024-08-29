@@ -425,6 +425,11 @@ class ArticlesModel extends ListModel
                 $search = '%' . substr($search, 8) . '%';
                 $query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
                     ->bind([':search1', ':search2'], $search);
+            } elseif (stripos($search, 'checkedout:') === 0) {
+                $search = '%' . substr($search, 11) . '%';
+                $query->where('(' . $db->quoteName('uc.name') . ' LIKE :search1 OR ' . $db->quoteName('uc.username') . ' LIKE :search2)'
+                    . ' AND ' . $db->quoteName('a.checked_out') . ' IS NOT NULL')
+                    ->bind([':search1', ':search2'], $search);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
