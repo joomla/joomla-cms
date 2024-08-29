@@ -29,7 +29,7 @@ class HtmlView extends InstallerViewDefault
      *
      * @var   array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $items;
 
@@ -38,7 +38,7 @@ class HtmlView extends InstallerViewDefault
      *
      * @var    \Joomla\CMS\Pagination\Pagination
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $pagination;
 

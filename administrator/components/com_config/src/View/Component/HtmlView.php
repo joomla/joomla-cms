@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    object[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $fieldsets;
 
@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $formControl;
 
@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $return;
 
