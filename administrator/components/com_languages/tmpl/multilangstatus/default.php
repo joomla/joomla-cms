@@ -55,13 +55,6 @@ $home_pages        = array_column($this->homepages, 'language');
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
-        <?php if ($this->defaultHome == true) : ?>
-            <div class="alert alert-warning">
-                <span class="icon-exclamation-triangle" aria-hidden="true"></span>
-                <span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
-                <?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
-            </div>
-        <?php endif; ?>
         <?php foreach ($this->statuses as $status) : ?>
             <?php // Displays error when Site language and Content language are published but Home page is unpublished, trashed or missing. ?>
             <?php if ($status->lang_code && $status->published == 1 && $status->home_published != 1) : ?>

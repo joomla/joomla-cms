@@ -554,7 +554,7 @@ class UpdatesitesModel extends InstallerModel
 
         // Process select filters.
         $supported = $this->getState('filter.supported');
-        $enabled   = $this->getState('filter.enabled');
+        $enabled   = $this->getState('filter.enabled', '');
         $type      = $this->getState('filter.type');
         $clientId  = $this->getState('filter.client_id');
         $folder    = $this->getState('filter.folder');

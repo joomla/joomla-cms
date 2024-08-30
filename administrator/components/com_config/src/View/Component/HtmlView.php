@@ -13,7 +13,6 @@ namespace Joomla\Component\Config\Administrator\View\Component;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
@@ -57,7 +56,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    object[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $fieldsets;
 
@@ -66,7 +65,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $formControl;
 
@@ -75,7 +74,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $return;
 
@@ -134,7 +133,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
         $toolbar->apply('component.apply');

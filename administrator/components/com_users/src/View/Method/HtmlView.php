@@ -15,7 +15,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Button\LinkButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
@@ -122,7 +121,7 @@ class HtmlView extends BaseHtmlView
         $this->record        = $model->getRecord($this->user);
         $this->title         = $model->getPageTitle();
         $this->isAdmin       = $app->isClient('administrator');
-        $toolbar             = Toolbar::getInstance();
+        $toolbar             = $this->getDocument()->getToolbar();
 
         // Backup codes are a special case, rendered with a special layout
         if ($this->record->method == 'backupcodes') {

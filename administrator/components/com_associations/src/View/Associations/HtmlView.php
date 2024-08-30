@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
@@ -71,7 +70,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $extensionName;
 
@@ -80,7 +79,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $typeName;
 
@@ -89,7 +88,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $typeSupports;
 
@@ -98,7 +97,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $typeFields;
 
@@ -268,7 +267,7 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'language assoc');
         }
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations')) {
             if (!isset($this->typeName)) {
