@@ -67,7 +67,7 @@ class FeedView extends AbstractView
             $obj         = json_decode($row->images);
 
             // Ensure alt properties are set
-            $obj->image_intro_alt = $obj->image_intro_alt ?? '';
+            $obj->image_intro_alt    = $obj->image_intro_alt ?? '';
             $obj->image_fulltext_alt = $obj->image_fulltext_alt ?? '';
 
             // Set feed image to image_intro or if that's empty, to image_fulltext
