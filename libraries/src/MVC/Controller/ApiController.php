@@ -104,7 +104,7 @@ class ApiController extends BaseController
      * @throws  \Exception
      * @since   4.0.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
         $this->modelState = new CMSObject();
 
