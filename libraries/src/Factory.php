@@ -178,7 +178,7 @@ abstract class Factory
      * @deprecated  4.3 will be removed in 6.0
      *              Use the configuration object within the application
      *              Example:
-     *              Factory::getApplication->getConfig();
+     *              Factory::getApplication()->getConfig();
      */
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
@@ -556,7 +556,7 @@ abstract class Factory
      *
      * @deprecated  4.0 will be removed in 6.0
      *              Use the configuration object within the application.
-     *              Example: Factory::getApplication->getConfig();
+     *              Example: Factory::getApplication()->getConfig();
      */
     protected static function createConfig($file, $type = 'PHP', $namespace = '')
     {
