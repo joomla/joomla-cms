@@ -331,6 +331,10 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         // Set the start label for the tour.
         $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_START');
+        // What's new tours have a different label.
+        if (str_contains($item->uid, 'joomla-whatsnew')) {
+            $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_LEARNMORE');
+        }
 
         $tour->steps[] = $temp;
 
