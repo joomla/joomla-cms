@@ -54,17 +54,17 @@ extract($displayData);
 $modalSelect = [
     'popupType'  => 'iframe',
     'src'        => empty($urls['select']) ? '' : Route::_($urls['select'], false),
-    'textHeader' => $modalTitles['select'] ?? Text::_('JSELECT'),
+    'textHeader' => Text::_($modalTitles['select'] ?? 'JSELECT'),
 ];
 $modalNew = [
     'popupType'  => 'iframe',
     'src'        => empty($urls['new']) ? '' : Route::_($urls['new'], false),
-    'textHeader' => $modalTitles['new'] ?? Text::_('JACTION_CREATE'),
+    'textHeader' => Text::_($modalTitles['new'] ?? 'JACTION_CREATE'),
 ];
 $modalEdit = [
     'popupType'  => 'iframe',
     'src'        => empty($urls['edit']) ? '' : Route::_($urls['edit'], false),
-    'textHeader' => $modalTitles['edit'] ?? Text::_('JACTION_EDIT'),
+    'textHeader' => Text::_($modalTitles['edit'] ?? 'JACTION_EDIT'),
 ];
 
 // Decide when the select button always will be visible

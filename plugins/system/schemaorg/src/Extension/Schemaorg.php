@@ -537,7 +537,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.3
      */
     public function onContentAfterDelete(Model\AfterDeleteEvent $event)
     {
@@ -555,7 +555,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.3
      */
     public function deleteSchemaOrg($itemId, $context)
     {

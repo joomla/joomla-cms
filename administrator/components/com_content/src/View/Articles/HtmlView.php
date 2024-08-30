@@ -233,7 +233,6 @@ class HtmlView extends BaseHtmlView
             if (
                 $user->authorise('core.create', 'com_content')
                 && $user->authorise('core.edit', 'com_content')
-                && $user->authorise('core.execute.transition', 'com_content')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->popupType('inline')
