@@ -84,7 +84,7 @@ class PreprocessRules implements RulesInterface
     }
 
     /**
-     * Finds the right Itemid for this query
+     * Finds the correct Itemid for this query
      *
      * @param   array  &$query  The query array to process
      *
