@@ -12,7 +12,7 @@ module.exports.handleScssFile = async (file) => {
 
   let compiled;
   try {
-    compiled = Sass.compile({ file });
+    compiled = Sass.renderSync({ file });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error.formatted);
