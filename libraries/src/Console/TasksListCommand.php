@@ -72,15 +72,22 @@ class TasksListCommand extends AbstractCommand
         $tasks = array_map(
             function (\stdClass $task): array {
                 $enabled  = $task->state === 1;
-                $nextExec = Factory::getDate($task->next_execution, 'UTC');
-                $due      = $enabled && $task->taskOption && Factory::getDate('now', 'UTC') > $nextExec;
+                $rule     = json_decode($task->execution_rules);
+
+                if ($rule->{'rule-type'} === 'manual') {
+                    $nextRun = 'Manual';
+                } else {
+                    $nextExec = Factory::getDate($task->next_execution, 'UTC');
+                    $due      = $enabled && $task->taskOption && Factory::getDate('now', 'UTC') > $nextExec;
+                    $nextRun  = $due ? 'DUE!' : $nextExec->toRFC822();
+                }
 
                 return [
                     'id'             => $task->id,
                     'title'          => $task->title,
                     'type'           => $task->safeTypeTitle,
                     'state'          => $task->state === 1 ? 'Enabled' : ($task->state === 0 ? 'Disabled' : 'Trashed'),
-                    'next_execution' => $due ? 'DUE!' : $nextExec->toRFC822(),
+                    'next_execution' => $nextRun,
                 ];
             },
             $this->getTasks()
@@ -105,7 +112,7 @@ class TasksListCommand extends AbstractCommand
 
         return $scheduler->fetchTaskRecords(
             ['state' => '*'],
-            ['ordering' => 'a.title', 'select' => 'a.id, a.title, a.type, a.state, a.next_execution']
+            ['ordering' => 'a.title', 'select' => 'a.id, a.title, a.type, a.state, a.next_execution, a.execution_rules']
         );
     }
 

@@ -164,7 +164,7 @@ class UserField extends FormField
     /**
      * Method to get the users to exclude from the list of users
      *
-     * @return  string[]  Array of users to exclude or null to to not exclude them
+     * @return  string[]  Array of users to exclude or null to not exclude them
      *
      * @since   1.6
      */

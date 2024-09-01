@@ -219,7 +219,7 @@ steps:
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.js cypress.config.js
+      - mv cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -246,6 +246,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-mysql
     depends_on:
@@ -259,6 +263,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-postgres
     depends_on:
@@ -285,6 +293,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysql8 mysqli mysql8
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-mysql8
     depends_on:
@@ -298,6 +310,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysql8max mysqli mysql8
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
@@ -362,7 +378,7 @@ services:
       MYSQL_DATABASE: test_joomla
 
   - name: mysql8
-    image: mysql:8
+    image: mysql:8.0
     command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
       MYSQL_USER: joomla_ut
@@ -504,6 +520,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 0bb4fab35202cd25de338d26dd2f6afa715103eb3317778cbad6cde75ec987d9
+hmac: 0f965e69f4773b289498dd7e06d3031f9ad89038606a7ace3632766c47283045
 
 ...
