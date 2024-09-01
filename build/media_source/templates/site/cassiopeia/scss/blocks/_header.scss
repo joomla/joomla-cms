@@ -204,6 +204,10 @@
     .fas {
       font-size: 1.5rem;
     }
+
+    > * {
+      pointer-events: none;
+    }
   }
 
   .container-search {

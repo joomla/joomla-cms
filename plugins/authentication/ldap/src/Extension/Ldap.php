@@ -11,9 +11,11 @@
 namespace Joomla\Plugin\Authentication\Ldap\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
@@ -29,7 +31,7 @@ use Symfony\Component\Ldap\LdapInterface;
  *
  * @since  1.5
  */
-final class Ldap extends CMSPlugin
+final class Ldap extends CMSPlugin implements SubscriberInterface
 {
     /**
      * The ldap factory
@@ -58,22 +60,35 @@ final class Ldap extends CMSPlugin
     }
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return ['onUserAuthenticate' => 'onUserAuthenticate'];
+    }
+
+    /**
      * This method should handle any authentication and report back to the subject
      *
-     * @param   array   $credentials  Array holding the user credentials
-     * @param   array   $options      Array of extra options
-     * @param   object  &$response    Authentication response object
+     * @param   AuthenticationEvent  $event    Authentication event
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   1.5
      */
-    public function onUserAuthenticate($credentials, $options, &$response)
+    public function onUserAuthenticate(AuthenticationEvent $event): void
     {
         // If LDAP not correctly configured then bail early.
         if (!$this->params->get('host', '')) {
-            return false;
+            return;
         }
+
+        $credentials = $event->getCredentials();
+        $response    = $event->getAuthenticationResponse();
 
         // For JLog
         $logcategory    = 'ldap';
@@ -87,7 +102,7 @@ final class Ldap extends CMSPlugin
             $response->status        = Authentication::STATUS_FAILURE;
             $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
-            return false;
+            return;
         }
 
         // Load plugin params info
@@ -264,6 +279,9 @@ final class Ldap extends CMSPlugin
         Log::add(sprintf('LDAP login succeeded; username: "%s", email: "%s", fullname: "%s"', $response->username, $response->email, $response->fullname), Log::DEBUG, $logcategory);
         $response->status        = Authentication::STATUS_SUCCESS;
         $response->error_message = '';
+
+        // Stop event propagation when status is STATUS_SUCCESS
+        $event->stopPropagation();
 
         // The connection is no longer needed, destroy the object to close it
         unset($ldap);
