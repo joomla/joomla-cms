@@ -195,7 +195,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
-(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_fields","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_scheduler","com_tags","com_templates","com_users"]}', '', 0, 0),
+(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_fields","com_guidedtours","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_scheduler","com_tags","com_templates","com_users"]}', '', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, 1, '', '{}', '', 0, 0),
 (0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
 (0, 'com_scheduler', 'component', 'com_scheduler', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0),
@@ -229,7 +229,8 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'mod_articles_category', 'module', 'mod_articles_category', '', 0, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'mod_articles_categories', 'module', 'mod_articles_categories', '', 0, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 0, 1, '', '', '', 0, 0),
-(0, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, 1, '', '', '', 0, 0);
+(0, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, 1, '', '', '', 0, 0),
+(0, 'mod_articles', 'module', 'mod_articles', '', 0, 1, 0, 0, 1, '', '', '', 0, 0);
 
 -- Modules: Administrator
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
@@ -258,7 +259,8 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'mod_privacy_dashboard', 'module', 'mod_privacy_dashboard', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0),
 (0, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0),
 (0, 'mod_privacy_status', 'module', 'mod_privacy_status', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0),
-(0, 'mod_guidedtours', 'module', 'mod_guidedtours', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0);
+(0, 'mod_guidedtours', 'module', 'mod_guidedtours', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0),
+(0, 'mod_community_info', 'module', 'mod_community_info', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0);
 
 -- Plugins
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
@@ -674,7 +676,8 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (106, 83, 'Help Dashboard', '', '', 1, 'cpanel-help', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"help","layout":"_:default","moduleclass_sfx":"","style":"System-none","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (107, 84, 'Privacy Requests', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_dashboard', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (108, 85, 'Privacy Status', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
-(109, 96, 'Guided Tours', '', '', 1, 'status', NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*');
+(109, 96, 'Guided Tours', '', '', 1, 'status', NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*'),
+(110, 97, 'Joomla! Community and News', '', '', 1, 'cpanel', NULL, NULL, 1, 'mod_community_info', 1, 1, '{"endpoint":"https://test.joomla.spuur.ch/joomla-community-api/links.php","fallback-location":"en-GB","location":"","location_name":"","auto_location":"1","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*');
 
 SELECT setval('#__modules_id_seq', 110, false);
 
@@ -731,7 +734,8 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (106, 0),
 (107, 0),
 (108, 0),
-(109, 0);
+(109, 0),
+(110, 0);
 
 --
 -- Table structure for table `#__schemas`
