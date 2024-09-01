@@ -11,8 +11,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-
 ?>
+
 <tr>
   <th scope="row"><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></th>
   <td class="text-right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>

@@ -30,7 +30,7 @@ use Joomla\Registry\Registry;
 /**
  * Helper for mod_community_info
  *
- * @since  4.5.0
+ * @since   __DEPLOY_VERSION__
  */
 class CommunityInfoHelper
 {
@@ -96,7 +96,7 @@ class CommunityInfoHelper
      *
      * @return  Registry   Object with community links
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getLinks()
     {
@@ -117,7 +117,7 @@ class CommunityInfoHelper
      *
      * @return  string     Location info string
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getLocation(string $key = 'geolocation')
     {
@@ -148,7 +148,7 @@ class CommunityInfoHelper
      *
      * @return  array    List of articles
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getNewsFeed()
     {
@@ -175,7 +175,7 @@ class CommunityInfoHelper
      *
      * @return  array    List of events
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getEventsFeed()
     {
@@ -205,7 +205,7 @@ class CommunityInfoHelper
      *
      * @return  string     The replaced text
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function replaceText(string $text, Registry $links)
     {
@@ -238,7 +238,7 @@ class CommunityInfoHelper
      *
      * @return  string  The ajax return message
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function setLocationAjax()
     {
@@ -286,7 +286,7 @@ class CommunityInfoHelper
      *
      * @return  Registry   Object with community links
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getLinksAjax()
     {
@@ -360,7 +360,7 @@ class CommunityInfoHelper
      *
      * @return  array    List of articles
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getNewsFeedAjax()
     {
@@ -440,7 +440,7 @@ class CommunityInfoHelper
      *
      * @return  array    List of events
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getEventsFeedAjax()
     {
@@ -498,7 +498,7 @@ class CommunityInfoHelper
      *
      * @return  void
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function setLocationForm($task = 'saveLocation')
     {
@@ -533,7 +533,7 @@ class CommunityInfoHelper
      *
      * @param  mixed  $params   Module parameters
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \Exception
      */
     protected function setParams($params = [])
@@ -556,7 +556,7 @@ class CommunityInfoHelper
      *
      * @return  void
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      * @throws \Exception
      */
     protected function loadParams()
@@ -584,7 +584,7 @@ class CommunityInfoHelper
      *
      * @return  mixed      A database cursor resource on success, boolean false on failure.
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      * @throws \Exception
      */
     protected function writeParams(Registry $params)
@@ -613,7 +613,7 @@ class CommunityInfoHelper
      *
      * @return  string|false   Adress on success, false otherwise
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function resolveLocation($lat, $lng = '')
     {
@@ -679,7 +679,7 @@ class CommunityInfoHelper
      *
      * @return  string   Fixed string
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function fixGeolocation(string $geolocation): string
     {
@@ -702,7 +702,7 @@ class CommunityInfoHelper
      *
      * @return  mixed    The fetched content on success, false otherwise
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function fetchAPI(string $url, array $variables)
     {
@@ -744,7 +744,7 @@ class CommunityInfoHelper
     /**
      * Adds language constants to JavaScript
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function addText()
     {
@@ -766,7 +766,7 @@ class CommunityInfoHelper
      *
      * @return  array   [Error code, Error message]
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function xmlError($errors, $limit = 1)
     {
@@ -805,7 +805,7 @@ class CommunityInfoHelper
      *
      * @return  bool     True if cached data is still valid, false otherwise
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function checkCache(string $datetime)
     {

@@ -22,7 +22,7 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 /**
  * Dispatcher class for mod_community_info
  *
- * @since  4.5.0
+ * @since   __DEPLOY_VERSION__
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
@@ -33,7 +33,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  void
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     public function dispatch()
     {
@@ -57,7 +57,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  array
      *
-     * @since   4.5.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getLayoutData()
     {

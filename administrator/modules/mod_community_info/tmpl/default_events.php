@@ -19,7 +19,6 @@ if (!isset($module) && isset($displayData)) {
     $params      = $displayData['params'];
     $events      = $displayData['events'];
 }
-
 ?>
 
 <table id="collapseEvents<?php echo strval($module->id); ?>" class="table table-sm community-info-events collapse" data-fetch-time="<?php echo $events_time; ?>">
