@@ -46,7 +46,7 @@ class Privacy
 
             default:
             case 0:
-                return '<span class="badge bg-warning text-dark">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
+                return '<span class="badge bg-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
         }
     }
 }

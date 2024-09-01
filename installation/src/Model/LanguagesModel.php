@@ -491,18 +491,6 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     }
 
     /**
-     * Get the current setup options from the session.
-     *
-     * @return  array
-     *
-     * @since   3.1
-     */
-    public function getOptions()
-    {
-        return Factory::getSession()->get('setup.options', []);
-    }
-
-    /**
      * Get the model form.
      *
      * @param   string|null $view  The view being processed.

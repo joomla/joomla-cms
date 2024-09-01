@@ -31,7 +31,7 @@
   padding-left: $col-gutter-width * .5;
 }
 
-@media (min-width: var(--breakpoint-md)) {
+@media (min-width: 768px) {
   [class^="media-col"], [class*=" media-col"] {
     flex: 0 0 100%;
     max-width: 100%;

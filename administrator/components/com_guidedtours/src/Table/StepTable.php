@@ -16,6 +16,7 @@ use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -46,9 +47,31 @@ class StepTable extends Table implements CurrentUserInterface
      *
      * @since  4.3.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__guidedtour_steps', 'id', $db, $dispatcher);
+    }
+
+    /**
+     * Overloaded bind function.
+     *
+     * @param   array   $array   named array
+     * @param   string  $ignore  An optional array or space separated list of properties
+     *                           to ignore while binding.
+     *
+     * @return  mixed   Null if operation was satisfactory, otherwise returns an error
+     *
+     * @see     Table::bind()
+     * @since   5.1.0
+     */
+    public function bind($array, $ignore = '')
+    {
+        if (isset($array['params']) && \is_array($array['params'])) {
+            $registry        = new Registry($array['params']);
+            $array['params'] = (string) $registry;
+        }
+
+        return parent::bind($array, $ignore);
     }
 
     /**

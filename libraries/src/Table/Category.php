@@ -53,7 +53,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         /**
          * @deprecated  4.0 will be removed in 6.0
@@ -96,14 +96,14 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
     /**
      * Get the parent asset id for the record
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     The id for the asset
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     The id for the asset
      *
      * @return  integer  The id of the asset's parent
      *
      * @since   1.6
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
 
@@ -241,7 +241,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 
         if ($this->id) {
             // Existing category
-            $this->modified_user_id = $user->get('id');
+            $this->modified_user_id = $user->id;
             $this->modified_time    = $date;
         } else {
             if (!(int) ($this->modified_time)) {
@@ -250,7 +250,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 
             // Field created_user_id can be set by the user, so we don't touch it if it's set.
             if (empty($this->created_user_id)) {
-                $this->created_user_id = $user->get('id');
+                $this->created_user_id = $user->id;
             }
 
             if (empty($this->modified_user_id)) {

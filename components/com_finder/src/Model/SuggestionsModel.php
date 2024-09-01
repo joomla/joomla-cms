@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -61,7 +61,7 @@ class SuggestionsModel extends ListModel
     /**
      * Method to build a database query to load the list data.
      *
-     * @return  DatabaseQuery  A database query
+     * @return  QueryInterface  A database query
      *
      * @since   2.5
      */
@@ -176,6 +176,6 @@ class SuggestionsModel extends ListModel
         $this->setState('params', $params);
 
         // Load the user state.
-        $this->setState('user.id', (int) $user->get('id'));
+        $this->setState('user.id', (int) $user->id);
     }
 }

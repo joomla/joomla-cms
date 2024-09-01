@@ -20,12 +20,12 @@ use Joomla\CMS\Session\Session;
 /** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
@@ -182,15 +182,7 @@ if ($saveOrder && !empty($this->items)) {
                         && $user->authorise('core.edit', 'com_banners')
                         && $user->authorise('core.edit.state', 'com_banners')
                     ) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            [
-                                'title' => Text::_('COM_BANNERS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer')
-                            ],
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
 

@@ -16,6 +16,7 @@ const tinymce = {
   langStrings: {},
   icons: {
     'accessibility-check': '<svg width="24" height="24"><path d="M12 2a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2c0-1.1.9-2 2-2zm8 7h-5v12c0 .6-.4 1-1 1a1 1 0 0 1-1-1v-5c0-.6-.4-1-1-1a1 1 0 0 0-1 1v5c0 .6-.4 1-1 1a1 1 0 0 1-1-1V9H4a1 1 0 1 1 0-2h16c.6 0 1 .4 1 1s-.4 1-1 1z" fill-rule="nonzero"/></svg>',
+    accordion: '<svg width="24" height="24"><rect x="12" y="7" width="10" height="2" rx="1"/><rect x="12" y="11" width="10" height="2" rx="1"/><rect x="12" y="15" width="6" height="2" rx="1"/><path fill-rule="evenodd" clip-rule="evenodd" d="M2.3 7.3a1 1 0 0 1 1.4 0L6 9.6l2.3-2.3a1 1 0 0 1 1.4 1.4L6 12.4 2.3 8.7a1 1 0 0 1 0-1.4Z"/></svg>',
     'align-center': '<svg width="24" height="24"><path d="M5 5h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 1 1 0-2zm3 4h8c.6 0 1 .4 1 1s-.4 1-1 1H8a1 1 0 1 1 0-2zm0 8h8c.6 0 1 .4 1 1s-.4 1-1 1H8a1 1 0 0 1 0-2zm-3-4h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 0 1 0-2z" fill-rule="evenodd"/></svg>',
     'align-justify': '<svg width="24" height="24"><path d="M5 5h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 1 1 0-2zm0 4h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 1 1 0-2zm0 4h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 0 1 0-2zm0 4h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 0 1 0-2z" fill-rule="evenodd"/></svg>',
     'align-left': '<svg width="24" height="24"><path d="M5 5h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 1 1 0-2zm0 4h8c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 1 1 0-2zm0 8h8c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 0 1 0-2zm0-4h14c.6 0 1 .4 1 1s-.4 1-1 1H5a1 1 0 0 1 0-2z" fill-rule="evenodd"/></svg>',
@@ -407,7 +408,7 @@ const TinyMCEBuilder = (container, options) => {
 
       [].forEach.call(target.attributes, (attrib) => {
         if (/^data-/.test(attrib.name)) {
-          const key = attrib.name.substr(5);
+          const key = attrib.name.substring(5);
 
           actionoptions[key] = attrib.value;
         }
@@ -464,8 +465,4 @@ const toggleAvailableOption = () => {
 window.addEventListener('load', () => toggleAvailableOption());
 
 // Allow to select the group only once per the set
-selects.forEach((select) => {
-  select.addEventListener('change', () => {
-    toggleAvailableOption();
-  });
-});
+selects.forEach((select) => select.addEventListener('change', () => toggleAvailableOption()));

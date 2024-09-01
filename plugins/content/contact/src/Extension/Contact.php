@@ -91,7 +91,7 @@ final class Contact extends CMSPlugin
      *
      * @param   int  $userId  Id of the user who created the article
      *
-     * @return  stdClass|null  Object containing contact details or null if not found
+     * @return  \stdClass|null  Object containing contact details or null if not found
      */
     private function getContactData($userId)
     {

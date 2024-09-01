@@ -198,10 +198,10 @@ final class Testing extends CMSPlugin
 
         $factory = $this->getApplication()->bootComponent('com_banners')->getMVCFactory();
 
-        /** @var Joomla\Component\Banners\Administrator\Model\ClientModel $clientModel */
+        /** @var \Joomla\Component\Banners\Administrator\Model\ClientModel $clientModel */
         $clientModel = $factory->createModel('Client', 'Administrator', ['ignore_request' => true]);
 
-        /** @var Joomla\Component\Banners\Administrator\Model\BannerModel $bannerModel */
+        /** @var \Joomla\Component\Banners\Administrator\Model\BannerModel $bannerModel */
         $bannerModel = $factory->createModel('Banner', 'Administrator', ['ignore_request' => true]);
 
         $user = $this->getApplication()->getIdentity();

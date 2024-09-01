@@ -85,13 +85,13 @@ class UCMType implements UCM
     /**
      * Class constructor
      *
-     * @param   string               $alias        The alias for the item
-     * @param   DatabaseDriver       $database     The database object
-     * @param   AbstractApplication  $application  The application object
+     * @param   string                $alias        The alias for the item
+     * @param   ?DatabaseDriver       $database     The database object
+     * @param   ?AbstractApplication  $application  The application object
      *
      * @since   3.1
      */
-    public function __construct($alias = null, DatabaseDriver $database = null, AbstractApplication $application = null)
+    public function __construct($alias = null, ?DatabaseDriver $database = null, ?AbstractApplication $application = null)
     {
         $this->db = $database ?: Factory::getDbo();
         $app      = $application ?: Factory::getApplication();

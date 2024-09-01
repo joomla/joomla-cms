@@ -14,8 +14,8 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -31,13 +31,13 @@ class MenusModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -145,7 +145,7 @@ class MenusModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery  An SQL query
+     * @return  QueryInterface  An SQL query
      *
      * @since   1.6
      */
@@ -213,9 +213,6 @@ class MenusModel extends ListModel
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'asc')
     {
-        $search   = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
         $this->setState('client_id', $clientId);
 

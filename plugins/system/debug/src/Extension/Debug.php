@@ -28,7 +28,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;

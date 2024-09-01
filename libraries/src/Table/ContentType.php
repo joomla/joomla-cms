@@ -32,7 +32,7 @@ class ContentType extends Table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__content_types', 'type_id', $db, $dispatcher);
     }

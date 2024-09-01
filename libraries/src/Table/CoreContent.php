@@ -42,7 +42,7 @@ class CoreContent extends Table implements CurrentUserInterface
     protected $_supportNullValue = true;
 
     /**
-     * Encode necessary fields to JSON in the bind method
+     * An array of key names to be json encoded in the bind method
      *
      * @var    array
      * @since  4.0.0
@@ -57,7 +57,7 @@ class CoreContent extends Table implements CurrentUserInterface
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__ucm_content', 'core_content_id', $db, $dispatcher);
 
@@ -233,7 +233,7 @@ class CoreContent extends Table implements CurrentUserInterface
         if ($this->core_content_id) {
             // Existing item
             $this->core_modified_time    = $date->toSql();
-            $this->core_modified_user_id = $user->get('id');
+            $this->core_modified_user_id = $user->id;
             $isNew                       = false;
         } else {
             // New content item. A content item core_created_time and core_created_user_id field can be set by the user,
@@ -243,7 +243,7 @@ class CoreContent extends Table implements CurrentUserInterface
             }
 
             if (empty($this->core_created_user_id)) {
-                $this->core_created_user_id = $user->get('id');
+                $this->core_created_user_id = $user->id;
             }
 
             if (!(int) $this->core_modified_time) {

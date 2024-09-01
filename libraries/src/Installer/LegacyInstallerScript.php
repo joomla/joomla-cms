@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
 
 // phpcs:disable PSR1.Files.SideEffects

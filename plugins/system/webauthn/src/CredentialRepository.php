@@ -40,11 +40,11 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
     /**
      * Public constructor.
      *
-     * @param   DatabaseInterface|null  $db  The database driver object to use for persistence.
+     * @param   ?DatabaseInterface  $db  The database driver object to use for persistence.
      *
      * @since   4.2.0
      */
-    public function __construct(DatabaseInterface $db = null)
+    public function __construct(?DatabaseInterface $db = null)
     {
         $this->setDatabase($db);
     }

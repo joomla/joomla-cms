@@ -253,6 +253,9 @@
 		<field
 			name="image"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			default=""
 			showon="show_info:1[AND]show_image:1"
@@ -410,6 +413,9 @@
 		<field
 			name="icon_address"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			hide_none="1"
 			default=""
@@ -419,6 +425,9 @@
 		<field
 			name="icon_email"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
 			hide_none="1"
 			default=""
@@ -428,6 +437,9 @@
 		<field
 			name="icon_telephone"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
 			hide_none="1"
 			default=""
@@ -437,6 +449,9 @@
 		<field
 			name="icon_mobile"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
 			hide_none="1"
 			default=""
@@ -446,6 +461,9 @@
 		<field
 			name="icon_fax"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
 			hide_none="1"
 			default=""
@@ -455,6 +473,9 @@
 		<field
 			name="icon_webpage"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_WEBPAGE_LABEL"
 			hide_none="1"
 			default=""
@@ -464,6 +485,9 @@
 		<field
 			name="icon_misc"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			hide_none="1"
 			default=""
@@ -956,8 +980,9 @@
 		<field
 			name="custom_reply"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="show_email_form:1"
 			>

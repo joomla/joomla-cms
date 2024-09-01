@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Fields\Administrator\Field;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -56,9 +56,9 @@ class FieldLayoutField extends FormField
             // Build the query.
             $query->select('element, name')
                 ->from('#__extensions')
-                ->where('client_id = 0')
-                ->where('type = ' . $db->quote('template'))
-                ->where('enabled = 1');
+                ->where($db->quoteName('client_id') . ' = 0')
+                ->where($db->quoteName('type') . ' = ' . $db->quote('template'))
+                ->where($db->quoteName('enabled') . ' = 1');
 
             // Set the query and load the templates.
             $db->setQuery($query);

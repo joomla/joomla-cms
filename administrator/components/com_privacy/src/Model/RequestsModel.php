@@ -13,8 +13,8 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -50,9 +50,9 @@ class RequestsModel extends ListModel
     }
 
     /**
-     * Method to get a DatabaseQuery object for retrieving the data set from a database.
+     * Method to get a QueryInterface object for retrieving the data set from a database.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.9.0
      */
@@ -146,22 +146,6 @@ class RequestsModel extends ListModel
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
-        // Load the filter state.
-        $this->setState(
-            'filter.search',
-            $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search')
-        );
-
-        $this->setState(
-            'filter.status',
-            $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'int')
-        );
-
-        $this->setState(
-            'filter.request_type',
-            $this->getUserStateFromRequest($this->context . '.filter.request_type', 'filter_request_type', '', 'string')
-        );
-
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));
 

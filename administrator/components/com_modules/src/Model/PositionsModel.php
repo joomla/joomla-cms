@@ -63,19 +63,6 @@ class PositionsModel extends ListModel
      */
     protected function populateState($ordering = 'ordering', $direction = 'asc')
     {
-        // Load the filter state.
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-        $this->setState('filter.state', $state);
-
-        $template = $this->getUserStateFromRequest($this->context . '.filter.template', 'filter_template', '', 'string');
-        $this->setState('filter.template', $template);
-
-        $type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string');
-        $this->setState('filter.type', $type);
-
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
         $clientId = (!\in_array((int) $clientId, [0, 1])) ? 0 : (int) $clientId;
@@ -123,7 +110,7 @@ class PositionsModel extends ListModel
                     ->bind(':clientid', $clientId, ParameterType::INTEGER);
 
                 if ($search) {
-                    $search = '%' . str_replace(' ', '%', trim($search), true) . '%';
+                    $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                     $query->where($db->quoteName('position') . ' LIKE :position')
                         ->bind(':position', $search);
                 }

@@ -48,7 +48,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = '{extension}.workflow';
 
@@ -82,7 +82,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
         $isDefault = $db->setQuery($query)->loadResult();
 
         if ($isDefault) {
-            $app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
+            $app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'), 'error');
 
             return false;
         }
@@ -212,7 +212,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
             if (
                 $table->load(
                     [
-                    'default' => '1',
+                    'default'   => '1',
                     'extension' => $this->extension,
                     ]
                 )
@@ -284,14 +284,14 @@ class WorkflowTable extends Table implements CurrentUserInterface
     /**
      * Get the parent asset id for the record
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     The id for the asset
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     The id for the asset
      *
      * @return  integer  The id of the asset's parent
      *
      * @since  4.0.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
 

@@ -120,6 +120,15 @@ class HtmlView extends BaseHtmlView
     protected $reasonNoDownload = '';
 
     /**
+     * Details on failed PHP or DB version requirements to be shown in the emptystate layout when there is no download
+     *
+     * @var \stdClass  PHP and database requirements from the update manifest
+     *
+     * @since 4.4.2
+     */
+    protected $detailsNoDownload;
+
+    /**
      * List of non core critical plugins
      *
      * @var    \stdClass[]
@@ -199,8 +208,9 @@ class HtmlView extends BaseHtmlView
             } else {
                 // No download available
                 if ($hasUpdate) {
-                    $this->messagePrefix    = '_NODOWNLOAD';
-                    $this->reasonNoDownload = 'COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON';
+                    $this->messagePrefix     = '_NODOWNLOAD';
+                    $this->reasonNoDownload  = 'COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON';
+                    $this->detailsNoDownload = $this->updateInfo['object']->get('otherUpdateInfo');
                 }
 
                 $this->setLayout('noupdate');
@@ -223,33 +233,28 @@ class HtmlView extends BaseHtmlView
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'default')) {
-            // "Minor & Patch Release for Current version AND Next Major Release".
             case 'next':
+                // "Minor & Patch Release for Current version AND Next Major Release".
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
                 break;
 
-            // "Testing"
-            case 'testing':
-                $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_TESTING';
-                $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
-                break;
-
-            // "Custom"
             case 'custom':
+                // "Custom"
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
                 break;
 
-            /**
-             * "Minor & Patch Release for Current version (recommended and default)".
-             * The commented "case" below are for documenting where 'default' and legacy options falls
-             * case 'default':
-             * case 'sts':
-             * case 'lts':
-             * case 'nochange':
-             */
             default:
+                /**
+                 * "Minor & Patch Release for Current version (recommended and default)".
+                 * The commented "case" below are for documenting where 'default' and legacy options falls
+                 * case 'default':
+                 * case 'sts':
+                 * case 'lts':
+                 * case 'nochange':
+                 * case 'testing':
+                 */
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
         }

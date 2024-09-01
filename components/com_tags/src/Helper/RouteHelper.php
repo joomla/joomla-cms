@@ -192,7 +192,7 @@ class RouteHelper extends CMSRouteHelper
 
             if ($items) {
                 foreach ($items as $item) {
-                    if (isset($item->query, $item->query['view'])) {
+                    if (isset($item->query['view'])) {
                         $lang = ($item->language != '' ? $item->language : '*');
 
                         if (!isset(self::$lookup[$lang])) {

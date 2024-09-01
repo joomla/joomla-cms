@@ -151,6 +151,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $lang->load('com_actionlogs', JPATH_ADMINISTRATOR);
         ActionlogsHelper::loadTranslationFiles($extension);
         $temp      = [];
+        $tempPlain = [];
 
         foreach ($messages as $message) {
             $m              = [];
@@ -159,14 +160,23 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
             $m['username']  = $username;
             $temp[]         = $m;
+
+            // copy replacement tags array and set non-HTML message.
+            $mPlain            = array_merge([], $m);
+            $mPlain['message'] = ActionlogsHelper::getHumanReadableLogMessage($message, false);
+            $tempPlain[]       = $mPlain;
         }
 
         $templateData = [
             'messages' => $temp,
         ];
+        $templateDataPlain = [
+            'messages' => $tempPlain,
+        ];
 
         $mailer = new MailTemplate('com_actionlogs.notification', $app->getLanguage()->getTag());
         $mailer->addTemplateData($templateData);
+        $mailer->addTemplateData($templateDataPlain, true);
 
         foreach ($recipients as $recipient) {
             $mailer->addRecipient($recipient);
