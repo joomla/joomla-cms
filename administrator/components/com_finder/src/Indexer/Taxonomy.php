@@ -67,7 +67,7 @@ class Taxonomy
         $node->title     = $title;
         $node->access    = $access;
         $node->parent_id = 1;
-        $node->language  = '';
+        $node->language  = '*';
 
         return self::storeNode($node, 1);
     }
@@ -86,7 +86,7 @@ class Taxonomy
      * @since   2.5
      * @throws  \RuntimeException on database error.
      */
-    public static function addNode($branch, $title, $state = 1, $access = 1, $language = '')
+    public static function addNode($branch, $title, $state = 1, $access = 1, $language = '*')
     {
         if ($state != 1) {
             return 0;
@@ -118,7 +118,7 @@ class Taxonomy
      *
      * @since   4.0.0
      */
-    public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $language = '', $branchId = null)
+    public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $language = '*', $branchId = null)
     {
         if ($state != 1) {
             return 0;
