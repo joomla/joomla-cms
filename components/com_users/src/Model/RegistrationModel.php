@@ -140,9 +140,9 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             // Compile the admin notification mail values.
             $data               = $user->getProperties();
             $data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
-            $user->activation = $data['activation'];
-            $data['siteurl']  = Uri::base();
-            $data['activate'] = Route::link(
+            $user->activation   = $data['activation'];
+            $data['siteurl']    = Uri::base();
+            $data['activate']   = Route::link(
                 'site',
                 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
                 false,
@@ -206,7 +206,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
         } elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0)) {
             // Admin activation is on and admin is activating the account
             $user->activation = '';
-            $user->block = '0';
+            $user->block      = '0';
 
             // Compile the user activated notification mail values.
             $data = $user->getProperties();
@@ -241,7 +241,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             }
         } else {
             $user->activation = '';
-            $user->block = '0';
+            $user->block      = '0';
         }
 
         // Store the user object.

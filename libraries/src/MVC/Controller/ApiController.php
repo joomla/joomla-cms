@@ -204,14 +204,14 @@ class ApiController extends BaseController
         $offset         = null;
 
         if (\array_key_exists('offset', $paginationInfo)) {
-            $offset = $paginationInfo['offset'];
-            $property = $this->context . '.limitstart';
+            $offset                      = $paginationInfo['offset'];
+            $property                    = $this->context . '.limitstart';
             $this->modelState->$property = $offset;
         }
 
         if (\array_key_exists('limit', $paginationInfo)) {
-            $limit = $paginationInfo['limit'];
-            $property = $this->context . '.list.limit';
+            $limit                       = $paginationInfo['limit'];
+            $property                    = $this->context . '.list.limit';
             $this->modelState->$property = $limit;
         }
 

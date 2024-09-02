@@ -85,7 +85,7 @@ class ConfigModel extends FormModel
         }
 
         foreach ($rows as $row) {
-            $property = $row->cfg_name;
+            $property        = $row->cfg_name;
             $item->$property = $row->cfg_value;
         }
 

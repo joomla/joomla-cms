@@ -374,7 +374,7 @@ abstract class UserHelper
         if ($id) {
             $user = User::getInstance($id);
 
-            $user->block = 0;
+            $user->block      = 0;
             $user->activation = '';
 
             // Time to take care of business.... store the user.
