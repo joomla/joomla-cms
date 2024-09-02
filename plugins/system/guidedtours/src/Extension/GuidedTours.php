@@ -373,8 +373,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     {
         return preg_replace(
             [
-                '*src=\"(?!administrator\/)images/*',
-                '*src=\"media/*',
+                '*src="(?!administrator\/)images/*',
+                '*src="media/*',
             ],
             [
                 'src="../images/',
