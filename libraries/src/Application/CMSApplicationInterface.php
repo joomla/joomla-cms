@@ -29,6 +29,14 @@ use Joomla\Input\Input;
 interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface
 {
     /**
+     * Constant defining an enqueued emergency message
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    public const MSG_EMERGENCY = 'emergency';
+
+    /**
      * Constant defining an enqueued alert message
      *
      * @var    string
@@ -45,22 +53,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     public const MSG_CRITICAL = 'critical';
 
     /**
-    * Constant defining an enqueued debug message
-    *
-    * @var    string
-    * @since  4.0.0
-    */
-    public const MSG_DEBUG = 'debug';
-
-    /**
-     * Constant defining an enqueued emergency message
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    public const MSG_EMERGENCY = 'emergency';
-
-    /**
      * Constant defining an enqueued error message
      *
      * @var    string
@@ -69,21 +61,12 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     public const MSG_ERROR = 'error';
 
     /**
-     * Constant defining an enqueued info message
+     * Constant defining an enqueued warning message
      *
      * @var    string
      * @since  4.0.0
      */
-    public const MSG_INFO = 'info';
-
-
-    /**
-     * Constant defining an enqueued message message
-     *
-     * @var    string
-     * @since  __DEPLOY_VERSION__
-     */
-    public const MSG_MESSAGE = 'message';
+    public const MSG_WARNING = 'warning';
 
     /**
      * Constant defining an enqueued notice message
@@ -94,20 +77,20 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     public const MSG_NOTICE = 'notice';
 
     /**
-     * Constant defining an enqueued success message
-     *
-     * @var    string
-     * @since  __DEPLOY_VERSION__
-     */
-    public const MSG_SUCCESS = 'success';
-
-    /**
-     * Constant defining an enqueued warning message
+     * Constant defining an enqueued info message
      *
      * @var    string
      * @since  4.0.0
      */
-    public const MSG_WARNING = 'warning';
+    public const MSG_INFO = 'info';
+
+    /**
+     * Constant defining an enqueued debug message
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    public const MSG_DEBUG = 'debug';
 
     /**
      * Enqueue a system message.
@@ -200,5 +183,5 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      *
      * @since   4.0.0
      */
-    public function loadIdentity(User $identity = null);
+    public function loadIdentity(?User $identity = null);
 }
