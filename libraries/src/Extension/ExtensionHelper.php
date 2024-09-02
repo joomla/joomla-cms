@@ -131,6 +131,7 @@ class ExtensionHelper
         ['module', 'mod_version', '', 1],
 
         // Core module extensions - site
+        ['module', 'mod_articles', '', 0],
         ['module', 'mod_articles_archive', '', 0],
         ['module', 'mod_articles_categories', '', 0],
         ['module', 'mod_articles_category', '', 0],
