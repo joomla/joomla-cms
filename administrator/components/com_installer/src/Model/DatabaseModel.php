@@ -19,9 +19,9 @@ use Joomla\CMS\Schema\ChangeSet;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -63,13 +63,13 @@ class DatabaseModel extends InstallerModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     ListModel
      * @since   4.0.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -256,11 +256,6 @@ class DatabaseModel extends InstallerModel
      */
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
-        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
-        $this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
-
         parent::populateState($ordering, $direction);
     }
 
@@ -320,7 +315,7 @@ class DatabaseModel extends InstallerModel
     /**
      * Method to get the database query
      *
-     * @return  DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   4.0.0
      */
@@ -584,15 +579,15 @@ class DatabaseModel extends InstallerModel
         $cache         = new Registry($table->manifest_cache);
         $updateVersion = $cache->get('version');
 
-        if ($table->get('type') === 'file' && $table->get('element') === 'joomla') {
+        if ($table->type === 'file' && $table->element === 'joomla') {
             $extensionVersion = new Version();
             $extensionVersion = $extensionVersion->getShortVersion();
         } else {
             $installationXML = InstallerHelper::getInstallationXML(
-                $table->get('element'),
-                $table->get('type'),
-                $table->get('client_id'),
-                $table->get('type') === 'plugin' ? $table->get('folder') : null
+                $table->element,
+                $table->type,
+                $table->client_id,
+                $table->type === 'plugin' ? $table->folder : null
             );
             $extensionVersion = (string) $installationXML->version;
         }
@@ -602,7 +597,7 @@ class DatabaseModel extends InstallerModel
         }
 
         $cache->set('version', $extensionVersion);
-        $table->set('manifest_cache', $cache->toString());
+        $table->manifest_cache = $cache->toString();
 
         if ($table->store()) {
             return $extensionVersion;

@@ -62,27 +62,18 @@ const initRotate = (image) => {
 
       target.value = 0;
       // Deselect all buttons
-      [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'))
-        .forEach((element) => {
-          element.classList.remove('active');
-          element.classList.remove('focus');
-        });
+      document.querySelectorAll('#jform_rotate_distinct label').forEach((element) => element.classList.remove('active', 'focus'));
     });
 
     // The 90 degree rotate buttons listeners
-    [].slice.call(document.querySelectorAll('#jform_rotate_distinct [type=radio]'))
-      .forEach((element) => {
-        element.addEventListener('click', ({ target }) => {
-          rotate(parseInt(target.value, 10), image);
+    document.querySelectorAll('#jform_rotate_distinct [type=radio]').forEach((element) => {
+      element.addEventListener('click', ({ target }) => {
+        rotate(parseInt(target.value, 10), image);
 
-          // Deselect all buttons
-          [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'))
-            .forEach((el) => {
-              el.classList.remove('active');
-              el.classList.remove('focus');
-            });
-        });
+        // Deselect all buttons
+        document.querySelectorAll('#jform_rotate_distinct label').forEach((el) => el.classList.remove('active', 'focus'));
       });
+    });
 
     activated = true;
   }
