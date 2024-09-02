@@ -24,17 +24,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="multiple"
-					type="radio"
-					label="PLG_FIELDS_NUMBER_PARAMS_MULTIPLE_LABEL"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
-					filter="integer"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
 					name="min"
 					type="number"
 					label="PLG_FIELDS_NUMBER_PARAMS_FIRST_LABEL"
