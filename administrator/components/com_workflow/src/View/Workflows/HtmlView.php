@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -141,7 +140,7 @@ class HtmlView extends BaseHtmlView
     {
         $canDo   = ContentHelper::getActions($this->extension, $this->section);
         $user    = $this->getCurrentUser();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'file-alt contact');
 
@@ -173,7 +172,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete')) {
-            $toolbar->delete('workflows.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('workflows.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

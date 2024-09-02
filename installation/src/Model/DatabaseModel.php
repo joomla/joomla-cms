@@ -30,18 +30,6 @@ use Joomla\Utilities\ArrayHelper;
 class DatabaseModel extends BaseInstallationModel
 {
     /**
-     * Get the current setup options from the session.
-     *
-     * @return  array  An array of options from the session.
-     *
-     * @since   4.0.0
-     */
-    public function getOptions()
-    {
-        return Factory::getSession()->get('setup.options', []);
-    }
-
-    /**
      * Method to initialise the database.
      *
      * @param   array    $options  Array with db connection credentials
