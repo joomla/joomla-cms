@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Controller\ApiController;
 /**
  * The manage controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class LanguagesController extends ApiController
 {
@@ -27,7 +27,7 @@ class LanguagesController extends ApiController
      * The content type of the item.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $contentType = 'languages';
 
@@ -35,7 +35,7 @@ class LanguagesController extends ApiController
      * The default view for the display method.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $default_view = 'languages';
 }

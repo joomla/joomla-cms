@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         if ($parts) {
             $component = $parts[0];
