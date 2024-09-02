@@ -87,13 +87,13 @@ class FieldModel extends AdminModel
     /**
      * Constructor
      *
-     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -117,13 +117,17 @@ class FieldModel extends AdminModel
             $field = $this->getItem($data['id']);
         }
 
-        if (
-            isset($data['params']['searchindex'])
-            && ((\is_null($field) && $data['params']['searchindex'] > 0)
-                || ($field->params['searchindex'] != $data['params']['searchindex'])
-                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access'])))
-        ) {
-            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+        if (isset($data['params']['searchindex'])) {
+            if (\is_null($field)) {
+                if ($data['params']['searchindex'] > 0) {
+                    Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+                }
+            } elseif (
+                $field->params['searchindex'] != $data['params']['searchindex']
+                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access']))
+            ) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+            }
         }
 
         if (!isset($data['label']) && isset($data['params']['label'])) {
@@ -1188,7 +1192,7 @@ class FieldModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
