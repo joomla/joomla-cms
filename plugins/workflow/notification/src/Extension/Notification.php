@@ -13,13 +13,19 @@ namespace Joomla\Plugin\Workflow\Notification\Extension;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -66,6 +72,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
         return [
             'onContentPrepareForm'      => 'onContentPrepareForm',
             'onWorkflowAfterTransition' => 'onWorkflowAfterTransition',
+            'onContentBeforeSave'       => 'onContentBeforeSave',
         ];
     }
 
@@ -87,11 +94,49 @@ final class Notification extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * The form event.
+     * Check if a transition is being saved and all fields are set correctly.
+     *
+     * @param   Event  $data  The event data ($context, $table, $isNew, $data)
+     *
+     * @return  boolean  True if all necessary fields are filled.
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     */
+    public function onContentBeforeSave(Event $data): bool
+    {
+        $context = $data->getArgument(0);
+
+        if ($context !== 'com_workflow.transition') {
+            return true;
+        }
+
+        $values = $data->getArgument(3);
+
+        if ($values['options']['notification_send_mail'] === false) {
+            return true;
+        }
+
+        if (empty($values['options']['notification_type'])) {
+            throw new InvalidArgumentException(Text::_('PLG_WORKFLOW_NOTIFICATION_NO_NOTIFICATION_TYPE_SELECTED'));
+        }
+
+        if (
+            !isset($values['options']['notification_receivers']) && !isset($values['options']['notification_groups'])
+            || (empty($values['options']['notification_receivers']) && empty($values['options']['notification_groups']))
+        ) {
+            throw new InvalidArgumentException(Text::_('PLG_WORKFLOW_NOTIFICATION_NO_RECIPIENTS_SELECTED'));
+        }
+
+        return true;
+    }
+
+    /**
+     * The event contains two arguments:
      *
      * @param   Model\PrepareFormEvent   $event  The event
      *
-     * @return   boolean
+     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -117,6 +162,9 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      * @return   void
      *
      * @since   4.0.0
+     * @throws  Exception
+     * @see     sendMessages()
+     * @see     sendEmail()
      */
     public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
     {
@@ -163,11 +211,6 @@ final class Notification extends CMSPlugin implements SubscriberInterface
             unset($userIds[$key]);
         }
 
-        // Remove users with locked input box from the list of receivers
-        if (!empty($userIds)) {
-            $userIds = $this->removeLocked($userIds);
-        }
-
         // If there are no receivers, stop here
         if (empty($userIds)) {
             $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_NOTIFICATION_NO_RECEIVER'), 'error');
@@ -175,23 +218,24 @@ final class Notification extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // Get the model for private messages
-        $model_message = $this->getApplication()->bootComponent('com_messages')
-            ->getMVCFactory()->createModel('Message', 'Administrator');
-
         // Get the title of the stage
-        $model_stage = $this->getApplication()->bootComponent('com_workflow')
+        $modelStage = $this->getApplication()->bootComponent('com_workflow')
             ->getMVCFactory()->createModel('Stage', 'Administrator');
 
-        $toStage = $model_stage->getItem($transition->to_stage_id)->title;
+        $toStage = $modelStage->getItem($transition->to_stage_id)->title;
 
         // Get the name of the transition
-        $model_transition = $this->getApplication()->bootComponent('com_workflow')
+        $modelTransition = $this->getApplication()->bootComponent('com_workflow')
             ->getMVCFactory()->createModel('Transition', 'Administrator');
 
-        $transitionName = $model_transition->getItem($transition->id)->title;
+        $transitionName = $modelTransition->getItem($transition->id)->title;
 
         $hasGetItem = method_exists($model, 'getItem');
+        $container  = Factory::getContainer();
+
+        // Load language for messaging
+        $lang = $this->languageFactory->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
+        $lang->load('plg_workflow_notification');
 
         foreach ($pks as $pk) {
             // Get the title of the item which has changed, unknown as fallback
@@ -202,34 +246,36 @@ final class Notification extends CMSPlugin implements SubscriberInterface
                 $title = !empty($item->title) ? $item->title : $title;
             }
 
+            $notificationTypes = $transition->options['notification_type'] ?? [];
+
+            if (!is_array($notificationTypes)) {
+                $notificationTypes = (array) $notificationTypes;
+            }
+
             // Send Email to receivers
-            foreach ($userIds as $user_id) {
-                $receiver = $this->getUserFactory()->loadUserById($user_id);
+            foreach ($userIds as $userId) {
+                $recipient = $this->getUserFactory()->loadUserById($userId);
+                $extraText = '';
 
-                if ($receiver->authorise('core.manage', 'com_messages')) {
-                    // Load language for messaging
-                    $lang = $this->languageFactory->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
-                    $lang->load('plg_workflow_notification');
-                    $messageText = sprintf(
-                        $lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
-                        $title,
-                        $lang->_($transitionName),
-                        $user->name,
-                        $lang->_($toStage)
-                    );
+                if (!empty($transition->options['notification_text'])) {
+                    $extraText = htmlspecialchars($lang->_($transition->options['notification_text']));
+                }
 
-                    if (!empty($transition->options['notification_text'])) {
-                        $messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
+                foreach ($notificationTypes as $type) {
+                    try {
+                        $functionName = 'send' . ucfirst($type);
+                        $this->$functionName(
+                            $recipient,
+                            $user->name,
+                            $title,
+                            $lang->_($transitionName),
+                            $lang->_($toStage),
+                            $lang,
+                            $extraText
+                        );
+                    } catch (Exception $exception) {
+                        $this->getApplication()->enqueueMessage($exception->getMessage(), 'error');
                     }
-
-                    $message = [
-                        'id'         => 0,
-                        'user_id_to' => $receiver->id,
-                        'subject'    => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
-                        'message'    => $messageText,
-                    ];
-
-                    $model_message->save($message);
                 }
             }
         }
@@ -238,15 +284,112 @@ final class Notification extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * Send a message to com_messages when a stage changes transition.
+     *
+     * @param   \Joomla\CMS\User\User  $recipient       The user receiving the message
+     * @param   string                 $user            The user making the transition
+     * @param   string                 $title           The title of the item transitioned
+     * @param   string                 $transitionName  The name of the transition executed
+     * @param   string                 $toStage         The stage moving to
+     * @param   Language               $language        The language to use for translating the message
+     * @param   string                 $extraText       The additional text to add to the end of the message
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function sendMessages(
+        \Joomla\CMS\User\User $recipient,
+        string $user,
+        string $title,
+        string $transitionName,
+        string $toStage,
+        Language $language,
+        string $extraText
+    ): void {
+        if ($recipient->authorise('core.manage', 'com_message')) {
+            // Get the model for private messages
+            $modelMessage = $this->app->bootComponent('com_messages')
+                ->getMVCFactory()->createModel('Message', 'Administrator');
+
+            // Remove users with locked input box from the list of receivers
+            if ($this->isMessageBoxLocked($recipient->id)) {
+                return;
+            }
+
+            $subject     = sprintf($language->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title);
+            $messageText = sprintf(
+                $language->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
+                $title,
+                $transitionName,
+                $user,
+                $toStage
+            );
+            $messageText .= '<br>' . $extraText;
+
+            $message = [
+                'id'         => 0,
+                'user_id_to' => $recipient->id,
+                'subject'    => $subject,
+                'message'    => $messageText,
+            ];
+
+            $modelMessage->save($message);
+        }
+
+        $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
+    }
+
+    /**
+     * Send an email when a stage changes transition.
+     *
+     * @param   \Joomla\CMS\User\User  $recipient       The user receiving the message
+     * @param   string                 $user            The user making the transition
+     * @param   string                 $title           The title of the item transitioned
+     * @param   string                 $transitionName  The name of the transition executed
+     * @param   string                 $toStage         The stage moving to
+     * @param   Language               $language        The language to use for translating the message
+     * @param   string                 $extraText       The additional text to add to the end of the message
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \PHPMailer\PHPMailer\Exception
+     */
+    private function sendEmail(
+        \Joomla\CMS\User\User $recipient,
+        string $user,
+        string $title,
+        string $transitionName,
+        string $toStage,
+        Language $language,
+        string $extraText
+    ): void {
+        $data                   = [];
+        $data['siteurl']        = Uri::base();
+        $data['title']          = $title;
+        $data['user']           = $user;
+        $data['transitionName'] = $transitionName;
+        $data['toStage']        = $toStage;
+        $data['extraText']      = $extraText;
+
+        $mailer = new MailTemplate('plg_workflow_notification.mail', $this->app->getLanguage()->getTag());
+        $mailer->addTemplateData($data);
+        $mailer->addRecipient($recipient->email);
+        $mailer->send();
+    }
+
+    /**
      * Get user_ids of receivers
      *
-     * @param   object  $data  Object containing data about the transition
+     * @param   stdClass  $data  Object containing data about the transition
      *
      * @return   array  $userIds  The receivers
      *
      * @since   4.0.0
+     * @throws  Exception
      */
-    private function getUsersFromGroup($data): array
+    private function getUsersFromGroup(stdClass $data): array
     {
         $users = [];
 
@@ -286,7 +429,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
     /**
      * Check if the current plugin should execute workflow related activities
      *
-     * @param   string  $context
+     * @param   string  $context  The context to validate
      *
      * @return   boolean
      *
@@ -315,18 +458,18 @@ final class Notification extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Remove receivers who have locked their message inputbox
+     * Check if the message box is locked
      *
-     * @param   array  $userIds  The userIds which must be checked
+     * @param   int  $userId  The user ID which must be checked
      *
-     * @return   array  users with active message input box
+     * @return   boolean  Return status of message box is locked
      *
      * @since   4.0.0
      */
-    private function removeLocked(array $userIds): array
+    private function isMessageBoxLocked(int $userId): bool
     {
-        if (empty($userIds)) {
-            return [];
+        if (empty($userId)) {
+            return false;
         }
 
         $db = $this->getDatabase();
@@ -334,14 +477,12 @@ final class Notification extends CMSPlugin implements SubscriberInterface
         // Check for locked inboxes would be better to have _cdf settings in the user_object or a filter in users model
         $query = $db->getQuery(true);
 
-        $query->select($db->quoteName('user_id'))
-            ->from($db->quoteName('#__messages_cfg'))
-            ->whereIn($db->quoteName('user_id'), $userIds)
-            ->where($db->quoteName('cfg_name') . ' = ' . $db->quote('locked'))
-            ->where($db->quoteName('cfg_value') . ' = 1');
+        $query->select($this->db->quoteName('user_id'))
+            ->from($this->db->quoteName('#__messages_cfg'))
+            ->where($this->db->quoteName('user_id') . ' = ' . $userId)
+            ->where($this->db->quoteName('cfg_name') . ' = ' . $this->db->quote('locked'))
+            ->where($this->db->quoteName('cfg_value') . ' = 1');
 
-        $locked = $db->setQuery($query)->loadColumn();
-
-        return array_diff($userIds, $locked);
+        return (int) $this->db->setQuery($query)->loadResult() === $userId;
     }
 }
