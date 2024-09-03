@@ -23,7 +23,7 @@ use Joomla\CMS\Response\JsonResponse;
 /**
  * The guided tours controller for ajax requests.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class AjaxController extends BaseController
 {
