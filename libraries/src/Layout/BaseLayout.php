@@ -266,7 +266,7 @@ class BaseLayout implements LayoutInterface
     }
 
     /**
-     * Set the the data passed the layout
+     * Set the data passed the layout
      *
      * @param   array  $data  Array with the data for the layout
      *

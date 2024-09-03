@@ -71,6 +71,9 @@
 			<field
 				name="all_tags_description_image"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_TAGS_ALL_TAGS_MEDIA_LABEL"
 			/>
 

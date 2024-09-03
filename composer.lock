@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "186d1c75ba657af1ae5b59e4bfdafe01",
+    "content-hash": "706a42a51fe38ba6c7257d5c012f67d4",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
-            "version": "v3.1.0",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
-                "reference": "340a4dc65f6b0d9884853a3d32895d82f0c1502a"
+                "reference": "d8dbf18599548b8460ab0c462f299a15cacf6e66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/340a4dc65f6b0d9884853a3d32895d82f0c1502a",
-                "reference": "340a4dc65f6b0d9884853a3d32895d82f0c1502a",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/d8dbf18599548b8460ab0c462f299a15cacf6e66",
+                "reference": "d8dbf18599548b8460ab0c462f299a15cacf6e66",
                 "shasum": ""
             },
             "require": {
@@ -58,9 +58,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algo26-matthias/idna-convert/issues",
-                "source": "https://github.com/algo26-matthias/idna-convert/tree/v3.1.0"
+                "source": "https://github.com/algo26-matthias/idna-convert/tree/v3.1.1"
             },
-            "time": "2023-02-17T10:08:02+00:00"
+            "time": "2024-03-18T16:24:08+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -260,6 +260,54 @@
                 }
             ],
             "time": "2023-08-30T09:31:38+00:00"
+        },
+        {
+            "name": "cweagans/composer-patches",
+            "version": "1.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cweagans/composer-patches.git",
+                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
+                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "composer/composer": "~1.0 || ~2.0",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "cweagans\\Composer\\Patches"
+            },
+            "autoload": {
+                "psr-4": {
+                    "cweagans\\Composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Cameron Eagans",
+                    "email": "me@cweagans.net"
+                }
+            ],
+            "description": "Provides a way to patch Composer packages.",
+            "support": {
+                "issues": "https://github.com/cweagans/composer-patches/issues",
+                "source": "https://github.com/cweagans/composer-patches/tree/1.7.3"
+            },
+            "time": "2022-12-20T22:53:13+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -1702,16 +1750,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "2.0.3",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "9102630f9069351c1259b6f585a704fde7029d2a"
+                "reference": "6a2bb23f765d4060da72044d9f7ef92932d552f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/9102630f9069351c1259b6f585a704fde7029d2a",
-                "reference": "9102630f9069351c1259b6f585a704fde7029d2a",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/6a2bb23f765d4060da72044d9f7ef92932d552f8",
+                "reference": "6a2bb23f765d4060da72044d9f7ef92932d552f8",
                 "shasum": ""
             },
             "require": {
@@ -1753,7 +1801,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/2.0.3"
+                "source": "https://github.com/joomla-framework/filter/tree/2.0.5"
             },
             "funding": [
                 {
@@ -1765,20 +1813,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-26T07:57:54+00:00"
+            "time": "2024-08-20T15:37:30+00:00"
         },
         {
             "name": "joomla/http",
-            "version": "2.0.2",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "abcd087d83d317434457a79755cdde1d57fde8c6"
+                "reference": "b20fe5c8c3a30d7660ac6e032640a11d84cf29a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/abcd087d83d317434457a79755cdde1d57fde8c6",
-                "reference": "abcd087d83d317434457a79755cdde1d57fde8c6",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/b20fe5c8c3a30d7660ac6e032640a11d84cf29a1",
+                "reference": "b20fe5c8c3a30d7660ac6e032640a11d84cf29a1",
                 "shasum": ""
             },
             "require": {
@@ -1821,7 +1869,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/2.0.2"
+                "source": "https://github.com/joomla-framework/http/tree/2.0.4"
             },
             "funding": [
                 {
@@ -1833,7 +1881,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-31T21:23:35+00:00"
+            "time": "2024-03-12T10:38:28+00:00"
         },
         {
             "name": "joomla/input",
@@ -3193,16 +3241,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.23",
+            "version": "3.0.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "866cc78fbd82462ffd880e3f65692afe928bed50"
+                "reference": "cfa2013d0f68c062055180dd4328cc8b9d1f30b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/866cc78fbd82462ffd880e3f65692afe928bed50",
-                "reference": "866cc78fbd82462ffd880e3f65692afe928bed50",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/cfa2013d0f68c062055180dd4328cc8b9d1f30b8",
+                "reference": "cfa2013d0f68c062055180dd4328cc8b9d1f30b8",
                 "shasum": ""
             },
             "require": {
@@ -3283,7 +3331,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.23"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.37"
             },
             "funding": [
                 {
@@ -3299,7 +3347,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-18T17:22:01+00:00"
+            "time": "2024-03-03T02:14:58+00:00"
         },
         {
             "name": "psr/container",
@@ -9921,5 +9969,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

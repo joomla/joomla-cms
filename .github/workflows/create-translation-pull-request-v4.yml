@@ -1,4 +1,4 @@
-name: Create translation pull request
+name: Create translation pull request J4
 
 on:
   push:
@@ -73,5 +73,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
-          gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "Translation Update" | grep -v "No pull" || \
-            gh pr create --title "Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.4-dev
+          gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "[4.x] Translation Update" | grep -v "No pull" || \
+            gh pr create --title "[4.x] Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.4-dev

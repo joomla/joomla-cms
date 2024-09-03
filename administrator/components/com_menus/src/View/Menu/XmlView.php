@@ -13,6 +13,7 @@ namespace Joomla\Component\Menus\Administrator\View\Menu;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -68,7 +69,7 @@ class XmlView extends BaseHtmlView
             return;
         }
 
-        $this->items = $root->getChildren(true);
+        $this->items = $root->getChildren();
 
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><menu ' .
             'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
@@ -103,8 +104,8 @@ class XmlView extends BaseHtmlView
     /**
      * Add a child node to the xml
      *
-     * @param   \SimpleXMLElement  $xml   The current XML node which would become the parent to the new node
-     * @param   \stdClass          $item  The menuitem object to create the child XML node from
+     * @param   \SimpleXMLElement      $xml   The current XML node which would become the parent to the new node
+     * @param   AdministratorMenuItem  $item  The menuitem object to create the child XML node from
      *
      * @return  void
      *
@@ -114,22 +115,22 @@ class XmlView extends BaseHtmlView
     {
         $node = $xml->addChild('menuitem');
 
-        $node['type'] = $item->type;
-
         if ($item->title) {
             $node['title'] = htmlentities($item->title, ENT_XML1);
+        }
+
+        $node['type'] = $item->type;
+
+        if ($item->element) {
+            $node['element'] = $item->element;
         }
 
         if ($item->link) {
             $node['link'] = $item->link;
         }
 
-        if ($item->element) {
-            $node['element'] = $item->element;
-        }
-
-        if (isset($item->class) && $item->class) {
-            $node['class'] = htmlentities($item->class, ENT_XML1);
+        if (isset($item->class) && trim($item->class)) {
+            $node['class'] = htmlentities(trim($item->class), ENT_XML1);
         }
 
         if ($item->access) {
@@ -140,14 +141,42 @@ class XmlView extends BaseHtmlView
             $node['target'] = '_blank';
         }
 
+        if ($item->getParams()->get('ajax-badge')) {
+            $node['ajax-badge'] = $item->getParams()->get('ajax-badge');
+        }
+
+        if ($item->icon) {
+            $node['icon'] = $item->icon;
+        }
+
+        if ($item->getParams()->get('menu-quicktask')) {
+            $node['quicktask']       = $item->getParams()->get('menu-quicktask');
+
+            if ($item->getParams()->get('menu-quicktask-title')) {
+                $node['quicktask-title'] = $item->getParams()->get('menu-quicktask-title');
+            }
+
+            if ($item->getParams()->get('menu-quicktask-icon')) {
+                $node['quicktask-icon'] = $item->getParams()->get('menu-quicktask-icon');
+            }
+
+            if ($item->getParams()->get('menu-quicktask-permission')) {
+                $node['quicktask-permission'] = $item->getParams()->get('menu-quicktask-permission');
+            }
+        }
+
+        if ($item->getParams()->get('dashboard')) {
+            $node['dashboard'] = $item->getParams()->get('dashboard');
+        }
+
         if ($item->getParams() && $hideitems = $item->getParams()->get('hideitems')) {
             $item->getParams()->set('hideitems', $this->getModel('Menu')->getExtensionElementsForMenuItems($hideitems));
 
             $node->addChild('params', htmlentities((string) $item->getParams(), ENT_XML1));
         }
 
-        if (isset($item->submenu)) {
-            foreach ($item->submenu as $sub) {
+        if ($item->hasChildren()) {
+            foreach ($item->getChildren() as $sub) {
                 $this->addXmlChild($node, $sub);
             }
         }
