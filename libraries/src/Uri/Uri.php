@@ -249,9 +249,9 @@ class Uri extends \Joomla\Uri\Uri
         // @see UriTest
         if (
             empty($host) && strpos($uri->path, 'index.php') === 0
-            || !empty($host) && preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
+            || !empty($host) && preg_match('#^' . preg_quote(static::base(), '#') . '#', $base)
             || !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
-            || !empty($host) && $base === $host && preg_match('#' . preg_quote($base, '#') . '#', static::base())
+            || !empty($host) && $base === $host && preg_match('#^' . preg_quote($base, '#') . '#', static::base())
         ) {
             return true;
         }
