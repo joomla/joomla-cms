@@ -337,18 +337,12 @@ class CategoryModel extends AdminModel
                 $extension = substr($app->getUserState('com_categories.categories.filter.extension', ''), 4);
                 $filters   = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
-                $data->set(
+                $data->published = $app->getInput()->getInt(
                     'published',
-                    $app->getInput()->getInt(
-                        'published',
-                        ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
-                    )
+                    ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                 );
-                $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set(
-                    'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access   = $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 
