@@ -260,6 +260,12 @@ class SearchModel extends ListModel
         $query->order('ordering ' . $db->escape($direction));
 
         /*
+         * Prevent invalid records from being returned in the final query.
+         * This can happen if the search results are queried while the indexer is running.
+         */
+        $query->where($db->quoteName('object') . ' != ' . $db->quote(''));
+
+        /*
          * If there are no optional or required search terms in the query, we
          * can get the results in one relatively simple database query.
          */
