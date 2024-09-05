@@ -160,7 +160,11 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
         }
 
-        return $this->legacyGet($property, $default);
+        if (isset($this->$property)) {
+            return $this->$property;
+        }
+
+        return $default;
     }
 
     /**

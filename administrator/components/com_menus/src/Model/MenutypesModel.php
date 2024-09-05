@@ -145,7 +145,7 @@ class MenutypesModel extends BaseDatabaseModel
      */
     public function addReverseLookupUrl($option)
     {
-        $this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
+        $this->rlu[MenusHelper::getLinkKey($option->request)] = $option->title;
     }
 
     /**

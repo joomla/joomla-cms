@@ -69,7 +69,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
         // Access filter
         $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
+        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->id);
         $articles->setState('filter.access', $access);
 
         $catids = $params->get('catid');

@@ -116,9 +116,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // View also takes responsibility for checking if the user logged in with remember me.
-        $cookieLogin = $user->get('cookieLogin');
-
-        if (!empty($cookieLogin)) {
+        if (isset($user->cookieLogin) && !empty($user->cookieLogin)) {
             // If so, the user must login to edit the password and other data.
             // What should happen here? Should we force a logout which destroys the cookies?
             $app = Factory::getApplication();
