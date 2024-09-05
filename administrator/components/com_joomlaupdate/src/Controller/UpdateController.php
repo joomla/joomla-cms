@@ -156,6 +156,9 @@ class UpdateController extends BaseController
             $model->collectError('finaliseUpgrade', $e);
         }
 
+        // Reset update source from "Joomla Next" to "Default"
+        $this->app->setUserState('com_joomlaupdate.update_channel_reset', $model->resetUpdateSource());
+
         // Check for update errors
         if ($model->getErrors()) {
             // The errors already should be logged at this point
