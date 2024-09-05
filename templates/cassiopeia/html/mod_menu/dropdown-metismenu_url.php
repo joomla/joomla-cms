@@ -48,7 +48,7 @@ if ($item->menu_icon) {
 
     $linktype = HTMLHelper::_('image', $item->menu_image, '', $image_attributes);
 
-    $linktype .= '<span class="' . ($itemParams->get('menu_text', 1) ? 'image-title' : ' visually-hidden') . '">' . $item->title . '</span>';
+    $linktype .= '<span class="image-title' . ($itemParams->get('menu_text', 1) ? '' : ' visually-hidden') . '">' . $item->title . '</span>';
 }
 
 if ($item->browserNav == 1) {
