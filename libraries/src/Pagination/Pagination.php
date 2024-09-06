@@ -211,6 +211,11 @@ class Pagination
         $router = Factory::getContainer()->get(ucfirst($client) . 'Router');
         $filter = new InputFilter();
 
+        // It is applicable only for CMS router. API router works differently.
+        if (!$router instanceof \Joomla\CMS\Router\Router) {
+            return;
+        }
+
         // Filter them and add to the params list
         foreach ($router->getVars() as $key => $value) {
             $filterMethod = $this->paramsFromRequestFilters[$key] ?? 'CMD';
