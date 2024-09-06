@@ -831,7 +831,8 @@ INSERT INTO `#__action_logs_extensions` (`id`, `extension`) VALUES
 (17, 'com_users'),
 (18, 'com_checkin'),
 (19, 'com_scheduler'),
-(20, 'com_fields');
+(20, 'com_fields'),
+(21, 'com_guidedtours');
 
 -- --------------------------------------------------------
 
@@ -871,7 +872,8 @@ INSERT INTO `#__action_log_config` (`id`, `type_title`, `type_alias`, `id_holder
 (18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA'),
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
 (20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA'),
-(21, 'field', 'com_fields.field', 'id', 'title', '#__fields', 'PLG_ACTIONLOG_JOOMLA');
+(21, 'field', 'com_fields.field', 'id', 'title', '#__fields', 'PLG_ACTIONLOG_JOOMLA'),
+(22, 'guidedtour', 'com_guidedtours.state', 'id', 'title', '#__guidedtours', 'PLG_ACTIONLOG_JOOMLA');
 
 
 -- --------------------------------------------------------
