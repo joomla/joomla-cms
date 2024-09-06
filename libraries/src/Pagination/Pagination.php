@@ -209,11 +209,10 @@ class Pagination
         // Get requested parameters from the router
         $client = $this->app->getName();
         $router = Factory::getContainer()->get(ucfirst($client) . 'Router');
-        $filter = new InputFilter;
+        $filter = new InputFilter();
 
         // Filter them and add to the params list
-        foreach ($router->getVars() as $key => $value)
-        {
+        foreach ($router->getVars() as $key => $value) {
             $filterMethod = $this->paramsFromRequestFilters[$key] ?? 'CMD';
 
             $this->setAdditionalUrlParam($key, $filter->clean($value, $filterMethod));
