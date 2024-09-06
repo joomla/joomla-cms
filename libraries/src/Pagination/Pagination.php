@@ -15,6 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -97,6 +98,21 @@ class Pagination
     protected $additionalUrlParams = [];
 
     /**
+     * Filters which will be applied to the parameters added from request.
+     * Defaulting to CMD when the filter is not defined here.
+     *
+     * @var  string[]
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $paramsFromRequestFilters = [
+        'layout'        => 'STRING',
+        'templateStyle' => 'INT',
+        'id'            => 'STRING',
+        'Itemid'        => 'INT',
+    ];
+
+    /**
      * @var    CMSApplication  The application object
      * @since  3.4
      */
@@ -176,6 +192,31 @@ class Pagination
         // If we are viewing all records set the view all flag to true.
         if ($limit === 0) {
             $this->viewall = true;
+        }
+
+        $this->setUrlParamsFromRequest();
+    }
+
+    /**
+     * Set URL parameters from request.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setUrlParamsFromRequest()
+    {
+        // Get requested parameters from the router
+        $client = $this->app->getName();
+        $router = Factory::getContainer()->get(ucfirst($client) . 'Router');
+        $filter = new InputFilter;
+
+        // Filter them and add to the params list
+        foreach ($router->getVars() as $key => $value)
+        {
+            $filterMethod = $this->paramsFromRequestFilters[$key] ?? 'CMD';
+
+            $this->setAdditionalUrlParam($key, $filter->clean($value, $filterMethod));
         }
     }
 
@@ -663,36 +704,8 @@ class Pagination
     {
         $data = new \stdClass();
 
-        // Platform defaults
-        $defaultUrlParams = [
-            'format'        => 'CMD',
-            'option'        => 'CMD',
-            'controller'    => 'CMD',
-            'view'          => 'CMD',
-            'layout'        => 'STRING',
-            'task'          => 'CMD',
-            'template'      => 'CMD',
-            'templateStyle' => 'INT',
-            'tmpl'          => 'CMD',
-            'tpl'           => 'CMD',
-            'id'            => 'STRING',
-            'Itemid'        => 'INT',
-        ];
-
         // Prepare the routes
         $params = [];
-        $input  = $this->app->getInput();
-
-        // Use platform defaults if parameter doesn't already exist.
-        foreach ($defaultUrlParams as $param => $filter) {
-            $value = $input->get($param, null, $filter);
-
-            if ($value === null) {
-                continue;
-            }
-
-            $params[$param] = $value;
-        }
 
         if (!empty($this->additionalUrlParams)) {
             foreach ($this->additionalUrlParams as $key => $value) {
