@@ -271,7 +271,7 @@ class LegacyComponent implements
             return false;
         }
 
-        \JLoader::register($className, $file);
+        require_once $file;
 
         if (!class_exists($className)) {
             return false;

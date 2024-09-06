@@ -54,9 +54,12 @@ class RouteHelper extends CMSRouteHelper
         $explodedRouter = explode('::', $routerName);
 
         if (file_exists($routerFile = JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php')) {
-            \JLoader::register($explodedRouter[0], $routerFile);
             $routerClass  = $explodedRouter[0];
             $routerMethod = $explodedRouter[1];
+
+            if (!class_exists($routerClass)) {
+                require_once $routerFile;
+            }
 
             if (class_exists($routerClass) && method_exists($routerClass, $routerMethod)) {
                 if ($routerMethod === 'getCategoryRoute') {

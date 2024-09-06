@@ -769,7 +769,10 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 $cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
             } else {
                 $cName = ucfirst(substr($option, 4)) . 'HelperAssociation';
-                \JLoader::register($cName, Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
+
+                if (!class_exists($cName)) {
+                    require_once Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php');
+                }
 
                 if (class_exists($cName) && \is_callable([$cName, 'getAssociations'])) {
                     $cassociations = \call_user_func([$cName, 'getAssociations']);

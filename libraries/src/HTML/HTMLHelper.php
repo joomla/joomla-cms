@@ -159,7 +159,7 @@ abstract class HTMLHelper
                 throw new \InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
             }
 
-            \JLoader::register($className, $path);
+            require_once $path;
 
             if (!class_exists($className)) {
                 if ($prefix !== 'Joomla\\CMS\\HTML\\HTMLHelper') {
@@ -168,8 +168,6 @@ abstract class HTMLHelper
 
                 // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
                 $className = 'JHtml' . ucfirst($file);
-
-                \JLoader::register($className, $path);
 
                 if (!class_exists($className)) {
                     throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);

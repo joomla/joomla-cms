@@ -101,7 +101,7 @@ class LegacyFactory implements MVCFactoryInterface
                 return null;
             }
 
-            \JLoader::register($viewClass, $path);
+            require_once $path;
 
             if (!class_exists($viewClass)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);

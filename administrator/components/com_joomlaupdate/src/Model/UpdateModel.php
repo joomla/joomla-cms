@@ -689,7 +689,9 @@ ENDDATA;
         $installer->setPath('extension_root', JPATH_ROOT);
 
         // Run the script file.
-        \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
+        if (!class_exists('JoomlaInstallerScript')) {
+            require_once JPATH_ADMINISTRATOR . '/components/com_admin/script.php';
+        }
 
         $msg           = '';
         $manifestClass = new \JoomlaInstallerScript();

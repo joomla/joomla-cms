@@ -440,7 +440,9 @@ class CategoryModel extends AdminModel
             if (file_exists($path)) {
                 $cName = ucfirst($eName) . ucfirst($section) . 'HelperCategory';
 
-                \JLoader::register($cName, $path);
+                if (!class_exists($cName)) {
+                    require_once $path;
+                }
 
                 if (class_exists($cName) && \is_callable([$cName, 'onPrepareForm'])) {
                     $lang->load($component, JPATH_BASE, null, false, false)
@@ -1302,7 +1304,10 @@ class CategoryModel extends AdminModel
         }
 
         $hname = $cname . 'HelperAssociation';
-        \JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
+
+        if (!class_exists($hname)) {
+            require_once JPATH_SITE . '/components/' . $component . '/helpers/association.php';
+        }
 
         $this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
 

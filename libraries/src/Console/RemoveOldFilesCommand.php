@@ -54,7 +54,9 @@ class RemoveOldFilesCommand extends AbstractCommand
         $symfonyStyle->title('Removing Unneeded Files & Folders' . ($dryRun ? ' - Dry Run' : ''));
 
         // We need the update script
-        \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
+        if (!class_exists('JoomlaInstallerScript')) {
+            require_once JPATH_ADMINISTRATOR . '/components/com_admin/script.php';
+        }
 
         $status = (new \JoomlaInstallerScript())->deleteUnexistingFiles($dryRun, true);
 

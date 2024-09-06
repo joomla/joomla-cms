@@ -980,7 +980,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
             $classname = $this->getScriptClassName();
 
-            \JLoader::register($classname, $manifestScriptFile);
+            if (!class_exists($classname) && is_file($manifestScriptFile)) {
+                require_once $manifestScriptFile;
+            }
 
             if (!class_exists($classname)) {
                 return;

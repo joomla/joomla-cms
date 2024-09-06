@@ -178,7 +178,9 @@ class ListView extends HtmlView
         $helperClass   = ucfirst($componentName . 'Helper');
 
         // Include the component helpers.
-        \JLoader::register($helperClass, JPATH_COMPONENT . '/helpers/' . $componentName . '.php');
+        if (!class_exists($helperClass) && is_file(JPATH_COMPONENT . '/helpers/' . $componentName . '.php')) {
+            require_once JPATH_COMPONENT . '/helpers/' . $componentName . '.php';
+        }
 
         if ($this->getLayout() !== 'modal') {
             if (\is_callable($helperClass . '::addSubmenu')) {

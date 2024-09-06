@@ -248,7 +248,9 @@ class ActionlogsHelper
             $prefix = ucfirst(str_replace('com_', '', $component));
             $cName  = $prefix . 'Helper';
 
-            \JLoader::register($cName, $file);
+            if (!class_exists($cName)) {
+                require_once $file;
+            }
 
             if (class_exists($cName) && \is_callable([$cName, 'getContentTypeLink'])) {
                 return $cName::getContentTypeLink($contentType, $id, $object);

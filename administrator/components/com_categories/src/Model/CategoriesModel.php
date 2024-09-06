@@ -437,7 +437,10 @@ class CategoriesModel extends ListModel
         }
 
         $hname = $cname . 'HelperAssociation';
-        \JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
+
+        if (!class_exists($hname)) {
+            require_once JPATH_SITE . '/components/' . $component . '/helpers/association.php';
+        }
 
         $this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
 

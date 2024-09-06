@@ -90,7 +90,9 @@ if (!$format) {
         }
 
         if ($results === null && is_file($helperFile)) {
-            JLoader::register($class, $helperFile);
+            if (!class_exists($class)) {
+                require_once $helperFile;
+            }
 
             if (method_exists($class, $method . 'Ajax')) {
                 // Load language file for module
@@ -175,7 +177,9 @@ if (!$format) {
         $method = $input->get('method') ?: 'get';
 
         if (is_file($helperFile)) {
-            JLoader::register($class, $helperFile);
+            if (!class_exists($class)) {
+                require_once $helperFile;
+            }
 
             if (method_exists($class, $method . 'Ajax')) {
                 // Load language file for template

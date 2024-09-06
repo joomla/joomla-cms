@@ -24,7 +24,9 @@ use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
-\JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
+if (!class_exists('JoomlaInstallerScript')) {
+    require_once JPATH_ADMINISTRATOR . '/components/com_admin/script.php';
+}
 
 /**
  * Installer Database Model

@@ -29,7 +29,9 @@ trait ExtensionNamespaceMapper
      */
     public function createExtensionNamespaceMap()
     {
-        \JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+        if (!class_exists('JNamespacePsr4Map')) {
+            require_once JPATH_LIBRARIES . '/namespacemap.php';
+        }
         $extensionPsr4Loader = new \JNamespacePsr4Map();
         $extensionPsr4Loader->load();
     }

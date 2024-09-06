@@ -43,7 +43,9 @@ class Config implements ServiceProviderInterface
                         return new Registry();
                     }
 
-                    \JLoader::register('JConfig', JPATH_CONFIGURATION . '/configuration.php');
+                    if (!class_exists('JConfig')) {
+                        require_once JPATH_CONFIGURATION . '/configuration.php';
+                    }
 
                     if (!class_exists('JConfig')) {
                         throw new \RuntimeException('Configuration class does not exist.');

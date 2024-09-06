@@ -2384,7 +2384,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             // Core adapters should autoload based on classname, keep this fallback just in case
             if (!class_exists($class)) {
                 // Try to load the adapter object
-                \JLoader::register($class, $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName);
+                require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
 
                 if (!class_exists($class)) {
                     // Skip to next one

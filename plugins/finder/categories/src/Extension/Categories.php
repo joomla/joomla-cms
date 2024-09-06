@@ -333,7 +333,9 @@ final class Categories extends Adapter implements SubscriberInterface
         $class = $extension . 'HelperRoute';
 
         // Need to import component route helpers dynamically, hence the reason it's handled here.
-        \JLoader::register($class, JPATH_SITE . '/components/' . $extension_element . '/helpers/route.php');
+        if (!class_exists($class)) {
+            require_once JPATH_SITE . '/components/' . $extension_element . '/helpers/route.php';
+        }
 
         if (class_exists($class) && method_exists($class, 'getCategoryRoute')) {
             $item->route = $class::getCategoryRoute($item->id, $item->language);
