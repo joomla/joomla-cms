@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 /**
  * The languages view
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class JsonapiView extends BaseApiView
 {
@@ -27,7 +27,7 @@ class JsonapiView extends BaseApiView
      * The fields to render item in the documents
      *
      * @var  array
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $fieldsToRenderList = [
         'name',
@@ -46,7 +46,7 @@ class JsonapiView extends BaseApiView
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     protected function prepareItem($item)
     {
