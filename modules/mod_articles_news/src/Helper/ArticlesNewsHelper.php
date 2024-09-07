@@ -167,15 +167,21 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             if ($triggerEvents) {
                 $item->text = '';
-                $app->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$params, 0]);
+                $context = 'com_content.category';
 
-                $results                 = $app->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$params, 0]);
+               if ($featured) {
+                    $context = 'com_content.featured';
+                }
+                
+                $app->triggerEvent('onContentPrepare', [$context, &$item, &$params, 0]);
+
+                $results                 = $app->triggerEvent('onContentAfterTitle', [$context, &$item, &$params, 0]);
                 $item->afterDisplayTitle = trim(implode("\n", $results));
 
-                $results                    = $app->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$params, 0]);
+                $results                    = $app->triggerEvent('onContentBeforeDisplay', [$context, &$item, &$params, 0]);
                 $item->beforeDisplayContent = trim(implode("\n", $results));
 
-                $results                   = $app->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$params, 0]);
+                $results                   = $app->triggerEvent('onContentAfterDisplay', [$context, &$item, &$params, 0]);
                 $item->afterDisplayContent = trim(implode("\n", $results));
             } else {
                 $item->afterDisplayTitle    = '';
