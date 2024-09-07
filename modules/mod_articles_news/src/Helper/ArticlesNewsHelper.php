@@ -172,7 +172,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
                 if ($featured) {
                     $context = 'com_content.featured';
                 }
-                
+
                 $app->triggerEvent('onContentPrepare', [$context, &$item, &$params, 0]);
 
                 $results                 = $app->triggerEvent('onContentAfterTitle', [$context, &$item, &$params, 0]);
