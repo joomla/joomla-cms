@@ -167,9 +167,9 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             if ($triggerEvents) {
                 $item->text = '';
-                $context = 'com_content.category';
+                $context    = 'com_content.category';
 
-               if ($featured) {
+                if ($featured) {
                     $context = 'com_content.featured';
                 }
                 
