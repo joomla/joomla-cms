@@ -82,9 +82,9 @@ class TemplateModel extends FormModel
             $path       = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $path);
             $temp->name = $name;
             $temp->id   = urlencode(base64_encode(str_replace('\\', '//', $path)));
-
-            return $temp;
         }
+
+        return $temp;
     }
 
     /**
@@ -306,13 +306,14 @@ class TemplateModel extends FormModel
      * @param   array    $value  The file name.
      * @param   integer  $exid   The template extension id.
      *
-     * @return  integer  Number of files changed.
+     * @return  bool|\RuntimeException  Update successfull or exception object
      *
      * @since   4.0.0
      */
     public function publish($ids, $value, $exid)
     {
         $db = $this->getDatabase();
+        $result = false;
 
         foreach ($ids as $id) {
             if ($value === -3) {
@@ -1283,6 +1284,8 @@ class TemplateModel extends FormModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -1324,6 +1327,8 @@ class TemplateModel extends FormModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -1366,6 +1371,8 @@ class TemplateModel extends FormModel
 
             return $url;
         }
+
+        return false;
     }
 
     /**
@@ -1399,6 +1406,8 @@ class TemplateModel extends FormModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -1433,6 +1442,8 @@ class TemplateModel extends FormModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -1470,6 +1481,8 @@ class TemplateModel extends FormModel
 
             return base64_encode($newName);
         }
+
+        return false;
     }
 
     /**
@@ -1502,6 +1515,8 @@ class TemplateModel extends FormModel
 
             return $image;
         }
+
+        return false;
     }
 
     /**
@@ -1549,6 +1564,8 @@ class TemplateModel extends FormModel
                 $app->enqueueMessage($e->getMessage(), 'error');
             }
         }
+
+        return false;
     }
 
     /**
@@ -1594,6 +1611,8 @@ class TemplateModel extends FormModel
                 $app->enqueueMessage($e->getMessage(), 'error');
             }
         }
+
+        return false;
     }
 
     /**
@@ -1620,13 +1639,17 @@ class TemplateModel extends FormModel
             $result = $db->loadObject();
         } catch (\RuntimeException $e) {
             $app->enqueueMessage($e->getMessage(), 'warning');
+
+            return null;
         }
 
         if (empty($result)) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'warning');
-        } else {
-            return $result;
+
+            return null;
         }
+
+        return $result;
     }
 
     /**
@@ -1742,6 +1765,8 @@ class TemplateModel extends FormModel
 
             return $files;
         }
+
+        return false;
     }
 
     /**

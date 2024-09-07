@@ -180,6 +180,8 @@ final class Joomla extends CMSPlugin
             case 'com_workflow.stage':
                 return $this->stageNotUsed($data->id);
         }
+
+        return true;
     }
 
     /**

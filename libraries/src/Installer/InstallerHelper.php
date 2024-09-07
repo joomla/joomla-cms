@@ -314,7 +314,7 @@ abstract class InstallerHelper
      * @param   string  $package    Path to the uploaded package file
      * @param   string  $resultdir  Path to the unpacked extension
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   3.1
      */

@@ -564,6 +564,8 @@ class FileAdapter extends InstallerAdapter
                 }
             }
         }
+
+        return true;
     }
 
     /**
