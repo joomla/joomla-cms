@@ -312,7 +312,7 @@ class TemplateModel extends FormModel
      */
     public function publish($ids, $value, $exid)
     {
-        $db = $this->getDatabase();
+        $db     = $this->getDatabase();
         $result = false;
 
         foreach ($ids as $id) {
