@@ -98,16 +98,26 @@ class Pagination
     protected $additionalUrlParams = [];
 
     /**
-     * Filters which will be applied to the parameters added from request.
-     * Defaulting to CMD when the filter is not defined here.
+     * List of parameters that will be added from request automatically.
+     * When exists they will be added to the $additionalUrlParams list, while pagination initialisation.
+     *
+     * In format key => filter
      *
      * @var  string[]
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected $paramsFromRequestFilters = [
+    protected $paramsFromRequest = [
+        'format'        => 'CMD',
+        'option'        => 'CMD',
+        'controller'    => 'CMD',
+        'view'          => 'CMD',
         'layout'        => 'STRING',
+        'task'          => 'CMD',
+        'template'      => 'CMD',
         'templateStyle' => 'INT',
+        'tmpl'          => 'CMD',
+        'tpl'           => 'CMD',
         'id'            => 'STRING',
         'Itemid'        => 'INT',
     ];
@@ -206,7 +216,7 @@ class Pagination
      */
     protected function setUrlParamsFromRequest()
     {
-        // Get requested parameters from the router
+        // Get the requested parameters from the router
         $client = $this->app->getName();
         $router = Factory::getContainer()->get(ucfirst($client) . 'Router');
         $filter = new InputFilter();
@@ -218,7 +228,12 @@ class Pagination
 
         // Filter them and add to the params list
         foreach ($router->getVars() as $key => $value) {
-            $filterMethod = $this->paramsFromRequestFilters[$key] ?? 'CMD';
+            // Check if the parameter is allowed
+            if (empty($this->paramsFromRequest[$key])) {
+                continue;
+            }
+
+            $filterMethod = $this->paramsFromRequest[$key];
 
             $this->setAdditionalUrlParam($key, $filter->clean($value, $filterMethod));
         }
