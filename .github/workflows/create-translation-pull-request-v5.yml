@@ -13,7 +13,6 @@ on:
 env:
   JOOMLA_MAJOR_VERSION: 5
   JOOMLA_MINOR_VERSION: 5.2
-  JOOMLA_BOT_BRANCH: refs/heads/translation5
 
 permissions:
   contents: read
@@ -24,7 +23,7 @@ jobs:
       contents: write  # for Git to git push
     runs-on: ubuntu-latest
     # Only run this action the translation-bot repository in the translation branch
-    if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == env.JOOMLA_BOT_BRANCH  }}
+    if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation5' }}
 
     steps:
       - uses: actions/checkout@v3
