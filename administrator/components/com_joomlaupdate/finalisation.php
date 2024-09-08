@@ -12,8 +12,8 @@
  * - Also unlike other files, the normal constant defined checks must be within the global namespace declaration and can't be outside of it
  */
 
-namespace
-{
+namespace {
+
     // Require the restoration environment or fail cold. Prevents direct web access.
     \defined('_JOOMLA_UPDATE') or die();
 

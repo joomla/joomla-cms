@@ -298,7 +298,7 @@ class User
     public static function getInstance($identifier = 0)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
                 __CLASS__
