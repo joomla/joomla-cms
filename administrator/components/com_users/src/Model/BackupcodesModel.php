@@ -90,7 +90,7 @@ class BackupcodesModel extends BaseDatabaseModel
 
         for ($i = 0; $i < 10; $i++) {
             // Each backup code is 2 groups of 4 digits
-            $backupCodes[$i] = \sprintf('%04u%04u', random_int(0, 9999), random_int(0, 9999));
+            $backupCodes[$i] = sprintf('%04u%04u', random_int(0, 9999), random_int(0, 9999));
         }
 
         // Save the backup codes to the database and update the cache

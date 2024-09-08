@@ -1265,7 +1265,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 continue;
             }
 
-            $buffer = file_get_contents(\sprintf("%s/%s/%s.sql", $this->getPath('extension_root'), $schemapath, $file));
+            $buffer = file_get_contents(sprintf("%s/%s/%s.sql", $this->getPath('extension_root'), $schemapath, $file));
 
             // Graceful exit and rollback if read not successful
             if ($buffer === false) {
@@ -2435,7 +2435,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         }
 
         if (!class_exists($class)) {
-            throw new \InvalidArgumentException(\sprintf('The %s install adapter does not exist.', $adapter));
+            throw new \InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
         }
 
         // Ensure the adapter type is part of the options array

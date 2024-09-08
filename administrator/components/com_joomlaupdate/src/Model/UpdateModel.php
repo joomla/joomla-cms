@@ -1795,7 +1795,7 @@ ENDDATA;
 
         // Log it
         Log::add(
-            \sprintf(
+            sprintf(
                 'An error has occurred while running "%s". Code: %s. Message: %s.',
                 $context,
                 $error->getCode(),
@@ -1807,7 +1807,7 @@ ENDDATA;
 
         if (JDEBUG) {
             $trace = $error->getFile() . ':' . $error->getLine() . PHP_EOL . $error->getTraceAsString();
-            Log::add(\sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
+            Log::add(sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
         }
     }
 
@@ -2081,7 +2081,7 @@ ENDDATA;
             $db->execute();
         } catch (\Exception $e) {
             Log::add(
-                \sprintf(
+                sprintf(
                     'An error has occurred while running "resetUpdateSource". Code: %s. Message: %s.',
                     $e->getCode(),
                     $e->getMessage()

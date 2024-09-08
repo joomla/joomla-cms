@@ -154,7 +154,7 @@ class StylesRenderer extends DocumentRenderer
 
                 if ($asset->getOption('deprecated')) {
                     @trigger_error(
-                        \sprintf('Web Asset style [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
+                        sprintf('Web Asset style [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
                         E_USER_DEPRECATED
                     );
                 }
