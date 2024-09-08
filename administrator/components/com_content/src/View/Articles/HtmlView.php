@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\View\Articles;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -154,6 +155,21 @@ class HtmlView extends BaseHtmlView
                 // One last changes needed is to change the category filter to just show categories with All language or with the forced language.
                 $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
             }
+        }
+
+        if ($this->items) {
+            // Preload access rules for the items list
+            $assetsList = [];
+
+            foreach ($this->items as $item) {
+                $assetsList[] = 'com_content.article.' . $item->id;
+
+                if (!empty($item->catid)) {
+                    $assetsList['com_content.category.' . $item->catid] = 'com_content.category.' . $item->catid;
+                }
+            }
+
+            Access::preloadItems('com_content', array_values($assetsList), 'name');
         }
 
         parent::display($tpl);

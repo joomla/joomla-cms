@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Categories\Administrator\View\Categories;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -148,6 +149,17 @@ class HtmlView extends BaseHtmlView
         // If filter by category is active we need to know the extension name to filter the categories
         $extensionName = $this->escape($this->state->get('filter.extension'));
         $this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
+
+        if ($this->items) {
+            // Preload access rules for the items list
+            $assetsList = [];
+
+            foreach ($this->items as $citem) {
+                $assetsList[] = 'com_content.category.' . $citem->id;
+            }
+
+            Access::preloadItems('com_content', array_values($assetsList), 'name');
+        }
 
         parent::display($tpl);
     }

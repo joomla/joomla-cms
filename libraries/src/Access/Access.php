@@ -210,6 +210,38 @@ class Access
     }
 
     /**
+     * Method to preload the Rules object for the given assets list.
+     *
+     * @param  string  $extensionName  Extension name.
+     * @param  array   $assetsList     Assets list. Either list of asset names or asset ids.
+     * @param  string  $key            The key to use in the filter:
+     *                                 id - When $assetsList is list of asset ids;
+     *                                 name - When $assetsList is list of asset names;
+     *
+     * @return void
+     */
+    public static function preloadItems(string $extensionName, array $assetsList, string $key = 'id'): void
+    {
+        if (!$assetsList) return;
+
+        $db    = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
+            ->from($db->quoteName('#__assets'))
+            ->where(
+                $db->quoteName($key) . ' IN ('
+                . implode(',', $query->bindArray($assetsList, \Joomla\Database\ParameterType::STRING)) . ')'
+            );
+
+        $assets = $db->setQuery($query)->loadObjectList();
+
+        foreach ($assets as $asset) {
+            self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
+            self::$preloadedAssets[$asset->id]                                 = $asset->name;
+        }
+    }
+
+    /**
      * Method to recursively retrieve the list of parent Asset IDs
      * for a particular Asset.
      *
@@ -458,7 +490,12 @@ class Access
 
         // Auto preloads assets for the asset type (if chosen).
         if ($preload) {
-            self::preload(self::getAssetType($assetKey));
+            // Check whether the $assetKey already loaded before pulling large preload
+            $preloadedAssetsByName = array_flip(self::$preloadedAssets);
+
+            if (empty($preloadedAssetsByName[$assetKey]) && empty(self::$preloadedAssets[$assetKey])) {
+                self::preload(self::getAssetType($assetKey));
+            }
         }
 
         // Get the asset id and name.
