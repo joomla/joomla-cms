@@ -682,7 +682,7 @@ class Access
                     // Else we have to do an extra db query to fetch it from the table fetch it from table.
                     $table = new Asset(Factory::getDbo());
                     $table->load(['name' => $assetKey]);
-                    $loaded[$assetKey] = $table->id;
+                    $loaded[$assetKey] = $table->id ?? 0;
                 }
             }
         }
