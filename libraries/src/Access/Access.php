@@ -232,6 +232,7 @@ class Access
                 $db->quoteName($key) . ' IN ('
                 . implode(',', $query->bindArray($assetsList, \Joomla\Database\ParameterType::STRING)) . ')'
             );
+        // @TODO: Should also select the parents, with lft, rgt query ???
 
         $assets = $db->setQuery($query)->loadObjectList();
 
