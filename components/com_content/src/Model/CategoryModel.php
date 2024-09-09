@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
@@ -150,6 +151,9 @@ class CategoryModel extends ListModel
         if ($pk) {
             $asset .= '.category.' . $pk;
         }
+
+        // Preload access rules
+        Access::preloadItems('com_content', [$asset]);
 
         if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset))) {
             // Limit to published for people who can't edit or edit.state.

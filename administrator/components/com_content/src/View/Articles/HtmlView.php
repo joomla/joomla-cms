@@ -158,7 +158,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->items) {
-            // Preload access rules for the items list
+            // Preload access rules for the items
             $assetsList = [];
 
             foreach ($this->items as $item) {
@@ -169,7 +169,7 @@ class HtmlView extends BaseHtmlView
                 }
             }
 
-            Access::preloadItems('com_content', array_values($assetsList), 'name');
+            Access::preloadItems('com_content', array_values($assetsList));
         }
 
         parent::display($tpl);

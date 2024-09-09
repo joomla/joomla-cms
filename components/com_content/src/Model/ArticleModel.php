@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -66,6 +67,9 @@ class ArticleModel extends ItemModel
 
         // If $pk is set then authorise on complete asset, else on component only
         $asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
+
+        // Preload access rules
+        Access::preloadItems('com_content', [$asset]);
 
         if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset))) {
             $this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);

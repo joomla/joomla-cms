@@ -220,7 +220,7 @@ class Access
      *
      * @return void
      */
-    public static function preloadItems(string $extensionName, array $assetsList, string $key = 'id'): void
+    public static function preloadItems(string $extensionName, array $assetsList, string $key = 'name'): void
     {
         if (!$assetsList) return;
 

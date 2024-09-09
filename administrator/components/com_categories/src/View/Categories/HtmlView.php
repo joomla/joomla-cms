@@ -158,7 +158,7 @@ class HtmlView extends BaseHtmlView
                 $assetsList[] = 'com_content.category.' . $citem->id;
             }
 
-            Access::preloadItems('com_content', array_values($assetsList), 'name');
+            Access::preloadItems('com_content', array_values($assetsList));
         }
 
         parent::display($tpl);
