@@ -210,7 +210,7 @@ class Access
     }
 
     /**
-     * Method to preload the Rules object for the given assets list.
+     * Method to preload the Rules object for given list of assets (names or ids).
      *
      * @param  string  $extensionName  Extension name.
      * @param  array   $assetsList     Assets list. Either list of asset names or asset ids.
