@@ -39,7 +39,7 @@ switch ((string) $item->text) {
     // Check for "End" item
     case Text::_('JLIB_HTML_END'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-double-left' : 'icon-angle-double-right';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION_END');
+        $aria = Text::_('JLIB_HTML_GOTO_POSITION_END');
         break;
 
     default:
