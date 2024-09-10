@@ -627,7 +627,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
-     * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
      *
@@ -1123,7 +1123,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             }
 
             if (\function_exists($filter)) {
-                return \call_user_func($filter, $value);
+                return $filter($value);
             }
 
             if ($this instanceof SubformField) {

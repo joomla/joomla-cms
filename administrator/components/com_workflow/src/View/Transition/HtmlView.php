@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $ignore_fieldsets = [];
 
@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
         $canDo      = StageHelper::getActions($this->extension, 'transition', $this->item->id);
         $canCreate  = $canDo->get('core.create');
 

@@ -38,7 +38,7 @@ class LevelModel extends AdminModel
      *
      * @return  boolean  True if successful, false if an error occurs.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function delete(&$pks)
     {

@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $ignore_fieldsets = [];
 
@@ -151,7 +151,7 @@ class HtmlView extends BaseHtmlView
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Built the actions for new and existing records.
         $canDo = $this->canDo;
@@ -261,7 +261,7 @@ class HtmlView extends BaseHtmlView
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Build the actions for new and existing records.
         $canDo = $this->canDo;

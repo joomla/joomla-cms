@@ -83,7 +83,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $ignore_fieldsets = [];
 
@@ -158,7 +158,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $canDo     = ContentHelper::getActions('com_users');
         $isNew     = ($this->item->id == 0);
         $isProfile = $this->item->id == $user->id;
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             Text::_(

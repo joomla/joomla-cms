@@ -122,10 +122,6 @@ SMTP configuration.
 
 The used npm package "Helpers for using Cypress with Joomla for testing" **[joomala-cypress](https://github.com/joomla-projects/joomla-cypress/)** helps in writing the Cypress tests for Joomla in extending the Cypress API with custom commands.
 
-> [!IMPORTANT]
-> Some `joomala-cypress` commands are overwritten by the System Tests,
-> see [tests/System/support/commands.js](/tests/System/support/commands.js).
-
 The **[smtp-tester](https://www.npmjs.com/package/smtp-tester)** npm package creates an SMTP server that listens
 on the `smtp_port` specified in `cypress.config.mjs` during test runtime.
 This server accepts connections, receives emails, and provides the capability to check the received emails during the test.
