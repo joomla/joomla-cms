@@ -535,7 +535,7 @@ class Indexer
          * table have a term of 0, then no term record exists for that
          * term so we need to add it to the terms table.
          */
-        if ($serverType == 'mysql') {
+        if ($serverType === 'mysql') {
             $db->setQuery(
                 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
                 ' (' . $db->quoteName('term') .
@@ -550,7 +550,7 @@ class Indexer
                 ' WHERE ta.term_id = 0' .
                 ' GROUP BY ta.term, ta.language'
             );
-        } elseif ($serverType == 'postgresql') {
+        } elseif ($serverType === 'postgresql') {
             $db->setQuery(
                 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
                 ' (' . $db->quoteName('term') .
