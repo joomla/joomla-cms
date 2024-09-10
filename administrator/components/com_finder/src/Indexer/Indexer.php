@@ -478,7 +478,7 @@ class Indexer
          * aggregated data will be inserted into #__finder_tokens_aggregate
          * table.
          */
-        if ($serverType == 'mysql') {
+        if ($serverType === 'mysql') {
             $query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
                 ' (' . $db->quoteName('term_id') .
                 ', ' . $db->quoteName('term') .
@@ -497,7 +497,7 @@ class Indexer
                 ' WHERE t1.context = %d' .
                 ' GROUP BY t1.term, t1.language, t1.context' .
                 ' ORDER BY t1.term DESC';
-        } elseif ($serverType == 'postgresql') {
+        } elseif ($serverType === 'postgresql') {
             $query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
                 ' (' . $db->quoteName('term_id') .
                 ', ' . $db->quoteName('term') .
