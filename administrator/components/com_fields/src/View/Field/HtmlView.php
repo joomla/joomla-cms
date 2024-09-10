@@ -162,6 +162,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->cancel('field.cancel');
         }
 
+        $toolbar->inlinehelp();
         $toolbar->help('Fields:_Edit');
     }
 }
