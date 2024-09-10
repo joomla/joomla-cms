@@ -33,7 +33,7 @@ switch ((string) $item->text) {
     // Check for "Next" item
     case Text::_('JNEXT'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-left' : 'icon-angle-right';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION_NEXT');
+        $aria = Text::_('JLIB_HTML_GOTO_POSITION_NEXT');
         break;
 
     // Check for "End" item
