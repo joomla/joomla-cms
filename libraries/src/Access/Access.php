@@ -232,7 +232,19 @@ class Access
                 $db->quoteName($key) . ' IN ('
                 . implode(',', $query->bindArray($assetsList, \Joomla\Database\ParameterType::STRING)) . ')'
             );
+
         // @TODO: Should also select the parents, with lft, rgt query ???
+//        $query->select($db->quoteName(['b.id', 'b.name', 'b.rules', 'b.parent_id']))
+//            ->from($db->quoteName('#__assets', 'a'))
+//            ->join(
+//                'LEFT',
+//                $db->quoteName('#__assets', 'b'),
+//                $db->quoteName('b.lft') . ' <= ' . $db->quoteName('a.lft') . ' AND ' . $db->quoteName('b.rgt') . ' >= ' . $db->quoteName('a.rgt')
+//            )
+//            ->where(
+//                $db->quoteName('a.' . $key) . ' IN ('
+//                . implode(',', $query->bindArray($assetsList, \Joomla\Database\ParameterType::STRING)) . ')'
+//            );
 
         $assets = $db->setQuery($query)->loadObjectList();
 
