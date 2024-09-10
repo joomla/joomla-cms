@@ -532,7 +532,7 @@ class Indexer
             ' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
             ' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
             ' WHERE ta.term_id = 0' .
-            ' GROUP BY ta.term, ta.language'
+            ' GROUP BY ta.term, ta.language, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)'
         );
         $db->execute();
 
