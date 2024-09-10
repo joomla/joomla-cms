@@ -27,7 +27,7 @@ switch ((string) $item->text) {
     // Check for "Prev" item
     case $item->text === Text::_('JPREV'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-right' : 'icon-angle-left';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION_PREVIOUS');
+        $aria = Text::_('JLIB_HTML_GOTO_POSITION_PREVIOUS');
         break;
 
     // Check for "Next" item
