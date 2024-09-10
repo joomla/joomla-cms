@@ -21,7 +21,7 @@ switch ((string) $item->text) {
     // Check for "Start" item
     case Text::_('JLIB_HTML_START'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-double-right' : 'icon-angle-double-left';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION_START');
+        $aria = Text::_('JLIB_HTML_GOTO_POSITION_START');
         break;
 
     // Check for "Prev" item
