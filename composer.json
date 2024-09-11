@@ -104,7 +104,7 @@
     "enshrined/svg-sanitize": "^0.20.0",
     "lcobucci/jwt": "^4.3.0",
     "web-token/jwt-library": "^3.4.6",
-    "phpseclib/bcmath_compat": "^2.0.2",
+    "phpseclib/bcmath_compat": "^2.0.3",
     "jfcherng/php-diff": "^6.16.2",
     "voku/portable-utf8": "^6.0.13",
     "php-tuf/php-tuf": "^1.0.1"

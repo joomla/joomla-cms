@@ -105,7 +105,7 @@ class CanRemoveDataEvent extends PrivacyEvent implements ResultAwareInterface
     public function typeCheckResult($data): void
     {
         if (!$data instanceof Status) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Joomla\Component\Privacy\Administrator\Removal\Status results.', \get_class($this)));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Joomla\Component\Privacy\Administrator\Removal\Status results.', \get_class($this)));
         }
     }
 
