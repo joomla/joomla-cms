@@ -302,9 +302,9 @@ class LevelModel extends AdminModel
 
             foreach ($groups as $value) {
                 if (Access::checkGroup((int) $value->id, 'core.admin')) {
-                    if (in_array((int) $value->id, $rules) && !in_array((int) $value->id, $data['rules'])) {
+                    if (\in_array((int) $value->id, $rules) && !\in_array((int) $value->id, $data['rules'])) {
                         $data['rules'][] = (int) $value->id;
-                    } elseif (!in_array((int) $value->id, $rules) && in_array((int) $value->id, $data['rules'])) {
+                    } elseif (!\in_array((int) $value->id, $rules) && \in_array((int) $value->id, $data['rules'])) {
                         $this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
                         return false;
