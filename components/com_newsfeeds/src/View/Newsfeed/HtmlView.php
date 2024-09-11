@@ -212,8 +212,10 @@ class HtmlView extends BaseHtmlView
         $item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 
         // Increment the hit counter of the newsfeed.
-        $model = $this->getModel();
-        $model->hit();
+        if (\in_array($app->getInput()->getMethod(), ['GET', 'POST'])) {
+            $model = $this->getModel();
+            $model->hit();
+        }
 
         $this->_prepareDocument();
 
@@ -260,8 +262,9 @@ class HtmlView extends BaseHtmlView
             $category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
 
             while (
-                (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
-                || $id != $category->id) && $category->id > 1
+                isset($category->id) && $category->id > 1
+                && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
+                || $id != $category->id)
             ) {
                 $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id)];
                 $category = $category->getParent();

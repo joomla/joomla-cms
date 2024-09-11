@@ -11,10 +11,10 @@ namespace Joomla\CMS\HTML;
 
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -885,8 +885,10 @@ abstract class HTMLHelper
             // Get a date object based on UTC.
             $date = Factory::getDate($input, 'UTC');
 
-            // Set the correct time zone based on the user configuration.
-            $date->setTimezone($app->getIdentity()->getTimezone());
+            // Set the correct time zone based on the user configuration. CLI doesn't have a user
+            if ($app->getIdentity()) {
+                $date->setTimezone($app->getIdentity()->getTimezone());
+            }
         } elseif ($tz === false) {
             // UTC date converted to server time zone.
             // Get a date object based on UTC.

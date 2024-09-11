@@ -10,15 +10,15 @@
 
 namespace Joomla\Plugin\Task\RotateLogs\Extension;
 
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -101,7 +101,10 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
             if ($version >= $logsToKeep) {
                 // Delete files which have version greater than or equals $logsToKeep
                 foreach ($files as $file) {
-                    File::delete($logPath . '/' . $file);
+                    try {
+                        File::delete($logPath . '/' . $file);
+                    } catch (FilesystemException $exception) {
+                    }
                 }
             } else {
                 // For files which have version smaller than $logsToKeep, rotate (increase version number)
@@ -141,7 +144,10 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
             $rotatedFile = $path . '/' . implode('.', $parts);
         }
 
-        File::move($path . '/' . $filename, $rotatedFile);
+        try {
+            File::move($path . '/' . $filename, $rotatedFile);
+        } catch (FilesystemException $exception) {
+        }
     }
 
     /**

@@ -16,8 +16,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
+/** @var Joomla\Component\Associations\Administrator\View\Associations\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_associations.admin-associations-default')
     ->useScript('table.columns')
     ->useScript('multiselect');

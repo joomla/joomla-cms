@@ -366,7 +366,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplicationInterface $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplicationInterface $app = null, ?Input $input = null)
     {
         $this->methods     = [];
         $this->message     = null;
@@ -1149,7 +1149,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$valid && $redirect) {
             $referrer = $this->input->server->getString('HTTP_REFERER');
 
-            if (!Uri::isInternal($referrer)) {
+            if (\is_null($referrer) || !Uri::isInternal($referrer)) {
                 $referrer = 'index.php';
             }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
-	<name>Japanese (ja-JP)</name>
-	<version>4.3.4</version>
-	<creationDate>2023-08</creationDate>
+	<name>Japanese (Japan)</name>
+	<version>5.1.5</version>
+	<creationDate>2024-08</creationDate>
 	<author>Joomla!じゃぱん</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -10,8 +10,8 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Japanese (Japan)</name>
-		<nativeName>日本語 (Japan)</nativeName>
+		<name>Japanese (ja-JP)</name>
+		<nativeName>Japanese (Japan)</nativeName>
 		<tag>ja-JP</tag>
 		<rtl>0</rtl>
 	</metadata>

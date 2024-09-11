@@ -378,6 +378,14 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     protected $layout;
 
     /**
+     * Cached data for layout rendering
+     *
+     * @var    array
+     * @since  5.1.0
+     */
+    protected $layoutData = [];
+
+    /**
      * Layout to render the form field
      *
      * @var  string
@@ -620,7 +628,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
-     * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
      *
@@ -638,6 +646,9 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         // Reset the input and label values.
         $this->input = null;
         $this->label = null;
+
+        // Reset the cached layout data
+        $this->layoutData = [];
 
         // Set the XML element object.
         $this->element = $element;
@@ -769,7 +780,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -807,7 +818,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             return '';
         }
 
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         // Forcing the Alias field to display the tip below
         $position = ((string) $this->element['name']) === 'alias' ? ' data-bs-placement="bottom" ' : '';
@@ -977,7 +988,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      */
     public function render($layoutId, $data = [])
     {
-        $data = array_merge($this->getLayoutData(), $data);
+        $data = array_merge($this->collectLayoutData(), $data);
 
         return $this->getRenderer($layoutId)->render($data);
     }
@@ -1048,7 +1059,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             'options' => $options,
         ];
 
-        $data = array_merge($this->getLayoutData(), $data);
+        $data = array_merge($this->collectLayoutData(), $data);
 
         return $this->getRenderer($this->renderLayout)->render($data);
     }
@@ -1066,7 +1077,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * @since   4.0.0
      * @throws  \UnexpectedValueException
      */
-    public function filter($value, $group = null, Registry $input = null)
+    public function filter($value, $group = null, ?Registry $input = null)
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
@@ -1113,7 +1124,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             }
 
             if (\function_exists($filter)) {
-                return \call_user_func($filter, $value);
+                return $filter($value);
             }
 
             if ($this instanceof SubformField) {
@@ -1162,7 +1173,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * @throws  \InvalidArgumentException
      * @throws  \UnexpectedValueException
      */
-    public function validate($value, $group = null, Registry $input = null)
+    public function validate($value, $group = null, ?Registry $input = null)
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
@@ -1279,7 +1290,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      *
      * @since   4.0.0
      */
-    public function postProcess($value, $group = null, Registry $input = null)
+    public function postProcess($value, $group = null, ?Registry $input = null)
     {
         return $value;
     }
@@ -1330,6 +1341,25 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         ];
 
         return $options;
+    }
+
+    /**
+     * Method to get the data to be passed to the layout for rendering.
+     * The data is cached in memory.
+     *
+     * @return  array
+     *
+     * @since 5.1.0
+     */
+    protected function collectLayoutData(): array
+    {
+        if ($this->layoutData) {
+            return $this->layoutData;
+        }
+
+        $this->layoutData = $this->getLayoutData();
+
+        return $this->layoutData;
     }
 
     /**

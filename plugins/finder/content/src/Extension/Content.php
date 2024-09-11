@@ -18,7 +18,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -92,13 +92,13 @@ final class Content extends Adapter implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return array_merge([
+        return array_merge(parent::getSubscribedEvents(), [
             'onFinderCategoryChangeState' => 'onFinderCategoryChangeState',
             'onFinderChangeState'         => 'onFinderChangeState',
             'onFinderAfterDelete'         => 'onFinderAfterDelete',
             'onFinderBeforeSave'          => 'onFinderBeforeSave',
             'onFinderAfterSave'           => 'onFinderAfterSave',
-        ], parent::getSubscribedEvents());
+        ]);
     }
 
     /**
@@ -124,7 +124,7 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @since   2.5
      */
-    public function onFinderCategoryChangeState(FinderEvent\AfterCategoryChangeStateEvent $event)
+    public function onFinderCategoryChangeState(FinderEvent\AfterCategoryChangeStateEvent $event): void
     {
         // Make sure we're handling com_content categories.
         if ($event->getExtension() === 'com_content') {
@@ -205,12 +205,12 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @param   FinderEvent\BeforeSaveEvent   $event  The event instance.
      *
-     * @return  boolean  True on success.
+     * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderBeforeSave(FinderEvent\BeforeSaveEvent $event)
+    public function onFinderBeforeSave(FinderEvent\BeforeSaveEvent $event): void
     {
         $context = $event->getContext();
         $row     = $event->getItem();
@@ -231,8 +231,6 @@ final class Content extends Adapter implements SubscriberInterface
                 $this->checkCategoryAccess($row);
             }
         }
-
-        return true;
     }
 
     /**
@@ -246,7 +244,7 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @since   2.5
      */
-    public function onFinderChangeState(FinderEvent\AfterChangeStateEvent $event)
+    public function onFinderChangeState(FinderEvent\AfterChangeStateEvent $event): void
     {
         $context = $event->getContext();
         $pks     = $event->getPks();
@@ -374,7 +372,7 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @param   mixed  $query  A DatabaseQuery object or null.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   2.5
      */
@@ -383,7 +381,7 @@ final class Content extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
             ->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
             ->select('a.images')
             ->select('a.state, a.catid, a.created AS start_date, a.created_by')

@@ -62,7 +62,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_newsfeeds.newsfeed';
         parent::__construct('#__newsfeeds', 'id', $db, $dispatcher);
@@ -150,12 +150,12 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
         if ($this->id) {
             // Existing item
-            $this->modified_by = $user->get('id');
+            $this->modified_by = $user->id;
             $this->modified    = $date->toSql();
         } else {
             // Field created_by can be set by the user, so we don't touch it if it's set.
             if (empty($this->created_by)) {
-                $this->created_by = $user->get('id');
+                $this->created_by = $user->id;
             }
 
             if (!(int) $this->modified) {

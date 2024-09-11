@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -77,11 +77,6 @@ class ToursModel extends ListModel
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'ASC')
     {
-        $app       = Factory::getApplication();
-        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
-
-        $this->setState('filter.extension', $extension);
-
         parent::populateState($ordering, $direction);
     }
 
@@ -108,7 +103,7 @@ class ToursModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  string  The query to database.
+     * @return  QueryInterface  The query to database.
      *
      * @since  4.3.0
      */
