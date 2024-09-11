@@ -50,7 +50,7 @@ class RequestTable extends Table
      *
      * @since   3.9.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__privacy_requests', 'id', $db, $dispatcher);
     }
