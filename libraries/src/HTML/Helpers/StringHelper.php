@@ -108,7 +108,7 @@ abstract class StringHelper
 
                     // Close tags
                     foreach ($openedTags as $openedTag) {
-                        if (!in_array($openedTag, $closedTags)) {
+                        if (!\in_array($openedTag, $closedTags)) {
                             $tmp .= '</' . $openedTag . '>';
                         } else {
                             unset($closedTags[array_search($openedTag, $closedTags)]);
