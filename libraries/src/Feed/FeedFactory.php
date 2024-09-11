@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\Feed;
 
-use Joomla\CMS\Http\HttpFactory;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Feed\Parser\RssParser;
 use Joomla\CMS\Feed\Parser\AtomParser;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
