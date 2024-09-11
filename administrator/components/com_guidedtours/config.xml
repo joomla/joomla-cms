@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Guided_Tours:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset name="guidedtours_config" label="COM_GUIDEDTOURS">
 		<field
 			name="allowTourAutoStart"
