@@ -142,7 +142,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         $newStatus = $config['offline'] ? 'offline' : 'online';
         $exit      = $this->writeConfigFile(new Registry($config));
-        $this->logTask(sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS'), $oldStatus, $newStatus));
+        $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS'), $oldStatus, $newStatus));
 
         $this->endRoutine($event, $exit);
     }
