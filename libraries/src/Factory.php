@@ -183,7 +183,7 @@ abstract class Factory
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The configuration object should be read from the application.',
                 __METHOD__
             ),
@@ -264,7 +264,7 @@ abstract class Factory
     public static function getSession(array $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
                 __METHOD__,
                 __CLASS__
@@ -293,7 +293,7 @@ abstract class Factory
     public static function getLanguage()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
                 __CLASS__
@@ -326,7 +326,7 @@ abstract class Factory
     public static function getDocument()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
                 __CLASS__
@@ -361,7 +361,7 @@ abstract class Factory
     public static function getUser($id = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
                 __CLASS__
@@ -405,7 +405,7 @@ abstract class Factory
     public static function getCache($group = '', $handler = 'callback', $storage = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The cache controller should be fetched from the factory.',
                 __METHOD__
             ),
@@ -451,7 +451,7 @@ abstract class Factory
     public static function getDbo()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the database from the dependency injection container.',
                 __METHOD__
             ),
@@ -561,7 +561,7 @@ abstract class Factory
     protected static function createConfig($file, $type = 'PHP', $namespace = '')
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The configuration object should be read from the application.',
                 __METHOD__
             ),
@@ -646,7 +646,7 @@ abstract class Factory
     protected static function createDbo()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated, register a service provider to create a %2$s instance instead.',
                 __METHOD__,
                 DatabaseInterface::class
@@ -731,7 +731,7 @@ abstract class Factory
     protected static function createLanguage()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
                 __CLASS__
@@ -762,7 +762,7 @@ abstract class Factory
     protected static function createDocument()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
                 __CLASS__
