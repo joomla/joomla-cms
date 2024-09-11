@@ -510,11 +510,12 @@ class Indexer
                 ', ' . $db->quoteName('total_weight') .
                 ', ' . $db->quoteName('language') . ')' .
                 ' SELECT DISTINCT ON (t1.term, t1.language, t1.context)' .
-                ' t1.term, COALESCE(t.term_id, 0), t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
+                ' COALESCE(t.term_id, 0), t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
                 ' ROUND(t1.weight * COUNT(t1.term) * %F, 8) AS context_weight, 0, t1.language' .
                 ' FROM #__finder_tokens AS t1' .
                 ' LEFT JOIN #__finder_terms AS t ON t.term = t1.term AND t.language = t1.language' .
                 ' WHERE t1.context = %d' .
+                ' GROUP BY t1.term, t.term_id, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
                 ' ORDER BY t1.term DESC';
         }
 
