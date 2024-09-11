@@ -222,6 +222,13 @@ class Access
      */
     public static function preloadItems(string $extensionName, array $assetsList, string $key = 'name'): void
     {
+        // Compare to skip already preloaded
+        if ($key === 'id') {
+            $assetsList = array_diff($assetsList, array_keys(self::$preloadedAssets));
+        } else {
+            $assetsList = array_diff($assetsList, self::$preloadedAssets);
+        }
+
         if (!$assetsList) return;
 
         $db    = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
@@ -247,10 +254,19 @@ class Access
 //            );
 
         $assets = $db->setQuery($query)->loadObjectList();
+        $pids   = [];
 
         foreach ($assets as $asset) {
             self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
             self::$preloadedAssets[$asset->id]                                 = $asset->name;
+
+            $pids[] = $asset->parent_id;
+        }
+
+        if ($pids) {
+            // Make sure parents also loaded
+            // Multiple queries seems faster than use lft, rgt query
+            static::preloadItems($extensionName, $pids, 'id');
         }
     }
 
