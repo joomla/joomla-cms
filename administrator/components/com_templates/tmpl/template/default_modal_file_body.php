@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
+
 $input = Factory::getApplication()->getInput();
 ?>
 <div id="#template-manager-file" class="container-fluid">

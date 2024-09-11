@@ -48,7 +48,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
     protected $_supportNullValue = true;
 
     /**
-     * Ensure the params and metadata in json encoded in the bind method
+     * Ensure the params and metadata are json encoded in the bind method
      *
      * @var    array
      * @since  3.3
@@ -63,7 +63,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
      *
      * @since   1.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_contact.contact';
 
@@ -229,6 +229,10 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 
         if (empty($this->modified_by)) {
             $this->modified_by = $this->created_by;
+        }
+
+        if (empty($this->hits)) {
+            $this->hits = 0;
         }
 
         return true;

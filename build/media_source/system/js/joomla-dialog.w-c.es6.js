@@ -105,7 +105,7 @@ class JoomlaDialog extends HTMLElement {
     this.popupType = this.getAttribute('type') || 'inline';
     this.textHeader = this.getAttribute('text-header') || '';
     this.iconHeader = '';
-    this.textClose = 'Close';
+    this.textClose = Joomla.Text._('JCLOSE', 'Close');
     this.popupContent = '';
     this.src = this.getAttribute('src') || '';
     this.popupButtons = [];
@@ -127,8 +127,16 @@ class JoomlaDialog extends HTMLElement {
       }
     });
 
+    // Check class name
     if (config.className) {
       this.classList.add(...config.className.split(' '));
+    }
+
+    // Check dataset properties
+    if (config.data) {
+      Object.entries(config.data).forEach(([k, v]) => {
+        this.dataset[k] = v;
+      });
     }
   }
 

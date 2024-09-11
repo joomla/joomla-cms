@@ -21,6 +21,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
@@ -43,14 +44,14 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
     /**
      * Public constructor
      *
-     * @param   array                     $config   Plugin configuration
-     * @param   MVCFactoryInterface|null  $factory  MVC Factory for the com_users component
-     * @param   CMSApplication|null       $app      CMS application object
-     * @param   Input|null                $input    Joomla CMS input object
+     * @param   array                 $config   Plugin configuration
+     * @param   ?MVCFactoryInterface  $factory  MVC Factory for the com_users component
+     * @param   ?CMSApplication       $app      CMS application object
+     * @param   ?Input                $input    Joomla CMS input object
      *
      * @since 4.2.0
      */
-    public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct(array $config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         // We have to tell Joomla what is the name of the view, otherwise it defaults to the name of the *component*.
         $config['default_view'] = 'method';
@@ -386,6 +387,9 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
             return;
         }
+
+        // Method updated, destroy other active sessions
+        UserHelper::destroyUserSessions($userId, true);
 
         $this->setRedirect($url);
     }

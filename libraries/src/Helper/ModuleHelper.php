@@ -588,7 +588,7 @@ abstract class ModuleHelper
         $ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
         $cacheDisabled    = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
 
-        if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id')) {
+        if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->id) {
             $cache->setCaching(false);
         }
 

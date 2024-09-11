@@ -16,7 +16,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterBase;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -48,12 +50,22 @@ class Router extends RouterBase
     protected $lookup = [];
 
     /**
+     * System - SEF Plugin parameters
+     *
+     * @var   Registry
+     * @since 5.2.0
+     * @deprecated  5.2.0 will be removed in 6.0
+     *              without replacement
+     */
+    private $sefparams;
+
+    /**
      * Tags Component router constructor
      *
-     * @param   SiteApplication           $app              The application object
-     * @param   AbstractMenu              $menu             The menu object to work with
-     * @param   CategoryFactoryInterface  $categoryFactory  The category object
-     * @param   DatabaseInterface         $db               The database object
+     * @param   SiteApplication            $app              The application object
+     * @param   AbstractMenu               $menu             The menu object to work with
+     * @param   ?CategoryFactoryInterface  $categoryFactory  The category object
+     * @param   DatabaseInterface          $db               The database object
      *
      * @since  4.0.0
      */
@@ -62,6 +74,9 @@ class Router extends RouterBase
         $this->db = $db;
 
         parent::__construct($app, $menu);
+
+        $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
+        $this->sefparams = new Registry($sefPlugin->params);
 
         $this->buildLookup();
     }
@@ -141,12 +156,15 @@ class Router extends RouterBase
             }
         }
 
-        // If not found, return language specific home link
-        if (!isset($query['Itemid'])) {
-            $default = $this->menu->getDefault($lang);
+        // TODO: Remove this whole block in 6.0 as it is a bug
+        if (!$this->sefparams->get('strictrouting', 0)) {
+            // If not found, return language specific home link
+            if (!isset($query['Itemid'])) {
+                $default = $this->menu->getDefault($lang);
 
-            if (!empty($default->id)) {
-                $query['Itemid'] = $default->id;
+                if (!empty($default->id)) {
+                    $query['Itemid'] = $default->id;
+                }
             }
         }
 
@@ -169,18 +187,24 @@ class Router extends RouterBase
         $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
 
         if ($menuItem && $menuItem->query['option'] == 'com_tags') {
-            if ($menuItem->query['view'] == 'tags' && isset($query['id'])) {
-                $ids = $query['id'];
+            if ($menuItem->query['view'] == 'tags') {
+                if (isset($query['id'])) {
+                    $ids = $query['id'];
 
-                if (!\is_array($ids)) {
-                    $ids = [$ids];
+                    if (!\is_array($ids)) {
+                        $ids = [$ids];
+                    }
+
+                    foreach ($ids as $id) {
+                        $segments[] = $id;
+                    }
+
+                    unset($query['id']);
+                } elseif (isset($query['parent_id'], $menuItem->query['parent_id'])) {
+                    if ($query['parent_id'] == $menuItem->query['parent_id']) {
+                        unset($query['parent_id']);
+                    }
                 }
-
-                foreach ($ids as $id) {
-                    $segments[] = $id;
-                }
-
-                unset($query['id']);
             } elseif ($menuItem->query['view'] == 'tag') {
                 $ids     = $query['id'];
                 $int_ids = ArrayHelper::toInteger($ids);

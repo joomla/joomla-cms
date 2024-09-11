@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Filesystem\Path;
@@ -120,7 +119,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
         $groupId   = $this->state->get('filter.group_id');
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));
@@ -177,13 +176,17 @@ class HtmlView extends BaseHtmlView
             // Add a batch button
             if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state')) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_FIELDS_VIEW_GROUPS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }
 
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component)) {
-            $toolbar->delete('groups.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('groups.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

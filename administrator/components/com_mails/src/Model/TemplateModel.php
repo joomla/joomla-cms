@@ -69,7 +69,7 @@ class TemplateModel extends AdminModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A JForm object on success, false on failure
+     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
      *
      * @since   4.0.0
      */
@@ -86,6 +86,9 @@ class TemplateModel extends AdminModel
 
         if ($params->get('mail_style', 'plaintext') == 'plaintext') {
             $form->removeField('htmlbody');
+            $form->removeField('disable_htmllayout', 'params');
+            $form->removeField('htmllayout', 'params');
+            $form->removeField('disable_logofile', 'params');
         }
 
         if ($params->get('mail_style', 'plaintext') == 'html') {
@@ -106,6 +109,9 @@ class TemplateModel extends AdminModel
             $form->removeField('smtpauth', 'params');
             $form->removeField('smtpuser', 'params');
             $form->removeField('smtppass', 'params');
+            $form->removeField('disable_htmllayout', 'params');
+            $form->removeField('htmllayout', 'params');
+            $form->removeField('disable_logofile', 'params');
         }
 
         if (!$params->get('copy_mails')) {
@@ -148,7 +154,7 @@ class TemplateModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */
@@ -195,7 +201,7 @@ class TemplateModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */

@@ -55,7 +55,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      * @since   3.6
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config['events_map'] = $config['events_map'] ?? [];
 
@@ -101,7 +101,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
             $checkedOutField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.
-            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.manage', 'com_checkin')) {
+            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->id && !$user->authorise('core.manage', 'com_checkin')) {
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
                 return false;
@@ -160,14 +160,14 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
             $checkedOutField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.
-            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id')) {
+            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->id) {
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
                 return false;
             }
 
             // Attempt to check the row out.
-            if (!$table->checkOut($user->get('id'), $pk)) {
+            if (!$table->checkOut($user->id, $pk)) {
                 $this->setError($table->getError());
 
                 return false;

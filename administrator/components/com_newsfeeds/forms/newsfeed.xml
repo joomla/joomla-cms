@@ -242,6 +242,9 @@
 				<field
 					name="image_first"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="COM_NEWSFEEDS_FIELD_FIRST_LABEL"
 				/>
 
@@ -285,6 +288,9 @@
 				<field
 					name="image_second"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="COM_NEWSFEEDS_FIELD_SECOND_LABEL"
 				/>
 

@@ -74,12 +74,12 @@
 
 [dir=rtl] #core-pane textarea,
 #override-pane textarea {
-  text-align: left;
+  direction: ltr;
 }
 
 [dir=rtl] #core-pane joomla-editor-codemirror,
 #override-pane joomla-editor-codemirror {
-  text-align: left;
+  direction: ltr;
 }
 
 [dir=rtl] #toggle-buttons {

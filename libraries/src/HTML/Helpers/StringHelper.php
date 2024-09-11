@@ -47,14 +47,16 @@ abstract class StringHelper
 
         // Check if HTML tags are allowed.
         if (!$allowHtml) {
+            // Decode entities
+            $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+
             // Deal with spacing issues in the input.
             $text = str_replace('>', '> ', $text);
             $text = str_replace(['&nbsp;', '&#160;'], ' ', $text);
             $text = FrameworkStringHelper::trim(preg_replace('#\s+#mui', ' ', $text));
 
-            // Strip the tags from the input and decode entities.
+            // Strip tags from the input.
             $text = strip_tags($text);
-            $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
 
             // Remove remaining extra spaces.
             $text = str_replace('&nbsp;', ' ', $text);

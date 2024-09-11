@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event\Result;
 
-use BadMethodCallException;
 use Joomla\Event\Event as BaseEvent;
 
 // phpcs:disable PSR1.Files.SideEffects

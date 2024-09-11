@@ -1296,7 +1296,7 @@ class ZIPExtraction
         $directory = rtrim(\dirname($path), '/\\');
 
         // Is this an unwritable directory?
-        if (($directory != $rootDir) && !is_writeable($directory)) {
+        if (($directory != $rootDir) && !is_writable($directory)) {
             @chmod($directory, 0755);
         }
 
@@ -1400,6 +1400,9 @@ class ZIPExtraction
         if ($this->dataReadLength == 0) {
             // Before processing file data, ensure permissions are adequate
             $this->setCorrectPermissions($this->fileHeader->file);
+
+            // This file is changed during the script's operation so we clear the status cache.
+            clearstatcache($this->fileHeader->file);
         }
 
         // Open the output file
@@ -1491,6 +1494,9 @@ class ZIPExtraction
         // Before processing file data, ensure permissions are adequate
         $this->setCorrectPermissions($this->fileHeader->file);
 
+        // This file is changed during the script's operation so we clear the status cache.
+        clearstatcache($this->fileHeader->file);
+
         // Open the output file
         $outfp = @fopen($this->fileHeader->realFile, 'wb');
 
@@ -1521,14 +1527,15 @@ class ZIPExtraction
         // Simple compressed files are processed as a whole; we can't do chunk processing
         $zipData = $this->fread($this->fp, $this->fileHeader->compressed);
 
-        while ($this->binStringLength($zipData) < $this->fileHeader->compressed) {
+        if ($this->binStringLength($zipData) < $this->fileHeader->compressed) {
             // End of local file before reading all data?
             if ($this->isEOF()) {
                 $this->debugMsg('EOF reading compressed data', self::LOG_WARNING);
-                $this->setError('The archive file is corrupt or truncated');
-
-                return false;
             }
+
+            $this->setError('The archive file is corrupt or truncated');
+
+            return false;
         }
 
         switch ($this->fileHeader->compression) {
@@ -1548,12 +1555,24 @@ class ZIPExtraction
                 return false;
         }
 
+        if (!\is_string($unzipData)) {
+            $this->setError('Error while decompressing data! The archive file is corrupted');
+
+            return false;
+        }
+
         unset($zipData);
 
         // Write to the file.
         if (\is_resource($outfp)) {
-            @fwrite($outfp, $unzipData, $this->fileHeader->uncompressed);
+            $result = @fwrite($outfp, $unzipData, $this->fileHeader->uncompressed);
             @fclose($outfp);
+
+            if ($result === false) {
+                $this->setError('Could not write ' . $this->fileHeader->realFile . '!');
+
+                return false;
+            }
         }
 
         unset($unzipData);
@@ -1590,7 +1609,7 @@ class ZIPExtraction
             return 10;
         }
 
-        $phpMaxTime = @ini_get("maximum_execution_time");
+        $phpMaxTime = @\ini_get("maximum_execution_time");
         $phpMaxTime = (!is_numeric($phpMaxTime) ? 10 : @\intval($phpMaxTime)) ?: 10;
 
         return max(1, $phpMaxTime);
@@ -1637,7 +1656,7 @@ class ZIPExtraction
                 break;
         }
 
-        fputs(self::$logFP, sprintf('%s | %7s | %s' . "\r\n", gmdate('Y-m-d H:i:s'), $priorityString, $message));
+        fwrite(self::$logFP, sprintf('%s | %7s | %s' . "\r\n", gmdate('Y-m-d H:i:s'), $priorityString, $message));
     }
 
     /**
@@ -1681,9 +1700,9 @@ function clearFileInOPCache(string $file): bool
     static $hasOpCache = null;
 
     if (\is_null($hasOpCache)) {
-        $hasOpCache = ini_get('opcache.enable')
+        $hasOpCache = \ini_get('opcache.enable')
             && \function_exists('opcache_invalidate')
-            && (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0);
+            && (!\ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), \ini_get('opcache.restrict_api')) === 0);
     }
 
     if ($hasOpCache && (strtolower(substr($file, -4)) === '.php')) {

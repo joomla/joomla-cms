@@ -254,24 +254,24 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown whilst opening a file';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         // Decide which context to use:
         switch ($this->processingmethod) {
-            // Gzip doesn't support contexts or streams
             case 'gz':
+                // Gzip doesn't support contexts or streams
                 $this->fh = gzopen($filename, $mode, $useIncludePath);
                 break;
 
-            // Bzip2 is much like gzip except it doesn't use the include path
             case 'bz':
+                // Bzip2 is much like gzip except it doesn't use the include path
                 $this->fh = bzopen($filename, $mode);
                 break;
 
-            // Fopen can handle streams
             case 'f':
             default:
+                // Fopen can handle streams
                 // One supplied at open; overrides everything
                 if ($context) {
                     $this->fh = fopen($filename, $mode, $useIncludePath, $context);
@@ -324,7 +324,7 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -382,7 +382,7 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -430,7 +430,7 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $res = @filesize($this->filename);
 
@@ -493,7 +493,7 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -560,7 +560,7 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $remaining = $length;
 
@@ -639,7 +639,7 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -688,7 +688,7 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -760,7 +760,7 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $remaining = $length;
         $start     = 0;
@@ -828,7 +828,7 @@ class Stream
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $sch = parse_url($filename, PHP_URL_SCHEME);
 
@@ -994,7 +994,7 @@ class Stream
         if ($this->fh) {
             // Capture PHP errors
             $php_errormsg = 'Unknown error setting context option';
-            $track_errors = ini_get('track_errors');
+            $track_errors = \ini_get('track_errors');
             ini_set('track_errors', true);
             $retval = @stream_context_set_option($this->fh, $this->contextOptions);
 
@@ -1032,7 +1032,7 @@ class Stream
         if ($this->fh) {
             // Capture PHP errors
             $php_errormsg = '';
-            $track_errors = ini_get('track_errors');
+            $track_errors = \ini_get('track_errors');
             ini_set('track_errors', true);
 
             $res = @stream_filter_append($this->fh, $filterName, $readWrite, $params);
@@ -1072,7 +1072,7 @@ class Stream
         if ($this->fh) {
             // Capture PHP errors
             $php_errormsg = '';
-            $track_errors = ini_get('track_errors');
+            $track_errors = \ini_get('track_errors');
             ini_set('track_errors', true);
             $res = @stream_filter_prepend($this->fh, $filterName, $readWrite, $params);
 
@@ -1109,7 +1109,7 @@ class Stream
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         if ($byindex) {
@@ -1148,7 +1148,7 @@ class Stream
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         $chmodDest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
@@ -1201,7 +1201,7 @@ class Stream
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         $src  = $this->_getFilename($src, 'w', $usePrefix, $relative);
@@ -1249,7 +1249,7 @@ class Stream
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         $filename = $this->_getFilename($filename, 'w', $usePrefix, $relative);

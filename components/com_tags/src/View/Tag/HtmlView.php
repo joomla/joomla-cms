@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
@@ -52,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Tag data for the current tag or tags (on success, false on failure)
      *
-     * @var    CMSObject[]|boolean
+     * @var    array
      *
      * @since  3.1
      */

@@ -178,10 +178,10 @@ class InstallerHelper
     /**
      * Get a list of filter options for the application statuses.
      *
-     * @param   string   $element   element of an extension
-     * @param   string   $type      type of an extension
-     * @param   integer  $clientId  client_id of an extension
-     * @param   string   $folder    folder of an extension
+     * @param   string    $element   element of an extension
+     * @param   string    $type      type of an extension
+     * @param   integer   $clientId  client_id of an extension
+     * @param   ?string   $folder    folder of an extension
      *
      * @return  \SimpleXMLElement
      *
@@ -431,27 +431,27 @@ class InstallerHelper
             ->select(
                 $db->quoteName(
                     [
-                                's.update_site_id',
-                                's.enabled',
-                                's.extra_query',
-                                'e.extension_id',
-                                'e.type',
-                                'e.element',
-                                'e.folder',
-                                'e.client_id',
-                                'e.manifest_cache',
-                            ],
+                        's.update_site_id',
+                        's.enabled',
+                        's.extra_query',
+                        'e.extension_id',
+                        'e.type',
+                        'e.element',
+                        'e.folder',
+                        'e.client_id',
+                        'e.manifest_cache',
+                    ],
                     [
-                                'update_site_id',
-                                'enabled',
-                                'extra_query',
-                                'extension_id',
-                                'type',
-                                'element',
-                                'folder',
-                                'client_id',
-                                'manifest_cache',
-                            ]
+                        'update_site_id',
+                        'enabled',
+                        'extra_query',
+                        'extension_id',
+                        'type',
+                        'element',
+                        'folder',
+                        'client_id',
+                        'manifest_cache',
+                    ]
                 )
             )
             ->from($db->quoteName('#__update_sites', 's'))

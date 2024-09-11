@@ -34,14 +34,14 @@ class ManageController extends BaseController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since  1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -153,7 +153,7 @@ class ManageController extends BaseController
     }
 
     /**
-     * Load the changelog for a given extension.
+     * Load the changelog for a given extension. Outputs HTML encoded in JSON.
      *
      * @return  void
      *
@@ -174,5 +174,27 @@ class ManageController extends BaseController
         $output = $model->loadChangelog($eid, $source);
 
         echo (new JsonResponse($output));
+    }
+
+    /**
+     * Load the changelog for a given extension. Outputs HTML.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    public function loadChangelogRaw()
+    {
+        /** @var ManageModel $model */
+        $model = $this->getModel('manage');
+
+        $eid    = $this->input->get('eid', 0, 'int');
+        $source = $this->input->get('source', 'manage', 'string');
+
+        if (!$eid) {
+            return;
+        }
+
+        echo $model->loadChangelog($eid, $source);
     }
 }

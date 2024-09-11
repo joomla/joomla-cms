@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 extract($displayData);
 
@@ -52,18 +53,18 @@ extract($displayData);
 // Prepare options for each Modal
 $modalSelect = [
     'popupType'  => 'iframe',
-    'src'        => $urls['select'] ?? '',
-    'textHeader' => $modalTitles['select'] ?? Text::_('JSELECT'),
+    'src'        => empty($urls['select']) ? '' : Route::_($urls['select'], false),
+    'textHeader' => Text::_($modalTitles['select'] ?? 'JSELECT'),
 ];
 $modalNew = [
     'popupType'  => 'iframe',
-    'src'        => $urls['new'] ?? '',
-    'textHeader' => $modalTitles['new'] ?? Text::_('JACTION_CREATE'),
+    'src'        => empty($urls['new']) ? '' : Route::_($urls['new'], false),
+    'textHeader' => Text::_($modalTitles['new'] ?? 'JACTION_CREATE'),
 ];
 $modalEdit = [
     'popupType'  => 'iframe',
-    'src'        => $urls['edit'] ?? '',
-    'textHeader' => $modalTitles['edit'] ?? Text::_('JACTION_EDIT'),
+    'src'        => empty($urls['edit']) ? '' : Route::_($urls['edit'], false),
+    'textHeader' => Text::_($modalTitles['edit'] ?? 'JACTION_EDIT'),
 ];
 
 // Decide when the select button always will be visible
@@ -73,7 +74,7 @@ $isSelectAlways = !empty($canDo['select']) && empty($canDo['clear']);
 <?php if ($modalSelect['src'] && $canDo['select'] ?? true) : ?>
 <button type="button" class="btn btn-primary" <?php echo $value && !$isSelectAlways ? 'hidden' : ''; ?>
         data-button-action="select" <?php echo !$isSelectAlways ? 'data-show-when-value=""' : ''; ?>
-        data-modal-config="<?php echo $this->escape(json_encode($modalSelect)); ?>">
+        data-modal-config="<?php echo $this->escape(json_encode($modalSelect, JSON_UNESCAPED_SLASHES)); ?>">
     <span class="<?php echo !empty($buttonIcons['select']) ? $buttonIcons['select'] : 'icon-file'; ?>" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?>
 </button>
 <?php endif; ?>
@@ -81,7 +82,7 @@ $isSelectAlways = !empty($canDo['select']) && empty($canDo['clear']);
 <?php if ($modalNew['src'] && $canDo['new'] ?? false) : ?>
 <button type="button" class="btn btn-secondary" <?php echo $value ? 'hidden' : ''; ?>
         data-button-action="create" data-show-when-value=""
-        data-modal-config="<?php echo $this->escape(json_encode($modalNew)); ?>">
+        data-modal-config="<?php echo $this->escape(json_encode($modalNew, JSON_UNESCAPED_SLASHES)); ?>">
     <span class="icon-plus" aria-hidden="true"></span> <?php echo Text::_('JACTION_CREATE'); ?>
 </button>
 <?php endif; ?>
@@ -89,8 +90,8 @@ $isSelectAlways = !empty($canDo['select']) && empty($canDo['clear']);
 <?php if ($modalEdit['src'] && $canDo['edit'] ?? false) : ?>
 <button type="button" class="btn btn-primary" <?php echo $value ? '' : 'hidden'; ?>
         data-button-action="edit" data-show-when-value="1"
-        data-modal-config="<?php echo $this->escape(json_encode($modalEdit)); ?>"
-        data-checkin-url="<?php echo $this->escape($urls['checkin'] ?? ''); ?>">
+        data-modal-config="<?php echo $this->escape(json_encode($modalEdit, JSON_UNESCAPED_SLASHES)); ?>"
+        data-checkin-url="<?php echo empty($urls['checkin']) ? '' : Route::_($urls['checkin']); ?>">
     <span class="icon-pen-square" aria-hidden="true"></span> <?php echo Text::_('JACTION_EDIT'); ?>
 </button>
 <?php endif; ?>

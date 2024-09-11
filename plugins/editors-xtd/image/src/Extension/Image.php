@@ -11,10 +11,12 @@
 namespace Joomla\Plugin\EditorsXtd\Image\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Editor\Button\Button;
+use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,15 +27,40 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.5
  */
-final class Image extends CMSPlugin
+final class Image extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Load the language file on instantiation.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    boolean
-     * @since  3.1
+     * @return array
+     *
+     * @since   5.1.0
      */
-    protected $autoloadLanguage = true;
+    public static function getSubscribedEvents(): array
+    {
+        return ['onEditorButtonsSetup' => 'onEditorButtonsSetup'];
+    }
+
+    /**
+     * @param  EditorButtonsSetupEvent $event
+     * @return void
+     *
+     * @since   5.1.0
+     */
+    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event): void
+    {
+        $disabled = $event->getDisabledButtons();
+
+        if (\in_array($this->_name, $disabled)) {
+            return;
+        }
+
+        $button = $this->onDisplay($event->getEditorId(), $event->getAsset(), $event->getAuthor());
+
+        if ($button) {
+            $event->getButtonsRegistry()->add($button);
+        }
+    }
 
     /**
      * Display the button.
@@ -42,7 +69,7 @@ final class Image extends CMSPlugin
      * @param   string   $asset   The name of the asset being edited.
      * @param   integer  $author  The id of the author owning the asset being edited.
      *
-     * @return  CMSObject|false
+     * @return  Button|false
      *
      * @since   1.5
      */
@@ -68,15 +95,26 @@ final class Image extends CMSPlugin
             || (\count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
             || (\count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id)
         ) {
-            $doc->getWebAssetManager()
-                ->useScript('webcomponent.media-select')
-                ->useScript('webcomponent.field-media')
-                ->useStyle('webcomponent.media-select');
+            $this->loadLanguage();
 
-            $doc->addScriptOptions('xtdImageModal', [$name . '_ImageModal']);
-            $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base() . 'index.php?option=com_media&format=json']);
+            /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+            $wa = $doc->getWebAssetManager();
 
-            if (\count($doc->getScriptOptions('media-picker')) === 0) {
+            // Register the button assets
+            if (!$wa->assetExists('script', 'editor-button.image')) {
+                $wa->registerStyle('editor-button.image', '', [], [], ['webcomponent.media-select']);
+                $wa->registerScript(
+                    'editor-button.image',
+                    'plg_editors-xtd_image/button-image.js',
+                    [],
+                    ['type' => 'module'],
+                    ['webcomponent.media-select', 'editors', 'joomla.dialog']
+                );
+            }
+
+            $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base(true) . '/index.php?option=com_media&format=json']);
+
+            if (!$doc->getScriptOptions('media-picker')) {
                 $imagesExt = array_map(
                     'trim',
                     explode(
@@ -126,6 +164,8 @@ final class Image extends CMSPlugin
                 ]);
             }
 
+            Text::script('JCLOSE');
+            Text::script('PLG_IMAGE_BUTTON_INSERT');
             Text::script('JFIELD_MEDIA_LAZY_LABEL');
             Text::script('JFIELD_MEDIA_ALT_LABEL');
             Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
@@ -147,28 +187,26 @@ final class Image extends CMSPlugin
 
             $link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
 
-            $button          = new CMSObject();
-            $button->modal   = true;
-            $button->link    = $link;
-            $button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');
-            $button->name    = $this->_type . '_' . $this->_name;
-            $button->icon    = 'pictures';
-            $button->iconSVG = '<svg width="24" height="24" viewBox="0 0 512 512"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48'
-                . ' 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 336H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h404a6 6'
-                . ' 0 0 1 6 6v276a6 6 0 0 1-6 6zM128 152c-22.091 0-40 17.909-40 40s17.909 40 40 40 40-17.909 40-40-17.909-40-40-40'
-                . 'zM96 352h320v-80l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L192 304l-39.515-39.515c-4.686-4.686-12.284-4'
-                . '.686-16.971 0L96 304v48z"></path></svg>';
-            $button->options = [
-                'height'          => '400px',
-                'width'           => '800px',
-                'bodyHeight'      => '70',
-                'modalWidth'      => '80',
-                'tinyPath'        => $link,
-                'confirmCallback' => 'Joomla.getImage(Joomla.selectedMediaFile, \'' . $name . '\', this)',
-                'confirmText'     => Text::_('PLG_IMAGE_BUTTON_INSERT'),
-            ];
-
-            return $button;
+            return new Button(
+                $this->_name,
+                [
+                    'action'  => 'modal-media',
+                    'text'    => Text::_('PLG_IMAGE_BUTTON_IMAGE'),
+                    'name'    => $this->_type . '_' . $this->_name,
+                    'icon'    => 'pictures',
+                    'link'    => $link,
+                    'iconSVG' => '<svg width="24" height="24" viewBox="0 0 512 512"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48'
+                        . ' 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 336H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h404a6 6'
+                        . ' 0 0 1 6 6v276a6 6 0 0 1-6 6zM128 152c-22.091 0-40 17.909-40 40s17.909 40 40 40 40-17.909 40-40-17.909-40-40-40'
+                        . 'zM96 352h320v-80l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L192 304l-39.515-39.515c-4.686-4.686-12.284-4'
+                        . '.686-16.971 0L96 304v48z"></path></svg>',
+                ],
+                [
+                    'popupType'  => 'iframe',
+                    'textHeader' => Text::_('PLG_IMAGE_BUTTON_IMAGE'),
+                    'iconHeader' => 'icon-pictures',
+                ]
+            );
         }
 
         return false;

@@ -922,20 +922,20 @@ abstract class Adapter extends CMSPlugin
 
         // Translate the state
         switch ($item) {
-            // Published items should always show up in search results
             case 1:
+                // Published items should always show up in search results
                 return 1;
 
-            // Archived items should only show up when option is enabled
             case 2:
+                // Archived items should only show up when option is enabled
                 if ($this->params->get('search_archived', 1) == 0) {
                     return 0;
                 }
 
                 return 1;
 
-            // All other states should return an unpublished state
             default:
+                // All other states should return an unpublished state
                 return 0;
         }
     }
