@@ -153,7 +153,7 @@ Joomla.extend = (destination, source) => {
     newDestination = {};
   }
 
-  [].slice.call(Object.keys(source)).forEach((key) => {
+  Object.keys(source).forEach((key) => {
     newDestination[key] = source[key];
   });
 
@@ -199,10 +199,9 @@ Joomla.getOptions = (key, def) => {
 Joomla.loadOptions = (options) => {
   // Load form the script container
   if (!options) {
-    const elements = [].slice.call(document.querySelectorAll('.joomla-script-options.new'));
     let counter = 0;
 
-    elements.forEach((element) => {
+    document.querySelectorAll('.joomla-script-options.new').forEach((element) => {
       const str = element.text || element.textContent;
       const option = JSON.parse(str);
 
@@ -224,7 +223,7 @@ Joomla.loadOptions = (options) => {
     Joomla.optionsStorage = options || {};
   } else if (options) {
     // Merge with existing
-    [].slice.call(Object.keys(options)).forEach((key) => {
+    Object.keys(options).forEach((key) => {
       /**
        * If both existing and new options are objects, merge them with Joomla.extend().
        * But test for new option being null, as null is an object, but we want to allow
@@ -285,7 +284,7 @@ Joomla.Text = {
    * @returns {Joomla.Text}
    */
   load: (object) => {
-    [].slice.call(Object.keys(object)).forEach((key) => {
+    Object.keys(object).forEach((key) => {
       Joomla.Text.strings[key.toUpperCase()] = object[key];
     });
 
@@ -557,10 +556,8 @@ Joomla.replaceTokens = (newToken) => {
     return;
   }
 
-  const elements = [].slice.call(document.getElementsByTagName('input'));
-
-  elements.forEach((element) => {
-    if (element.type === 'hidden' && element.value === '1' && element.name.length === 32) {
+  document.querySelectorAll('input[type="hidden"]').forEach((element) => {
+    if (element.value === '1' && element.name.length === 32) {
       element.name = newToken;
     }
   });
@@ -640,7 +637,7 @@ Joomla.request = (options) => {
 
     // Custom headers
     if (newOptions.headers) {
-      [].slice.call(Object.keys(newOptions.headers)).forEach((key) => {
+      Object.keys(newOptions.headers).forEach((key) => {
         // Allow request without Content-Type
         // eslint-disable-next-line no-empty
         if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') {

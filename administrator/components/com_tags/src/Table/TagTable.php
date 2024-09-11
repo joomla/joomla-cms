@@ -59,7 +59,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
      *
      * @since   3.1.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_tags.tag';
 
@@ -174,7 +174,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
 
         if ($this->id) {
             // Existing item
-            $this->modified_user_id = $user->get('id');
+            $this->modified_user_id = $user->id;
             $this->modified_time    = $date->toSql();
         } else {
             // New tag. A tag created and created_by field can be set by the user,
@@ -184,7 +184,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
             }
 
             if (empty($this->created_user_id)) {
-                $this->created_user_id = $user->get('id');
+                $this->created_user_id = $user->id;
             }
 
             if (!(int) $this->modified_time) {
