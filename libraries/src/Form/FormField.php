@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Form;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Field\SubformField;
@@ -24,7 +25,6 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Registry\Registry;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Component\ComponentHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
