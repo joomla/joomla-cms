@@ -10,8 +10,9 @@
 
 namespace Joomla\Plugin\System\Jooa11y\Extension;
 
+use Joomla\CMS\Event\PageCache\SetCachingEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -37,7 +38,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onAfterRoute' => ['initJooa11y', Priority::HIGH]];
+        if (Factory::getApplication()->isClient('site')) {
+            return ['onAfterRoute' => ['initJooa11y', Priority::HIGH]];
+        }
+
+        return [];
     }
 
     /**
@@ -51,9 +56,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     {
         static $result;
 
-        if (\is_bool($result)) {
+        if ($result !== null) {
             return $result;
         }
+
+        $result = true;
 
         // If the user is not allowed to view the output then end here.
         $filterGroups = (array) $this->params->get('filter_groups', []);
@@ -65,11 +72,9 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
             if (!array_intersect($filterGroups, $userGroups)) {
                 $result = false;
-                return $result;
             }
         }
 
-        $result = true;
         return $result;
     }
 
@@ -82,10 +87,6 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      */
     public function initJooa11y()
     {
-        if (!$this->getApplication()->isClient('site')) {
-            return;
-        }
-
         // Check if we are in a preview modal or the plugin has enforced loading
         $showJooa11y = $this->getApplication()
             ->getInput()
@@ -99,10 +100,8 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         // Disable page cache
         $this->getDispatcher()->addListener(
             'onPageCacheSetCaching',
-            static function (Event $event) {
-                $results         = $event['result'] ?: [];
-                $results[]       = false;
-                $event['result'] = $results;
+            static function (SetCachingEvent $event) {
+                $event->addResult(false);
             }
         );
 
@@ -123,7 +122,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         // Detect the current active language
-        /** @var \Joomla\CMS\Document\HtmlDocument $document */
+        $getLang = $this->getApplication()
             ->getLanguage()
             ->getTag();
 
@@ -177,6 +176,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         }
 
         // Get the document object
+        /** @var \Joomla\CMS\Document\HtmlDocument $document */
         $document = $this->getApplication()->getDocument();
 
         // Get plugin options from xml
@@ -194,6 +194,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $getExtraProps = $this->params->get('extraProps', []);
 
 
+        // Process extra props
         $extraProps = [];
         foreach ($getExtraProps as $prop) {
             $decodedValue = json_decode($prop->value);
@@ -211,6 +212,8 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa*/
         $wa = $document->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile('plg_system_jooa11y');
+
+        // Load scripts and instantiate
         $wa->useStyle('sa11y')
             ->useScript('sa11y')
             ->registerAndUseScript(
