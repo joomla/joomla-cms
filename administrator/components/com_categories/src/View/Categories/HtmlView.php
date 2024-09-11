@@ -120,10 +120,21 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        // Preload access rules for the items list
+        $assetsList = [];
+
         // Preprocess the list of items to find ordering divisions.
-        foreach ($this->items as &$item) {
+        foreach ($this->items as $item) {
             $this->ordering[$item->parent_id][] = $item->id;
+
+            $assetsList['com_content.category.' . $item->id] = 'com_content.category.' . $item->id;
+
+            if (!empty($item->parent_id)) {
+                $assetsList['com_content.category.' . $item->parent_id] = 'com_content.category.' . $item->parent_id;
+            }
         }
+
+        Access::preloadItems('com_content', array_values($assetsList));
 
         // We don't need toolbar in the modal window.
         if ($this->getLayout() !== 'modal') {
@@ -149,17 +160,6 @@ class HtmlView extends BaseHtmlView
         // If filter by category is active we need to know the extension name to filter the categories
         $extensionName = $this->escape($this->state->get('filter.extension'));
         $this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
-
-        if ($this->items) {
-            // Preload access rules for the items list
-            $assetsList = [];
-
-            foreach ($this->items as $citem) {
-                $assetsList[] = 'com_content.category.' . $citem->id;
-            }
-
-            Access::preloadItems('com_content', array_values($assetsList));
-        }
 
         parent::display($tpl);
     }

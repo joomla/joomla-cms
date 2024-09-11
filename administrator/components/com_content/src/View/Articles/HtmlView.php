@@ -132,6 +132,21 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        if ($this->items) {
+            // Preload access rules for the items
+            $assetsList = [];
+
+            foreach ($this->items as $item) {
+                $assetsList[] = 'com_content.article.' . $item->id;
+
+                if (!empty($item->catid)) {
+                    $assetsList['com_content.category.' . $item->catid] = 'com_content.category.' . $item->catid;
+                }
+            }
+
+            Access::preloadItems('com_content', array_values($assetsList));
+        }
+
         // We don't need toolbar in the modal window.
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
@@ -155,21 +170,6 @@ class HtmlView extends BaseHtmlView
                 // One last changes needed is to change the category filter to just show categories with All language or with the forced language.
                 $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
             }
-        }
-
-        if ($this->items) {
-            // Preload access rules for the items
-            $assetsList = [];
-
-            foreach ($this->items as $item) {
-                $assetsList[] = 'com_content.article.' . $item->id;
-
-                if (!empty($item->catid)) {
-                    $assetsList['com_content.category.' . $item->catid] = 'com_content.category.' . $item->catid;
-                }
-            }
-
-            Access::preloadItems('com_content', array_values($assetsList));
         }
 
         parent::display($tpl);
