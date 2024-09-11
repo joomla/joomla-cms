@@ -67,7 +67,7 @@ trait LegacyModelLoaderTrait
     public static function getInstance($type, $prefix = '', $config = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s::getInstance() is deprecated. Load it through the MVC factory.',
                 self::class
             ),

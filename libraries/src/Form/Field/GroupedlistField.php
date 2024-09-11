@@ -138,7 +138,7 @@ class GroupedlistField extends FormField
 
                 default:
                     // Unknown element type.
-                    throw new \UnexpectedValueException(sprintf('Unsupported element %s in GroupedlistField', $element->getName()), 500);
+                    throw new \UnexpectedValueException(\sprintf('Unsupported element %s in GroupedlistField', $element->getName()), 500);
             }
         }
 

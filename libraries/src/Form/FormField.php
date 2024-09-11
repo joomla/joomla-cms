@@ -776,7 +776,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     protected function getInput()
     {
         if (empty($this->layout)) {
-            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+            throw new \UnexpectedValueException(\sprintf('%s has no layout assigned.', $this->name));
         }
 
         return $this->getRenderer($this->layout)->render($this->collectLayoutData());
@@ -1080,7 +1080,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
         }
 
         // Get the field filter type.
@@ -1103,7 +1103,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 [$class, $method] = explode('::', $filter);
                 if ($class === 'JComponentHelper') {
                     throw new \UnexpectedValueException(
-                        sprintf(
+                        \sprintf(
                             '%s::filter field `%s` calls a deprecated filter class %s, the class needs to be namespaced use %s instead or activate the backward compatible plugin.',
                             \get_class($this),
                             $this->element['name'],
@@ -1176,7 +1176,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::validate `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s::validate `element` is not an instance of SimpleXMLElement', \get_class($this)));
         }
 
         $valid = true;
@@ -1211,14 +1211,14 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
             // If the object could not be loaded return an error message.
             if ($rule === false) {
-                throw new \UnexpectedValueException(sprintf('%s::validate() rule `%s` missing.', \get_class($this), $type));
+                throw new \UnexpectedValueException(\sprintf('%s::validate() rule `%s` missing.', \get_class($this), $type));
             }
 
             if ($rule instanceof DatabaseAwareInterface) {
                 try {
                     $rule->setDatabase($this->getDatabase());
                 } catch (DatabaseNotFoundException $e) {
-                    @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                    @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }
@@ -1243,7 +1243,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 try {
                     $rule->setDatabase($this->getDatabase());
                 } catch (DatabaseNotFoundException $e) {
-                    @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                    @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }
