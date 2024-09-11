@@ -17,8 +17,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Workflow\Administrator\View\Workflows\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -164,7 +166,7 @@ $userId = $user->id;
                                     </div>
                                 </td>
                                 <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                    <a class="btn <?php echo ($item->count_transitions > 0) ? 'btn-info' : 'btn-secondary'; ?>"
+                                    <a class="btn <?php echo ($item->count_transitions > 0) ? 'btn-primary' : 'btn-secondary'; ?>"
                                         href="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>" aria-describedby="tip-transitions<?php echo $i; ?>">
                                         <?php echo $item->count_transitions; ?>
                                     </a>

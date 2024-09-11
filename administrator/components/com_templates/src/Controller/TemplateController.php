@@ -11,6 +11,7 @@
 namespace Joomla\Component\Templates\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -36,15 +37,15 @@ class TemplateController extends BaseController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since  1.6
      * @see    BaseController
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -294,7 +295,9 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
             return;
-        } elseif (str_ends_with(end($explodeArray), Path::clean($data['filename'], '/'))) {
+        }
+
+        if (str_ends_with(end($explodeArray), Path::clean($data['filename'], '/'))) {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
             return;
@@ -319,9 +322,9 @@ class TemplateController extends BaseController
             // Push up to three validation messages out to the user.
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+                    $this->app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $this->app->enqueueMessage($errors[$i], 'warning');
+                    $this->app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 

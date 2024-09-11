@@ -52,7 +52,7 @@ $dialogOptions = [
 <joomla-toolbar-button id="toolbar-versions">
     <button
         class="btn btn-primary"
-        data-joomla-dialog="<?php echo $this->escape(json_encode($dialogOptions)); ?>"
+        data-joomla-dialog="<?php echo $this->escape(json_encode($dialogOptions, JSON_UNESCAPED_SLASHES)); ?>"
         type="button">
         <span class="icon-code-branch" aria-hidden="true"></span>
         <?php echo $title; ?>

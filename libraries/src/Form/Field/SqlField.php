@@ -233,11 +233,20 @@ class SqlField extends ListField
 
         // Process the filters
         if (\is_array($filters)) {
-            $html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
+            // @TODO: Loading the filtering value from the request need to be deprecated.
+            $html_filters = $this->context ? Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array') : false;
+            $form         = $this->form;
 
             foreach ($filters as $k => $value) {
-                if (!empty($html_filters[$value])) {
+                // Get the filter value from the linked filter field
+                $filterFieldValue = $form->getValue($value, $this->group);
+
+                if ($html_filters && !empty($html_filters[$value])) {
                     $escape = $db->quote($db->escape($html_filters[$value]), false);
+
+                    $query->where("{$value} = {$escape}");
+                } elseif ($filterFieldValue !== null) {
+                    $escape = $db->quote($db->escape($filterFieldValue), false);
 
                     $query->where("{$value} = {$escape}");
                 } elseif (!empty($defaults[$value])) {
@@ -285,12 +294,6 @@ class SqlField extends ListField
             } catch (ExecutionFailureException $e) {
                 Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
             }
-        }
-
-        // Add header.
-        if (!empty($header)) {
-            $header_title = Text::_($header);
-            $options[]    = HTMLHelper::_('select.option', '', $header_title);
         }
 
         // Build the field options.

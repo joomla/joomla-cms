@@ -303,7 +303,11 @@ class Workflow
                     $this->db->quoteName('#__workflow_transitions', 't'),
                 ]
             )
-            ->join('INNER', $this->db->quoteName('#__workflows', 'w'))
+            ->join(
+                'INNER',
+                $this->db->quoteName('#__workflows', 'w'),
+                $this->db->quoteName('t.workflow_id') . ' = ' . $this->db->quoteName('w.id')
+            )
             ->join(
                 'LEFT',
                 $this->db->quoteName('#__workflow_stages', 's'),
@@ -312,7 +316,6 @@ class Workflow
             ->where(
                 [
                     $this->db->quoteName('t.id') . ' = :id',
-                    $this->db->quoteName('t.workflow_id') . ' = ' . $this->db->quoteName('w.id'),
                     $this->db->quoteName('t.published') . ' = 1',
                     $this->db->quoteName('w.extension') . ' = :extension',
                 ]

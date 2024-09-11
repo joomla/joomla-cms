@@ -1,12 +1,12 @@
 describe('Test that newsfeed categories API endpoint', () => {
-  it('can display a list of categories', () => {
+  it('can deliver a list of categories', () => {
     cy.db_createCategory({ title: 'automated test category', extension: 'com_newsfeeds' })
       .then((id) => cy.db_createNewsFeed({ name: 'automated test feed', catid: id }))
       .then(() => cy.api_get('/newsfeeds/categories'))
       .then((response) => cy.api_responseContains(response, 'title', 'automated test category'));
   });
 
-  it('can display a single category', () => {
+  it('can deliver a single category', () => {
     cy.db_createCategory({ title: 'automated test feed category', extension: 'com_newsfeeds' })
       .then((id) => cy.api_get(`/newsfeeds/categories/${id}`))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')

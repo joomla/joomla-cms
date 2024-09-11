@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.3
     volumes:
       - name: certificates
         path: /certificates
@@ -14,7 +14,7 @@ steps:
       - cp -v tests/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.3
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -31,15 +31,15 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
-  - name: phan
-    image: joomlaprojects/docker-images:php8.1-ast
+  - name: phpstan
+    image: joomlaprojects/docker-images:php8.2
     depends_on: [ phpcs ]
     failure: ignore
     commands:
-      - ./libraries/vendor/bin/phan
+      - ./libraries/vendor/bin/phpstan
 
   - name: npm
-    image: node:18-bullseye-slim
+    image: node:20-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
@@ -63,6 +63,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php83-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php81-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -77,6 +84,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
+  - name: php83-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
   - name: php81-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -87,6 +101,13 @@ steps:
   - name: php82-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php83-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -114,7 +135,7 @@ steps:
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.js cypress.config.js
+      - mv cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -141,11 +162,15 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpnext-system-mysql
     depends_on:
       - phpmax-system-mysql
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -156,6 +181,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmin-system-postgres
     depends_on:
@@ -168,6 +197,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-postgres
     depends_on:
@@ -184,7 +217,7 @@ steps:
   - name: phpnext-system-postgres
     depends_on:
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -195,6 +228,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
@@ -206,19 +243,31 @@ steps:
       - phpmin-system-mysql
       - phpmin-system-postgres
     environment:
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
+      WEB_SERVER:
+        from_secret: webserver
+      FTP_KEY:
+        from_secret: ftp_key
+      FTP_USER:
+        from_secret: ftp_user
+      FTP_HOST:
+        from_secret: ftp_host
+      ARTIFACTS_ROOT:
+        from_secret: artifacts_root
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - export PLUGIN_DEST_DIR=/artifacts/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
-      - echo https://ci.joomla.org$PLUGIN_DEST_DIR
-      - rclone config create artifacts ftp host ci.joomla.org user $FTP_USERNAME port 21 pass $FTP_PASSWORD
-      - rclone mkdir artifacts:$PLUGIN_DEST_DIR
-      - rclone copy tests/System/output/ artifacts:$PLUGIN_DEST_DIR
-      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
+      - export PLUGIN_DEST_DIR=$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - echo https://$WEB_SERVER/drone/$PLUGIN_DEST_DIR
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$FTP_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create artifacts sftp host $FTP_HOST user $FTP_USER port 22
+      - rclone mkdir artifacts:$ARTIFACTS_ROOT/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - rclone copy tests/System/output/ artifacts:$ARTIFACTS_ROOT/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://$WEB_SERVER/drone/$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
         - failure
@@ -239,7 +288,7 @@ volumes:
 
 services:
   - name: mysql
-    image: mysql:8
+    image: mysql:8.0
     command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
       MYSQL_USER: joomla_ut
@@ -286,29 +335,39 @@ steps:
   - name: packager
     image: joomlaprojects/docker-images:packager
     environment:
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org
-      FTP_PORT: "21"
-      FTP_DEST_DIR: /artifacts
-      FTP_VERIFY: "false"
-      FTP_SECURE: "true"
-      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      HTTP_ROOT: "https://artifacts.joomla.org/drone"
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
+    commands:
+      - /bin/drone_prepare_package.sh
+
+  - name: upload
+    image: joomlaprojects/docker-images:packager
+    environment:
+      package_key:
+        from_secret: package_key
+      package_user:
+        from_secret: package_user
+      package_host:
+        from_secret: package_host
+      package_root:
+        from_secret: package_root
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
-      - /bin/drone_build.sh
-    volumes:
-      - name: reference
-        path: /reference
-    when:
-      repo:
-        - joomla/joomla-cms
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$package_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create package sftp host $package_host user $package_user port 22
+      - rclone copy ./upload/ package:$package_root/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/downloads/$DRONE_BUILD_NUMBER
+      - /bin/add_github_status.sh "Download" "Prebuilt packages are available for download." "https://artifacts.joomla.org/drone/${DRONE_REPO}/${DRONE_BRANCH}/${DRONE_PULL_REQUEST}/downloads/${DRONE_BUILD_NUMBER}"
+
+trigger:
+  repo:
+    - joomla/joomla-cms
 
 ---
 kind: pipeline
@@ -323,7 +382,7 @@ steps:
       - mkdir -p transfer
       - date +%s > transfer/$MINORVERSION-time.txt
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2 --disable-patch-packages
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
 
   - name: upload
@@ -335,8 +394,8 @@ steps:
         from_secret: nightly_user
       nightly_host:
         from_secret: nightly_host
-      RINGCENTRAL_WEBHOOK:
-        from_secret: notification_url
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
     commands:
       - export MINORVERSION=${DRONE_BRANCH%-*}
       - mkdir -p ~/.ssh
@@ -349,19 +408,18 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - /bin/notify
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
     environment:
-      RINGCENTRAL_WEBHOOK:
-        from_secret: notification_url
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
     commands:
-      - /bin/notify
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
-
 
 trigger:
   event:
@@ -372,6 +430,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 45b19b7430edc5ec922ef32c2f2dcb284c7cbf7ba55eb295ba4d877cee0fe5a4
+hmac: 903759c59028cc757ba3faef044e3b9122d00f99ea0367caadceb710cb88030f
 
 ...

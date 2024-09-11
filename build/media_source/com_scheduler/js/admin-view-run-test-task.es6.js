@@ -2,7 +2,6 @@
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 /**
  * Provides the manual-run functionality for tasks over the com_scheduler administrator backend.
  *
@@ -11,85 +10,120 @@
  *
  * @since    4.1.0
  */
-if (!window.Joomla) {
-  throw new Error('Joomla API was not properly initialised');
-}
+// eslint-disable-next-line import/no-unresolved
+import JoomlaDialog from 'joomla.dialog';
 
-const initRunner = () => {
-  const paths = Joomla.getOptions('system.paths');
-  const token = Joomla.getOptions('com_scheduler.test-task.token');
-  const uri = `${paths ? `${paths.base}/index.php` : window.location.pathname}?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=%d${token ? `&${token}=1` : ''}`;
-  const modal = document.getElementById('scheduler-test-modal');
-
-  // Task output template
-  const template = `
-    <h4 class="scheduler-headline">${Joomla.Text._('COM_SCHEDULER_TEST_RUN_TASK')}</h4>
-    <div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_STARTED')}</div>
-    <div class="mt-3 text-center"><span class="fa fa-spinner fa-spin fa-lg"></span></div>
-  `;
-
-  const sanitiseTaskOutput = (text) => text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;')
-    .replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2');
-
-  // Trigger the task through a GET request, populate the modal with output on completion.
-  const triggerTaskAndShowOutput = (e) => {
-    const button = e.relatedTarget;
-    const id = parseInt(button.dataset.id, 10);
-    const { title } = button.dataset;
-
-    modal.querySelector('.modal-title').innerHTML = Joomla.Text._('COM_SCHEDULER_TEST_RUN_TITLE').replace('%d', id.toString());
-    modal.querySelector('.modal-body > div').innerHTML = template.replace('%s', title);
-
-    Joomla.request({
-      url: uri.replace('%d', id.toString()),
-      onSuccess: (data, xhr) => {
-        [].slice.call(modal.querySelectorAll('.modal-body > div > div')).forEach((el) => {
-          el.parentNode.removeChild(el);
-        });
-
-        const output = JSON.parse(data);
-
-        if (output && output.success && output.data) {
-          modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_COMPLETED')}</div>`;
-
-          if (output.data.duration > 0) {
-            modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_DURATION').replace('%s', output.data.duration.toFixed(2))}</div>`;
-          }
-
-          if (output.data.output) {
-            const result = Joomla.sanitizeHtml((output.data.output), null, sanitiseTaskOutput);
-
-            // Can use an indication for non-0 exit codes
-            modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_OUTPUT').replace('%s', result)}</div>`;
-          }
-        } else {
-          modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_TERMINATED')}</div>`;
-          modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_OUTPUT').replace('%s', Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status))}</div>`;
-        }
-      },
-      onError: (xhr) => {
-        modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_TERMINATED')}</div>`;
-
-        const msg = Joomla.ajaxErrorsMessages(xhr);
-        modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_OUTPUT').replace('%s', msg.error)}</div>`;
-      },
-    });
-  };
-
-  const reloadOnClose = () => {
-    window.location.href = `${paths ? `${paths.base}/index.php` : window.location.pathname}?option=com_scheduler&view=tasks`;
-  };
-
-  if (modal) {
-    modal.addEventListener('show.bs.modal', triggerTaskAndShowOutput);
-    modal.addEventListener('hidden.bs.modal', reloadOnClose);
+/**
+ * Helper to create an element
+ *
+ * @param {String} nodeName
+ * @param {String} text
+ * @param {Array} classList
+ * @returns {HTMLElement}
+ */
+const createEl = (nodeName, text = '', classList = []) => {
+  const el = document.createElement(nodeName);
+  el.textContent = text;
+  if (classList && classList.length) {
+    el.classList.add(...classList);
   }
-  document.removeEventListener('DOMContentLoaded', initRunner);
+  return el;
 };
 
-document.addEventListener('DOMContentLoaded', initRunner);
+/**
+ * Trigger the task through a GET request
+ *
+ * @param {String} url
+ * @param {HTMLElement} resultContainer
+ */
+const runTheTask = (url, resultContainer) => {
+  const statusHolder = resultContainer.querySelector('.scheduler-status');
+  const progressBar = resultContainer.querySelector('.progress-bar');
+  const complete = (success) => {
+    progressBar.style.width = '100%';
+    progressBar.classList.add(success ? 'bg-success' : 'bg-danger');
+    setTimeout(() => progressBar.classList.remove('progress-bar-animated'), 500);
+  };
+  progressBar.style.width = '15%';
+
+  fetch(url, { headers: { 'X-CSRF-Token': Joomla.getOptions('csrf.token', '') } })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', response.status).replace('%d', response.status));
+      }
+      return response.json();
+    })
+    .then((output) => {
+      if (!output.data) {
+        // The request was successful but the response is empty in some reason
+        throw new Error(Joomla.Text._('JLIB_JS_AJAX_ERROR_NO_CONTENT'));
+      }
+
+      statusHolder.textContent = Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_COMPLETED');
+
+      if (output.data.duration > 0) {
+        resultContainer.appendChild(createEl('div', Joomla.Text._('COM_SCHEDULER_TEST_RUN_DURATION').replace('%s', output.data.duration.toFixed(2))));
+      }
+
+      if (output.data.output) {
+        resultContainer.appendChild(createEl('div', Joomla.Text._('COM_SCHEDULER_TEST_RUN_OUTPUT').replace('%s', '').replace('<br>', '')));
+        resultContainer.appendChild(createEl('pre', output.data.output, ['bg-body', 'p-2']));
+      }
+
+      complete(true);
+    })
+    .catch((error) => {
+      complete(false);
+      statusHolder.textContent = Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_TERMINATED');
+      resultContainer.appendChild(createEl('div', error.message, ['text-danger']));
+    });
+};
+
+// Listen on click over a task button to run a task
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-scheduler-run]');
+  if (!button) return;
+  event.preventDefault();
+
+  // Get the task info from the button
+  const { id, title, url } = button.dataset;
+
+  // Prepare the initial popup content, by following template:
+  // <div class="p-3">
+  // <h4>Task: Task title</h4>
+  // <div class="mb-2 scheduler-status">Status: Task Status</div>
+  // <div class="progress mb-2"><div class="progress-bar progress-bar-striped bg-success"></div></div>
+  // </div>
+  const content = (() => {
+    const body = createEl('div', '', ['p-3']);
+    const progress = createEl('div', '', ['progress', 'mb-2']);
+    const progressBar = createEl('div', '', ['progress-bar', 'progress-bar-striped', 'progress-bar-animated']);
+    body.appendChild(createEl('h4', Joomla.Text._('COM_SCHEDULER_TEST_RUN_TASK').replace('%s', title)));
+    body.appendChild(createEl('div', Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_STARTED'), ['mb-2', 'scheduler-status']));
+    progress.appendChild(progressBar);
+    body.appendChild(progress);
+    progressBar.style.width = '0%';
+    return body;
+  })();
+
+  // Create dialog instance
+  const dialog = new JoomlaDialog({
+    popupType: 'inline',
+    textHeader: Joomla.Text._('COM_SCHEDULER_TEST_RUN_TITLE').replace('%d', id),
+    textClose: Joomla.Text._('JCLOSE'),
+    popupContent: content,
+    width: '800px',
+    height: 'fit-content',
+  });
+
+  // Run the task when dialog is ready
+  dialog.addEventListener('joomla-dialog:open', () => {
+    runTheTask(url, content);
+  });
+  // Reload the page when dialog is closed
+  dialog.addEventListener('joomla-dialog:close', () => {
+    window.location.reload();
+  });
+
+  dialog.show();
+});

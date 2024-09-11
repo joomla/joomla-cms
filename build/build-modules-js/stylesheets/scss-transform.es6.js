@@ -1,9 +1,7 @@
-const Autoprefixer = require('autoprefixer');
-const CssNano = require('cssnano');
 const Fs = require('fs').promises;
 const FsExtra = require('fs-extra');
 const { dirname, sep } = require('path');
-const Postcss = require('postcss');
+const LightningCSS = require('lightningcss');
 const Sass = require('sass-embedded');
 
 module.exports.compile = async (file) => {
@@ -16,28 +14,35 @@ module.exports.compile = async (file) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error.formatted);
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   // Auto prefixing
-  const cleaner = Postcss([Autoprefixer()]);
-  const res = await cleaner.process(compiled.css.toString(), { from: undefined });
+  const { code } = LightningCSS.transform({
+    code: Buffer.from(compiled.css.toString()),
+    minify: false,
+  });
 
   // Ensure the folder exists or create it
   await FsExtra.mkdirs(dirname(cssFile), {});
   await Fs.writeFile(
     cssFile,
-    res.css.toString(),
+    `@charset "UTF-8";
+${code}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 
-  const cssMin = await Postcss([CssNano]).process(res.css.toString(), { from: undefined });
+  const cssMin = LightningCSS.transform({
+    code: Buffer.from(code),
+    minify: true,
+    exclude: LightningCSS.Features.VendorPrefixes,
+  });
 
   // Ensure the folder exists or create it
   FsExtra.mkdirs(dirname(cssFile.replace('.css', '.min.css')), {});
   await Fs.writeFile(
     cssFile.replace('.css', '.min.css'),
-    cssMin.css.toString(),
+    `@charset "UTF-8";${cssMin.code}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 

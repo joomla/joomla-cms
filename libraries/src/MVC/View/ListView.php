@@ -208,7 +208,7 @@ class ListView extends HtmlView
         $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $bar = Toolbar::getInstance('toolbar');
+        $bar = $this->getDocument()->getToolbar();
 
         $viewName         = $this->getName();
         $singularViewName = InflectorFactory::create()->build()->singularize($viewName);
@@ -251,8 +251,14 @@ class ListView extends HtmlView
             $bar->appendButton('Custom', $dhtml, 'batch');
         }
 
-        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_EMPTY_TRASH');
+        if (
+            $canDo->get('core.delete') &&
+            (
+                $this->state->get('filter.state') == -2 ||
+                $this->state->get('filter.published') == -2
+            )
+        ) {
+            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_DELETE_FROM_TRASH');
         } elseif ($canDo->get('core.edit.state')) {
             ToolbarHelper::trash($viewName . '.trash');
         }
