@@ -233,7 +233,7 @@ class Access
 
         $db    = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
         $query = $db->getQuery(true);
-        $query->select($db->quoteName(['id', 'name', 'rules', 'parent_id', 'lft', 'rgt']))
+        $query->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
             ->where(
                 $db->quoteName($key) . ' IN ('
@@ -254,42 +254,19 @@ class Access
 //            );
 
         $assets = $db->setQuery($query)->loadObjectList();
-        $tree   = [];
+        $pids   = [];
 
         foreach ($assets as $asset) {
-            // Collect parent id, and lft, rgt values for parents preloading
-            // Grouping by parent_id to avoid duplications in Query
-            $tree[$asset->parent_id] = (object) ['lft' => $asset->lft, 'rgt' => $asset->rgt, 'id' => $asset->id];
-
-            unset($asset->lft, $asset->rgt);
-
             self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
             self::$preloadedAssets[$asset->id]                                 = $asset->name;
+
+            $pids[] = $asset->parent_id;
         }
 
-        // Load parents
-        /** @var \Joomla\Database\Mysql\MysqlQuery $query2 */
-        $query2 = $db->getQuery(true);
-        $query2->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
-            ->from($db->quoteName('#__assets'));
-        $q2IsEmpty = true;
-
-        foreach ($tree as $pid => $item) {
-            if (!empty(self::$preloadedAssets[$pid])) continue;
-            $q2IsEmpty = false;
-
-            $query2->where('(lft < ' . $item->lft . ' AND rgt > ' . $item->rgt . ')', 'OR');
-        }
-
-        if (!$q2IsEmpty) {
-            $assets2 = $db->setQuery($query2)->loadObjectList();
-
-            foreach ($assets2 as $asset2) {
-                if (!empty(self::$preloadedAssets[$asset2->id])) continue;
-
-                self::$assetPermissionsParentIdMapping[$extensionName][$asset2->id] = $asset2;
-                self::$preloadedAssets[$asset2->id]                                 = $asset2->name;
-            }
+        if ($pids) {
+            // Make sure parents also loaded
+            // Multiple queries seems faster than use lft, rgt query
+            static::preloadItems($extensionName, $pids, 'id');
         }
     }
 
