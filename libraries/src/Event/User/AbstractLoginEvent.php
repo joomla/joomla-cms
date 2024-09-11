@@ -49,7 +49,7 @@ abstract class AbstractLoginEvent extends UserEvent
             $arguments[key($arguments) === 0 ? 1 : $missingKey] = [];
 
             @trigger_error(
-                sprintf('The event %s requires 2 arguments. Use of 1 argument will throw an exception in Joomla 7.', $this->getName()),
+                \sprintf('The event %s requires 2 arguments. Use of 1 argument will throw an exception in Joomla 7.', $this->getName()),
                 E_USER_DEPRECATED
             );
         }
