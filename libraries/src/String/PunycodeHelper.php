@@ -196,7 +196,7 @@ abstract class PunycodeHelper
     public static function emailToPunycode($email)
     {
         if ($email === null) {
-            @trigger_error(sprintf('Passing null value is deprecated in %s and will throw an exception in 6.0.', __METHOD__), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Passing null value is deprecated in %s and will throw an exception in 6.0.', __METHOD__), E_USER_DEPRECATED);
             return '';
         }
 
