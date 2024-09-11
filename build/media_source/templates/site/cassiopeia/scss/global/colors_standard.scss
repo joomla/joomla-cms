@@ -9,4 +9,6 @@
   --link-color: #{$standard-color-link};
   --link-color-rgb: #{to-rgb($standard-color-link)};
   --cassiopeia-color-hover: #{$standard-color-hover};
+  --link-hover-color: #{$standard-color-hover};
+  --link-hover-color-rgb: #{to-rgb($standard-color-hover)};
 }

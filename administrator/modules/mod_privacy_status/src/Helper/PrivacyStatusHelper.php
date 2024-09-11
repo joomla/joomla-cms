@@ -15,7 +15,6 @@ use Joomla\CMS\Event\Privacy\CheckPrivacyPolicyPublishedEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,14 +51,12 @@ class PrivacyStatusHelper
         PluginHelper::importPlugin('privacy', null, true, $dispatcher);
         PluginHelper::importPlugin('user', null, true, $dispatcher);
 
-        $dispatcher->dispatch(
+        return $dispatcher->dispatch(
             'onPrivacyCheckPrivacyPolicyPublished',
             new CheckPrivacyPolicyPublishedEvent('onPrivacyCheckPrivacyPolicyPublished', [
-                'subject' => new ArrayProxy($policy),
+                'subject' => &$policy, // @todo: Remove reference in Joomla 6, see CheckPrivacyPolicyPublishedEvent::__constructor()
             ])
-        );
-
-        return $policy;
+        )->getArgument('subject', $policy);
     }
 
     /**

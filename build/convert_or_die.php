@@ -6,7 +6,7 @@ function insertDefineOrDie($file, $keyword)
 {
     global $jexecfound, $skipped;
 
-    $realfile           = dirname(__DIR__) . '/' . $file;
+    $realfile           = \dirname(__DIR__) . '/' . $file;
 
     if (!file_exists($realfile)) {
         if ($file === 'plugins/task/checkfiles/checkfiles.php') {
@@ -52,10 +52,10 @@ function insertDefineOrDie($file, $keyword)
     }
 
     array_splice($currentcontent, $insert + 1, $distance, [
-        chr(10),
-        "// phpcs:disable PSR1.Files.SideEffects" . chr(10),
-        "\defined('" . $keyword . "') or die;" . chr(10),
-        "// phpcs:enable PSR1.Files.SideEffects" . chr(10),
+        \chr(10),
+        "// phpcs:disable PSR1.Files.SideEffects" . \chr(10),
+        "\defined('" . $keyword . "') or die;" . \chr(10),
+        "// phpcs:enable PSR1.Files.SideEffects" . \chr(10),
     ]);
 
     file_put_contents($realfile, implode('', $currentcontent));
@@ -186,7 +186,7 @@ foreach ($output as $file) {
     }
 
     if ($keyword === '') {
-        if (!in_array($file, $additional)) {
+        if (!\in_array($file, $additional)) {
             $nojexec[$file] = $file;
             unset($skipped[$file]);
             continue;

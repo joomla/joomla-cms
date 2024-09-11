@@ -101,10 +101,10 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      */
     public function __construct(
         $config = [],
-        MVCFactoryInterface $factory = null,
+        ?MVCFactoryInterface $factory = null,
         ?CMSWebApplicationInterface $app = null,
         ?Input $input = null,
-        FormFactoryInterface $formFactory = null
+        ?FormFactoryInterface $formFactory = null
     ) {
         parent::__construct($config, $factory, $app, $input);
 
@@ -252,9 +252,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         if ($recordId) {
             return $this->allowEdit($data, $key);
-        } else {
-            return $this->allowAdd($data);
         }
+
+        return $this->allowAdd($data);
     }
 
     /**
@@ -289,11 +289,11 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_BATCH'));
 
             return true;
-        } else {
-            $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
-
-            return false;
         }
+
+        $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
+
+        return false;
     }
 
     /**
@@ -419,21 +419,21 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             );
 
             return false;
-        } else {
-            // Check-out succeeded, push the new record id into the session.
-            $this->holdEditId($context, $recordId);
-            $this->app->setUserState($context . '.data', null);
-
-            $this->setRedirect(
-                Route::_(
-                    'index.php?option=' . $this->option . '&view=' . $this->view_item
-                        . $this->getRedirectToItemAppend($recordId, $urlVar),
-                    false
-                )
-            );
-
-            return true;
         }
+
+        // Check-out succeeded, push the new record id into the session.
+        $this->holdEditId($context, $recordId);
+        $this->app->setUserState($context . '.data', null);
+
+        $this->setRedirect(
+            Route::_(
+                'index.php?option=' . $this->option . '&view=' . $this->view_item
+                    . $this->getRedirectToItemAppend($recordId, $urlVar),
+                false
+            )
+        );
+
+        return true;
     }
 
     /**
@@ -643,9 +643,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             // Push up to three validation messages out to the user.
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $this->app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_WARNING);
+                    $this->app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $this->app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_WARNING);
+                    $this->app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 

@@ -97,11 +97,11 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
             }
 
             // Clean recipeIngredient
-            if (isset($entry['recipeIngredient']) && is_array($entry['recipeIngredient'])) {
+            if (isset($entry['recipeIngredient']) && \is_array($entry['recipeIngredient'])) {
                 $result = [];
 
                 foreach ($entry['recipeIngredient'] as $key => $value) {
-                    if (is_array($value)) {
+                    if (\is_array($value)) {
                         foreach ($value as $k => $v) {
                             $result[] = $v;
                         }

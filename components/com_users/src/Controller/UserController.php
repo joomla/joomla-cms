@@ -203,7 +203,7 @@ class UserController extends BaseController
         }
 
         // Logout and redirect
-        $this->setRedirect('index.php?option=com_users&task=user.logout&' . Session::getFormToken() . '=1&return=' . base64_encode($url));
+        $this->setRedirect(Route::_('index.php?option=com_users&task=user.logout&' . Session::getFormToken() . '=1&return=' . base64_encode($url), false));
     }
 
     /**

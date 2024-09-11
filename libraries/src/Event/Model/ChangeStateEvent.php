@@ -39,7 +39,7 @@ abstract class ChangeStateEvent extends ModelEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(array $value): array
+    protected function onSetSubject(array $value): array
     {
         return $value;
     }
@@ -53,7 +53,7 @@ abstract class ChangeStateEvent extends ModelEvent
      *
      * @since  5.0.0
      */
-    protected function setValue($value): int
+    protected function onSetValue($value): int
     {
         return (int) $value;
     }

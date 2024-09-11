@@ -37,10 +37,14 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
         // Ensure that the child also is a read-only
         if (\is_scalar($value) || $value === null) {
             return $value;
-        } elseif (\is_object($value)) {
-            $value = new static($value);
-        } elseif (\is_array($value)) {
-            $value = new ArrayReadOnlyProxy($value);
+        }
+
+        if (\is_object($value)) {
+            return new static($value);
+        }
+
+        if (\is_array($value)) {
+            return new ArrayReadOnlyProxy($value);
         }
 
         return $value;
@@ -60,7 +64,7 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
      */
     public function __set($key, $value): void
     {
-        throw new \RuntimeException(sprintf('ObjectReadOnlyProxy: trying to modify read-only element, by key "%s"', $key));
+        throw new \RuntimeException(\sprintf('ObjectReadOnlyProxy: trying to modify read-only element, by key "%s"', $key));
     }
 
     /**
@@ -77,10 +81,14 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
         // Ensure that the child also is a read-only
         if (\is_scalar($value) || $value === null) {
             return $value;
-        } elseif (\is_object($value)) {
-            $value = new static($value);
-        } elseif (\is_array($value)) {
-            $value = new ArrayReadOnlyProxy($value);
+        }
+
+        if (\is_object($value)) {
+            return new static($value);
+        }
+
+        if (\is_array($value)) {
+            return new ArrayReadOnlyProxy($value);
         }
 
         return $value;

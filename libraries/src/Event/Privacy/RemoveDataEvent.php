@@ -67,7 +67,7 @@ class RemoveDataEvent extends PrivacyEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(RequestTable $value): RequestTable
+    protected function onSetSubject(RequestTable $value): RequestTable
     {
         return $value;
     }
@@ -81,7 +81,7 @@ class RemoveDataEvent extends PrivacyEvent
      *
      * @since  5.0.0
      */
-    protected function setUser(?User $value): ?User
+    protected function onSetUser(?User $value): ?User
     {
         return $value;
     }

@@ -360,10 +360,10 @@ class FormHelper
 
         // Add the new paths to the stack if not already there.
         foreach ($new as $path) {
-            $path = \trim($path);
+            $path = trim($path);
 
             if (!\in_array($path, $paths)) {
-                \array_unshift($paths, $path);
+                array_unshift($paths, $path);
             }
         }
 
@@ -525,7 +525,7 @@ class FormHelper
                         $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
                     } else {
                         $groupParts = explode('.', $showOnPartBlocks[0]);
-                        $field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+                        $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
                     }
                 }
             }

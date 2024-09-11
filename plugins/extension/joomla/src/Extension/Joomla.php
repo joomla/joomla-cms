@@ -10,11 +10,15 @@
 
 namespace Joomla\Plugin\Extension\Joomla\Extension;
 
+use Joomla\CMS\Event\Extension\AfterInstallEvent;
+use Joomla\CMS\Event\Extension\AfterUninstallEvent;
+use Joomla\CMS\Event\Extension\AfterUpdateEvent;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,7 +29,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-final class Joomla extends CMSPlugin
+final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -51,6 +55,22 @@ final class Joomla extends CMSPlugin
      * @since  3.1
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onExtensionAfterInstall'   => 'onExtensionAfterInstall',
+            'onExtensionAfterUpdate'    => 'onExtensionAfterUpdate',
+            'onExtensionAfterUninstall' => 'onExtensionAfterUninstall',
+        ];
+    }
 
     /**
      * Adds an update site to the table if it doesn't exist.
@@ -138,17 +158,18 @@ final class Joomla extends CMSPlugin
     /**
      * Handle post extension install update sites
      *
-     * @param   Installer  $installer  Installer object
-     * @param   integer    $eid        Extension Identifier
+     * @param   AfterInstallEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onExtensionAfterInstall($installer, $eid)
+    public function onExtensionAfterInstall(AfterInstallEvent $event): void
     {
+        $eid = $event->getEid();
+
         if ($eid) {
-            $this->installer = $installer;
+            $this->installer = $event->getInstaller();
             $this->eid       = (int) $eid;
 
             // After an install we only need to do update sites
@@ -159,16 +180,17 @@ final class Joomla extends CMSPlugin
     /**
      * Handle extension uninstall
      *
-     * @param   Installer  $installer  Installer instance
-     * @param   integer    $eid        Extension id
-     * @param   boolean    $removed    Installation result
+     * @param   AfterUninstallEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onExtensionAfterUninstall($installer, $eid, $removed)
+    public function onExtensionAfterUninstall(AfterUninstallEvent $event): void
     {
+        $eid     = $event->getEid();
+        $removed = $event->getRemoved();
+
         // If we have a valid extension ID and the extension was successfully uninstalled wipe out any
         // update sites for it
         if ($eid && $removed) {
@@ -191,7 +213,7 @@ final class Joomla extends CMSPlugin
             $db->setQuery($query);
             $results = $db->loadColumn();
 
-            if (is_array($results)) {
+            if (\is_array($results)) {
                 // So we need to delete the update sites and their associated updates
                 $updatesite_delete = $db->getQuery(true);
                 $updatesite_delete->delete($db->quoteName('#__update_sites'));
@@ -201,7 +223,7 @@ final class Joomla extends CMSPlugin
                     ->from($db->quoteName('#__update_sites'));
 
                 // If we get results back then we can exclude them
-                if (count($results)) {
+                if (\count($results)) {
                     $updatesite_query->whereNotIn($db->quoteName('update_site_id'), $results);
                     $updatesite_delete->whereNotIn($db->quoteName('update_site_id'), $results);
                 }
@@ -210,7 +232,7 @@ final class Joomla extends CMSPlugin
                 $db->setQuery($updatesite_query);
                 $update_sites_pending_delete = $db->loadColumn();
 
-                if (is_array($update_sites_pending_delete) && count($update_sites_pending_delete)) {
+                if (\is_array($update_sites_pending_delete) && \count($update_sites_pending_delete)) {
                     // Nuke any pending updates with this site before we delete it
                     // @todo: investigate alternative of using a query after the delete below with a query and not in like above
                     $query->clear()
@@ -240,17 +262,18 @@ final class Joomla extends CMSPlugin
     /**
      * After update of an extension
      *
-     * @param   Installer  $installer  Installer object
-     * @param   integer    $eid        Extension identifier
+     * @param   AfterUpdateEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onExtensionAfterUpdate($installer, $eid)
+    public function onExtensionAfterUpdate(AfterUpdateEvent $event): void
     {
+        $eid = $event->getEid();
+
         if ($eid) {
-            $this->installer = $installer;
+            $this->installer = $event->getInstaller();
             $this->eid       = (int) $eid;
 
             // Handle any update sites
@@ -276,7 +299,7 @@ final class Joomla extends CMSPlugin
             $children = [];
         }
 
-        if (count($children)) {
+        if (\count($children)) {
             foreach ($children as $child) {
                 $attrs = $child->attributes();
                 $this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery);

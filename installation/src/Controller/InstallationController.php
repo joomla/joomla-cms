@@ -27,16 +27,16 @@ use Joomla\CMS\Session\Session;
 class InstallationController extends JSONController
 {
     /**
-     * @param   array                         $config   An optional associative array of configuration settings.
-     *                                                  Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                                  'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface|null      $factory  The factory.
-     * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object.
+     * @param   array                     $config   An optional associative array of configuration settings.
+     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                              'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface      $factory  The factory.
+     * @param   ?CMSApplication           $app      The Application for the dispatcher
+     * @param   ?\Joomla\CMS\Input\Input  $input    The Input object.
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -130,7 +130,10 @@ class InstallationController extends JSONController
             $r->view  = 'setup';
             $r->error = true;
         } else {
-            if (!$databaseModel->handleOldDatabase($options)) {
+            // Re-fetch options from the session as the create database call might modify them.
+            $updatedOptions = $databaseModel->getOptions();
+
+            if (!$databaseModel->handleOldDatabase($updatedOptions)) {
                 $r->view  = 'setup';
                 $r->error = true;
             }
@@ -167,7 +170,7 @@ class InstallationController extends JSONController
         $schema     = $files[$step];
         $serverType = $db->getServerType();
 
-        if (in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql')) {
+        if (\in_array($step, ['custom1', 'custom2']) && !is_file(JPATH_INSTALLATION . '/sql/' . $serverType . '/' . $schema . '.sql')) {
             $this->sendJsonResponse($r);
 
             return;

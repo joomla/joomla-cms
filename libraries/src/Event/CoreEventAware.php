@@ -9,13 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate as PlgSystemWebauthnAjaxCreate;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete as PlgSystemWebauthnAjaxDelete;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate as PlgSystemWebauthnAjaxInitCreate;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin as PlgSystemWebauthnAjaxLogin;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAjaxSaveLabel;
 use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -92,22 +85,11 @@ trait CoreEventAware
         'onWorkflowFunctionalityUsed' => Workflow\WorkflowFunctionalityUsedEvent::class,
         'onWorkflowAfterTransition'   => Workflow\WorkflowTransitionEvent::class,
         'onWorkflowBeforeTransition'  => Workflow\WorkflowTransitionEvent::class,
-        // Plugin: System, WebAuthn
-        'onAjaxWebauthn'           => PlgSystemWebauthnAjax::class,
-        'onAjaxWebauthnChallenge'  => PlgSystemWebauthnAjaxChallenge::class,
-        'onAjaxWebauthnCreate'     => PlgSystemWebauthnAjaxCreate::class,
-        'onAjaxWebauthnDelete'     => PlgSystemWebauthnAjaxDelete::class,
-        'onAjaxWebauthnInitcreate' => PlgSystemWebauthnAjaxInitCreate::class,
-        'onAjaxWebauthnLogin'      => PlgSystemWebauthnAjaxLogin::class,
-        'onAjaxWebauthnSavelabel'  => PlgSystemWebauthnAjaxSaveLabel::class,
         // Plugin: System, Schemaorg
         'onSchemaBeforeCompileHead' => Plugin\System\Schemaorg\BeforeCompileHeadEvent::class,
         'onSchemaPrepareData'       => Plugin\System\Schemaorg\PrepareDataEvent::class,
         'onSchemaPrepareForm'       => Plugin\System\Schemaorg\PrepareFormEvent::class,
         'onSchemaPrepareSave'       => Plugin\System\Schemaorg\PrepareSaveEvent::class,
-        // Extensions
-        'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
-        'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
         // Content
         'onContentPrepare'       => Content\ContentPrepareEvent::class,
         'onContentAfterTitle'    => Content\AfterTitleEvent::class,
@@ -142,6 +124,10 @@ trait CoreEventAware
         'onUserBeforeDelete'         => User\BeforeDeleteEvent::class,
         'onUserAfterDelete'          => User\AfterDeleteEvent::class,
         'onUserAfterRemind'          => User\AfterRemindEvent::class,
+        'onUserBeforeResetRequest'   => User\BeforeResetRequestEvent::class,
+        'onUserAfterResetRequest'    => User\AfterResetRequestEvent::class,
+        'onUserBeforeResetComplete'  => User\BeforeResetCompleteEvent::class,
+        'onUserAfterResetComplete'   => User\AfterResetCompleteEvent::class,
         // User Group
         'onUserBeforeSaveGroup'   => Model\BeforeSaveEvent::class,
         'onUserAfterSaveGroup'    => Model\AfterSaveEvent::class,
@@ -155,6 +141,8 @@ trait CoreEventAware
         'onAfterModuleList'      => Module\AfterModuleListEvent::class,
         'onAfterCleanModuleList' => Module\AfterCleanModuleListEvent::class,
         // Extension
+        'onBeforeExtensionBoot'      => BeforeExtensionBootEvent::class,
+        'onAfterExtensionBoot'       => AfterExtensionBootEvent::class,
         'onExtensionBeforeInstall'   => Extension\BeforeInstallEvent::class,
         'onExtensionAfterInstall'    => Extension\AfterInstallEvent::class,
         'onExtensionBeforeUninstall' => Extension\BeforeUninstallEvent::class,
@@ -164,6 +152,9 @@ trait CoreEventAware
         'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
+        'onExtensionChangeState'     => Model\BeforeChangeStateEvent::class,
+        'onJoomlaBeforeUpdate'       => Extension\BeforeJoomlaUpdateEvent::class,
+        'onJoomlaAfterUpdate'        => Extension\AfterJoomlaUpdateEvent::class,
         // Installer
         'onInstallerAddInstallationTab'    => Installer\AddInstallationTabEvent::class,
         'onInstallerBeforeInstallation'    => Installer\BeforeInstallationEvent::class,
@@ -208,6 +199,12 @@ trait CoreEventAware
         'onPrivacyExportRequest'               => Privacy\ExportRequestEvent::class,
         'onPrivacyCanRemoveData'               => Privacy\CanRemoveDataEvent::class,
         'onPrivacyRemoveData'                  => Privacy\RemoveDataEvent::class,
+        // PageCache
+        'onPageCacheSetCaching' => PageCache\SetCachingEvent::class,
+        'onPageCacheGetKey'     => PageCache\GetKeyEvent::class,
+        'onPageCacheIsExcluded' => PageCache\IsExcludedEvent::class,
+        // Mail
+        'onMailBeforeRendering' => Mail\BeforeRenderingMailTemplateEvent::class,
     ];
 
     /**

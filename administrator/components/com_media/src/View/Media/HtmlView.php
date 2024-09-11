@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -67,7 +66,7 @@ class HtmlView extends BaseHtmlView
         $this->providers = $this->get('Providers');
 
         // Check that there are providers
-        if (!count($this->providers)) {
+        if (!\count($this->providers)) {
             $link = Route::_('index.php?option=com_plugins&view=plugins&filter[folder]=filesystem');
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MEDIA_ERROR_NO_PROVIDERS', $link), CMSApplication::MSG_WARNING);
         }
@@ -87,7 +86,7 @@ class HtmlView extends BaseHtmlView
     protected function prepareToolbar()
     {
         $tmpl    = Factory::getApplication()->getInput()->getCmd('tmpl');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $user    = $this->getCurrentUser();
 
         // Set the title

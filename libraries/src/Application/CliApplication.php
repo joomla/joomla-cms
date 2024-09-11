@@ -20,8 +20,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -39,9 +37,8 @@ use Joomla\Session\SessionInterface;
  * @deprecated  4.0 will be removed in 6.0
  *              Use the ConsoleApplication instead
  */
-abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
+abstract class CliApplication extends AbstractApplication implements CMSApplicationInterface
 {
-    use DispatcherAwareTrait;
     use EventAware;
     use IdentityAware;
     use ContainerAwareTrait;
@@ -116,12 +113,12 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
      * @since   1.7.0
      */
     public function __construct(
-        Input $input = null,
-        Registry $config = null,
-        CliOutput $output = null,
-        CliInput $cliInput = null,
-        DispatcherInterface $dispatcher = null,
-        Container $container = null
+        ?Input $input = null,
+        ?Registry $config = null,
+        ?CliOutput $output = null,
+        ?CliInput $cliInput = null,
+        ?DispatcherInterface $dispatcher = null,
+        ?Container $container = null
     ) {
         // Close the application if we are not executed from the command line.
         if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv'])) {
@@ -181,7 +178,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
             default:
                 $trace = debug_backtrace();
                 trigger_error(
-                    sprintf(
+                    \sprintf(
                         'Undefined property via __get(): %1$s in %2$s on line %3$s',
                         $name,
                         $trace[0]['file'],
@@ -238,7 +235,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
         // Only create the object if it doesn't exist.
         if (empty(static::$instance)) {
             if (!class_exists($name)) {
-                throw new \RuntimeException(sprintf('Unable to load application: %s', $name), 500);
+                throw new \RuntimeException(\sprintf('Unable to load application: %s', $name), 500);
             }
 
             static::$instance = new $name();

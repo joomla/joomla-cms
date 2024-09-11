@@ -44,4 +44,5 @@ defined('_JEXEC') or die;
  * @var   array    $canDo
  * @var   string[] $urls
  * @var   string[] $modalTitles
+ * @var   string[] $buttonIcons
  */

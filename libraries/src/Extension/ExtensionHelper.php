@@ -131,6 +131,7 @@ class ExtensionHelper
         ['module', 'mod_version', '', 1],
 
         // Core module extensions - site
+        ['module', 'mod_articles', '', 0],
         ['module', 'mod_articles_archive', '', 0],
         ['module', 'mod_articles_categories', '', 0],
         ['module', 'mod_articles_category', '', 0],
@@ -277,8 +278,10 @@ class ExtensionHelper
         ['plugin', 'multilang', 'sampledata', 0],
 
         // Core plugin extensions - schemaorg
+        ['plugin', 'article', 'schemaorg', 0],
         ['plugin', 'blogposting', 'schemaorg', 0],
         ['plugin', 'book', 'schemaorg', 0],
+        ['plugin', 'custom', 'schemaorg', 0],
         ['plugin', 'event', 'schemaorg', 0],
         ['plugin', 'jobposting', 'schemaorg', 0],
         ['plugin', 'organization', 'schemaorg', 0],
@@ -401,14 +404,25 @@ class ExtensionHelper
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'));
 
+        $values = [];
+
         foreach (self::$coreExtensions as $extension) {
-            $values = $query->bindArray($extension, [ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]);
-            $query->where(
-                '(' . $db->quoteName('type') . ' = ' . $values[0] . ' AND ' . $db->quoteName('element') . ' = ' . $values[1]
-                . ' AND ' . $db->quoteName('folder') . ' = ' . $values[2] . ' AND ' . $db->quoteName('client_id') . ' = ' . $values[3] . ')',
-                'OR'
-            );
+            $values[] = $extension[0] . '|' . $extension[1] . '|' . $extension[2] . '|' . $extension[3];
         }
+
+        $query->whereIn(
+            $query->concatenate(
+                [
+                    $db->quoteName('type'),
+                    $db->quoteName('element'),
+                    $db->quoteName('folder'),
+                    $db->quoteName('client_id'),
+                ],
+                '|'
+            ),
+            $values,
+            ParameterType::STRING
+        );
 
         $db->setQuery($query);
         self::$coreExtensionIds = $db->loadColumn();
@@ -449,12 +463,12 @@ class ExtensionHelper
     public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\stdClass
     {
         if ($type === 'plugin' && $folder === null) {
-            throw new \InvalidArgumentException(sprintf('`$folder` is required when `$type` is `plugin` in %s()', __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('`$folder` is required when `$type` is `plugin` in %s()', __METHOD__));
         }
 
         if (\in_array($type, ['module', 'language', 'template'], true) && $clientId === null) {
             throw new \InvalidArgumentException(
-                sprintf('`$clientId` is required when `$type` is `module`, `language` or `template` in %s()', __METHOD__)
+                \sprintf('`$clientId` is required when `$type` is `module`, `language` or `template` in %s()', __METHOD__)
             );
         }
 

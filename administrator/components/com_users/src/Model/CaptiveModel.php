@@ -53,16 +53,16 @@ class CaptiveModel extends BaseDatabaseModel
      * Similar code paths are followed by any canonical code which tries to load modules. So even if your template does
      * not use jdoc tags this code will still work as expected.
      *
-     * @param   CMSApplication|null  $app  The CMS application to manipulate
+     * @param   ?CMSApplication  $app  The CMS application to manipulate
      *
      * @return  void
      * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function suppressAllModules(CMSApplication $app = null): void
+    public function suppressAllModules(?CMSApplication $app = null): void
     {
-        if (is_null($app)) {
+        if (\is_null($app)) {
             $app = Factory::getApplication();
         }
 
@@ -72,17 +72,17 @@ class CaptiveModel extends BaseDatabaseModel
     /**
      * Get the MFA records for the user which correspond to active plugins
      *
-     * @param   User|null  $user                The user for which to fetch records. Skip to use the current user.
-     * @param   bool       $includeBackupCodes  Should I include the backup codes record?
+     * @param   ?User  $user                The user for which to fetch records. Skip to use the current user.
+     * @param   bool   $includeBackupCodes  Should I include the backup codes record?
      *
      * @return  array
      * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function getRecords(User $user = null, bool $includeBackupCodes = false): array
+    public function getRecords(?User $user = null, bool $includeBackupCodes = false): array
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -114,7 +114,7 @@ class CaptiveModel extends BaseDatabaseModel
 
         foreach ($records as $record) {
             // Backup codes must not be included in the list. We add them in the View, at the end of the list.
-            if (in_array($record->method, $methodNames)) {
+            if (\in_array($record->method, $methodNames)) {
                 $ret[$record->id] = $record;
             }
         }
@@ -130,7 +130,7 @@ class CaptiveModel extends BaseDatabaseModel
      */
     private function getActiveMethodNames(): ?array
     {
-        if (!is_null($this->activeMFAMethodNames)) {
+        if (!\is_null($this->activeMFAMethodNames)) {
             return $this->activeMFAMethodNames;
         }
 
@@ -173,7 +173,7 @@ class CaptiveModel extends BaseDatabaseModel
             return null;
         }
 
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -192,7 +192,7 @@ class CaptiveModel extends BaseDatabaseModel
 
         $methodNames = $this->getActiveMethodNames();
 
-        if (!in_array($record->method, $methodNames) && ($record->method != 'backupcodes')) {
+        if (!\in_array($record->method, $methodNames) && ($record->method != 'backupcodes')) {
             return null;
         }
 
@@ -202,7 +202,7 @@ class CaptiveModel extends BaseDatabaseModel
     /**
      * Load the Captive login page render options for a specific MFA record
      *
-     * @param   MfaTable  $record  The MFA record to process
+     * @param   ?MfaTable  $record  The MFA record to process
      *
      * @return  CaptiveRenderOptions  The rendering options
      * @since 4.2.0
@@ -277,7 +277,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         static $map = null;
 
-        if (!is_array($map)) {
+        if (!\is_array($map)) {
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
@@ -307,7 +307,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         static $map = null;
 
-        if (!is_array($map)) {
+        if (!\is_array($map)) {
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
@@ -350,6 +350,7 @@ class CaptiveModel extends BaseDatabaseModel
         }
 
         $this->filterModules($modules);
+        $event->updateModules($modules);
     }
 
     /**
@@ -375,7 +376,7 @@ class CaptiveModel extends BaseDatabaseModel
         $filtered = [];
 
         foreach ($modules as $module) {
-            if (in_array($module->position, $allowedPositions)) {
+            if (\in_array($module->position, $allowedPositions)) {
                 $filtered[] = $module;
             }
         }

@@ -350,9 +350,9 @@ class MediaController extends ApiController
         // Check if the size of the request body does not exceed various server imposed limits.
         if (
             ($params->get('upload_maxsize', 0) > 0 && $serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024))
-            || $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
-            || $serverlength > $helper->toBytes(ini_get('post_max_size'))
-            || $serverlength > $helper->toBytes(ini_get('memory_limit'))
+            || $serverlength > $helper->toBytes(\ini_get('upload_max_filesize'))
+            || $serverlength > $helper->toBytes(\ini_get('post_max_size'))
+            || $serverlength > $helper->toBytes(\ini_get('memory_limit'))
         ) {
             throw new \RuntimeException(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 400);
         }

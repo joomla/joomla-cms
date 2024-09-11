@@ -298,7 +298,7 @@ class User
     public static function getInstance($identifier = 0)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
                 __CLASS__
@@ -309,9 +309,9 @@ class User
         // Find the user id
         if (!is_numeric($identifier)) {
             return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserByUsername($identifier);
-        } else {
-            $id = $identifier;
         }
+
+        $id = $identifier;
 
         // If the $id is zero, just return an empty User.
         // Note: don't cache this user because it'll have a new ID on save!
@@ -791,7 +791,7 @@ class User
 
             // Set the id for the User object in case we created a new user.
             if (empty($this->id)) {
-                $this->id = $table->get('id');
+                $this->id = $table->id;
             }
 
             if ($my->id == $table->id) {

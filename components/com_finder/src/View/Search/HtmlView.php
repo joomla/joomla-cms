@@ -154,8 +154,34 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
 
+        $input = $app->getInput()->get;
+
+        // Add additional parameters
+        $queryParameterList = [
+            'f'  => 'int',
+            't'  => 'array',
+            'q'  => 'string',
+            'l'  => 'cmd',
+            'd1' => 'string',
+            'd2' => 'string',
+            'w1' => 'string',
+            'w2' => 'string',
+            'o'  => 'word',
+            'od' => 'word',
+        ];
+
+        foreach ($queryParameterList as $parameter => $filter) {
+            $value = $input->get($parameter, null, $filter);
+
+            if (\is_null($value)) {
+                continue;
+            }
+
+            $this->pagination->setAdditionalUrlParam($parameter, $value);
+        }
+
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -175,7 +201,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         }
 
         // Run an event on each result item
-        if (is_array($this->results)) {
+        if (\is_array($this->results)) {
             $dispatcher = $this->getDispatcher();
 
             // Import Finder plugins
@@ -242,7 +268,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 
         // Create hidden input elements for each part of the URI.
         foreach ($elements as $n => $v) {
-            if (is_scalar($v)) {
+            if (\is_scalar($v)) {
                 $fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '">';
             }
         }

@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions('com_languages');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -94,7 +94,7 @@ class HtmlView extends BaseHtmlView
         Factory::getApplication()->getInput()->set('hidemainmenu', 1);
         $isNew   = empty($this->item->lang_id);
         $canDo   = $this->canDo;
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             Text::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'),
@@ -121,7 +121,7 @@ class HtmlView extends BaseHtmlView
         );
 
         if ($isNew) {
-            $toolbar->cancel('language.cancel');
+            $toolbar->cancel('language.cancel', 'JTOOLBAR_CANCEL');
         } else {
             $toolbar->cancel('language.cancel');
         }

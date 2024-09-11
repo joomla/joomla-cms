@@ -57,18 +57,18 @@ class SiteRouter extends Router
     /**
      * Class constructor
      *
-     * @param   CMSApplication  $app   Application Object
-     * @param   AbstractMenu    $menu  Menu object
+     * @param   ?CMSApplication  $app   Application Object
+     * @param   ?AbstractMenu    $menu  Menu object
      *
      * @since   3.4
      */
-    public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
+    public function __construct(?CMSApplication $app = null, ?AbstractMenu $menu = null)
     {
         $this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $this->menu = $menu ?: $this->app->getMenu();
 
         // Add core rules
-        if ($this->app->get('force_ssl') === 2) {
+        if ((int) $this->app->get('force_ssl') === 2) {
             $this->attachParseRule([$this, 'parseCheckSSL'], self::PROCESS_BEFORE);
         }
 
@@ -309,6 +309,12 @@ class SiteRouter extends Router
             $item = $this->menu->getItem($uri->getVar('Itemid'));
         } else {
             $item = $this->menu->getDefault($this->app->getLanguage()->getTag());
+
+            if ($item->query['option'] !== $uri->getVar('option', $item->query['option'])) {
+                // Set the active menu item
+                $this->menu->setActive($item->id);
+                $item = false;
+            }
         }
 
         if ($item && $item->type === 'alias') {
@@ -588,14 +594,12 @@ class SiteRouter extends Router
      */
     public function setComponentRouter($component, $router)
     {
-        $reflection = new \ReflectionClass($router);
-
-        if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames())) {
+        if ($router instanceof RouterInterface) {
             $this->componentRouters[$component] = $router;
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

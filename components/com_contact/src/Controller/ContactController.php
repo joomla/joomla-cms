@@ -19,7 +19,6 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
@@ -174,10 +173,9 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         }
 
         // Validation succeeded, continue with custom handlers
-        $eventData = new ArrayProxy($data);
-        $results   = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
+        $results = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
             'subject' => $contact,
-            'data'    => $eventData,
+            'data'    => &$data, // @todo: Remove reference in Joomla 6, @deprecated: Data modification onValidateContact is not allowed, use onSubmitContact instead
         ]))->getArgument('result', []);
 
         $passValidation = true;
@@ -198,10 +196,12 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
+        $event = $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
             'subject' => $contact,
-            'data'    => $eventData,
+            'data'    => &$data, // @todo: Remove reference in Joomla 6, see SubmitContactEvent::__constructor()
         ]));
+        // Get the final data
+        $data = $event->getArgument('data', $data);
 
         // Send the email
         $sent = false;
@@ -247,7 +247,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
         if ($contact->email_to == '' && $contact->user_id != 0) {
             $contact_user      = $this->getUserFactory()->loadUserById($contact->user_id);
-            $contact->email_to = $contact_user->get('email');
+            $contact->email_to = $contact_user->email;
         }
 
         $templateData = [
@@ -283,6 +283,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
             $mailer->addRecipient($contact->email_to);
             $mailer->setReplyTo($templateData['email'], $templateData['name']);
             $mailer->addTemplateData($templateData);
+            $mailer->addUnsafeTags(['name', 'email', 'body']);
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.
@@ -291,6 +292,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
                 $mailer->addTemplateData($templateData);
+                $mailer->addUnsafeTags(['name', 'email', 'body']);
                 $sent = $mailer->send();
             }
         } catch (MailDisabledException | phpMailerException $exception) {

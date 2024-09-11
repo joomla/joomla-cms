@@ -19,7 +19,7 @@ use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 /** @var HtmlView $this */
 ?>
 <div id="com-users-methods-list">
-    <div id="com-users-methods-reset-container" class="d-flex align-items-center border border-1 rounded-3 p-2 bg-light">
+    <div id="com-users-methods-reset-container" class="d-flex align-items-center border border-1 rounded-3 p-2">
         <div id="com-users-methods-reset-message" class="flex-grow-1">
             <?php echo Text::_('COM_USERS_MFA_LIST_STATUS_' . ($this->mfaActive ? 'ON' : 'OFF')) ?>
         </div>

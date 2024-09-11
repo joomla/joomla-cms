@@ -64,12 +64,14 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
         }
 
         // For backward compatibility make sure the value is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
-            $this->arguments['url'] = &$arguments[0];
+            $this->arguments['url']     = &$arguments[0];
+            $this->arguments['headers'] = &$arguments[1];
         } elseif (\array_key_exists('url', $arguments)) {
-            $this->arguments['url'] = &$arguments['url'];
+            $this->arguments['url']     = &$arguments['url'];
+            $this->arguments['headers'] = &$arguments['headers'];
         }
     }
 
@@ -82,7 +84,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setUrl(string $value): string
+    protected function onSetUrl(string $value): string
     {
         return $value;
     }
@@ -90,13 +92,13 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
     /**
      * Setter for the headers argument.
      *
-     * @param   array|\ArrayAccess  $value  The value to set
+     * @param   array  $value  The value to set
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
      * @since  5.0.0
      */
-    protected function setHeaders(array|\ArrayAccess $value): array|\ArrayAccess
+    protected function onSetHeaders(array $value): array
     {
         return $value;
     }
@@ -116,11 +118,11 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
     /**
      * Getter for the headers.
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
      * @since  5.0.0
      */
-    public function getHeaders(): array|\ArrayAccess
+    public function getHeaders(): array
     {
         return $this->arguments['headers'];
     }
@@ -136,7 +138,23 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      */
     public function updateUrl(string $value): static
     {
-        $this->arguments['url'] = $value;
+        $this->arguments['url'] = $this->onSetUrl($value);
+
+        return $this;
+    }
+
+    /**
+     * Update the headers.
+     *
+     * @param   array  $value  The value to set
+     *
+     * @return  static
+     *
+     * @since  5.0.0
+     */
+    public function updateHeaders(array $value): static
+    {
+        $this->arguments['headers'] = $this->onSetHeaders($value);
 
         return $this;
     }

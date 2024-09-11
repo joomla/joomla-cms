@@ -32,13 +32,13 @@ final class Message extends PrivacyPlugin
      * This event will collect data for the message table
      *
      * @param   RequestTable  $request  The request record being processed
-     * @param   User          $user     The user account associated with this request if available
+     * @param   ?User         $user     The user account associated with this request if available
      *
      * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
      *
      * @since   3.9.0
      */
-    public function onPrivacyExportRequest(RequestTable $request, User $user = null)
+    public function onPrivacyExportRequest(RequestTable $request, ?User $user = null)
     {
         if (!$user) {
             return [];

@@ -88,7 +88,7 @@ class GuidedtoursHelper
                 || $lang->load($extension . '.' . str_replace('-', '_', $tourid), $source);
             if ($steps) {
                 $lang->load($extension . '.' . str_replace('-', '_', $tourid) . '_steps', JPATH_ADMINISTRATOR)
-                    || $lang->load($extension . '.' . str_replace('-', '_', $tourid) . '_steps', JPATH_ADMINISTRATOR);
+                    || $lang->load($extension . '.' . str_replace('-', '_', $tourid) . '_steps', $source);
             }
         } else {
             $lang->load('guidedtours.' . str_replace('-', '_', $uid), JPATH_ADMINISTRATOR);
@@ -98,7 +98,5 @@ class GuidedtoursHelper
         }
 
         $cache[$uid] = true;
-
-        return;
     }
 }

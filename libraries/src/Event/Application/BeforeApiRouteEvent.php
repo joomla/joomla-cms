@@ -50,7 +50,7 @@ class BeforeApiRouteEvent extends ApplicationEvent
      *
      * @since  5.0.0
      */
-    protected function setRouter(ApiRouter $value): ApiRouter
+    protected function onSetRouter(ApiRouter $value): ApiRouter
     {
         return $value;
     }

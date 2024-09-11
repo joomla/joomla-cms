@@ -183,7 +183,7 @@ class StageModel extends AdminModel
         $context   = $this->option . '.' . $this->name;
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
-        if (!\property_exists($record, 'workflow_id')) {
+        if (!property_exists($record, 'workflow_id')) {
             $workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
             $record->workflow_id = $workflowID;
         }
