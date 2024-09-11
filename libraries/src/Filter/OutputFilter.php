@@ -13,7 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\Filter\OutputFilter as BaseOutputFilter;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Filter\OutputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
