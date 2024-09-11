@@ -97,7 +97,6 @@ class RouterLegacy implements RouterInterface
         $function = $this->component . 'ParseRoute';
 
         if (\function_exists($function)) {
-
             foreach ($segments as &$segment) {
                 $segment = preg_replace('/-/', ':', $segment, 1);
             }
