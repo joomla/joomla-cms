@@ -478,7 +478,7 @@ class Indexer
          * aggregated data will be inserted into #__finder_tokens_aggregate
          * table.
          */
-        if ($serverType == 'mysql') {
+        if ($serverType === 'mysql') {
             $query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
                 ' (' . $db->quoteName('term_id') .
                 ', ' . $db->quoteName('term') .
@@ -497,7 +497,7 @@ class Indexer
                 ' WHERE t1.context = %d' .
                 ' GROUP BY t1.term, t1.language, t1.context' .
                 ' ORDER BY t1.term DESC';
-        } elseif ($serverType == 'postgresql') {
+        } elseif ($serverType === 'postgresql') {
             $query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
                 ' (' . $db->quoteName('term_id') .
                 ', ' . $db->quoteName('term') .
@@ -536,7 +536,7 @@ class Indexer
          * table have a term of 0, then no term record exists for that
          * term so we need to add it to the terms table.
          */
-        if ($serverType == 'mysql') {
+        if ($serverType === 'mysql') {
             $db->setQuery(
                 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
                 ' (' . $db->quoteName('term') .
@@ -551,7 +551,7 @@ class Indexer
                 ' WHERE ta.term_id = 0' .
                 ' GROUP BY ta.term, ta.language'
             );
-        } elseif ($serverType == 'postgresql') {
+        } elseif ($serverType === 'postgresql') {
             $db->setQuery(
                 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
                 ' (' . $db->quoteName('term') .
