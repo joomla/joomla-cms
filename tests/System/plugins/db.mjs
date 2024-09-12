@@ -35,7 +35,6 @@ function queryTestDB(joomlaQuery, config) {
 
   // Do we use PostgreSQL?
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
-
     if (postgresConnectionPool === null) {
       // Initialisation on the first call
       postgresConnectionPool = postgres({
