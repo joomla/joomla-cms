@@ -246,7 +246,7 @@ EOF;
         try {
             $language = $this->getLanguage();
         } catch (\UnexpectedValueException $e) {
-            @trigger_error(sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
             $language = Factory::getLanguage();
         }
 
@@ -306,7 +306,7 @@ EOF;
             }
         }
 
-        $this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
+        $this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', \count($filters)));
     }
 
     /**
@@ -504,6 +504,6 @@ EOF;
             $db->setQuery($query)->execute();
         }
 
-        $this->ioStyle->text(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
+        $this->ioStyle->text(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', \count($this->filters)));
     }
 }

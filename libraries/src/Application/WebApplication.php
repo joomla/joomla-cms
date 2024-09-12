@@ -49,6 +49,10 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @var    string
      * @since  4.3.0
+     *
+     * @deprecated 5.2.0 will be removed in 7.0
+     *             Use the Document getTitle() Method
+     *             Example: \Joomla\CMS\Factory::getApplication()->getDocument()->getTitle()
      */
     public $JComponentTitle;
 
@@ -105,7 +109,7 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @since   1.7.3
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, ResponseInterface $response = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?ResponseInterface $response = null)
     {
         // Ensure we have a CMS Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
         $input = $input ?: new Input();
@@ -141,7 +145,7 @@ abstract class WebApplication extends AbstractWebApplication
         // Only create the object if it doesn't exist.
         if (empty(static::$instance)) {
             if (!is_subclass_of($name, '\\Joomla\\CMS\\Application\\WebApplication')) {
-                throw new \RuntimeException(sprintf('Unable to load application: %s', $name), 500);
+                throw new \RuntimeException(\sprintf('Unable to load application: %s', $name), 500);
             }
 
             static::$instance = new $name();
@@ -193,7 +197,7 @@ abstract class WebApplication extends AbstractWebApplication
         }
 
         // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-        if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') !== 'ob_gzhandler')) {
+        if ($this->get('gzip') && !\ini_get('zlib.output_compression') && (\ini_get('output_handler') !== 'ob_gzhandler')) {
             $this->compress();
         }
 
@@ -298,7 +302,7 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @since   1.7.3
      */
-    public function loadDocument(Document $document = null)
+    public function loadDocument(?Document $document = null)
     {
         $this->document = $document ?? Factory::getDocument();
 
@@ -318,7 +322,7 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @since   1.7.3
      */
-    public function loadLanguage(Language $language = null)
+    public function loadLanguage(?Language $language = null)
     {
         $this->language = $language ?? Factory::getLanguage();
         OutputFilter::setLanguage($this->language);
@@ -342,7 +346,7 @@ abstract class WebApplication extends AbstractWebApplication
      * @deprecated  4.3 will be removed in 6.0
      *              The session should be injected as a service.
      */
-    public function loadSession(Session $session = null)
+    public function loadSession(?Session $session = null)
     {
         $this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', ['category' => 'deprecated']);
 
@@ -404,7 +408,7 @@ abstract class WebApplication extends AbstractWebApplication
             $uri = Uri::getInstance($this->get('uri.request'));
 
             // If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-            if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
+            if (strpos(PHP_SAPI, 'cgi') !== false && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
                 // We aren't expecting PATH_INFO within PHP_SELF so this should work.
                 $path = \dirname($_SERVER['PHP_SELF']);
             } else {

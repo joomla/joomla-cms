@@ -49,7 +49,7 @@ class GroupTable extends Table implements CurrentUserInterface
      *
      * @since   3.7.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__fields_groups', 'id', $db, $dispatcher);
 
@@ -71,14 +71,14 @@ class GroupTable extends Table implements CurrentUserInterface
      */
     public function bind($src, $ignore = '')
     {
-        if (isset($src['params']) && is_array($src['params'])) {
+        if (isset($src['params']) && \is_array($src['params'])) {
             $registry = new Registry();
             $registry->loadArray($src['params']);
             $src['params'] = (string) $registry;
         }
 
         // Bind the rules.
-        if (isset($src['rules']) && is_array($src['rules'])) {
+        if (isset($src['rules']) && \is_array($src['rules'])) {
             $rules = new Rules($src['rules']);
             $this->setRules($rules);
         }
@@ -116,14 +116,14 @@ class GroupTable extends Table implements CurrentUserInterface
 
         if ($this->id) {
             $this->modified    = $date;
-            $this->modified_by = $user->get('id');
+            $this->modified_by = $user->id;
         } else {
             if (!(int) $this->modified) {
                 $this->modified = $this->created;
             }
 
             if (empty($this->created_by)) {
-                $this->created_by = $user->get('id');
+                $this->created_by = $user->id;
             }
 
             if (empty($this->modified_by)) {
@@ -193,14 +193,14 @@ class GroupTable extends Table implements CurrentUserInterface
      * The extended class can define a table and id to lookup.  If the
      * asset does not exist it will be created.
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     Id to look up
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   integer   $id     Id to look up
      *
      * @return  integer
      *
      * @since   3.7.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $component = explode('.', $this->context);
         $db        = $this->getDbo();

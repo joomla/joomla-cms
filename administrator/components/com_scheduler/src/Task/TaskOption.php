@@ -97,7 +97,7 @@ class TaskOption
         if ($name === 'type') {
             try {
                 Log::add(
-                    sprintf(
+                    \sprintf(
                         'The %1$s property is deprecated. Use %2$s instead.',
                         $name,
                         'id'

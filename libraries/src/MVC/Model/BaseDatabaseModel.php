@@ -82,7 +82,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config);
 
@@ -105,7 +105,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error(sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -348,7 +348,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 
@@ -374,7 +374,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $this->getDispatcher()->dispatch($event->getName(), $event);
 
         @trigger_error(
-            sprintf(
+            \sprintf(
                 'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
                 __METHOD__
             ),
@@ -416,7 +416,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *              Use setDatabase() instead
      *              Example: $model->setDatabase($db);
      */
-    public function setDbo(DatabaseInterface $db = null)
+    public function setDbo(?DatabaseInterface $db = null)
     {
         if ($db === null) {
             return;

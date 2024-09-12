@@ -128,7 +128,7 @@ class MenutypesModel extends BaseDatabaseModel
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
         return $this->getDispatcher()->dispatch('onAfterGetMenuTypeOptions', new AfterGetMenuTypeOptionsEvent('onAfterGetMenuTypeOptions', [
-            'items'   => &$list, // TODO: Remove reference in Joomla 6, see AfterGetMenuTypeOptionsEvent::__constructor()
+            'items'   => &$list, // @todo: Remove reference in Joomla 6, see AfterGetMenuTypeOptionsEvent::__constructor()
             'subject' => $this,
         ]))->getArgument('items', $list);
     }
@@ -373,7 +373,7 @@ class MenutypesModel extends BaseDatabaseModel
         $rootMenu = $manifest->administration->menu;
 
         // If the menu item doesn't exist or is hidden do nothing.
-        if (!$rootMenu || in_array((string) $rootMenu['hidden'], ['true', 'hidden'])) {
+        if (!$rootMenu || \in_array((string) $rootMenu['hidden'], ['true', 'hidden'])) {
             return $options;
         }
 
@@ -415,7 +415,7 @@ class MenutypesModel extends BaseDatabaseModel
             $options[]  = new CMSObject($o);
 
             // Do not repeat the default view link (index.php?option=com_abc).
-            if (count($o->request) == 1) {
+            if (\count($o->request) == 1) {
                 $ro = null;
             }
         }

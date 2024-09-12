@@ -1,5 +1,5 @@
-import './commands';
-import 'joomla-cypress';
+import('./commands.mjs');
+import('joomla-cypress');
 
 before(() => {
   cy.task('startMailServer');

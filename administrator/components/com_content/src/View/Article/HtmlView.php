@@ -70,6 +70,15 @@ class HtmlView extends BaseHtmlView
     protected $eName;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -100,7 +109,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -141,8 +150,8 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = Toolbar::getInstance();
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Built the actions for new and existing records.
         $canDo = $this->canDo;
@@ -153,7 +162,7 @@ class HtmlView extends BaseHtmlView
         );
 
         // For new records, check the create permission.
-        if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)) {
+        if ($isNew && (\count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)) {
             $toolbar->apply('article.apply');
 
             $saveGroup = $toolbar->dropdownButton('save-group');
@@ -251,8 +260,8 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = Toolbar::getInstance();
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Build the actions for new and existing records.
         $canDo = $this->canDo;
@@ -262,7 +271,7 @@ class HtmlView extends BaseHtmlView
             'pencil-alt article-add'
         );
 
-        $canCreate = $isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0);
+        $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_content', 'core.create')) > 0);
         $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
         // For new records, check the create permission.

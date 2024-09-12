@@ -78,7 +78,7 @@ class AdminController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -347,7 +347,7 @@ class AdminController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->post->get('cid', [], 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);

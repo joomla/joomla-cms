@@ -107,7 +107,7 @@ trait LegacyPropertyManagementTrait
             // Unset all none public properties, this is needed as get_object_vars returns now all vars
             // from the current object and not only the CMSObject and the public ones from the inheriting classes
             foreach ($nonePublicProperties as $prop) {
-                if (array_key_exists($prop->getName(), $vars)) {
+                if (\array_key_exists($prop->getName(), $vars)) {
                     unset($vars[$prop->getName()]);
                 }
             }

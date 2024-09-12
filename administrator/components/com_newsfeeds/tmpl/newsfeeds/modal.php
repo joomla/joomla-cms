@@ -18,12 +18,16 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('core');
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('core')
+    ->useScript('modal-content-select');
 
 $app = Factory::getApplication();
 
+// @todo: Use of Function is deprecated and should be removed in 6.0. It stays only for backward compatibility.
 $function  = $app->getInput()->getCmd('function', 'jSelectNewsfeed');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -72,24 +76,25 @@ $multilang = Multilanguage::isEnabled();
                 <?php
                 $iconStates = [
                     -2 => 'icon-trash',
-                    0  => 'icon-times',
-                    1  => 'icon-check',
-                    2  => 'icon-folder',
+                    0  => 'icon-unpublish',
+                    1  => 'icon-publish',
+                    2  => 'icon-archive',
                 ];
                 ?>
                 <?php foreach ($this->items as $i => $item) : ?>
-                    <?php if ($item->language && $multilang) {
-                        $tag = strlen($item->language);
+                    <?php
+                    $lang = '';
+                    if ($item->language && $multilang) {
+                        $tag = \strlen($item->language);
                         if ($tag == 5) {
                             $lang = substr($item->language, 0, 2);
                         } elseif ($tag == 6) {
                             $lang = substr($item->language, 0, 3);
-                        } else {
-                            $lang = '';
                         }
-                    } elseif (!$multilang) {
-                        $lang = '';
                     }
+
+                    $link     = RouteHelper::getNewsfeedRoute($item->id, $item->catid, $item->language);
+                    $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->name . '</a>';
                     ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">
@@ -98,7 +103,16 @@ $multilang = Multilanguage::isEnabled();
                             </span>
                         </td>
                         <th scope="row">
-                            <a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(RouteHelper::getNewsfeedRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+                            <?php $attribs = 'data-content-select data-content-type="com_newsfeeds.newsfeed"'
+                                . ' data-id="' . $item->id . '"'
+                                . ' data-title="' . $this->escape($item->name) . '"'
+                                . ' data-cat-id="' . $this->escape($item->catid) . '"'
+                                . ' data-uri="' . $this->escape($link) . '"'
+                                . ' data-language="' . $this->escape($lang) . '"'
+                                . ' data-html="' . $this->escape($itemHtml) . '"';
+                            ?>
+                            <a href="javascript:void(0)" <?php echo $attribs; ?>
+                               onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape($link); ?>', '<?php echo $this->escape($lang); ?>', null);">
                             <?php echo $this->escape($item->name); ?></a>
                             <div class="small">
                                 <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>

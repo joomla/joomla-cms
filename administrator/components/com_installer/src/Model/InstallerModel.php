@@ -31,13 +31,13 @@ class InstallerModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -70,7 +70,7 @@ class InstallerModel extends ListModel
         $listDirn  = $this->getState('list.direction', 'asc');
 
         // Replace slashes so preg_match will work
-        $search = $this->getState('filter.search');
+        $search = $this->getState('filter.search', '');
         $search = str_replace('/', ' ', $search);
         $db     = $this->getDatabase();
 
@@ -78,7 +78,7 @@ class InstallerModel extends ListModel
         $customOrderFields = ['name', 'client_translated', 'type_translated', 'folder_translated', 'creationDate'];
 
         // Process searching, ordering and pagination for fields that need to be translated.
-        if (in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0)) {
+        if (\in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0)) {
             // Get results from database and translate them.
             $db->setQuery($query);
             $result = $db->loadObjectList();
@@ -118,7 +118,7 @@ class InstallerModel extends ListModel
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
 
             // Process pagination.
-            $total                                      = count($result);
+            $total                                      = \count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total <= $limitstart) {
@@ -126,7 +126,7 @@ class InstallerModel extends ListModel
                 $this->setState('list.limitstart', 0);
             }
 
-            return array_slice($result, $limitstart, $limit ?: null);
+            return \array_slice($result, $limitstart, $limit ?: null);
         }
 
         // Process searching, ordering and pagination for regular database fields.
@@ -149,7 +149,7 @@ class InstallerModel extends ListModel
         $lang = Factory::getLanguage();
 
         foreach ($items as &$item) {
-            if (strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache)) {
+            if (\strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache)) {
                 foreach ($data as $key => $value) {
                     if ($key == 'type') {
                         // Ignore the type field
@@ -176,7 +176,7 @@ class InstallerModel extends ListModel
                     break;
                 case 'file':
                     $extension = 'files_' . $item->element;
-                        $lang->load("$extension.sys", JPATH_SITE);
+                    $lang->load("$extension.sys", JPATH_SITE);
                     break;
                 case 'library':
                     $parts     = explode('/', $item->element);
@@ -215,7 +215,7 @@ class InstallerModel extends ListModel
 
             settype($item->description, 'string');
 
-            if (!in_array($item->type, ['language'])) {
+            if (!\in_array($item->type, ['language'])) {
                 $item->description = Text::_($item->description);
             }
         }

@@ -41,7 +41,7 @@ abstract class ModuleHelper
      * @param   string  $name   The name of the module
      * @param   string  $title  The title of the module, optional
      *
-     * @return  \stdClass  The Module object
+     * @return  \stdClass|null  The Module object
      *
      * @since   1.5
      */
@@ -49,15 +49,14 @@ abstract class ModuleHelper
     {
         $result  = null;
         $modules =& static::load();
-        $total   = \count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the name of the module
-            if ($modules[$i]->name === $name || $modules[$i]->module === $name) {
+            if ($module->name === $name || $module->module === $name) {
                 // Match the title if we're looking for a specific instance of the module
-                if (!$title || $modules[$i]->title === $title) {
+                if (!$title || $module->title === $title) {
                     // Found it
-                    $result = &$modules[$i];
+                    $result = $module;
                     break;
                 }
             }
@@ -87,11 +86,10 @@ abstract class ModuleHelper
         $result   = [];
         $input    = Factory::getApplication()->getInput();
         $modules  = &static::load();
-        $total    = \count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
-            if ($modules[$i]->position === $position) {
-                $result[] = &$modules[$i];
+        foreach ($modules as $module) {
+            if ($module->position === $position) {
+                $result[] = $module;
             }
         }
 
@@ -210,7 +208,7 @@ abstract class ModuleHelper
         // If the $module is nulled it will return an empty content, otherwise it will render the module normally.
         $brEvent = $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
             'subject'    => $module,
-            'attributes' => &$attribs, // TODO: Remove reference in Joomla 6, see BeforeRenderModuleEvent::__constructor()
+            'attributes' => &$attribs, // @todo: Remove reference in Joomla 6, see BeforeRenderModuleEvent::__constructor()
         ]));
         // Get final attributes
         $attribs = $brEvent->getArgument('attributes', $attribs);
@@ -376,7 +374,7 @@ abstract class ModuleHelper
         $modules    = [];
 
         $modules = $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
-            'modules' => &$modules, // TODO: Remove reference in Joomla 6, see PrepareModuleListEvent::__constructor()
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see PrepareModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         // If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
@@ -385,13 +383,13 @@ abstract class ModuleHelper
         }
 
         $modules = $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
-            'modules' => &$modules, // TODO: Remove reference in Joomla 6, see AfterModuleListEvent::__constructor()
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         $modules = static::cleanModuleList($modules);
 
         $modules = $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
-            'modules' => &$modules, // TODO: Remove reference in Joomla 6, see AfterCleanModuleListEvent::__constructor()
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterCleanModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         return $modules;
@@ -590,7 +588,7 @@ abstract class ModuleHelper
         $ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
         $cacheDisabled    = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
 
-        if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id')) {
+        if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->id) {
             $cache->setCaching(false);
         }
 
@@ -695,13 +693,11 @@ abstract class ModuleHelper
     {
         $modules =& static::load();
 
-        $total = \count($modules);
-
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the id of the module
-            if ((string) $modules[$i]->id === $id) {
+            if ((string) $module->id === $id) {
                 // Found it
-                return $modules[$i];
+                return $module;
             }
         }
 

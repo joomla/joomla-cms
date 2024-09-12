@@ -119,7 +119,7 @@ class Adapter
      */
     public function getAdapter($name, $options = [])
     {
-        if (array_key_exists($name, $this->_adapters)) {
+        if (\array_key_exists($name, $this->_adapters)) {
             return $this->_adapters[$name];
         }
 
@@ -143,7 +143,7 @@ class Adapter
      */
     public function setAdapter($name, &$adapter = null, $options = [])
     {
-        if (is_object($adapter)) {
+        if (\is_object($adapter)) {
             $this->_adapters[$name] = &$adapter;
 
             return true;

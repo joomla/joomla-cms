@@ -116,7 +116,7 @@ abstract class DaemonApplication extends CliApplication
      *
      * @since   1.7.0
      */
-    public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
+    public function __construct(?Cli $input = null, ?Registry $config = null, ?DispatcherInterface $dispatcher = null)
     {
         // Verify that the process control extension for PHP is available.
         if (!\defined('SIGHUP')) {
@@ -671,7 +671,7 @@ abstract class DaemonApplication extends CliApplication
 
             // Attach the signal handler for the signal.
             if (!$this->pcntlSignal(\constant($signal), ['DaemonApplication', 'signal'])) {
-                Log::add(sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
+                Log::add(\sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
 
                 return false;
             }

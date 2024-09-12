@@ -72,7 +72,8 @@
       "dependencies": [
         "core",
         "editor-decorator",
-        "editor-api"
+        "editor-api",
+        "joomla.dialog"
       ]
     },
     {
@@ -119,7 +120,7 @@
       ],
       "uri": "system/multiselect.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -360,7 +361,8 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.media-select-legacy"
+        "webcomponent.media-select-legacy",
+        "joomla.dialog"
       ]
     },
     {
@@ -666,6 +668,14 @@
         "joomla.dialog"
       ],
       "uri": "system/fields/modal-content-select-field.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "joomla.treeselectmenu",
+      "type": "script",
+      "uri": "system/treeselectmenu.min.js",
       "attributes": {
         "type": "module"
       }

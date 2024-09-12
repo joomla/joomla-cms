@@ -1,4 +1,4 @@
-name: Create translation pull request
+name: Create translation pull request J4
 
 on:
   push:
@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Fetch latest cms changes
         run: |
@@ -37,7 +37,7 @@ jobs:
           git remote add upstream https://github.com/joomla/joomla-cms.git
           git fetch upstream
           git checkout --progress --force -B translation refs/remotes/origin/translation
-          git merge upstream/4.3-dev
+          git merge upstream/4.4-dev
 
       - name: Fetch and extract translations
         run: |
@@ -73,5 +73,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
-          gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "Translation Update" | grep -v "No pull" || \
-            gh pr create --title "Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.3-dev
+          gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "[4.x] Translation Update" | grep -v "No pull" || \
+            gh pr create --title "[4.x] Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.4-dev

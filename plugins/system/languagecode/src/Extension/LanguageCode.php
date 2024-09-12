@@ -50,8 +50,8 @@ final class LanguageCode extends CMSPlugin
             if ($new_code) {
                 // Replace the new code in the HTML document.
                 $patterns = [
-                    chr(1) . '(<html.*\s+xml:lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
-                    chr(1) . '(<html.*\s+lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
+                    \chr(1) . '(<html.*\s+xml:lang=")(' . $code . ')(".*>)' . \chr(1) . 'i',
+                    \chr(1) . '(<html.*\s+lang=")(' . $code . ')(".*>)' . \chr(1) . 'i',
                 ];
                 $replace = [
                     '${1}' . strtolower($new_code) . '${3}',
@@ -63,36 +63,36 @@ final class LanguageCode extends CMSPlugin
             }
 
             // Replace codes in <link hreflang="" /> attributes.
-            preg_match_all(chr(1) . '(<link.*\s+hreflang=")([0-9a-z\-]*)(".*\s+rel="alternate".*>)' . chr(1) . 'i', $body, $matches);
+            preg_match_all(\chr(1) . '(<link.*\s+hreflang=")([0-9a-z\-]*)(".*\s+rel="alternate".*>)' . \chr(1) . 'i', $body, $matches);
 
             foreach ($matches[2] as $match) {
                 $new_code = $this->params->get(strtolower($match));
 
                 if ($new_code) {
-                    $patterns[] = chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*>)' . chr(1) . 'i';
+                    $patterns[] = \chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*>)' . \chr(1) . 'i';
                     $replace[]  = '${1}' . $new_code . '${3}';
                 }
             }
 
-            preg_match_all(chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
+            preg_match_all(\chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")([0-9A-Za-z\-]*)(".*>)' . \chr(1) . 'i', $body, $matches);
 
             foreach ($matches[2] as $match) {
                 $new_code = $this->params->get(strtolower($match));
 
                 if ($new_code) {
-                    $patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*>)' . chr(1) . 'i';
+                    $patterns[] = \chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*>)' . \chr(1) . 'i';
                     $replace[]  = '${1}' . $new_code . '${3}';
                 }
             }
 
             // Replace codes in itemprop content
-            preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
+            preg_match_all(\chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*>)' . \chr(1) . 'i', $body, $matches);
 
             foreach ($matches[2] as $match) {
                 $new_code = $this->params->get(strtolower($match));
 
                 if ($new_code) {
-                    $patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*>)' . chr(1) . 'i';
+                    $patterns[] = \chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*>)' . \chr(1) . 'i';
                     $replace[]  = '${1}' . $new_code . '${3}';
                 }
             }

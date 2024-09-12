@@ -105,12 +105,12 @@ abstract class AuthenticationHelper
 
         foreach ($results as $result) {
             // Did we get garbage back from the plugin?
-            if (!is_array($result) || empty($result)) {
+            if (!\is_array($result) || empty($result)) {
                 continue;
             }
 
             // Did the developer accidentally return a single button definition instead of an array?
-            if (array_key_exists('label', $result)) {
+            if (\array_key_exists('label', $result)) {
                 $result = [$result];
             }
 
@@ -135,7 +135,7 @@ abstract class AuthenticationHelper
                         continue;
                     }
 
-                    if (!in_array($key, ['label', 'tooltip', 'icon', 'image', 'svg', 'class', 'id', 'onclick'])) {
+                    if (!\in_array($key, ['label', 'tooltip', 'icon', 'image', 'svg', 'class', 'id', 'onclick'])) {
                         unset($button[$key]);
                     }
                 }

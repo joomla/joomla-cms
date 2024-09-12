@@ -62,6 +62,20 @@ class UpdateController extends BaseController
         $message     = null;
         $messageType = null;
 
+        // The versions mismatch (Use \JVERSION as target version when not set in case of reinstall core files)
+        if ($result['version'] !== $this->input->get('targetVersion', \JVERSION, 'string')) {
+            $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG');
+            $messageType = 'error';
+            $url         = 'index.php?option=com_joomlaupdate';
+
+            $this->app->setUserState('com_joomlaupdate.file', null);
+            $this->setRedirect($url, $message, $messageType);
+
+            Log::add($message, Log::ERROR, 'Update');
+
+            return;
+        }
+
         // The validation was not successful so stop.
         if ($result['check'] === false) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
@@ -71,11 +85,7 @@ class UpdateController extends BaseController
             $this->app->setUserState('com_joomlaupdate.file', null);
             $this->setRedirect($url, $message, $messageType);
 
-            try {
-                Log::add($message, Log::ERROR, 'Update');
-            } catch (\RuntimeException $exception) {
-                // Informational log only
-            }
+            Log::add($message, Log::ERROR, 'Update');
 
             return;
         }
@@ -145,6 +155,9 @@ class UpdateController extends BaseController
         } catch (\Throwable $e) {
             $model->collectError('finaliseUpgrade', $e);
         }
+
+        // Reset update source from "Joomla Next" to "Default"
+        $this->app->setUserState('com_joomlaupdate.update_channel_reset', $model->resetUpdateSource());
 
         // Check for update errors
         if ($model->getErrors()) {

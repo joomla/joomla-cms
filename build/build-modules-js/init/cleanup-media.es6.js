@@ -40,6 +40,6 @@ module.exports.cleanVendors = async () => {
   } else {
     // eslint-disable-next-line no-console
     console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T installed all its front end assets');
-    process.exit(1);
+    process.exitCode = 1;
   }
 };

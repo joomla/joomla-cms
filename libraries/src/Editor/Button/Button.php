@@ -86,7 +86,7 @@ final class Button implements ButtonInterface
             return $this->getOptions();
         }
 
-        return array_key_exists($name, $this->props) ? $this->props[$name] : $default;
+        return \array_key_exists($name, $this->props) ? $this->props[$name] : $default;
     }
 
     /**

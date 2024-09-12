@@ -11,7 +11,7 @@
 	<description>MOD_VERSION_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Version</namespace>
 	<files>
-		<filename module="mod_version">mod_version.php</filename>
+		<folder module="mod_version">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
