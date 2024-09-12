@@ -274,7 +274,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s::getInstance() is deprecated. Load it through the MVC factory.',
                 self::class
             ),
@@ -445,9 +445,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         // Set the default model search path
         if (\array_key_exists('model_path', $config)) {
             // User-defined dirs
-            $this->addModelPath($config['model_path'], $this->model_prefix);
+            static::addModelPath($config['model_path'], $this->model_prefix);
         } else {
-            $this->addModelPath($this->basePath . '/models', $this->model_prefix);
+            static::addModelPath($this->basePath . '/models', $this->model_prefix);
         }
 
         // Set the default view search path
@@ -524,7 +524,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -540,7 +540,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
 
             if (\defined('JDEBUG') && JDEBUG) {
                 $this->getLogger()->info(
-                    sprintf(
+                    \sprintf(
                         'Checking edit ID %s.%s: %d %s',
                         $context,
                         $id,
@@ -638,7 +638,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -900,7 +900,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -919,7 +919,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
 
             if (\defined('JDEBUG') && JDEBUG) {
                 $this->getLogger()->info(
-                    sprintf(
+                    \sprintf(
                         'Holding edit ID %s.%s %s',
                         $context,
                         $id,
@@ -943,7 +943,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -1029,7 +1029,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -1049,7 +1049,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
 
             if (\defined('JDEBUG') && JDEBUG) {
                 $this->getLogger()->info(
-                    sprintf(
+                    \sprintf(
                         'Releasing edit ID %s.%s %s',
                         $context,
                         $id,
@@ -1134,7 +1134,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!($this->app instanceof CMSWebApplicationInterface)) {
             throw new \Exception(
-                sprintf(
+                \sprintf(
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
@@ -1236,7 +1236,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 
