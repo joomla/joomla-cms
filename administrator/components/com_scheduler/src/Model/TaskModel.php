@@ -623,7 +623,7 @@ class TaskModel extends AdminModel
      */
     private function buildExecutionRules(array $executionRules): array
     {
-        // Maps interval strings, use with sprintf($map[intType], $interval)
+        // Maps interval strings, use with \sprintf($map[intType], $interval)
         $intervalStringMap = [
             'minutes' => 'PT%dM',
             'hours'   => 'PT%dH',
@@ -640,7 +640,7 @@ class TaskModel extends AdminModel
             // Rule type for intervals interval-<minute/hours/...>
             $intervalType    = explode('-', $ruleType)[1];
             $interval        = $executionRules["interval-$intervalType"];
-            $buildExpression = sprintf($intervalStringMap[$intervalType], $interval);
+            $buildExpression = \sprintf($intervalStringMap[$intervalType], $interval);
         }
 
         if ($ruleClass === 'cron-expression') {
