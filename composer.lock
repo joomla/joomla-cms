@@ -2864,16 +2864,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.22.4",
+            "version": "v1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "ec4979077ff5ddf987eb2457055ee343f466c250"
+                "reference": "0143b7c17daad5336ebd406c279333c84723cc41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/ec4979077ff5ddf987eb2457055ee343f466c250",
-                "reference": "ec4979077ff5ddf987eb2457055ee343f466c250",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/0143b7c17daad5336ebd406c279333c84723cc41",
+                "reference": "0143b7c17daad5336ebd406c279333c84723cc41",
                 "shasum": ""
             },
             "require": {
@@ -2895,7 +2895,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.22-dev"
+                    "dev-master": "1.23-dev"
                 }
             },
             "autoload": {
@@ -2926,9 +2926,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.22.4"
+                "source": "https://github.com/maximebf/php-debugbar/tree/v1.23.0"
             },
-            "time": "2024-09-06T17:37:59+00:00"
+            "time": "2024-09-10T17:28:47+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
