@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Object\CMSObject;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -60,13 +59,13 @@ trait WorkflowPluginTrait
     /**
      * Get the workflow for a given ID
      *
-     * @param   int|null $workflowId ID of the workflow
+     * @param   ?int  $workflowId ID of the workflow
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */
-    protected function getWorkflow(int $workflowId = null)
+    protected function getWorkflow(?int $workflowId = null)
     {
         $app        = $this->getApplication() ?? $this->app;
         $workflowId = !empty($workflowId) ? $workflowId : $app->getInput()->getInt('workflow_id');

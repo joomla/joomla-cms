@@ -73,6 +73,7 @@ function clean_checkout(string $dir)
     system('find . -name psalm.xml.dist | xargs rm -rf -');
     system('find . -name phpcs.xml | xargs rm -rf -');
     system('find . -name phpcs.xml.dist | xargs rm -rf -');
+    system('find . -name phpstan.neon | xargs rm -rf -');
     system('find . -name phpunit.xml | xargs rm -rf -');
     system('find . -name phpunit.*.xml | xargs rm -rf -');
     system('find . -name phpunit.xml.dist | xargs rm -rf -');
@@ -232,7 +233,7 @@ $tmp      = $here . '/tmp';
 $fullpath = $tmp . '/' . $time;
 
 // Parse input options
-$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2', 'include-zstd', 'disable-patch-packages']);
+$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'include-bzip2', 'exclude-zstd', 'disable-patch-packages']);
 
 $remote             = $options['remote'] ?? false;
 $excludeZip         = isset($options['exclude-zip']);
@@ -403,10 +404,11 @@ $doNotPackage = [
     'composer.json',
     'composer.lock',
     'crowdin.yml',
-    'cypress.config.dist.js',
+    'cypress.config.dist.mjs',
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',
+    'phpstan.neon',
     'phpunit.xml.dist',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
@@ -512,14 +514,14 @@ for ($num = $release - 1; $num >= 0; $num--) {
 
                 break;
 
-            // Deleted files
             case 'D':
+                // Deleted files
                 $deletedFiles[] = $fileName;
 
                 break;
 
-            // Regular additions and modifications
             default:
+                // Regular additions and modifications
                 $filesArray[$fileName] = true;
 
                 break;
@@ -671,21 +673,26 @@ if ($includeExtraTextfiles) {
         }
     }
 
-    echo "Generating checksums.txt file\n";
+    echo "Generating checksums files\n";
 
-    $checksumsContent = '';
+    $checksumsContent       = '';
+    $checksumsContentUpdate = '';
 
     foreach ($checksums as $packageName => $packageHashes) {
         $checksumsContent .= "Filename: $packageName\n";
 
         foreach ($packageHashes as $hashType => $hash) {
             $checksumsContent .= "$hashType: $hash\n";
+            if (strpos($packageName, 'Update_Package.zip') !== false) {
+                $checksumsContentUpdate .= "<$hashType>$hash</$hashType>\n";
+            }
         }
 
         $checksumsContent .= "\n";
     }
 
     file_put_contents('checksums.txt', $checksumsContent);
+    file_put_contents('checksums_update.txt', $checksumsContentUpdate);
 
     echo "Generating github_release.txt file\n";
 

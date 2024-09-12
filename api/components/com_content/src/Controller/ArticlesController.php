@@ -115,9 +115,11 @@ class ArticlesController extends ApiController
             }
         }
 
-        $tags = new TagsHelper();
-        $tags->getTagIds($data['id'], 'com_content.article');
-        $data['tags'] = explode(',', $tags->tags);
+        if (($this->input->getMethod() === 'PATCH') && !(\array_key_exists('tags', $data))) {
+            $tags = new TagsHelper();
+            $tags->getTagIds($data['id'], 'com_content.article');
+            $data['tags'] = explode(',', $tags->tags);
+        }
 
         return $data;
     }

@@ -14,7 +14,6 @@ use Joomla\CMS\Event\Installer\AfterInstallerEvent;
 use Joomla\CMS\Event\Installer\BeforeInstallationEvent;
 use Joomla\CMS\Event\Installer\BeforeInstallerEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
@@ -23,6 +22,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -274,7 +275,7 @@ class InstallModel extends BaseDatabaseModel
         $userfile = $input->files->get('install_package', null, 'raw');
 
         // Make sure that file uploads are enabled in php.
-        if (!(bool) ini_get('file_uploads')) {
+        if (!(bool) \ini_get('file_uploads')) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
 
             return false;
@@ -327,7 +328,13 @@ class InstallModel extends BaseDatabaseModel
         $tmp_src  = $userfile['tmp_name'];
 
         // Move uploaded file.
-        File::upload($tmp_src, $tmp_dest, false, true);
+        try {
+            File::upload($tmp_src, $tmp_dest, false, true);
+        } catch (FilesystemException $exception) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
+
+            return false;
+        }
 
         // Unpack the downloaded package file.
         $package = InstallerHelper::unpack($tmp_dest, true);

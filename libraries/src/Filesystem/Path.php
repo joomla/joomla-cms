@@ -62,7 +62,7 @@ class Path extends FilesystemPath
     public static function isOwner($path)
     {
         $tmp = md5(random_bytes(16));
-        $ssp = ini_get('session.save_path');
+        $ssp = \ini_get('session.save_path');
         $jtp = JPATH_SITE . '/tmp';
 
         // Try to find a writable directory

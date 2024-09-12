@@ -199,15 +199,16 @@ class Query
     /**
      * Method to instantiate the query object.
      *
-     * @param   array  $options  An array of query options.
+     * @param   array               $options  An array of query options.
+     * @param   ?DatabaseInterface  $db       The database
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function __construct($options, DatabaseInterface $db = null)
+    public function __construct($options, ?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -437,7 +438,7 @@ class Query
 
         // Sanitize the terms.
         foreach ($results as $key => $value) {
-            $results[$key] = array_unique($results[$key]);
+            $results[$key] = array_unique($value);
             $results[$key] = ArrayHelper::toInteger($results[$key]);
         }
 
@@ -476,7 +477,7 @@ class Query
 
         // Sanitize the terms.
         foreach ($results as $key => $value) {
-            $results[$key] = array_unique($results[$key]);
+            $results[$key] = array_unique($value);
             $results[$key] = ArrayHelper::toInteger($results[$key]);
         }
 
@@ -794,9 +795,9 @@ class Query
 
                 // Now we have to handle the filter string.
                 switch ($modifier) {
-                    // Handle a before and after date filters.
                     case 'before':
                     case 'after':
+                        // Handle a before and after date filters.
                         // Get the time offset.
                         $offset = Factory::getApplication()->get('offset');
 
@@ -820,8 +821,8 @@ class Query
 
                         break;
 
-                    // Handle a taxonomy branch filter.
                     default:
+                        // Handle a taxonomy branch filter.
                         // Try to find the node id.
                         $return = Taxonomy::getNodeByTitle($modifier, $value);
 

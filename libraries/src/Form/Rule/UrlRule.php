@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
@@ -44,13 +45,19 @@ class UrlRule extends FormRule
      * @link    https://www.w3.org/Addressing/URL/url-spec.txt
      * @see     \Joomla\String\StringHelper
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
         if (!$required && empty($value)) {
             return true;
+        }
+
+        // Check the value for XSS payloads
+        if ((string) $element['disableXssCheck'] !== 'true' && InputFilter::checkAttribute(['href', $value])) {
+            $element->addAttribute('message', Text::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_INJECTION_DETECTED', $element['name']));
+            return false;
         }
 
         $urlParts = UriHelper::parse_url($value);

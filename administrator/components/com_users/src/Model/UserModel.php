@@ -49,13 +49,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
             [
@@ -142,7 +142,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         $userId = (int) $form->getValue('id');
@@ -252,7 +252,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         }
 
         // Make sure that we are not removing ourself from Super Admin group
-        if ($iAmSuperAdmin && $my->get('id') == $pk) {
+        if ($iAmSuperAdmin && $my->id == $pk) {
             // Check that at least one of our new groups is Super Admin
             $stillSuperAdmin = false;
             $myNewGroups     = $data['groups'];
@@ -266,6 +266,15 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
                 return false;
             }
+        }
+
+        // Unset the username if it should not be overwritten
+        if (
+            !$my->authorise('core.manage', 'com_users')
+            && (int) $user->id === (int) $my->id
+            && !ComponentHelper::getParams('com_users')->get('change_login_name')
+        ) {
+            unset($data['username']);
         }
 
         // Bind the data.
@@ -388,7 +397,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         // Access checks.
         foreach ($pks as $i => $pk) {
-            if ($value == 1 && $pk == $user->get('id')) {
+            if ($value == 1 && $pk == $user->id) {
                 // Cannot block yourself.
                 unset($pks[$i]);
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'), 'error');
@@ -703,20 +712,20 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         switch ($action) {
-                // Sets users to a selected group
             case 'set':
+                // Sets users to a selected group
                 $doDelete = 'all';
                 $doAssign = true;
                 break;
 
-                // Remove users from a selected group
             case 'del':
+                // Remove users from a selected group
                 $doDelete = 'group';
                 break;
 
-                // Add users to a selected group
             case 'add':
             default:
+                // Add users to a selected group
                 $doAssign = true;
                 break;
         }
@@ -906,7 +915,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function getOtpConfig($userId = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
                 __METHOD__
             ),
@@ -937,7 +946,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function setOtpConfig($userId, $otpConfig)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
                 __METHOD__
             ),
@@ -960,7 +969,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function getOtpConfigEncryptionKey()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\CMS\Factory::getApplication()->get(\'secret\') instead',
                 __METHOD__
             ),
@@ -986,7 +995,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function getTwofactorform($userId = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getConfigurationInterface()',
                 __METHOD__
             ),
@@ -1012,7 +1021,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function generateOteps($userId, $count = 10)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. See \Joomla\Component\Users\Administrator\Model\BackupcodesModel::saveBackupCodes()',
                 __METHOD__
             ),
@@ -1040,7 +1049,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function isValidSecretKey($userId, $secretKey, $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
                 __METHOD__
             ),
@@ -1067,7 +1076,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function isValidOtep($userId, $otep, $otpConfig = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
                 __METHOD__
             ),

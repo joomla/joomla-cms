@@ -25,6 +25,7 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -336,7 +337,7 @@ class PackageAdapter extends InstallerAdapter
 
         $folder = $this->parent->getPath('extension_root');
 
-        if (Folder::exists($folder)) {
+        if (is_dir(Path::clean($folder))) {
             Folder::delete($folder);
         }
 
@@ -435,7 +436,7 @@ class PackageAdapter extends InstallerAdapter
                     Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), Log::WARNING, 'jerror');
                 }
             } else {
-                Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
+                Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSING_EXTENSION', basename($extension->filename)), Log::WARNING, 'jerror');
             }
         }
 
@@ -585,8 +586,8 @@ class PackageAdapter extends InstallerAdapter
 
         if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $method)) {
             switch ($method) {
-                // The preflight method takes the route as a param
                 case 'preflight':
+                    // The preflight method takes the route as a param
                     if ($this->parent->manifestClass->$method($this->route, $this) === false) {
                         // The script failed, rollback changes
                         throw new \RuntimeException(
@@ -599,16 +600,16 @@ class PackageAdapter extends InstallerAdapter
 
                     break;
 
-                // The postflight method takes the route and a results array as params
                 case 'postflight':
+                    // The postflight method takes the route and a results array as params
                     $this->parent->manifestClass->$method($this->route, $this, $this->results);
 
                     break;
 
-                // The install, uninstall, and update methods only pass this object as a param
                 case 'install':
                 case 'uninstall':
                 case 'update':
+                    // The install, uninstall, and update methods only pass this object as a param
                     if ($this->parent->manifestClass->$method($this) === false) {
                         if ($method !== 'uninstall') {
                             // The script failed, rollback changes

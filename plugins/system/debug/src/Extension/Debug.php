@@ -28,7 +28,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
@@ -211,7 +210,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         if ($this->showLogs && $this->getApplication()->get('log_deprecated')) {
             foreach (\JLoader::getDeprecatedAliases() as $deprecation) {
                 Log::add(
-                    sprintf(
+                    \sprintf(
                         '%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
                         $deprecation['old'],
                         $deprecation['new'],
@@ -692,7 +691,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
             $desc     = str_ireplace('after', '', $mark->label);
             $name     = preg_replace('/[^\da-z]/i', '', $desc);
-            $metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
+            $metrics .= \sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
 
             // Do not create too large headers, some web servers don't love them
             if (\strlen($metrics) > 3000) {

@@ -271,7 +271,7 @@ class NewsfeedModel extends AdminModel
         }
 
         if (!empty($item->id)) {
-            $item->tags = new  TagsHelper();
+            $item->tags = new TagsHelper();
             $item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 
             // @todo: We probably don't need this in any client - but needs careful validation
@@ -320,7 +320,7 @@ class NewsfeedModel extends AdminModel
         } else {
             // Set the values
             $table->modified    = $date->toSql();
-            $table->modified_by = $user->get('id');
+            $table->modified_by = $user->id;
         }
 
         // Increment the content version number.

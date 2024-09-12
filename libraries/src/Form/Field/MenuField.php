@@ -83,8 +83,8 @@ class MenuField extends GroupedlistField
                         }
                         break;
 
-                    // Editing a menu item is a bit tricky, we have to check the current menutype for core.edit and all others for core.create
                     case 'edit':
+                        // Editing a menu item is a bit tricky, we have to check the current menutype for core.edit and all others for core.create
                         $check = $this->value == $menu->value ? 'edit' : 'create';
 
                         if (!$user->authorise('core.' . $check, 'com_menus.menu.' . (int) $menu->id)) {

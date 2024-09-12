@@ -8,13 +8,14 @@
     {
       "name": "com_modules.admin-module-edit",
       "type": "script",
-      "uri": "com_modules/admin-module-edit.min.js",
+      "uri": "",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
-      }
+      },
+      "deprecated": true
     },
     {
       "name": "com_modules.admin-module-edit-assignment",

@@ -10,7 +10,8 @@
       "type": "script",
       "uri": "com_scheduler/admin-view-run-test-task.js",
       "dependencies": [
-        "core"
+        "core",
+        "joomla.dialog"
       ],
       "attributes": {
         "type" : "module"

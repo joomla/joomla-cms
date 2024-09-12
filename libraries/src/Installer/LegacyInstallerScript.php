@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -179,7 +180,7 @@ class LegacyInstallerScript implements InstallerScriptInterface, DatabaseAwareIn
             try {
                 $this->installerScript->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException $e) {
-                @trigger_error(sprintf('Database must be set, this will not be caught anymore in 6.0 in %s.', __METHOD__), E_USER_DEPRECATED);
+                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 6.0 in %s.', __METHOD__), E_USER_DEPRECATED);
                 $this->installerScript->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
