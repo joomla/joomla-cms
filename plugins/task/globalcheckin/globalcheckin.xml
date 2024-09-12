@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="plugin" group="task" method="upgrade">
+	<name>plg_task_globalcheckin</name>
+	<author>Joomla! Project</author>
+	<creationDate>2023-06-22</creationDate>
+	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>5.0.0</version>
+	<description>PLG_TASK_GLOBALCHECKIN_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Task\Globalcheckin</namespace>
+	<files>
+		<folder plugin="globalcheckin">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_task_globalcheckin.ini</language>
+		<language tag="en-GB">language/en-GB/plg_task_globalcheckin.sys.ini</language>
+	</languages>
+</extension>

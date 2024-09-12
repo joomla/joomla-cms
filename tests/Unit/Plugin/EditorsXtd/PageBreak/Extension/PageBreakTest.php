@@ -13,6 +13,9 @@ namespace Joomla\Tests\Unit\Plugin\EditorsXtd\PageBreak\Extension;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Editor\Button\Button;
+use Joomla\CMS\Editor\Button\ButtonsRegistry;
+use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
 use Joomla\Event\Dispatcher;
@@ -49,15 +52,27 @@ class PageBreakTest extends UnitTestCase
         $app->method('getIdentity')->willReturn($user);
         $app->method('getDocument')->willReturn(new Document());
 
-        $dispatcher = new Dispatcher();
-        $plugin     = new PageBreak($dispatcher, ['params' => []]);
-        $plugin->setApplication($app);
-        $button = $plugin->onDisplay('test');
+        $btnsReg = new ButtonsRegistry();
+        $event   = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
+            'subject'         => $btnsReg,
+            'editorType'      => 'none',
+            'disabledButtons' => [],
+        ]);
 
-        $this->assertNotNull($button);
-        $this->assertNotEmpty($button->name);
-        $this->assertNotEmpty($button->link);
-        $this->assertNotEmpty($button->options);
+        $dispatcher = new Dispatcher();
+        $plugin     = new PageBreak($dispatcher, ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
+        $plugin->setApplication($app);
+        $plugin->onEditorButtonsSetup($event);
+
+        $button = $btnsReg->getAll()[0] ?? false;
+
+        $this->assertInstanceOf(Button::class, $button);
+        $this->assertEquals('pagebreak', $button->getButtonName());
+        $this->assertEquals('modal', $button->get('action'));
+        $this->assertNotEmpty($button->get('link'));
+        $this->assertNotEmpty($button->get('text'));
+        $this->assertNotEmpty($button->get('icon'));
+        $this->assertNotEmpty($button->get('iconSVG'));
     }
 
     /**
@@ -76,12 +91,21 @@ class PageBreakTest extends UnitTestCase
         $app = $this->createStub(CMSWebApplicationInterface::class);
         $app->method('getIdentity')->willReturn($user);
 
-        $dispatcher = new Dispatcher();
-        $plugin     = new PageBreak($dispatcher, ['params' => []]);
-        $plugin->setApplication($app);
-        $button = $plugin->onDisplay('test');
+        $btnsReg = new ButtonsRegistry();
+        $event   = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
+            'subject'         => $btnsReg,
+            'editorType'      => 'none',
+            'disabledButtons' => [],
+        ]);
 
-        $this->assertNull($button);
+        $dispatcher = new Dispatcher();
+        $plugin     = new PageBreak($dispatcher, ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
+        $plugin->setApplication($app);
+        $plugin->onEditorButtonsSetup($event);
+
+        $button = $btnsReg->getAll()[0] ?? false;
+
+        $this->assertFalse($button);
     }
 
     /**
@@ -93,11 +117,20 @@ class PageBreakTest extends UnitTestCase
      */
     public function testInvalidApplication()
     {
-        $dispatcher = new Dispatcher();
-        $plugin     = new PageBreak($dispatcher, ['params' => []]);
-        $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
-        $button = $plugin->onDisplay('test');
+        $btnsReg = new ButtonsRegistry();
+        $event   = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
+            'subject'         => $btnsReg,
+            'editorType'      => 'none',
+            'disabledButtons' => [],
+        ]);
 
-        $this->assertNull($button);
+        $dispatcher = new Dispatcher();
+        $plugin     = new PageBreak($dispatcher, ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
+        $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
+        $plugin->onEditorButtonsSetup($event);
+
+        $button = $btnsReg->getAll()[0] ?? false;
+
+        $this->assertFalse($button);
     }
 }

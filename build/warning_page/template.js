@@ -32,9 +32,11 @@ var errorLocale = window.errorLocale || null;
           helpLink.innerText = errorLocale[ref]['help-url-text'];
         }
 
-        var meta = document.querySelector('[http-equiv="Content-Language"]');
-        if (meta) {
-          meta.setAttribute('content', ref);
+        // Sets the lang attribute on the html element
+        var htmlElement = document.documentElement;
+
+        if (htmlElement) {
+          htmlElement.setAttribute('lang', ref);
         }
       });
 
@@ -55,9 +57,11 @@ var errorLocale = window.errorLocale || null;
           helpLink.innerText = errorLocale[key]['help-url-text'];
         }
 
-        var meta = document.querySelector('[http-equiv="Content-Language"]');
-        if (meta) {
-          meta.setAttribute('content', key);
+        // Sets the lang attribute on the html element
+        var htmlElement = document.documentElement;
+
+        if (htmlElement) {
+          htmlElement.setAttribute('lang', key);
         }
       }
     });

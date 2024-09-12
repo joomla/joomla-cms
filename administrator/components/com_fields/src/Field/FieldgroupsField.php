@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\Field;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Utilities\ArrayHelper;
 
@@ -43,7 +42,7 @@ class FieldgroupsField extends ListField
         $states    = $this->element['state'] ?: '0,1';
         $states    = ArrayHelper::toInteger(explode(',', $states));
 
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
         $db    = $this->getDatabase();

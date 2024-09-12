@@ -9,13 +9,13 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -40,7 +40,7 @@ class FilePathRule extends FormRule
      *
      * @since   3.9.21
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $value = trim($value);
 
@@ -60,7 +60,7 @@ class FilePathRule extends FormRule
         // Check the exclude setting
         $path = preg_split('/[\/\\\\]/', $value);
 
-        if (in_array(strtolower($path[0]), $exclude) || empty($path[0])) {
+        if (\in_array(strtolower($path[0]), $exclude) || empty($path[0])) {
             return false;
         }
 

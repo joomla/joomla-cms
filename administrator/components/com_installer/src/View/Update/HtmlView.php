@@ -14,7 +14,6 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as CmsInstallerHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -58,6 +57,20 @@ class HtmlView extends InstallerViewDefault
     private $isEmptyState = false;
 
     /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
+    /**
      * Display the view.
      *
      * @param   string  $tpl  Template
@@ -79,7 +92,7 @@ class HtmlView extends InstallerViewDefault
 
         $this->paths = &$paths;
 
-        if (count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (\count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         } else {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');
@@ -120,7 +133,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if (false === $this->isEmptyState) {
             $toolbar->standardButton('upload', 'COM_INSTALLER_TOOLBAR_UPDATE', 'update.update')
@@ -131,6 +144,9 @@ class HtmlView extends InstallerViewDefault
         $toolbar->standardButton('search', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', 'update.find')
             ->listCheck(false)
             ->icon('icon-refresh');
+
+        $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE')
+            ->url('index.php?option=com_installer&view=manage');
 
         $toolbar->divider();
 

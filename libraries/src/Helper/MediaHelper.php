@@ -19,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -54,7 +54,7 @@ class MediaHelper
      */
     public static function isImage($fileName)
     {
-        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp';
+        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp|avif';
 
         return preg_match("/\.(?:$imageTypes)$/i", $fileName);
     }
@@ -141,8 +141,8 @@ class MediaHelper
         if ($params->get('check_mime', 1)) {
             $allowedMime = $params->get(
                 'upload_mime',
-                'image/jpeg,image/gif,image/png,image/bmp,image/webp,application/msword,application/excel,' .
-                    'application/pdf,application/powerpoint,text/plain,application/x-zip'
+                'image/jpeg,image/gif,image/png,image/bmp,image/webp,image/avif,application/msword,' .
+                    'application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip'
             );
 
             // Get the mime type configuration
@@ -174,15 +174,15 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (count($allowedExecutables)) {
+        if (\count($allowedExecutables)) {
             $executables = array_diff($executables, $allowedExecutables);
         }
 
-        if (in_array($extension, $executables, true)) {
+        if (\in_array($extension, $executables, true)) {
             return false;
         }
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
         if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
@@ -236,7 +236,7 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (count($allowedExecutables)) {
+        if (\count($allowedExecutables)) {
             $executables = array_diff($executables, $allowedExecutables);
         }
 
@@ -253,7 +253,7 @@ class MediaHelper
 
         $filetype = array_pop($filetypes);
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
         if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored))) {
@@ -271,7 +271,7 @@ class MediaHelper
         }
 
         if ($params->get('restrict_uploads', 1)) {
-            $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+            $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 
             if (\in_array($filetype, $allowedExtensions)) {
                 // If tmp_name is empty, then the file was bigger than the PHP limit
@@ -447,7 +447,7 @@ class MediaHelper
 
             // Do a check if default settings are not saved by user
             // If not initialize them manually
-            if (is_string($directories)) {
+            if (\is_string($directories)) {
                 $directories = json_decode($directories);
             }
 
@@ -517,7 +517,7 @@ class MediaHelper
             }
         }
 
-        if ($isValid === false || count($svgErrors)) {
+        if ($isValid === false || \count($svgErrors)) {
             if ($shouldLogErrors) {
                 Factory::getApplication()->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
             }

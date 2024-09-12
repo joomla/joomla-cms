@@ -21,7 +21,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -545,16 +545,16 @@ class PluginAdapter extends InstallerAdapter
 
                 $element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
-                $extension = Table::getInstance('extension');
-                $extension->set('type', 'plugin');
-                $extension->set('client_id', 0);
-                $extension->set('element', $element);
-                $extension->set('folder', $folder);
-                $extension->set('name', $manifest_details['name']);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'plugin';
+                $extension->client_id      = 0;
+                $extension->element        = $element;
+                $extension->folder         = $folder;
+                $extension->name           = $manifest_details['name'];
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
 
             $folder_list = Folder::folders(JPATH_SITE . '/plugins/' . $folder);
@@ -575,16 +575,16 @@ class PluginAdapter extends InstallerAdapter
                     $element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
                     // Ignore example plugins
-                    $extension = Table::getInstance('extension');
-                    $extension->set('type', 'plugin');
-                    $extension->set('client_id', 0);
-                    $extension->set('element', $element);
-                    $extension->set('folder', $folder);
-                    $extension->set('name', $manifest_details['name']);
-                    $extension->set('state', -1);
-                    $extension->set('manifest_cache', json_encode($manifest_details));
-                    $extension->set('params', '{}');
-                    $results[] = $extension;
+                    $extension                 = Table::getInstance('extension');
+                    $extension->type           = 'plugin';
+                    $extension->client_id      = 0;
+                    $extension->element        = $element;
+                    $extension->folder         = $folder;
+                    $extension->name           = $manifest_details['name'];
+                    $extension->state          = -1;
+                    $extension->manifest_cache = json_encode($manifest_details);
+                    $extension->params         = '{}';
+                    $results[]                 = $extension;
                 }
             }
         }
@@ -618,10 +618,10 @@ class PluginAdapter extends InstallerAdapter
 
         if ($this->parent->extension->store()) {
             return true;
-        } else {
-            Log::add(Text::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
-
-            return false;
         }
+
+        Log::add(Text::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+
+        return false;
     }
 }

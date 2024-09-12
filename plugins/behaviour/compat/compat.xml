@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>4.4.0</version>
+	<version>5.0.0</version>
 	<description>PLG_COMPAT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Behaviour\Compat</namespace>
 	<files>
@@ -18,4 +18,46 @@
 		<language tag="en-GB">language/en-GB/plg_behaviour_compat.ini</language>
 		<language tag="en-GB">language/en-GB/plg_behaviour_compat.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="classes_aliases"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_COMPAT_FIELD_CLASSES_ALIASES_LABEL"
+					description="PLG_COMPAT_FIELD_CLASSES_ALIASES_DESCRIPTION"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="es5_assets"
+					type="radio"
+					label="PLG_COMPAT_FIELD_ES5_ASSETS_LABEL"
+					description="PLG_COMPAT_FIELD_ES5_ASSETS_DESCRIPTION"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="removed_asset"
+					type="radio"
+					label="PLG_COMPAT_FIELD_REMOVED_ASSETS_LABEL"
+					description="PLG_COMPAT_FIELD_REMOVED_ASSETS_DESCRIPTION"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

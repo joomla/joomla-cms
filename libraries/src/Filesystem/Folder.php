@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,7 +47,7 @@ abstract class Folder
     public static function copy($src, $dest, $path = '', $force = false, $useStreams = false)
     {
         if (\function_exists('set_time_limit')) {
-            set_time_limit(ini_get('max_execution_time'));
+            set_time_limit(\ini_get('max_execution_time'));
         }
 
         $FTPOptions = ClientHelper::getCredentials('ftp');
@@ -136,7 +136,7 @@ abstract class Folder
 
                             if (!$stream->copy($sfid, $dfid)) {
                                 throw new \RuntimeException(
-                                    sprintf(
+                                    \sprintf(
                                         "Cannot copy file: %s",
                                         Path::removeRoot($stream->getError())
                                     ),
@@ -219,7 +219,7 @@ abstract class Folder
             $ftp->chmod($path, $mode);
         } else {
             // We need to get and explode the open_basedir paths
-            $obd = ini_get('open_basedir');
+            $obd = \ini_get('open_basedir');
 
             // If open_basedir is set we need to get the open_basedir that the path is in
             if ($obd != null) {
@@ -288,7 +288,7 @@ abstract class Folder
     public static function delete($path)
     {
         if (\function_exists('set_time_limit')) {
-            set_time_limit(ini_get('max_execution_time'));
+            set_time_limit(\ini_get('max_execution_time'));
         }
 
         // Sanity check
@@ -571,7 +571,7 @@ abstract class Folder
     protected static function _items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, $findFiles)
     {
         if (\function_exists('set_time_limit')) {
-            set_time_limit(ini_get('max_execution_time'));
+            set_time_limit(\ini_get('max_execution_time'));
         }
 
         $arr = [];

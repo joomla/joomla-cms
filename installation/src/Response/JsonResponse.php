@@ -100,7 +100,7 @@ class JsonResponse
         $messages = Factory::getApplication()->getMessageQueue();
 
         // Build the sorted message list
-        if (is_array($messages) && count($messages)) {
+        if (\is_array($messages) && \count($messages)) {
             foreach ($messages as $msg) {
                 if (isset($msg['type'], $msg['message'])) {
                     $lists[$msg['type']][] = $msg['message'];
@@ -109,7 +109,7 @@ class JsonResponse
         }
 
         // If messages exist add them to the output
-        if (isset($lists) && is_array($lists)) {
+        if (isset($lists) && \is_array($lists)) {
             $this->messages = $lists;
         }
 
@@ -122,6 +122,11 @@ class JsonResponse
         } else {
             // Prepare the response data.
             $this->error = false;
+
+            if (isset($data->error) && $data->error) {
+                $this->error = true;
+            }
+
             $this->data  = $data;
         }
     }

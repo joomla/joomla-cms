@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Filesystem\Streams;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Support\StringController;
 
@@ -115,9 +115,9 @@ class StreamString
             $this->stat = $this->url_stat($path, 0);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

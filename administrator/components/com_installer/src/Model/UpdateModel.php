@@ -21,9 +21,9 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -40,13 +40,13 @@ class UpdateModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -75,11 +75,6 @@ class UpdateModel extends ListModel
      */
     protected function populateState($ordering = 'u.name', $direction = 'asc')
     {
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
-        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
-        $this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
-
         $app = Factory::getApplication();
         $this->setState('message', $app->getUserState('com_installer.message'));
         $this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -92,7 +87,7 @@ class UpdateModel extends ListModel
     /**
      * Method to get the database query
      *
-     * @return  \Joomla\Database\DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   1.6
      */
@@ -129,7 +124,7 @@ class UpdateModel extends ListModel
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, ['plugin', 'library', ''])) {
+        if ($folder != '' && \in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('u.folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -141,8 +136,7 @@ class UpdateModel extends ListModel
                 ->bind(':extensionid', $extensionId, ParameterType::INTEGER);
         } else {
             $eid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-            $query->where($db->quoteName('u.extension_id') . ' != 0')
-                ->where($db->quoteName('u.extension_id') . ' != :eid')
+            $query->where($db->quoteName('u.extension_id') . ' != :eid')
                 ->bind(':eid', $eid, ParameterType::INTEGER);
         }
 
@@ -201,9 +195,9 @@ class UpdateModel extends ListModel
     /**
      * Returns an object list
      *
-     * @param   DatabaseQuery  $query       The query
-     * @param   int            $limitstart  Offset
-     * @param   int            $limit       The number of records
+     * @param   QueryInterface  $query       The query
+     * @param   int             $limitstart  Offset
+     * @param   int             $limit       The number of records
      *
      * @return  object[]
      *
@@ -216,27 +210,27 @@ class UpdateModel extends ListModel
         $listDirn  = $this->getState('list.direction', 'asc');
 
         // Process ordering.
-        if (in_array($listOrder, ['client_translated', 'folder_translated', 'type_translated'])) {
+        if (\in_array($listOrder, ['client_translated', 'folder_translated', 'type_translated'])) {
             $db->setQuery($query);
             $result = $db->loadObjectList();
             $this->translate($result);
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
-            $total  = count($result);
+            $total  = \count($result);
 
             if ($total < $limitstart) {
                 $limitstart = 0;
                 $this->setState('list.start', 0);
             }
 
-            return array_slice($result, $limitstart, $limit ?: null);
-        } else {
-            $query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
-
-            $result = parent::_getList($query, $limitstart, $limit);
-            $this->translate($result);
-
-            return $result;
+            return \array_slice($result, $limitstart, $limit ?: null);
         }
+
+        $query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
+
+        $result = parent::_getList($query, $limitstart, $limit);
+        $this->translate($result);
+
+        return $result;
     }
 
     /**
@@ -335,6 +329,23 @@ class UpdateModel extends ListModel
             if (!$instance->load($uid)) {
                 // Update no longer available, maybe already updated by a package.
                 continue;
+            }
+
+            $app   = Factory::getApplication();
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select('type')
+                ->from('#__update_sites')
+                ->where($db->quoteName('update_site_id') . ' = :id')
+                ->bind(':id', $instance->update_site_id, ParameterType::INTEGER);
+
+            $updateSiteType = (string) $db->setQuery($query)->loadResult();
+
+            // TUF is currently only supported for Joomla core
+            if ($updateSiteType === 'tuf') {
+                $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_NOT_AVAILABLE'), 'error');
+
+                return;
             }
 
             $update->loadFromXml($instance->detailsurl, $minimumStability);
@@ -475,7 +486,6 @@ class UpdateModel extends ListModel
         // Quick change
         $this->type = $package['type'];
 
-        // @todo: Reconfigure this code when you have more battery life left
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
         $app->setUserState('com_installer.message', $installer->message);
@@ -554,8 +564,8 @@ class UpdateModel extends ListModel
     protected function preparePreUpdate($update, $table)
     {
         switch ($table->type) {
-            // Components could have a helper which adds additional data
             case 'component':
+                // Components could have a helper which adds additional data
                 $ename = str_replace('com_', '', $table->element);
                 $fname = $ename . '.php';
                 $cname = ucfirst($ename) . 'Helper';
@@ -565,31 +575,31 @@ class UpdateModel extends ListModel
                 if (is_file($path)) {
                     require_once $path;
 
-                    if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
-                        call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
+                    if (class_exists($cname) && \is_callable([$cname, 'prepareUpdate'])) {
+                        \call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
                     }
                 }
 
                 break;
 
-            // Modules could have a helper which adds additional data
             case 'module':
+                // Modules could have a helper which adds additional data
                 $cname = str_replace('_', '', $table->element) . 'Helper';
                 $path  = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
 
                 if (is_file($path)) {
                     require_once $path;
 
-                    if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
-                        call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
+                    if (class_exists($cname) && \is_callable([$cname, 'prepareUpdate'])) {
+                        \call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
                     }
                 }
 
                 break;
 
-            // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
-            // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
             case 'plugin':
+                // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
+                // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
                 $cname = str_replace('plg_', '', $table->element);
                 PluginHelper::importPlugin($table->folder, $cname);
                 break;
@@ -599,7 +609,7 @@ class UpdateModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

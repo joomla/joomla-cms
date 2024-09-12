@@ -14,7 +14,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
@@ -22,9 +21,11 @@ use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,6 +38,8 @@ use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
  */
 class LocalAdapter implements AdapterInterface
 {
+    use CurrentUserTrait;
+
     /**
      * The root path to gather file information from.
      *
@@ -330,7 +333,7 @@ class LocalAdapter implements AdapterInterface
 
             $success = File::delete($localPath);
         } else {
-            if (!Folder::exists($localPath)) {
+            if (!is_dir(Path::clean($localPath))) {
                 throw new FileNotFoundException();
             }
 
@@ -430,7 +433,7 @@ class LocalAdapter implements AdapterInterface
         $dateObj = Factory::getDate($date);
 
         $timezone = Factory::getApplication()->get('offset');
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
 
         if ($user->id) {
             $userTimezone = $user->getParam('timezone');
@@ -510,7 +513,7 @@ class LocalAdapter implements AdapterInterface
     {
         if (is_dir($destinationPath)) {
             // If the destination is a folder we create a file with the same name as the source
-            $destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
+            $destinationPath .= '/' . $this->getFileName($sourcePath);
         }
 
         if (file_exists($destinationPath) && !$force) {
@@ -615,7 +618,7 @@ class LocalAdapter implements AdapterInterface
     {
         if (is_dir($destinationPath)) {
             // If the destination is a folder we create a file with the same name as the source
-            $destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
+            $destinationPath .= '/' . $this->getFileName($sourcePath);
         }
 
         if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION))) {
@@ -744,7 +747,7 @@ class LocalAdapter implements AdapterInterface
     {
         $files = glob($pattern, $flags);
 
-        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
+        foreach (glob(\dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
             $files = array_merge($files, $this->rglob($dir . '/' . $this->getFileName($pattern), $flags));
         }
 
@@ -923,7 +926,7 @@ class LocalAdapter implements AdapterInterface
             return $this->getUrl($path);
         }
 
-        $dir = dirname($thumbnailPaths['fs']);
+        $dir = \dirname($thumbnailPaths['fs']);
 
         if (!is_dir($dir)) {
             Folder::create($dir);
@@ -949,10 +952,8 @@ class LocalAdapter implements AdapterInterface
      */
     private function createThumbnail(string $path, string $thumbnailPath): bool
     {
-        $image = new Image($path);
-
         try {
-            $image->createThumbnails([$this->thumbnailSize[0] . 'x' . $this->thumbnailSize[1]], $image::SCALE_INSIDE, dirname($thumbnailPath), true);
+            (new Image($path))->createThumbnails([$this->thumbnailSize[0] . 'x' . $this->thumbnailSize[1]], Image::SCALE_INSIDE, \dirname($thumbnailPath), true);
         } catch (\Exception $e) {
             return false;
         }

@@ -18,7 +18,7 @@ use Joomla\Session\Session as BaseSession;
 use Joomla\Session\StorageInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,16 +31,16 @@ class Session extends BaseSession
     /**
      * Constructor
      *
-     * @param   StorageInterface     $store       A StorageInterface implementation.
-     * @param   DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
-     * @param   array                $options     Optional parameters. Supported keys include:
-     *                                            - name: The session name
-     *                                            - id: The session ID
-     *                                            - expire: The session lifetime in seconds
+     * @param   ?StorageInterface     $store       A StorageInterface implementation.
+     * @param   ?DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
+     * @param   array                 $options     Optional parameters. Supported keys include:
+     *                                             - name: The session name
+     *                                             - id: The session ID
+     *                                             - expire: The session lifetime in seconds
      *
      * @since   1.0
      */
-    public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = [])
+    public function __construct(?StorageInterface $store = null, ?DispatcherInterface $dispatcher = null, array $options = [])
     {
         // Extra hash the name of the session for b/c with Joomla 3.x or the session is never found.
         if (isset($options['name'])) {
@@ -100,7 +100,7 @@ class Session extends BaseSession
     {
         $user = Factory::getUser();
 
-        return ApplicationHelper::getHash($user->get('id', 0) . Factory::getApplication()->getSession()->getToken($forceNew));
+        return ApplicationHelper::getHash($user->id . Factory::getApplication()->getSession()->getToken($forceNew));
     }
 
     /**
@@ -192,7 +192,7 @@ class Session extends BaseSession
         }
 
         if (parent::has($name)) {
-            // Parent is used because of b/c, can be changed in Joomla 5
+            // Parent is used because of b/c, can be changed in Joomla 6
             return parent::get($name, $default);
         }
 
@@ -206,7 +206,7 @@ class Session extends BaseSession
             return parent::get('__' . $name, $default);
         }
 
-        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 6
         // as no sessions should have this format anymore!
         if (parent::has('__default.' . $name)) {
             return parent::get('__default.' . $name, $default);
@@ -285,7 +285,7 @@ class Session extends BaseSession
             return true;
         }
 
-        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 6
         // as no sessions should have this format anymore!
         return parent::has('__default.' . $name);
     }

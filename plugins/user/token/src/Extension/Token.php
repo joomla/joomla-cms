@@ -11,10 +11,10 @@
 namespace Joomla\Plugin\User\Token\Extension;
 
 use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -31,14 +31,7 @@ use Joomla\Utilities\ArrayHelper;
 final class Token extends CMSPlugin
 {
     use DatabaseAwareTrait;
-
-    /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  4.0.0
-     */
-    protected $autoloadLanguage = true;
+    use UserFactoryAwareTrait;
 
     /**
      * Joomla XML form contexts where we should inject our token management user interface.
@@ -86,12 +79,12 @@ final class Token extends CMSPlugin
         }
 
         // Check we are manipulating a valid form.
-        if (!in_array($context, $this->allowedContexts)) {
+        if (!\in_array($context, $this->allowedContexts)) {
             return true;
         }
 
         // $data must be an object
-        if (!is_object($data)) {
+        if (!\is_object($data)) {
             return true;
         }
 
@@ -101,7 +94,7 @@ final class Token extends CMSPlugin
         }
 
         // Get the user ID
-        $userId = intval($data->id);
+        $userId = \intval($data->id);
 
         // Make sure we have a positive integer user ID
         if ($userId <= 0) {
@@ -111,6 +104,9 @@ final class Token extends CMSPlugin
         if (!$this->isInAllowedUserGroup($userId)) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         $data->{$this->profileKeyPrefix} = [];
 
@@ -189,7 +185,7 @@ final class Token extends CMSPlugin
         }
 
         // Check we are manipulating a valid form.
-        if (!in_array($form->getName(), $this->allowedContexts)) {
+        if (!\in_array($form->getName(), $this->allowedContexts)) {
             return true;
         }
 
@@ -200,16 +196,19 @@ final class Token extends CMSPlugin
             $data = $jformData;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
         // Check if the user belongs to an allowed user group
-        $userId = (is_object($data) && isset($data->id)) ? $data->id : 0;
+        $userId = (\is_object($data) && isset($data->id)) ? $data->id : 0;
 
         if (!empty($userId) && !$this->isInAllowedUserGroup($userId)) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Add the registration fields to the form.
         Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
@@ -217,7 +216,7 @@ final class Token extends CMSPlugin
 
         // No token: no reset
         $userTokenSeed = $this->getTokenSeedForUser($userId);
-        $currentUser   = Factory::getUser();
+        $currentUser   = $this->getApplication()->getIdentity();
 
         if (empty($userTokenSeed)) {
             $form->removeField('notokenforotherpeople', 'joomlatoken');
@@ -251,17 +250,17 @@ final class Token extends CMSPlugin
     /**
      * Save the Joomla token in the user profile field
      *
-     * @param   mixed   $data    The incoming form data
-     * @param   bool    $isNew   Is this a new user?
-     * @param   bool    $result  Has Joomla successfully saved the user?
-     * @param   string  $error   Error string
+     * @param   mixed    $data    The incoming form data
+     * @param   bool     $isNew   Is this a new user?
+     * @param   bool     $result  Has Joomla successfully saved the user?
+     * @param   ?string  $error   Error string
      *
      * @return  void
      * @since   4.0.0
      */
     public function onUserAfterSave($data, bool $isNew, bool $result, ?string $error): void
     {
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return;
         }
 
@@ -469,7 +468,7 @@ final class Token extends CMSPlugin
             return [];
         }
 
-        if (!is_array($userGroups)) {
+        if (!\is_array($userGroups)) {
             $userGroups = [$userGroups];
         }
 
@@ -488,7 +487,7 @@ final class Token extends CMSPlugin
     {
         $allowedUserGroups = $this->getAllowedUserGroups();
 
-        $user = Factory::getUser($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         if ($user->id != $userId) {
             return false;
@@ -584,7 +583,7 @@ final class Token extends CMSPlugin
      */
     private function hasTokenProfileFields(?int $userId): bool
     {
-        if (is_null($userId) || ($userId <= 0)) {
+        if (\is_null($userId) || ($userId <= 0)) {
             return false;
         }
 

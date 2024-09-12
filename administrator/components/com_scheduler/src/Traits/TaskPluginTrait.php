@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Traits;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -19,6 +19,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Event\EventInterface;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -97,8 +98,8 @@ trait TaskPluginTrait
      * `onContentPrepareForm` event through {@see SubscriberInterface::getSubscribedEvents()} and will take care
      * of injecting the fields without additional logic in the plugin class.
      *
-     * @param   EventInterface|Form  $context  The onContentPrepareForm event or the Form object.
-     * @param   mixed                $data     The form data, required when $context is a {@see Form} instance.
+     * @param   Model\PrepareFormEvent|Form  $context  The onContentPrepareForm event or the Form object.
+     * @param   mixed                        $data     The form data, required when $context is a {@see Form} instance.
      *
      * @return boolean  True if the form was successfully enhanced or the context was not relevant.
      *
@@ -107,14 +108,14 @@ trait TaskPluginTrait
      */
     public function enhanceTaskItemForm($context, $data = null): bool
     {
-        if ($context instanceof EventInterface) {
-            /** @var Form $form */
-            [$form, $data] = array_values($context->getArguments());
+        if ($context instanceof Model\PrepareFormEvent) {
+            $form = $context->getForm();
+            $data = $context->getData();
         } elseif ($context instanceof Form) {
             $form = $context;
         } else {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Argument 0 of %1$s must be an instance of %2$s or %3$s',
                     __METHOD__,
                     EventInterface::class,
@@ -283,7 +284,7 @@ trait TaskPluginTrait
                 || $method->getReturnType()->getName() !== 'int'
             ) {
                 $this->logTask(
-                    sprintf(
+                    \sprintf(
                         'Incorrect routine method signature for %1$s(). See checks in %2$s()',
                         $method->getName(),
                         __METHOD__
@@ -305,7 +306,7 @@ trait TaskPluginTrait
             }
         } else {
             $this->logTask(
-                sprintf(
+                \sprintf(
                     'Incorrectly configured TASKS_MAP in class %s. Missing valid method for `routine_id` %s',
                     static::class,
                     $routineId

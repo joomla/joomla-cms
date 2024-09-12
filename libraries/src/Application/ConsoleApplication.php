@@ -21,13 +21,10 @@ use Joomla\Console\Application;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,7 +32,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,9 +40,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  4.0.0
  */
-class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
+class ConsoleApplication extends Application implements CMSApplicationInterface
 {
-    use DispatcherAwareTrait;
     use EventAware;
     use IdentityAware;
     use ContainerAwareTrait;
@@ -181,7 +177,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
             default:
                 $trace = debug_backtrace();
                 trigger_error(
-                    sprintf(
+                    \sprintf(
                         'Undefined property via __get(): %1$s in %2$s on line %3$s',
                         $name,
                         $trace[0]['file'],
@@ -252,8 +248,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         $this->populateHttpHost();
 
         // Import CMS plugin groups to be able to subscribe to events
-        PluginHelper::importPlugin('system');
-        PluginHelper::importPlugin('console');
+        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('console', null, true, $this->getDispatcher());
 
         parent::execute();
     }
@@ -270,7 +267,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      */
     public function enqueueMessage($msg, $type = self::MSG_INFO)
     {
-        if (!array_key_exists($type, $this->messages)) {
+        if (!\array_key_exists($type, $this->messages)) {
             $this->messages[$type] = [];
         }
 
@@ -303,6 +300,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
             [
                 new Console\CleanCacheCommand(),
                 new Console\CheckUpdatesCommand(),
+                new Console\CheckJoomlaUpdatesCommand(),
                 new Console\RemoveOldFilesCommand(),
                 new Console\AddUserCommand($this->getDatabase()),
                 new Console\AddUserToGroupCommand($this->getDatabase()),
@@ -310,6 +308,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
                 new Console\DeleteUserCommand($this->getDatabase()),
                 new Console\ChangeUserPasswordCommand(),
                 new Console\ListUserCommand($this->getDatabase()),
+                new Console\SiteCreatePublicFolderCommand(),
             ]
         );
     }
@@ -445,7 +444,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      */
     public function getLongVersion(): string
     {
-        return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
+        return \sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
     }
 
     /**
@@ -505,7 +504,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  void
      * @since   4.2.1
-     * @see     https://github.com/joomla/joomla-cms/issues/38518
+     * @link    https://github.com/joomla/joomla-cms/issues/38518
      */
     protected function populateHttpHost()
     {
@@ -549,39 +548,17 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      */
     protected function getDefaultInputDefinition(): InputDefinition
     {
-        return new InputDefinition(
-            [
-                new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
-                new InputOption(
-                    '--live-site',
-                    null,
-                    InputOption::VALUE_OPTIONAL,
-                    'The URL to your site, e.g. https://www.example.com'
-                ),
-                new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display the help information'),
-                new InputOption(
-                    '--quiet',
-                    '-q',
-                    InputOption::VALUE_NONE,
-                    'Flag indicating that all output should be silenced'
-                ),
-                new InputOption(
-                    '--verbose',
-                    '-v|vv|vvv',
-                    InputOption::VALUE_NONE,
-                    'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-                ),
-                new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Displays the application version'),
-                new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
-                new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
-                new InputOption(
-                    '--no-interaction',
-                    '-n',
-                    InputOption::VALUE_NONE,
-                    'Flag to disable interacting with the user'
-                ),
-            ]
+        $inputDefinition = parent::getDefaultInputDefinition();
+        $inputDefinition->addOption(
+            new InputOption(
+                '--live-site',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The URL to your site, e.g. https://www.example.com'
+            )
         );
+
+        return $inputDefinition;
     }
 
     /**

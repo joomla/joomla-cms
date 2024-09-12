@@ -33,12 +33,12 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
 
     /**
-     * The EOS date for 4.4.
+     * The EOS date for the current major version.
      *
      * @var    string
      * @since 4.4.0
      */
-    private const EOS_DATE = '2025-10-17';
+    private const EOS_DATE = '2027-10-19';
 
     /**
      * Load the language file on instantiation.
@@ -112,7 +112,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         // Show this only when not snoozed
         if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id']) {
             // Build the  message to be displayed in the cpanel
-            $messageText = sprintf(
+            $messageText = \sprintf(
                 $app->getLanguage()->_($this->currentMessage['messageText']),
                 HTMLHelper::_('date', Eos::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3')),
                 $this->currentMessage['messageLink']

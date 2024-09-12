@@ -27,7 +27,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 /** @var MethodsModel $model */
 $model = $this->getModel();
 
-$this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
+$this->getDocument()->getWebAssetManager()->useScript('com_users.two-factor-list');
 
 $canAddEdit = MfaHelper::canAddEditMethod($this->user);
 $canDelete  = MfaHelper::canDeleteMethod($this->user);
@@ -37,16 +37,16 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
         $methodClass = 'com-users-methods-list-method-name-' . htmlentities($method['name'])
             . ($this->defaultMethod == $methodName ? ' com-users-methods-list-method-default' : '');
         ?>
-        <div class="com-users-methods-list-method <?php echo $methodClass?> mx-1 mt-3 mb-4 card <?php echo count($method['active']) ? 'border-secondary' : '' ?>">
-            <div class="com-users-methods-list-method-header card-header <?php echo count($method['active']) ? 'border-secondary bg-secondary text-white' : 'bg-light' ?> d-flex flex-wrap align-items-center gap-2">
-                <div class="com-users-methods-list-method-image pt-1 px-3 pb-2 bg-light rounded-2">
+        <div class="com-users-methods-list-method <?php echo $methodClass?> <?php echo count($method['active']) ? 'com-users-methods-list-method-active' : '' ?>">
+            <div class="com-users-methods-list-method-header">
+                <div class="com-users-methods-list-method-image">
                     <img src="<?php echo Uri::root() . $method['image'] ?>"
                          alt="<?php echo $this->escape($method['display']) ?>"
                          class="img-fluid"
                     >
                 </div>
-                <div class="com-users-methods-list-method-title flex-grow-1 d-flex flex-column">
-                    <h3 class="<?php echo count($method['active']) ? 'text-white' : '' ?> fs-2 p-0 m-0 d-flex gap-3 align-items-center">
+                <div class="com-users-methods-list-method-title">
+                    <h3>
                         <span class="me-1 flex-grow-1">
                             <?php echo $method['display'] ?>
                         </span>
@@ -59,8 +59,8 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                 </div>
             </div>
 
-            <div class="com-users-methods-list-method-records-container card-body">
-                <div class="com-users-methods-list-method-info my-1 pb-1 text-muted">
+            <div class="com-users-methods-list-method-records-container">
+                <div class="com-users-methods-list-method-info">
                     <?php echo $method['shortinfo'] ?>
                 </div>
 
@@ -129,7 +129,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                 <?php if ($canAddEdit && (empty($method['active']) || $method['allowMultiple'])) : ?>
                     <div class="com-users-methods-list-method-addnew-container border-top pt-2">
                         <a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
-                           class="com-users-methods-list-method-addnew btn btn-outline-primary btn-sm"
+                           class="com-users-methods-list-method-addnew btn btn-primary btn-sm"
                         >
                             <span class="icon-plus-2" aria-hidden="true"></span>
                             <?php echo Text::sprintf('COM_USERS_MFA_ADD_AUTHENTICATOR_OF_TYPE', $method['display']) ?>

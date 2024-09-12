@@ -29,9 +29,14 @@
 
     .menu-links-block {
       padding: 15px;
-      background-color: var(--card-bg);
       border: 1px solid $border-color;
-      border-radius: 3px;
+      border-radius: $border-radius-sm;
+
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          --heading-color: var(--body-color);
+        }
+      }
     }
 
     label {

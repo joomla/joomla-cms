@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Encrypt;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -215,6 +215,6 @@ class Base32
      */
     private function _mapbin($chr)
     {
-        return sprintf('%08b', strpos(self::CSRFC3548, $chr));
+        return \sprintf('%08b', strpos(self::CSRFC3548, $chr));
     }
 }

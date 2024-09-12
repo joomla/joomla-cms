@@ -13,11 +13,14 @@ namespace Joomla\Tests\Unit\Plugin\Authentication\Ldap;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Language\Language;
 use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use Symfony\Component\Ldap\Adapter\CollectionInterface;
+use Symfony\Component\Ldap\Adapter\EntryManagerInterface;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
@@ -48,9 +51,9 @@ class LdapPluginTest extends UnitTestCase
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
 
         $response = new AuthenticationResponse();
-        $result   = $plugin->onUserAuthenticate([], [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => [], 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertFalse($result);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
 
@@ -73,9 +76,9 @@ class LdapPluginTest extends UnitTestCase
         $plugin->setApplication($app);
 
         $response = new AuthenticationResponse();
-        $result   = $plugin->onUserAuthenticate(['password' => ''], [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => ['password' => ''], 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertFalse($result);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
 
@@ -97,8 +100,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -114,8 +119,10 @@ class LdapPluginTest extends UnitTestCase
     {
         $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
@@ -138,8 +145,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -162,8 +171,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -186,8 +197,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -203,8 +216,10 @@ class LdapPluginTest extends UnitTestCase
     {
         $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
@@ -227,8 +242,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -244,8 +261,10 @@ class LdapPluginTest extends UnitTestCase
     {
         $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'users_dn' => 'test', 'host' => 'test']]);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
@@ -268,8 +287,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -292,8 +313,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -333,14 +356,14 @@ class LdapPluginTest extends UnitTestCase
                         $this->hasEntry  = $hasEntry;
                     }
 
-                    public function bind(string $dn = null, string $password = null)
+                    public function bind(?string $dn = null, ?string $password = null)
                     {
                         if ($this->failBind) {
                             throw new LdapException();
                         }
                     }
 
-                    public function query(string $dn, string $query, array $options = [])
+                    public function query(string $dn, string $query, array $options = []): QueryInterface
                     {
                         if ($this->failQuery) {
                             throw new LdapException();
@@ -354,22 +377,103 @@ class LdapPluginTest extends UnitTestCase
                                 $this->hasEntry = $hasEntry;
                             }
 
-                            public function execute()
+                            public function execute(): CollectionInterface
                             {
                                 if (!$this->hasEntry) {
-                                    return [];
+                                    return new class () implements CollectionInterface {
+                                        public function toArray(): array
+                                        {
+                                            return [];
+                                        }
+
+                                        public function getIterator(): \Traversable
+                                        {
+                                            return null;
+                                        }
+
+                                        public function offsetExists(mixed $offset): bool
+                                        {
+                                            return false;
+                                        }
+
+                                        public function offsetGet(mixed $offset): mixed
+                                        {
+                                            return null;
+                                        }
+
+                                        public function offsetSet(mixed $offset, mixed $value): void
+                                        {
+                                            return;
+                                        }
+
+                                        public function offsetUnset(mixed $offset): void
+                                        {
+                                            return;
+                                        }
+
+                                        public function count(): int
+                                        {
+                                            return 0;
+                                        }
+                                    };
                                 }
 
-                                return [new Entry('')];
+                                return new class () implements CollectionInterface {
+                                    public $entry;
+
+                                    public function __construct()
+                                    {
+                                        $this->entry = new Entry('');
+                                    }
+
+                                    public function toArray(): array
+                                    {
+                                        return [$this->entry];
+                                    }
+
+                                    public function getIterator(): \Traversable
+                                    {
+                                        yield $this->entry;
+                                    }
+
+                                    public function offsetExists(mixed $offset): bool
+                                    {
+                                        return false;
+                                    }
+
+                                    public function offsetGet(mixed $offset): mixed
+                                    {
+                                        if ($offset === 0) {
+                                            return $this->entry;
+                                        }
+
+                                        return null;
+                                    }
+
+                                    public function offsetSet(mixed $offset, mixed $value): void
+                                    {
+                                        return;
+                                    }
+
+                                    public function offsetUnset(mixed $offset): void
+                                    {
+                                        return;
+                                    }
+
+                                    public function count(): int
+                                    {
+                                        return 1;
+                                    }
+                                };
                             }
                         };
                     }
 
-                    public function getEntryManager()
+                    public function getEntryManager(): EntryManagerInterface
                     {
                     }
 
-                    public function escape(string $subject, string $ignore = '', int $flags = 0)
+                    public function escape(string $subject, string $ignore = '', int $flags = 0): string
                     {
                         return $subject;
                     }

@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -42,7 +41,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The active item
      *
-     * @var   CMSObject
+     * @var   \stdClass
      */
     protected $item;
 
@@ -54,14 +53,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
     /**
      * The actions the user is authorised to perform
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.7.0
      */
     protected $canDo;
@@ -73,6 +72,15 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     protected $levels;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Display the view
@@ -99,8 +107,14 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
+        }
+
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
         }
 
         // If we are forcing a language in modal (used for associations).
@@ -113,8 +127,13 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
         }
 
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
+
         parent::display($tpl);
-        $this->addToolbar();
     }
 
     /**
@@ -131,10 +150,10 @@ class HtmlView extends BaseHtmlView
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
         $clientId   = $this->state->get('item.client_id', 0);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
@@ -204,5 +223,35 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->help($help->key, $help->local, $url);
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $user       = $this->getCurrentUser();
+        $isNew      = ($this->item->id == 0);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
+        $canDo      = $this->canDo;
+        $toolbar    = $this->getDocument()->getToolbar();
+
+        ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
+
+        $canSave = !$checkedOut && ($isNew && $canDo->get('core.create') || $canDo->get('core.edit'));
+
+        // For new records, check the create permission.
+        if ($canSave) {
+            $toolbar->apply('item.apply');
+            $toolbar->save('item.save');
+        }
+
+        $toolbar->cancel('item.cancel');
     }
 }

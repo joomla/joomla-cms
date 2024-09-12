@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Mails\Administrator\Field">
 	<fieldset>
 		<field
 			name="template_id"
@@ -16,13 +16,13 @@
 		/>
 		<field
 			name="body"
-			type="textarea"
+			type="editor"
 			label="COM_MAILS_FIELD_BODY_LABEL"
 			editor="none"
 			buttons="false"
 			rows="20"
 			class="form-control"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 		<field
 			name="htmlbody"
@@ -31,7 +31,7 @@
 			buttons="true"
 			hide="fields,pagebreak,readmore,module"
 			class="inputbox"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 	</fieldset>
 	<field
@@ -205,6 +205,42 @@
 				default=""
 				filter="string"
 			/>
+
+			<field
+				name="disable_htmllayout"
+				type="list"
+				label="COM_MAILS_FIELD_HTML_LAYOUT_OFF_LABEL"
+				validate="options"
+				class="form-select-color-state"
+				useglobal="true"
+				>
+				<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+			</field>
+
+			<field
+				name="htmllayout"
+				type="mailtemplateLayout"
+				label="COM_MAILS_FIELD_HTML_LAYOUT_LABEL"
+				class="form-select"
+				useglobal="true"
+				default=""
+				showon="disable_htmllayout!:0"
+			/>
+
+			<field
+				name="disable_logofile"
+				type="radio"
+				label="COM_MAILS_FIELD_HTML_LAYOUT_LOGO_OFF_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				showon="disable_htmllayout!:0[AND]htmllayout!:mailtemplate"
+				validate="options"
+				>
+				<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+			</field>
+
 		</fieldset>
 	</fields>
 </form>

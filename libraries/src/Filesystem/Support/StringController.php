@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Filesystem\Support;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -52,8 +52,8 @@ class StringController
      */
     public function createRef($reference, &$string)
     {
-        $ref             = &self::_getArray();
-        $ref[$reference] = & $string;
+        $ref             =& self::_getArray();
+        $ref[$reference] =& $string;
     }
 
     /**
@@ -69,12 +69,8 @@ class StringController
      */
     public function getRef($reference)
     {
-        $ref = &self::_getArray();
+        $ref =& self::_getArray();
 
-        if (isset($ref[$reference])) {
-            return $ref[$reference];
-        } else {
-            return false;
-        }
+        return $ref[$reference] ?? false;
     }
 }

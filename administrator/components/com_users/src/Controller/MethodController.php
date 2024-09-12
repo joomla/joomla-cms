@@ -44,14 +44,14 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
     /**
      * Public constructor
      *
-     * @param   array                     $config   Plugin configuration
-     * @param   MVCFactoryInterface|null  $factory  MVC Factory for the com_users component
-     * @param   CMSApplication|null       $app      CMS application object
-     * @param   Input|null                $input    Joomla CMS input object
+     * @param   array                 $config   Plugin configuration
+     * @param   ?MVCFactoryInterface  $factory  MVC Factory for the com_users component
+     * @param   ?CMSApplication       $app      CMS application object
+     * @param   ?Input                $input    Joomla CMS input object
      *
      * @since 4.2.0
      */
-    public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct(array $config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         // We have to tell Joomla what is the name of the view, otherwise it defaults to the name of the *component*.
         $config['default_view'] = 'method';
@@ -405,7 +405,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
      */
     private function assertValidRecordId($id, ?User $user = null): MfaTable
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
         }
 
@@ -416,7 +416,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
         $record = $model->getRecord($user);
 
-        if (is_null($record) || ($record->id != $id) || ($record->user_id != $user->id)) {
+        if (\is_null($record) || ($record->id != $id) || ($record->user_id != $user->id)) {
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 

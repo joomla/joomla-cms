@@ -17,7 +17,7 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -65,7 +65,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
     public function setRecord(MfaTable $value): MfaTable
     {
         if (empty($value)) {
-            throw new \DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+            throw new \DomainException(\sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
         }
 
         return $value;
@@ -85,7 +85,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
     public function setUser(User $value): User
     {
         if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
-            throw new \DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
+            throw new \DomainException(\sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
         }
 
         return $value;

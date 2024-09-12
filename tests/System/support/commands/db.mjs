@@ -1,3 +1,6 @@
+import invalidTufMetadata from '../../fixtures/tuf/invalidMetadata.json';
+import validTufMetadata from '../../fixtures/tuf/validMetadata.json';
+
 /**
  * The global cached default categories
  */
@@ -620,4 +623,46 @@ Cypress.Commands.add('db_getUserId', () => {
 
       return id[0].id;
     });
+});
+
+/**
+ * Inserts an invalid tuf metadata set
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_setInvalidTufRoot', () => {
+  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
+  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
+  cy.task('queryDB', createInsertQuery(
+    'tuf_metadata',
+    {
+      id: 1,
+      update_site_id: 1,
+      root: JSON.stringify(invalidTufMetadata.root),
+      targets: '',
+      snapshot: '',
+      timestamp: '',
+    },
+  ));
+});
+
+/**
+ * Inserts an invalid tuf metadata set
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_setValidTufRoot', () => {
+  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
+  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
+  cy.task('queryDB', createInsertQuery(
+    'tuf_metadata',
+    {
+      id: 1,
+      update_site_id: 1,
+      root: JSON.stringify(validTufMetadata.root),
+      targets: '',
+      snapshot: '',
+      timestamp: '',
+    },
+  ));
 });

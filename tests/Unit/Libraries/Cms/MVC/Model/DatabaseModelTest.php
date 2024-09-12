@@ -305,47 +305,6 @@ class DatabaseModelTest extends UnitTestCase
     }
 
     /**
-     * @testdox  that all function calls go over deprecated getDbo function
-     *
-     * @return  void
-     *
-     * @since   4.2.1
-     *
-     * @deprecated  5.0 Must be removed when database calls are changed to getDatabase in libraries models
-     */
-    public function testOverrideOldDboFunction()
-    {
-        $db = $this->createMock(DatabaseInterface::class);
-        $db->expects($this->never())->method('setQuery');
-
-        $query = $this->getQueryStub($db);
-        $newDb = $this->createMock(DatabaseInterface::class);
-        $newDb->expects($this->once())->method('setQuery')->with($this->equalTo($query));
-
-        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class), $newDb) extends BaseDatabaseModel {
-            private $newDb;
-
-            public function __construct(array $config, MVCFactoryInterface $factory, DatabaseInterface $newDb)
-            {
-                parent::__construct($config, $factory);
-
-                $this->newDb = $newDb;
-            }
-
-            public function _getList($query, $limitstart = 0, $limit = 0)
-            {
-                return parent::_getList($query, $limitstart, $limit);
-            }
-
-            public function getDbo()
-            {
-                return $this->newDb;
-            }
-        };
-        $model->_getList($query, 0, 1);
-    }
-
-    /**
      * @testdox  still can use the old trait
      *
      * @return  void

@@ -13,7 +13,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\MVC\View\ViewInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,7 +47,7 @@ class DisplayEvent extends AbstractImmutableEvent
             throw new \BadMethodCallException("Argument 'extension' of event {$this->name} is required but has not been provided");
         }
 
-        if (!isset($arguments['extension']) || !is_string($arguments['extension'])) {
+        if (!isset($arguments['extension']) || !\is_string($arguments['extension'])) {
             throw new \BadMethodCallException("Argument 'extension' of event {$this->name} is not of type 'string'");
         }
 

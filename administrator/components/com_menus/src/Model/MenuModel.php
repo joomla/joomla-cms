@@ -13,7 +13,7 @@ namespace Joomla\Component\Menus\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -29,7 +29,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class MenuModel extends FormModel
+class MenuModel extends AdminModel
 {
     /**
      * The prefix to use with controller messages.
@@ -85,7 +85,7 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'MenuType', $prefix = '\JTable', $config = [])
+    public function getTable($type = 'MenuType', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -125,7 +125,7 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function &getItem($itemId = null)
+    public function getItem($itemId = null)
     {
         $itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
 
@@ -210,8 +210,8 @@ class MenuModel extends FormModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
@@ -269,7 +269,7 @@ class MenuModel extends FormModel
         $result = Factory::getApplication()->triggerEvent('onContentBeforeSave', [$this->_context, &$table, $isNew, $data]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             $this->setError($table->getError());
 
             return false;
@@ -295,10 +295,10 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function delete($itemIds)
+    public function delete(&$pks)
     {
         // Sanitize the ids.
-        $itemIds = ArrayHelper::toInteger((array) $itemIds);
+        $itemIds = ArrayHelper::toInteger((array) $pks);
 
         // Get a group row instance.
         $table = $this->getTable();
@@ -312,7 +312,7 @@ class MenuModel extends FormModel
                 // Trigger the before delete event.
                 $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$this->_context, $table]);
 
-                if (in_array(false, $result, true) || !$table->delete($itemId)) {
+                if (\in_array(false, $result, true) || !$table->delete($itemId)) {
                     $this->setError($table->getError());
 
                     return false;

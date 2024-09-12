@@ -13,8 +13,9 @@ namespace Joomla\Component\Fields\Administrator\Model;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Fields\FieldsFormServiceInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
@@ -27,6 +28,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -85,13 +87,13 @@ class FieldModel extends AdminModel
     /**
      * Constructor
      *
-     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -113,6 +115,19 @@ class FieldModel extends AdminModel
 
         if (isset($data['id']) && $data['id']) {
             $field = $this->getItem($data['id']);
+        }
+
+        if (isset($data['params']['searchindex'])) {
+            if (\is_null($field)) {
+                if ($data['params']['searchindex'] > 0) {
+                    Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+                }
+            } elseif (
+                $field->params['searchindex'] != $data['params']['searchindex']
+                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access']))
+            ) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+            }
         }
 
         if (!isset($data['label']) && isset($data['params']['label'])) {
@@ -213,13 +228,13 @@ class FieldModel extends AdminModel
          * when the options of a subfields field are getting changed.
          */
         if (
-            $field && in_array($field->type, ['list', 'checkboxes', 'radio'], true)
+            $field && \in_array($field->type, ['list', 'checkboxes', 'radio'], true)
             && isset($data['fieldparams']['options']) && isset($field->fieldparams['options'])
         ) {
             $oldParams = $this->getParams($field->fieldparams['options']);
             $newParams = $this->getParams($data['fieldparams']['options']);
 
-            if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams) {
+            if (\is_object($oldParams) && \is_object($newParams) && $oldParams != $newParams) {
                 // Get new values.
                 $names = array_column((array) $newParams, 'value');
 
@@ -265,7 +280,7 @@ class FieldModel extends AdminModel
         $types = FieldsHelper::getFieldTypes();
 
         // Check if type exists
-        if (!array_key_exists($data['type'], $types)) {
+        if (!\array_key_exists($data['type'], $types)) {
             return true;
         }
 
@@ -289,7 +304,11 @@ class FieldModel extends AdminModel
         // Trigger the event to create the field dom node
         $form = new Form($data['context']);
         $form->setDatabase($this->getDatabase());
-        Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$obj, $node, $form]);
+        $this->getDispatcher()->dispatch('onCustomFieldsPrepareDom', new PrepareDomEvent('onCustomFieldsPrepareDom', [
+            'subject'  => $obj,
+            'fieldset' => $node,
+            'form'     => $form,
+        ]));
 
         // Check if a node is created
         if (!$node->firstChild) {
@@ -311,7 +330,7 @@ class FieldModel extends AdminModel
             try {
                 $rule->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException $e) {
-                @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -347,11 +366,11 @@ class FieldModel extends AdminModel
      */
     private function getParams($params)
     {
-        if (is_string($params)) {
+        if (\is_string($params)) {
             $params = json_decode($params);
         }
 
-        if (is_array($params)) {
+        if (\is_array($params)) {
             $params = (object) $params;
         }
 
@@ -565,17 +584,9 @@ class FieldModel extends AdminModel
             $form->setFieldAttribute('created_user_id', 'filter', 'unset');
         }
 
-        // In case we are editing a field, field type cannot be changed, so some extra handling below is needed
+        // In case we are editing a field, field type cannot be changed, so remove showon attribute to avoid js errors
         if ($fieldId) {
-            $fieldType = $form->getField('type');
-
-            if ($fieldType->value == 'subform') {
-                // Only Use In subform should not be available for subform field type, so we remove it
-                $form->removeField('only_use_in_subform');
-            } else {
-                // Field type could not be changed, so remove showon attribute to avoid js errors
-                $form->setFieldAttribute('only_use_in_subform', 'showon', '');
-            }
+            $form->setFieldAttribute('only_use_in_subform', 'showon', '');
         }
 
         return $form;
@@ -597,7 +608,7 @@ class FieldModel extends AdminModel
         $field  = $this->getItem($fieldId);
         $params = $field->params;
 
-        if (is_array($params)) {
+        if (\is_array($params)) {
             $params = new Registry($params);
         }
 
@@ -616,9 +627,9 @@ class FieldModel extends AdminModel
         if ($oldValue === null) {
             // No records available, doing normal insert
             $needsInsert = true;
-        } elseif (count($value) == 1 && count((array) $oldValue) == 1) {
+        } elseif (\count($value) == 1 && \count((array) $oldValue) == 1) {
             // Only a single row value update can be done when not empty
-            $needsUpdate = is_array($value[0]) ? count($value[0]) : strlen($value[0]);
+            $needsUpdate = \is_array($value[0]) ? \count($value[0]) : \strlen($value[0]);
             $needsDelete = !$needsUpdate;
         } else {
             // Multiple values, we need to purge the data and do a new
@@ -686,7 +697,7 @@ class FieldModel extends AdminModel
     {
         $values = $this->getFieldValues([$fieldId], $itemId);
 
-        if (array_key_exists($fieldId, $values)) {
+        if (\array_key_exists($fieldId, $values)) {
             return $values[$fieldId];
         }
 
@@ -713,7 +724,7 @@ class FieldModel extends AdminModel
         $key = md5(serialize($fieldIds) . $itemId);
 
         // Fill the cache when it doesn't exist
-        if (!array_key_exists($key, $this->valueCache)) {
+        if (!\array_key_exists($key, $this->valueCache)) {
             // Create the query
             $db    = $this->getDatabase();
             $query = $db->getQuery(true);
@@ -732,9 +743,9 @@ class FieldModel extends AdminModel
             // Fill the data container from the database rows
             foreach ($rows as $row) {
                 // If there are multiple values for a field, create an array
-                if (array_key_exists($row->field_id, $data)) {
+                if (\array_key_exists($row->field_id, $data)) {
                     // Transform it to an array
-                    if (!is_array($data[$row->field_id])) {
+                    if (!\is_array($data[$row->field_id])) {
                         $data[$row->field_id] = [$data[$row->field_id]];
                     }
 
@@ -853,11 +864,36 @@ class FieldModel extends AdminModel
         $this->setState('field.component', $parts[0]);
 
         // Extract the optional section name
-        $this->setState('field.section', (count($parts) > 1) ? $parts[1] : null);
+        $this->setState('field.section', (\count($parts) > 1) ? $parts[1] : null);
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_fields');
         $this->setState('params', $params);
+    }
+
+    /**
+     * Method to change the published state of one or more records.
+     *
+     * @param   array    &$pks   A list of the primary keys to change.
+     * @param   integer  $value  The value of the published state.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   5.0.0
+     */
+    public function publish(&$pks, $value = 1)
+    {
+        foreach ($pks as $pk) {
+            $item = $this->getItem($pk);
+
+            if (isset($item->params['searchindex']) && $item->params['searchindex'] > 0) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+
+                break;
+            }
+        }
+
+        return parent::publish($pks, $value);
     }
 
     /**
@@ -941,8 +977,8 @@ class FieldModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
@@ -977,7 +1013,7 @@ class FieldModel extends AdminModel
         $section    = $this->state->get('field.section');
         $dataObject = $data;
 
-        if (is_array($dataObject)) {
+        if (\is_array($dataObject)) {
             $dataObject = (object) $dataObject;
         }
 
@@ -1069,6 +1105,12 @@ class FieldModel extends AdminModel
             }
         }
 
+        $componentBooted = Factory::getApplication()->bootComponent($component);
+
+        if ($componentBooted instanceof FieldsFormServiceInterface) {
+            $componentBooted->prepareForm($form, $data);
+        }
+
         // Trigger the default form events.
         parent::preprocessForm($form, $data, $group);
     }
@@ -1150,7 +1192,7 @@ class FieldModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;

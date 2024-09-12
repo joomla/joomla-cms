@@ -95,6 +95,15 @@ class HtmlView extends BaseHtmlView
     protected $section;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display item view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -114,7 +123,7 @@ class HtmlView extends BaseHtmlView
         $this->item       = $this->get('Item');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -152,7 +161,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
         $canDo      = StageHelper::getActions($this->extension, 'transition', $this->item->id);
         $canCreate  = $canDo->get('core.create');
 

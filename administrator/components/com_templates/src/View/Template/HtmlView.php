@@ -16,10 +16,8 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 
@@ -37,7 +35,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -180,12 +178,12 @@ class HtmlView extends BaseHtmlView
         $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
         $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
 
-        if (in_array($ext, $sourceTypes)) {
+        if (\in_array($ext, $sourceTypes)) {
             $this->form   = $this->get('Form');
             $this->form->setFieldAttribute('source', 'syntax', $ext);
             $this->source = $this->get('Source');
             $this->type   = 'file';
-        } elseif (in_array($ext, $imageTypes)) {
+        } elseif (\in_array($ext, $imageTypes)) {
             try {
                 $this->image = $this->get('Image');
                 $this->type  = 'image';
@@ -193,10 +191,10 @@ class HtmlView extends BaseHtmlView
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
                 $this->type = 'home';
             }
-        } elseif (in_array($ext, $fontTypes)) {
+        } elseif (\in_array($ext, $fontTypes)) {
             $this->font = $this->get('Font');
             $this->type = 'font';
-        } elseif (in_array($ext, $archiveTypes)) {
+        } elseif (\in_array($ext, $archiveTypes)) {
             $this->archive = $this->get('Archive');
             $this->type    = 'archive';
         } else {
@@ -207,7 +205,7 @@ class HtmlView extends BaseHtmlView
         $this->id            = $this->state->get('extension.id');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             $app->enqueueMessage(implode("\n", $errors));
 
             return false;
@@ -233,43 +231,13 @@ class HtmlView extends BaseHtmlView
     {
         $app     = Factory::getApplication();
         $user    = $this->getCurrentUser();
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
         $app->getInput()->set('hidemainmenu', true);
 
         // User is global SuperUser
         $isSuperUser  = $user->authorise('core.admin');
-        $explodeArray = explode('.', $this->fileName);
-        $ext          = end($explodeArray);
 
         ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'icon-code thememanager');
-
-        // Only show file edit buttons for global SuperUser
-        if ($isSuperUser) {
-            // Add an Apply and save button
-            if ($this->type === 'file') {
-                $toolbar->apply('template.apply');
-                $toolbar->save('template.save');
-            } elseif ($this->type === 'image') {
-                // Add a Crop and Resize button
-                $toolbar->standardButton('crop', 'COM_TEMPLATES_BUTTON_CROP', 'template.cropImage')
-                    ->listCheck(false)
-                    ->icon('icon-crop');
-                ToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
-            } elseif ($this->type === 'archive') {
-                // Add an extract button
-                $toolbar->standardButton('extract', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', 'template.extractArchive')
-                    ->listCheck(false)
-                    ->icon('icon-chevron-down');
-            } elseif ($this->type === 'home') {
-                // Add a copy/child template button
-                if (isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1') {
-                    ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_TEMPLATE_CHILD', false);
-                } elseif (empty($this->template->xmldata->parent) && empty($this->template->xmldata->namespace)) {
-                    // We can't copy parent templates nor namespaced templates
-                    ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE', false);
-                }
-            }
-        }
 
         // Add a Template preview button
         if ($this->type === 'home') {
@@ -278,6 +246,44 @@ class HtmlView extends BaseHtmlView
                 ->url(Uri::root() . $client . 'index.php?tp=1&templateStyle=' . $this->preview->id)
                 ->icon('icon-image')
                 ->attributes(['target' => '_new']);
+        }
+
+        // Only show file edit buttons for global SuperUser
+        if ($isSuperUser) {
+            switch ($this->type) {
+                case 'file':
+                    $toolbar->apply('template.apply');
+                    $toolbar->save('template.save');
+                    $toolbar->cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
+                    break;
+
+                case 'image':
+                    // Add a Crop and Resize button
+                    $toolbar->standardButton('crop', 'COM_TEMPLATES_BUTTON_CROP', 'template.cropImage')
+                        ->listCheck(false)
+                        ->icon('icon-crop');
+                    ToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
+                    $toolbar->cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
+                    break;
+
+                case 'archive':
+                    // Add an extract button
+                    $toolbar->standardButton('extract', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', 'template.extractArchive')
+                        ->listCheck(false)
+                        ->icon('icon-chevron-down');
+                    break;
+
+                case 'home':
+                    // Add a copy/child template button
+                    if (isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1') {
+                        ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_TEMPLATE_CHILD');
+                    } elseif (empty($this->template->xmldata->parent) && empty($this->template->xmldata->namespace)) {
+                        // We can't copy parent templates nor namespaced templates
+                        ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+                    }
+
+                    break;
+            }
         }
 
         // Only show file manage buttons for global SuperUser
@@ -293,11 +299,11 @@ class HtmlView extends BaseHtmlView
                 ToolbarHelper::modal('renameModal', 'icon-sync', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 
                 // Add a Delete file Button
-                ToolbarHelper::modal('deleteModal', 'icon-times', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
+                ToolbarHelper::modal('deleteModal', 'icon-trash', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
             }
         }
 
-        if (count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
+        if (\count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
             /** @var DropdownButton $dropdown */
             $dropdown = $toolbar->dropdownButton('override-group', 'COM_TEMPLATES_BUTTON_CHECK')
                 ->toggleSplit(false)
@@ -322,10 +328,8 @@ class HtmlView extends BaseHtmlView
                 ->listCheck(true);
         }
 
-        if ($this->type === 'home') {
+        if (!\in_array($this->type, ['image', 'file'])) {
             $toolbar->cancel('template.cancel');
-        } else {
-            $toolbar->cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
         }
 
         $toolbar->divider();

@@ -22,7 +22,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -72,7 +72,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
         $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
 
         if (!isset($options['db']) || !($options['db'] instanceof DatabaseDriver)) {
-            @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
             $options['db'] = Factory::getContainer()->get(DatabaseDriver::class);
         }
 

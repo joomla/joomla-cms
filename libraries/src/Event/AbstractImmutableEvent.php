@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,7 +42,7 @@ class AbstractImmutableEvent extends AbstractEvent
     {
         if ($this->constructed) {
             throw new \BadMethodCallException(
-                sprintf('Cannot reconstruct the AbstractImmutableEvent %s.', $this->name)
+                \sprintf('Cannot reconstruct the AbstractImmutableEvent %s.', $this->name)
             );
         }
 
@@ -77,7 +77,7 @@ class AbstractImmutableEvent extends AbstractEvent
         }
 
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Cannot set the argument %s of the immutable event %s.',
                 $name,
                 $this->name
@@ -98,7 +98,7 @@ class AbstractImmutableEvent extends AbstractEvent
     public function offsetUnset($name)
     {
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Cannot remove the argument %s of the immutable event %s.',
                 $name,
                 $this->name

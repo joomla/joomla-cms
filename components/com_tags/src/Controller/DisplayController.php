@@ -28,8 +28,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean        $cachable   If true, the view output will be cached
-     * @param   mixed|boolean  $urlparams  An array of safe URL parameters and their
-     *                                     variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   mixed|boolean  $urlparams  An array of safe URL parameters and their variable types.
+     *                         @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object to support chaining.
      *
@@ -43,7 +43,7 @@ class DisplayController extends BaseController
         $vName = $this->input->get('view', 'tags');
         $this->input->set('view', $vName);
 
-        if ($user->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'tags')) {
+        if ($user->id || ($this->input->getMethod() === 'POST' && $vName === 'tags')) {
             $cachable = false;
         }
 
@@ -59,6 +59,7 @@ class DisplayController extends BaseController
 
         if (
             $vName === 'tag'
+            && \in_array($this->input->getMethod(), ['GET', 'POST'])
             && ComponentHelper::getParams('com_tags')->get('record_hits', 1) == 1
             && $model = $this->getModel($vName)
         ) {

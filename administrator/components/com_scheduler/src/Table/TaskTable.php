@@ -16,8 +16,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,8 +32,10 @@ use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
  *
  * @since  4.1.0
  */
-class TaskTable extends Table
+class TaskTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -40,7 +45,7 @@ class TaskTable extends Table
     protected $_supportNullValue = true;
 
     /**
-     * Ensure params are json encoded by the bind method.
+     * Ensure params are json encoded in the bind method.
      *
      * @var    string[]
      * @since  4.1.0
@@ -72,15 +77,16 @@ class TaskTable extends Table
     /**
      * TaskTable constructor override, needed to pass the DB table name and primary key to {@see Table::__construct()}.
      *
-     * @param  DatabaseDriver  $db  A database connector object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
-     * @since  4.1.0
+     * @since   4.1.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->setColumnAlias('published', 'state');
 
-        parent::__construct('#__scheduler_tasks', 'id', $db);
+        parent::__construct('#__scheduler_tasks', 'id', $db, $dispatcher);
     }
 
     /**
@@ -97,7 +103,7 @@ class TaskTable extends Table
         try {
             parent::check();
         } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage());
+            $this->setError($e->getMessage());
 
             return false;
         }
@@ -139,7 +145,7 @@ class TaskTable extends Table
 
         // Set `created_by` if not set for a new item.
         if ($isNew && empty($this->created_by)) {
-            $this->created_by = Factory::getApplication()->getIdentity()->id;
+            $this->created_by = $this->getCurrentUser()->id;
         }
 
         // @todo : Should we add modified, modified_by fields? [ ]
