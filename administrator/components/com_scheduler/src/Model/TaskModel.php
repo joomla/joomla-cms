@@ -384,7 +384,7 @@ class TaskModel extends AdminModel
                     ->bind(':taskId', $options['id'], ParameterType::INTEGER);
             } else {
                 $id = $this->getNextTaskId($db, $now, $options);
-                if (count($id) === 0) {
+                if (\count($id) === 0) {
                     return null;
                 }
                 $lockQuery->where($db->quoteName('id') . ' = :taskId')
