@@ -136,7 +136,10 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+        // Get allowed actions form the component or category (but only when filtering is by single category)
+        $catid   = $this->state->get('filter.category_id', 0);
+        $catid   = is_array($catid) ? (count($catid) === 1 ? reset($catid) : 0) : $catid;
+        $canDo   = ContentHelper::getActions('com_content', 'category', $catid);
         $user    = Factory::getApplication()->getIdentity();
         $toolbar = Toolbar::getInstance();
 
