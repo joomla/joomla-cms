@@ -491,7 +491,7 @@ class ArticlesModel extends ListModel
 
         // Filter by start and end dates.
         if (
-            !(\is_numeric($condition) && $condition == ContentComponent::CONDITION_UNPUBLISHED)
+            !(is_numeric($condition) && $condition == ContentComponent::CONDITION_UNPUBLISHED)
             && !(\is_array($condition) && \in_array(ContentComponent::CONDITION_UNPUBLISHED, $condition))
         ) {
             $query->where(
