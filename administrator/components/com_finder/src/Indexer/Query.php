@@ -871,7 +871,7 @@ class Query
 
                     // Add any terms that are before this phrase to the stack.
                     if (trim(StringHelper::substr($input, 0, $pos))) {
-                        $terms = array_merge($terms, explode(' ', StringHelper::trim(StringHelper::substr($input, 0, $pos))));
+                        $terms = array_merge($terms, explode(' ', trim(StringHelper::substr($input, 0, $pos))));
                     }
 
                     // Strip out everything up to and including the phrase.
