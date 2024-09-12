@@ -136,7 +136,7 @@ class ExecRuleHelper
                 $nextExec = $string ? $nextExec->toSql() : $nextExec;
                 break;
             case 'interval':
-                // We keep this for b/c reasons, can be removed in 7.0.0
+                // @deprecated 4.4 will be removed in 7.0
                 $lastExec = Factory::getDate($basisNow ? 'now' : $this->getFromTask('last_execution'), 'UTC');
                 $interval = new \DateInterval($this->rule->exp);
                 $nextExec = $lastExec->add($interval);
