@@ -135,13 +135,6 @@ class ExecRuleHelper
                 $nextExec->setTime($hour, $minute);
                 $nextExec = $string ? $nextExec->toSql() : $nextExec;
                 break;
-            case 'interval':
-                // @deprecated 4.4 will be removed in 7.0
-                $lastExec = Factory::getDate($basisNow ? 'now' : $this->getFromTask('last_execution'), 'UTC');
-                $interval = new \DateInterval($this->rule->exp);
-                $nextExec = $lastExec->add($interval);
-                $nextExec = $string ? $nextExec->toSql() : $nextExec;
-                break;
             case 'cron-expression':
                 // @todo: testing
                 $cExp     = new CronExpression((string) $this->rule->exp);
