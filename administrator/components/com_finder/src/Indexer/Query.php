@@ -784,7 +784,7 @@ class Query
             $matches = [];
 
             if ($debug) {
-                $pattern = StringHelper::substr($pattern, 2, -2);
+                $pattern = substr($pattern, 2, -2);
             }
 
             // Check if the filter pattern is in the input string.
