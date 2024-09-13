@@ -198,7 +198,7 @@ class ApiController extends BaseController
         $override     = $content->get('override', false);
 
         if ($mediaContent) {
-            $this->checkFileSize(strlen($mediaContent));
+            $this->checkFileSize(\strlen($mediaContent));
 
             // A file needs to be created
             $name = $this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
