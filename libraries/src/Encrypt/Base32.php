@@ -215,6 +215,6 @@ class Base32
      */
     private function _mapbin($chr)
     {
-        return sprintf('%08b', strpos(self::CSRFC3548, $chr));
+        return \sprintf('%08b', strpos(self::CSRFC3548, $chr));
     }
 }
