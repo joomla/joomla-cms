@@ -239,10 +239,7 @@ class Access
         $query = $db->getQuery(true);
         $query->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
-            ->where(
-                $db->quoteName($key) . ' IN ('
-                . implode(',', $query->bindArray($assetsList, $bindAs)) . ')'
-            );
+            ->whereIn($db->quoteName($key), $assetsList, $bindAs);
 
         $assets = $db->setQuery($query)->loadObjectList();
         $pids   = [];
