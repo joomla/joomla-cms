@@ -261,7 +261,7 @@ class ArticlesModel extends ListModel
             ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
             ->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
             ->join('LEFT', $db->quoteName('#__users', 'ua') . ' FORCE INDEX(PRIMARY)', $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
-            ->join('LEFT', $db->quoteName('#__workflow_associations', 'wa') . ' FORCE INDEX(PRIMARY)', $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+            ->join('INNER', $db->quoteName('#__workflow_associations', 'wa') . ' FORCE INDEX(PRIMARY)', $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
             ->join('LEFT', $db->quoteName('#__workflow_stages', 'ws') . ' FORCE INDEX(PRIMARY)', $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
             ->join('LEFT', $db->quoteName('#__workflows', 'w') . ' FORCE INDEX(PRIMARY)', $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
 
