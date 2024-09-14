@@ -225,8 +225,10 @@ class Access
         // Compare to skip already preloaded
         if ($key === 'id') {
             $assetsList = array_diff($assetsList, array_keys(self::$preloadedAssets));
+            $bindAs     = \Joomla\Database\ParameterType::INTEGER;
         } else {
             $assetsList = array_diff($assetsList, self::$preloadedAssets);
+            $bindAs     = \Joomla\Database\ParameterType::STRING;
         }
 
         if (!$assetsList) {
@@ -239,7 +241,7 @@ class Access
             ->from($db->quoteName('#__assets'))
             ->where(
                 $db->quoteName($key) . ' IN ('
-                . implode(',', $query->bindArray($assetsList, \Joomla\Database\ParameterType::STRING)) . ')'
+                . implode(',', $query->bindArray($assetsList, $bindAs)) . ')'
             );
 
         $assets = $db->setQuery($query)->loadObjectList();
