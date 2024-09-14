@@ -210,7 +210,7 @@ class Access
     }
 
     /**
-     * Method to preload the Rules object for given list of assets (names or ids).
+     * Method to preload the Rules objects for given list of assets (names or ids).
      *
      * @param  string  $extensionName  Extension name.
      * @param  array   $assetsList     Assets list. Either list of asset names or asset ids.
@@ -229,7 +229,9 @@ class Access
             $assetsList = array_diff($assetsList, self::$preloadedAssets);
         }
 
-        if (!$assetsList) return;
+        if (!$assetsList) {
+            return;
+        }
 
         $db    = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
         $query = $db->getQuery(true);
@@ -239,19 +241,6 @@ class Access
                 $db->quoteName($key) . ' IN ('
                 . implode(',', $query->bindArray($assetsList, \Joomla\Database\ParameterType::STRING)) . ')'
             );
-
-        // @TODO: Should also select the parents, with lft, rgt query ???
-//        $query->select($db->quoteName(['b.id', 'b.name', 'b.rules', 'b.parent_id']))
-//            ->from($db->quoteName('#__assets', 'a'))
-//            ->join(
-//                'LEFT',
-//                $db->quoteName('#__assets', 'b'),
-//                $db->quoteName('b.lft') . ' <= ' . $db->quoteName('a.lft') . ' AND ' . $db->quoteName('b.rgt') . ' >= ' . $db->quoteName('a.rgt')
-//            )
-//            ->where(
-//                $db->quoteName('a.' . $key) . ' IN ('
-//                . implode(',', $query->bindArray($assetsList, \Joomla\Database\ParameterType::STRING)) . ')'
-//            );
 
         $assets = $db->setQuery($query)->loadObjectList();
         $pids   = [];
