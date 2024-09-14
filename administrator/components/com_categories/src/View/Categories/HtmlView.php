@@ -127,10 +127,10 @@ class HtmlView extends BaseHtmlView
         foreach ($this->items as $item) {
             $this->ordering[$item->parent_id][] = $item->id;
 
-            $assetsList['com_content.category.' . $item->id] = 'com_content.category.' . $item->id;
+            $assetsList['c' . $item->id] = 'com_content.category.' . $item->id;
 
             if (!empty($item->parent_id)) {
-                $assetsList['com_content.category.' . $item->parent_id] = 'com_content.category.' . $item->parent_id;
+                $assetsList['c' . $item->parent_id] = 'com_content.category.' . $item->parent_id;
             }
         }
 

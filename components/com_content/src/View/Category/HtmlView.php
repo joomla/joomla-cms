@@ -98,7 +98,7 @@ class HtmlView extends CategoryView
                 $assetsList[] = 'com_content.article.' . $item->id;
 
                 if (!empty($item->catid)) {
-                    $assetsList['com_content.category.' . $item->catid] = 'com_content.category.' . $item->catid;
+                    $assetsList['c' . $item->catid] = 'com_content.category.' . $item->catid;
                 }
             }
 
