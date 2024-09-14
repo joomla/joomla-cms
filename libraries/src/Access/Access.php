@@ -260,7 +260,9 @@ class Access
             self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
             self::$preloadedAssets[$asset->id]                                 = $asset->name;
 
-            $pids[$asset->parent_id] = $asset->parent_id;
+            if ($asset->parent_id) {
+                $pids[$asset->parent_id] = $asset->parent_id;
+            }
         }
 
         if ($pids) {
