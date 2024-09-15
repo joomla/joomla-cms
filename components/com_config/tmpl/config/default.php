@@ -14,8 +14,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Config\Site\View\Config\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_config.config')
@@ -49,7 +50,7 @@ $wa->useScript('keepalive')
     <input type="hidden" name="task" value="">
     <?php echo HTMLHelper::_('form.token'); ?>
 
-    <div class="mb-2">
+    <div class="d-grid gap-2 d-sm-block mb-2">
     <button type="button" class="btn btn-primary" data-submit-task="config.apply">
         <span class="icon-check" aria-hidden="true"></span>
         <?php echo Text::_('JSAVE') ?>

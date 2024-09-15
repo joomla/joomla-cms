@@ -20,14 +20,16 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
+/** @var \Joomla\Component\Fields\Administrator\View\Fields\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');
 $section   = $this->state->get('filter.section');

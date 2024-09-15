@@ -121,8 +121,8 @@ class CollectionAdapter extends UpdateAdapter
                 }
                 break;
             case 'EXTENSION':
-                $update = Table::getInstance('update');
-                $update->set('update_site_id', $this->updateSiteId);
+                $update                 = Table::getInstance('update');
+                $update->update_site_id = $this->updateSiteId;
 
                 foreach ($this->updatecols as $col) {
                     // Reset the values if it doesn't exist
@@ -135,7 +135,7 @@ class CollectionAdapter extends UpdateAdapter
                     }
                 }
 
-                $client = ApplicationHelper::getClientInfo($attrs['CLIENT'], 1);
+                $client = ApplicationHelper::getClientInfo($attrs['CLIENT'], true);
 
                 if (isset($client->id)) {
                     $attrs['CLIENT_ID'] = $client->id;

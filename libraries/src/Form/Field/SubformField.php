@@ -229,7 +229,7 @@ class SubformField extends FormField
     protected function getInput()
     {
         // Prepare data for renderer
-        $data    = $this->getLayoutData();
+        $data    = $this->collectLayoutData();
         $tmpl    = null;
         $control = $this->name;
 
@@ -400,18 +400,18 @@ class SubformField extends FormField
      * @param   mixed      $value  The optional value to use as the default for the field.
      * @param   string     $group  The optional dot-separated form group path on which to find the field.
      * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     *                             against the entire form.
      *
      * @return  mixed   The filtered value.
      *
      * @since   4.0.0
      * @throws  \UnexpectedValueException
      */
-    public function filter($value, $group = null, Registry $input = null)
+    public function filter($value, $group = null, ?Registry $input = null)
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
         }
 
         // Get the field filter type.

@@ -58,7 +58,7 @@ class Session implements ServiceProviderInterface
             function (Container $container) {
                 /** @var Registry $config */
                 $config = $container->get('config');
-                $input = $container->get(CMSInput::class);
+                $input  = $container->get(CMSInput::class);
 
                 // Generate a session name.
                 $name = $this->generateSessionName($config, AdministratorApplication::class);
@@ -83,10 +83,10 @@ class Session implements ServiceProviderInterface
                 }
 
                 $options['cookie_domain'] = $config->get('cookie_domain', '');
-                $options['cookie_path'] = $config->get('cookie_path', '/');
+                $options['cookie_path']   = $config->get('cookie_path', '/');
 
                 return new \Joomla\CMS\Session\Session(
-                    new JoomlaStorage($input, $handler),
+                    new JoomlaStorage($input, $handler, $options),
                     $container->get(DispatcherInterface::class),
                     $options
                 );
@@ -99,7 +99,7 @@ class Session implements ServiceProviderInterface
             function (Container $container) {
                 /** @var Registry $config */
                 $config = $container->get('config');
-                $input = $container->get(CMSInput::class);
+                $input  = $container->get(CMSInput::class);
 
                 /**
                  * Session handler for the session is always filesystem so it doesn't flip to the database after
@@ -130,10 +130,10 @@ class Session implements ServiceProviderInterface
                 }
 
                 $options['cookie_domain'] = $config->get('cookie_domain', '');
-                $options['cookie_path'] = $config->get('cookie_path', '/');
+                $options['cookie_path']   = $config->get('cookie_path', '/');
 
                 return new \Joomla\CMS\Session\Session(
-                    new JoomlaStorage($input, $handler),
+                    new JoomlaStorage($input, $handler, $options),
                     $container->get(DispatcherInterface::class),
                     $options
                 );
@@ -146,7 +146,7 @@ class Session implements ServiceProviderInterface
             function (Container $container) {
                 /** @var Registry $config */
                 $config = $container->get('config');
-                $input = $container->get(CMSInput::class);
+                $input  = $container->get(CMSInput::class);
 
                 // Generate a session name.
                 $name = $this->generateSessionName($config, SiteApplication::class);
@@ -171,10 +171,10 @@ class Session implements ServiceProviderInterface
                 }
 
                 $options['cookie_domain'] = $config->get('cookie_domain', '');
-                $options['cookie_path'] = $config->get('cookie_path', '/');
+                $options['cookie_path']   = $config->get('cookie_path', '/');
 
                 return new \Joomla\CMS\Session\Session(
-                    new JoomlaStorage($input, $handler),
+                    new JoomlaStorage($input, $handler, $options),
                     $container->get(DispatcherInterface::class),
                     $options
                 );
@@ -258,7 +258,7 @@ class Session implements ServiceProviderInterface
                      */
                     if (!Factory::$application) {
                         throw new DependencyResolutionException(
-                            sprintf(
+                            \sprintf(
                                 'Creating the "session.metadata_manager" service requires %s::$application be initialised.',
                                 Factory::class
                             )

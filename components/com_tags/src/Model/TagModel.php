@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,7 +43,7 @@ class TagModel extends ListModel
     /**
      * Array of tags
      *
-     * @var    CMSObject[]
+     * @var    array
      * @since  4.3.0
      */
     protected $item = [];
@@ -51,12 +51,12 @@ class TagModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -130,7 +130,7 @@ class TagModel extends ListModel
     /**
      * Method to build an SQL query to load the list data of all items with a given tag.
      *
-     * @return  DatabaseQuery  An SQL query
+     * @return  QueryInterface  An SQL query
      *
      * @since   3.1
      */
@@ -302,10 +302,6 @@ class TagModel extends ListModel
 
                     return false;
                 }
-            }
-
-            if (\count($this->item) != \count($idsArray)) {
-                throw new \Exception(Text::_('COM_TAGS_TAG_NOT_FOUND'), 404);
             }
         }
 

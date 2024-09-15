@@ -12,8 +12,8 @@
  * - Also unlike other files, the normal constant defined checks must be within the global namespace declaration and can't be outside of it
  */
 
-namespace
-{
+namespace {
+
     // Require the restoration environment or fail cold. Prevents direct web access.
     \defined('_JOOMLA_UPDATE') or die();
 
@@ -78,16 +78,16 @@ namespace
             $namespaceMapFile = JPATH_ROOT . '/administrator/cache/autoload_psr4.php';
 
             if (is_file($namespaceMapFile)) {
-                \Joomla\CMS\Filesystem\File::delete($namespaceMapFile);
+                \Joomla\Filesystem\File::delete($namespaceMapFile);
             }
         }
     }
 }
 
-namespace Joomla\CMS\Filesystem
+namespace Joomla\Filesystem
 {
     // Fake the File class
-    if (!class_exists('\Joomla\CMS\Filesystem\File')) {
+    if (!class_exists('\Joomla\Filesystem\File')) {
         /**
          * File mock class
          *
@@ -168,7 +168,7 @@ namespace Joomla\CMS\Filesystem
     }
 
     // Fake the Folder class, mapping it to Restore's post-processing class
-    if (!class_exists('\Joomla\CMS\Filesystem\Folder')) {
+    if (!class_exists('\Joomla\Filesystem\Folder')) {
         /**
          * Folder mock class
          *
@@ -235,6 +235,14 @@ namespace Joomla\CMS\Filesystem
                 return @rmdir($folderName);
             }
         }
+    }
+
+    if (!class_exists('\Joomla\CMS\Filesystem\File')) {
+        class_alias('\\Joomla\\Filesystem\\File', '\\Joomla\\CMS\\Filesystem\\File');
+    }
+
+    if (!class_exists('\Joomla\CMS\Filesystem\Folder')) {
+        class_alias('\\Joomla\\Filesystem\\Folder', '\\Joomla\\CMS\\Filesystem\\Folder');
     }
 }
 

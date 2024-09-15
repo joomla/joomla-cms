@@ -132,7 +132,7 @@ abstract class InstallerHelper
 
         // Bump the max execution time because not using built in php zip libs are slow
         if (\function_exists('set_time_limit')) {
-            set_time_limit(ini_get('max_execution_time'));
+            set_time_limit(\ini_get('max_execution_time'));
         }
 
         // Return the name of the downloaded package
@@ -208,7 +208,7 @@ abstract class InstallerHelper
         $dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
         if (\count($dirList) === 1) {
-            if (Folder::exists($extractdir . '/' . $dirList[0])) {
+            if (is_dir(Path::clean($extractdir . '/' . $dirList[0]))) {
                 $extractdir = Path::clean($extractdir . '/' . $dirList[0]);
             }
         }

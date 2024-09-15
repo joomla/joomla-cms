@@ -72,7 +72,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         // If we have data to send make sure our request is setup for it.
         if (!empty($data)) {
             // If the data is not a scalar value encode it to be sent with the request.
-            if (!is_scalar($data)) {
+            if (!\is_scalar($data)) {
                 $data = http_build_query($data);
             }
 
@@ -86,7 +86,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
         // Build the request payload.
         $request   = [];
-        $request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.1';
+        $request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.0';
         $request[] = 'Host: ' . $uri->getHost();
 
         // If an explicit user agent is given use it.
@@ -130,8 +130,8 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $content = $this->getResponse($content);
 
         // Follow Http redirects
-        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location'])) {
-            return $this->request($method, new Uri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
+        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location'][0])) {
+            return $this->request($method, new Uri($content->headers['Location'][0]), $data, $headers, $timeout, $userAgent);
         }
 
         return $content;
@@ -226,7 +226,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         }
 
         if (!is_numeric($timeout)) {
-            $timeout = ini_get('default_socket_timeout');
+            $timeout = \ini_get('default_socket_timeout');
         }
 
         // Capture PHP errors
@@ -242,7 +242,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
             if (!$connection) {
                 // Error but nothing from php? Create our own
                 if (!$err) {
-                    $err = sprintf('Could not connect to host: %s:%s', $host, $port);
+                    $err = \sprintf('Could not connect to host: %s:%s', $host, $port);
                 }
 
                 throw new \Exception($err);

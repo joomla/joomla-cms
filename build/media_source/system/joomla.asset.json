@@ -374,7 +374,8 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.media-select-legacy"
+        "webcomponent.media-select-legacy",
+        "joomla.dialog"
       ]
     },
     {
@@ -680,6 +681,14 @@
         "joomla.dialog"
       ],
       "uri": "system/fields/modal-content-select-field.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "joomla.treeselectmenu",
+      "type": "script",
+      "uri": "system/treeselectmenu.min.js",
       "attributes": {
         "type": "module"
       }

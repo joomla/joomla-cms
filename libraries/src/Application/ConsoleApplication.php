@@ -21,8 +21,6 @@ use Joomla\Console\Application;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -42,9 +40,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  4.0.0
  */
-class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
+class ConsoleApplication extends Application implements CMSApplicationInterface
 {
-    use DispatcherAwareTrait;
     use EventAware;
     use IdentityAware;
     use ContainerAwareTrait;
@@ -180,7 +177,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
             default:
                 $trace = debug_backtrace();
                 trigger_error(
-                    sprintf(
+                    \sprintf(
                         'Undefined property via __get(): %1$s in %2$s on line %3$s',
                         $name,
                         $trace[0]['file'],
@@ -447,7 +444,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      */
     public function getLongVersion(): string
     {
-        return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
+        return \sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
     }
 
     /**

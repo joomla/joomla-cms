@@ -27,7 +27,6 @@ use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -211,7 +210,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         // Generate a QR code for the key
         $user     = $this->getUserFactory()->loadUserById($record->user_id);
         $hostname = Uri::getInstance()->toString(['host']);
-        $otpURL   = sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
+        $otpURL   = \sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
         $document = $this->getApplication()->getDocument();
         $wam      = $document->getWebAssetManager();
 

@@ -131,6 +131,7 @@ class ExtensionHelper
         ['module', 'mod_version', '', 1],
 
         // Core module extensions - site
+        ['module', 'mod_articles', '', 0],
         ['module', 'mod_articles_archive', '', 0],
         ['module', 'mod_articles_categories', '', 0],
         ['module', 'mod_articles_category', '', 0],
@@ -280,6 +281,7 @@ class ExtensionHelper
         ['plugin', 'article', 'schemaorg', 0],
         ['plugin', 'blogposting', 'schemaorg', 0],
         ['plugin', 'book', 'schemaorg', 0],
+        ['plugin', 'custom', 'schemaorg', 0],
         ['plugin', 'event', 'schemaorg', 0],
         ['plugin', 'jobposting', 'schemaorg', 0],
         ['plugin', 'organization', 'schemaorg', 0],
@@ -461,12 +463,12 @@ class ExtensionHelper
     public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\stdClass
     {
         if ($type === 'plugin' && $folder === null) {
-            throw new \InvalidArgumentException(sprintf('`$folder` is required when `$type` is `plugin` in %s()', __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('`$folder` is required when `$type` is `plugin` in %s()', __METHOD__));
         }
 
         if (\in_array($type, ['module', 'language', 'template'], true) && $clientId === null) {
             throw new \InvalidArgumentException(
-                sprintf('`$clientId` is required when `$type` is `module`, `language` or `template` in %s()', __METHOD__)
+                \sprintf('`$clientId` is required when `$type` is `module`, `language` or `template` in %s()', __METHOD__)
             );
         }
 

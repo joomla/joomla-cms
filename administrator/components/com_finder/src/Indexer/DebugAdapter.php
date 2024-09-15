@@ -254,9 +254,9 @@ abstract class DebugAdapter extends CMSPlugin
         $items = $this->getItems($offset, $limit);
 
         // Iterate through the items and index them.
-        for ($i = 0, $n = \count($items); $i < $n; $i++) {
+        foreach ($items as $item) {
             // Index the item.
-            $this->index($items[$i]);
+            $this->index($item);
 
             // Adjust the offsets.
             $offset++;
@@ -920,13 +920,13 @@ abstract class DebugAdapter extends CMSPlugin
 
         // Translate the state
         switch ($item) {
-            // Published and archived items only should return a published state
             case 1:
             case 2:
+                // Published and archived items only should return a published state
                 return 1;
 
-            // All other states should return an unpublished state
             default:
+                // All other states should return an unpublished state
                 return 0;
         }
     }

@@ -67,7 +67,7 @@ class MenuField extends ModalSelectField
                 $newName = $map[$name];
 
                 @trigger_error(
-                    sprintf(
+                    \sprintf(
                         'MenuField::__get property "%s" is deprecated, and will not work in Joomla 6. Use "%s" property instead.',
                         $name,
                         $newName
@@ -110,7 +110,7 @@ class MenuField extends ModalSelectField
                 $newName = $map[$name];
 
                 @trigger_error(
-                    sprintf(
+                    \sprintf(
                         'MenuField::__set property "%s" is deprecated, and will not work in Joomla 6. Use "%s" property instead.',
                         $name,
                         $newName
@@ -130,7 +130,7 @@ class MenuField extends ModalSelectField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.

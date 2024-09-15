@@ -34,7 +34,7 @@ class Usergroup extends Table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__usergroups', 'id', $db, $dispatcher);
     }
@@ -158,9 +158,9 @@ class Usergroup extends Table
         $right = $left + 1;
 
         // Execute this function recursively over all children
-        for ($i = 0, $n = \count($children); $i < $n; $i++) {
+        foreach ($children as $child) {
             // $right is the current right value, which is incremented on recursion return
-            $right = $this->rebuild($children[$i], $right);
+            $right = $this->rebuild($child, $right);
 
             // If there is an update failure, return false to break out of the recursion
             if ($right === false) {

@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -31,9 +30,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
     /**
-     * The CMSObject (on success, false on failure)
+     * The item
      *
-     * @var   CMSObject
+     * @var   \stdClass
      */
     protected $item;
 
@@ -59,6 +58,15 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     protected $canDo;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Execute and display a template script.
@@ -99,7 +107,7 @@ class HtmlView extends BaseHtmlView
 
         $isNew   = ($this->item->id == 0);
         $canDo   = $this->canDo;
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             $isNew ? Text::_('COM_TEMPLATES_MANAGER_ADD_STYLE')

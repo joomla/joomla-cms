@@ -35,7 +35,7 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
         $value = $this->data->$key ?? null;
 
         // Ensure that the child also is a read-only
-        if (is_scalar($value) || $value === null) {
+        if (\is_scalar($value) || $value === null) {
             return $value;
         }
 
@@ -64,7 +64,7 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
      */
     public function __set($key, $value): void
     {
-        throw new \RuntimeException(sprintf('ObjectReadOnlyProxy: trying to modify read-only element, by key "%s"', $key));
+        throw new \RuntimeException(\sprintf('ObjectReadOnlyProxy: trying to modify read-only element, by key "%s"', $key));
     }
 
     /**
@@ -79,7 +79,7 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
         $value = $this->iterator->current();
 
         // Ensure that the child also is a read-only
-        if (is_scalar($value) || $value === null) {
+        if (\is_scalar($value) || $value === null) {
             return $value;
         }
 

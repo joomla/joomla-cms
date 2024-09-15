@@ -180,7 +180,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         $container = $container ?: new Container();
         $this->setContainer($container);
@@ -312,7 +312,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-            if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler') {
+            if ($this->get('gzip') && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
@@ -368,7 +368,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     protected function checkUserRequireReset($option, $view, $layout, $tasks)
     {
-        if (Factory::getUser()->get('requireReset', 0)) {
+        if ($this->getIdentity()->requireReset) {
             $redirect = false;
 
             /*
@@ -445,7 +445,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     {
         try {
             Log::add(
-                sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
+                \sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
                 Log::WARNING,
                 'deprecated'
             );
@@ -485,7 +485,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *              Use the application service from the DI container instead
      *              Example: Factory::getContainer()->get($name);
      */
-    public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
+    public static function getInstance($name = null, $prefix = '\JApplication', ?Container $container = null)
     {
         if (empty(static::$instances[$name])) {
             // Create a CmsApplication object.
@@ -966,8 +966,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Build the credentials array.
         $parameters = [
-            'username' => $user->get('username'),
-            'id'       => $user->get('id'),
+            'username' => $user->username,
+            'id'       => $user->id,
         ];
 
         // Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.
@@ -985,7 +985,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Check if any of the plugins failed. If none did, success.
         if (!\in_array(false, $results, true)) {
-            $options['username'] = $user->get('username');
+            $options['username'] = $user->username;
             $dispatcher->dispatch('onUserAfterLogout', new AfterLogoutEvent('onUserAfterLogout', [
                 'options' => $options,
                 'subject' => $parameters,
@@ -1065,7 +1065,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         $caching = false;
 
-        if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getUser()->get('id')) {
+        if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !$this->getIdentity()->id) {
             $caching = true;
         }
 
@@ -1190,7 +1190,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function toString($compress = false)
     {
         // Don't compress something if the server is going to do it anyway. Waste of time.
-        if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler') {
+        if ($compress && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
             $this->compress();
         }
 
@@ -1217,7 +1217,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->getFormToken($forceNew);
+        return $session::getFormToken($forceNew);
     }
 
     /**
@@ -1236,7 +1236,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->checkToken($method);
+        return $session::checkToken($method);
     }
 
     /**

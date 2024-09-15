@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\User\Profile\Extension;
 
-use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
