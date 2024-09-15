@@ -83,7 +83,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $ignore_fieldsets = [];
 

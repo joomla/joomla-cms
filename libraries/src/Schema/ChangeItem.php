@@ -156,7 +156,7 @@ abstract class ChangeItem
             return new $class($db, $file, $query);
         }
 
-        throw new \RuntimeException(sprintf('ChangeItem child class not found for the %s database driver', $serverType), 500);
+        throw new \RuntimeException(\sprintf('ChangeItem child class not found for the %s database driver', $serverType), 500);
     }
 
     /**

@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -58,7 +58,7 @@
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "accessibility": "^3.0.17",
     "awesomplete": "^1.1.5",
-    "bootstrap": "5.3.2",
+    "bootstrap": "5.3.3",
     "choices.js": "^9.1.0",
     "chosen-js": "^1.8.7",
     "cropperjs": "^1.6.1",

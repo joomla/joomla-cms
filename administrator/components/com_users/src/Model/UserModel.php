@@ -268,6 +268,15 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
             }
         }
 
+        // Unset the username if it should not be overwritten
+        if (
+            !$my->authorise('core.manage', 'com_users')
+            && (int) $user->id === (int) $my->id
+            && !ComponentHelper::getParams('com_users')->get('change_login_name')
+        ) {
+            unset($data['username']);
+        }
+
         // Bind the data.
         if (!$user->bind($data)) {
             $this->setError($user->getError());
@@ -965,7 +974,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function getOtpConfig($userId = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
                 __METHOD__
             ),
@@ -996,7 +1005,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function setOtpConfig($userId, $otpConfig)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
                 __METHOD__
             ),
@@ -1019,7 +1028,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function getOtpConfigEncryptionKey()
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\CMS\Factory::getApplication()->get(\'secret\') instead',
                 __METHOD__
             ),
@@ -1045,7 +1054,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function getTwofactorform($userId = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getConfigurationInterface()',
                 __METHOD__
             ),
@@ -1071,7 +1080,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function generateOteps($userId, $count = 10)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. See \Joomla\Component\Users\Administrator\Model\BackupcodesModel::saveBackupCodes()',
                 __METHOD__
             ),
@@ -1099,7 +1108,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function isValidSecretKey($userId, $secretKey, $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
                 __METHOD__
             ),
@@ -1126,7 +1135,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function isValidOtep($userId, $otep, $otpConfig = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
                 __METHOD__
             ),

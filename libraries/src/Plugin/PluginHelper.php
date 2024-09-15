@@ -187,9 +187,9 @@ abstract class PluginHelper
             $plugins = static::load();
 
             // Get the specified plugin(s).
-            for ($i = 0, $t = \count($plugins); $i < $t; $i++) {
-                if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin)) {
-                    static::import($plugins[$i], $autocreate, $dispatcher);
+            foreach ($plugins as $value) {
+                if ($value->type === $type && ($plugin === null || $value->name === $plugin)) {
+                    static::import($value, $autocreate, $dispatcher);
                     $results = true;
                 }
             }
