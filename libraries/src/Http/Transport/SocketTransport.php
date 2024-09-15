@@ -86,7 +86,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
         // Build the request payload.
         $request   = [];
-        $request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.0';
+        $request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.1';
         $request[] = 'Host: ' . $uri->getHost();
 
         // If an explicit user agent is given use it.
@@ -99,6 +99,11 @@ class SocketTransport extends AbstractTransport implements TransportInterface
             foreach ($headers as $k => $v) {
                 $request[] = $k . ': ' . $v;
             }
+        }
+
+        // HTTP/1.1 streams using the socket wrapper require a Connection: close header
+        if (!isset($headers['Connection'])) {
+            $request[] = 'Connection: close';
         }
 
         // Set any custom transport options
@@ -173,6 +178,14 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
         $statusCode      = (int) $code;
         $verifiedHeaders = $this->processHeaders($headers);
+
+        // If we have a HTTP 1.1 Response with chunked encoding then we have to decode the message
+        if (
+            \array_key_exists('Transfer-Encoding', $verifiedHeaders)
+            && $verifiedHeaders['Transfer-Encoding'][0] === 'chunked'
+        ) {
+            $body = static::httpChunkedDecode($body);
+        }
 
         $streamInterface = new StreamResponse('php://memory', 'rw');
         $streamInterface->write($body);
@@ -274,5 +287,48 @@ class SocketTransport extends AbstractTransport implements TransportInterface
     public static function isSupported()
     {
         return \function_exists('fsockopen') && \is_callable('fsockopen') && !Factory::getApplication()->get('proxy_enable');
+    }
+
+    /**
+     * De-chunks a http 'transfer-encoding: chunked' message for when decoding a HTTP 1.1 server message.
+     *
+     * @param   string  $chunk  The encoded message
+     *
+     * @return  string  The decoded message.  If $chunk wasn't encoded properly it will be returned unmodified.
+     */
+    public static function httpChunkedDecode(string $chunk): string
+    {
+        $pos  = 0;
+        $len  = \strlen($chunk);
+        $resp = '';
+
+        while (
+            ($pos < $len)
+            && ($chunkLenHex = substr($chunk, $pos, ($newlineAt = strpos($chunk, "\n", $pos + 1)) - $pos))
+        ) {
+            if (!static::isHex(rtrim($chunkLenHex))) {
+                trigger_error('Value is not properly chunk encoded', E_USER_WARNING);
+                return $chunk;
+            }
+
+            $pos      = $newlineAt++;
+            $chunkLen = hexdec(rtrim($chunkLenHex, "\r\n"));
+            $resp .= substr($chunk, $pos + 1, $chunkLen);
+            $pos = strpos($chunk, "\n", $pos + $chunkLen) + 1;
+        }
+
+        return $resp;
+    }
+
+    /**
+     * Determine if a string can represent a number in hexadecimal
+     *
+     * @param   string  $hex
+     *
+     * @return  boolean
+     */
+    private static function isHex(string $hex): bool
+    {
+        return empty($hex) || (@preg_match("/^[a-f0-9]{2,}$/i", $hex) && !(\strlen($hex) & 1));
     }
 }
