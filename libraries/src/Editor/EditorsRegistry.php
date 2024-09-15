@@ -78,7 +78,7 @@ final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAware
     public function get(string $name): EditorProviderInterface
     {
         if (empty($this->registry[$name])) {
-            throw new EditorNotFoundException(sprintf('Editor element "%s" not found in the registry.', $name));
+            throw new EditorNotFoundException(\sprintf('Editor element "%s" not found in the registry.', $name));
         }
 
         return $this->registry[$name];

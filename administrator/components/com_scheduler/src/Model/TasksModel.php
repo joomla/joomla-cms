@@ -270,7 +270,7 @@ class TasksModel extends ListModel
         if (is_numeric($locked) && $locked != 0) {
             $now              = Factory::getDate('now', 'GMT');
             $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-            $timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
+            $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
             $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
             $now              = $now->toSql();
 
