@@ -485,7 +485,7 @@ class UpdateModel extends BaseDatabaseModel
         // Calculate the download range
         $from    = max($frag, 0) * $this->chunkLength;
         $to      = $from + $this->chunkLength - 1;
-        $headers = ['Range' => sprintf('bytes=%u-%u', $from, $to)];
+        $headers = ['Range' => \sprintf('bytes=%u-%u', $from, $to)];
 
         try {
             $logFragment = max($frag + 1, 1);
@@ -2182,7 +2182,7 @@ ENDDATA;
         $httpOptions->def('follow_location', false);
 
         // $headerOptions['content-length'] = 0; // get only information
-        $headerOptions = ['Range' => sprintf('bytes=%u-%u', 0, 0)];
+        $headerOptions = ['Range' => \sprintf('bytes=%u-%u', 0, 0)];
         $timeout       = $this->getHttpTimeout();
 
         // Go through all mirrors to find the first URL which responds successfully
