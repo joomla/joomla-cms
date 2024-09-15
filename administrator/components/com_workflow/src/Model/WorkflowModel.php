@@ -371,8 +371,6 @@ class WorkflowModel extends AdminModel
         $table = $this->getTable();
         $pks   = (array) $pks;
 
-        $date = Factory::getDate()->toSql();
-
         // Default workflow item check.
         foreach ($pks as $i => $pk) {
             if ($table->load($pk) && $value != 1 && $table->default) {
@@ -383,26 +381,11 @@ class WorkflowModel extends AdminModel
             }
         }
 
-        // Clean the cache.
-        $this->cleanCache();
-
         // Ensure that previous checks don't empty the array.
         if (empty($pks)) {
             return true;
         }
 
-        $result = parent::publish($pks, $value);
-
-        if ($result) {
-            foreach ($pks as $pk) {
-                if ($table->load($pk)) {
-                    $table->modified    = $date;
-                    $table->modified_by = $this->getCurrentUser()->id;
-                    $table->store();
-                }
-            }
-        }
-
-        return $result;
+        return parent::publish($pks, $value);
     }
 }
