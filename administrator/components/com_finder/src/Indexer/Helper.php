@@ -250,12 +250,20 @@ class Helper
         $query->clear()
             ->insert($db->quoteName('#__finder_types'))
             ->columns([$db->quoteName('title'), $db->quoteName('mime')])
-            ->values($db->quote($title) . ', ' . $db->quote($mime));
+            ->values($db->quote($title) . ', ' . $db->quote($mime ?? ''));
         $db->setQuery($query);
         $db->execute();
 
+        // Cache the result
+        $type        = new \stdClass();
+        $type->title = $title;
+        $type->mime  = $mime ?? '';
+        $type->id    = (int) $db->insertid();
+
+        $types[$title] = $type;
+
         // Return the new id.
-        return (int) $db->insertid();
+        return $type->id;
     }
 
     /**
@@ -447,7 +455,7 @@ class Helper
      *
      * @since   2.5
      */
-    public static function prepareContent($text, $params = null, Result $item = null)
+    public static function prepareContent($text, $params = null, ?Result $item = null)
     {
         static $loaded;
 

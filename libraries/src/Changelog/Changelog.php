@@ -163,7 +163,7 @@ class Changelog
      * Update manifest `<folder>` element
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.1
      */
     protected $folder;
 
@@ -374,7 +374,7 @@ class Changelog
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             Log::add(
-                sprintf(
+                \sprintf(
                     'XML error: %s at line %d',
                     xml_error_string(xml_get_error_code($this->xmlParser)),
                     xml_get_current_line_number($this->xmlParser)

@@ -38,14 +38,14 @@ class TasksModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                     $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface|null  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   4.1.0
      * @throws  \Exception
      * @see     \JControllerLegacy
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -270,7 +270,7 @@ class TasksModel extends ListModel
         if (is_numeric($locked) && $locked != 0) {
             $now              = Factory::getDate('now', 'GMT');
             $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-            $timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
+            $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
             $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
             $now              = $now->toSql();
 
@@ -328,7 +328,7 @@ class TasksModel extends ListModel
         $multiOrdering = $this->state->get('list.multi_ordering');
 
         if (!$multiOrdering || !\is_array($multiOrdering)) {
-            $orderCol = $this->state->get('list.ordering', 'a.title');
+            $orderCol = $this->state->get('list.ordering', 'a.next_execution');
             $orderDir = $this->state->get('list.direction', 'asc');
 
             // Type title ordering is handled exceptionally in _getList()
@@ -365,7 +365,7 @@ class TasksModel extends ListModel
     protected function _getList($query, $limitstart = 0, $limit = 0): array
     {
         // Get stuff from the model state
-        $listOrder      = $this->getState('list.ordering', 'a.title');
+        $listOrder      = $this->getState('list.ordering', 'a.next_execution');
         $listDirectionN = strtolower($this->getState('list.direction', 'asc')) === 'desc' ? -1 : 1;
 
         // Set limit parameters and get object list
@@ -432,7 +432,7 @@ class TasksModel extends ListModel
      * @return void
      * @since  4.1.0
      */
-    protected function populateState($ordering = 'a.title', $direction = 'ASC'): void
+    protected function populateState($ordering = 'a.next_execution', $direction = 'ASC'): void
     {
         // Call the parent method
         parent::populateState($ordering, $direction);
@@ -466,5 +466,16 @@ class TasksModel extends ListModel
 
         // False if we don't have due tasks, or we have locked tasks
         return $taskDetails && $taskDetails->due_count && !$taskDetails->locked_count;
+    }
+
+    /**
+     * Check if we have right now any enabled due tasks and no locked tasks.
+     *
+     * @return boolean
+     * @since  5.2.0
+     */
+    public function getHasDueTasks()
+    {
+        return $this->hasDueTasks(Factory::getDate('now', 'UTC'));
     }
 }

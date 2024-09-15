@@ -95,7 +95,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar(): void
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $app     = Factory::getApplication();
         $app->getInput()->set('hidemainmenu', true);
 

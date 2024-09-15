@@ -109,7 +109,7 @@ class TagsHelper extends CMSHelper
 
         // Insert the new tag maps
         if (strpos(implode(',', $tags), '#') !== false) {
-            $tags = self::createTagsFromField($tags);
+            $tags = $this->createTagsFromField($tags);
         }
 
         // Prevent saving duplicate tags
@@ -297,7 +297,7 @@ class TagsHelper extends CMSHelper
     }
 
     /**
-     * Method to delete the tag mappings and #__ucm_content record for for an item
+     * Method to delete the tag mappings and #__ucm_content record for an item
      *
      * @param   TableInterface  $table          Table object of content table where delete occurred
      * @param   integer|array   $contentItemId  ID of the content item. Or an array of key/value pairs with array key
@@ -338,7 +338,7 @@ class TagsHelper extends CMSHelper
      * @param   integer  $id           Id of the item to retrieve tags for.
      * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
      *
-     * @return  array    Array of of tag objects
+     * @return  array    Array of tag objects
      *
      * @since   3.1
      */
@@ -397,7 +397,7 @@ class TagsHelper extends CMSHelper
      * @param   array    $ids          Id of the item to retrieve tags for.
      * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
      *
-     * @return  array    Array of of tag objects grouped by Id.
+     * @return  array    Array of tag objects grouped by Id.
      *
      * @since   4.2.0
      */
@@ -766,7 +766,7 @@ class TagsHelper extends CMSHelper
      * @param   array    $selectTypes  Optional array of type ids or aliases to limit the results to. Often from a request.
      * @param   boolean  $useAlias     If true, the alias is used to match, if false the type_id is used.
      *
-     * @return  array   Array of of types
+     * @return  array   Array of types
      *
      * @since   3.1
      */
