@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-use Joomla\CMS\Form\FormRule;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -20,7 +18,7 @@ use Joomla\CMS\Form\FormRule;
  *
  * @since  1.7.0
  */
-class BooleanRule extends FormRule
+class BooleanRule extends AbstractRegexRule
 {
     /**
      * The regular expression to use in testing a form field value.
@@ -28,7 +26,7 @@ class BooleanRule extends FormRule
      * @var    string
      * @since  1.7.0
      */
-    protected $regex = '^(?:[01]|true|false)$';
+    protected string $regex = '^(?:[01]|true|false)$';
 
     /**
      * The regular expression modifiers to use when testing a form field value.
@@ -36,5 +34,17 @@ class BooleanRule extends FormRule
      * @var    string
      * @since  1.7.0
      */
-    protected $modifiers = 'i';
+    protected string $modifiers = 'i';
+
+    /**
+     * Name of the constraint - note this is for machine access and should be unique for a form field.
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getName(): string
+    {
+        return 'booleanRule';
+    }
 }

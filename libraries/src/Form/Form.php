@@ -10,6 +10,13 @@
 namespace Joomla\CMS\Form;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Validation\Field\DisabledResponseField;
+use Joomla\CMS\Form\Validation\Field\LegacyInvalidField;
+use Joomla\CMS\Form\Validation\Field\LegacyValidField;
+use Joomla\CMS\Form\Validation\Field\SetupFailedFieldResponse;
+use Joomla\CMS\Form\Validation\FieldValidationResponseInterface;
+use Joomla\CMS\Form\Validation\FormValidationResponse;
+use Joomla\CMS\Form\Validation\FormValidationResponseInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\CurrentUserInterface;
@@ -57,6 +64,14 @@ class Form implements CurrentUserInterface
      * @since  1.7.0
      */
     protected $errors = [];
+
+    /**
+     * Use modern error reporting in the object by returning a FormValidationResponse object instead of Exceptions.
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $modernValidationResponse = false;
 
     /**
      * The name of the form instance.
@@ -190,6 +205,16 @@ class Form implements CurrentUserInterface
      */
     public function getErrors()
     {
+        if ($this->modernValidationResponse === true) {
+            throw new \BadMethodCallException(
+                \sprintf(
+                    '%1s should not be used when %2s::modernValidationResponse is enabled',
+                    __METHOD__,
+                    static::class
+                )
+            );
+        }
+
         return $this->errors;
     }
 
@@ -948,6 +973,21 @@ class Form implements CurrentUserInterface
     }
 
     /**
+     * Method to use modern exception reporting for the validate method. If used then validate will throw exceptions
+     * in catchable groups rather than catching them for the getErrors method
+     *
+     * @param   boolean   $value  The value to set for the field.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setModernValidationResponse(bool $value): void
+    {
+        $this->modernValidationResponse = $value;
+    }
+
+    /**
      * Method to set the value of a field. If the field does not exist in the form then the method
      * will return false.
      *
@@ -982,7 +1022,9 @@ class Form implements CurrentUserInterface
      * @param   array   $data   An array of field values to filter.
      * @param   string  $group  The dot-separated form group path on which to filter the fields.
      *
-     * @return  mixed  Array or false.
+     * @return  array|boolean|FormValidationResponse   array of valid data. If modern validation response enabled then
+     *                                                 the form validation response object when the form isn't valid
+     *                                                 or when disabled boolean false.
      *
      * @since   4.0.0
      */
@@ -992,8 +1034,15 @@ class Form implements CurrentUserInterface
 
         $valid = $this->validate($data, $group);
 
-        if (!$valid) {
-            return $valid;
+        if ($this->modernValidationResponse) {
+            /** @var  $valid  FormValidationResponse */
+            if (!$valid->isValid()) {
+                return $valid;
+            }
+        } else {
+            if (!$valid) {
+                return $valid;
+            }
         }
 
         return $this->postProcess($data, $group);
@@ -1062,9 +1111,12 @@ class Form implements CurrentUserInterface
      * @param   string  $group  The optional dot-separated form group path on which to filter the
      *                          fields to be validated.
      *
-     * @return  boolean  True on success.
+     * @return  FormValidationResponseInterface|bool  Return type depends on {@link static::$modernValidationResponse} being
+     *                                            set in the class
      *
-     * @since   1.7.0
+     * @throws  \UnexpectedValueException  When the form xml is invalid
+     * @throws  \InvalidArgumentException  When no fields are found for the supplied form group
+     *@since   1.7.0
      */
     public function validate($data, $group = null)
     {
@@ -1073,7 +1125,7 @@ class Form implements CurrentUserInterface
             throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
         }
 
-        $return = true;
+        $validationResponse = new FormValidationResponse();
 
         // Create an input registry object from the data to validate.
         $input = new Registry($data);
@@ -1083,6 +1135,10 @@ class Form implements CurrentUserInterface
 
         if (!$fields) {
             // PANIC!
+            if ($this->modernValidationResponse) {
+                throw new \InvalidArgumentException(\sprintf('There were no fields to validate for group %s', $group));
+            }
+
             return false;
         }
 
@@ -1110,7 +1166,7 @@ class Form implements CurrentUserInterface
 
             // If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
             if ($disabled && $fieldExistsInRequestData) {
-                throw new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel));
+                $validationResponse->addField(new DisabledResponseField($name, $group, $fieldLabel));
             }
 
             // Get the field groups for the element.
@@ -1122,23 +1178,52 @@ class Form implements CurrentUserInterface
 
             $fieldObj = $this->loadField($field, $attrGroup);
 
-            if ($fieldObj) {
-                $valid = $fieldObj->validate($input->get($key), $attrGroup, $input);
+            if ($fieldObj instanceof FormField) {
+                $fieldValidationResponse = $fieldObj->validate($input->get($key), $attrGroup, $input);
 
-                // Check for an error.
-                if ($valid instanceof \Exception) {
-                    $this->errors[] = $valid;
-                    $return         = false;
+                if ($fieldValidationResponse instanceof \Exception) {
+                    $validationResponse->addField(new LegacyInvalidField($name, $group, $fieldLabel, $fieldValidationResponse));
+                    @trigger_error(\sprintf('From 7.0 fields must return a class implementing %s.', FieldValidationResponseInterface::class), E_USER_DEPRECATED);
+                } elseif ($fieldValidationResponse === true) {
+                    $validationResponse->addField(new LegacyValidField($name, $group, $fieldLabel));
+                    @trigger_error(\sprintf('From 7.0 fields must return a class implementing %s.', FieldValidationResponseInterface::class), E_USER_DEPRECATED);
+                } elseif ($fieldValidationResponse instanceof FieldValidationResponseInterface) {
+                    $validationResponse->addField($fieldValidationResponse);
+                } else {
+                    throw new \UnexpectedValueException(
+                        \sprintf(
+                            'Unexpected response from %s::validate, received %s',
+                            $fieldObj::class,
+                            $fieldValidationResponse::class
+                        )
+                    );
                 }
             } elseif ($input->exists($key)) {
                 // The field returned false from setup and shouldn't be included in the page body - yet we received
                 // a value for it. This is probably some sort of injection attack and should be rejected
-                $this->errors[] = new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $key));
-                $return         = false;
+                $validationResponse->addField(new SetupFailedFieldResponse($name, $group, $fieldLabel));
             }
         }
 
-        return $return;
+        if (!$this->modernValidationResponse) {
+            $isValid = $validationResponse->isValid();
+
+            if (!$isValid) {
+                foreach ($validationResponse->getInvalidFields() as $invalidFieldName) {
+                    $invalidField = $validationResponse->getField($invalidFieldName['name'], $invalidFieldName['group']);
+
+                    foreach ($invalidField->getInvalidConstraints() as $invalidConstraintName) {
+                        $this->errors[] = new \RuntimeException(
+                            $invalidField->getConstraint($invalidConstraintName)->getErrorMessage()
+                        );
+                    }
+                }
+            }
+
+            return $validationResponse->isValid();
+        }
+
+        return $validationResponse;
     }
 
     /**
@@ -1148,7 +1233,7 @@ class Form implements CurrentUserInterface
      * @param   string  $group  The optional dot-separated form group path on which to filter the
      *                          fields to be validated.
      *
-     * @return  mixed  Array or false.
+     * @return  array|boolean   Array or false.
      *
      * @since   4.0.0
      */

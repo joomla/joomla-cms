@@ -3,79 +3,64 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
- *
- * Remove phpcs exception with deprecated constant JCOMPAT_UNICODE_PROPERTIES
- * @phpcs:disable PSR1.Files.SideEffects
  */
 
-namespace Joomla\CMS\Form;
+namespace Joomla\CMS\Form\Rule;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
+use Joomla\CMS\Form\Form;
 use Joomla\Registry\Registry;
 
-// Detect if we have full UTF-8 and unicode PCRE support.
-if (!\defined('JCOMPAT_UNICODE_PROPERTIES')) {
-    /**
-     * Flag indicating UTF-8 and PCRE support is present
-     *
-     * @const  boolean
-     * @since  1.6
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement (Also remove phpcs exception)
-     */
-    \define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
-}
-
 /**
- * Form Rule class for the Joomla Platform.
+ * Class allowing easy implementation of regex rules for data validation.
  *
- * @since       1.6
- * @deprecated  7.0  If you are using the test method for regex validation extend from
- *                   {@link \Joomla\CMS\Form\Rule\AbstractRegexRule} or if you are creating a basic rule then implement
- *                   {@link \Joomla\CMS\Form\Rule\FormRuleInterface}. The method signatures and designs have been
- *                   slightly modified in order to allow the inclusion of extra constraints in the form package. View
- *                   the developer documentation for full information.
+ * @since  __DEPLOY_VERSION__
  */
-class FormRule
+abstract class AbstractRegexRule implements FormRuleInterface
 {
+    use RuleConstraintTrait;
+
     /**
      * The regular expression to use in testing a form field value.
      *
      * @var    string
-     * @since  1.6
+     * @since  __DEPLOY_VERSION__
      */
-    protected $regex;
+    protected string $regex;
 
     /**
      * The regular expression modifiers to use when testing a form field value.
      *
      * @var    string
-     * @since  1.6
+     * @since  __DEPLOY_VERSION__
      */
-    protected $modifiers = '';
+    protected string $modifiers = '';
 
     /**
      * Method to test the value.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
-     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     * @param   ?string            $group    The field name group control value. This acts as as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
      * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
      * @param   ?Form              $form     The form object for which the field is being tested.
      *
-     * @return  boolean  True if the value is valid, false otherwise.
+     * @return  void
      *
      * @since   1.6
-     * @throws  \UnexpectedValueException if rule is invalid.
+     * @throws  \UnexpectedValueException  If regex is invalid.
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
+    public function test(\SimpleXMLElement $element, mixed $value, ?string $group = null, ?Registry $input = null, ?Form $form = null): void
     {
+        $this->ruleRun = true;
+
         // Check for a valid regex.
         if (empty($this->regex)) {
             throw new \UnexpectedValueException(\sprintf('%s has invalid regex.', \get_class($this)));
@@ -95,9 +80,7 @@ class FormRule
 
         // Test the value against the regular expression.
         if (preg_match(\chr(1) . $this->regex . \chr(1) . $this->modifiers, $value)) {
-            return true;
+            $this->isValid = true;
         }
-
-        return false;
     }
 }
