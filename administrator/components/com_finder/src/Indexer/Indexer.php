@@ -119,10 +119,10 @@ class Indexer
      *
      * @since  3.8.0
      */
-    public function __construct(DatabaseInterface $db = null)
+    public function __construct(?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -506,7 +506,7 @@ class Indexer
         // Iterate through the contexts and aggregate the tokens per context.
         foreach ($state->weights as $context => $multiplier) {
             // Run the query to aggregate the tokens for this context..
-            $db->setQuery(sprintf($query, $multiplier, $context, $context));
+            $db->setQuery(\sprintf($query, $multiplier, $context, $context));
             $db->execute();
         }
 

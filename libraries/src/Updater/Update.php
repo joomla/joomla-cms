@@ -256,10 +256,20 @@ class Update
     protected $stability;
     protected $supported_databases;
     protected $php_minimum;
+    protected $folder;
+    protected $changelogurl;
     public $sha256;
     public $sha384;
     public $sha512;
     protected $section;
+
+    /**
+     * Joomla! target version used by the pre-update check
+     *
+     * @var    string
+     * @since  5.1.1
+     */
+    private $targetVersion;
 
     /**
      * Gets the reference to the current direct parent
@@ -372,7 +382,7 @@ class Update
                 if (
                     isset($this->currentUpdate->targetplatform->name)
                     && $product == $this->currentUpdate->targetplatform->name
-                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
+                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->getTargetVersion())
                 ) {
                     // Collect information on updates which do not meet PHP and DB version requirements
                     $otherUpdateInfo          = new \stdClass();
@@ -653,7 +663,7 @@ class Update
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             Log::add(
-                sprintf(
+                \sprintf(
                     'XML error: %s at line %d',
                     xml_error_string(xml_get_error_code($this->xmlParser)),
                     xml_get_current_line_number($this->xmlParser)
@@ -689,5 +699,35 @@ class Update
         }
 
         return Updater::STABILITY_STABLE;
+    }
+
+    /**
+     * Set extension's Joomla! target version
+     *
+     * @param   string  $version  The target version
+     *
+     * @return  void
+     *
+     * @since   5.1.1
+     */
+    public function setTargetVersion($version)
+    {
+        $this->targetVersion = $version;
+    }
+
+    /**
+     * Get extension's Joomla! target version
+     *
+     * @return  string
+     *
+     * @since   5.1.1
+     */
+    public function getTargetVersion()
+    {
+        if (!$this->targetVersion) {
+            return JVERSION;
+        }
+
+        return $this->targetVersion;
     }
 }

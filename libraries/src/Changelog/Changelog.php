@@ -160,6 +160,14 @@ class Changelog
     protected $latest;
 
     /**
+     * Update manifest `<folder>` element
+     *
+     * @var    string
+     * @since  5.1.1
+     */
+    protected $folder;
+
+    /**
      * Gets the reference to the current direct parent
      *
      * @return  string
@@ -366,7 +374,7 @@ class Changelog
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             Log::add(
-                sprintf(
+                \sprintf(
                     'XML error: %s at line %d',
                     xml_error_string(xml_get_error_code($this->xmlParser)),
                     xml_get_current_line_number($this->xmlParser)

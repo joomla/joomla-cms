@@ -1,8 +1,12 @@
-const mysql = require('mysql');
-const postgres = require('postgres');
+import mysql from 'mysql';
+import postgres from 'postgres';
 
 // Items cache which are added by an insert statement
 let insertedItems = [];
+
+// Use of the PostgreSQL connection pool to limit the number of sessions, see
+// https://github.com/porsager/postgres?tab=readme-ov-file#connection-details
+let postgresConnectionPool = null;
 
 /**
  * Does run the given query against the database from the configuration. It caches all inserted items.
@@ -29,17 +33,19 @@ function queryTestDB(joomlaQuery, config) {
     insertedItems.push(insertItem);
   }
 
-  // Check if the DB is from postgres
+  // Do we use PostgreSQL?
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
-    const connection = postgres({
-      host: config.env.db_host,
-      port: config.env.db_port,
-      database: config.env.db_name,
-      username: config.env.db_user,
-      password: config.env.db_password,
-      idle_timeout: 1,
-      max_lifetime: 1,
-    });
+    if (postgresConnectionPool === null) {
+      // Initialisation on the first call
+      postgresConnectionPool = postgres({
+        host: config.env.db_host,
+        port: config.env.db_port,
+        database: config.env.db_name,
+        username: config.env.db_user,
+        password: config.env.db_password,
+        max: 10, // Use only this (unchanged default) maximum number of connections in the pool
+      });
+    }
 
     // Postgres delivers the data direct as result of the insert query
     if (insertItem) {
@@ -49,7 +55,7 @@ function queryTestDB(joomlaQuery, config) {
     // Postgres needs double quotes
     query = query.replaceAll('`', '"');
 
-    return connection.unsafe(query).then((result) => {
+    return postgresConnectionPool.unsafe(query).then((result) => {
       // Select query should always return an array
       if (query.indexOf('SELECT') === 0 && !Array.isArray(result)) {
         return [result];
@@ -64,12 +70,12 @@ function queryTestDB(joomlaQuery, config) {
         insertItem.rows.push(result[0].id);
       }
 
-      // Normalize the object
+      // Normalize the object and return from PostgreSQL
       return { insertId: result[0].id };
     });
   }
 
-  // Return a promise which runs the query
+  // Return a promise which runs the query for MariaDB / MySQL
   return new Promise((resolve, reject) => {
     // Create the connection and connect
     const connection = mysql.createConnection({
@@ -94,7 +100,7 @@ function queryTestDB(joomlaQuery, config) {
         insertItem.rows.push(results.insertId);
       }
 
-      // Resolve the result
+      // Resolve the result from MariaDB / MySQL
       return resolve(results);
     });
   });
@@ -144,4 +150,4 @@ function deleteInsertedItems(config) {
   return Promise.all(promises);
 }
 
-module.exports = { queryTestDB, deleteInsertedItems };
+export { queryTestDB, deleteInsertedItems };

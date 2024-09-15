@@ -135,8 +135,8 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $content = $this->getResponse($content);
 
         // Follow Http redirects
-        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['location'][0])) {
-            return $this->request($method, new Uri($content->headers['location'][0]), $data, $headers, $timeout, $userAgent);
+        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location'][0])) {
+            return $this->request($method, new Uri($content->headers['Location'][0]), $data, $headers, $timeout, $userAgent);
         }
 
         return $content;
@@ -253,7 +253,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
             if (!$connection) {
                 // Error but nothing from php? Create our own
                 if (!$err) {
-                    $err = sprintf('Could not connect to host: %s:%s', $host, $port);
+                    $err = \sprintf('Could not connect to host: %s:%s', $host, $port);
                 }
 
                 throw new \Exception($err);
