@@ -84,14 +84,14 @@ class ListView extends HtmlView
      *
      * @var string
      */
-    protected $toolbarTitle;
+    protected $toolbarTitle = '';
 
     /**
      * The toolbar icon
      *
      * @var string
      */
-    protected $toolbarIcon;
+    protected $toolbarIcon = '';
 
     /**
      * The flag which determine whether we want to show batch button
@@ -109,32 +109,18 @@ class ListView extends HtmlView
 
     /**
      * Constructor
-     *
-     * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function __construct(array $config)
+    public function __construct($config = array())
     {
         parent::__construct($config);
 
         // Set class properties from config data passed in constructor
-        if (isset($config['toolbar_title'])) {
-            $this->toolbarTitle = $config['toolbar_title'];
-        } else {
+        if ($this->toolbarTitle === '') {
             $this->toolbarTitle = strtoupper($this->option . '_MANAGER_' . $this->getName());
         }
 
-        if (isset($config['toolbar_icon'])) {
-            $this->toolbarIcon = $config['toolbar_icon'];
-        } else {
+        if ($this->toolbarIcon === '') {
             $this->toolbarIcon = strtolower($this->getName());
-        }
-
-        if (isset($config['supports_batch'])) {
-            $this->supportsBatch = $config['supports_batch'];
-        }
-
-        if (isset($config['help_link'])) {
-            $this->helpLink = $config['help_link'];
         }
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property

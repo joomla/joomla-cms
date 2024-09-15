@@ -15,6 +15,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var  \Joomla\CMS\MVC\View\HtmlView $displayData */
+
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
 $fieldSets = $form->getFieldsets();
