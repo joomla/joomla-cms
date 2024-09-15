@@ -88,6 +88,13 @@
 					filter="color"
 				/>
 				<field
+					name="link-color-dark"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_DARK_LABEL"
+					default="#6fbfdb"
+					filter="color"
+				/>
+				<field
 					name="special-color"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_SPECIAL_COLOR_LABEL"
@@ -104,6 +111,18 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field
+					name="colorScheme"
+					type="list"
+					label="TPL_ATUM_COLORSCHEME_LABEL"
+					default="os"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="os">TPL_ATUM_COLORSCHEME_OPTION_FOLLOW_OS</option>
+					<option value="light">TPL_ATUM_COLORSCHEME_OPTION_LIGHT</option>
+					<option value="dark">TPL_ATUM_COLORSCHEME_OPTION_DARK</option>
+				</field>
 			</fieldset>
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
@@ -111,6 +130,9 @@
 					<field
 						name="loginLogo"
 						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
 						label="TPL_ATUM_IMAGE_LABEL"
 					/>
 					<field
@@ -129,6 +151,9 @@
 					<field
 						name="logoBrandLarge"
 						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
 						label="TPL_ATUM_IMAGE_LABEL"
 					/>
 					<field
@@ -147,6 +172,9 @@
 					<field
 						name="logoBrandSmall"
 						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
 						label="TPL_ATUM_IMAGE_LABEL"
 					/>
 					<field

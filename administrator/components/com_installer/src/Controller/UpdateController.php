@@ -61,7 +61,7 @@ class UpdateController extends BaseController
         $redirect_url = $app->getUserState('com_installer.redirect_url');
 
         // Don't redirect to an external URL.
-        if (!Uri::isInternal($redirect_url)) {
+        if ($redirect_url && !Uri::isInternal($redirect_url)) {
             $redirect_url = '';
         }
 
@@ -174,7 +174,7 @@ class UpdateController extends BaseController
             $updates            = [];
 
             foreach ($unfiltered_updates as $update) {
-                if (!in_array($update->extension_id, $skip)) {
+                if (!\in_array($update->extension_id, $skip)) {
                     $updates[] = $update;
                 }
             }

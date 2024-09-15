@@ -79,11 +79,11 @@ abstract class Number
         $iecSuffixes = ['b', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
 
         // User supplied method
-        if (in_array($unit, $iecSuffixes)) {
+        if (\in_array($unit, $iecSuffixes)) {
             $base   = 1024;
             $i      = array_search($unit, $iecSuffixes, true);
             $suffix = $unit;
-        } elseif (in_array($unit, $stdSuffixes)) {
+        } elseif (\in_array($unit, $stdSuffixes)) {
             $base   = $iec ? 1000 : 1024;
             $i      = array_search($unit, $stdSuffixes, true);
             $suffix = $unit;

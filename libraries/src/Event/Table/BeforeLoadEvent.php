@@ -53,7 +53,7 @@ class BeforeLoadEvent extends AbstractEvent
      *
      * @return  boolean  Normalised value
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setReset($value)
@@ -68,7 +68,7 @@ class BeforeLoadEvent extends AbstractEvent
      *
      * @return  boolean  Normalised value
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected function onSetReset($value)
     {

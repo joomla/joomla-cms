@@ -10,17 +10,13 @@ if (!window.Joomla) {
 Joomla.submitbutton = (task, type) => {
   if (task === 'item.setType' || task === 'item.setMenuType') {
     if (task === 'item.setType') {
-      const list = [].slice.call(document.querySelectorAll('#item-form input[name="jform[type]"]'));
-
-      list.forEach((item) => {
+      document.querySelectorAll('#item-form input[name="jform[type]"]').forEach((item) => {
         item.value = type;
       });
 
       document.getElementById('fieldtype').value = 'type';
     } else {
-      const list = [].slice.call(document.querySelectorAll('#item-form input[name="jform[menutype]"]'));
-
-      list.forEach((item) => {
+      document.querySelectorAll('#item-form input[name="jform[menutype]"]').forEach((item) => {
         item.value = type;
       });
     }

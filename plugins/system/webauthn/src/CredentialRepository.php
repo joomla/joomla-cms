@@ -40,11 +40,11 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
     /**
      * Public constructor.
      *
-     * @param   DatabaseInterface|null  $db  The database driver object to use for persistence.
+     * @param   ?DatabaseInterface  $db  The database driver object to use for persistence.
      *
      * @since   4.2.0
      */
-    public function __construct(DatabaseInterface $db = null)
+    public function __construct(?DatabaseInterface $db = null)
     {
         $this->setDatabase($db);
     }
@@ -430,7 +430,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
     public function getHandleFromUserId(int $id): string
     {
         $key  = $this->getEncryptionKey();
-        $data = sprintf('%010u', $id);
+        $data = \sprintf('%010u', $id);
 
         return hash_hmac('sha256', $data, $key, false);
     }
@@ -477,7 +477,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             return null;
         }
 
-        if (is_null($numRecords) || ($numRecords < 1)) {
+        if (\is_null($numRecords) || ($numRecords < 1)) {
             return null;
         }
 
@@ -510,7 +510,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             }
 
             foreach ($ids as $userId) {
-                $data       = sprintf('%010u', $userId);
+                $data       = \sprintf('%010u', $userId);
                 $thisHandle = hash_hmac('sha256', $data, $key, false);
 
                 if ($thisHandle == $userHandle) {
@@ -617,7 +617,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $tz = null;
 
         if ($tzAware !== false) {
-            $userId = is_bool($tzAware) ? null : (int) $tzAware;
+            $userId = \is_bool($tzAware) ? null : (int) $tzAware;
 
             try {
                 $tzDefault = Factory::getApplication()->get('offset');

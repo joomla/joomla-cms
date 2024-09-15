@@ -31,7 +31,7 @@ class Ucm extends Table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__ucm_base', 'ucm_id', $db, $dispatcher);
     }

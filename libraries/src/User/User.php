@@ -298,7 +298,7 @@ class User
     public static function getInstance($identifier = 0)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
                 __CLASS__
@@ -525,7 +525,7 @@ class User
     {
         // Create the user table object
         /** @var \Joomla\CMS\Table\User $table */
-        $table = $this->getTable();
+        $table = static::getTable();
         $table->load($this->id);
 
         return $table->setLastVisit($timestamp);
@@ -701,7 +701,7 @@ class User
     public function save($updateOnly = false)
     {
         // Create the user table object
-        $table        = $this->getTable();
+        $table        = static::getTable();
         $this->params = (string) $this->_params;
         $table->bind($this->getProperties());
 
@@ -791,7 +791,7 @@ class User
 
             // Set the id for the User object in case we created a new user.
             if (empty($this->id)) {
-                $this->id = $table->get('id');
+                $this->id = $table->id;
             }
 
             if ($my->id == $table->id) {
@@ -833,7 +833,7 @@ class User
         ]));
 
         // Create the user table object
-        $table = $this->getTable();
+        $table = static::getTable();
 
         if (!$result = $table->delete($this->id)) {
             $this->setError($table->getError());
@@ -861,7 +861,7 @@ class User
     public function load($id)
     {
         // Create the user table object
-        $table = $this->getTable();
+        $table = static::getTable();
 
         // Load the UserModel object based on the user id or throw a warning.
         if (!$table->load($id)) {

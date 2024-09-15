@@ -128,15 +128,15 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
      */
     public function typeCheckResult($data): void
     {
-        if (!is_array($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Array results.', \get_class($this)));
+        if (!\is_array($data)) {
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Array results.', \get_class($this)));
         }
 
         // Validate items in array
         foreach ($data as $item) {
             if (!$item instanceof Domain) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Event %s only accepts Joomla\Component\Privacy\Administrator\Export\Domain in result array.',
                         \get_class($this)
                     )

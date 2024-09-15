@@ -61,6 +61,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             'onContentPrepareData' => 'onContentPrepareData',
             'onContentPrepareForm' => 'onContentPrepareForm',
             'onContentAfterSave'   => 'onContentAfterSave',
+            'onContentAfterDelete' => 'onContentAfterDelete',
         ];
     }
 
@@ -164,6 +165,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
             $form->setFieldAttribute('schemainfo', 'description', $infoText, 'schema');
 
+            $form->setFieldAttribute('extendJed', 'type', 'hidden', 'schema');
+            $form->setFieldAttribute('extendJed', 'class', 'hidden', 'schema');
+
             return;
         }
 
@@ -201,16 +205,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $itemId = (int) $table->id;
 
         if (empty($data['schema']) || empty($data['schema']['schemaType']) || $data['schema']['schemaType'] === 'None') {
-            $query = $db->getQuery(true);
-
-            $query->delete($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
-
-            $db->setQuery($query)->execute();
-
+            $this->deleteSchemaOrg($itemId, $context);
             return;
         }
 
@@ -273,7 +268,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     public function onBeforeCompileHead(): void
     {
         $app      = $this->getApplication();
-        $baseType = $this->params->get('baseType');
+        $baseType = $this->params->get('baseType', 'organization');
 
         $itemId  = (int) $app->getInput()->getInt('id');
         $option  = $app->getInput()->get('option');
@@ -281,7 +276,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $context = $option . '.' . $view;
 
         // We need the plugin configured at least once to add structured data
-        if (!$app->isClient('site') || !in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
+        if (!$app->isClient('site') || !\in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
             return;
         }
 
@@ -301,10 +296,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $siteSchema = [];
 
-        $siteSchema['@type'] = ucfirst($this->params->get('baseType'));
+        $siteSchema['@type'] = ucfirst($baseType);
         $siteSchema['@id']   = $baseId;
 
-        $name = $this->params->get('name');
+        $name = $this->params->get('name', $app->get('sitename'));
 
         if ($isPerson && $this->params->get('user') > 0) {
             $user = $this->getUserFactory()->loadUserById($this->params->get('user'));
@@ -461,7 +456,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $result = [];
 
         foreach ($schema as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 // Subtypes need special handling
                 if (!empty($value['@type'])) {
                     if ($value['@type'] === 'ImageObject') {
@@ -486,7 +481,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
                     $value = $this->cleanupSchema($value);
 
                     // We don't save when the array contains only the @type
-                    if (empty($value) || count($value) <= 1) {
+                    if (empty($value) || \count($value) <= 1) {
                         $value = null;
                     }
                 } elseif ($key == 'genericField') {
@@ -528,6 +523,51 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $parts     = explode('.', $context, 2);
         $component = $this->getApplication()->bootComponent($parts[0]);
 
-        return $component instanceof SchemaorgServiceInterface;
+        if ($component instanceof SchemaorgServiceInterface) {
+            return \in_array($context, array_keys($component->getSchemaorgContexts()));
+        }
+
+        return false;
+    }
+
+    /**
+     * The delete event.
+     *
+     * @param   Object    $event  The event
+     *
+     * @return  void
+     *
+     * @since   5.1.3
+     */
+    public function onContentAfterDelete(Model\AfterDeleteEvent $event)
+    {
+        $context = $event->getContext();
+        $itemId  = $event->getItem()->id;
+
+        $this->deleteSchemaOrg($itemId, $context);
+    }
+
+    /**
+     * Delete SchemaOrg record from Database.
+     *
+     * @param   Integer   $itemId
+     * @param   String    $context
+     *
+     * @return  void
+     *
+     * @since   5.1.3
+     */
+    public function deleteSchemaOrg($itemId, $context)
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
+
+        $query->delete($db->quoteName('#__schemaorg'))
+            ->where($db->quoteName('itemId') . '= :itemId')
+            ->where($db->quoteName('context') . '= :context')
+            ->bind(':itemId', $itemId, ParameterType::INTEGER)
+            ->bind(':context', $context, ParameterType::STRING);
+
+        $db->setQuery($query)->execute();
     }
 }

@@ -80,18 +80,17 @@ class LoginModel extends BaseDatabaseModel
     {
         $result  = null;
         $modules = self::_load($name);
-        $total   = count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the title if we're looking for a specific instance of the module.
-            if (!$title || $modules[$i]->title == $title) {
-                $result = $modules[$i];
+            if (!$title || $module->title == $title) {
+                $result = $module;
                 break;
             }
         }
 
         // If we didn't find it, and the name is mod_something, create a dummy object.
-        if (is_null($result) && substr($name, 0, 4) == 'mod_') {
+        if (\is_null($result) && substr($name, 0, 4) == 'mod_') {
             $result            = new \stdClass();
             $result->id        = 0;
             $result->title     = '';

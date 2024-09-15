@@ -64,7 +64,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
         }
 
         // For backward compatibility make sure the content is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['items'] = &$arguments[0];

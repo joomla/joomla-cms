@@ -10,8 +10,9 @@
 
 namespace Joomla\Plugin\WebServices\Modules\Extension;
 
+use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Router\ApiRouter;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,19 +24,35 @@ use Joomla\Router\Route;
  *
  * @since  4.0.0
  */
-final class Modules extends CMSPlugin
+final class Modules extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.1.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeApiRoute' => 'onBeforeApiRoute',
+        ];
+    }
+
     /**
      * Registers com_modules's API's routes in the application
      *
-     * @param   ApiRouter  &$router  The API Routing object
+     * @param   BeforeApiRouteEvent  $event  The event object
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onBeforeApiRoute(&$router)
+    public function onBeforeApiRoute(BeforeApiRouteEvent $event): void
     {
+        $router = $event->getRouter();
+
         $routes = [
             new Route(
                 ['GET'],

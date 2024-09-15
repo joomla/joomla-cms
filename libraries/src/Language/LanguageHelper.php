@@ -62,6 +62,38 @@ class LanguageHelper
     }
 
     /**
+     * Builds a list of the system languages which can be used in a select option
+     * with both the native name and the english name
+     *
+     * @param   string   $actualLanguage  Client key for the area
+     * @param   string   $basePath        Base path to use
+     * @param   boolean  $caching         True if caching is used
+     * @param   boolean  $installed       Get only installed languages
+     *
+     * @return  array  List of system languages
+     *
+     * @since   5.1.0
+     */
+    public static function createLanguageListInstall($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
+    {
+        $list      = [];
+        $clientId  = $basePath === JPATH_ADMINISTRATOR ? 1 : 0;
+        $languages = $installed ? static::getInstalledLanguages($clientId, true) : self::getKnownLanguages($basePath);
+
+        foreach ($languages as $languageCode => $language) {
+            $metadata = $installed ? $language->metadata : $language;
+
+            $list[] = [
+                'text'     => $metadata['name'] . ' | ' . $metadata['nativeName'] ?? $metadata['name'],
+                'value'    => $languageCode,
+                'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
+            ];
+        }
+
+        return $list;
+    }
+
+    /**
      * Tries to detect the language.
      *
      * @return  string  locale or null if not found
@@ -114,7 +146,7 @@ class LanguageHelper
     {
         static $languages = [];
 
-        if (!count($languages)) {
+        if (!\count($languages)) {
             // Installation uses available languages
             if (Factory::getApplication()->isClient('installation')) {
                 $languages[$key] = [];
@@ -164,13 +196,13 @@ class LanguageHelper
     /**
      * Get a list of installed languages.
      *
-     * @param   integer            $clientId         The client app id.
-     * @param   boolean            $processMetaData  Fetch Language metadata.
-     * @param   boolean            $processManifest  Fetch Language manifest.
-     * @param   string             $pivot            The pivot of the returning array.
-     * @param   string             $orderField       Field to order the results.
-     * @param   string             $orderDirection   Direction to order the results.
-     * @param   DatabaseInterface  $db               Database object to use database queries
+     * @param   integer             $clientId         The client app id.
+     * @param   boolean             $processMetaData  Fetch Language metadata.
+     * @param   boolean             $processManifest  Fetch Language manifest.
+     * @param   string              $pivot            The pivot of the returning array.
+     * @param   string              $orderField       Field to order the results.
+     * @param   string              $orderDirection   Direction to order the results.
+     * @param   ?DatabaseInterface  $db               Database object to use database queries
      *
      * @return  array  Array with the installed languages.
      *
@@ -183,7 +215,7 @@ class LanguageHelper
         $pivot = 'element',
         $orderField = null,
         $orderDirection = null,
-        DatabaseInterface $db = null
+        ?DatabaseInterface $db = null
     ) {
         static $installedLanguages = null;
 
@@ -295,7 +327,7 @@ class LanguageHelper
                     continue;
                 }
 
-                $languages[$cId] = ArrayHelper::sortObjects($languages[$cId], $orderField, $orderDirection, true, true);
+                $languages[$cId] = ArrayHelper::sortObjects($language, $orderField, $orderDirection, true, true);
             }
         }
 
@@ -307,7 +339,7 @@ class LanguageHelper
                     continue;
                 }
 
-                $languages[$cId] = ArrayHelper::pivot($languages[$cId], $pivot);
+                $languages[$cId] = ArrayHelper::pivot($language, $pivot);
             }
         }
 
@@ -401,6 +433,7 @@ class LanguageHelper
      * @return  array  The strings parsed.
      *
      * @since   3.9.0
+     * @throws  \RuntimeException On debug
      */
     public static function parseIniFile($fileName, $debug = false)
     {
@@ -409,31 +442,35 @@ class LanguageHelper
             return [];
         }
 
-        // Capture hidden PHP errors from the parsing.
-        if ($debug === true) {
-            // See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
-            $php_errormsg = null;
-
-            $trackErrors = ini_get('track_errors');
-            ini_set('track_errors', true);
-        }
-
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
-        $disabledFunctions      = explode(',', ini_get('disable_functions'));
+        $disabledFunctions      = explode(',', \ini_get('disable_functions'));
         $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
-        if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
-            $contents = file_get_contents($fileName);
-            $strings  = @parse_ini_string($contents);
-        } else {
-            $strings = @parse_ini_file($fileName);
+        // Capture hidden PHP errors from the parsing.
+        set_error_handler(static function ($errno, $err) {
+            throw new \Exception($err);
+        }, \E_WARNING);
+
+        try {
+            if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
+                $contents = file_get_contents($fileName);
+                $strings  = parse_ini_string($contents, false, INI_SCANNER_RAW);
+            } else {
+                $strings = parse_ini_file($fileName, false, INI_SCANNER_RAW);
+            }
+        } catch (\Exception $e) {
+            if ($debug) {
+                throw new \RuntimeException($e->getMessage());
+            }
+
+            return [];
+        } finally {
+            restore_error_handler();
         }
 
-        // Restore error tracking to what it was before.
-        if ($debug === true) {
-            ini_set('track_errors', $trackErrors);
-        }
+        // Ini files are processed in the "RAW" mode of parse_ini_string, leaving escaped quotes untouched - lets postprocess them
+        $strings = str_replace('\"', '"', $strings);
 
         return \is_array($strings) ? $strings : [];
     }

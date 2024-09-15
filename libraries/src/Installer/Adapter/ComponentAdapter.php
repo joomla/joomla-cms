@@ -559,7 +559,7 @@ class ComponentAdapter extends InstallerAdapter
 
             default:
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Unsupported client ID %d for component %s',
                         $this->parent->extension->client_id,
                         $this->parent->extension->element
@@ -1068,8 +1068,8 @@ class ComponentAdapter extends InstallerAdapter
             $data['menutype']     = 'main';
             $data['client_id']    = 1;
             $data['title']        = (string) trim($child);
-            $data['alias']        = (string) $child;
-            $data['type']         = 'component';
+            $data['alias']        = ((string) $child->attributes()->alias) ?: (string) $child;
+            $data['type']         = ((string) $child->attributes()->type) ?: 'component';
             $data['published']    = 1;
             $data['parent_id']    = $parent_id;
             $data['component_id'] = $componentId;
@@ -1288,15 +1288,15 @@ class ComponentAdapter extends InstallerAdapter
                 $manifest_details = Installer::parseXMLInstallFile(
                     JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
-                $extension = Table::getInstance('extension');
-                $extension->set('type', 'component');
-                $extension->set('client_id', 0);
-                $extension->set('element', $component);
-                $extension->set('folder', '');
-                $extension->set('name', $component);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'component';
+                $extension->client_id      = 0;
+                $extension->element        = $component;
+                $extension->folder         = '';
+                $extension->name           = $component;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
 
                 $results[] = $extension;
             }
@@ -1307,16 +1307,16 @@ class ComponentAdapter extends InstallerAdapter
                 $manifest_details = Installer::parseXMLInstallFile(
                     JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
-                $extension = Table::getInstance('extension');
-                $extension->set('type', 'component');
-                $extension->set('client_id', 1);
-                $extension->set('element', $component);
-                $extension->set('folder', '');
-                $extension->set('name', $component);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'component';
+                $extension->client_id      = 1;
+                $extension->element        = $component;
+                $extension->folder         = '';
+                $extension->name           = $component;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 
@@ -1325,16 +1325,16 @@ class ComponentAdapter extends InstallerAdapter
                 $manifest_details = Installer::parseXMLInstallFile(
                     JPATH_API . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
-                $extension = Table::getInstance('extension');
-                $extension->set('type', 'component');
-                $extension->set('client_id', 3);
-                $extension->set('element', $component);
-                $extension->set('folder', '');
-                $extension->set('name', $component);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'component';
+                $extension->client_id      = 3;
+                $extension->element        = $component;
+                $extension->folder         = '';
+                $extension->name           = $component;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 

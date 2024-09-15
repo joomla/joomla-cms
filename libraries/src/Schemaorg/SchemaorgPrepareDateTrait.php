@@ -33,9 +33,9 @@ trait SchemaorgPrepareDateTrait
      */
     protected function prepareDate($date)
     {
-        if (is_array($date)) {
+        if (\is_array($date)) {
             // We don't handle references, they should be ok
-            if (count($date) === 1 && isset($date['@id'])) {
+            if (\count($date) === 1 && isset($date['@id'])) {
                 return $date;
             }
 

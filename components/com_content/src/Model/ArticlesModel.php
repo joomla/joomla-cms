@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -105,7 +106,7 @@ class ArticlesModel extends ListModel
 
         $orderCol = $input->get('filter_order', 'a.ordering');
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'a.ordering';
         }
 
@@ -113,7 +114,7 @@ class ArticlesModel extends ListModel
 
         $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -181,7 +182,7 @@ class ArticlesModel extends ListModel
     /**
      * Get the master query for retrieving a list of articles subject to the model state.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -192,7 +193,6 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        /** @var \Joomla\Database\DatabaseQuery $query */
         $query = $db->getQuery(true);
 
         $nowDate = Factory::getDate()->toSql();
@@ -335,7 +335,7 @@ class ArticlesModel extends ListModel
             // Category has to be published
             $query->where($db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('a.state') . ' = :condition')
                 ->bind(':condition', $condition, ParameterType::INTEGER);
-        } elseif (is_array($condition)) {
+        } elseif (\is_array($condition)) {
             // Category has to be published
             $query->where(
                 $db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('a.state')
@@ -387,7 +387,7 @@ class ArticlesModel extends ListModel
             $type      = $this->getState('filter.article_id.include', true) ? ' = ' : ' <> ';
             $query->where($db->quoteName('a.id') . $type . ':articleId')
                 ->bind(':articleId', $articleId, ParameterType::INTEGER);
-        } elseif (is_array($articleId)) {
+        } elseif (\is_array($articleId)) {
             $articleId = ArrayHelper::toInteger($articleId);
 
             if ($this->getState('filter.article_id.include', true)) {
@@ -438,7 +438,7 @@ class ArticlesModel extends ListModel
                 $query->where($db->quoteName('a.catid') . $type . ':categoryId');
                 $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
             }
-        } elseif (is_array($categoryId) && (count($categoryId) > 0)) {
+        } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
             $categoryId = ArrayHelper::toInteger($categoryId);
 
             if (!empty($categoryId)) {
@@ -459,7 +459,7 @@ class ArticlesModel extends ListModel
             $type        = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
             $authorWhere = $db->quoteName('a.created_by') . $type . ':authorId';
             $query->bind(':authorId', $authorId, ParameterType::INTEGER);
-        } elseif (is_array($authorId)) {
+        } elseif (\is_array($authorId)) {
             $authorId = array_values(array_filter($authorId, 'is_numeric'));
 
             if ($authorId) {
@@ -472,7 +472,7 @@ class ArticlesModel extends ListModel
         $authorAlias      = $this->getState('filter.author_alias');
         $authorAliasWhere = '';
 
-        if (is_string($authorAlias)) {
+        if (\is_string($authorAlias)) {
             $type             = $this->getState('filter.author_alias.include', true) ? ' = ' : ' <> ';
             $authorAliasWhere = $db->quoteName('a.created_by_alias') . $type . ':authorAlias';
             $query->bind(':authorAlias', $authorAlias);
@@ -490,7 +490,10 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by start and end dates.
-        if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
+        if (
+            !(is_numeric($condition) && $condition == ContentComponent::CONDITION_UNPUBLISHED)
+            && !(\is_array($condition) && \in_array(ContentComponent::CONDITION_UNPUBLISHED, $condition))
+        ) {
             $query->where(
                 [
                     '(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)',
@@ -540,7 +543,7 @@ class ArticlesModel extends ListModel
         }
 
         // Process the filter for list views with user-entered filters
-        if (is_object($params) && ($params->get('filter_field') !== 'hide') && ($filter = $this->getState('list.filter'))) {
+        if (\is_object($params) && ($params->get('filter_field') !== 'hide') && ($filter = $this->getState('list.filter'))) {
             // Clean filter variable
             $filter      = StringHelper::strtolower($filter);
             $monthFilter = $filter;
@@ -594,11 +597,11 @@ class ArticlesModel extends ListModel
         // Filter by a single or group of tags.
         $tagId = $this->getState('filter.tag');
 
-        if (is_array($tagId) && count($tagId) === 1) {
+        if (\is_array($tagId) && \count($tagId) === 1) {
             $tagId = current($tagId);
         }
 
-        if (is_array($tagId)) {
+        if (\is_array($tagId)) {
             $tagId = ArrayHelper::toInteger($tagId);
 
             if ($tagId) {
@@ -651,8 +654,8 @@ class ArticlesModel extends ListModel
         $items  = parent::getItems();
 
         $user   = $this->getCurrentUser();
-        $userId = $user->get('id');
-        $guest  = $user->get('guest');
+        $userId = $user->id;
+        $guest  = $user->guest;
         $groups = $user->getAuthorisedViewLevels();
         $input  = Factory::getApplication()->getInput();
 
@@ -698,7 +701,7 @@ class ArticlesModel extends ListModel
                 }
 
                 // Merge the selected article params
-                if (count($articleArray) > 0) {
+                if (\count($articleArray) > 0) {
                     $articleParams = new Registry($articleArray);
                     $item->params->merge($articleParams);
                 }
@@ -750,9 +753,9 @@ class ArticlesModel extends ListModel
             } else {
                 // If no access filter is set, the layout takes some responsibility for display of limited information.
                 if ($item->catid == 0 || $item->category_access === null) {
-                    $item->params->set('access-view', in_array($item->access, $groups));
+                    $item->params->set('access-view', \in_array($item->access, $groups));
                 } else {
-                    $item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
+                    $item->params->set('access-view', \in_array($item->access, $groups) && \in_array($item->category_access, $groups));
                 }
             }
 
@@ -770,7 +773,7 @@ class ArticlesModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds    = \array_keys($taggedItems);
+            $itemIds    = array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_content.article', $itemIds) as $id => $tags) {
                 $taggedItems[$id]->tags->itemTags = $tags;

@@ -76,7 +76,7 @@ trait WorkflowBehaviorTrait
 
         $this->extension = array_shift($parts);
 
-        if (count($parts)) {
+        if (\count($parts)) {
             $this->section = array_shift($parts);
         }
 
@@ -399,7 +399,7 @@ trait WorkflowBehaviorTrait
             return false;
         }
 
-        $catId = isset(((object) $data)->$catKey) ? ((object) $data)->$catKey : $form->getValue($catKey);
+        $catId = ((object) $data)->$catKey ?? $form->getValue($catKey);
 
         // Try to get the category from the html code of the field
         if (empty($catId)) {

@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -51,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The active item
      *
-     * @var    CMSObject|boolean
+     * @var    \stdClass
      *
      * @since  3.6.2
      */
@@ -76,6 +75,15 @@ class HtmlView extends BaseHtmlView
     protected $total;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Method to display the view.
      *
      * @param   string  $tpl  A template file to load. [optional]
@@ -94,7 +102,7 @@ class HtmlView extends BaseHtmlView
         $this->total  = $this->get('Total');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -116,9 +124,9 @@ class HtmlView extends BaseHtmlView
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $isNew      = ($this->item->filter_id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
         $canDo      = ContentHelper::getActions('com_finder');
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Configure the toolbar.
         ToolbarHelper::title(

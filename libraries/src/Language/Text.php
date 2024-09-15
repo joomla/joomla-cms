@@ -59,7 +59,7 @@ class Text
                 $script = (bool) $jsSafe['script'];
             }
 
-            $jsSafe = !\empty($jsSafe['jsSafe']);
+            $jsSafe = !empty($jsSafe['jsSafe']);
         }
 
         if (self::passSprintf($string, $jsSafe, $interpretBackSlashes, $script)) {
@@ -124,8 +124,8 @@ class Text
         $string = $final_string;
 
         if ($script) {
-            foreach ($string_parts as $i => $str) {
-                static::$strings[$str] = $string_parts[$i];
+            foreach ($string_parts as $str) {
+                static::$strings[$str] = $str;
             }
         }
 
@@ -327,7 +327,7 @@ class Text
     {
         if ($string === null) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
                     . ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
                     __METHOD__,
@@ -351,14 +351,21 @@ class Text
 
         // Add the string to the array if not null.
         if ($string !== null) {
+            $doc = Factory::getDocument();
+
+            // Get previously added strings
+            $strings = $doc->getScriptOptions('joomla.jtext');
+
             // Normalize the key and translate the string.
-            static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            $key                   = strtoupper($string);
+            $strings[$key]         = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            static::$strings[$key] = $strings[$key];
 
             // Load core.js dependency
             HTMLHelper::_('behavior.core');
 
             // Update Joomla.Text script options
-            Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
+            $doc->addScriptOptions('joomla.jtext', $strings, false);
         }
 
         return static::getScriptStrings();

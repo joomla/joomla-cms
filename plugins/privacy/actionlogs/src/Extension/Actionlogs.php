@@ -74,7 +74,7 @@ final class Actionlogs extends PrivacyPlugin implements SubscriberInterface
 
         $data = $db->loadObjectList();
 
-        if (!count($data)) {
+        if (!\count($data)) {
             return;
         }
 

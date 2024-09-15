@@ -19,6 +19,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
+
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
@@ -26,10 +28,12 @@ if ($app->isClient('site')) {
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('core');
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('core')
+    ->useScript('modal-content-select');
 
 $extension = $this->escape($this->state->get('filter.extension'));
+// @todo: Use of Function is deprecated and should be removed in 6.0. It stays only for backward compatibility.
 $function  = $app->getInput()->getCmd('function', 'jSelectCategory');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -75,24 +79,25 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php
                     $iconStates = [
                         -2 => 'icon-trash',
-                        0  => 'icon-times',
-                        1  => 'icon-check',
-                        2  => 'icon-folder',
+                        0  => 'icon-unpublish',
+                        1  => 'icon-publish',
+                        2  => 'icon-archive',
                     ];
                     ?>
                     <?php foreach ($this->items as $i => $item) : ?>
-                        <?php if ($item->language && Multilanguage::isEnabled()) {
-                            $tag = strlen($item->language);
+                        <?php
+                        $lang = '';
+                        if ($item->language && Multilanguage::isEnabled()) {
+                            $tag = \strlen($item->language);
                             if ($tag == 5) {
                                 $lang = substr($item->language, 0, 2);
                             } elseif ($tag == 6) {
                                 $lang = substr($item->language, 0, 3);
-                            } else {
-                                $lang = '';
                             }
-                        } elseif (!Multilanguage::isEnabled()) {
-                            $lang = '';
                         }
+
+                        $link     = RouteHelper::getCategoryRoute($item->id, $item->language);
+                        $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->title . '</a>';
                         ?>
                         <tr class="row<?php echo $i % 2; ?>">
                             <td class="text-center">
@@ -101,8 +106,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 </span>
                             </td>
                             <th scope="row">
+                                <?php $attribs = 'data-content-select data-content-type="' . $extension . '.category"'
+                                    . ' data-id="' . $item->id . '"'
+                                    . ' data-title="' . $this->escape($item->title) . '"'
+                                    . ' data-uri="' . $this->escape($link) . '"'
+                                    . ' data-language="' . $this->escape($lang) . '"'
+                                    . ' data-html="' . $this->escape($itemHtml) . '"';
+                                ?>
                                 <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
-                                <a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+                                <a href="javascript:void(0)" <?php echo $attribs; ?> onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
                                     <?php echo $this->escape($item->title); ?></a>
                                 <div class="small" title="<?php echo $this->escape($item->path); ?>">
                                     <?php if (empty($item->note)) : ?>

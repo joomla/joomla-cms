@@ -74,7 +74,7 @@ class ConfigHelper extends ContentHelper
     {
         $user = Factory::getApplication()->getIdentity();
 
-        if (!in_array(strtolower($component), ['com_joomlaupdate', 'com_privacy'], true)) {
+        if (!\in_array(strtolower($component), ['com_joomlaupdate', 'com_privacy'], true)) {
             return $user->authorise('core.admin', $component) || $user->authorise('core.options', $component);
         }
 

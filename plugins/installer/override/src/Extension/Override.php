@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,7 +26,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  4.0.0
  */
-final class Override extends CMSPlugin
+final class Override extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -37,6 +38,25 @@ final class Override extends CMSPlugin
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onExtensionBeforeUpdate'    => 'onExtensionBeforeUpdate',
+            'onExtensionAfterUpdate'     => 'onExtensionAfterUpdate',
+            'onJoomlaBeforeUpdate'       => 'onJoomlaBeforeUpdate',
+            'onJoomlaAfterUpdate'        => 'onJoomlaAfterUpdate',
+            'onInstallerBeforeInstaller' => 'onInstallerBeforeInstaller',
+            'onInstallerAfterInstaller'  => 'onInstallerAfterInstaller',
+        ];
+    }
 
     /**
      * Method to get com_templates model instance.
@@ -124,12 +144,12 @@ final class Override extends CMSPlugin
         $before = $session->get('override.beforeEventFiles');
         $result = [];
 
-        if (!is_array($after) || !is_array($before)) {
+        if (!\is_array($after) || !\is_array($before)) {
             return $result;
         }
 
-        $size1  = count($after);
-        $size2  = count($before);
+        $size1  = \count($after);
+        $size2  = \count($before);
 
         if ($size1 === $size2) {
             for ($i = 0; $i < $size1; $i++) {
@@ -173,7 +193,7 @@ final class Override extends CMSPlugin
      */
     public function finalize($result)
     {
-        $num  = count($result);
+        $num  = \count($result);
         $link = 'index.php?option=com_templates&view=templates';
 
         if ($num != 0) {
@@ -291,7 +311,7 @@ final class Override extends CMSPlugin
         $db->setQuery($query);
         $results = $db->loadObjectList();
 
-        if (count($results) === 1) {
+        if (\count($results) === 1) {
             return true;
         }
 
