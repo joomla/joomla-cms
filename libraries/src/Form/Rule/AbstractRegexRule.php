@@ -57,13 +57,13 @@ abstract class AbstractRegexRule implements FormRuleInterface
      * @since   1.6
      * @throws  \UnexpectedValueException  If regex is invalid.
      */
-    public function test(\SimpleXMLElement $element, mixed $value, string $group = null, Registry $input = null, Form $form = null): void
+    public function test(\SimpleXMLElement $element, mixed $value, ?string $group = null, ?Registry $input = null, ?Form $form = null): void
     {
         $this->ruleRun = true;
 
         // Check for a valid regex.
         if (empty($this->regex)) {
-            throw new \UnexpectedValueException(sprintf('%s has invalid regex.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s has invalid regex.', \get_class($this)));
         }
 
         // Detect if we have full UTF-8 and unicode PCRE support.

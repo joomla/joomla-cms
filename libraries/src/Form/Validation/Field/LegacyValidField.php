@@ -166,7 +166,7 @@ class LegacyValidField implements FieldValidationResponseInterface
              */
             public function getErrorMessage(): string
             {
-                throw new \BadMethodCallException(sprintf('Field %s is valid', $this->fieldLabel));
+                throw new \BadMethodCallException(\sprintf('Field %s is valid', $this->fieldLabel));
             }
         };
     }

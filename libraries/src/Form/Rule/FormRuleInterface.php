@@ -40,5 +40,5 @@ interface FormRuleInterface extends ConstraintInterface
      * @since   __DEPLOY_VERSION__
      * @throws  \UnexpectedValueException if rule is invalid.
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): void;
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null): void;
 }

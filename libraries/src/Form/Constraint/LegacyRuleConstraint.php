@@ -74,7 +74,7 @@ class LegacyRuleConstraint extends AbstractConstraint
     public function getErrorMessage(): string
     {
         if ($this->isValid()) {
-            throw new \BadMethodCallException(sprintf('Field %s is valid', $this->getField()->getAttribute('name', '')));
+            throw new \BadMethodCallException(\sprintf('Field %s is valid', $this->getField()->getAttribute('name', '')));
         }
 
         // Does the field have a defined error message?

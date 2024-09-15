@@ -1223,7 +1223,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 $response->addConstraint($rule);
             } else {
                 @trigger_error(
-                    sprintf('Rules should implement %s from 6.0.', FormRuleInterface::class),
+                    \sprintf('Rules should implement %s from 6.0.', FormRuleInterface::class),
                     E_USER_DEPRECATED
                 );
 

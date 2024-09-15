@@ -328,7 +328,7 @@ class TextField extends FormField
      * @throws  \UnexpectedValueException  When the field or a rule configuration is invalid
      *@since   4.0.0
      */
-    public function validate($value, $group = null, Registry $input = null)
+    public function validate($value, $group = null, ?Registry $input = null)
     {
         $validationResults = parent::validate($value, $group, $input);
 

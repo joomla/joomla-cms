@@ -63,7 +63,7 @@ trait RuleConstraintTrait
     public function getErrorMessage(): string
     {
         if (!$this->ruleRun) {
-            throw new \BadMethodCallException(sprintf('The %s::test() method must be run', static::class));
+            throw new \BadMethodCallException(\sprintf('The %s::test() method must be run', static::class));
         }
 
         if ($this->isValid) {

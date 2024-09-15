@@ -33,7 +33,7 @@ class FieldRequiredConstraint extends AbstractConstraint
     public function getErrorMessage(): string
     {
         if ($this->isValid()) {
-            throw new \BadMethodCallException(sprintf('Field %s is valid', $this->getField()->getAttribute('name', '')));
+            throw new \BadMethodCallException(\sprintf('Field %s is valid', $this->getField()->getAttribute('name', '')));
         }
 
         return Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $this->getFieldLabel());

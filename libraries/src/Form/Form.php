@@ -207,7 +207,7 @@ class Form implements CurrentUserInterface
     {
         if ($this->modernValidationResponse === true) {
             throw new \BadMethodCallException(
-                sprintf(
+                \sprintf(
                     '%1s should not be used when %2s::modernValidationResponse is enabled',
                     __METHOD__,
                     static::class
@@ -1136,7 +1136,7 @@ class Form implements CurrentUserInterface
         if (!$fields) {
             // PANIC!
             if ($this->modernValidationResponse) {
-                throw new \InvalidArgumentException(sprintf('There were no fields to validate for group %s', $group));
+                throw new \InvalidArgumentException(\sprintf('There were no fields to validate for group %s', $group));
             }
 
             return false;
@@ -1183,15 +1183,15 @@ class Form implements CurrentUserInterface
 
                 if ($fieldValidationResponse instanceof \Exception) {
                     $validationResponse->addField(new LegacyInvalidField($name, $group, $fieldLabel, $fieldValidationResponse));
-                    @trigger_error(sprintf('From 7.0 fields must return a class implementing %s.', FieldValidationResponseInterface::class), E_USER_DEPRECATED);
+                    @trigger_error(\sprintf('From 7.0 fields must return a class implementing %s.', FieldValidationResponseInterface::class), E_USER_DEPRECATED);
                 } elseif ($fieldValidationResponse === true) {
                     $validationResponse->addField(new LegacyValidField($name, $group, $fieldLabel));
-                    @trigger_error(sprintf('From 7.0 fields must return a class implementing %s.', FieldValidationResponseInterface::class), E_USER_DEPRECATED);
+                    @trigger_error(\sprintf('From 7.0 fields must return a class implementing %s.', FieldValidationResponseInterface::class), E_USER_DEPRECATED);
                 } elseif ($fieldValidationResponse instanceof FieldValidationResponseInterface) {
                     $validationResponse->addField($fieldValidationResponse);
                 } else {
                     throw new \UnexpectedValueException(
-                        sprintf(
+                        \sprintf(
                             'Unexpected response from %s::validate, received %s',
                             $fieldObj::class,
                             $fieldValidationResponse::class
