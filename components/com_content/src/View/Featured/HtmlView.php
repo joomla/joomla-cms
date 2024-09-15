@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
 
         $this->event = new \stdClass();
 
-        $results = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.featured', &$this, &$this->params));
+        $results                        = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.featured', &$this, &$this->params));
         $this->event->afterDisplayItems = trim(implode("\n", $results));
 
         // Compute the article slugs and prepare introtext (runs content plugins).
