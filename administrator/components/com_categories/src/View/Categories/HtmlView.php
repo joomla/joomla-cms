@@ -135,7 +135,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        Access::preloadItems('com_content', array_values($assetsList));
+        Access::preloadItems($component, array_values($assetsList));
 
         // We don't need toolbar in the modal window.
         if ($this->getLayout() !== 'modal') {
