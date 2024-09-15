@@ -122,15 +122,16 @@ class HtmlView extends BaseHtmlView
 
         // Preload access rules for the items list
         $assetsList = [];
+        $component  = $this->state->get('filter.component');
 
         // Preprocess the list of items to find ordering divisions.
         foreach ($this->items as $item) {
             $this->ordering[$item->parent_id][] = $item->id;
 
-            $assetsList['c' . $item->id] = 'com_content.category.' . $item->id;
+            $assetsList['c' . $item->id] = $component . '.category.' . $item->id;
 
             if (!empty($item->parent_id)) {
-                $assetsList['c' . $item->parent_id] = 'com_content.category.' . $item->parent_id;
+                $assetsList['c' . $item->parent_id] = $component . '.category.' . $item->parent_id;
             }
         }
 
