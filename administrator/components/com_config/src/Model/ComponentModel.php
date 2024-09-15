@@ -218,9 +218,9 @@ class ComponentModel extends FormModel
 
         // If the user only has access to a subset of preferences,
         // merge these with the full preference set
-        $previous = (array)\json_decode($table->params);
+        $previous = (array)json_decode($table->params);
         if (\count($data['params'], COUNT_RECURSIVE) != \count($previous, COUNT_RECURSIVE)) {
-            $data['params'] = \array_merge($previous, $data['params']);
+            $data['params'] = array_merge($previous, $data['params']);
         }
 
         // Bind the data.
