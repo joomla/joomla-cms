@@ -180,8 +180,10 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $verifiedHeaders = $this->processHeaders($headers);
 
         // If we have a HTTP 1.1 Response with chunked encoding then we have to decode the message
-        if (\array_key_exists('Transfer-Encoding', $verifiedHeaders) &&
-            $verifiedHeaders['Transfer-Encoding'][0] === 'chunked') {
+        if (
+            \array_key_exists('Transfer-Encoding', $verifiedHeaders)
+            && $verifiedHeaders['Transfer-Encoding'][0] === 'chunked'
+        ) {
             $body = static::httpChunkedDecode($body);
         }
 
