@@ -80,6 +80,7 @@ export default {
             cancelable: false,
             detail: {
               type: 'dir',
+              name: destination.name,
               path: destination.path,
             },
           },

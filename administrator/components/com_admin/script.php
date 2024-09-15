@@ -543,7 +543,7 @@ class JoomlaInstallerScript
             if (!$installer->refreshManifestCache($extension->extension_id)) {
                 $this->collectError(
                     __METHOD__,
-                    new \Exception(sprintf(
+                    new \Exception(\sprintf(
                         'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
                         $extension->type,
                         $extension->element,
@@ -2333,6 +2333,23 @@ class JoomlaInstallerScript
             '/libraries/vendor/cweagans/composer-patches/src/Patches.php',
             '/libraries/vendor/cweagans/composer-patches/tests/PatchEventTest.php',
             '/libraries/vendor/laminas/laminas-diactoros/PATCHES.txt',
+            // From 5.1.2 to 5.1.3
+            '/libraries/vendor/joomla/application/rector.php',
+            '/libraries/vendor/joomla/console/.drone.jsonnet',
+            '/libraries/vendor/joomla/console/.drone.yml',
+            '/libraries/vendor/joomla/database/.drone.jsonnet',
+            '/libraries/vendor/joomla/database/.drone.yml',
+            '/libraries/vendor/joomla/database/phpunit.appveyor_sql2012sp1.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.appveyor_sql2014.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.appveyor_sql2017.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.mariadb.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.mysql.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.mysqli.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.pgsql.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.sqlite.xml.dist',
+            '/libraries/vendor/joomla/database/phpunit.sqlsrv.xml.dist',
+            '/libraries/vendor/joomla/session/.drone.jsonnet',
+            '/libraries/vendor/joomla/session/.drone.yml',
             // From 5.2.0-alpha2 to 5.2.0-alpha3
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/FontAwesome.otf',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.eot',
@@ -2619,7 +2636,7 @@ class JoomlaInstallerScript
                     if (File::delete(JPATH_ROOT . $file)) {
                         $status['files_deleted'][] = $file;
                     } else {
-                        $status['files_errors'][] = sprintf('Error on deleting file or folder %s', $file);
+                        $status['files_errors'][] = \sprintf('Error on deleting file or folder %s', $file);
                     }
                 }
             }
@@ -2633,7 +2650,7 @@ class JoomlaInstallerScript
                     if (Folder::delete(JPATH_ROOT . $folder)) {
                         $status['folders_deleted'][] = $folder;
                     } else {
-                        $status['folders_errors'][] = sprintf('Error on deleting file or folder %s', $folder);
+                        $status['folders_errors'][] = \sprintf('Error on deleting file or folder %s', $folder);
                     }
                 }
             }

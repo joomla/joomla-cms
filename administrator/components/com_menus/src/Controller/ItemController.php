@@ -578,8 +578,8 @@ class ItemController extends FormController
             $results = $model->getItems();
 
             // Pad the option text with spaces using depth level as a multiplier.
-            for ($i = 0, $n = \count($results); $i < $n; $i++) {
-                $results[$i]->title = str_repeat(' - ', $results[$i]->level) . $results[$i]->title;
+            foreach ($results as $result) {
+                $result->title = str_repeat(' - ', $result->level) . $result->title;
             }
         }
 

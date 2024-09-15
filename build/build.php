@@ -73,6 +73,7 @@ function clean_checkout(string $dir)
     system('find . -name psalm.xml.dist | xargs rm -rf -');
     system('find . -name phpcs.xml | xargs rm -rf -');
     system('find . -name phpcs.xml.dist | xargs rm -rf -');
+    system('find . -name phpstan.neon | xargs rm -rf -');
     system('find . -name phpunit.xml | xargs rm -rf -');
     system('find . -name phpunit.*.xml | xargs rm -rf -');
     system('find . -name phpunit.xml.dist | xargs rm -rf -');
@@ -146,6 +147,9 @@ function clean_checkout(string $dir)
     system('rm -rf libraries/vendor/joomla/*/tests');
     system('rm -rf libraries/vendor/joomla/*/Tests');
     system('rm -rf libraries/vendor/joomla/*/ruleset.xml');
+
+    // maximebf/debugbar
+    system('rm -f libraries/vendor/maximebf/debugbar/chromedriver');
 
     // testing sampledata
     system('rm -rf plugins/sampledata/testing');
@@ -407,6 +411,7 @@ $doNotPackage = [
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',
+    'phpstan.neon',
     'phpunit.xml.dist',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
