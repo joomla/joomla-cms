@@ -302,8 +302,10 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $len  = \strlen($chunk);
         $resp = '';
 
-        while (($pos < $len)
-            && ($chunkLenHex = substr($chunk, $pos, ($newlineAt = strpos($chunk, "\n", $pos + 1)) - $pos))) {
+        while (
+            ($pos < $len)
+            && ($chunkLenHex = substr($chunk, $pos, ($newlineAt = strpos($chunk, "\n", $pos + 1)) - $pos))
+        ) {
             if (!static::isHex(rtrim($chunkLenHex))) {
                 trigger_error('Value is not properly chunk encoded', E_USER_WARNING);
                 return $chunk;
