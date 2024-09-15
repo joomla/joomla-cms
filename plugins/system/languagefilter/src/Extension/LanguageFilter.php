@@ -341,13 +341,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             if (!isset($this->sefs[$sef])) {
                 // Check if remove default URL language code is set
                 if ($this->params->get('remove_default_prefix', 0)) {
-                    if ($parts[0]) {
-                        // We load a default site language page
-                        $lang_code = $this->default_lang;
-                    } else {
-                        // We check for an existing language cookie
-                        $lang_code = $this->getLanguageCookie();
-                    }
+                    $lang_code = $this->default_lang;
                 } else {
                     $lang_code = $this->getLanguageCookie();
                 }
