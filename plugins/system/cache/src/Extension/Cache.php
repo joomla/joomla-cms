@@ -229,7 +229,8 @@ final class Cache extends CMSPlugin implements SubscriberInterface
         return $isSite
             && $isGET
             && $this->getApplication()->getIdentity()->guest
-            && empty($this->getApplication()->getMessageQueue());
+            && empty($this->getApplication()->getMessageQueue())
+            && empty($this->getApplication()->getDocument()->error);
     }
 
     /**
