@@ -44,7 +44,7 @@ class ResultEvent extends AbstractFinderEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(Result $value): Result
+    protected function onSetSubject(Result $value): Result
     {
         return $value;
     }
@@ -58,7 +58,7 @@ class ResultEvent extends AbstractFinderEvent
      *
      * @since  5.0.0
      */
-    protected function setQuery(Query $value): Query
+    protected function onSetQuery(Query $value): Query
     {
         return $value;
     }

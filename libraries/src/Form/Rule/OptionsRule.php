@@ -40,7 +40,7 @@ class OptionsRule extends FormRule
      *
      * @since   1.7.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // Check if the field is required.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
@@ -80,9 +80,9 @@ class OptionsRule extends FormRule
             $diff = array_diff($value, $options);
 
             return empty($diff);
-        } else {
-            // In this case value must be a string
-            return \in_array((string) $value, $options);
         }
+
+        // In this case value must be a string
+        return \in_array((string) $value, $options);
     }
 }

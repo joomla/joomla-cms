@@ -13,8 +13,8 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterApiRouteEvent;
-use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -71,7 +71,7 @@ final class ApiApplication extends CMSApplication
      *
      * @since   4.0.0
      */
-    public function __construct(JInputJson $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?JInputJson $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name
         $this->name = 'api';

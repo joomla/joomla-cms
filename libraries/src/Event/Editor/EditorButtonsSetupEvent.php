@@ -55,7 +55,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(ButtonsRegistryInterface $value): ButtonsRegistryInterface
+    protected function onSetSubject(ButtonsRegistryInterface $value): ButtonsRegistryInterface
     {
         return $value;
     }
@@ -81,7 +81,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setEditorType(string $value): string
+    protected function onSetEditorType(string $value): string
     {
         return $value;
     }
@@ -107,7 +107,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setDisabledButtons(array $value): array
+    protected function onSetDisabledButtons(array $value): array
     {
         return $value;
     }
@@ -133,7 +133,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setEditorId(string $value): string
+    protected function onSetEditorId(string $value): string
     {
         return $value;
     }
@@ -159,7 +159,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setAsset(int $value): int
+    protected function onSetAsset(int $value): int
     {
         return $value;
     }
@@ -185,7 +185,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setAuthor(int $value): int
+    protected function onSetAuthor(int $value): int
     {
         return $value;
     }

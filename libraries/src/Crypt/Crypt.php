@@ -45,7 +45,7 @@ class Crypt extends JCrypt
          * than that. However, this does not prevent a misguided server administrator from disabling
          * hash_equals in php.ini. Hence the need for checking whether the function exists or not.
          */
-        if (function_exists('hash_equals')) {
+        if (\function_exists('hash_equals')) {
             return hash_equals($known, $unknown);
         }
 
@@ -54,8 +54,8 @@ class Crypt extends JCrypt
          *
          * @link https://blog.ircmaxell.com/2014/11/its-all-about-time.html
          */
-        $safeLen = strlen($known);
-        $userLen = strlen($unknown);
+        $safeLen = \strlen($known);
+        $userLen = \strlen($unknown);
 
         if ($userLen != $safeLen) {
             return false;
@@ -64,7 +64,7 @@ class Crypt extends JCrypt
         $result = 0;
 
         for ($i = 0; $i < $userLen; $i++) {
-            $result |= (ord($known[$i]) ^ ord($unknown[$i]));
+            $result |= (\ord($known[$i]) ^ \ord($unknown[$i]));
         }
 
         // They are only identical strings if $result is exactly 0...

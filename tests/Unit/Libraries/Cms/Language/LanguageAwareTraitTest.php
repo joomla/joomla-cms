@@ -10,8 +10,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Language;
 
-use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**

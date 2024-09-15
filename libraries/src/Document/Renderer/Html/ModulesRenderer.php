@@ -14,7 +14,6 @@ use Joomla\CMS\Event\Module;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Proxy\ArrayProxy;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,12 +60,11 @@ class ModulesRenderer extends DocumentRenderer
 
         // Dispatch onAfterRenderModules event
         $event = new Module\AfterRenderModulesEvent('onAfterRenderModules', [
-            'subject'    => $buffer,
-            'attributes' => new ArrayProxy($params),
+            'content'    => &$buffer, // @todo: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
+            'attributes' => $params,
         ]);
         $app->getDispatcher()->dispatch('onAfterRenderModules', $event);
-        $buffer = $event->getContent();
 
-        return $buffer;
+        return $event->getArgument('content', $content);
     }
 }

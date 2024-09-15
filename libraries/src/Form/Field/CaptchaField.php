@@ -133,14 +133,14 @@ class CaptchaField extends FormField
             $this->hidden = true;
 
             return false;
-        } else {
-            // Force field to be required. There's no reason to have a captcha if it is not required.
-            // Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
-            $this->required = true;
+        }
 
-            if (strpos($this->class, 'required') === false) {
-                $this->class .= ' required';
-            }
+        // Force field to be required. There's no reason to have a captcha if it is not required.
+        // Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
+        $this->required = true;
+
+        if (strpos($this->class, 'required') === false) {
+            $this->class .= ' required';
         }
 
         $this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();

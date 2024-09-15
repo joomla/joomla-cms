@@ -61,7 +61,7 @@ final class Joomla extends CMSPlugin
                 $data = $this->getApplication()->getInput()->get('jform', [], 'array');
             }
 
-            if (is_array($data)) {
+            if (\is_array($data)) {
                 $data = (object) $data;
             }
 
@@ -215,6 +215,7 @@ final class Joomla extends CMSPlugin
 
         $mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
         $mailer->addTemplateData($data);
+        $mailer->addUnsafeTags(['username', 'password', 'name', 'email']);
         $mailer->addRecipient($user['email'], $user['name']);
 
         try {
@@ -434,7 +435,7 @@ final class Joomla extends CMSPlugin
         /** @var User $user */
         $user = $options['user'];
 
-        if (!is_object($user) || !($user instanceof User) || $user->guest) {
+        if (!\is_object($user) || !($user instanceof User) || $user->guest) {
             return;
         }
 
@@ -445,7 +446,7 @@ final class Joomla extends CMSPlugin
         $silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
 
         // Only proceed if this is not a silent login
-        if (!in_array(strtolower($options['responseType'] ?? ''), $silentResponseTypes)) {
+        if (!\in_array(strtolower($options['responseType'] ?? ''), $silentResponseTypes)) {
             return;
         }
 

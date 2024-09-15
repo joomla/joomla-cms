@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 extract($displayData, EXTR_OVERWRITE);
 
@@ -31,7 +32,7 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $message          Confirmation message before run the task
  */
 
-$wa = Factory::getDocument()->getWebAssetManager();
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('webcomponent.toolbar-button');
 
@@ -48,6 +49,12 @@ $alternativeAttr .= !empty($alternativeKeys) ? ' data-alternative-keys="' . $thi
 
 if (!empty($alternativeAttr)) {
     $wa->useScript('joomla.alternative');
+}
+
+if ($msgAttr) {
+    Text::script('WARNING');
+    Text::script('JYES');
+    Text::script('JNO');
 }
 
 if (!empty($task)) {

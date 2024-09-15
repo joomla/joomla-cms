@@ -155,7 +155,7 @@ The <info>%command.name%</info> Purges and rebuilds the index (search filters ar
 
   <info>php %command.full_name%</info>
 EOF;
-        $this->setDescription('Purges and rebuild the index');
+        $this->setDescription('Purge and rebuild the index');
         $this->setHelp($help);
     }
 
@@ -246,7 +246,7 @@ EOF;
         try {
             $language = $this->getLanguage();
         } catch (\UnexpectedValueException $e) {
-            @trigger_error(sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
             $language = Factory::getLanguage();
         }
 
@@ -306,7 +306,7 @@ EOF;
             }
         }
 
-        $this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
+        $this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', \count($filters)));
     }
 
     /**
@@ -366,7 +366,9 @@ EOF;
         $app->triggerEvent('onStartIndex');
 
         // Remove the script time limit.
-        @set_time_limit(0);
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
 
         // Get the indexer state.
         $state = Indexer::getState();
@@ -502,6 +504,6 @@ EOF;
             $db->setQuery($query)->execute();
         }
 
-        $this->ioStyle->text(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
+        $this->ioStyle->text(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', \count($this->filters)));
     }
 }

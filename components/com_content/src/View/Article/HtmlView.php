@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
         $this->user  = $user;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -189,8 +189,8 @@ class HtmlView extends BaseHtmlView
          * - Deny access to logged users with 403 code
          * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
          */
-        if ($item->params->get('access-view') == false && !strlen($item->fulltext)) {
-            if ($this->user->get('guest')) {
+        if ($item->params->get('access-view') == false && !\strlen($item->fulltext)) {
+            if ($this->user->guest) {
                 $return                = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
                 $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
@@ -280,17 +280,15 @@ class HtmlView extends BaseHtmlView
             $this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
         }
 
-        $title = $this->params->get('page_title', '');
-
         // If the menu item is not linked to this article
         if (!$this->menuItemMatchArticle) {
             // If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
-            $title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
+            $title = $this->item->params->get('article_page_title', $this->item->title);
 
             // Get ID of the category from active menu item
             if (
                 $menu && $menu->component == 'com_content' && isset($menu->query['view'])
-                && in_array($menu->query['view'], ['categories', 'category'])
+                && \in_array($menu->query['view'], ['categories', 'category'])
             ) {
                 $id = $menu->query['id'];
             } else {
@@ -310,15 +308,19 @@ class HtmlView extends BaseHtmlView
             foreach ($path as $item) {
                 $pathway->addItem($item['title'], $item['link']);
             }
-        }
-
-        if (empty($title)) {
+        } else {
             /**
-             * This happens when the current active menu item is linked to the article without browser
-             * page title set, so we use Browser Page Title in article and fallback to article title
-             * if that is not set
+             * This case the menu item links directly to the article, browser will be determined by following
+             * order:
+             * 1. Browser page title set from menu item itself
+             * 2. Browser page title set for the article
+             * 3. Article title
              */
-            $title = $this->item->params->get('article_page_title', $this->item->title);
+            $menuItemParams = $menu->getParams();
+            $title          = $menuItemParams->get(
+                'page_title',
+                $this->item->params->get('article_page_title', $this->item->title)
+            );
         }
 
         $this->setDocumentTitle($title);
@@ -348,7 +350,7 @@ class HtmlView extends BaseHtmlView
 
         // If there is a pagebreak heading or title, add it to the page title
         if (!empty($this->item->page_title)) {
-            $this->item->title = $this->item->title . ' - ' . $this->item->page_title;
+            $this->item->title .= ' - ' . $this->item->page_title;
             $this->setDocumentTitle(
                 $this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
             );

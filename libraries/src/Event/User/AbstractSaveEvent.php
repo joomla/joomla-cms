@@ -31,6 +31,25 @@ abstract class AbstractSaveEvent extends UserEvent
     protected $legacyArgumentsOrder = ['subject', 'isNew'];
 
     /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since   5.0.0
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('isNew', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'isNew' of event {$name} is required but has not been provided");
+        }
+    }
+
+    /**
      * Setter for the subject argument.
      *
      * @param   array  $value  The value to set
@@ -39,7 +58,7 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(array $value): array
+    protected function onSetSubject(array $value): array
     {
         return $value;
     }
@@ -53,7 +72,7 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @since  5.0.0
      */
-    protected function setIsNew($value): bool
+    protected function onSetIsNew($value): bool
     {
         return (bool) $value;
     }

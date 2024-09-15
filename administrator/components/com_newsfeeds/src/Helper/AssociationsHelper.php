@@ -158,7 +158,7 @@ class AssociationsHelper extends AssociationExtensionHelper
         $support = $this->getSupportTemplate();
         $title   = '';
 
-        if (in_array($typeName, $this->itemTypes)) {
+        if (\in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'newsfeed':
                     $fields['title'] = 'a.name';

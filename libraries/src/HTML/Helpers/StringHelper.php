@@ -47,14 +47,16 @@ abstract class StringHelper
 
         // Check if HTML tags are allowed.
         if (!$allowHtml) {
+            // Decode entities
+            $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+
             // Deal with spacing issues in the input.
             $text = str_replace('>', '> ', $text);
             $text = str_replace(['&nbsp;', '&#160;'], ' ', $text);
             $text = FrameworkStringHelper::trim(preg_replace('#\s+#mui', ' ', $text));
 
-            // Strip the tags from the input and decode entities.
+            // Strip tags from the input.
             $text = strip_tags($text);
-            $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
 
             // Remove remaining extra spaces.
             $text = str_replace('&nbsp;', ' ', $text);
@@ -77,7 +79,7 @@ abstract class StringHelper
 
                 // If there are no spaces and the string is longer than the maximum
                 // we need to just use the ellipsis. In that case we are done.
-                if ($offset === false && strlen($text) > $length) {
+                if ($offset === false && \strlen($text) > $length) {
                     return '...';
                 }
 
@@ -99,19 +101,17 @@ abstract class StringHelper
                 preg_match_all("#</([a-z][a-z0-9]*)\b(?:[^>]*?)>#iU", $tmp, $result);
                 $closedTags = $result[1];
 
-                $numOpened = count($openedTags);
-
                 // Not all tags are closed so trim the text and finish.
-                if (count($closedTags) !== $numOpened) {
+                if (\count($closedTags) !== \count($openedTags)) {
                     // Closing tags need to be in the reverse order of opening tags.
                     $openedTags = array_reverse($openedTags);
 
                     // Close tags
-                    for ($i = 0; $i < $numOpened; $i++) {
-                        if (!in_array($openedTags[$i], $closedTags)) {
-                            $tmp .= '</' . $openedTags[$i] . '>';
+                    foreach ($openedTags as $openedTag) {
+                        if (!\in_array($openedTag, $closedTags)) {
+                            $tmp .= '</' . $openedTag . '>';
                         } else {
-                            unset($closedTags[array_search($openedTags[$i], $closedTags)]);
+                            unset($closedTags[array_search($openedTag, $closedTags)]);
                         }
                     }
                 }
@@ -123,7 +123,7 @@ abstract class StringHelper
                 }
             }
 
-            if ($tmp === false || strlen($text) > strlen($tmp)) {
+            if ($tmp === false || \strlen($text) > \strlen($tmp)) {
                 $text = trim($tmp) . '...';
             }
         }
@@ -157,7 +157,7 @@ abstract class StringHelper
     public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
     {
         // Start with some basic rules.
-        $baseLength = strlen($html);
+        $baseLength = \strlen($html);
 
         // If the original HTML string is shorter than the $maxLength do nothing and return that.
         if ($baseLength <= $maxLength || $maxLength === 0) {
@@ -171,7 +171,7 @@ abstract class StringHelper
 
         // Deal with maximum length of 1 where the string starts with a tag.
         if ($maxLength === 1 && $html[0] === '<') {
-            $endTagPos = strlen(strstr($html, '>', true));
+            $endTagPos = \strlen(strstr($html, '>', true));
             $tag       = substr($html, 1, $endTagPos);
 
             $l = $endTagPos + 1;
@@ -214,7 +214,7 @@ abstract class StringHelper
             // Get the truncated string assuming HTML is allowed.
             $htmlString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
 
-            if ($htmlString === '...' && strlen($ptString) + 3 > $maxLength) {
+            if ($htmlString === '...' && \strlen($ptString) + 3 > $maxLength) {
                 return $htmlString;
             }
 
@@ -230,7 +230,7 @@ abstract class StringHelper
             }
 
             // Get the number of HTML tag characters in the first $maxLength characters
-            $diffLength = strlen($ptString) - strlen($htmlStringToPtString);
+            $diffLength = \strlen($ptString) - \strlen($htmlStringToPtString);
 
             if ($diffLength <= 0) {
                 return $htmlString . '...';

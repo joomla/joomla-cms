@@ -105,8 +105,8 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * Add different parameter options to the transition view, we need when executing the transition
      *
-     * @param   Form      $form The form
-     * @param   stdClass  $data The data
+     * @param   Form       $form The form
+     * @param   \stdClass  $data The data
      *
      * @return  boolean
      *
@@ -129,8 +129,8 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      * Disable certain fields in the item  form view, when we want to take over this function in the transition
      * Check also for the workflow implementation and if the field exists
      *
-     * @param   Form      $form  The form
-     * @param   stdClass  $data  The data
+     * @param   Form       $form  The form
+     * @param   \stdClass  $data  The data
      *
      * @return  boolean
      *
@@ -194,7 +194,9 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * Manipulate the generic list view
      *
-     * @param   DisplayEvent    $event
+     * @param   DisplayEvent  $event
+     *
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -211,7 +213,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $singularsection = Inflector::singularize($section);
 
         if (!$this->isSupported($component . '.' . $singularsection)) {
-            return true;
+            return;
         }
 
         // That's the hard coded list from the AdminController publish method => change, when it's make dynamic in the future
@@ -246,8 +248,6 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
 		";
 
         $this->getApplication()->getDocument()->addScriptDeclaration($js);
-
-        return true;
     }
 
     /**
@@ -291,7 +291,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         // Release allowed pks, the job is done
         $this->getApplication()->set('plgWorkflowPublishing.' . $context, []);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $event->setStopTransition();
 
             return false;
@@ -500,7 +500,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $parts = explode('.', $context);
 
         // We need at least the extension + view for loading the table fields
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return false;
         }
 

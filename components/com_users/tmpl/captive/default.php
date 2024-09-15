@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
  */
 $model = $this->getModel();
 
-$this->document->getWebAssetManager()
+$this->getDocument()->getWebAssetManager()
     ->useScript('com_users.two-factor-focus');
 
 ?>
@@ -79,12 +79,13 @@ $this->document->getWebAssetManager()
                     <?php
                     $attributes = array_merge(
                         [
-                            'type'        => $this->renderOptions['input_type'],
-                            'name'        => 'code',
-                            'value'       => '',
-                            'placeholder' => $this->renderOptions['placeholder'] ?? null,
-                            'id'          => 'users-mfa-code',
-                            'class'       => 'form-control'
+                            'type'         => $this->renderOptions['input_type'],
+                            'name'         => 'code',
+                            'value'        => '',
+                            'placeholder'  => $this->renderOptions['placeholder'] ?? null,
+                            'id'           => 'users-mfa-code',
+                            'class'        => 'form-control',
+                            'autocomplete' => $this->renderOptions['autocomplete'] ?? 'one-time-code'
                         ],
                         $this->renderOptions['input_attributes']
                     );

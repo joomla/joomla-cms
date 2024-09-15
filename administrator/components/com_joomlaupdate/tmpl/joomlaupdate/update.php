@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')
     ->useScript('bootstrap.popover');
@@ -58,7 +58,10 @@ $displayData['content'] .= '<div class="form-check d-flex justify-content-center
 	</div>';
 
 if ($this->getCurrentUser()->authorise('core.admin', 'com_joomlaupdate')) :
-    $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>';
+    $displayData['formAppend'] = '
+        <div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>
+        <input type="hidden" name="targetVersion" value="' . $this->updateInfo['latest'] . '" />
+    ';
 endif;
 
 echo '<div id="joomlaupdate-wrapper">';

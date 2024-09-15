@@ -10,13 +10,16 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -123,7 +126,7 @@ class TourModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return \JForm|boolean  A JForm object on success, false on failure
+     * @return \JForm|boolean  A Form object on success, false on failure
      *
      * @since  4.3.0
      */
@@ -185,26 +188,58 @@ class TourModel extends AdminModel
     }
 
     /**
-     * Method to get a single record.
+     * Method to get a single record by id or uid
      *
-     * @param   integer  $pk  The id of the primary key.
+     * @param   integer|string  $pk  The id or uid of the tour.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.3.0
      */
     public function getItem($pk = null)
     {
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 
-        $result = parent::getItem($pk);
+        $table = $this->getTable();
 
-        if (!empty($result->id)) {
-            $result->title_translation       = Text::_($result->title);
-            $result->description_translation = Text::_($result->description);
+        if (\is_int($pk)) {
+            $result = $table->load((int) $pk);
+        } else {
+            // Attempt to load the row by uid.
+            $result = $table->load([ 'uid' => $pk ]);
         }
 
-        return $result;
+        // Check for a table object error.
+        if ($result === false) {
+            // If there was no underlying error, then the false means there simply was not a row in the db for this $pk.
+            if (!$table->getError()) {
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+            } else {
+                $this->setError($table->getError());
+            }
+
+            return false;
+        }
+
+        // Convert to the CMSObject before adding other data.
+        $properties = $table->getProperties(1);
+        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+
+        if (property_exists($item, 'params')) {
+            $registry     = new Registry($item->params);
+            $item->params = $registry->toArray();
+        }
+
+        if (!empty($item->uid)) {
+            GuidedtoursHelper::loadTranslationFiles($item->uid, true);
+        }
+
+        if (!empty($item->id)) {
+            $item->title_translation       = Text::_($item->title);
+            $item->description_translation = Text::_($item->description);
+        }
+
+        return $item;
     }
 
     /**
@@ -266,11 +301,11 @@ class TourModel extends AdminModel
                         Log::add($error, Log::WARNING, 'jerror');
 
                         return false;
-                    } else {
-                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
-                        return false;
                     }
+
+                    Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -313,7 +348,7 @@ class TourModel extends AdminModel
                 // Reset the id to create a new record.
                 $table->id = 0;
 
-                $table->published   = 0;
+                $table->published = 0;
 
                 if (!$table->check() || !$table->store()) {
                     throw new \Exception($table->getError());
@@ -338,6 +373,7 @@ class TourModel extends AdminModel
                                 'checked_out_time',
                                 'checked_out',
                                 'language',
+                                'params',
                                 'note',
                             ]
                         )
@@ -349,82 +385,87 @@ class TourModel extends AdminModel
                 $db->setQuery($query);
                 $rows = $db->loadObjectList();
 
-                $query = $db->getQuery(true)
-                    ->insert($db->quoteName('#__guidedtour_steps'))
-                    ->columns(
-                        [
-                            $db->quoteName('tour_id'),
-                            $db->quoteName('title'),
-                            $db->quoteName('description'),
-                            $db->quoteName('ordering'),
-                            $db->quoteName('position'),
-                            $db->quoteName('target'),
-                            $db->quoteName('type'),
-                            $db->quoteName('interactive_type'),
-                            $db->quoteName('url'),
-                            $db->quoteName('created'),
-                            $db->quoteName('created_by'),
-                            $db->quoteName('modified'),
-                            $db->quoteName('modified_by'),
-                            $db->quoteName('language'),
-                            $db->quoteName('note'),
-                        ]
-                    );
+                if ($rows) {
+                    $query = $db->getQuery(true)
+                        ->insert($db->quoteName('#__guidedtour_steps'))
+                        ->columns(
+                            [
+                                $db->quoteName('tour_id'),
+                                $db->quoteName('title'),
+                                $db->quoteName('description'),
+                                $db->quoteName('ordering'),
+                                $db->quoteName('position'),
+                                $db->quoteName('target'),
+                                $db->quoteName('type'),
+                                $db->quoteName('interactive_type'),
+                                $db->quoteName('url'),
+                                $db->quoteName('created'),
+                                $db->quoteName('created_by'),
+                                $db->quoteName('modified'),
+                                $db->quoteName('modified_by'),
+                                $db->quoteName('language'),
+                                $db->quoteName('params'),
+                                $db->quoteName('note'),
+                            ]
+                        );
 
-                foreach ($rows as $step) {
-                    $dataTypes = [
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                    ];
+                    foreach ($rows as $step) {
+                        $dataTypes = [
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                        ];
 
-                    $query->values(
-                        implode(
-                            ',',
-                            $query->bindArray(
-                                [
-                                    $table->id,
-                                    $step->title,
-                                    $step->description,
-                                    $step->ordering,
-                                    $step->position,
-                                    $step->target,
-                                    $step->type,
-                                    $step->interactive_type,
-                                    $step->url,
-                                    $date,
-                                    $user->id,
-                                    $date,
-                                    $user->id,
-                                    $step->language,
-                                    $step->note,
-                                ],
-                                $dataTypes
+                        $query->values(
+                            implode(
+                                ',',
+                                $query->bindArray(
+                                    [
+                                        $table->id,
+                                        $step->title,
+                                        $step->description,
+                                        $step->ordering,
+                                        $step->position,
+                                        $step->target,
+                                        $step->type,
+                                        $step->interactive_type,
+                                        $step->url,
+                                        $date,
+                                        $user->id,
+                                        $date,
+                                        $user->id,
+                                        $step->language,
+                                        $step->params,
+                                        $step->note,
+                                    ],
+                                    $dataTypes
+                                )
                             )
-                        )
-                    );
-                }
+                        );
+                    }
 
-                $db->setQuery($query);
+                    $db->setQuery($query);
 
-                try {
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                    try {
+                        $db->execute();
+                    } catch (\RuntimeException $e) {
+                        Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-                    return false;
+                        return false;
+                    }
                 }
             } else {
                 throw new \Exception($table->getError());
@@ -463,5 +504,128 @@ class TourModel extends AdminModel
 
         return $db->setQuery($query)
             ->execute();
+    }
+
+    /**
+     * Sets a tour's autostart value
+     *
+     * @param   int  $id         Id of a tour
+     * @param   int  $autostart  The autostart value of a tour
+     *
+     * @since  5.1.0
+     */
+    public function setAutostart($id, $autostart)
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+            ->update($db->quoteName('#__guidedtours'))
+            ->set($db->quoteName('autostart') . ' = :autostart')
+            ->where($db->quoteName('id') . ' = :tourId')
+            ->bind(':autostart', $autostart, ParameterType::INTEGER)
+            ->bind(':tourId', $id, ParameterType::INTEGER);
+
+        $db->setQuery($query);
+        $db->execute();
+    }
+
+    /**
+     * Retrieve a tour's autostart value
+     *
+     * @param   string  $pk  the id or uid of a tour
+     *
+     * @return  boolean
+     *
+     * @since  5.1.0
+     */
+    public function isAutostart($pk): bool
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('autostart'))
+            ->from($db->quoteName('#__guidedtours'))
+            ->where($db->quoteName('published') . ' = 1');
+
+        if (\is_integer($pk)) {
+            $query->where($db->quoteName('id') . ' = :id')
+                ->bind(':id', $pk, ParameterType::INTEGER);
+        } else {
+            $query->where($db->quoteName('uid') . ' = :uid')
+                ->bind(':uid', $pk, ParameterType::STRING);
+        }
+
+        $db->setQuery($query);
+
+        try {
+            $result = $db->loadResult();
+            if ($result === null) {
+                return false;
+            }
+        } catch (\RuntimeException $e) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Save a tour state for a specific user.
+     *
+     * @param   int      $id       The id of the tour
+     * @param   string   $state    The label of the state to be saved (completed, delayed or skipped)
+     *
+     * @return  boolean
+     *
+     * @since  5.2.0
+     */
+    public function saveTourUserState($id, $state = ''): bool
+    {
+        $user = $this->getCurrentUser();
+        $db   = $this->getDatabase();
+
+        $profileKey = 'guidedtour.id.' . $id;
+
+        // Check if the profile key already exists.
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('profile_value'))
+            ->from($db->quoteName('#__user_profiles'))
+            ->where($db->quoteName('user_id') . ' = :user_id')
+            ->where($db->quoteName('profile_key') . ' = :profileKey')
+            ->bind(':user_id', $user->id, ParameterType::INTEGER)
+            ->bind(':profileKey', $profileKey, ParameterType::STRING);
+
+        try {
+            $result = $db->setQuery($query)->loadResult();
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        $tourState = [];
+
+        $tourState['state'] = $state;
+        if ($state === 'delayed') {
+            $tourState['time'] = Date::getInstance();
+        }
+
+        $profileObject = (object)[
+            'user_id'       => $user->id,
+            'profile_key'   => $profileKey,
+            'profile_value' => json_encode($tourState),
+            'ordering'      => 0,
+        ];
+
+        if (!\is_null($result)) {
+            $values = json_decode($result, true);
+
+            // The profile is updated only when delayed. 'Completed' and 'Skipped' are final
+            if (!empty($values) && $values['state'] === 'delayed') {
+                $db->updateObject('#__user_profiles', $profileObject, ['user_id', 'profile_key']);
+            }
+        } else {
+            $db->insertObject('#__user_profiles', $profileObject);
+        }
+
+        return true;
     }
 }

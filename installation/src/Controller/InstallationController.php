@@ -11,7 +11,6 @@
 namespace Joomla\CMS\Installation\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Session\Session;
@@ -28,16 +27,16 @@ use Joomla\CMS\Session\Session;
 class InstallationController extends JSONController
 {
     /**
-     * @param   array                         $config   An optional associative array of configuration settings.
-     *                                                  Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                                  'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface|null      $factory  The factory.
-     * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object.
+     * @param   array                     $config   An optional associative array of configuration settings.
+     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                              'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface      $factory  The factory.
+     * @param   ?CMSApplication           $app      The Application for the dispatcher
+     * @param   ?\Joomla\CMS\Input\Input  $input    The Input object.
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -64,11 +63,11 @@ class InstallationController extends JSONController
         $r       = new \stdClass();
         $r->view = 'setup';
 
-        // Check the form
         /** @var \Joomla\CMS\Installation\Model\SetupModel $model */
         $model = $this->getModel('Setup');
+        $data  = $this->app->getInput()->post->get('jform', [], 'array');
 
-        if ($model->checkForm('setup') === false) {
+        if ($model->validate($data, 'setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
             $r->validated = false;
             $this->sendJsonResponse($r);
@@ -76,7 +75,27 @@ class InstallationController extends JSONController
             return;
         }
 
-        $r->validated = $model->validateDbConnection();
+        $form = $model->getForm();
+        $data = $form->filter($data);
+
+        // Check for validation errors.
+        if ($data === false) {
+            $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
+            $r->validated = false;
+            $r->error     = true;
+            $this->sendJsonResponse($r);
+
+            return;
+        }
+
+        $data = $model->storeOptions($data);
+
+        if (!$model->validateDbConnection($data)) {
+            $r->validated = false;
+            $r->error     = true;
+        } else {
+            $r->validated = true;
+        }
 
         $this->sendJsonResponse($r);
     }
@@ -96,10 +115,11 @@ class InstallationController extends JSONController
 
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
         $databaseModel = $this->getModel('Database');
+        $options       = $databaseModel->getOptions();
 
         // Create Db
         try {
-            $dbCreated = $databaseModel->createDatabase();
+            $dbCreated = $databaseModel->createDatabase($options);
         } catch (\RuntimeException $e) {
             $this->app->enqueueMessage($e->getMessage(), 'error');
 
@@ -107,10 +127,15 @@ class InstallationController extends JSONController
         }
 
         if (!$dbCreated) {
-            $r->view = 'setup';
+            $r->view  = 'setup';
+            $r->error = true;
         } else {
-            if (!$databaseModel->handleOldDatabase()) {
-                $r->view = 'setup';
+            // Re-fetch options from the session as the create database call might modify them.
+            $updatedOptions = $databaseModel->getOptions();
+
+            if (!$databaseModel->handleOldDatabase($updatedOptions)) {
+                $r->view  = 'setup';
+                $r->error = true;
             }
         }
 
@@ -131,9 +156,10 @@ class InstallationController extends JSONController
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
         $model = $this->getModel('Database');
 
-        $r     = new \stdClass();
-        $db    = $model->initialise();
-        $files = [
+        $r       = new \stdClass();
+        $options = $model->getOptions();
+        $db      = $model->initialise($options);
+        $files   = [
             'populate1' => 'base',
             'populate2' => 'supports',
             'populate3' => 'extensions',
@@ -144,7 +170,7 @@ class InstallationController extends JSONController
         $schema     = $files[$step];
         $serverType = $db->getServerType();
 
-        if (in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql')) {
+        if (\in_array($step, ['custom1', 'custom2']) && !is_file(JPATH_INSTALLATION . '/sql/' . $serverType . '/' . $schema . '.sql')) {
             $this->sendJsonResponse($r);
 
             return;
@@ -152,13 +178,15 @@ class InstallationController extends JSONController
 
         if (!isset($files[$step])) {
             $r->view = 'setup';
-            Factory::getApplication()->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
+            $this->app->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
+            $r->error = true;
             $this->sendJsonResponse($r);
         }
 
         // Attempt to populate the database with the given file.
-        if (!$model->createTables($schema)) {
-            $r->view = 'setup';
+        if (!$model->createTables($schema, $options)) {
+            $r->view  = 'setup';
+            $r->error = true;
         }
 
         $this->sendJsonResponse($r);
@@ -189,7 +217,8 @@ class InstallationController extends JSONController
 
         // Attempt to setup the configuration.
         if (!$configurationModel->setup($options)) {
-            $r->view = 'setup';
+            $r->view  = 'setup';
+            $r->error = true;
         }
 
         $this->sendJsonResponse($r);

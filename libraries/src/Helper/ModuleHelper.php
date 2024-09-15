@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -42,7 +41,7 @@ abstract class ModuleHelper
      * @param   string  $name   The name of the module
      * @param   string  $title  The title of the module, optional
      *
-     * @return  \stdClass  The Module object
+     * @return  \stdClass|null  The Module object
      *
      * @since   1.5
      */
@@ -50,15 +49,14 @@ abstract class ModuleHelper
     {
         $result  = null;
         $modules =& static::load();
-        $total   = \count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the name of the module
-            if ($modules[$i]->name === $name || $modules[$i]->module === $name) {
+            if ($module->name === $name || $module->module === $name) {
                 // Match the title if we're looking for a specific instance of the module
-                if (!$title || $modules[$i]->title === $title) {
+                if (!$title || $module->title === $title) {
                     // Found it
-                    $result = &$modules[$i];
+                    $result = $module;
                     break;
                 }
             }
@@ -88,11 +86,10 @@ abstract class ModuleHelper
         $result   = [];
         $input    = Factory::getApplication()->getInput();
         $modules  = &static::load();
-        $total    = \count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
-            if ($modules[$i]->position === $position) {
-                $result[] = &$modules[$i];
+        foreach ($modules as $module) {
+            if ($module->position === $position) {
+                $result[] = $module;
             }
         }
 
@@ -209,11 +206,12 @@ abstract class ModuleHelper
         $module->style = $attribs['style'];
 
         // If the $module is nulled it will return an empty content, otherwise it will render the module normally.
-        $attrProxy = new ArrayProxy($attribs);
-        $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
+        $brEvent = $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
             'subject'    => $module,
-            'attributes' => $attrProxy,
+            'attributes' => &$attribs, // @todo: Remove reference in Joomla 6, see BeforeRenderModuleEvent::__constructor()
         ]));
+        // Get final attributes
+        $attribs = $brEvent->getArgument('attributes', $attribs);
 
         if (!isset($module->content)) {
             return '';
@@ -241,7 +239,7 @@ abstract class ModuleHelper
 
         $dispatcher->dispatch('onAfterRenderModule', new Module\AfterRenderModuleEvent('onAfterRenderModule', [
             'subject'    => $module,
-            'attributes' => $attrProxy,
+            'attributes' => $attribs,
         ]));
 
         if (JDEBUG) {
@@ -375,24 +373,24 @@ abstract class ModuleHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         $modules    = [];
 
-        $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
-            'subject' => new ArrayProxy($modules),
-        ]));
+        $modules = $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see PrepareModuleListEvent::__constructor()
+        ]))->getArgument('modules', $modules);
 
         // If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
         if (!$modules) {
             $modules = static::getModuleList();
         }
 
-        $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
-            'subject' => new ArrayProxy($modules),
-        ]));
+        $modules = $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterModuleListEvent::__constructor()
+        ]))->getArgument('modules', $modules);
 
         $modules = static::cleanModuleList($modules);
 
-        $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
-            'subject' => new ArrayProxy($modules),
-        ]));
+        $modules = $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterCleanModuleListEvent::__constructor()
+        ]))->getArgument('modules', $modules);
 
         return $modules;
     }
@@ -590,7 +588,7 @@ abstract class ModuleHelper
         $ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
         $cacheDisabled    = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
 
-        if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id')) {
+        if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->id) {
             $cache->setCaching(false);
         }
 
@@ -695,13 +693,11 @@ abstract class ModuleHelper
     {
         $modules =& static::load();
 
-        $total = \count($modules);
-
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the id of the module
-            if ((string) $modules[$i]->id === $id) {
+            if ((string) $module->id === $id) {
                 // Found it
-                return $modules[$i];
+                return $module;
             }
         }
 

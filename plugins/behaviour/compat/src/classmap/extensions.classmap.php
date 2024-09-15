@@ -8,7 +8,7 @@
  */
 
 // No direct access.
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Class map of the core extensions
 JLoader::registerAlias('ActionLogPlugin', '\\Joomla\\Component\\Actionlogs\\Administrator\\Plugin\\ActionLogPlugin', '5.0');

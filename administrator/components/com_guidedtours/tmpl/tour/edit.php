@@ -16,13 +16,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Guidedtours\Administrator\View\Tour\HtmlView $this */
+
 $app   = Factory::getApplication();
 $user  = $app->getIdentity();
 $input = $app->getInput();
 $lang  = $this->getLanguage()->getTag();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 ?>
@@ -30,7 +32,14 @@ $wa->useScript('keepalive')
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' .
     (int) $this->item->id); ?>" method="post" name="adminForm" id="guidedtours-form" class="form-validate">
 
-    <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
+    <div class="row title-alias form-vertical mb-3">
+        <div class="col-12 col-md-6">
+            <?php echo $this->form->renderField('title'); ?>
+        </div>
+        <div class="col-12 col-md-6">
+            <?php echo $this->form->renderField('uid'); ?>
+        </div>
+    </div>
 
     <?php if ($this->item->id != 0 && strpos($this->item->title, 'GUIDEDTOUR') !== false) : ?>
         <div class="row title-alias form-vertical mb-3">
@@ -64,6 +73,7 @@ $wa->useScript('keepalive')
                         'access',
                         'language',
                         'extensions',
+                        'autostart',
                         'note',
                     ];
 

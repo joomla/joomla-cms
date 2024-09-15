@@ -37,7 +37,9 @@ class ArrayReadOnlyProxy extends ArrayProxy implements ReadOnlyProxyInterface
         // Ensure that the child also is a read-only
         if (\is_scalar($value) || $value === null) {
             return $value;
-        } elseif (\is_array($value)) {
+        }
+
+        if (\is_array($value)) {
             $value = new static($value);
         } elseif (\is_object($value)) {
             $value = new ObjectReadOnlyProxy($value);
@@ -60,6 +62,6 @@ class ArrayReadOnlyProxy extends ArrayProxy implements ReadOnlyProxyInterface
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        throw new \RuntimeException(sprintf('ArrayReadOnlyProxy: trying to modify read-only element, by key "%s"', $offset));
+        throw new \RuntimeException(\sprintf('ArrayReadOnlyProxy: trying to modify read-only element, by key "%s"', $offset));
     }
 }

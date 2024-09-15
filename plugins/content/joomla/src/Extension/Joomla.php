@@ -62,7 +62,7 @@ final class Joomla extends CMSPlugin
         }
 
         // Check we are handling the frontend edit form.
-        if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew || !$table->hasField('published')) {
+        if (!\in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew || !$table->hasField('published')) {
             return true;
         }
 
@@ -144,7 +144,7 @@ final class Joomla extends CMSPlugin
                 $message = [
                     'user_id_to' => $user_id,
                     'subject'    => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-                    'message'    => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
+                    'message'    => \sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->name, $article->title),
                 ];
                 $model_message = $this->getApplication()->bootComponent('com_messages')->getMVCFactory()
                     ->createModel('Message', 'Administrator');
@@ -166,7 +166,7 @@ final class Joomla extends CMSPlugin
     public function onContentBeforeDelete($context, $data)
     {
         // Skip plugin if we are deleting something other than categories
-        if (!in_array($context, ['com_categories.category', 'com_workflow.stage', 'com_workflow.workflow'])) {
+        if (!\in_array($context, ['com_categories.category', 'com_workflow.stage', 'com_workflow.workflow'])) {
             return true;
         }
 
@@ -195,7 +195,7 @@ final class Joomla extends CMSPlugin
      */
     public function onContentBeforeChangeState($context, $pks, $value)
     {
-        if ($value > 0 || !in_array($context, ['com_workflow.workflow', 'com_workflow.stage'])) {
+        if ($value > 0 || !\in_array($context, ['com_workflow.workflow', 'com_workflow.stage'])) {
             return true;
         }
 
@@ -263,7 +263,7 @@ final class Joomla extends CMSPlugin
         // Check if there is already a schema for the item, then skip it
         $mySchema = $schema->toArray();
 
-        if (!isset($mySchema['@graph']) || !is_array($mySchema['@graph'])) {
+        if (!isset($mySchema['@graph']) || !\is_array($mySchema['@graph'])) {
             return;
         }
 
@@ -305,9 +305,9 @@ final class Joomla extends CMSPlugin
 
                 return [$articleSchema];
             }, [$id]);
-        } elseif (in_array($view, ['category', 'featured', 'archive'])) {
+        } elseif (\in_array($view, ['category', 'featured', 'archive'])) {
             $additionalSchemas = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
-                $menu = $app->getMenu()->getActive();
+                $menu     = $app->getMenu()->getActive();
                 $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
 
                 $additionalSchemas = [];
@@ -488,7 +488,7 @@ final class Joomla extends CMSPlugin
         // Check if there is already a schema for the item, then skip it
         $mySchema = $schema->toArray();
 
-        if (!isset($mySchema['@graph']) || !is_array($mySchema['@graph'])) {
+        if (!isset($mySchema['@graph']) || !\is_array($mySchema['@graph'])) {
             return;
         }
 
@@ -925,7 +925,7 @@ final class Joomla extends CMSPlugin
         }
 
         // Make sure we only do the query if we have some categories to look in
-        if (count($childCategoryIds)) {
+        if (\count($childCategoryIds)) {
             // Count the items in this category
             $query = $db->getQuery(true)
                 ->select('COUNT(' . $db->quoteName('id') . ')')
@@ -942,9 +942,10 @@ final class Joomla extends CMSPlugin
             }
 
             return $count;
-        } else { // If we didn't have any categories to check, return 0
-            return 0;
         }
+
+        // If we didn't have any categories to check, return 0
+        return 0;
     }
 
     /**
@@ -1010,7 +1011,7 @@ final class Joomla extends CMSPlugin
         // Display error if catid is not set when enable_category is enabled
         $params = json_decode($table->params, true);
 
-        if ($params['enable_category'] == 1 && empty($params['catid'])) {
+        if (isset($params['enable_category']) && $params['enable_category'] === 1 && empty($params['catid'])) {
             $table->setError($this->getApplication()->getLanguage()->_('COM_CONTENT_CREATE_ARTICLE_ERROR'));
 
             return false;

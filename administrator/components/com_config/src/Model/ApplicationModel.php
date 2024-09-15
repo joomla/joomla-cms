@@ -67,7 +67,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A JForm object on success, false on failure
+     * @return  mixed  A Form object on success, false on failure
      *
      * @since   1.6
      */
@@ -122,17 +122,11 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Merge in the session data.
         if (!empty($temp)) {
             // $temp can sometimes be an object, and we need it to be an array
-            if (is_object($temp)) {
+            if (\is_object($temp)) {
                 $temp = ArrayHelper::fromObject($temp);
             }
 
             $data = array_merge($temp, $data);
-        }
-
-        // Correct error_reporting value, since we removed "development", the "maximum" should be set instead
-        // @TODO: This can be removed in 5.0
-        if (!empty($data['error_reporting']) && $data['error_reporting'] === 'development') {
-            $data['error_reporting'] = 'maximum';
         }
 
         return $data;
@@ -360,7 +354,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
 
                 // If available in HTTPS check also the status code.
-                if (!in_array($response->code, [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
+                if (!\in_array($response->code, [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
                     throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
                 }
             } catch (\RuntimeException $e) {
@@ -380,7 +374,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             // Check that we aren't removing our Super User permission
             // Need to get groups from database, since they might have changed
-            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->get('id'));
+            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->id);
             $myRules       = $rules->getData();
             $hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
@@ -502,7 +496,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $data['session_filesystem_path'] = Path::clean($data['session_filesystem_path']);
 
             if ($currentPath !== $data['session_filesystem_path']) {
-                if (!Folder::exists($data['session_filesystem_path']) && !Folder::create($data['session_filesystem_path'])) {
+                if (!is_dir(Path::clean($data['session_filesystem_path'])) && !Folder::create($data['session_filesystem_path'])) {
                     try {
                         Log::add(
                             Text::sprintf(
@@ -751,7 +745,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $result      = $dispatcher->dispatch('onApplicationBeforeSave', $eventBefore)->getArgument('result', []);
 
         // Store the data.
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
         }
 
@@ -794,7 +788,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $result      = $dispatcher->dispatch('onApplicationBeforeSave', $eventBefore)->getArgument('result', []);
 
         // Store the data.
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
         }
 
@@ -865,7 +859,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $input = $app->getInput();
         $user  = $this->getCurrentUser();
 
-        if (is_null($permission)) {
+        if (\is_null($permission)) {
             // Get data from input.
             $permission = [
                 'component' => $input->json->get('comp'),
@@ -899,7 +893,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $isSuperUserGroupBefore = Access::checkGroup($permission['rule'], 'core.admin');
 
         // Check if current user belongs to changed group.
-        $currentUserBelongsToGroup = in_array((int) $permission['rule'], $user->groups) ? true : false;
+        $currentUserBelongsToGroup = \in_array((int) $permission['rule'], $user->groups);
 
         // Get current user groups tree.
         $currentUserGroupsTree = Access::getGroupsByUser($user->id, true);
@@ -915,7 +909,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // If user is not Super User cannot change the permissions of a group it belongs to.
-        if (!$currentUserSuperUser && in_array((int) $permission['rule'], $currentUserGroupsTree)) {
+        if (!$currentUserSuperUser && \in_array((int) $permission['rule'], $currentUserGroupsTree)) {
             $app->enqueueMessage(Text::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_PARENT_GROUPS'), 'error');
 
             return false;
@@ -1216,7 +1210,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
         $mailer->addTemplateData(
             [
-                'sitename' => $app->get('sitename'),
+                // Replace the occurrences of "@" and "|" in the site name
+                'sitename' => str_replace(['@', '|'], '', $app->get('sitename')),
                 'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );

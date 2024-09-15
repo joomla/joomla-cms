@@ -17,8 +17,8 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,12 +43,12 @@ class CategoriesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                     $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface|null  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -156,7 +156,7 @@ class CategoriesModel extends ListModel
     /**
      * Method to get a database query to list categories.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -174,7 +174,7 @@ class CategoriesModel extends ListModel
                 'a.id, a.title, a.alias, a.note, a.published, a.access' .
                 ', a.checked_out, a.checked_out_time, a.created_user_id' .
                 ', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-                ', a.language'
+                ', a.language, a.description'
             )
         );
         $query->from($db->quoteName('#__categories', 'a'));
@@ -245,12 +245,12 @@ class CategoriesModel extends ListModel
         $categoryId = $this->getState('filter.category_id', []);
         $level      = $this->getState('filter.level');
 
-        if (!is_array($categoryId)) {
+        if (!\is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
-        // Case: Using both categories filter and by level filter
-        if (count($categoryId)) {
+        if (\count($categoryId)) {
+            // Case: Using both categories filter and by level filter
             $categoryTable    = Table::getInstance('Category', 'JTable');
             $subCatItemsWhere = [];
 
@@ -263,9 +263,8 @@ class CategoriesModel extends ListModel
             }
 
             $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-
-        // Case: Using only the by level filter
         } elseif ($level) {
+            // Case: Using only the by level filter
             $query->where($db->quoteName('a.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
@@ -494,7 +493,7 @@ class CategoriesModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

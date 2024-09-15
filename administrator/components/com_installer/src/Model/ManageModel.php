@@ -11,6 +11,7 @@
 namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Changelog\Changelog;
+use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
@@ -20,8 +21,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,13 +38,13 @@ class ManageModel extends InstallerModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -56,6 +57,7 @@ class ManageModel extends InstallerModel
                 'package_id',
                 'extension_id',
                 'creationDate',
+                'core',
             ];
         }
 
@@ -79,15 +81,6 @@ class ManageModel extends InstallerModel
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
         $app = Factory::getApplication();
-
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
-        $this->setState('filter.package_id', $this->getUserStateFromRequest($this->context . '.filter.package_id', 'filter_package_id', null, 'int'));
-        $this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
-        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
-        $this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
-        $this->setState('filter.core', $this->getUserStateFromRequest($this->context . '.filter.core', 'filter_core', '', 'string'));
 
         $this->setState('message', $app->getUserState('com_installer.message'));
         $this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -123,12 +116,16 @@ class ManageModel extends InstallerModel
          * Ensure eid is an array of extension ids
          * @todo: If it isn't an array do we want to set an error and fail?
          */
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid];
         }
 
         // Get a table object for the extension type
-        $table = new Extension($this->getDatabase());
+        $table      = new Extension($this->getDatabase());
+        $context    = $this->option . '.' . $this->name;
+        $dispatcher = $this->getDispatcher();
+
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
 
         // Enable the extension in the table and store it in the database
         foreach ($eid as $i => $id) {
@@ -158,10 +155,12 @@ class ManageModel extends InstallerModel
                 $table->enabled = $value;
             }
 
-            $context = $this->option . '.' . $this->name;
-
-            PluginHelper::importPlugin('extension');
-            Factory::getApplication()->triggerEvent('onExtensionChangeState', [$context, $eid, $value]);
+            // Trigger the before change state event.
+            $dispatcher->dispatch('onExtensionChangeState', new BeforeChangeStateEvent('onExtensionChangeState', [
+                'context' => $context,
+                'subject' => $eid,
+                'value'   => $value,
+            ]));
 
             if (!$table->store()) {
                 $this->setError($table->getError());
@@ -188,7 +187,7 @@ class ManageModel extends InstallerModel
      */
     public function refresh($eid)
     {
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid => 0];
         }
 
@@ -227,7 +226,7 @@ class ManageModel extends InstallerModel
          * Ensure eid is an array of extension ids in the form id => client_id
          * @todo: If it isn't an array do we want to set an error and fail?
          */
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid => 0];
         }
 
@@ -300,7 +299,7 @@ class ManageModel extends InstallerModel
     /**
      * Method to get the database query
      *
-     * @return  DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   1.6
      */
@@ -443,14 +442,12 @@ class ManageModel extends InstallerModel
             'note'     => [],
         ];
 
-        array_walk(
-            $entries,
-            function (&$value, $name) use ($changelog) {
-                if ($field = $changelog->get($name)) {
-                    $value = $changelog->get($name)->data;
-                }
+        foreach (array_keys($entries) as $name) {
+            $field = $changelog->get($name);
+            if ($field) {
+                $entries[$name] = $changelog->get($name)->data;
             }
-        );
+        }
 
         $layout = new FileLayout('joomla.installer.changelog');
         $output = $layout->render($entries);

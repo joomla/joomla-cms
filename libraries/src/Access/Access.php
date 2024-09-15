@@ -679,10 +679,10 @@ class Access
                 if (isset($preloadedAssetsByName[$assetKey])) {
                     $loaded[$assetKey] = $preloadedAssetsByName[$assetKey];
                 } else {
-                    // Else we have to do an extra db query to fetch it from the table fetch it from table.
+                    // Else we have to do an extra db query to fetch it from the table.
                     $table = new Asset(Factory::getDbo());
                     $table->load(['name' => $assetKey]);
-                    $loaded[$assetKey] = $table->id;
+                    $loaded[$assetKey] = $table->id ?? 0;
                 }
             }
         }
@@ -987,7 +987,9 @@ class Access
                 if (($id < 0) && (($id * -1) == $userId)) {
                     $authorised[] = $level;
                     break;
-                } elseif (($id >= 0) && \in_array($id, $groups)) {
+                }
+
+                if (($id >= 0) && \in_array($id, $groups)) {
                     // Check to see if the group is mapped to the level.
                     $authorised[] = $level;
                     break;
@@ -1013,12 +1015,12 @@ class Access
         if (!is_file($file) || !is_readable($file)) {
             // If unable to find the file return false.
             return false;
-        } else {
-            // Else return the actions from the xml.
-            $xml = simplexml_load_file($file);
-
-            return self::getActionsFromData($xml, $xpath);
         }
+
+        // Else return the actions from the xml.
+        $xml = simplexml_load_file($file);
+
+        return self::getActionsFromData($xml, $xpath);
     }
 
     /**

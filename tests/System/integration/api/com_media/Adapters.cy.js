@@ -6,7 +6,7 @@ describe('Test that media adapters API endpoint', () => {
         .should('include', 'local'));
   });
 
-  it('can deliver a specific of adapters', () => {
+  it('can deliver a specific adapter', () => {
     cy.api_get('/media/adapters/local-images')
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('provider_id')

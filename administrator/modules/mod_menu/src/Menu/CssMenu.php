@@ -12,6 +12,7 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
@@ -235,7 +236,7 @@ class CssMenu
 
             $table->load(['menutype' => $menutype]);
 
-            $menutype = $table->get('title', $menutype);
+            $menutype = isset($table->title) ? $table->title : $menutype;
             $message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
 
             $this->application->enqueueMessage($message, 'warning');
@@ -257,6 +258,7 @@ class CssMenu
     {
         $user       = $this->application->getIdentity();
         $language   = $this->application->getLanguage();
+        $dispatcher = $this->application->getDispatcher();
 
         $noSeparator = true;
         $children    = $parent->getChildren();
@@ -266,7 +268,12 @@ class CssMenu
          * $children is an array of AdministratorMenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $this->application->triggerEvent('onPreprocessMenuItems', ['com_menus.administrator.module', $children, $this->params, $this->enabled]);
+        $children = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+            'context' => 'com_menus.administrator.module',
+            'subject' => &$children, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'params'  => $this->params,
+            'enabled' => $this->enabled,
+        ]))->getArgument('subject', $children);
 
         foreach ($children as $item) {
             $itemParams = $item->getParams();
@@ -406,7 +413,7 @@ class CssMenu
             }
 
             // Exclude if link is invalid
-            if (is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
+            if (\is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
                 $parent->removeChild($item);
                 continue;
             }

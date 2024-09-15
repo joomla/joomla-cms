@@ -10,13 +10,12 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -37,48 +36,46 @@ trait DisplayTrait
     use XTDButtons;
 
     /**
-     * Display the editor area.
+     * Gets the editor HTML markup
      *
-     * @param   string   $name     The name of the editor area.
-     * @param   string   $content  The content of the field.
-     * @param   string   $width    The width of the editor area.
-     * @param   string   $height   The height of the editor area.
-     * @param   int      $col      The number of columns for the editor area.
-     * @param   int      $row      The number of rows for the editor area.
-     * @param   boolean  $buttons  True and the editor buttons will be displayed.
-     * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
-     * @param   string   $asset    The object asset
-     * @param   object   $author   The author.
-     * @param   array    $params   Associative array of editor parameters.
+     * @param   string  $name        Input name.
+     * @param   string  $content     The content of the field.
+     * @param   array   $attributes  Associative array of editor attributes.
+     * @param   array   $params      Associative array of editor parameters.
      *
-     * @return  string
+     * @return  string  The HTML markup of the editor
+     *
+     * @since   5.0.0
      */
-    public function onDisplay(
-        $name,
-        $content,
-        $width,
-        $height,
-        $col,
-        $row,
-        $buttons = true,
-        $id = null,
-        $asset = null,
-        $author = null,
-        $params = []
-    ) {
-        $id              = empty($id) ? $name : $id;
-        $user            = $this->getApplication()->getIdentity();
-        $language        = $this->getApplication()->getLanguage();
-        $doc             = $this->getApplication()->getDocument();
+    public function display(string $name, string $content = '', array $attributes = [], array $params = []): string
+    {
+        // General variables
+        $app             = $this->application;
+        $user            = $app->getIdentity();
+        $language        = $app->getLanguage();
+        $doc             = $app->getDocument();
         $wa              = $doc->getWebAssetManager();
+        $options         = $doc->getScriptOptions('plg_editor_tinymce');
+        $csrf            = Session::getFormToken();
+
+        // Editor variables
+        $col             = $attributes['col'] ?? '';
+        $row             = $attributes['row'] ?? '';
+        $width           = $attributes['width'] ?? '';
+        $height          = $attributes['height'] ?? '';
+        $id              = $attributes['id'] ?? $name;
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
         $fieldName       = end($nameGroup);
+        $buttons         = $params['buttons'] ?? true;
+        $asset           = $params['asset'] ?? 0;
+        $author          = $params['author'] ?? 0;
         $scriptOptions   = [];
         $externalPlugins = [];
-        $options         = $doc->getScriptOptions('plg_editor_tinymce');
         $theme           = 'silver';
-        $csrf            = Session::getFormToken();
+
+        // Register assets
+        $wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
 
         // Data object for the layout
         $textarea           = new \stdClass();
@@ -95,7 +92,7 @@ trait DisplayTrait
         // Render Editor markup
         $editor = '<div class="js-editor-tinymce">';
         $editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
-        $editor .= !$this->getApplication()->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
+        $editor .= !$app->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
         $editor .= '</div>';
 
         // Prepare the instance specific options
@@ -119,15 +116,15 @@ trait DisplayTrait
 
         // The ext-buttons
         if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons'])) {
-            $btns = $this->tinyButtons($id, $buttons);
+            $tinyButtons = $this->tinyButtons($buttons, ['asset' => $asset, 'author' => $author, 'editorId' => $id]);
 
             $options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
-            $options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+            $options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $tinyButtons;
         }
 
         $doc->addScriptOptions('plg_editor_tinymce', $options, false);
-        // Setup Default (common) options for the Editor script
 
+        // Setup Default (common) options for all Editor instances
         // Check whether we already have them
         if (!empty($options['tinyMCE']['default'])) {
             return $editor;
@@ -142,7 +139,7 @@ trait DisplayTrait
         $extraOptionsAll  = (array) $this->params->get('configuration.setoptions', []);
         $toolbarParamsAll = (array) $this->params->get('configuration.toolbars', []);
 
-        // Sort the array in reverse, so the items with lowest access level goes first
+        // Sort the array in reverse, so the items with the lowest access level goes first
         krsort($extraOptionsAll);
 
         // Get configuration depend from User group
@@ -177,10 +174,12 @@ trait DisplayTrait
         $levelParams->loadObject($extraOptions);
 
         // Set the selected skin
-        $skin = $levelParams->get($this->getApplication()->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+        $skin     = $levelParams->get($app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+        $skinDark = $levelParams->get($app->isClient('administrator') ? 'skin_admin_dark' : 'skin_dark', 'oxide-dark');
 
         // Check that selected skin exists.
-        $skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+        $skin     = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+        $skinDark = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skinDark) ? $skinDark : 'oxide-dark';
 
         if (!$levelParams->get('lang_mode', 1)) {
             // Admin selected language
@@ -253,7 +252,9 @@ trait DisplayTrait
             'lists',
             'importcss',
             'quickbars',
+            'jxtdbuttons',
         ];
+        $wa->useScript('plg_editors_tinymce.jxtdbuttons');
 
         // Allowed elements
         $elements = [
@@ -305,10 +306,6 @@ trait DisplayTrait
             }
         }
 
-        $jtemplates = !empty($allButtons['jtemplate'])
-            ? Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&format=json&template=' . $levelParams->get('content_template_path') . '&' . $csrf . '=1'
-            : false;
-
         // Check for extra plugins, from the setoptions form
         foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1] as $pName => $def) {
             if ($levelParams->get($pName, $def)) {
@@ -318,29 +315,31 @@ trait DisplayTrait
 
         // Use CodeMirror in the code view instead of plain text to provide syntax highlighting
         if ($levelParams->get('sourcecode', 1)) {
-            // Check whether the plugin registered
-            if (!$wa->assetExists('script', 'plg_editors_tinymce_highlighter')) {
-                $wa->getRegistry()->addExtensionRegistryFile('plg_editors_codemirror');
-                $wa->registerScript(
-                    'plg_editors_tinymce_highlighter',
-                    'plg_editors_tinymce/plugins/joomla-highlighter/plugin.min.js',
-                    [],
-                    ['type' => 'module'],
-                    ['core', 'tinymce', 'codemirror']
-                );
-            }
-
             // Enable joomla-highlighter plugin
-            $wa->useScript('plg_editors_tinymce_highlighter');
+            $wa->getRegistry()->addExtensionRegistryFile('plg_editors_codemirror');
+            $wa->useScript('plg_editors_tinymce.highlighter');
             $plugins[] = 'joomlaHighlighter';
         }
 
         $dragdrop = $levelParams->get('drag_drop', 1);
 
         if ($dragdrop && $user->authorise('core.create', 'com_media')) {
-            $externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
-            $uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
-            $uploadUrl                     = $this->getApplication()->isClient('site') ? htmlentities($uploadUrl, ENT_NOQUOTES, 'UTF-8', false) : $uploadUrl;
+            $wa->useScript('plg_editors_tinymce.jdragndrop');
+            $plugins[]  = 'jdragndrop';
+            $uploadUrl  = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
+            $uploadPath = $levelParams->get('path', '');
+
+            // Make sure the path is full, and contain the media adapter in it.
+            $mediaHelper = new class () {
+                use ProviderManagerHelperTrait;
+
+                public function prepareTinyMCEUploadPath(string $path): string
+                {
+                    $result = $this->resolveAdapterAndPath($path);
+
+                    return implode(':', $result);
+                }
+            };
 
             Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
             Text::script('ERROR');
@@ -348,13 +347,10 @@ trait DisplayTrait
             Text::script('PLG_TINY_DND_ALTTEXT');
             Text::script('PLG_TINY_DND_LAZYLOADED');
             Text::script('PLG_TINY_DND_EMPTY_ALT');
+            Text::script('PLG_TINY_DND_FILE_EXISTS_ERROR');
 
-            $scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
-            $scriptOptions['csrfToken']          = $csrf;
+            $scriptOptions['parentUploadFolder'] = $mediaHelper->prepareTinyMCEUploadPath($uploadPath);
             $scriptOptions['uploadUri']          = $uploadUrl;
-
-            // @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
-            $scriptOptions['comMediaAdapter']    = 'local-images:';
         }
 
         // Convert pt to px in dropdown
@@ -373,6 +369,15 @@ trait DisplayTrait
             }
         }
 
+        // Should load the template plugin?
+        if (!empty($allButtons['jtemplate'])) {
+            $wa->useScript('plg_editors_tinymce.jtemplate');
+            $plugins[] = 'jtemplate';
+
+            $scriptOptions['jtemplates'] = Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&format=json&template='
+                . $levelParams->get('content_template_path') . '&' . $csrf . '=1';
+        }
+
         // User custom plugins and buttons
         $custom_plugin = trim($levelParams->get('custom_plugin', ''));
         $custom_button = trim($levelParams->get('custom_button', ''));
@@ -388,9 +393,21 @@ trait DisplayTrait
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
 
-        // Should load the templates plugin?
-        if (in_array('jtemplate', $toolbar)) {
-            $externalPlugins['jtemplate'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/jtemplate/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+        // Set default classes to empty
+        $linkClasses = [];
+
+        // Load the link classes list
+        if (isset($extraOptions->link_classes_list) && $extraOptions->link_classes_list) {
+            $linksClassesList = $extraOptions->link_classes_list;
+
+            if ($linksClassesList) {
+                $linkClasses = [['title' => TEXT::_('PLG_TINY_FIELD_LINK_CLASS_NONE'), 'value' => '']];
+
+                // Create an array for the link classes
+                foreach ($linksClassesList as $linksClassList) {
+                    array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
+                }
+            }
         }
 
         // Build the final options set
@@ -402,7 +419,8 @@ trait DisplayTrait
                 'directionality'              => $language->isRtl() ? 'rtl' : 'ltr',
                 'language'                    => $langPrefix,
                 'autosave_restore_when_empty' => false,
-                'skin'                        => $skin,
+                'skin_light'                  => $skin,
+                'skin_dark'                   => $skinDark,
                 'theme'                       => $theme,
                 'schema'                      => 'html5',
 
@@ -434,6 +452,9 @@ trait DisplayTrait
                 'relative_urls'      => (bool) $levelParams->get('relative_urls', true),
                 'remove_script_host' => false,
 
+                // Link classes
+                'link_class_list' => $linkClasses,
+
                 // Drag and drop Images always FALSE, reverting this allows for inlining the images
                 'paste_data_images' => false,
 
@@ -446,7 +467,6 @@ trait DisplayTrait
                 'width'             => $this->params->get('html_width', ''),
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
-                'jtemplates'        => $jtemplates,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
                 'contextmenu'       => (bool) $levelParams->get('contextmenu', true) ? null : false,
                 'toolbar_sticky'    => true,
@@ -456,6 +476,12 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
+                'image_class_list'      => [
+                    ['title' => 'None', 'value' => 'float-none'],
+                    ['title' => 'Left', 'value' => 'float-start'],
+                    ['title' => 'Right', 'value' => 'float-end'],
+                    ['title' => 'Center', 'value' => 'mx-auto d-block'],
+                ],
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,
@@ -464,6 +490,11 @@ trait DisplayTrait
                 'branding'  => false,
                 'promotion' => false,
 
+                // Hardened security
+                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
+                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
+                'convert_unsafe_embeds' => true,
+
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',
             ]
@@ -471,10 +502,10 @@ trait DisplayTrait
 
         if ($levelParams->get('newlines')) {
             // Break
-            $scriptOptions['force_br_newlines'] = true;
+            $scriptOptions['newline_behavior'] = 'invert';
         } else {
             // Paragraph
-            $scriptOptions['force_br_newlines'] = false;
+            $scriptOptions['newline_behavior']  = 'default';
             $scriptOptions['forced_root_block'] = 'p';
         }
 

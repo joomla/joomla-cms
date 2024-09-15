@@ -8,7 +8,7 @@ const cliProgress = require('cli-progress');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
-const { minify } = require('terser');
+const { transform } = require('esbuild');
 const { resolvePackageFile, getPackagesUnderScope } = require('../init/common/resolve-package.es6.js');
 
 // Build the module
@@ -39,7 +39,7 @@ const createMinified = async (filePath) => {
   // Read source
   const src = readFileSync(filePath, { encoding: 'utf8' });
   // Minify
-  const min = await minify(src, { sourceMap: false, format: { comments: false } });
+  const min = await transform(src, { minify: true });
   // Save result
   await writeFile(destFile, min.code, { encoding: 'utf8', mode: 0o644 });
 };

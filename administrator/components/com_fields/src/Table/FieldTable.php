@@ -18,6 +18,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -45,13 +46,14 @@ class FieldTable extends Table implements CurrentUserInterface
     /**
      * Class constructor.
      *
-     * @param   DatabaseDriver  $db  DatabaseDriver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.7.0
      */
-    public function __construct($db = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__fields', 'id', $db);
+        parent::__construct('#__fields', 'id', $db, $dispatcher);
 
         $this->setColumnAlias('published', 'state');
     }
@@ -71,13 +73,13 @@ class FieldTable extends Table implements CurrentUserInterface
      */
     public function bind($src, $ignore = '')
     {
-        if (isset($src['params']) && is_array($src['params'])) {
+        if (isset($src['params']) && \is_array($src['params'])) {
             $registry = new Registry();
             $registry->loadArray($src['params']);
             $src['params'] = (string) $registry;
         }
 
-        if (isset($src['fieldparams']) && is_array($src['fieldparams'])) {
+        if (isset($src['fieldparams']) && \is_array($src['fieldparams'])) {
             // Make sure $registry->options contains no duplicates when the field type is subform
             if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options'])) {
                 // Fast lookup map to check which custom field ids we have already seen
@@ -109,7 +111,7 @@ class FieldTable extends Table implements CurrentUserInterface
         }
 
         // Bind the rules.
-        if (isset($src['rules']) && is_array($src['rules'])) {
+        if (isset($src['rules']) && \is_array($src['rules'])) {
             $rules = new Rules($src['rules']);
             $this->setRules($rules);
         }
@@ -150,7 +152,7 @@ class FieldTable extends Table implements CurrentUserInterface
         $this->name = str_replace(',', '-', $this->name);
 
         // Verify that the name is unique
-        $table = new static($this->_db);
+        $table = new self($this->_db, $this->getDispatcher());
 
         if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
@@ -179,14 +181,14 @@ class FieldTable extends Table implements CurrentUserInterface
         if ($this->id) {
             // Existing item
             $this->modified_time = $date;
-            $this->modified_by   = $user->get('id');
+            $this->modified_by   = $user->id;
         } else {
             if (!(int) $this->modified_time) {
                 $this->modified_time = $this->created_time;
             }
 
             if (empty($this->created_user_id)) {
-                $this->created_user_id = $user->get('id');
+                $this->created_user_id = $user->id;
             }
 
             if (empty($this->modified_by)) {
@@ -256,14 +258,14 @@ class FieldTable extends Table implements CurrentUserInterface
      * The extended class can define a table and id to lookup.  If the
      * asset does not exist it will be created.
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     Id to look up
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   integer   $id     Id to look up
      *
      * @return  integer
      *
      * @since   3.7.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $contextArray = explode('.', $this->context);
         $component    = $contextArray[0];

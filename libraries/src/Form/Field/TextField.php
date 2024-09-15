@@ -199,7 +199,7 @@ class TextField extends FormField
             $this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
             $this->maxLength   = (int) $this->element['maxlength'];
-            $this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'true' : false;
+            $this->charcounter = isset($this->element['charcounter']) && strtolower($this->element['charcounter']) === 'true';
 
             $this->addonBefore = (string) $this->element['addonBefore'];
             $this->addonAfter  = (string) $this->element['addonAfter'];
@@ -247,7 +247,7 @@ class TextField extends FormField
             }
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**

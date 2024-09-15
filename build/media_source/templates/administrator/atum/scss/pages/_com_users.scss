@@ -21,6 +21,80 @@
     }
   }
 
+  &.view-user, &.view-methods {
+    #com-users-methods-reset-container {
+      background-color: $users-methods-reset-cont-bg;
+    }
+
+    .com-users-methods-list-method {
+      @extend .card;
+      @extend .mx-1;
+      @extend .mt-3;
+      @extend .mb-4;
+
+      &.com-users-methods-list-method-active {
+        @extend .border-secondary;
+
+        .com-users-methods-list-method-title h3 {
+          @extend .text-white;
+        }
+
+        .com-users-methods-list-method-header {
+          @extend .border-secondary;
+          @extend .bg-secondary;
+          @extend .text-white;
+        }
+      }
+
+      /** This is applied to headers that aren't an active method **/
+      &:not(.com-users-methods-list-method-active) .com-users-methods-list-method-header {
+        background-color: $users-method-header-inact-bg;
+      }
+
+      .com-users-methods-list-method-header {
+        @extend .align-items-center;
+        @extend .gap-2;
+        @extend .flex-wrap;
+        @extend .d-flex;
+        @extend .card-header;
+      }
+
+      .com-users-methods-list-method-image {
+        @extend .pt-1;
+        @extend .px-3;
+        @extend .pb-2;
+        @extend .rounded-2;
+
+        background-color: $users-method-image;
+      }
+
+      .com-users-methods-list-method-title {
+        @extend .flex-grow-1;
+        @extend .d-flex;
+        @extend .flex-column;
+
+        h3 {
+          @extend .fs-2;
+          @extend .p-0;
+          @extend .m-0;
+          @extend .d-flex;
+          @extend .gap-3;
+          @extend .align-items-center;
+        }
+      }
+
+      .com-users-methods-list-method-records-container {
+        @extend .card-body;
+      }
+
+      .com-users-methods-list-method-info {
+        @extend .my-1;
+        @extend .pb-1;
+        @extend .text-muted;
+      }
+    }
+  }
+
   #fieldset-groups {
     .controls {
       margin-inline-start: 2rem;

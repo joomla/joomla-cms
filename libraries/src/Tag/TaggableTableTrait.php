@@ -28,7 +28,7 @@ trait TaggableTableTrait
      * @var    TagsHelper
      * @since  4.0.0
      * @note   The tags helper property is set to public for backwards compatibility for Joomla 4.0. It will be made a
-     *         protected property in Joomla 5.0
+     *         protected property in Joomla 6.0
      */
     public $tagsHelper;
 

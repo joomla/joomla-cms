@@ -29,20 +29,6 @@ use Joomla\Utilities\ArrayHelper;
 class SetupModel extends BaseInstallationModel
 {
     /**
-     * Get the current setup options from the session.
-     *
-     * @return  array  An array of options from the session.
-     *
-     * @since   3.1
-     */
-    public function getOptions()
-    {
-        if (!empty(Factory::getSession()->get('setup.options', []))) {
-            return Factory::getSession()->get('setup.options', []);
-        }
-    }
-
-    /**
      * Store the current setup options in the session.
      *
      * @param   array  $options  The installation options.
@@ -109,6 +95,11 @@ class SetupModel extends BaseInstallationModel
             return false;
         }
 
+        /** @todo make this available in web installer too */
+        if (!Factory::getApplication()->isClient('cli_installation')) {
+            $form->removeField('public_folder');
+        }
+
         // Check the session for previously entered form data.
         $data = (array) $this->getOptions();
 
@@ -118,36 +109,6 @@ class SetupModel extends BaseInstallationModel
         }
 
         return $form;
-    }
-
-    /**
-     * Method to check the form data.
-     *
-     * @param   string  $page  The view being checked.
-     *
-     * @return  array|boolean  Array with the validated form data or boolean false on a validation failure.
-     *
-     * @since   3.1
-     */
-    public function checkForm($page = 'setup')
-    {
-        // Get the posted values from the request and validate them.
-        $data   = Factory::getApplication()->getInput()->post->get('jform', [], 'array');
-        $return = $this->validate($data, $page);
-
-        // Attempt to save the data before validation.
-        $form = $this->getForm();
-        $data = $form->filter($data);
-
-        $this->storeOptions($data);
-
-        // Check for validation errors.
-        if ($return === false) {
-            return false;
-        }
-
-        // Store the options in the session.
-        return $this->storeOptions($return);
     }
 
     /**
@@ -236,15 +197,15 @@ class SetupModel extends BaseInstallationModel
     /**
      * Method to validate the db connection properties.
      *
+     * @param   array  $options  Array with database credentials
+     *
      * @return  boolean
      *
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function validateDbConnection()
+    public function validateDbConnection(array $options)
     {
-        $options = $this->getOptions();
-
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
 

@@ -63,7 +63,7 @@ abstract class WorkflowStage
             // Using workflow ID to differentiate workflows having same title
             $workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
-            if (!array_key_exists($workflowStageKey, $workflowStages)) {
+            if (!\array_key_exists($workflowStageKey, $workflowStages)) {
                 $workflowStages[$workflowStageKey] = [];
             }
 

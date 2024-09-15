@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
-	<name>Persian (پارسی)</name>
-	<version>4.3.4</version>
-	<creationDate>2023-07</creationDate>
-	<author>JoomlaFarsi.Com Team</author>
+	<name>Persian (fa-IR)</name>
+	<version>5.2.0</version>
+	<creationDate>2024-09</creationDate>
+	<author>Persian Translation Team: joomlafarsi.com</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
@@ -11,7 +11,7 @@
 	</files>
 	<metadata>
 		<name>Persian (fa-IR)</name>
-		<nativeName>Persian (پارسی)</nativeName>
+		<nativeName>Persian (fa-IR)</nativeName>
 		<tag>fa-IR</tag>
 		<rtl>1</rtl>
 	</metadata>

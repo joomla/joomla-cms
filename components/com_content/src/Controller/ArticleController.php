@@ -107,9 +107,9 @@ class ArticleController extends FormController
         if ($allow === null) {
             // In the absence of better information, revert to the component permissions.
             return parent::allowAdd();
-        } else {
-            return $allow;
         }
+
+        return $allow;
     }
 
     /**
@@ -147,7 +147,7 @@ class ArticleController extends FormController
             }
 
             // Grant if current user is owner of the record
-            return $user->get('id') == $record->created_by;
+            return $user->id == $record->created_by;
         }
 
         return false;
@@ -182,7 +182,7 @@ class ArticleController extends FormController
                 $lang = '';
 
                 if (Multilanguage::isEnabled()) {
-                    $lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+                    $lang = !\is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
                 }
 
                 // Redirect to the user specified return page.
@@ -199,7 +199,7 @@ class ArticleController extends FormController
                 $item = $app->getMenu()->getItem($menuitemId);
 
                 if (Multilanguage::isEnabled()) {
-                    $lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+                    $lang = !\is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
                 }
 
                 // Redirect to the general (redirect_menuitem) user specified return page.
@@ -323,9 +323,9 @@ class ArticleController extends FormController
 
         if (empty($return) || !Uri::isInternal(base64_decode($return))) {
             return Uri::base();
-        } else {
-            return base64_decode($return);
         }
+
+        return base64_decode($return);
     }
 
     /**
@@ -359,7 +359,7 @@ class ArticleController extends FormController
 
             if (Multilanguage::isEnabled()) {
                 $item = $app->getMenu()->getItem($menuitem);
-                $lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+                $lang = !\is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
             }
 
             // If ok, redirect to the return page.

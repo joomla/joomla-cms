@@ -13,10 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$wa = Factory::getDocument()->getWebAssetManager();
-$wa->useScript('core')
-   ->useScript('webcomponent.toolbar-button');
-
 extract($displayData, EXTR_OVERWRITE);
 
 /**
@@ -38,6 +34,11 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $caretClass
  * @var   string  $toggleSplit
  */
+
+Factory::getApplication()->getDocument()->getWebAssetManager()
+    ->useScript('core')
+    ->useScript('webcomponent.toolbar-button');
+
 $tagName = $tagName ?? 'button';
 
 $taskAttr        = '';
@@ -54,8 +55,14 @@ if (!empty($alternativeAttr)) {
     $wa->useScript('joomla.alternative');
 }
 
+if ($msgAttr) {
+    Text::script('WARNING');
+    Text::script('JYES');
+    Text::script('JNO');
+}
+
 if ($id === 'toolbar-help') {
-    $title = ' title="' . Text::_('JGLOBAL_OPENS_IN_A_NEW_WINDOW') . '"';
+    $title = ' title="' . $this->escape(Text::_('JGLOBAL_OPENS_IN_A_NEW_WINDOW')) . '"';
 }
 
 if (!empty($task)) {

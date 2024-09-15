@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,7 +43,7 @@ class TagModel extends ListModel
     /**
      * Array of tags
      *
-     * @var    CMSObject[]
+     * @var    array
      * @since  4.3.0
      */
     protected $item = [];
@@ -51,12 +51,12 @@ class TagModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -130,7 +130,7 @@ class TagModel extends ListModel
     /**
      * Method to build an SQL query to load the list data of all items with a given tag.
      *
-     * @return  DatabaseQuery  An SQL query
+     * @return  QueryInterface  An SQL query
      *
      * @since   3.1
      */
@@ -185,7 +185,7 @@ class TagModel extends ListModel
         // Load state from the request.
         $ids = (array) $app->getInput()->get('id', [], 'string');
 
-        if (count($ids) == 1) {
+        if (\count($ids) == 1) {
             $ids = explode(',', $ids[0]);
         }
 
@@ -234,7 +234,7 @@ class TagModel extends ListModel
         $orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
         $orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'c.core_title';
         }
 
@@ -243,7 +243,7 @@ class TagModel extends ListModel
         $listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
         $listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
 
-        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -267,7 +267,7 @@ class TagModel extends ListModel
      */
     public function getItem($pk = null)
     {
-        if (!count($this->item)) {
+        if (!\count($this->item)) {
             if (empty($pk)) {
                 $pk = $this->getState('tag.id');
             }
@@ -290,7 +290,7 @@ class TagModel extends ListModel
                         }
                     }
 
-                    if (!in_array($table->access, $this->getCurrentUser()->getAuthorisedViewLevels())) {
+                    if (!\in_array($table->access, $this->getCurrentUser()->getAuthorisedViewLevels())) {
                         continue;
                     }
 
@@ -302,10 +302,6 @@ class TagModel extends ListModel
 
                     return false;
                 }
-            }
-
-            if (count($this->item) != count($idsArray)) {
-                throw new \Exception(Text::_('COM_TAGS_TAG_NOT_FOUND'), 404);
             }
         }
 

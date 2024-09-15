@@ -28,9 +28,63 @@ describe('Test in backend that the user list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Delete').click();
-      cy.on('window:confirm', () => true);
+      cy.clickDialogConfirm(true);
 
       cy.get('#system-message-container').contains('User deleted.').should('exist');
     });
+  });
+
+  it('can filter state', () => {
+    cy.db_createUser({ name: 'Test user 1', username: 'test1', block: 0 })
+      .then(() => cy.db_createUser({ name: 'Test user 2', username: 'test2', block: 1 }))
+      .then(() => {
+        cy.reload();
+
+        cy.get('#userList')
+          .should('contain', 'Test user 1')
+          .should('contain', 'Test user 2');
+
+        cy.setFilter('state', 'Enabled');
+
+        cy.get('#userList')
+          .should('contain', 'Test user 1')
+          .should('not.contain', 'Test user 2');
+
+        cy.setFilter('state', 'Disabled');
+
+        cy.get('#userList')
+          .should('not.contain', 'Test user 1')
+          .should('contain', 'Test user 2');
+      });
+  });
+
+  it('can filter group', () => {
+    cy.db_createUser({ name: 'Test user 1', username: 'test1', group_id: 2 })
+      .then(() => cy.db_createUser({ name: 'Test user 2', username: 'test2', group_id: 6 }))
+      .then(() => {
+        cy.reload();
+
+        cy.get('#userList')
+          .should('contain', 'Test user 1')
+          .should('contain', 'Test user 2');
+
+        cy.setFilter('group_id', '- Registered');
+
+        cy.get('#userList')
+          .should('contain', 'Test user 1')
+          .should('not.contain', 'Test user 2');
+
+        cy.setFilter('group_id', '- Manager');
+
+        cy.get('#userList')
+          .should('not.contain', 'Test user 1')
+          .should('contain', 'Test user 2');
+
+        cy.setFilter('group_id', '- Super Users');
+
+        cy.get('#userList')
+          .should('not.contain', 'Test user 1')
+          .should('not.contain', 'Test user 2');
+      });
   });
 });
