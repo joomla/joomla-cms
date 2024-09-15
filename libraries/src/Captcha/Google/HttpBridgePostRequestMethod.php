@@ -16,7 +16,7 @@ use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -45,11 +45,11 @@ final class HttpBridgePostRequestMethod implements RequestMethod
     /**
      * Class constructor.
      *
-     * @param   Http|null  $http  The HTTP adapter
+     * @param   ?Http  $http  The HTTP adapter
      *
      * @since   3.9.0
      */
-    public function __construct(Http $http = null)
+    public function __construct(?Http $http = null)
     {
         $this->http = $http ?: HttpFactory::getHttp();
     }

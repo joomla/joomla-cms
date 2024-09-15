@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="Recipe"
+				type="subform"
+				showon="schemaType:Recipe"
+			>
+				<form>
+
+					<field
+						name="@type"
+						type="hidden"
+						default="Recipe"
+					/>
+
+					<field
+						name="noteBook"
+						type="note"
+						description="PLG_SCHEMAORG_RECIPE_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
+						name="image"
+						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_IMAGE_LABEL"
+					/>
+
+					<field
+						name="name"
+						type="text"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_NAME_LABEL"
+						filter="string"
+						size="30"
+
+					/>
+
+					<field
+						name="author"
+						type="text"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_AUTHOR_LABEL"
+						filter="string"
+						size="30"
+
+					/>
+
+					<field
+						name="cookTime"
+						type="subform"
+						formsource="plugins\schemaorg\recipe\forms\duration.xml"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_COOK_TIME_LABEL"
+					/>
+
+					<field
+						name="datePublished"
+						type="calendar"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_DATE_PUBLISHED_LABEL"
+						class="input-small"
+						filter="user_utc"
+						showtime="false"
+						todaybutton="true"
+						translateformat="true"
+					/>
+
+					<field
+						name="description"
+						type="text"
+						filter="string"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_DESCRIPTION_LABEL"
+					/>
+
+					<field
+						name="cookingMethod"
+						type="text"
+						filter="string"
+						size="30"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_COOKING_METHOD_LABEL"
+					/>
+
+					<field
+						name="prepTime"
+						type="subform"
+						formsource="plugins\schemaorg\recipe\forms\duration.xml"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_PREPARATION_TIME_LABEL"
+					/>
+
+					<field
+						name="recipeCategory"
+						type="text"
+						filter="string"
+						size="30"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_CATEGORY_LABEL"
+					/>
+
+					<field
+						name="recipeCuisine"
+						type="text"
+						filter="string"
+						size="30"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_CUISINE_LABEL"
+					/>
+
+					<field
+						name="recipeInstructions"
+						type="text"
+						filter="string"
+						size="30"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_INSTRUCTIONS_LABEL"
+					/>
+
+					<field
+						name="recipeYield"
+						type="text"
+						filter="string"
+						size="30"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_YIELD_LABEL"
+					/>
+
+					<field
+						name="suitableForDiet"
+						type="text"
+						filter="string"
+						size="30"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_SUITABLE_FOR_DIET_LABEL"
+					/>
+
+					<field
+						name="recipeIngredient"
+						type="subform"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_INGREDIENTS_LABEL"
+						multiple="true"
+						min="1"
+					>
+						<form>
+							<field
+								name="ingredient"
+								type="text"
+								hiddenLabel="true"
+							/>
+						</form>
+					</field>
+
+					<field
+						name="nutrition"
+						type="subform"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_NUTRITION_LABEL"
+					>
+
+						<form>
+							<field
+								name="@type"
+								type="hidden"
+								default="NutritionInformation"
+							/>
+
+							<field
+								name="calories"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_CALORIES_LABEL"
+							/>
+
+							<field
+								name="carbohydrateContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_CARBOHYDRATE_LABEL"
+							/>
+
+							<field
+								name="cholesterolContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_CHOLESTEROL_CONTENT_LABEL"
+							/>
+
+							<field
+								name="fatContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_FAT_LABEL"
+							/>
+
+							<field
+								name="fiberContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_FIBER_LABEL"
+							/>
+
+							<field
+								name="proteinContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_PROTEIN_LABEL"
+							/>
+
+							<field
+								name="saturatedFatContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_SATURATED_FAT_LABEL"
+							/>
+
+							<field
+								name="sodiumContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_SODIUM_LABEL"
+							/>
+
+							<field
+								name="sugarContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_SUGAR_LABEL"
+							/>
+
+							<field
+								name="transFatContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_TRANS_FAT_LABEL"
+							/>
+
+							<field
+								name="unsaturatedFatContent"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_UNSATURATED_FAT_LABEL"
+							/>
+
+							<field
+								name="servingSize"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_SERVING_SIZE_LABEL"
+							/>
+						</form>
+					</field>
+
+					<field
+						name="genericField"
+						type="subform"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_GENERIC_FIELD_LABEL"
+						multiple="true"
+					>
+						<form>
+							<field
+								name="genericTitle"
+								type="text"
+								filter="string"
+								size="30"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_GENERIC_TITLE_LABEL"
+							/>
+							<field
+								name="genericValue"
+								type="text"
+								filter="string"
+								size="30"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_GENERIC_VALUE_LABEL"
+							/>
+						</form>
+
+					</field>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>

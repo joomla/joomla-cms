@@ -24,7 +24,7 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 /** @var  HtmlView  $this*/
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
     ->useScript('com_scheduler.test-task')
@@ -42,6 +42,7 @@ Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
 Text::script('JLIB_JS_AJAX_ERROR_PARSE');
+Text::script('JCLOSE');
 
 try {
     /** @var CMSWebApplicationInterface $app */
@@ -51,7 +52,7 @@ try {
 }
 
 $user = $app->getIdentity();
-$userId = $user->get('id');
+$userId = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
@@ -63,7 +64,11 @@ if ($saveOrder && !empty($this->items)) {
     HTMLHelper::_('draggablelist.draggable');
 }
 
-$this->document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
+// When there are due Tasks show that information to the user
+if ($this->hasDueTasks === true) {
+    $app->enqueueMessage(Text::_('COM_SCHEDULER_MSG_DUETASKS'), 'warning');
+}
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -71,7 +76,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar
-        echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+        echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
         ?>
 
         <!-- If no tasks -->
@@ -128,6 +133,11 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
                     <!-- Last runs -->
                     <th scope="col" class="d-none d-lg-table-cell">
                         <?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_LAST_RUN_DATE', 'a.last_execution', $listDirn, $listOrder) ?>
+                    </th>
+
+                    <!-- Next runs -->
+                    <th scope="col" class="d-none d-lg-table-cell">
+                        <?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_NEXT_RUN_DATE', 'a.next_execution', $listDirn, $listOrder) ?>
                     </th>
 
                     <!-- Test task -->
@@ -240,9 +250,17 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
                             <?php echo $item->last_execution ? HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5') : '-'; ?>
                         </td>
 
+                        <!-- Next run date -->
+                        <td class="small d-none d-lg-table-cell">
+                            <?php echo $item->next_execution ? HTMLHelper::_('date', $item->next_execution, 'DATE_FORMAT_LC5') : Text::_('COM_SCHEDULER_NEXT_RUN_MANUAL'); ?>
+                        </td>
+
                         <!-- Test task -->
                         <td class="small d-none d-md-table-cell">
-                            <button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
+                            <button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?>
+                                    data-scheduler-run
+                                    data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>"
+                                    data-url="<?php echo Route::_('index.php?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=' . (int) $item->id); ?>">
                                 <span class="fa fa-play fa-sm me-2"></span>
                                 <?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
                             </button>
@@ -268,20 +286,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
                 </tbody>
             </table>
 
-            <?php
-                // Load the pagination. (@todo: testing)
-                echo $this->pagination->getListFooter();
-
-                // Modal for test runs
-                $modalparams = [
-                    'title' => '',
-                ];
-
-                $modalbody = '<div class="p-3"></div>';
-
-                echo HTMLHelper::_('bootstrap.renderModal', 'scheduler-test-modal', $modalparams, $modalbody);
-
-                ?>
+            <?php echo $this->pagination->getListFooter(); ?>
 
         <?php endif; ?>
 

@@ -4,15 +4,13 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\Result;
 
-use InvalidArgumentException;
-
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -39,7 +37,8 @@ trait ResultTypeNumericAware
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated 5.0 You should use nullable values or exceptions instead of returning boolean false results.
+     * @deprecated  4.3 will be removed in 6.0
+     *              You should use nullable values or exceptions instead of returning boolean false results.
      */
     protected $resultIsFalseable = false;
 
@@ -49,7 +48,7 @@ trait ResultTypeNumericAware
      * @param   mixed  $data  The data to type check
      *
      * @return  void
-     * @throws  InvalidArgumentException
+     * @throws  \InvalidArgumentException
      *
      * @internal
      * @since   4.2.0
@@ -65,7 +64,7 @@ trait ResultTypeNumericAware
         }
 
         if (!is_numeric($data)) {
-            throw new InvalidArgumentException(sprintf('Event %s only accepts Numeric results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Numeric results.', $this->getName()));
         }
     }
 }

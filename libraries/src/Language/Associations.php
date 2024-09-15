@@ -15,7 +15,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -51,19 +51,19 @@ class Associations
         $pk = 'id',
         $aliasField = 'alias',
         $catField = 'catid',
-        $advClause = array()
+        $advClause = []
     ) {
         // To avoid doing duplicate database queries.
-        static $multilanguageAssociations = array();
+        static $multilanguageAssociations = [];
 
         // Cast before creating cache key.
         $id = (int) $id;
 
         // Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
-        $queryKey = md5(serialize(array_merge(array($extension, $tablename, $context, $id), $advClause)));
+        $queryKey = md5(serialize(array_merge([$extension, $tablename, $context, $id], $advClause)));
 
         if (!isset($multilanguageAssociations[$queryKey])) {
-            $multilanguageAssociations[$queryKey] = array();
+            $multilanguageAssociations[$queryKey] = [];
 
             $db                 = Factory::getDbo();
             $query              = $db->getQuery(true);
@@ -182,7 +182,7 @@ class Associations
                 $plugin = PluginHelper::getPlugin('system', 'languagefilter');
 
                 if (!empty($plugin)) {
-                    $params = new Registry($plugin->params);
+                    $params   = new Registry($plugin->params);
                     $enabled  = (bool) $params->get('item_associations', true);
                 }
 

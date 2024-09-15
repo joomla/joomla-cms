@@ -17,23 +17,25 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Fields\Administrator\View\Fields\HtmlView $this */
+
 if (Factory::getApplication()->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('com_fields.admin-fields-modal');
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('com_fields.admin-fields-modal')->useScript('modal-content-select');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
+$editor    = Factory::getApplication()->getInput()->get('editor', '', 'cmd');
 ?>
 <div class="container-popup">
 
     <form action="<?php echo Route::_('index.php?option=com_fields&view=fields&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -73,13 +75,25 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
                 </thead>
                 <tbody>
                     <?php
-                    $iconStates = array(
+                    $iconStates = [
                         -2 => 'icon-trash',
-                        0  => 'icon-times',
-                        1  => 'icon-check',
-                        2  => 'icon-folder',
-                    );
+                        0  => 'icon-unpublish',
+                        1  => 'icon-publish',
+                        2  => 'icon-archive',
+                    ];
                     foreach ($this->items as $i => $item) :
+                        $attrs = 'data-content-select data-content-type="com_fields.field"'
+                            . ' data-id="' . ((int) $item->id) . '"'
+                            . ' data-title="' . $this->escape($item->title) . '"'
+                            . ' data-name="' . $this->escape($item->name) . '"'
+                            . ' data-group="' . ((int) $item->group_id) . '"';
+
+                        $attrs1 = $attrs;
+                        $attrs1 .= ' data-html="{field ' . ((int) $item->id) . '}"';
+                        $attrs2 = $attrs;
+                        $attrs2 .= ' data-html="{fieldgroup ' . ((int) $item->group_id) . '}"';
+
+                        // @TODO: Remove onclick="" after full transition to postMessage()
                         ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">
@@ -88,10 +102,16 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
                             </span>
                         </td>
                         <th scope="row" class="has-context">
-                            <a class="btn btn-sm btn-success w-100" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
+                            <button type="button" class="btn btn-sm btn-success w-100" <?php echo $attrs1; ?>
+                                    onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');">
+                                <?php echo $this->escape($item->title); ?>
+                            </button>
                         </th>
                         <td class="small d-none d-md-table-cell">
-                            <a class="btn btn-sm btn-warning w-100" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : Text::_('JNONE'); ?></a>
+                            <button type="button" class="btn btn-sm btn-warning w-100" <?php echo $item->group_id ? $attrs2 : ''; ?>
+                                    onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');">
+                                <?php echo $item->group_id ? $this->escape($item->group_title) : Text::_('JNONE'); ?>
+                            </button>
                         </td>
                         <td class="small d-none d-md-table-cell">
                             <?php echo $item->type; ?>

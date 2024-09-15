@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -51,7 +51,7 @@ abstract class Access
      */
     public static function level($name, $selected, $attribs = '', $params = true, $id = false)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -79,7 +79,7 @@ abstract class Access
         $options = $db->loadObjectList();
 
         // If params is an array, push these options to the array
-        if (is_array($params)) {
+        if (\is_array($params)) {
             $options = array_merge($params, $options);
         } elseif ($params) {
             // If all levels is allowed, push it into the array.
@@ -90,11 +90,11 @@ abstract class Access
             'select.genericlist',
             $options,
             $name,
-            array(
-                'list.attr' => $attribs,
+            [
+                'list.attr'   => $attribs,
                 'list.select' => $selected,
-                'id' => $id,
-            )
+                'id'          => $id,
+            ]
         );
     }
 
@@ -116,9 +116,9 @@ abstract class Access
     {
         $options = array_values(UserGroupsHelper::getInstance()->getAll());
 
-        for ($i = 0, $n = count($options); $i < $n; $i++) {
-            $options[$i]->value = $options[$i]->id;
-            $options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
+        foreach ($options as $option) {
+            $option->value = $option->id;
+            $option->text  = str_repeat('- ', $option->level) . $option->title;
         }
 
         // If all usergroups is allowed, push it into the array.
@@ -126,7 +126,7 @@ abstract class Access
             array_unshift($options, HTMLHelper::_('select.option', '', Text::_('JOPTION_ACCESS_SHOW_ALL_GROUPS')));
         }
 
-        return HTMLHelper::_('select.genericlist', $options, $name, array('list.attr' => $attribs, 'list.select' => $selected, 'id' => $id));
+        return HTMLHelper::_('select.genericlist', $options, $name, ['list.attr' => $attribs, 'list.select' => $selected, 'id' => $id]);
     }
 
     /**
@@ -150,24 +150,22 @@ abstract class Access
 
         $groups = array_values(UserGroupsHelper::getInstance()->getAll());
 
-        $html = array();
+        $html = [];
 
-        for ($i = 0, $n = count($groups); $i < $n; $i++) {
-            $item = &$groups[$i];
-
+        foreach ($groups as $item) {
             // If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
             if ((!$checkSuperAdmin) || $isSuperAdmin || (!AccessCheck::checkGroup($item->id, 'core.admin'))) {
-                // Setup  the variable attributes.
-                $eid = $count . 'group_' . $item->id;
+                // Set up the variable attributes. ID may not start with a number (CSS)
+                $eid = 'group_' . $item->id . '_' . $count;
 
                 // Don't call in_array unless something is selected
                 $checked = '';
 
                 if ($selected) {
-                    $checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+                    $checked = \in_array($item->id, $selected) ? ' checked="checked"' : '';
                 }
 
-                $rel = ($item->parent_id > 0) ? ' rel="' . $count . 'group_' . $item->parent_id . '"' : '';
+                $rel = ($item->parent_id > 0) ? ' rel="group_' . $item->parent_id . '_' . $count . '"' : '';
 
                 // Build the HTML for the item.
                 $html[] = '	<div class="control-group">';
@@ -175,7 +173,7 @@ abstract class Access
                 $html[] = '			<label class="form-check-label checkbox" for="' . $eid . '">';
                 $html[] = '			<input class="form-check-input" type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
                 $html[] = '					' . $checked . $rel . '>';
-                $html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $item->title;
+                $html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]) . $item->title;
                 $html[] = '			</label>';
                 $html[] = '		</div>';
                 $html[] = '	</div>';
@@ -209,15 +207,13 @@ abstract class Access
             "/access/section[@name='" . $section . "']/"
         );
 
-        $html = array();
+        $html   = [];
         $html[] = '<ul class="checklist access-actions">';
 
-        for ($i = 0, $n = count($actions); $i < $n; $i++) {
-            $item = &$actions[$i];
-
+        foreach ($actions as $item) {
             // Setup  the variable attributes.
-            $eid = $count . 'action_' . $item->id;
-            $checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+            $eid     = $count . 'action_' . $item->id;
+            $checked = \in_array($item->id, $selected) ? ' checked="checked"' : '';
 
             // Build the HTML for the item.
             $html[] = '	<li>';
@@ -244,7 +240,7 @@ abstract class Access
     public static function assetgroups()
     {
         if (empty(static::$asset_groups)) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -281,7 +277,7 @@ abstract class Access
      *
      * @since   1.6
      */
-    public static function assetgrouplist($name, $selected, $attribs = null, $config = array())
+    public static function assetgrouplist($name, $selected, $attribs = null, $config = [])
     {
         static $count;
 
@@ -295,11 +291,11 @@ abstract class Access
             'select.genericlist',
             $options,
             $name,
-            array(
-                'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-                'list.attr' => $attribs === null ? 'class="inputbox" size="3"' : $attribs,
+            [
+                'id'          => $config['id'] ?? 'assetgroups_' . (++$count),
+                'list.attr'   => $attribs === null ? 'class="inputbox" size="3"' : $attribs,
                 'list.select' => (int) $selected,
-            )
+            ]
         );
     }
 }

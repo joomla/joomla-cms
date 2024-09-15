@@ -14,7 +14,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  * @method self icon(string $value)
  * @method self buttonClass(string $value)
  * @method self attributes(array $value)
- * @method self onclick(array $value)
+ * @method self onclick(string $value)
  * @method self listCheck(bool $value)
  * @method self listCheckMessage(string $value)
  * @method self form(string $value)
@@ -126,8 +126,8 @@ abstract class ToolbarButton
         $options['id']    = $this->ensureUniqueId($this->fetchId());
 
         if (!empty($options['is_child'])) {
-            $options['tagName'] = 'button';
-            $options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
+            $options['tagName']            = 'button';
+            $options['btnClass']           = ($options['button_class'] ?? '') . ' dropdown-item';
             $options['attributes']['type'] = 'button';
 
             if ($options['is_first_child']) {
@@ -138,8 +138,8 @@ abstract class ToolbarButton
                 $options['btnClass'] .= ' last';
             }
         } else {
-            $options['tagName'] = 'button';
-            $options['btnClass'] = ($options['button_class'] ?? 'btn btn-primary');
+            $options['tagName']            = 'button';
+            $options['btnClass']           = ($options['button_class'] ?? 'btn btn-primary');
             $options['attributes']['type'] = 'button';
         }
     }
@@ -171,8 +171,8 @@ abstract class ToolbarButton
 
         return $layout->render(
             [
-                'action' => $action,
-                'options' => $this->options
+                'action'  => $action,
+                'options' => $this->options,
             ]
         );
     }
@@ -199,8 +199,8 @@ abstract class ToolbarButton
         $options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
 
         // Isolate button class from icon class
-        $buttonClass = str_replace('icon-', '', $this->getName());
-        $iconclass = $options['btnClass'] ?? '';
+        $buttonClass         = str_replace('icon-', '', $this->getName());
+        $iconclass           = $options['btnClass'] ?? '';
         $options['btnClass'] = 'button-' . $buttonClass . ' ' . $iconclass;
 
         // Instantiate a new LayoutFile instance and render the layout
@@ -237,7 +237,7 @@ abstract class ToolbarButton
         // It's an ugly hack, but this allows templates to define the icon classes for the toolbar
         $layout = new FileLayout('joomla.toolbar.iconclass');
 
-        return $layout->render(array('icon' => $identifier));
+        return $layout->render(['icon' => $identifier]);
     }
 
     /**
@@ -249,7 +249,8 @@ abstract class ToolbarButton
      *
      * @since   3.0
      *
-     * @deprecated  5.0 Use render() instead.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use render() instead.
      */
     abstract public function fetchButton();
 
@@ -447,7 +448,7 @@ abstract class ToolbarButton
             if ($fieldName !== false) {
                 if (!\array_key_exists(0, $args)) {
                     throw new \InvalidArgumentException(
-                        sprintf(
+                        \sprintf(
                             '%s::%s() miss first argument.',
                             \get_called_class(),
                             $name
@@ -460,7 +461,7 @@ abstract class ToolbarButton
         }
 
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Method %s() not found in class: %s',
                 $name,
                 \get_called_class()

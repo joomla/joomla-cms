@@ -10,18 +10,13 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use DateInterval;
-use DateTimeZone;
-use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\ParameterType;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,15 +35,14 @@ class MethodsModel extends BaseDatabaseModel
      * @param   User|null  $user  The user object. Skip to use the current user.
      *
      * @return  array
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
     public function getMethods(?User $user = null): array
     {
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser();
         }
 
         if ($user->guest) {
@@ -86,20 +80,20 @@ class MethodsModel extends BaseDatabaseModel
      * @param   User|null  $user  The user object to reset MFA for. Null to use the current user.
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
     public function deleteAll(?User $user = null): void
     {
         // Make sure we have a user object
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser() ?: Factory::getApplication()->getIdentity();
         }
 
-        // If the user object is a guest (who can't have MFA) we abort with an error
+        // If the user object is a guest (who can't have MFA) we stop with an error
         if ($user->guest) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         $db    = $this->getDatabase();
@@ -116,10 +110,10 @@ class MethodsModel extends BaseDatabaseModel
      * Today, 08:33
      * January 1, 2015
      *
-     * @param   string  $dateTimeText  The database time string to use, e.g. "2017-01-13 13:25:36"
+     * @param   ?string  $dateTimeText  The database time string to use, e.g. "2017-01-13 13:25:36"
      *
      * @return  string  The formatted, human-readable date
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -130,9 +124,10 @@ class MethodsModel extends BaseDatabaseModel
         }
 
         // The timestamp is given in UTC. Make sure Joomla! parses it as such.
-        $utcTimeZone = new DateTimeZone('UTC');
+        $utcTimeZone = new \DateTimeZone('UTC');
         $jDate       = new Date($dateTimeText, $utcTimeZone);
         $unixStamp   = $jDate->toUnix();
+        $app         = Factory::getApplication();
 
         // I'm pretty sure we didn't have MFA in Joomla back in 1970 ;)
         if ($unixStamp < 0) {
@@ -140,10 +135,9 @@ class MethodsModel extends BaseDatabaseModel
         }
 
         // I need to display the date in the user's local timezone. That's how you do it.
-        $user   = Factory::getApplication()->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
-        $userTZ = $user->getParam('timezone', 'UTC');
-        $tz     = new DateTimeZone($userTZ);
+        $user   = $this->getCurrentUser();
+        $userTZ = $user->getParam('timezone', $app->get('offset', 'UTC'));
+        $tz     = new \DateTimeZone($userTZ);
         $jDate->setTimezone($tz);
 
         // Default format string: way in the past, the time of the day is not important
@@ -165,7 +159,7 @@ class MethodsModel extends BaseDatabaseModel
                 // Is this timestamp yesterday?
                 $jYesterday = clone $jNow;
                 $jYesterday->setTime(0, 0, 0);
-                $oneSecond = new DateInterval('PT1S');
+                $oneSecond = new \DateInterval('PT1S');
                 $jYesterday->sub($oneSecond);
                 $checkYesterday = $jYesterday->format('Ymd', true);
 
@@ -176,7 +170,7 @@ class MethodsModel extends BaseDatabaseModel
             }
         }
 
-        return sprintf($containerString, $jDate->format($formatString, true));
+        return \sprintf($containerString, $jDate->format($formatString, true));
     }
 
     /**
@@ -203,11 +197,11 @@ class MethodsModel extends BaseDatabaseModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
 
-        $exists = !is_null($result);
+        $exists = !\is_null($result);
 
         $object = (object) [
             'user_id'       => $user->id,

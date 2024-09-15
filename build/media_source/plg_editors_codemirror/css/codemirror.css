@@ -3,42 +3,32 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-.CodeMirror {
-  margin-bottom: 15px;
+joomla-editor-codemirror {
+  display: block;
+}
+.cm-editor {
+  margin-bottom: 16px;
   border: 1px solid #ccc;
 }
-
-/* In order to hide the Joomla menu */
-.CodeMirror-fullscreen {
-  z-index: 1040;
+.cm-editor .cm-scroller {
+  min-height: 100px;
+  overflow: auto;
 }
 
-/* Make the fold marker a little more visible/nice */
-.CodeMirror-foldmarker {
-  background: rgb(255,128,0);
-  background: rgba(255,128,0,.5);
-  box-shadow: inset 0 0 2px rgba(255,255,255,.5);
-  font-family: serif;
-  font-size: 90%;
-  border-radius: 1em;
-  padding: 0 1em;
-  vertical-align: middle;
-  color: white;
-  text-shadow: none;
+/* Full screen mode */
+joomla-editor-codemirror.fullscreen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1038;
+}
+joomla-editor-codemirror.fullscreen .cm-editor {
+  width: auto !important;
+  height: 90vh !important;
+  background-color: var(--body-bg);
 }
 
-.CodeMirror-foldgutter,
-.CodeMirror-markergutter {
-  width: 1.2em;
-  text-align: center;
-}
-.CodeMirror-markergutter {
-  cursor: pointer;
-}
-.CodeMirror-markergutter-mark {
-  cursor: pointer;
-  text-align: center;
-}
-.CodeMirror-markergutter-mark:after {
-  content: "\25CF";
-}
+
+

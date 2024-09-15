@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -55,11 +55,11 @@ class ContenthistoryField extends FormField
         $link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
             . $this->id . '&amp;item_id=' . $itemId . '&amp;' . Session::getFormToken() . '=1';
 
-        $extraData = array(
-            'item' => $itemId,
+        $extraData = [
+            'item'  => $itemId,
             'label' => $label,
-            'link' => $link,
-        );
+            'link'  => $link,
+        ];
 
         return array_merge($data, $extraData);
     }
@@ -74,9 +74,9 @@ class ContenthistoryField extends FormField
     protected function getInput()
     {
         if (empty($this->layout)) {
-            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+            throw new \UnexpectedValueException(\sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 }

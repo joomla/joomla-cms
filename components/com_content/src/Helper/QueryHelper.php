@@ -61,15 +61,15 @@ class QueryHelper
     /**
      * Translate an order code to a field for article ordering.
      *
-     * @param   string             $orderby    The ordering code.
-     * @param   string             $orderDate  The ordering code for the date.
-     * @param   DatabaseInterface  $db         The database
+     * @param   string              $orderby    The ordering code.
+     * @param   string              $orderDate  The ordering code for the date.
+     * @param   ?DatabaseInterface  $db         The database
      *
      * @return  string  The SQL field(s) to order by.
      *
      * @since   1.5
      */
-    public static function orderbySecondary($orderby, $orderDate = 'created', DatabaseInterface $db = null)
+    public static function orderbySecondary($orderby, $orderDate = 'created', ?DatabaseInterface $db = null)
     {
         $db = $db ?: Factory::getDbo();
 
@@ -163,14 +163,14 @@ class QueryHelper
     /**
      * Translate an order code to a field for date ordering.
      *
-     * @param   string             $orderDate  The ordering code.
-     * @param   DatabaseInterface  $db         The database
+     * @param   string              $orderDate  The ordering code.
+     * @param   ?DatabaseInterface  $db         The database
      *
      * @return  string  The SQL field(s) to order by.
      *
      * @since   1.6
      */
-    public static function getQueryDate($orderDate, DatabaseInterface $db = null)
+    public static function getQueryDate($orderDate, ?DatabaseInterface $db = null)
     {
         $db = $db ?: Factory::getDbo();
 
@@ -179,7 +179,7 @@ class QueryHelper
                 $queryDate = ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END';
                 break;
 
-            // Use created if publish_up is not set
+                // Use created if publish_up is not set
             case 'published':
                 $queryDate = ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ';
                 break;
@@ -205,7 +205,8 @@ class QueryHelper
      *
      * @since   1.5
      *
-     * @deprecated  5.0  Deprecated without replacement, not used in core
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public static function buildVotingQuery($params = null)
     {
@@ -218,12 +219,12 @@ class QueryHelper
         if ($voting) {
             // Calculate voting count
             $select = ' , ROUND(v.rating_sum / v.rating_count) AS rating, v.rating_count';
-            $join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
+            $join   = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
         } else {
             $select = '';
-            $join = '';
+            $join   = '';
         }
 
-        return array('select' => $select, 'join' => $join);
+        return ['select' => $select, 'join' => $join];
     }
 }

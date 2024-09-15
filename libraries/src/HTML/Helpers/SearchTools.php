@@ -14,7 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,7 +28,7 @@ abstract class SearchTools
      * @var    array  Array containing information for loaded files
      * @since  3.2
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Load searchtools for a specific form
@@ -40,9 +40,9 @@ abstract class SearchTools
      *
      * @since   3.2
      */
-    public static function form($selector = '.js-stools-form', $options = array())
+    public static function form($selector = '.js-stools-form', $options = [])
     {
-        $sig = md5(serialize(array($selector, $options)));
+        $sig = md5(serialize([$selector, $options]));
 
         // Only load once
         if (!isset(static::$loaded[__METHOD__][$sig])) {
@@ -73,7 +73,7 @@ abstract class SearchTools
     private static function optionsToRegistry($options)
     {
         // Support options array
-        if (is_array($options)) {
+        if (\is_array($options)) {
             $options = new Registry($options);
         }
 
@@ -110,9 +110,9 @@ abstract class SearchTools
         $icon = null,
         $formName = 'adminForm'
     ) {
-        $direction = strtolower($direction);
-        $orderIcons = array('icon-caret-up', 'icon-caret-down');
-        $index = (int) ($direction === 'desc');
+        $direction  = strtolower($direction);
+        $orderIcons = ['icon-caret-up', 'icon-caret-down'];
+        $index      = (int) ($direction === 'desc');
 
         if ($order !== $selected) {
             $direction = $newDirection;

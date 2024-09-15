@@ -10,14 +10,16 @@
 namespace Joomla\CMS\Application\CLI;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class defining ANSI-color styles for command line output
  *
  * @since       4.0.0
- * @deprecated  5.0  Use the `joomla/console` package instead
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use the `joomla/console` package instead
  */
 final class ColorStyle
 {
@@ -106,7 +108,7 @@ final class ColorStyle
         if ($fg) {
             if (\array_key_exists($fg, static::$knownColors) == false) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Invalid foreground color "%1$s" [%2$s]',
                         $fg,
                         implode(', ', $this->getKnownColors())
@@ -120,7 +122,7 @@ final class ColorStyle
         if ($bg) {
             if (\array_key_exists($bg, static::$knownColors) == false) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Invalid background color "%1$s" [%2$s]',
                         $bg,
                         implode(', ', $this->getKnownColors())
@@ -134,7 +136,7 @@ final class ColorStyle
         foreach ($options as $option) {
             if (\array_key_exists($option, static::$knownOptions) == false) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Invalid option "%1$s" [%2$s]',
                         $option,
                         implode(', ', $this->getKnownOptions())

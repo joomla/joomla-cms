@@ -67,7 +67,7 @@ class GroupparentField extends ListField
     protected function getOptions()
     {
         $options        = UserGroupsHelper::getInstance()->getAll();
-        $currentGroupId = (int) Factory::getApplication()->input->get('id', 0, 'int');
+        $currentGroupId = (int) Factory::getApplication()->getInput()->get('id', 0, 'int');
 
         // Prevent to set yourself as parent
         if ($currentGroupId) {
@@ -81,14 +81,14 @@ class GroupparentField extends ListField
         }
 
         $options      = array_values($options);
-        $isSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $isSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Pad the option text with spaces using depth level as a multiplier.
-        for ($i = 0, $n = count($options); $i < $n; $i++) {
+        foreach ($options as $i => $option) {
             // Show groups only if user is super admin or group is not super admin
-            if ($isSuperAdmin || !Access::checkGroup($options[$i]->id, 'core.admin')) {
-                $options[$i]->value = $options[$i]->id;
-                $options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
+            if ($isSuperAdmin || !Access::checkGroup($option->id, 'core.admin')) {
+                $option->value = $option->id;
+                $option->text  = str_repeat('- ', $option->level) . $option->title;
             } else {
                 unset($options[$i]);
             }

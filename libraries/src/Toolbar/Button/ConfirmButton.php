@@ -12,7 +12,7 @@ namespace Joomla\CMS\Toolbar\Button;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -56,7 +56,8 @@ class ConfirmButton extends StandardButton
      *
      * @since   3.0
      *
-     * @deprecated  5.0 Use render() instead.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use render() instead.
      */
     public function fetchButton($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
     {
@@ -87,8 +88,8 @@ class ConfirmButton extends StandardButton
 
         if ($this->getListCheck()) {
             $message = "{'error': [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-            $alert = 'Joomla.renderMessages(' . $message . ')';
-            $cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
+            $alert   = 'Joomla.renderMessages(' . $message . ')';
+            $cmd     = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
         }
 
         return $cmd;

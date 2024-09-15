@@ -3,22 +3,20 @@
     <description>The Joomla CMS PSR-12 exceptions.</description>
 
     <!-- Exclude folders not containing production code -->
-    <exclude-pattern type="relative">build/*</exclude-pattern>
-    <exclude-pattern type="relative">cache/*</exclude-pattern>
-    <exclude-pattern type="relative">docs/*</exclude-pattern>
-    <exclude-pattern type="relative">logs/*</exclude-pattern>
-    <exclude-pattern type="relative">media/*</exclude-pattern>
-    <exclude-pattern type="relative">node_modules/*</exclude-pattern>
-    <exclude-pattern type="relative">tmp/*</exclude-pattern>
-    <exclude-pattern type="relative">tests/*</exclude-pattern>
+    <exclude-pattern type="relative">^administrator/cache/*</exclude-pattern>
+    <exclude-pattern type="relative">^administrator/logs/*</exclude-pattern>
+    <exclude-pattern type="relative">^build/*</exclude-pattern>
+    <exclude-pattern type="relative">^cache/*</exclude-pattern>
+    <exclude-pattern type="relative">^media/*</exclude-pattern>
+    <exclude-pattern type="relative">^node_modules/*</exclude-pattern>
+    <exclude-pattern type="relative">^tmp/*</exclude-pattern>
 
     <!-- Exclude 3rd party libraries and Framework code. -->
-    <exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
-    <exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
-    <exclude-pattern type="relative">libraries/vendor/*</exclude-pattern>
+    <exclude-pattern type="relative">^libraries/php-encryption/*</exclude-pattern>
+    <exclude-pattern type="relative">^libraries/phpass/*</exclude-pattern>
+    <exclude-pattern type="relative">^libraries/vendor/*</exclude-pattern>
 
-    <exclude-pattern type="relative">stubs.php</exclude-pattern>
-    <exclude-pattern type="relative">configuration.php</exclude-pattern>
+    <exclude-pattern type="relative">^configuration.php</exclude-pattern>
 
     <rule ref="PSR12" />
 
@@ -28,11 +26,6 @@
             <property name="lineLimit" value="560"/>
             <property name="absoluteLineLimit" value="560"/>
         </properties>
-    </rule>
-
-
-    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
-        <exclude-pattern type="relative">administrator/components/com_banners/src/Controller/BannersController\.php</exclude-pattern>
     </rule>
 
     <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
@@ -129,6 +122,7 @@
     </rule>
 
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+        <exclude-pattern type="relative">administrator/components/com_banners/src/Controller/BannersController\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_content/src/Service/HTML/Icon\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Controller/InstallController\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DiscoverModel\.php</exclude-pattern>
@@ -245,6 +239,7 @@
         <exclude-pattern type="relative">plugins/content/pagebreak/pagebreak\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/editors/none/none\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/user/joomla/joomla\.php</exclude-pattern>
+        <exclude-pattern type="relative">tests/</exclude-pattern>
     </rule>
 
     <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
@@ -263,7 +258,6 @@
         <exclude-pattern type="relative">index\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/index\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_joomlaupdate/extract\.php</exclude-pattern>
-        <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore_finalisation\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/includes/app\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/includes/defines\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/includes/framework\.php</exclude-pattern>

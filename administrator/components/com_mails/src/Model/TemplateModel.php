@@ -12,13 +12,13 @@ namespace Joomla\Component\Mails\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -69,14 +69,14 @@ class TemplateModel extends AdminModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A JForm object on success, false on failure
+     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_mails.template', 'template', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_mails.template', 'template', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -86,6 +86,9 @@ class TemplateModel extends AdminModel
 
         if ($params->get('mail_style', 'plaintext') == 'plaintext') {
             $form->removeField('htmlbody');
+            $form->removeField('disable_htmllayout', 'params');
+            $form->removeField('htmllayout', 'params');
+            $form->removeField('disable_logofile', 'params');
         }
 
         if ($params->get('mail_style', 'plaintext') == 'html') {
@@ -106,6 +109,9 @@ class TemplateModel extends AdminModel
             $form->removeField('smtpauth', 'params');
             $form->removeField('smtpuser', 'params');
             $form->removeField('smtppass', 'params');
+            $form->removeField('disable_htmllayout', 'params');
+            $form->removeField('htmllayout', 'params');
+            $form->removeField('disable_logofile', 'params');
         }
 
         if (!$params->get('copy_mails')) {
@@ -130,9 +136,9 @@ class TemplateModel extends AdminModel
             return $form;
         }
 
-        $field = $form->getField('attachments');
+        $field   = $form->getField('attachments');
         $subform = new \SimpleXMLElement($field->formsource);
-        $files = $subform->xpath('field[@name="file"]');
+        $files   = $subform->xpath('field[@name="file"]');
         $files[0]->addAttribute('directory', $attachmentPath);
         $form->load('<form><field name="attachments" type="subform" '
             . 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
@@ -148,19 +154,19 @@ class TemplateModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */
     public function getItem($pk = null)
     {
         $templateId = $this->getState($this->getName() . '.template_id');
-        $language = $this->getState($this->getName() . '.language');
-        $table = $this->getTable('Template', 'Table');
+        $language   = $this->getState($this->getName() . '.language');
+        $table      = $this->getTable('Template', 'Table');
 
         if ($templateId != '' && $language != '') {
             // Attempt to load the row.
-            $return = $table->load(array('template_id' => $templateId, 'language' => $language));
+            $return = $table->load(['template_id' => $templateId, 'language' => $language]);
 
             // Check for a table object error.
             if ($return === false && $table->getError()) {
@@ -172,10 +178,10 @@ class TemplateModel extends AdminModel
 
         // Convert to the CMSObject before adding other data.
         $properties = $table->getProperties(1);
-        $item = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties, CMSObject::class);
 
         if (property_exists($item, 'params')) {
-            $registry = new Registry($item->params);
+            $registry     = new Registry($item->params);
             $item->params = $registry->toArray();
         }
 
@@ -195,18 +201,18 @@ class TemplateModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */
     public function getMaster($pk = null)
     {
         $template_id = $this->getState($this->getName() . '.template_id');
-        $table = $this->getTable('Template', 'Table');
+        $table       = $this->getTable('Template', 'Table');
 
         if ($template_id != '') {
             // Attempt to load the row.
-            $return = $table->load(array('template_id' => $template_id, 'language' => ''));
+            $return = $table->load(['template_id' => $template_id, 'language' => '']);
 
             // Check for a table object error.
             if ($return === false && $table->getError()) {
@@ -218,10 +224,10 @@ class TemplateModel extends AdminModel
 
         // Convert to the CMSObject before adding other data.
         $properties = $table->getProperties(1);
-        $item = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties, CMSObject::class);
 
         if (property_exists($item, 'params')) {
-            $registry = new Registry($item->params);
+            $registry     = new Registry($item->params);
             $item->params = $registry->toArray();
         }
 
@@ -240,7 +246,7 @@ class TemplateModel extends AdminModel
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Template', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Template', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -255,8 +261,8 @@ class TemplateModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app = Factory::getApplication();
-        $data = $app->getUserState('com_mails.edit.template.data', array());
+        $app  = Factory::getApplication();
+        $data = $app->getUserState('com_mails.edit.template.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -280,9 +286,9 @@ class TemplateModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        $validLanguages = LanguageHelper::getContentLanguages(array(0, 1));
+        $validLanguages = LanguageHelper::getContentLanguages([0, 1]);
 
-        if (!array_key_exists($data['language'], $validLanguages)) {
+        if (!\array_key_exists($data['language'], $validLanguages)) {
             $this->setError(Text::_('COM_MAILS_FIELD_LANGUAGE_CODE_INVALID'));
 
             return false;
@@ -305,10 +311,10 @@ class TemplateModel extends AdminModel
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
 
-        $key = $table->getKeyName();
+        $key         = $table->getKeyName();
         $template_id = (!empty($data['template_id'])) ? $data['template_id'] : $this->getState($this->getName() . '.template_id');
-        $language = (!empty($data['language'])) ? $data['language'] : $this->getState($this->getName() . '.language');
-        $isNew = true;
+        $language    = (!empty($data['language'])) ? $data['language'] : $this->getState($this->getName() . '.language');
+        $isNew       = true;
 
         // Include the plugins for the save events.
         \Joomla\CMS\Plugin\PluginHelper::importPlugin($this->events_map['save']);
@@ -316,14 +322,14 @@ class TemplateModel extends AdminModel
         // Allow an exception to be thrown.
         try {
             // Load the row if saving an existing record.
-            $table->load(array('template_id' => $template_id, 'language' => $language));
+            $table->load(['template_id' => $template_id, 'language' => $language]);
 
             if ($table->subject) {
                 $isNew = false;
             }
 
             // Load the default row
-            $table->load(array('template_id' => $template_id, 'language' => ''));
+            $table->load(['template_id' => $template_id, 'language' => '']);
 
             // Bind the data.
             if (!$table->bind($data)) {
@@ -343,9 +349,9 @@ class TemplateModel extends AdminModel
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
-            if (in_array(false, $result, true)) {
+            if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
 
                 return false;
@@ -362,7 +368,7 @@ class TemplateModel extends AdminModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -398,10 +404,10 @@ class TemplateModel extends AdminModel
     {
         parent::populateState();
 
-        $template_id = Factory::getApplication()->input->getCmd('template_id');
+        $template_id = Factory::getApplication()->getInput()->getCmd('template_id');
         $this->setState($this->getName() . '.template_id', $template_id);
 
-        $language = Factory::getApplication()->input->getCmd('language');
+        $language = Factory::getApplication()->getInput()->getCmd('language');
         $this->setState($this->getName() . '.language', $language);
     }
 }

@@ -28,18 +28,18 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 {
     /**
-     * @param   array                         $config   An optional associative array of configuration settings.
-     *                                                  Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                                  'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface|null      $factory  The factory.
-     * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object for the request
+     * @param   array                     $config   An optional associative array of configuration settings.
+     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                              'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface      $factory  The factory.
+     * @param   ?CMSApplication           $app      The Application for the dispatcher
+     * @param   ?\Joomla\CMS\Input\Input  $input    The Input object for the request
      *
      * @since   3.0.1
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
-        $this->input = Factory::getApplication()->input;
+        $this->input = Factory::getApplication()->getInput();
 
         // Article frontpage Editor pagebreak proxying:
         if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak') {
@@ -56,7 +56,8 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached.
-     * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+     * @param   boolean  $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  DisplayController  This object to support chaining.
      *
@@ -78,30 +79,30 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         $user = $this->app->getIdentity();
 
         if (
-            $user->get('id')
+            $user->id
             || ($this->input->getMethod() === 'POST'
-            && (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive' ))
+            && (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive'))
         ) {
             $cachable = false;
         }
 
-        $safeurlparams = array(
-            'catid' => 'INT',
-            'id' => 'INT',
-            'cid' => 'ARRAY',
-            'year' => 'INT',
-            'month' => 'INT',
-            'limit' => 'UINT',
-            'limitstart' => 'UINT',
-            'showall' => 'INT',
-            'return' => 'BASE64',
-            'filter' => 'STRING',
-            'filter_order' => 'CMD',
+        $safeurlparams = [
+            'catid'            => 'INT',
+            'id'               => 'INT',
+            'cid'              => 'ARRAY',
+            'year'             => 'INT',
+            'month'            => 'INT',
+            'limit'            => 'UINT',
+            'limitstart'       => 'UINT',
+            'showall'          => 'INT',
+            'return'           => 'BASE64',
+            'filter'           => 'STRING',
+            'filter_order'     => 'CMD',
             'filter_order_Dir' => 'CMD',
-            'filter-search' => 'STRING',
-            'print' => 'BOOLEAN',
-            'lang' => 'CMD',
-            'Itemid' => 'INT');
+            'filter-search'    => 'STRING',
+            'print'            => 'BOOLEAN',
+            'lang'             => 'CMD',
+            'Itemid'           => 'INT', ];
 
         // Check for edit form.
         if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id)) {
@@ -109,7 +110,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
         }
 
-        if ($vName === 'article') {
+        if ($vName === 'article' && \in_array($this->input->getMethod(), ['GET', 'POST'])) {
             // Get/Create the model
             if ($model = $this->getModel($vName)) {
                 if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1) {

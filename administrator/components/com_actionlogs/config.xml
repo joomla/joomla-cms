@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config addfieldprefix="Joomla\Component\Actionlogs\Administrator\Field">
 	<help key="User_Actions_Log:_Options"/>
 	<inlinehelp button="show"/>
@@ -30,7 +30,7 @@
 			label="COM_ACTIONLOGS_LOG_EXTENSIONS_LABEL"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
-			default="com_banners,com_cache,com_categories,com_checkin,com_config,com_contact,com_content,com_installer,com_media,com_menus,com_messages,com_modules,com_newsfeeds,com_plugins,com_redirect,com_scheduler,com_tags,com_templates,com_users"
+			default="com_banners,com_cache,com_categories,com_checkin,com_config,com_contact,com_content,com_fields,com_guidedtours,com_installer,com_media,com_menus,com_messages,com_modules,com_newsfeeds,com_plugins,com_redirect,com_scheduler,com_tags,com_templates,com_users"
 		/>
 		<field
 			name="loggable_api"

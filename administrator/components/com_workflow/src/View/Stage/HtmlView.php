@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
 
@@ -86,7 +87,7 @@ class HtmlView extends BaseHtmlView
         $this->item       = $this->get('Item');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -116,59 +117,59 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         $canDo = StageHelper::getActions($this->extension, 'stage', $this->item->id);
 
         ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_STAGE_ADD') : Text::_('COM_WORKFLOW_STAGE_EDIT'), 'address');
 
-        $toolbarButtons = [];
-
         if ($isNew) {
             // For new records, check the create permission.
             if ($canDo->get('core.create')) {
-                ToolbarHelper::apply('stage.apply');
-                $toolbarButtons = [['save', 'stage.save'], ['save2new', 'stage.save2new']];
+                $toolbar->apply('stage.apply');
             }
 
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
+            $saveGroup = $toolbar->dropdownButton('save-group');
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($canDo) {
+                    // For new records, check the create permission.
+                    if ($canDo->get('core.create')) {
+                        $childBar->save('stage.save');
+                        $childBar->save2new('stage.save2new');
+                    }
+                }
             );
 
-            ToolbarHelper::cancel(
-                'stage.cancel'
-            );
+            $toolbar->cancel('stage.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
             if ($itemEditable) {
-                ToolbarHelper::apply('stage.apply');
-                $toolbarButtons = [['save', 'stage.save']];
+                $toolbar->apply('stage.apply');
 
-                // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canDo->get('core.create')) {
-                    $toolbarButtons[] = ['save2new', 'stage.save2new'];
-                    $toolbarButtons[] = ['save2copy', 'stage.save2copy'];
-                }
+                $saveGroup = $toolbar->dropdownButton('save-group');
+                $saveGroup->configure(
+                    function (Toolbar $childBar) use ($canDo) {
+                        $childBar->save('stage.save');
+
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('stage.save2new');
+                            $childBar->save2copy('stage.save2copy');
+                        }
+                    }
+                );
             }
 
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
-            );
-
-            ToolbarHelper::cancel(
-                'stage.cancel',
-                'JTOOLBAR_CLOSE'
-            );
+            $toolbar->cancel('stage.cancel');
         }
 
-        ToolbarHelper::divider();
+        $toolbar->divider();
     }
 }

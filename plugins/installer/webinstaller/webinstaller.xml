@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="installer" method="upgrade">
 	<name>plg_installer_webinstaller</name>
 	<author>Joomla! Project</author>
@@ -9,10 +9,12 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_INSTALLER_WEBINSTALLER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Installer\Web</namespace>
 	<files>
-		<filename plugin="webinstaller">webinstaller.php</filename>
+		<folder plugin="webinstaller">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
 	</files>
-
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_installer_webinstaller.ini</language>
 		<language tag="en-GB">language/en-GB/plg_installer_webinstaller.sys.ini</language>

@@ -4,21 +4,22 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -75,11 +76,18 @@ trait WorkflowBehaviorTrait
 
         $this->extension = array_shift($parts);
 
-        if (count($parts)) {
+        if (\count($parts)) {
             $this->section = array_shift($parts);
         }
 
-        $this->workflow = new Workflow($extension);
+        if (method_exists($this, 'getDatabase')) {
+            $db = $this->getDatabase();
+        } else {
+            @trigger_error('From 6.0 implementing the getDatabase method will be mandatory.', E_USER_DEPRECATED);
+            $db = Factory::getContainer()->get(DatabaseDriver::class);
+        }
+
+        $this->workflow = new Workflow($extension, Factory::getApplication(), $db);
 
         $params = ComponentHelper::getParams($this->extension);
 
@@ -89,7 +97,7 @@ trait WorkflowBehaviorTrait
     }
 
     /**
-     * Add the workflow batch to the command list. Can be overwritten bei the child class
+     * Add the workflow batch to the command list. Can be overwritten by the child class
      *
      * @return  void
      *
@@ -169,7 +177,7 @@ trait WorkflowBehaviorTrait
     {
         // Regardless if workflow is active or not, we have to set the default stage
         // So we can work with the workflow, when the user activates it later
-        $id = $this->getState($this->getName() . '.id');
+        $id    = $this->getState($this->getName() . '.id');
         $isNew = $this->getState($this->getName() . '.new');
 
         // We save the first stage
@@ -330,7 +338,7 @@ trait WorkflowBehaviorTrait
 
         $field->addAttribute('name', 'transition');
         $field->addAttribute('type', $this->workflowEnabled ? 'transition' : 'hidden');
-        $field->addAttribute('label', 'COM_CONTENT_WORKFLOW');
+        $field->addAttribute('label', 'COM_CONTENT_WORKFLOW_STAGE');
         $field->addAttribute('extension', $extension);
 
         $form->setField($field);
@@ -339,7 +347,7 @@ trait WorkflowBehaviorTrait
 
         $key = $table->getKeyName();
 
-        $id = isset($data->$key) ? $data->$key : $form->getValue($key);
+        $id = $data->$key ?? $form->getValue($key);
 
         if ($id) {
             // Transition field
@@ -386,7 +394,7 @@ trait WorkflowBehaviorTrait
             return false;
         }
 
-        $catId = isset(((object) $data)->$catKey) ? ((object) $data)->$catKey : $form->getValue($catKey);
+        $catId = ((object) $data)->$catKey ?? $form->getValue($catKey);
 
         // Try to get the category from the html code of the field
         if (empty($catId)) {

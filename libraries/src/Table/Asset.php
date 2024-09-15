@@ -11,9 +11,10 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -58,13 +59,14 @@ class Asset extends Nested
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__assets', 'id', $db);
+        parent::__construct('#__assets', 'id', $db, $dispatcher);
     }
 
     /**
@@ -78,7 +80,7 @@ class Asset extends Nested
      */
     public function loadByName($name)
     {
-        return $this->load(array('name' => $name));
+        return $this->load(['name' => $name]);
     }
 
     /**
@@ -173,7 +175,7 @@ class Asset extends Nested
         // Make a shortcut to database object.
 
         // Assemble the query to find all children of this node.
-        $this->_db->setQuery(sprintf($this->_cache['rebuild.sql'], (int) $parentId));
+        $this->_db->setQuery(\sprintf($this->_cache['rebuild.sql'], (int) $parentId));
 
         $children = $this->_db->loadObjectList();
 

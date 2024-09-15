@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Form\FormField;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -49,12 +49,36 @@ class MeterField extends FormField
     protected $animated = true;
 
     /**
+     * The min value of the progress bar
+     *
+     * @var    int
+     * @since  4.4.0
+     */
+    protected $min = 0;
+
+    /**
      * The max value of the progress bar
      *
-     * @var    boolean
+     * @var    int
      * @since  4.0.0
      */
     protected $max = 100;
+
+    /**
+     * The width of the progress bar
+     *
+     * @var    string
+     * @since  4.4.0
+     */
+    protected $width;
+
+    /**
+     * The color of the progress bar
+     *
+     * @var    string
+     * @since  4.4.0
+     */
+    protected $color;
 
     /**
      * The striped class for the progress bar
@@ -107,18 +131,23 @@ class MeterField extends FormField
     public function __set($name, $value)
     {
         switch ($name) {
+            case 'max':
+            case 'min':
+                $this->$name = (int) $value;
+                break;
+
             case 'width':
             case 'color':
                 $this->$name = (string) $value;
                 break;
 
             case 'active':
-                $value = (string) $value;
+                $value        = (string) $value;
                 $this->active = ($value === 'true' || $value === $name || $value === '1');
                 break;
 
             case 'animated':
-                $value = (string) $value;
+                $value          = (string) $value;
                 $this->animated = !($value === 'false' || $value === 'off' || $value === '0');
                 break;
 
@@ -169,7 +198,7 @@ class MeterField extends FormField
     protected function getInput()
     {
         // Trim the trailing line in the layout file
-        return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+        return rtrim($this->getRenderer($this->layout)->render($this->collectLayoutData()), PHP_EOL);
     }
 
     /**
@@ -184,14 +213,14 @@ class MeterField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
+        $extraData = [
             'width'    => $this->width,
             'color'    => $this->color,
             'animated' => $this->animated,
             'active'   => $this->active,
             'max'      => $this->max,
             'min'      => $this->min,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

@@ -11,14 +11,11 @@
 namespace Joomla\Component\Mails\Administrator\View\Templates;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
@@ -64,7 +61,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -102,7 +99,7 @@ class HtmlView extends BaseHtmlView
         $extensions          = $this->get('Extensions');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -117,7 +114,7 @@ class HtmlView extends BaseHtmlView
         }
 
         foreach ($extensions as $extension) {
-            MailsHelper::loadTranslationFiles($extension);
+            MailsHelper::loadTranslationFiles($extension, $defaultLanguageTag);
         }
 
         $this->addToolbar();
@@ -135,8 +132,8 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
-        $user = $this->getCurrentUser();
+        $toolbar = $this->getDocument()->getToolbar();
+        $user    = $this->getCurrentUser();
 
         ToolbarHelper::title(Text::_('COM_MAILS_MAILS_TITLE'), 'envelope');
 

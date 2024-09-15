@@ -14,15 +14,22 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Discover\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_INSTALLER',
     'formURL'    => 'index.php?option=com_installer&task=discover.refresh',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Extensions:_Discover',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Extensions:_Discover',
     'icon'       => 'icon-puzzle-piece install',
     'createURL'  => 'index.php?option=com_installer&task=discover.refresh&' . Session::getFormToken() . '=1',
     'content'    => Text::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'),
     'title'      => Text::_('COM_INSTALLER_EMPTYSTATE_DISCOVER_TITLE'),
     'btnadd'     => Text::_('COM_INSTALLER_EMPTYSTATE_DISCOVER_BUTTON_ADD'),
 ];
+
+/** @var \Joomla\Component\Installer\Administrator\View\Discover\HtmlView $this */
+if ($this->showMessage) {
+    echo $this->loadTemplate('message');
+}
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

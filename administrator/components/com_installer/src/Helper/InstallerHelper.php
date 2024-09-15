@@ -10,14 +10,12 @@
 
 namespace Joomla\Component\Installer\Administrator\Helper;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
-use SimpleXMLElement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -46,7 +44,7 @@ class InstallerHelper
         $db->setQuery($query);
         $types = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         foreach ($types as $type) {
             $options[] = HTMLHelper::_('select.option', $type, Text::_('COM_INSTALLER_TYPE_' . strtoupper($type)));
@@ -75,7 +73,7 @@ class InstallerHelper
         $db->setQuery($query);
         $folders = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         foreach ($folders as $folder) {
             $options[] = HTMLHelper::_('select.option', $folder, $folder);
@@ -94,7 +92,7 @@ class InstallerHelper
     public static function getClientOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
         $options[] = HTMLHelper::_('select.option', '3', Text::_('JAPI'));
@@ -112,7 +110,7 @@ class InstallerHelper
     public static function getStateOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JDISABLED'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JENABLED'));
         $options[] = HTMLHelper::_('select.option', '2', Text::_('JPROTECTED'));
@@ -131,8 +129,8 @@ class InstallerHelper
     {
         $options = [];
 
-        /** @var DatabaseDriver $db The application's database driver object */
-        $db         = Factory::getContainer()->get(DatabaseDriver::class);
+        /** @var DatabaseInterface $db The application's database driver object */
+        $db         = Factory::getContainer()->get(DatabaseInterface::class);
         $query      = $db->getQuery(true)
             ->select(
                 $db->quoteName(
@@ -180,12 +178,12 @@ class InstallerHelper
     /**
      * Get a list of filter options for the application statuses.
      *
-     * @param   string   $element   element of an extension
-     * @param   string   $type      type of an extension
-     * @param   integer  $clientId  client_id of an extension
-     * @param   string   $folder    folder of an extension
+     * @param   string    $element   element of an extension
+     * @param   string    $type      type of an extension
+     * @param   integer   $clientId  client_id of an extension
+     * @param   ?string   $folder    folder of an extension
      *
-     * @return  SimpleXMLElement
+     * @return  \SimpleXMLElement
      *
      * @since   4.0.0
      */
@@ -194,7 +192,7 @@ class InstallerHelper
         string $type,
         int $clientId = 1,
         ?string $folder = null
-    ): ?SimpleXMLElement {
+    ): ?\SimpleXMLElement {
         $path = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API][$clientId] ?? JPATH_SITE;
 
         switch ($type) {
@@ -266,18 +264,18 @@ class InstallerHelper
 
         $prefix = (string) $installXmlFile->dlid['prefix'];
         $suffix = (string) $installXmlFile->dlid['suffix'];
-        $value  = substr($extension->get('extra_query'), strlen($prefix));
+        $value  = substr($extension->get('extra_query'), \strlen($prefix));
 
         if ($suffix) {
-            $value = substr($value, 0, -strlen($suffix));
+            $value = substr($value, 0, -\strlen($suffix));
         }
 
         $downloadKey = [
             'supported' => true,
-            'valid'     => $value ? true : false,
+            'valid'     => (bool) $value,
             'prefix'    => $prefix,
             'suffix'    => $suffix,
-            'value'     => $value
+            'value'     => $value,
         ];
 
         return $downloadKey;
@@ -304,7 +302,7 @@ class InstallerHelper
         // Get the database driver. If it fails we cannot report whether the extension supports download keys.
         try {
             $db = Factory::getDbo();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -326,7 +324,7 @@ class InstallerHelper
 
         try {
             $extension = new CMSObject($db->setQuery($query)->loadAssoc());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -425,7 +423,7 @@ class InstallerHelper
     {
         try {
             $db = Factory::getDbo();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
@@ -433,27 +431,27 @@ class InstallerHelper
             ->select(
                 $db->quoteName(
                     [
-                                's.update_site_id',
-                                's.enabled',
-                                's.extra_query',
-                                'e.extension_id',
-                                'e.type',
-                                'e.element',
-                                'e.folder',
-                                'e.client_id',
-                                'e.manifest_cache',
-                            ],
+                        's.update_site_id',
+                        's.enabled',
+                        's.extra_query',
+                        'e.extension_id',
+                        'e.type',
+                        'e.element',
+                        'e.folder',
+                        'e.client_id',
+                        'e.manifest_cache',
+                    ],
                     [
-                                'update_site_id',
-                                'enabled',
-                                'extra_query',
-                                'extension_id',
-                                'type',
-                                'element',
-                                'folder',
-                                'client_id',
-                                'manifest_cache',
-                            ]
+                        'update_site_id',
+                        'enabled',
+                        'extra_query',
+                        'extension_id',
+                        'type',
+                        'element',
+                        'folder',
+                        'client_id',
+                        'manifest_cache',
+                    ]
                 )
             )
             ->from($db->quoteName('#__update_sites', 's'))
@@ -483,7 +481,7 @@ class InstallerHelper
             }
 
             return $items;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
     }

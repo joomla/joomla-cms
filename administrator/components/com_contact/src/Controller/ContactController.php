@@ -38,7 +38,7 @@ class ContactController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 
@@ -61,7 +61,7 @@ class ContactController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
@@ -102,7 +102,7 @@ class ContactController extends FormController
 
         // Set the model
         /** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
-        $model = $this->getModel('Contact', 'Administrator', array());
+        $model = $this->getModel('Contact', 'Administrator', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
@@ -131,10 +131,10 @@ class ContactController extends FormController
             $link = 'index.php?option=com_contact&view=contact';
             $type = 'component';
 
-            $editState['id'] = $id;
-            $editState['link']  = $link;
-            $editState['title'] = $model->getItem($id)->name;
-            $editState['type']  = $type;
+            $editState['id']            = $id;
+            $editState['link']          = $link;
+            $editState['title']         = $model->getItem($id)->name;
+            $editState['type']          = $type;
             $editState['request']['id'] = $id;
 
             $this->app->setUserState(
@@ -147,6 +147,38 @@ class ContactController extends FormController
             );
 
             $this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
+        } elseif ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+            // When editing in modal then redirect to modalreturn layout
+            $id     = $model->getState('contact.id', '');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=save';
+
+            $this->setRedirect(Route::_($return, false));
         }
+    }
+
+    /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   5.1.0
+     */
+    public function cancel($key = null)
+    {
+        $result = parent::cancel($key);
+
+        // When editing in modal then redirect to modalreturn layout
+        if ($result && $this->input->get('layout') === 'modal') {
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
+
+            $this->setRedirect(Route::_($return, false));
+        }
+
+        return $result;
     }
 }

@@ -1,0 +1,80 @@
+name: Create translation pull request J5
+
+on:
+  push:
+    branches: [ translation5 ]
+
+  workflow_dispatch:
+
+  schedule:
+    # Run daily at 7:32
+    - cron:  '32 7 * * *'
+
+env:
+  JOOMLA_MAJOR_VERSION: 5
+  JOOMLA_MINOR_VERSION: 5.3
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    permissions:
+      contents: write  # for Git to git push
+    runs-on: ubuntu-latest
+    # Only run this action the translation-bot repository in the translation branch
+    if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation5' }}
+
+    steps:
+      - uses: actions/checkout@v3
+        # We need the full depth to create / update the pull request against the main repo
+        with:
+          ref: translation5
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Fetch latest cms changes
+        run: |
+          git config user.name Translation Bot
+          git config user.email release+translation-bot@joomla.org
+          git remote add upstream https://github.com/joomla/joomla-cms.git
+          git fetch upstream
+          git checkout --progress --force -B translation5 refs/remotes/origin/translation5
+          git merge upstream/${{ env.JOOMLA_MINOR_VERSION }}-dev
+
+      - name: Fetch and extract translations
+        run: |
+          cd ..
+          wget -nv "https://github.com/joomla/core-translations/archive/refs/heads/main.zip"
+          unzip main.zip
+
+      - name: Syncing directories
+        # We use a simple copy paste syntax here if needed customization for different directories
+        run: |
+          cd ..
+          SYNC_PATH="installation/language/"
+          echo ${SYNC_PATH}
+          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_v${{ env.JOOMLA_MAJOR_VERSION }}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH}
+
+      - name: Update static error pages
+        run: |
+          npm ci --ignore-scripts && node build/build.js --build-pages
+
+      - name: Create commit
+        continue-on-error: true
+        run: |
+          git config user.name Translation Bot
+          git config user.email release+translation-bot@joomla.org
+          git add .
+          git commit -m "Language update"
+          git push --force
+
+      - name: Create pull request
+        if: ${{ success() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
+        run: |
+          gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "[${{ env.JOOMLA_MINOR_VERSION }}] Translation Update" --base ${{ env.JOOMLA_MINOR_VERSION }}-dev | grep -v "No pull" || \
+            gh pr create --title "[${{ env.JOOMLA_MINOR_VERSION }}] Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base ${{ env.JOOMLA_MINOR_VERSION }}-dev

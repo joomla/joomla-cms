@@ -15,7 +15,7 @@ use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\FeedParser;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -113,7 +113,7 @@ class AtomParser extends FeedParser
      */
     protected function handleLink(Feed $feed, \SimpleXMLElement $el)
     {
-        $link = new FeedLink();
+        $link           = new FeedLink();
         $link->uri      = (string) $el['href'];
         $link->language = (string) $el['hreflang'];
         $link->length   = (int) $el['length'];
@@ -223,7 +223,7 @@ class AtomParser extends FeedParser
         if (filter_var($entry->uri, FILTER_VALIDATE_URL) === false && !\is_null($el->link) && $el->link) {
             $link = $el->link;
 
-            if (\is_array($link)) {
+            if ($link->count()) {
                 $link = $this->bestLinkForUri($link);
             }
 
@@ -238,13 +238,13 @@ class AtomParser extends FeedParser
     /**
      * If there is more than one <link> in the feed entry, find the most appropriate one and return it.
      *
-     * @param   array  $links  Array of <link> elements from the feed entry.
+     * @param   \SimpleXMLElement  $links  XML node with links from the feed entry.
      *
      * @return  \SimpleXMLElement
      */
-    private function bestLinkForUri(array $links)
+    private function bestLinkForUri(\SimpleXMLElement $links)
     {
-        $linkPrefs = array('', 'self', 'alternate');
+        $linkPrefs = ['alternate', 'self', ''];
 
         foreach ($linkPrefs as $pref) {
             foreach ($links as $link) {

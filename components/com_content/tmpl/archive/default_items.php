@@ -15,16 +15,17 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Archive\HtmlView $this */
 $params = $this->params;
 ?>
 <div id="archive-items" class="com-content-archive__items">
     <?php foreach ($this->items as $i => $item) : ?>
         <?php $info = $item->params->get('info_block_position', 0); ?>
-        <div class="row<?php echo $i % 2; ?>" itemscope itemtype="https://schema.org/Article">
+        <div class="row<?php echo $i % 2; ?>">
             <div class="page-header">
-                <h2 itemprop="headline">
+                <h2>
                     <?php if ($params->get('link_titles')) : ?>
-                        <a href="<?php echo Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
+                        <a href="<?php echo Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" >
                             <?php echo $this->escape($item->title); ?>
                         </a>
                     <?php else : ?>
@@ -36,11 +37,11 @@ $params = $this->params;
                 <?php echo $item->event->afterDisplayTitle; ?>
 
                 <?php if ($params->get('show_author') && !empty($item->author)) : ?>
-                    <div class="createdby" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <div class="createdby">
                     <?php $author = $item->created_by_alias ?: $item->author; ?>
-                    <?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
+                    <?php $author = '<span>' . $author . '</span>'; ?>
                         <?php if (!empty($item->contact_link) && $params->get('link_author') == true) : ?>
-                            <?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', HTMLHelper::_('link', $this->item->contact_link, $author, array('itemprop' => 'url'))); ?>
+                            <?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', HTMLHelper::_('link', $this->item->contact_link, $author, ['itemprop' => 'url'])); ?>
                         <?php else : ?>
                             <?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
                         <?php endif; ?>
@@ -64,10 +65,10 @@ $params = $this->params;
                                 <?php $url = '<a href="' . Route::_(
                                     RouteHelper::getCategoryRoute($item->parent_id, $item->parent_language)
                                 )
-                                    . '" itemprop="genre">' . $title . '</a>'; ?>
+                                    . '">' . $title . '</a>'; ?>
                                 <?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
                             <?php else : ?>
-                                <?php echo Text::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
+                                <?php echo Text::sprintf('COM_CONTENT_PARENT', '<span>' . $title . '</span>'); ?>
                             <?php endif; ?>
                         </div>
                     </dd>
@@ -80,10 +81,10 @@ $params = $this->params;
                                 <?php $url = '<a href="' . Route::_(
                                     RouteHelper::getCategoryRoute($item->catid, $item->category_language)
                                 )
-                                    . '" itemprop="genre">' . $title . '</a>'; ?>
+                                    . '">' . $title . '</a>'; ?>
                                 <?php echo Text::sprintf('COM_CONTENT_CATEGORY', $url); ?>
                             <?php else : ?>
-                                <?php echo Text::sprintf('COM_CONTENT_CATEGORY', '<span itemprop="genre">' . $title . '</span>'); ?>
+                                <?php echo Text::sprintf('COM_CONTENT_CATEGORY', '<span>' . $title . '</span>'); ?>
                             <?php endif; ?>
                         </div>
                     </dd>
@@ -93,7 +94,7 @@ $params = $this->params;
                     <dd>
                         <div class="published">
                             <span class="icon-calendar-alt" aria-hidden="true"></span>
-                            <time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
+                            <time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>">
                                 <?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC3'))); ?>
                             </time>
                         </div>
@@ -105,7 +106,7 @@ $params = $this->params;
                         <dd>
                             <div class="modified">
                                 <span class="icon-calendar-alt" aria-hidden="true"></span>
-                                <time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
+                                <time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>">
                                     <?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC3'))); ?>
                                 </time>
                             </div>
@@ -115,7 +116,7 @@ $params = $this->params;
                         <dd>
                             <div class="create">
                                 <span class="icon-calendar-alt" aria-hidden="true"></span>
-                                <time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
+                                <time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>">
                                     <?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC3'))); ?>
                                 </time>
                             </div>
@@ -126,7 +127,7 @@ $params = $this->params;
                         <dd>
                             <div class="hits">
                                 <span class="icon-eye"></span>
-                                <meta itemprop="interactionCount" content="UserPageVisits:<?php echo $item->hits; ?>">
+                                <meta content="UserPageVisits:<?php echo $item->hits; ?>">
                                 <?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
                             </div>
                         </dd>
@@ -139,7 +140,7 @@ $params = $this->params;
         <?php // Content is generated by content plugin event "onContentBeforeDisplay" ?>
         <?php echo $item->event->beforeDisplayContent; ?>
         <?php if ($params->get('show_intro')) : ?>
-            <div class="intro" itemprop="articleBody"> <?php echo HTMLHelper::_('string.truncateComplex', $item->introtext, $params->get('introtext_limit')); ?> </div>
+            <div class="intro" > <?php echo HTMLHelper::_('string.truncateComplex', $item->introtext, $params->get('introtext_limit')); ?> </div>
         <?php endif; ?>
 
         <?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
@@ -156,10 +157,10 @@ $params = $this->params;
                                     <?php $url = '<a href="' . Route::_(
                                         RouteHelper::getCategoryRoute($item->parent_id, $item->parent_language)
                                     )
-                                        . '" itemprop="genre">' . $title . '</a>'; ?>
+                                        . '">' . $title . '</a>'; ?>
                                     <?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
                                 <?php else : ?>
-                                    <?php echo Text::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
+                                    <?php echo Text::sprintf('COM_CONTENT_PARENT', '<span>' . $title . '</span>'); ?>
                                 <?php endif; ?>
                             </div>
                         </dd>
@@ -172,10 +173,10 @@ $params = $this->params;
                                     <?php $url = '<a href="' . Route::_(
                                         RouteHelper::getCategoryRoute($item->catid, $item->category_language)
                                     )
-                                        . '" itemprop="genre">' . $title . '</a>'; ?>
+                                        . '">' . $title . '</a>'; ?>
                                     <?php echo Text::sprintf('COM_CONTENT_CATEGORY', $url); ?>
                                 <?php else : ?>
-                                    <?php echo Text::sprintf('COM_CONTENT_CATEGORY', '<span itemprop="genre">' . $title . '</span>'); ?>
+                                    <?php echo Text::sprintf('COM_CONTENT_CATEGORY', '<span>' . $title . '</span>'); ?>
                                 <?php endif; ?>
                             </div>
                         </dd>
@@ -184,7 +185,7 @@ $params = $this->params;
                         <dd>
                             <div class="published">
                                 <span class="icon-calendar-alt" aria-hidden="true"></span>
-                                <time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
+                                <time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>">
                                     <?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC3'))); ?>
                                 </time>
                             </div>
@@ -196,7 +197,7 @@ $params = $this->params;
                     <dd>
                         <div class="create">
                             <span class="icon-calendar-alt" aria-hidden="true"></span>
-                            <time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
+                            <time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>">
                                 <?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC3'))); ?>
                             </time>
                         </div>
@@ -206,7 +207,7 @@ $params = $this->params;
                     <dd>
                         <div class="modified">
                             <span class="icon-calendar-alt" aria-hidden="true"></span>
-                            <time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
+                            <time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>">
                                 <?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC3'))); ?>
                             </time>
                         </div>
@@ -216,7 +217,7 @@ $params = $this->params;
                     <dd>
                         <div class="hits">
                             <span class="icon-eye"></span>
-                            <meta content="UserPageVisits:<?php echo $item->hits; ?>" itemprop="interactionCount">
+                            <meta content="UserPageVisits:<?php echo $item->hits; ?>">
                             <?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
                         </div>
                     </dd>

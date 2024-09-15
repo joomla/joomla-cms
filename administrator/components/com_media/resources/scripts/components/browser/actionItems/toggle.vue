@@ -2,9 +2,8 @@
   <button
     type="button"
     class="action-toggle"
-    tabindex="0"
-    :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
-    :title="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
+    :aria-label="sprintf('COM_MEDIA_MANAGE_ITEM', ($parent.$props.item.name))"
+    :title="sprintf('COM_MEDIA_MANAGE_ITEM', ($parent.$props.item.name))"
     @keyup.enter="openActions()"
     @focus="focused(true)"
     @blur="focused(false)"

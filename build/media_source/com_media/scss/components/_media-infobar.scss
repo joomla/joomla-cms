@@ -3,7 +3,7 @@ $fa-css-prefix:    fa;
 
 .media-infobar {
   position: absolute;
-  top: ($toolbar-height + 1px);
+  top: 0;
   inset-inline-end: 0;
   bottom: 0;
   z-index: 4;
@@ -43,7 +43,7 @@ $fa-css-prefix:    fa;
   }
   dt {
     font-weight: normal;
-    color: rgba(0, 0, 0, .54);
+    color: $info-dt-color;
   }
 }
 

@@ -17,13 +17,18 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 ?>
 <dl class="article-info text-muted">
 
-    <?php if (
-    $displayData['position'] === 'above' && ($blockPosition == 0 || $blockPosition == 2)
-            || $displayData['position'] === 'below' && ($blockPosition == 1)
-) : ?>
+    <?php
+    if (
+        $displayData['position'] === 'above' && ($blockPosition == 0 || $blockPosition == 2)
+        || $displayData['position'] === 'below' && ($blockPosition == 1)
+    ) : ?>
         <dt class="article-info-term">
-            <?php if ($displayData['params']->get('info_block_show_title', 1)) : ?>
-                <?php echo Text::_('COM_CONTENT_ARTICLE_INFO'); ?>
+            <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
+                <?php echo '<span class="visually-hidden">'; ?>
+            <?php endif; ?>
+            <?php echo Text::_('COM_CONTENT_ARTICLE_INFO'); ?>
+            <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
+                <?php echo '</span>'; ?>
             <?php endif; ?>
         </dt>
 
@@ -49,10 +54,11 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 
     <?php endif; ?>
 
-    <?php if (
-    $displayData['position'] === 'above' && ($blockPosition == 0)
-            || $displayData['position'] === 'below' && ($blockPosition == 1 || $blockPosition == 2)
-) : ?>
+    <?php
+    if (
+        $displayData['position'] === 'above' && ($blockPosition == 0)
+        || $displayData['position'] === 'below' && ($blockPosition == 1 || $blockPosition == 2)
+    ) : ?>
         <?php if ($displayData['params']->get('show_create_date')) : ?>
             <?php echo $this->sublayout('create_date', $displayData); ?>
         <?php endif; ?>

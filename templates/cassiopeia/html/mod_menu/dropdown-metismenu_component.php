@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Filter\OutputFilter;
 
 $attributes = [];
 

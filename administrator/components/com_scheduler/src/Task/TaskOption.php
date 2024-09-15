@@ -73,8 +73,8 @@ class TaskOption
     public function __construct(string $type, string $langConstPrefix)
     {
         $this->id              = $type;
-        $this->title           = Text::_("${langConstPrefix}_TITLE");
-        $this->desc            = Text::_("${langConstPrefix}_DESC");
+        $this->title           = Text::_("{$langConstPrefix}_TITLE");
+        $this->desc            = Text::_("{$langConstPrefix}_DESC");
         $this->langConstPrefix = $langConstPrefix;
     }
 
@@ -97,7 +97,7 @@ class TaskOption
         if ($name === 'type') {
             try {
                 Log::add(
-                    sprintf(
+                    \sprintf(
                         'The %1$s property is deprecated. Use %2$s instead.',
                         $name,
                         'id'

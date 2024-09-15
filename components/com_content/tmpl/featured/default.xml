@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_CONTENT_FEATURED_VIEW_DEFAULT_TITLE" option="COM_CONTENT_FEATURED_VIEW_DEFAULT_OPTION">
 		<help
@@ -35,6 +35,8 @@
 				type="number"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 				filter="integer"
+				validate="number"
+				min="0"
 				useglobal="true"
 				parentclass="stack span-1"
 			/>
@@ -53,6 +55,8 @@
 				type="number"
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 				filter="integer"
+				validate="number"
+				min="0"
 				useglobal="true"
 				parentclass="stack span-1"
 			/>
@@ -72,6 +76,8 @@
 				type="number"
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
 				filter="integer"
+				validate="number"
+				min="0"
 				parentclass="stack span-1-inline"
 				useglobal="true"
 			/>
@@ -93,6 +99,8 @@
 				type="number"
 				label="JGLOBAL_NUM_LINKS_LABEL"
 				filter="integer"
+				validate="number"
+				min="0"
 				parentclass="stack span-1"
 				useglobal="true"
 			/>

@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
@@ -44,7 +43,7 @@ class UpdatesiteModel extends AdminModel
      *
      * @return  Form|boolean  A Form object on success, false on failure
      *
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since   4.0.0
      */
@@ -79,7 +78,7 @@ class UpdatesiteModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */
@@ -98,7 +97,7 @@ class UpdatesiteModel extends AdminModel
                         'extensions.element',
                         'extensions.folder',
                         'extensions.client_id',
-                        'extensions.checked_out'
+                        'extensions.checked_out',
                     ]
                 )
             )
@@ -154,7 +153,7 @@ class UpdatesiteModel extends AdminModel
         }
 
         // Delete update records forcing Joomla to fetch them again, applying the new extra_query.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__updates'))
             ->where($db->quoteName('update_site_id') . ' = :updateSiteId');
@@ -162,7 +161,7 @@ class UpdatesiteModel extends AdminModel
 
         try {
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // No problem if this fails for any reason.
         }
 

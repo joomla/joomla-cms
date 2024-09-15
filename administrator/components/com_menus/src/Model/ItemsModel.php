@@ -19,6 +19,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -34,16 +35,16 @@ class ItemsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'menutype', 'a.menutype', 'menutype_title',
                 'title', 'a.title',
@@ -62,8 +63,9 @@ class ItemsModel extends ListModel
                 'parent_id', 'a.parent_id',
                 'publish_up', 'a.publish_up',
                 'publish_down', 'a.publish_down',
-                'a.ordering'
-            );
+                'e.element', 'componentName',
+                'a.ordering',
+            ];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -89,10 +91,10 @@ class ItemsModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -101,24 +103,9 @@ class ItemsModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
-        $search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
-        $this->setState('filter.published', $published);
-
-        $access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-        $this->setState('filter.access', $access);
-
-        $parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
-        $this->setState('filter.parent_id', $parentId);
-
-        $level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-        $this->setState('filter.level', $level);
-
         // Watch changes in client_id and menutype and keep sync whenever needed.
         $currentClientId = $app->getUserState($this->context . '.client_id', 0);
-        $clientId        = $app->input->getInt('client_id', $currentClientId);
+        $clientId        = $app->getInput()->getInt('client_id', $currentClientId);
 
         // Load mod_menu.ini file when client is administrator
         if ($clientId == 1) {
@@ -126,19 +113,19 @@ class ItemsModel extends ListModel
         }
 
         $currentMenuType = $app->getUserState($this->context . '.menutype', '');
-        $menuType        = $app->input->getString('menutype', $currentMenuType);
+        $menuType        = $app->getInput()->getString('menutype', $currentMenuType);
 
         // If client_id changed clear menutype and reset pagination
         if ($clientId != $currentClientId) {
             $menuType = '';
 
-            $app->input->set('limitstart', 0);
-            $app->input->set('menutype', '');
+            $app->getInput()->set('limitstart', 0);
+            $app->getInput()->set('menutype', '');
         }
 
         // If menutype changed reset pagination.
         if ($menuType != $currentMenuType) {
-            $app->input->set('limitstart', 0);
+            $app->getInput()->set('limitstart', 0);
         }
 
         if (!$menuType) {
@@ -148,7 +135,7 @@ class ItemsModel extends ListModel
         } elseif ($menuType == 'main') {
             // Special menu types, if selected explicitly, will be allowed as a filter
             // Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
-            $app->input->set('client_id', 1);
+            $app->getInput()->set('client_id', 1);
 
             $app->setUserState($this->context . '.menutype', $menuType);
             $this->setState('menutypetitle', ucfirst($menuType));
@@ -156,7 +143,7 @@ class ItemsModel extends ListModel
         } elseif ($cMenu = $this->getMenu($menuType, true)) {
             // Get the menutype object with appropriate checks.
             // Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
-            $app->input->set('client_id', $cMenu->client_id);
+            $app->getInput()->set('client_id', $cMenu->client_id);
 
             $app->setUserState($this->context . '.menutype', $menuType);
             $this->setState('menutypetitle', $cMenu->title);
@@ -165,8 +152,8 @@ class ItemsModel extends ListModel
             // This menutype does not exist, leave client id unchanged but reset menutype and pagination
             $menuType = '';
 
-            $app->input->set('limitstart', 0);
-            $app->input->set('menutype', $menuType);
+            $app->getInput()->set('limitstart', 0);
+            $app->getInput()->set('menutype', $menuType);
 
             $app->setUserState($this->context . '.menutype', $menuType);
             $this->setState('menutypetitle', '');
@@ -230,7 +217,7 @@ class ItemsModel extends ListModel
     /**
      * Builds an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    A query object.
+     * @return  QueryInterface    A query object.
      *
      * @since   1.6
      */
@@ -239,7 +226,7 @@ class ItemsModel extends ListModel
         // Create a new query object.
         $db       = $this->getDatabase();
         $query    = $db->getQuery(true);
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
         $clientId = (int) $this->getState('filter.client_id');
 
         // Select all fields from the table.
@@ -339,7 +326,7 @@ class ItemsModel extends ListModel
             ->bind(':clientId', $clientId, ParameterType::INTEGER);
 
         // Filter on the published state.
-        $published = $this->getState('filter.published');
+        $published = $this->getState('filter.published', '');
 
         if (is_numeric($published)) {
             $published = (int) $published;
@@ -437,7 +424,7 @@ class ItemsModel extends ListModel
             $menuTypes = $db->setQuery($query2)->loadObjectList();
 
             if ($menuTypes) {
-                $types = array();
+                $types = [];
 
                 foreach ($menuTypes as $type) {
                     if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id)) {
@@ -451,7 +438,7 @@ class ItemsModel extends ListModel
                     $query->where(0);
                 }
             }
-        } elseif (strlen($menuType)) {
+        } elseif (\strlen($menuType)) {
             // Default behavior => load all items from a specific menu
             $query->where($db->quoteName('a.menutype') . ' = :menuType')
                 ->bind(':menuType', $menuType);
@@ -477,6 +464,12 @@ class ItemsModel extends ListModel
         if ($language = $this->getState('filter.language')) {
             $query->where($db->quoteName('a.language') . ' = :language')
                 ->bind(':language', $language);
+        }
+
+        // Filter on componentName
+        if ($componentName = $this->getState('filter.componentName')) {
+            $query->where($db->quoteName('e.element') . ' = :component')
+                ->bind(':component', $componentName);
         }
 
         // Add the list ordering clause.
@@ -540,7 +533,9 @@ class ItemsModel extends ListModel
                 Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
 
                 return false;
-            } elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
+            }
+
+            if (!$this->getCurrentUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
                 // Check if menu type is valid against ACL.
                 Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 

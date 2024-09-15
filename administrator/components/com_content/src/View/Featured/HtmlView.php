@@ -11,13 +11,12 @@
 namespace Joomla\Component\Content\Administrator\View\Featured;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
@@ -50,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -135,11 +134,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-        $user  = Factory::getApplication()->getIdentity();
-
-        // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $canDo   = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+        $user    = $this->getCurrentUser();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
 
@@ -148,8 +145,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && ($canDo->get('core.edit.state') || \count($this->transitions))) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -158,18 +155,16 @@ class HtmlView extends BaseHtmlView
             $childBar = $dropdown->getChildToolbar();
 
             if (\count($this->transitions)) {
-                $childBar->separatorButton('transition-headline')
-                    ->text('COM_CONTENT_RUN_TRANSITIONS')
+                $childBar->separatorButton('transition-headline', 'COM_CONTENT_RUN_TRANSITIONS')
                     ->buttonClass('text-center py-2 h3');
 
-                $cmd = "Joomla.submitbutton('articles.runTransition');";
+                $cmd      = "Joomla.submitbutton('articles.runTransition');";
                 $messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-                $alert = 'Joomla.renderMessages(' . $messages . ')';
-                $cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
+                $alert    = 'Joomla.renderMessages(' . $messages . ')';
+                $cmd      = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 
                 foreach ($this->transitions as $transition) {
-                    $childBar->standardButton('transition')
-                        ->text($transition['text'])
+                    $childBar->standardButton('transition', $transition['text'])
                         ->buttonClass('transition-' . (int) $transition['value'])
                         ->icon('icon-project-diagram')
                         ->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
@@ -183,14 +178,12 @@ class HtmlView extends BaseHtmlView
 
                 $childBar->unpublish('articles.unpublish')->listCheck(true);
 
-                $childBar->standardButton('unfeatured')
-                    ->text('JUNFEATURE')
+                $childBar->standardButton('unfeatured', 'JUNFEATURE')
                     ->task('articles.unfeatured')
                     ->listCheck(true);
 
                 $childBar->archive('articles.archive')->listCheck(true);
-
-                $childBar->checkin('articles.checkin')->listCheck(true);
+                $childBar->checkin('articles.checkin');
 
                 if (!$this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED) {
                     $childBar->trash('articles.trash')->listCheck(true);
@@ -199,8 +192,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete')) {
-            $toolbar->delete('articles.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('articles.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
@@ -209,6 +201,6 @@ class HtmlView extends BaseHtmlView
             $toolbar->preferences('com_content');
         }
 
-        ToolbarHelper::help('Articles:_Featured');
+        $toolbar->help('Articles:_Featured');
     }
 }

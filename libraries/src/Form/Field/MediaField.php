@@ -14,9 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -107,6 +108,14 @@ class MediaField extends FormField
     protected $previewHeight;
 
     /**
+     * The folder.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $folder;
+
+    /**
      * Comma separated types of files for Media Manager
      * Possible values: images,audios,videos,documents
      *
@@ -152,6 +161,7 @@ class MediaField extends FormField
             case 'directory':
             case 'previewWidth':
             case 'previewHeight':
+            case 'folder':
             case 'types':
                 return $this->$name;
         }
@@ -175,16 +185,17 @@ class MediaField extends FormField
             case 'authorField':
             case 'asset':
             case 'link':
-            case 'width':
-            case 'height':
             case 'preview':
             case 'directory':
+            case 'folder':
             case 'types':
                 $this->$name = (string) $value;
                 break;
 
+            case 'height':
             case 'previewWidth':
             case 'previewHeight':
+            case 'width':
                 $this->$name = (int) $value;
                 break;
 
@@ -240,10 +251,10 @@ class MediaField extends FormField
     protected function getInput()
     {
         if (empty($this->layout)) {
-            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+            throw new \UnexpectedValueException(\sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -259,7 +270,7 @@ class MediaField extends FormField
         $asset = $this->asset;
 
         if ($asset === '') {
-            $asset = Factory::getApplication()->input->get('option');
+            $asset = Factory::getApplication()->getInput()->get('option');
         }
 
         // Value in new format such as images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180
@@ -282,11 +293,11 @@ class MediaField extends FormField
             $this->folder = $adapter . ':' . $path;
         } elseif ($this->value && is_file(JPATH_ROOT . '/' . $this->value)) {
             /**
-             * Local image, for example images/sampledata/cassiopeia/nasa2-640.jpg . We need to validate and make sure
-             * the top level folder is one of the directory configured in filesystem local plugin to avoid error message
-             * displayed in manage when users click on Select button to select a new image
+             * Local image, for example images/sampledata/cassiopeia/nasa2-640.jpg. We need to validate and make sure
+             * the top level folder is one of the directories configured in the filesystem local plugin to avoid an error
+             * message being displayed when users click on Select button to select a new image.
              */
-            $paths = explode('/', $this->value);
+            $paths = explode('/', Path::clean($this->value, '/'));
 
             // Remove filename from $paths array
             array_pop($paths);
@@ -299,11 +310,11 @@ class MediaField extends FormField
             /**
              * This is the case where a folder is configured in directory attribute of the form field. The directory needs
              * to be a relative folder of the folder configured in Path to Images Folder config option of Media component.
-             * Same with a already stored local image above, we need to validate and make sure top level folder is one of the directory
-             * configured in filesystem local plugin
+             * Same with an already stored local image above, we need to validate and make sure the top level folder is one of the
+             * directories configured in the filesystem local plugin.
              */
             $path  = ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory;
-            $paths = explode('/', $path);
+            $paths = explode('/', Path::clean($path, '/'));
 
             if (MediaHelper::isValidLocalDirectory($paths[0])) {
                 $adapterName  = array_shift($paths);
@@ -371,20 +382,23 @@ class MediaField extends FormField
         array_map(
             function ($mediaType) use (&$types, &$imagesAllowedExt, &$audiosAllowedExt, &$videosAllowedExt, &$documentsAllowedExt, $imagesExt, $audiosExt, $videosExt, $documentsExt) {
                 switch ($mediaType) {
+                    case 'directories':
+                        $types[] = '-1';
+                        break;
                     case 'images':
-                        $types[] = '0';
+                        $types[]          = '0';
                         $imagesAllowedExt = $imagesExt;
                         break;
                     case 'audios':
-                        $types[] = '1';
+                        $types[]          = '1';
                         $audiosAllowedExt = $audiosExt;
                         break;
                     case 'videos':
-                        $types[] = '2';
+                        $types[]          = '2';
                         $videosAllowedExt = $videosExt;
                         break;
                     case 'documents':
-                        $types[] = '3';
+                        $types[]             = '3';
                         $documentsAllowedExt = $documentsExt;
                         break;
                     default:
@@ -396,7 +410,7 @@ class MediaField extends FormField
 
         sort($types);
 
-        $extraData = array(
+        $extraData = [
             'asset'               => $asset,
             'authorField'         => $this->authorField,
             'authorId'            => $this->form->getValue($this->authorField),
@@ -406,6 +420,7 @@ class MediaField extends FormField
             'previewHeight'       => $this->previewHeight,
             'previewWidth'        => $this->previewWidth,
             'mediaTypes'          => implode(',', $types),
+            'mediaTypeNames'      => $mediaTypes,
             'imagesExt'           => $imagesExt,
             'audiosExt'           => $audiosExt,
             'videosExt'           => $videosExt,
@@ -414,7 +429,7 @@ class MediaField extends FormField
             'audiosAllowedExt'    => $audiosAllowedExt,
             'videosAllowedExt'    => $videosAllowedExt,
             'documentsAllowedExt' => $documentsAllowedExt,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

@@ -35,7 +35,7 @@ class FeedView extends AbstractView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      */
     public function display($tpl = null)
     {
@@ -45,10 +45,15 @@ class FeedView extends AbstractView
         $feedEmail = $app->get('feed_email', 'none');
         $siteEmail = $app->get('mailfrom');
 
-        $this->document->link = Route::_('index.php?option=com_content&view=featured');
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
+
+        $this->getDocument()->link = Route::_('index.php?option=com_content&view=featured');
 
         // Get some data from the model
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $categories = Categories::getInstance('Content');
         $rows       = $this->get('Items');
 
@@ -64,7 +69,7 @@ class FeedView extends AbstractView
             $link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
             $description = '';
-            $obj = json_decode($row->images);
+            $obj         = json_decode($row->images);
 
             if (!empty($obj->image_intro)) {
                 $description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
@@ -78,7 +83,7 @@ class FeedView extends AbstractView
             $item->title    = $title;
             $item->link     = Route::_($link);
             $item->date     = $row->publish_up;
-            $item->category = array();
+            $item->category = [];
 
             // All featured articles are categorized as "Featured"
             $item->category[] = Text::_('JFEATURED');
@@ -109,7 +114,7 @@ class FeedView extends AbstractView
             $item->description = '<div class="feed-description">' . $description . '</div>';
 
             // Loads item info into rss array
-            $this->document->addItem($item);
+            $this->getDocument()->addItem($item);
         }
     }
 }

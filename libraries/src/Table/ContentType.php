@@ -11,9 +11,10 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,13 +27,14 @@ class ContentType extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__content_types', 'type_id', $db);
+        parent::__construct('#__content_types', 'type_id', $db, $dispatcher);
     }
 
     /**
@@ -55,13 +57,13 @@ class ContentType extends Table
 
         // Check for valid name.
         if (trim($this->type_title) === '') {
-            throw new \UnexpectedValueException(sprintf('The title is empty'));
+            throw new \UnexpectedValueException(\sprintf('The title is empty'));
         }
 
         $this->type_title = ucfirst($this->type_title);
 
         if (empty($this->type_alias)) {
-            throw new \UnexpectedValueException(sprintf('The type_alias is empty'));
+            throw new \UnexpectedValueException(\sprintf('The type_alias is empty'));
         }
 
         return true;
@@ -79,9 +81,9 @@ class ContentType extends Table
     public function store($updateNulls = false)
     {
         // Verify that the alias is unique
-        $table = Table::getInstance('Contenttype', 'JTable', array('dbo' => $this->getDbo()));
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
-        if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
+        if ($table->load(['type_alias' => $this->type_alias]) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
             return false;
@@ -115,7 +117,7 @@ class ContentType extends Table
      */
     public function getTypeId($typeAlias)
     {
-        $db = $this->_db;
+        $db    = $this->getDbo();
         $query = $db->getQuery(true);
         $query->select($db->quoteName('type_id'))
             ->from($db->quoteName($this->_tbl))
@@ -137,7 +139,7 @@ class ContentType extends Table
      */
     public function getContentTable()
     {
-        $result = false;
+        $result    = false;
         $tableInfo = json_decode($this->table);
 
         if (\is_object($tableInfo) && isset($tableInfo->special)) {
@@ -145,7 +147,7 @@ class ContentType extends Table
                 $class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
 
                 if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
-                    // This isn't an instance of TableInterface. Abort.
+                    // This isn't an instance of TableInterface. Stop.
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }
 

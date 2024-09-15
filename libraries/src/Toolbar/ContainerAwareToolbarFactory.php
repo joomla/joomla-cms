@@ -9,12 +9,12 @@
 
 namespace Joomla\CMS\Toolbar;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -60,7 +60,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
         }
 
         if (!class_exists($buttonClass)) {
-            throw new \InvalidArgumentException(sprintf('Class `%1$s` does not exist, could not create a toolbar button.', $buttonClass));
+            throw new \InvalidArgumentException(\sprintf('Class `%1$s` does not exist, could not create a toolbar button.', $buttonClass));
         }
 
         // Check for a possible service from the container otherwise manually instantiate the class
@@ -101,7 +101,9 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
     {
         $buttonClasses = [
             'Joomla\\CMS\\Toolbar\\Button\\' . $type . 'Button',
-            // @deprecated 5.0
+            /**
+             * @deprecated  4.3 will be removed in 6.0
+             */
             'JToolbarButton' . $type,
         ];
 

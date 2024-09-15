@@ -34,14 +34,14 @@ class ItemsController extends AdminController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since  1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -59,7 +59,7 @@ class ItemsController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Item', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Item', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -84,7 +84,7 @@ class ItemsController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_MENUS_ITEMS_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_MENUS_ITEMS_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_MENUS_ITEMS_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }
@@ -110,12 +110,12 @@ class ItemsController extends AdminController
             $this->setMessage(Text::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
 
             return true;
-        } else {
-            // Rebuild failed.
-            $this->setMessage(Text::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
-
-            return false;
         }
+
+        // Rebuild failed.
+        $this->setMessage(Text::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
+
+        return false;
     }
 
     /**
@@ -133,8 +133,8 @@ class ItemsController extends AdminController
         $app = $this->app;
 
         // Get items to publish from the request.
-        $cid   = (array) $this->input->get('cid', array(), 'int');
-        $data  = array('setDefault' => 1, 'unsetDefault' => 0);
+        $cid   = (array) $this->input->get('cid', [], 'int');
+        $data  = ['setDefault' => 1, 'unsetDefault' => 0];
         $task  = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 
@@ -157,7 +157,7 @@ class ItemsController extends AdminController
                     $ntext = 'COM_MENUS_ITEMS_UNSET_HOME';
                 }
 
-                $this->setMessage(Text::plural($ntext, count($cid)));
+                $this->setMessage(Text::plural($ntext, \count($cid)));
             }
         }
 
@@ -183,9 +183,9 @@ class ItemsController extends AdminController
         $this->checkToken();
 
         // Get items to publish from the request.
-        $cid = (array) $this->input->get('cid', array(), 'int');
-        $data = array('publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3);
-        $task = $this->getTask();
+        $cid   = (array) $this->input->get('cid', [], 'int');
+        $data  = ['publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3];
+        $task  = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 
         // Remove zero values resulting from input filter
@@ -220,7 +220,7 @@ class ItemsController extends AdminController
                     $ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
                 }
 
-                $this->setMessage(Text::plural($ntext, count($cid)), $messageType);
+                $this->setMessage(Text::plural($ntext, \count($cid)), $messageType);
             } catch (\Exception $e) {
                 $this->setMessage($e->getMessage(), 'error');
             }

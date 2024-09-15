@@ -15,10 +15,10 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,8 +30,10 @@ use Joomla\Component\Users\Administrator\Helper\Mfa;
  *
  * @since  1.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The Form object
      *
@@ -64,7 +66,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -75,6 +77,15 @@ class HtmlView extends BaseHtmlView
      * @since 4.2.0
      */
     protected $mfaConfigurationUI;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Display the view
@@ -98,12 +109,12 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Prevent user from modifying own group(s)
-        $user = Factory::getApplication()->getIdentity();
+        $user = $this->getCurrentUser();
 
         if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
             $this->grouplist = $this->get('Groups');
@@ -113,10 +124,7 @@ class HtmlView extends BaseHtmlView
         $this->form->setValue('password', null);
         $this->form->setValue('password2', null);
 
-        /** @var User $userBeingEdited */
-        $userBeingEdited = Factory::getContainer()
-            ->get(UserFactoryInterface::class)
-            ->loadUserById($this->item->id);
+        $userBeingEdited = $this->getUserFactory()->loadUserById($this->item->id);
 
         if ($this->item->id > 0 && (int) $userBeingEdited->id == (int) $this->item->id) {
             try {
@@ -144,12 +152,13 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $user      = Factory::getApplication()->getIdentity();
+        $user      = $this->getCurrentUser();
         $canDo     = ContentHelper::getActions('com_users');
         $isNew     = ($this->item->id == 0);
         $isProfile = $this->item->id == $user->id;
+        $toolbar   = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             Text::_(
@@ -158,29 +167,31 @@ class HtmlView extends BaseHtmlView
             'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
         );
 
-        $toolbarButtons = [];
-
         if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
-            ToolbarHelper::apply('user.apply');
-            $toolbarButtons[] = ['save', 'user.save'];
+            $toolbar->apply('user.apply');
         }
 
-        if ($canDo->get('core.create') && $canDo->get('core.manage')) {
-            $toolbarButtons[] = ['save2new', 'user.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo, $isProfile) {
+                if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
+                    $childBar->save('user.save');
+                }
+
+                if ($canDo->get('core.create') && $canDo->get('core.manage')) {
+                    $childBar->save2new('user.save2new');
+                }
+            }
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('user.cancel');
+            $toolbar->cancel('user.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('user.cancel');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Users:_Edit_Profile');
+        $toolbar->divider();
+        $toolbar->help('Users:_Edit_Profile');
     }
 }

@@ -648,7 +648,7 @@ class CryptoExceptionHandler
 
     public function __construct()
     {
-        set_exception_handler(array($this, "handler"));
+        set_exception_handler([$this, "handler"]);
     }
 
     public function handler($ex)

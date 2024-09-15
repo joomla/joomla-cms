@@ -10,19 +10,19 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Tags\Site\View\Tag\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_tags.tag-default');
 
 // Get the user object.
-$user = Factory::getUser();
+$user = $this->getCurrentUser();
 
 // Check if user is allowed to add/edit based on tags permissions.
 // Do we really have to make it so people can see unpublished tags???

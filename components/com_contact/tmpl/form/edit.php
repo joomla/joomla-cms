@@ -16,11 +16,14 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
+/** @var \Joomla\Component\Contact\Site\View\Form\HtmlView $this */
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('keepalive')
+    ->useScript('form.validate');
 
 $this->tab_name         = 'com-contact-form';
-$this->ignore_fieldsets = array('details', 'item_associations', 'language');
+$this->ignore_fieldsets = ['details', 'item_associations', 'language'];
 $this->useCoreUI        = true;
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
@@ -65,7 +68,7 @@ $this->useCoreUI        = true;
             <input type="hidden" name="return" value="<?php echo $this->return_page; ?>"/>
             <?php echo HTMLHelper::_('form.token'); ?>
         </fieldset>
-        <div class="mb-2">
+        <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('contact.save')">
                 <span class="icon-check" aria-hidden="true"></span>
                 <?php echo Text::_('JSAVE'); ?>

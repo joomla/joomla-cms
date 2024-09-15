@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
@@ -13,7 +13,7 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,7 +43,7 @@ class StylesRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         $tab          = $this->_doc->_getTab();
         $buffer       = '';
@@ -104,7 +104,7 @@ class StylesRenderer extends DocumentRenderer
             foreach ($contents as $content) {
                 $buffer .= $this->renderInlineElement(
                     [
-                        'type' => $type,
+                        'type'    => $type,
                         'content' => $content,
                     ]
                 );
@@ -151,15 +151,22 @@ class StylesRenderer extends DocumentRenderer
                 if ($asset->getDependencies()) {
                     $attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
                 }
+
+                if ($asset->getOption('deprecated')) {
+                    @trigger_error(
+                        \sprintf('Web Asset style [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
+                        E_USER_DEPRECATED
+                    );
+                }
             }
         } else {
             $attribs     = $item;
-            $version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+            $version     = $attribs['options']['version'] ?? '';
             $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -178,7 +185,7 @@ class StylesRenderer extends DocumentRenderer
             $buffer .= '<!--[if ' . $conditional . ']>';
         }
 
-        $relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
+        $relation = $attribs['rel'] ?? 'stylesheet';
 
         if (isset($attribs['rel'])) {
             unset($attribs['rel']);
@@ -187,10 +194,10 @@ class StylesRenderer extends DocumentRenderer
         // Render the element with attributes
         $buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
         $buffer .= $this->renderAttributes($attribs);
-        $buffer .= ' />';
+        $buffer .= '>';
 
         if ($relation === 'lazy-stylesheet') {
-            $buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet" /></noscript>';
+            $buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet"></noscript>';
         }
 
         // This is for IE conditional statements support.
@@ -234,7 +241,7 @@ class StylesRenderer extends DocumentRenderer
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -272,7 +279,7 @@ class StylesRenderer extends DocumentRenderer
     {
         $buffer = '';
 
-        $defaultCssMimes = array('text/css');
+        $defaultCssMimes = ['text/css'];
 
         foreach ($attributes as $attrib => $value) {
             // Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
@@ -281,7 +288,7 @@ class StylesRenderer extends DocumentRenderer
             }
 
             // Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-            if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes)) {
+            if (\in_array($attrib, ['type', 'mime']) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes)) {
                 continue;
             }
 
@@ -306,7 +313,7 @@ class StylesRenderer extends DocumentRenderer
 
             if (!($this->_doc->isHtml5() && $isNoValueAttrib)) {
                 // Json encode value if it's an array.
-                $value = !is_scalar($value) ? json_encode($value) : $value;
+                $value = !\is_scalar($value) ? json_encode($value) : $value;
 
                 $buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
             }

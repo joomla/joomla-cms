@@ -10,16 +10,15 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Filesystem\File;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -116,14 +115,14 @@ class Indexer
     /**
      * Indexer constructor.
      *
-     * @param  DatabaseInterface  $db  The database
+     * @param  ?DatabaseInterface  $db  The database
      *
      * @since  3.8.0
      */
-    public function __construct(DatabaseInterface $db = null)
+    public function __construct(?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -132,22 +131,22 @@ class Indexer
         // Set up query template for addTokensToDb
         $this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
             ->columns(
-                array(
+                [
                     $db->quoteName('term'),
                     $db->quoteName('stem'),
                     $db->quoteName('common'),
                     $db->quoteName('phrase'),
                     $db->quoteName('weight'),
                     $db->quoteName('context'),
-                    $db->quoteName('language')
-                )
+                    $db->quoteName('language'),
+                ]
             );
     }
 
     /**
      * Method to get the indexer state.
      *
-     * @return  object  The indexer state object.
+     * @return  CMSObject  The indexer state object.
      *
      * @since   2.5
      */
@@ -160,16 +159,16 @@ class Indexer
 
         // If we couldn't load from the internal state, try the session.
         $session = Factory::getSession();
-        $data = $session->get('_finder.state', null);
+        $data    = $session->get('_finder.state', null);
 
         // If the state is empty, load the values for the first time.
         if (empty($data)) {
-            $data = new CMSObject();
+            $data        = new CMSObject();
             $data->force = false;
 
             // Load the default configuration options.
             $data->options = ComponentHelper::getParams('com_finder');
-            $db = Factory::getDbo();
+            $db            = Factory::getDbo();
 
             if ($db->getServerType() == 'mysql') {
                 /**
@@ -187,7 +186,7 @@ class Indexer
                      */
                     $memory_table_limit = (int) ($heapsize->Value / 800);
                     $data->options->set('memory_table_limit', $memory_table_limit);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // Something failed. We fall back to a reasonable guess.
                     $data->options->set('memory_table_limit', 7500);
                 }
@@ -197,13 +196,13 @@ class Indexer
             }
 
             // Setup the weight lookup information.
-            $data->weights = array(
+            $data->weights = [
                 self::TITLE_CONTEXT => round($data->options->get('title_multiplier', 1.7), 2),
                 self::TEXT_CONTEXT  => round($data->options->get('text_multiplier', 0.7), 2),
                 self::META_CONTEXT  => round($data->options->get('meta_multiplier', 1.2), 2),
                 self::PATH_CONTEXT  => round($data->options->get('path_multiplier', 2.0), 2),
-                self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2)
-            );
+                self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2),
+            ];
 
             // Set the current time as the start time.
             $data->startTime = Factory::getDate()->toSql();
@@ -212,7 +211,7 @@ class Indexer
             $data->batchSize   = (int) $data->options->get('batch_size', 50);
             $data->batchOffset = 0;
             $data->totalItems  = 0;
-            $data->pluginState = array();
+            $data->pluginState = [];
         }
 
         // Setup the profiler if debugging is enabled.
@@ -282,7 +281,7 @@ class Indexer
     {
         // Mark beforeIndexing in the profiler.
         static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-        $db = $this->db;
+        $db         = $this->db;
         $serverType = strtolower($db->getServerType());
 
         // Check if the item is in the database.
@@ -304,7 +303,7 @@ class Indexer
 
         // Get the other item information.
         $linkId = empty($link->link_id) ? null : $link->link_id;
-        $isNew = empty($link->link_id);
+        $isNew  = empty($link->link_id);
 
         // Check the signatures. If they match, the item is up to date.
         if (!$isNew && $curSig == $oldSig) {
@@ -333,9 +332,9 @@ class Indexer
 
         // Perform cleanup on the item data.
         $item->publish_start_date = (int) $item->publish_start_date != 0 ? $item->publish_start_date : null;
-        $item->publish_end_date = (int) $item->publish_end_date != 0 ? $item->publish_end_date : null;
-        $item->start_date = (int) $item->start_date != 0 ? $item->start_date : null;
-        $item->end_date = (int) $item->end_date != 0 ? $item->end_date : null;
+        $item->publish_end_date   = (int) $item->publish_end_date != 0 ? $item->publish_end_date : null;
+        $item->start_date         = (int) $item->start_date != 0 ? $item->start_date : null;
+        $item->end_date           = (int) $item->end_date != 0 ? $item->end_date : null;
 
         // Prepare the item description.
         $item->description = Helper::parse($item->summary ?? '');
@@ -345,25 +344,25 @@ class Indexer
          * already exists in the database, we need to use an UPDATE query.
          * Otherwise, we need to use an INSERT to get the link id back.
          */
-        $entry = new \stdClass();
-        $entry->url = $item->url;
+        $entry        = new \stdClass();
+        $entry->url   = $item->url;
         $entry->route = $item->route;
         $entry->title = $item->title;
 
         // We are shortening the description in order to not run into length issues with this field
-        $entry->description = StringHelper::substr($item->description, 0, 32000);
-        $entry->indexdate = Factory::getDate()->toSql();
-        $entry->state = (int) $item->state;
-        $entry->access = (int) $item->access;
-        $entry->language = $item->language;
-        $entry->type_id = (int) $item->type_id;
-        $entry->object = '';
+        $entry->description        = StringHelper::substr($item->description, 0, 32000);
+        $entry->indexdate          = Factory::getDate()->toSql();
+        $entry->state              = (int) $item->state;
+        $entry->access             = (int) $item->access;
+        $entry->language           = $item->language;
+        $entry->type_id            = (int) $item->type_id;
+        $entry->object             = '';
         $entry->publish_start_date = $item->publish_start_date;
-        $entry->publish_end_date = $item->publish_end_date;
-        $entry->start_date = $item->start_date;
-        $entry->end_date = $item->end_date;
-        $entry->list_price = (double) ($item->list_price ?: 0);
-        $entry->sale_price = (double) ($item->sale_price ?: 0);
+        $entry->publish_end_date   = $item->publish_end_date;
+        $entry->start_date         = $item->start_date;
+        $entry->end_date           = $item->end_date;
+        $entry->list_price         = (float) ($item->list_price ?: 0);
+        $entry->sale_price         = (float) ($item->sale_price ?: 0);
 
         if ($isNew) {
             // Insert the link and get its id.
@@ -401,7 +400,7 @@ class Indexer
                 }
 
                 // Tokenize the property.
-                if (is_array($item->$property)) {
+                if (\is_array($item->$property)) {
                     // Tokenize an array of content and add it to the database.
                     foreach ($item->$property as $ip) {
                         /*
@@ -411,7 +410,7 @@ class Indexer
                          */
                         if ($group === static::PATH_CONTEXT) {
                             $ip = File::stripExt($ip);
-                            $ip = str_replace(array('/', '-'), ' ', $ip);
+                            $ip = str_replace(['/', '-'], ' ', $ip);
                         }
 
                         // Tokenize a string of content and add it to the database.
@@ -459,6 +458,10 @@ class Indexer
                     $nodeId = Taxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
                 }
 
+                if (!$nodeId) {
+                    continue;
+                }
+
                 // Add the link => node map.
                 Taxonomy::addMap($linkId, $nodeId);
                 $node->id = $nodeId;
@@ -503,7 +506,7 @@ class Indexer
         // Iterate through the contexts and aggregate the tokens per context.
         foreach ($state->weights as $context => $multiplier) {
             // Run the query to aggregate the tokens for this context..
-            $db->setQuery(sprintf($query, $multiplier, $context, $context));
+            $db->setQuery(\sprintf($query, $multiplier, $context, $context));
             $db->execute();
         }
 
@@ -629,7 +632,7 @@ class Indexer
 
         // Trigger a plugin event after indexing
         PluginHelper::importPlugin('finder');
-        Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', array($item, $linkId));
+        Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', [$item, $linkId]);
 
         return $linkId;
     }
@@ -643,7 +646,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function remove($linkId, $removeTaxonomies = true)
     {
@@ -689,7 +692,7 @@ class Indexer
         }
 
         PluginHelper::importPlugin('finder');
-        Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($linkId));
+        Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$linkId]);
 
         return true;
     }
@@ -701,14 +704,14 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function optimize()
     {
         // Get the database object.
-        $db = $this->db;
+        $db         = $this->db;
         $serverType = strtolower($db->getServerType());
-        $query = $db->getQuery(true);
+        $query      = $db->getQuery(true);
 
         // Delete all orphaned terms.
         $query->delete($db->quoteName('#__finder_terms'))
@@ -755,7 +758,7 @@ class Indexer
             '#__finder_terms_common',
             '#__finder_types',
             '#__finder_taxonomy_map',
-            '#__finder_taxonomy'
+            '#__finder_taxonomy',
         ];
 
         foreach ($tables as $table) {
@@ -776,7 +779,7 @@ class Indexer
     /**
      * Method to get a content item's signature.
      *
-     * @param   object  $item  The content item to index.
+     * @param   Result  $item  The content item to index.
      *
      * @return  string  The content item's signature.
      *
@@ -788,24 +791,24 @@ class Indexer
         $state = static::getState();
 
         // Get the relevant configuration variables.
-        $config = array(
+        $config = [
             $state->weights,
             $state->options->get('tuplecount', 1),
-            $state->options->get('language_default', '')
-        );
+            $state->options->get('language_default', ''),
+        ];
 
-        return md5(serialize(array($item, $config)));
+        return md5(serialize([$item, $config]));
     }
 
     /**
      * Method to parse input, tokenize it, and then add it to the database.
      *
-     * @param   mixed    $input    String or resource to use as input. A resource input will automatically be chunked to conserve
-     *                             memory. Strings will be chunked if longer than 2K in size.
-     * @param   integer  $context  The context of the input. See context constants.
-     * @param   string   $lang     The language of the input.
-     * @param   string   $format   The format of the input.
-     * @param   integer  $count    Number of words indexed so far.
+     * @param   string|resource  $input    String or resource to use as input. A resource input will automatically be chunked to conserve
+     *                                     memory. Strings will be chunked if longer than 2K in size.
+     * @param   integer          $context  The context of the input. See context constants.
+     * @param   string           $lang     The language of the input.
+     * @param   string           $format   The format of the input.
+     * @param   integer          $count    Number of terms indexed so far.
      *
      * @return  integer  The number of tokens extracted from the input.
      *
@@ -820,7 +823,7 @@ class Indexer
         }
 
         // If the input is a resource, batch the process out.
-        if (is_resource($input)) {
+        if (\is_resource($input)) {
             // Batch the process out to avoid memory limits.
             while (!feof($input)) {
                 // Read into the buffer.
@@ -883,9 +886,9 @@ class Indexer
     {
         static $filterCommon, $filterNumeric;
 
-        if (is_null($filterCommon)) {
-            $params = ComponentHelper::getParams('com_finder');
-            $filterCommon = $params->get('filter_commonwords', false);
+        if (\is_null($filterCommon)) {
+            $params        = ComponentHelper::getParams('com_finder');
+            $filterCommon  = $params->get('filter_commonwords', false);
             $filterNumeric = $params->get('filter_numerics', false);
         }
 
@@ -900,7 +903,7 @@ class Indexer
         // Tokenize the input.
         $tokens = Helper::tokenize($input, $lang);
 
-        if (count($tokens) == 0) {
+        if (\count($tokens) == 0) {
             return $count;
         }
 
@@ -962,11 +965,19 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function toggleTables($memory)
     {
+        static $supported = true;
+
+        if (!$supported) {
+            return true;
+        }
+
         if (strtolower($this->db->getServerType()) != 'mysql') {
+            $supported = false;
+
             return true;
         }
 
@@ -977,13 +988,19 @@ class Indexer
 
         // Check if we are setting the tables to the Memory engine.
         if ($memory === true && $state !== true) {
-            // Set the tokens table to Memory.
-            $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
-            $db->execute();
+            try {
+                // Set the tokens table to Memory.
+                $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
+                $db->execute();
 
-            // Set the tokens aggregate table to Memory.
-            $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
-            $db->execute();
+                // Set the tokens aggregate table to Memory.
+                $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
+                $db->execute();
+            } catch (\RuntimeException $e) {
+                $supported = false;
+
+                return true;
+            }
 
             // Set the internal state.
             $state = $memory;

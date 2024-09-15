@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -159,7 +159,7 @@ class NumberField extends FormField
     protected function getInput()
     {
         if ($this->element['useglobal']) {
-            $component = Factory::getApplication()->input->getCmd('option');
+            $component = Factory::getApplication()->getInput()->getCmd('option');
 
             // Get correct component for menu items
             if ($component === 'com_menus') {
@@ -177,7 +177,7 @@ class NumberField extends FormField
             }
 
             // Try with menu configuration
-            if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus') {
+            if (\is_null($value) && Factory::getApplication()->getInput()->getCmd('option') === 'com_menus') {
                 $value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
             }
 
@@ -189,7 +189,7 @@ class NumberField extends FormField
         }
 
         // Trim the trailing line in the layout file
-        return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+        return rtrim($this->getRenderer($this->layout)->render($this->collectLayoutData()), PHP_EOL);
     }
 
     /**
@@ -204,12 +204,12 @@ class NumberField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
+        $extraData = [
             'max'   => $this->max,
             'min'   => $this->min,
             'step'  => $this->step,
             'value' => $this->value,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

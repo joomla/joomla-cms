@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,16 +30,16 @@ class MessagesModel extends ListModel
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'message_id', 'a.id',
                 'subject', 'a.subject',
                 'state', 'a.state',
@@ -46,7 +47,7 @@ class MessagesModel extends ListModel
                 'user_id_to', 'a.user_id_to',
                 'date_time', 'a.date_time',
                 'priority', 'a.priority',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -99,17 +100,17 @@ class MessagesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
-        $id   = (int) $user->get('id');
+        $user  = $this->getCurrentUser();
+        $id    = (int) $user->id;
 
         // Select the required fields from the table.
         $query->select(

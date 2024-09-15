@@ -18,7 +18,7 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,7 +36,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    Categories[]
      * @since  1.6
      */
-    public static $instances = array();
+    public static $instances = [];
 
     /**
      * Array of category nodes
@@ -60,7 +60,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_extension = null;
+    protected $_extension;
 
     /**
      * Name of the linked content table to get category content count
@@ -68,7 +68,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_table = null;
+    protected $_table;
 
     /**
      * Name of the category field
@@ -76,7 +76,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_field = null;
+    protected $_field;
 
     /**
      * Name of the key field
@@ -84,7 +84,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_key = null;
+    protected $_key;
 
     /**
      * Name of the items state field
@@ -92,7 +92,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_statefield = null;
+    protected $_statefield;
 
     /**
      * Array of options
@@ -115,11 +115,11 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $this->_table      = $options['table'];
         $this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
         $this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
-        $this->_statefield = isset($options['statefield']) ? $options['statefield'] : 'state';
+        $this->_statefield = $options['statefield'] ?? 'state';
 
-        $options['access']      = isset($options['access']) ? $options['access'] : 'true';
-        $options['published']   = isset($options['published']) ? $options['published'] : 1;
-        $options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
+        $options['access']      = $options['access'] ?? 'true';
+        $options['published']   = $options['published'] ?? 1;
+        $options['countItems']  = $options['countItems'] ?? 0;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
         $this->_options = $options;
@@ -134,9 +134,12 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @return  Categories|boolean  Categories object on success, boolean false if an object does not exist
      *
      * @since       1.6
-     * @deprecated  5.0 Use the ComponentInterface to get the categories
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the ComponentInterface to get the categories
+     *              Example: Factory::getApplication()->bootComponent($component)->getCategory($options, $section);
      */
-    public static function getInstance($extension, $options = array())
+    public static function getInstance($extension, $options = [])
     {
         $hash = md5(strtolower($extension) . serialize($options));
 
@@ -209,9 +212,21 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
     }
 
     /**
+     * Returns options.
+     *
+     * @return  array
+     *
+     * @since   4.3.2
+     */
+    public function getOptions()
+    {
+        return $this->_options;
+    }
+
+    /**
      * Load method
      *
-     * @param   integer  $id  Id of category to load
+     * @param   int|string  $id  Id of category to load
      *
      * @return  void
      *
@@ -222,12 +237,12 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         try {
             $db = $this->getDatabase();
         } catch (DatabaseNotFoundException $e) {
-            @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
-        $app  = Factory::getApplication();
-        $user = Factory::getUser();
+        $app       = Factory::getApplication();
+        $user      = Factory::getUser();
         $extension = $this->_extension;
 
         if ($id !== 'root') {
@@ -278,7 +293,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
         $case_when .= ' THEN ';
         $c_id = $query->castAsChar($db->quoteName('c.id'));
-        $case_when .= $query->concatenate(array($c_id, $db->quoteName('c.alias')), ':');
+        $case_when .= $query->concatenate([$c_id, $db->quoteName('c.alias')], ':');
         $case_when .= ' ELSE ';
         $case_when .= $c_id . ' END as ' . $db->quoteName('slug');
 
@@ -310,20 +325,20 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                     'INNER',
                     $db->quoteName('#__categories', 'c'),
                     '(' . $db->quoteName('s.lft') . ' < ' . $db->quoteName('c.lft')
-                        . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt')
-                        . ' AND ' . $db->quoteName('c.language')
-                        . ' IN (' . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
-                        . ' OR (' . $db->quoteName('c.lft') . ' <= ' . $db->quoteName('s.lft')
-                        . ' AND ' . $db->quoteName('s.rgt') . ' <= ' . $db->quoteName('c.rgt') . ')'
+                    . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt')
+                    . ' AND ' . $db->quoteName('c.language')
+                    . ' IN (' . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
+                    . ' OR (' . $db->quoteName('c.lft') . ' <= ' . $db->quoteName('s.lft')
+                    . ' AND ' . $db->quoteName('s.rgt') . ' <= ' . $db->quoteName('c.rgt') . ')'
                 );
             } else {
                 $query->join(
                     'INNER',
                     $db->quoteName('#__categories', 'c'),
                     '(' . $db->quoteName('s.lft') . ' <= ' . $db->quoteName('c.lft')
-                        . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt') . ')'
-                        . ' OR (' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.lft')
-                        . ' AND ' . $db->quoteName('s.rgt') . ' < ' . $db->quoteName('c.rgt') . ')'
+                    . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt') . ')'
+                    . ' OR (' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.lft')
+                    . ' AND ' . $db->quoteName('s.rgt') . ' < ' . $db->quoteName('c.rgt') . ')'
                 );
             }
         } else {
@@ -348,7 +363,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             if ($this->_options['currentlang'] !== 0) {
                 $subQuery->where(
                     $db->quoteName('i.language')
-                        . ' IN (' . implode(',', $query->bindArray([$this->_options['currentlang'], '*'], ParameterType::STRING)) . ')'
+                    . ' IN (' . implode(',', $query->bindArray([$this->_options['currentlang'], '*'], ParameterType::STRING)) . ')'
                 );
             }
 
@@ -357,7 +372,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
         // Get the results
         $db->setQuery($query);
-        $results = $db->loadObjectList('id');
+        $results        = $db->loadObjectList('id');
         $childrenLoaded = false;
 
         if (\count($results)) {

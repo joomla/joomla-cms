@@ -12,7 +12,7 @@ namespace Joomla\CMS\Document\Renderer\Html;
 use Joomla\CMS\Document\DocumentRenderer;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,13 +33,10 @@ class HeadRenderer extends DocumentRenderer
      *
      * @since   3.5
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
-        $buffer  = '';
-        $buffer .= $this->_doc->loadRenderer('metas')->render($head, $params, $content);
-        $buffer .= $this->_doc->loadRenderer('styles')->render($head, $params, $content);
-        $buffer .= $this->_doc->loadRenderer('scripts')->render($head, $params, $content);
-
-        return $buffer;
+        return $this->_doc->loadRenderer('metas')->render($head, $params, $content)
+        . $this->_doc->loadRenderer('styles')->render($head, $params, $content)
+        . $this->_doc->loadRenderer('scripts')->render($head, $params, $content);
     }
 }

@@ -34,7 +34,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         if (isset($query['task'])) {
             $segments[] = $query['task'];
@@ -46,10 +46,8 @@ class Router extends RouterBase
             unset($query['id']);
         }
 
-        $total = \count($segments);
-
-        for ($i = 0; $i < $total; $i++) {
-            $segments[$i] = str_replace(':', '-', $segments[$i]);
+        foreach ($segments as &$segment) {
+            $segment = str_replace(':', '-', $segment);
         }
 
         return $segments;
@@ -66,12 +64,12 @@ class Router extends RouterBase
      */
     public function parse(&$segments)
     {
-        $total = \count($segments);
-        $vars = array();
+        $vars  = [];
 
-        for ($i = 0; $i < $total; $i++) {
-            $segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+        foreach ($segments as &$segment) {
+            $segment = preg_replace('/-/', ':', $segment, 1);
         }
+        unset($segment);
 
         // View is always the first element of the array
         $count = \count($segments);
@@ -80,7 +78,7 @@ class Router extends RouterBase
             $count--;
             $segment = array_shift($segments);
 
-            if (\is_numeric($segment)) {
+            if (is_numeric($segment)) {
                 $vars['id'] = $segment;
             } else {
                 $vars['task'] = $segment;
@@ -90,7 +88,7 @@ class Router extends RouterBase
         if ($count) {
             $segment = array_shift($segments);
 
-            if (\is_numeric($segment)) {
+            if (is_numeric($segment)) {
                 $vars['id'] = $segment;
             }
         }

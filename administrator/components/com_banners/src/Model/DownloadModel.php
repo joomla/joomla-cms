@@ -43,7 +43,7 @@ class DownloadModel extends FormModel
      */
     protected function populateState()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         $this->setState('basename', $input->cookie->getString(ApplicationHelper::getHash($this->_context . '.basename'), '__SITE__'));
         $this->setState('compressed', $input->cookie->getInt(ApplicationHelper::getHash($this->_context . '.compressed'), 1));
@@ -59,10 +59,10 @@ class DownloadModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_banners.download', 'download', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_banners.download', 'download', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -80,10 +80,10 @@ class DownloadModel extends FormModel
      */
     protected function loadFormData()
     {
-        $data = (object) array(
+        $data = (object) [
             'basename'   => $this->getState('basename'),
             'compressed' => $this->getState('compressed'),
-        );
+        ];
 
         $this->preprocessData('com_banners.download', $data);
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="filter">
 		<field
@@ -13,7 +13,7 @@
 			name="published"
 			type="status"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -22,7 +22,7 @@
 			type="category"
 			label="JCATEGORY"
 			extension="com_users"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
@@ -34,7 +34,7 @@
 			last="10"
 			step="1"
 			languages="*"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
@@ -44,7 +44,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.review_time DESC"
 			validate="options"
 			>
@@ -67,7 +67,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

@@ -81,9 +81,9 @@ class Router extends RouterView
         $this->categoryFactory = $categoryFactory;
         $this->db              = $db;
 
-        $params = ComponentHelper::getParams('com_contact');
+        $params      = ComponentHelper::getParams('com_contact');
         $this->noIDs = (bool) $params->get('sef_ids');
-        $categories = new RouterViewConfiguration('categories');
+        $categories  = new RouterViewConfiguration('categories');
         $categories->setKey('id');
         $this->registerView($categories);
         $category = new RouterViewConfiguration('category');
@@ -117,7 +117,7 @@ class Router extends RouterView
         $category = $this->getCategories()->get($id);
 
         if ($category) {
-            $path = array_reverse($category->getPath(), true);
+            $path    = array_reverse($category->getPath(), true);
             $path[0] = '1:root';
 
             if ($this->noIDs) {
@@ -129,7 +129,7 @@ class Router extends RouterView
             return $path;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -156,7 +156,7 @@ class Router extends RouterView
     public function getContactSegment($id, $query)
     {
         if (!strpos($id, ':')) {
-            $id = (int) $id;
+            $id      = (int) $id;
             $dbquery = $this->db->getQuery(true);
             $dbquery->select($this->db->quoteName('alias'))
                 ->from($this->db->quoteName('#__contact_details'))
@@ -170,10 +170,10 @@ class Router extends RouterView
         if ($this->noIDs) {
             list($void, $segment) = explode(':', $id, 2);
 
-            return array($void => $segment);
+            return [$void => $segment];
         }
 
-        return array((int) $id => $id);
+        return [(int) $id => $id];
     }
 
     /**
@@ -249,14 +249,14 @@ class Router extends RouterView
             $dbquery = $this->db->getQuery(true);
             $dbquery->select($this->db->quoteName('id'))
                 ->from($this->db->quoteName('#__contact_details'))
-                ->where(
-                    [
-                        $this->db->quoteName('alias') . ' = :alias',
-                        $this->db->quoteName('catid') . ' = :catid',
-                    ]
-                )
-                ->bind(':alias', $segment)
-                ->bind(':catid', $query['id'], ParameterType::INTEGER);
+                ->where($this->db->quoteName('alias') . ' = :alias')
+                ->bind(':alias', $segment);
+
+            if (isset($query['id']) && $query['id']) {
+                $dbquery->where($this->db->quoteName('catid') . ' = :catid')
+                    ->bind(':catid', $query['id'], ParameterType::INTEGER);
+            }
+
             $this->db->setQuery($dbquery);
 
             return (int) $this->db->loadResult();

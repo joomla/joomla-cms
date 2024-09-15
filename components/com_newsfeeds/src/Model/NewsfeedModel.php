@@ -49,17 +49,17 @@ class NewsfeedModel extends ItemModel
         $app = Factory::getApplication();
 
         // Load state from the request.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('newsfeed.id', $pk);
 
-        $offset = $app->input->get('limitstart', 0, 'uint');
+        $offset = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.offset', $offset);
 
         // Load the parameters.
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds'))) {
             $this->setState('filter.published', 1);
@@ -81,12 +81,12 @@ class NewsfeedModel extends ItemModel
         $pk = (int) $pk ?: (int) $this->getState('newsfeed.id');
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {
             try {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select(
                         [
@@ -171,7 +171,7 @@ class NewsfeedModel extends ItemModel
                 }
 
                 // Convert parameter fields to objects.
-                $registry = new Registry($data->params);
+                $registry     = new Registry($data->params);
                 $data->params = clone $this->getState('params');
                 $data->params->merge($registry);
 
@@ -184,9 +184,9 @@ class NewsfeedModel extends ItemModel
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
-                    $user   = Factory::getUser();
+                    $user   = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
-                    $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+                    $data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
                 }
 
                 $this->_item[$pk] = $data;
@@ -210,7 +210,7 @@ class NewsfeedModel extends ItemModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

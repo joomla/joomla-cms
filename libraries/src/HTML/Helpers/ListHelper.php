@@ -16,7 +16,7 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -52,7 +52,7 @@ abstract class ListHelper
         }
 
         $imageFiles = new \DirectoryIterator(JPATH_SITE . '/' . $directory);
-        $images = array(HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE')));
+        $images     = [HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE'))];
 
         foreach ($imageFiles as $file) {
             $fileName = $file->getFilename();
@@ -70,10 +70,10 @@ abstract class ListHelper
             'select.genericlist',
             $images,
             $name,
-            array(
-                'list.attr' => 'size="1" ' . $javascript,
+            [
+                'list.attr'   => 'size="1" ' . $javascript,
                 'list.select' => $active,
-            )
+            ]
         );
 
         return $images;
@@ -91,8 +91,8 @@ abstract class ListHelper
      */
     public static function genericordering($query, $chop = 30)
     {
-        $db = Factory::getDbo();
-        $options = array();
+        $db      = Factory::getDbo();
+        $options = [];
         $db->setQuery($query);
 
         $items = $db->loadObjectList();
@@ -105,7 +105,7 @@ abstract class ListHelper
 
         $options[] = HTMLHelper::_('select.option', 0, ' - ' . Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL') . ' - ');
 
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = \count($items); $i < $n; $i++) {
             $items[$i]->text = Text::_($items[$i]->text);
 
             if (StringHelper::strlen($items[$i]->text) > $chop) {
@@ -130,7 +130,7 @@ abstract class ListHelper
      * @param   string   $attribs   HTML tag attributes
      * @param   string   $selected  The selected item
      * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
-     * @param   string   $id        ID attribute for the resulting <select> element
+     * @param   ?string  $id        ID attribute for the resulting <select> element
      *
      * @return  string   HTML markup for the select list
      *
@@ -178,7 +178,7 @@ abstract class ListHelper
      */
     public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -195,7 +195,7 @@ abstract class ListHelper
 
         if ($nouser) {
             $users[] = HTMLHelper::_('select.option', '0', Text::_('JOPTION_NO_USER'));
-            $users = array_merge($users, $db->loadObjectList());
+            $users   = array_merge($users, $db->loadObjectList());
         } else {
             $users = $db->loadObjectList();
         }
@@ -204,10 +204,10 @@ abstract class ListHelper
             'select.genericlist',
             $users,
             $name,
-            array(
-                'list.attr' => 'size="1" ' . $javascript,
+            [
+                'list.attr'   => 'size="1" ' . $javascript,
                 'list.select' => $active,
-            )
+            ]
         );
 
         return $users;
@@ -239,7 +239,7 @@ abstract class ListHelper
         $right = true,
         $id = false
     ) {
-        $pos = array();
+        $pos = [];
 
         if ($none) {
             $pos[''] = Text::_('JNONE');
@@ -261,12 +261,12 @@ abstract class ListHelper
             'select.genericlist',
             $pos,
             $name,
-            array(
-                'id' => $id,
-                'list.attr' => 'size="1"' . $javascript,
+            [
+                'id'          => $id,
+                'list.attr'   => 'size="1"' . $javascript,
                 'list.select' => $active,
-                'option.key' => null,
-            )
+                'option.key'  => null,
+            ]
         );
 
         return $positions;

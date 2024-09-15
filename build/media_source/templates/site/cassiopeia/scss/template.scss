@@ -1,11 +1,16 @@
 // Bootstrap functions
 @import "../../../../../../media/vendor/bootstrap/scss/functions";
+@import "tools/variables/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/variables-dark";
+@import "../../../../../../media/vendor/bootstrap/scss/maps";
+@import "../../../../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../../../../media/vendor/bootstrap/scss/utilities";
 
 // Variables, Functions and Mixins
 @import "tools/tools";
 
 // Bootstrap
-@import "../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../media/vendor/bootstrap/scss/bootstrap";
 
 // jQuery Minicolors
@@ -49,12 +54,133 @@
 @import "vendor/minicolors";
 @import "vendor/tinymce";
 
-// Chosen (TEMPORARY)
-.chzn-container-single {
-  width: auto !important;
+// Finally add the cassiopeia colours
+:root {
+  @each $color, $value in $cassiopeia-colors {
+    --#{$color}: #{$value};
+  }
 }
 
-.chzn-container-multi {
-  width: 100% !important;
-  max-width: 240px;
+.border-primary {
+  border-color: var(--primary) !important;
+}
+
+.border-secondary {
+  border-color: var(--secondary) !important;
+}
+
+.border-success {
+  border-color: var(--success) !important;
+}
+
+.border-info {
+  border-color: var(--info) !important;
+}
+
+.border-warning {
+  border-color: var(--warning) !important;
+}
+
+.border-danger {
+  border-color: var(--danger) !important;
+}
+
+.border-light {
+  border-color: var(--light) !important;
+}
+
+.border-dark {
+  border-color: var(--dark) !important;
+}
+
+.border-white {
+  border-color: var(--white) !important;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.text-secondary {
+  color: var(--secondary) !important;
+}
+
+.text-success {
+  color: var(--success) !important;
+}
+
+.text-info {
+  color: var(--info) !important;
+}
+
+.text-warning {
+  color: var(--warning) !important;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.text-light {
+  color: var(--light) !important;
+}
+
+.text-dark {
+  color: var(--dark) !important;
+}
+
+.text-black {
+  color: var(--black) !important;
+}
+
+.text-white {
+  color: var(--white) !important;
+}
+
+.text-body {
+  color: var(--body-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.bg-success {
+  background-color: var(--success) !important;
+}
+
+.bg-info {
+  background-color: var(--info) !important;
+}
+
+.bg-warning {
+  background-color: var(--warning) !important;
+}
+
+.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+.bg-light {
+  background-color: var(--light) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark) !important;
+}
+
+.bg-black {
+  background-color: var(--black) !important;
+}
+
+.bg-white {
+  background-color: var(--white) !important;
+}
+
+.bg-body {
+  background-color: var(--body-bg) !important;
 }

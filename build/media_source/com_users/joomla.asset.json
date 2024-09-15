@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_users.admin-users-groups.es5",
-      "type": "script",
-      "uri": "com_users/admin-users-groups-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_users.admin-users-groups",
       "type": "script",
       "uri": "com_users/admin-users-groups.min.js",
@@ -29,61 +17,14 @@
       }
     },
     {
-      "name": "com_users.admin-users-mail.es5",
-      "type": "script",
-      "uri": "com_users/admin-users-mail-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
-      "name": "com_users.admin-users-mail",
-      "type": "script",
-      "uri": "com_users/admin-users-mail.min.js",
-      "dependencies": [
-        "com_users.admin-users-mail.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_users.two-factor-focus.es5",
-      "type": "script",
-      "uri": "com_users/two-factor-focus-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_users.two-factor-focus",
       "type": "script",
       "uri": "com_users/two-factor-focus.min.js",
       "dependencies": [
-        "com_users.two-factor-focus.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_users.two-factor-list.es5",
-      "type": "script",
-      "uri": "com_users/two-factor-list-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -91,7 +32,7 @@
       "type": "script",
       "uri": "com_users/two-factor-list.min.js",
       "dependencies": [
-        "com_users.two-factor-list.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
+use Joomla\Component\Templates\Administrator\View\Style\JsonView;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -81,20 +82,22 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $user = $this->getCurrentUser();
+        $user                   = $this->getCurrentUser();
         $this->userIsSuperAdmin = $user->authorise('core.admin');
 
         $app   = Factory::getApplication();
 
-        $app->input->set('id', $app->getTemplate(true)->id);
+        $app->getInput()->set('id', $app->getTemplate(true)->id);
 
         /** @var MVCFactory $factory */
         $factory = $app->bootComponent('com_templates')->getMVCFactory();
 
+        /** @var JsonView $view */
         $view = $factory->createView('Style', 'Administrator', 'Json');
         $view->setModel($factory->createModel('Style', 'Administrator'), true);
+        $view->setLanguage($app->getLanguage());
 
-        $view->document = $this->document;
+        $view->document = $this->getDocument();
 
         $json = $view->display();
 
@@ -141,11 +144,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($params->get('page_title', ''));
 
         if ($params->get('menu-meta_description')) {
-            $this->document->setDescription($params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($params->get('menu-meta_description'));
         }
 
         if ($params->get('robots')) {
-            $this->document->setMetaData('robots', $params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $params->get('robots'));
         }
 
         // Escape strings for HTML output

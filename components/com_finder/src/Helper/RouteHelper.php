@@ -38,8 +38,8 @@ class RouteHelper
     public static function getSearchRoute($f = null, $q = null)
     {
         // Get the menu item id.
-        $query = array('view' => 'search', 'q' => $q, 'f' => $f);
-        $item = self::getItemid($query);
+        $query = ['view' => 'search', 'q' => $q, 'f' => $f];
+        $item  = self::getItemid($query);
 
         // Get the base route.
         $uri = clone Uri::getInstance('index.php?option=com_finder&view=search');
@@ -59,7 +59,7 @@ class RouteHelper
             $uri->setVar('Itemid', $item);
         }
 
-        return $uri->toString(array('path', 'query'));
+        return $uri->toString(['path', 'query']);
     }
 
     /**
@@ -75,8 +75,8 @@ class RouteHelper
     public static function getAdvancedRoute($f = null, $q = null)
     {
         // Get the menu item id.
-        $query = array('view' => 'advanced', 'q' => $q, 'f' => $f);
-        $item = self::getItemid($query);
+        $query = ['view' => 'advanced', 'q' => $q, 'f' => $f];
+        $item  = self::getItemid($query);
 
         // Get the base route.
         $uri = clone Uri::getInstance('index.php?option=com_finder&view=advanced');
@@ -96,7 +96,7 @@ class RouteHelper
             $uri->setVar('Itemid', $item);
         }
 
-        return $uri->toString(array('path', 'query'));
+        return $uri->toString(['path', 'query']);
     }
 
     /**
@@ -115,12 +115,12 @@ class RouteHelper
 
         // Get the menu items for com_finder.
         if (!$items || !$active) {
-            $app = Factory::getApplication();
-            $com = ComponentHelper::getComponent('com_finder');
-            $menu = $app->getMenu();
+            $app    = Factory::getApplication();
+            $com    = ComponentHelper::getComponent('com_finder');
+            $menu   = $app->getMenu();
             $active = $menu->getActive();
-            $items = $menu->getItems('component_id', $com->id);
-            $items = is_array($items) ? $items : array();
+            $items  = $menu->getItems('component_id', $com->id);
+            $items  = \is_array($items) ? $items : [];
         }
 
         // Try to match the active view and filter.

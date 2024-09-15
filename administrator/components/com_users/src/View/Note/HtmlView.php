@@ -16,7 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -50,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  2.5
      */
     protected $state;
@@ -73,7 +73,7 @@ class HtmlView extends BaseHtmlView
         $this->form  = $this->get('Form');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -91,51 +91,55 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $input->set('hidemainmenu', 1);
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_users', 'category', $this->item->catid);
 
         ToolbarHelper::title(Text::_('COM_USERS_NOTES'), 'users user');
 
-        $toolbarButtons = [];
-
         // If not checked out, can save the item.
-        if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create')))) {
-            ToolbarHelper::apply('note.apply');
-            $toolbarButtons[] = ['save', 'note.save'];
+        if (!$checkedOut && ($canDo->get('core.edit') || \count($user->getAuthorisedCategories('com_users', 'core.create')))) {
+            $toolbar->apply('note.apply');
         }
 
-        if (!$checkedOut && count($user->getAuthorisedCategories('com_users', 'core.create'))) {
-            $toolbarButtons[] = ['save2new', 'note.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        // If an existing item, can save to a copy.
-        if (!$isNew && (count($user->getAuthorisedCategories('com_users', 'core.create')) > 0)) {
-            $toolbarButtons[] = ['save2copy', 'note.save2copy'];
-        }
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($checkedOut, $canDo, $user, $isNew) {
+                // If not checked out, can save the item.
+                if (!$checkedOut && ($canDo->get('core.edit') || \count($user->getAuthorisedCategories('com_users', 'core.create')))) {
+                    $childBar->save('note.save');
+                }
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+                if (!$checkedOut && \count($user->getAuthorisedCategories('com_users', 'core.create'))) {
+                    $childBar->save2new('note.save2new');
+                }
+
+                // If an existing item, can save to a copy.
+                if (!$isNew && (\count($user->getAuthorisedCategories('com_users', 'core.create')) > 0)) {
+                    $childBar->save2copy('note.save2copy');
+                }
+            }
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('note.cancel');
+            $toolbar->cancel('note.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('note.cancel');
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
-                ToolbarHelper::versions('com_users.note', $this->item->id);
+                $toolbar->versions('com_users.note', $this->item->id);
             }
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('User_Notes:_New_or_Edit');
+        $toolbar->divider();
+        $toolbar->help('User_Notes:_New_or_Edit');
     }
 }

@@ -20,6 +20,9 @@ Joomla = window.Joomla || {};
    * @param {string}  scroll  The vertical/horizontal scroll bars
    *
    * @since 4.0.0
+   *
+   * @deprecated  4.3 will be removed in 6.0
+   *             Will be removed without replacement. Use browser native call instead
    */
   Joomla.popupWindow = function (mypage, myname, w, h, scroll) {
     const winl = (screen.width - w) / 2;
@@ -36,6 +39,17 @@ Joomla = window.Joomla || {};
     const toolbarOptions = document.getElementById('toolbar-options');
     const toolbarHelp = document.getElementById('toolbar-help');
     const toolbarInlineHelp = document.getElementById('toolbar-inlinehelp');
+
+    // Handle Help buttons
+    document.querySelectorAll('.js-toolbar-help-btn').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const btn = event.currentTarget;
+        const winprops = `height=${parseInt(btn.dataset.height, 10)},width=${parseInt(btn.dataset.width, 10)},top=${(window.innerHeight - parseInt(btn.dataset.height, 10)) / 2},`
+          + `left=${(window.innerWidth - parseInt(btn.dataset.width, 10)) / 2},scrollbars=${btn.dataset.width === 'true'},resizable`;
+
+        window.open(btn.dataset.url, btn.dataset.tile, winprops).window.focus();
+      });
+    });
 
     if (toolbarInlineHelp) {
       toolbarInlineHelp.classList.add('ms-auto');

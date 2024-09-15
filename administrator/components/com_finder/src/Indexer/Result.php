@@ -35,7 +35,7 @@ class Result implements \Serializable
      * @var    array
      * @since  2.5
      */
-    protected $elements = array();
+    protected $elements = [];
 
     /**
      * This array tells the indexer which properties should be indexed and what
@@ -44,13 +44,13 @@ class Result implements \Serializable
      * @var    array
      * @since  2.5
      */
-    protected $instructions = array(
-        Indexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
-        Indexer::TEXT_CONTEXT  => array('summary', 'body'),
-        Indexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
-        Indexer::PATH_CONTEXT  => array('path', 'alias'),
-        Indexer::MISC_CONTEXT  => array('comments'),
-    );
+    protected $instructions = [
+        Indexer::TITLE_CONTEXT => ['title', 'subtitle', 'id'],
+        Indexer::TEXT_CONTEXT  => ['summary', 'body'],
+        Indexer::META_CONTEXT  => ['meta', 'list_price', 'sale_price'],
+        Indexer::PATH_CONTEXT  => ['path', 'alias'],
+        Indexer::MISC_CONTEXT  => ['comments'],
+    ];
 
     /**
      * The indexer will use this data to create taxonomy mapping entries for
@@ -60,7 +60,7 @@ class Result implements \Serializable
      * @var    array
      * @since  2.5
      */
-    protected $taxonomy = array();
+    protected $taxonomy = [];
 
     /**
      * The content URL.
@@ -270,7 +270,7 @@ class Result implements \Serializable
     public function getElement($name)
     {
         // Get the element value if set.
-        if (array_key_exists($name, $this->elements)) {
+        if (\array_key_exists($name, $this->elements)) {
             return $this->elements[$name];
         }
 
@@ -330,7 +330,7 @@ class Result implements \Serializable
     {
         // Check if the group exists. We can't add instructions for unknown groups.
         // Check if the property exists in the group.
-        if (array_key_exists($group, $this->instructions) && !in_array($property, $this->instructions[$group], true)) {
+        if (\array_key_exists($group, $this->instructions) && !\in_array($property, $this->instructions[$group], true)) {
             // Add the property to the group.
             $this->instructions[$group][] = $property;
         }
@@ -349,7 +349,7 @@ class Result implements \Serializable
     public function removeInstruction($group, $property)
     {
         // Check if the group exists. We can't remove instructions for unknown groups.
-        if (array_key_exists($group, $this->instructions)) {
+        if (\array_key_exists($group, $this->instructions)) {
             // Search for the property in the group.
             $key = array_search($property, $this->instructions[$group]);
 
@@ -392,18 +392,23 @@ class Result implements \Serializable
      *
      * @since   2.5
      */
-    public function addTaxonomy($branch, $title, $state = 1, $access = 1, $language = '')
+    public function addTaxonomy($branch, $title, $state = 1, $access = 1, $language = '*')
     {
+        // We can't add taxonomies with empty titles
+        if (!trim($title)) {
+            return;
+        }
+
         // Filter the input.
         $branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
         // Create the taxonomy node.
-        $node = new \stdClass();
-        $node->title = $title;
-        $node->state = (int) $state;
-        $node->access = (int) $access;
+        $node           = new \stdClass();
+        $node->title    = $title;
+        $node->state    = (int) $state;
+        $node->access   = (int) $access;
         $node->language = $language;
-        $node->nested = false;
+        $node->nested   = false;
 
         // Add the node to the taxonomy branch.
         $this->taxonomy[$branch][] = $node;
@@ -422,19 +427,24 @@ class Result implements \Serializable
      *
      * @since   4.0.0
      */
-    public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '')
+    public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '*')
     {
+        // We can't add taxonomies with empty titles
+        if (!trim($contentNode->title)) {
+            return;
+        }
+
         // Filter the input.
         $branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
         // Create the taxonomy node.
-        $node = new \stdClass();
-        $node->title = $contentNode->title;
-        $node->state = (int) $state;
-        $node->access = (int) $access;
+        $node           = new \stdClass();
+        $node->title    = $contentNode->title;
+        $node->state    = (int) $state;
+        $node->access   = (int) $access;
         $node->language = $language;
-        $node->nested = true;
-        $node->node = $contentNode;
+        $node->nested   = true;
+        $node->node     = $contentNode;
 
         // Add the node to the taxonomy branch.
         $this->taxonomy[$branch][] = $node;
@@ -523,7 +533,7 @@ class Result implements \Serializable
             $taxonomy,
             $this->title,
             $this->type_id,
-            $this->url
+            $this->url,
         ];
     }
 
@@ -563,8 +573,8 @@ class Result implements \Serializable
 
         foreach ($this->taxonomy as $nodes) {
             foreach ($nodes as $node) {
-                $curTaxonomy = Taxonomy::getTaxonomy($node->id);
-                $node->state = $curTaxonomy->state;
+                $curTaxonomy  = Taxonomy::getTaxonomy($node->id);
+                $node->state  = $curTaxonomy->state;
                 $node->access = $curTaxonomy->access;
             }
         }

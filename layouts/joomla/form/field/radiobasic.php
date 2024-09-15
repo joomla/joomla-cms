@@ -6,6 +6,9 @@
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @deprecated  5.2 will be moved to the b/c plugin in 6.0 and removed in 7.0
+ *
  */
 
 defined('_JEXEC') or die;
@@ -74,7 +77,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
                 $onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
                 $oid        = $id . $i;
                 $ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-                $attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+                $attributes = array_filter([$checked, $optionClass, $disabled, $onchange, $onclick]);
             ?>
             <?php if ($required) : ?>
                 <?php $attributes[] = 'required'; ?>

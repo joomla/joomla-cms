@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -139,7 +139,7 @@ class AccessiblemediaField extends SubformField
          * However, this method expects an object or a string, not an array. Typecasting the array
          * to an object solves the data format discrepancy.
          */
-        $value = is_array($value) ? (object) $value : $value;
+        $value = \is_array($value) ? (object) $value : $value;
 
         /**
          * If the value is not a string, it is
@@ -164,7 +164,7 @@ class AccessiblemediaField extends SubformField
                 }
             }
         } elseif (
-            !is_object($value)
+            !\is_object($value)
             || !property_exists($value, 'imagefile')
             || !property_exists($value, 'alt_text')
         ) {
@@ -175,10 +175,10 @@ class AccessiblemediaField extends SubformField
             return false;
         }
 
-        $this->directory = (string) $this->element['directory'];
-        $this->preview = (string) $this->element['preview'];
+        $this->directory     = (string) $this->element['directory'];
+        $this->preview       = (string) $this->element['preview'];
         $this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
-        $this->previewWidth = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
+        $this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 
         $xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -195,6 +195,9 @@ class AccessiblemediaField extends SubformField
 			preview="$this->preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 		/>
 
 		<field

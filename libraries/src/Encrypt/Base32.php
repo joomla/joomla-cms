@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Encrypt;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -100,17 +100,17 @@ class Base32
 
         // We need a string divisible by 5
         $length = \strlen($str);
-        $rbits = $length & 7;
+        $rbits  = $length & 7;
 
         if ($rbits > 0) {
             // Excessive bits need to be padded
             $ebits = substr($str, $length - $rbits);
-            $str = substr($str, 0, $length - $rbits);
+            $str   = substr($str, 0, $length - $rbits);
             $str .= "000$ebits" . str_repeat('0', 5 - \strlen($ebits));
         }
 
         preg_match_all('/.{8}/', $str, $chrs);
-        $chrs = array_map(array($this, '_mapcharset'), $chrs[0]);
+        $chrs = array_map([$this, '_mapcharset'], $chrs[0]);
 
         return implode('', $chrs);
     }
@@ -133,14 +133,14 @@ class Base32
         }
 
         // Convert the base32 string back to a binary string
-        $str = implode('', array_map(array($this, '_mapbin'), str_split($str)));
+        $str = implode('', array_map([$this, '_mapbin'], str_split($str)));
 
         // Remove the extra 0's we added
         $str = preg_replace('/000(.{5})/', '$1', $str);
 
         // Unpad if necessary
         $length = \strlen($str);
-        $rbits = $length & 7;
+        $rbits  = $length & 7;
 
         if ($rbits > 0) {
             $str = substr($str, 0, $length - $rbits);
@@ -215,6 +215,6 @@ class Base32
      */
     private function _mapbin($chr)
     {
-        return sprintf('%08b', strpos(self::CSRFC3548, $chr));
+        return \sprintf('%08b', strpos(self::CSRFC3548, $chr));
     }
 }

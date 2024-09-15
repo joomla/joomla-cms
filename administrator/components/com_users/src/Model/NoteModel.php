@@ -46,10 +46,10 @@ class NoteModel extends AdminModel
      *
      * @since   2.5
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.note', 'note', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.note', 'note', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -79,7 +79,7 @@ class NoteModel extends AdminModel
         PluginHelper::importPlugin('user');
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.note', $result));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.note', $result]);
 
         return $result;
     }
@@ -98,17 +98,17 @@ class NoteModel extends AdminModel
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_users.edit.note.data', array());
+        $data = $app->getUserState('com_users.edit.note.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
 
             // Prime some default values.
             if ($this->getState('note.id') == 0) {
-                $data->set('catid', $app->input->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int'));
+                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int'));
             }
 
-            $userId = $app->input->get('u_id', 0, 'int');
+            $userId = $app->getInput()->get('u_id', 0, 'int');
 
             if ($userId != 0) {
                 $data->user_id = $userId;
@@ -134,7 +134,7 @@ class NoteModel extends AdminModel
     {
         parent::populateState();
 
-        $userId = Factory::getApplication()->input->get('u_id', 0, 'int');
+        $userId = Factory::getApplication()->getInput()->get('u_id', 0, 'int');
         $this->setState('note.user_id', $userId);
     }
 }

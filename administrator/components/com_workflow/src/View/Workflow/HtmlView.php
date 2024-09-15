@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
@@ -91,7 +92,7 @@ class HtmlView extends BaseHtmlView
         $this->item       = $this->get('Item');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -121,57 +122,55 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
-
-        $canDo = WorkflowHelper::getActions($this->extension, 'workflow', $this->item->id);
+        $toolbar    = $this->getDocument()->getToolbar();
+        $canDo      = WorkflowHelper::getActions($this->extension, 'workflow', $this->item->id);
 
         ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_WORKFLOWS_ADD') : Text::_('COM_WORKFLOW_WORKFLOWS_EDIT'), 'address');
-
-        $toolbarButtons = [];
 
         if ($isNew) {
             // For new records, check the create permission.
             if ($canDo->get('core.create')) {
-                ToolbarHelper::apply('workflow.apply');
-                $toolbarButtons = [['save', 'workflow.save'], ['save2new', 'workflow.save2new']];
+                $toolbar->apply('workflow.apply');
+
+                $saveGroup = $toolbar->dropdownButton('save-group');
+
+                $saveGroup->configure(
+                    function (Toolbar $childBar) {
+                        $childBar->save('workflow.save');
+                        $childBar->save2new('workflow.save2new');
+                    }
+                );
             }
 
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
-            );
-
-            ToolbarHelper::cancel(
-                'workflow.cancel'
-            );
+            $toolbar->cancel('workflow.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
             if ($itemEditable) {
-                ToolbarHelper::apply('workflow.apply');
-                $toolbarButtons = [['save', 'workflow.save']];
+                $toolbar->apply('workflow.apply');
 
-                // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canDo->get('core.create')) {
-                    $toolbarButtons[] = ['save2new', 'workflow.save2new'];
-                    $toolbarButtons[] = ['save2copy', 'workflow.save2copy'];
-                }
+                $saveGroup = $toolbar->dropdownButton('save-group');
+
+                $saveGroup->configure(
+                    function (Toolbar $childBar) use ($canDo) {
+                        $childBar->save('workflow.save');
+
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('workflow.save2new');
+                            $childBar->save2copy('workflow.save2copy');
+                        }
+                    }
+                );
             }
 
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
-            );
-
-            ToolbarHelper::cancel(
-                'workflow.cancel',
-                'JTOOLBAR_CLOSE'
-            );
+            $toolbar->cancel('workflow.cancel');
         }
     }
 }

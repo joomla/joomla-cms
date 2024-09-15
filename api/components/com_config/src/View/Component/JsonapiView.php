@@ -32,13 +32,13 @@ class JsonapiView extends BaseApiView
     /**
      * Execute and display a template script.
      *
-     * @param   array|null  $items  Array of items
+     * @param   ?array  $items  Array of items
      *
      * @return  string
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         try {
             $component = ComponentHelper::getComponent($this->get('component_name'));
@@ -61,9 +61,9 @@ class JsonapiView extends BaseApiView
         }
 
         // Set up links for pagination
-        $currentUrl = Uri::getInstance();
+        $currentUrl                    = Uri::getInstance();
         $currentPageDefaultInformation = ['offset' => 0, 'limit' => 20];
-        $currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
+        $currentPageQuery              = $currentUrl->getVar('page', $currentPageDefaultInformation);
 
         $offset              = $currentPageQuery['offset'];
         $limit               = $currentPageQuery['limit'];
@@ -72,49 +72,49 @@ class JsonapiView extends BaseApiView
 
         $items = array_splice($items, $offset, $limit);
 
-        $this->document->addMeta('total-pages', $totalPagesAvailable)
+        $this->getDocument()->addMeta('total-pages', $totalPagesAvailable)
             ->addLink('self', (string) $currentUrl);
 
         // Check for first and previous pages
         if ($offset > 0) {
-            $firstPage = clone $currentUrl;
-            $firstPageQuery = $currentPageQuery;
+            $firstPage                = clone $currentUrl;
+            $firstPageQuery           = $currentPageQuery;
             $firstPageQuery['offset'] = 0;
             $firstPage->setVar('page', $firstPageQuery);
 
-            $previousPage = clone $currentUrl;
-            $previousPageQuery = $currentPageQuery;
-            $previousOffset = $currentPageQuery['offset'] - $limit;
-            $previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
+            $previousPage                = clone $currentUrl;
+            $previousPageQuery           = $currentPageQuery;
+            $previousOffset              = $currentPageQuery['offset'] - $limit;
+            $previousPageQuery['offset'] = max($previousOffset, 0);
             $previousPage->setVar('page', $previousPageQuery);
 
-            $this->document->addLink('first', $this->queryEncode((string) $firstPage))
+            $this->getDocument()->addLink('first', $this->queryEncode((string) $firstPage))
                 ->addLink('previous', $this->queryEncode((string) $previousPage));
         }
 
         // Check for next and last pages
         if ($offset + $limit < $totalItemsCount) {
-            $nextPage = clone $currentUrl;
-            $nextPageQuery = $currentPageQuery;
-            $nextOffset = $currentPageQuery['offset'] + $limit;
+            $nextPage                = clone $currentUrl;
+            $nextPageQuery           = $currentPageQuery;
+            $nextOffset              = $currentPageQuery['offset'] + $limit;
             $nextPageQuery['offset'] = ($nextOffset > ($totalPagesAvailable * $limit)) ? $totalPagesAvailable - $limit : $nextOffset;
             $nextPage->setVar('page', $nextPageQuery);
 
-            $lastPage = clone $currentUrl;
-            $lastPageQuery = $currentPageQuery;
+            $lastPage                = clone $currentUrl;
+            $lastPageQuery           = $currentPageQuery;
             $lastPageQuery['offset'] = ($totalPagesAvailable - 1) * $limit;
             $lastPage->setVar('page', $lastPageQuery);
 
-            $this->document->addLink('next', $this->queryEncode((string) $nextPage))
+            $this->getDocument()->addLink('next', $this->queryEncode((string) $nextPage))
                 ->addLink('last', $this->queryEncode((string) $lastPage));
         }
 
         $collection = (new Collection($items, new JoomlaSerializer($this->type)));
 
         // Set the data into the document and render it
-        $this->document->setData($collection);
+        $this->getDocument()->setData($collection);
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 
     /**

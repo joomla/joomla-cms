@@ -24,7 +24,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -285,7 +285,7 @@ class AddUserToGroupCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**
