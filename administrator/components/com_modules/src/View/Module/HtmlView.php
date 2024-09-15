@@ -60,6 +60,15 @@ class HtmlView extends BaseHtmlView
     protected $canDo;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -114,9 +123,9 @@ class HtmlView extends BaseHtmlView
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
 
@@ -193,7 +202,7 @@ class HtmlView extends BaseHtmlView
     protected function addModalToolbar()
     {
         $isNew   = ($this->item->id == 0);
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $canDo   = $this->canDo;
 
         ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
@@ -208,5 +217,7 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->cancel('module.cancel');
+
+        $toolbar->inlinehelp();
     }
 }

@@ -19,6 +19,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -34,13 +35,13 @@ class ItemsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -101,21 +102,6 @@ class ItemsModel extends ListModel
         if ($forcedLanguage) {
             $this->context .= '.' . $forcedLanguage;
         }
-
-        $search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
-        $this->setState('filter.published', $published);
-
-        $access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-        $this->setState('filter.access', $access);
-
-        $parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
-        $this->setState('filter.parent_id', $parentId);
-
-        $level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-        $this->setState('filter.level', $level);
 
         // Watch changes in client_id and menutype and keep sync whenever needed.
         $currentClientId = $app->getUserState($this->context . '.client_id', 0);
@@ -231,7 +217,7 @@ class ItemsModel extends ListModel
     /**
      * Builds an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    A query object.
+     * @return  QueryInterface    A query object.
      *
      * @since   1.6
      */
@@ -340,7 +326,7 @@ class ItemsModel extends ListModel
             ->bind(':clientId', $clientId, ParameterType::INTEGER);
 
         // Filter on the published state.
-        $published = $this->getState('filter.published');
+        $published = $this->getState('filter.published', '');
 
         if (is_numeric($published)) {
             $published = (int) $published;

@@ -47,7 +47,7 @@ class PasswordRule implements FormRuleInterface
      * @throws  \InvalidArgumentException
      * @throws  \UnexpectedValueException
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): void
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null): void
     {
         $meter            = isset($element['strengthmeter']) ? ' meter="0"' : '1';
         $threshold        = isset($element['threshold']) ? (int) $element['threshold'] : 66;
