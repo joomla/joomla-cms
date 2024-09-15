@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Association edit controller class.
  *
@@ -47,7 +51,7 @@ class AssociationController extends FormController
             return false;
         }
 
-        return parent::display();
+        return $this->display();
     }
 
     /**
@@ -67,7 +71,7 @@ class AssociationController extends FormController
 
         // Only check in, if component item type allows to check out.
         if (AssociationsHelper::typeSupportsCheckout($extensionName, $typeName)) {
-            $ids      = array();
+            $ids      = [];
             $targetId = $this->input->get('target-id', '', 'string');
 
             if ($targetId !== '') {

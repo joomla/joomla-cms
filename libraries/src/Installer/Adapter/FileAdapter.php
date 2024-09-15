@@ -9,15 +9,19 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * File installer
@@ -45,6 +49,22 @@ class FileAdapter extends InstallerAdapter
     protected $supportsDiscoverInstall = false;
 
     /**
+     * List of processed folders
+     *
+     * @var    array
+     * @since  3.4
+     */
+    protected $folderList;
+
+    /**
+     * List of processed files
+     *
+     * @var    array
+     * @since  3.4
+     */
+    protected $fileList;
+
+    /**
      * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
      *
      * @return  void
@@ -59,7 +79,7 @@ class FileAdapter extends InstallerAdapter
 
         // Now that we have folder list, lets start creating them
         foreach ($this->folderList as $folder) {
-            if (!Folder::exists($folder)) {
+            if (!is_dir(Path::clean($folder))) {
                 if (!$created = Folder::create($folder)) {
                     throw new \RuntimeException(
                         Text::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder)
@@ -69,7 +89,7 @@ class FileAdapter extends InstallerAdapter
                 // Since we created a directory and will want to remove it if we have to roll back.
                 // The installation due to some errors, let's add it to the installation step stack.
                 if ($created) {
-                    $this->parent->pushStep(array('type' => 'folder', 'path' => $folder));
+                    $this->parent->pushStep(['type' => 'folder', 'path' => $folder]);
                 }
             }
         }
@@ -92,10 +112,10 @@ class FileAdapter extends InstallerAdapter
         $update = Table::getInstance('update');
 
         $uid = $update->find(
-            array(
+            [
                 'element' => $this->element,
-                'type' => $this->type,
-            )
+                'type'    => $this->type,
+            ]
         );
 
         if ($uid) {
@@ -103,11 +123,11 @@ class FileAdapter extends InstallerAdapter
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        $manifest = array();
-        $manifest['src'] = $this->parent->getPath('manifest');
+        $manifest         = [];
+        $manifest['src']  = $this->parent->getPath('manifest');
         $manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($this->parent->getPath('manifest'));
 
-        if (!$this->parent->copyFiles(array($manifest), true)) {
+        if (!$this->parent->copyFiles([$manifest], true)) {
             // Install failed, rollback changes
             throw new \RuntimeException(
                 Text::sprintf(
@@ -124,11 +144,12 @@ class FileAdapter extends InstallerAdapter
                 Folder::create($this->parent->getPath('extension_root'));
             }
 
-            $path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
+            $path         = [];
+            $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -151,7 +172,11 @@ class FileAdapter extends InstallerAdapter
      */
     protected function finaliseUninstall(): bool
     {
-        File::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
+        $manifest = JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml';
+
+        if (is_file($manifest)) {
+            File::delete($manifest);
+        }
 
         $extensionId = $this->extension->extension_id;
 
@@ -195,8 +220,8 @@ class FileAdapter extends InstallerAdapter
     public function getElement($element = null)
     {
         if (!$element) {
-            $manifestPath = Path::clean($this->parent->getPath('manifest'));
-            $element = preg_replace('/\.xml/', '', basename($manifestPath));
+            $manifestPath = Path::clean($this->parent->getPath('manifest', ''));
+            $element      = preg_replace('/\.xml/', '', basename($manifestPath));
         }
 
         return $element;
@@ -262,7 +287,10 @@ class FileAdapter extends InstallerAdapter
                         $folderList[] = $targetFolder . '/' . $eFileName;
                     } else {
                         $fileName = $targetFolder . '/' . $eFileName;
-                        File::delete($fileName);
+
+                        if (is_file($fileName)) {
+                            File::delete($fileName);
+                        }
                     }
                 }
             }
@@ -280,7 +308,7 @@ class FileAdapter extends InstallerAdapter
         // Lastly, remove the extension_root
         $folder = $this->parent->getPath('extension_root');
 
-        if (Folder::exists($folder)) {
+        if (is_dir(Path::clean($folder))) {
             Folder::delete($folder);
         }
 
@@ -315,6 +343,7 @@ class FileAdapter extends InstallerAdapter
     protected function setupUninstall()
     {
         $manifestFile = JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml';
+        $this->parent->setPath('manifest', $manifestFile);
 
         // Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
         if (!file_exists($manifestFile)) {
@@ -409,7 +438,7 @@ class FileAdapter extends InstallerAdapter
 
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
-            $this->parent->pushStep(array('type' => 'extension', 'extension_id' => $this->extension->extension_id));
+            $this->parent->pushStep(['type' => 'extension', 'extension_id' => $this->extension->extension_id]);
         }
     }
 
@@ -461,12 +490,12 @@ class FileAdapter extends InstallerAdapter
     protected function populateFilesAndFolderList()
     {
         // Initialise variable
-        $this->folderList = array();
-        $this->fileList = array();
+        $this->folderList = [];
+        $this->fileList   = [];
 
         // Set root folder names
         $packagePath = $this->parent->getPath('source');
-        $jRootPath = Path::clean(JPATH_ROOT);
+        $jRootPath   = Path::clean(JPATH_ROOT);
 
         // Loop through all elements and get list of files and folders
         foreach ($this->getManifest()->fileset->files as $eFiles) {
@@ -487,7 +516,7 @@ class FileAdapter extends InstallerAdapter
                 $folderName .= '/' . $dir;
 
                 // Check if folder exists, if not then add to the array for folder creation
-                if (!Folder::exists($folderName)) {
+                if (!is_dir(Path::clean($folderName))) {
                     $this->folderList[] = $folderName;
                 }
             }
@@ -497,7 +526,7 @@ class FileAdapter extends InstallerAdapter
             $targetFolder = empty($target) ? $jRootPath : $jRootPath . '/' . $target;
 
             // Check if source folder exists
-            if (!Folder::exists($sourceFolder)) {
+            if (!is_dir(Path::clean($sourceFolder))) {
                 Log::add(Text::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $sourceFolder), Log::WARNING, 'jerror');
 
                 // If installation fails, rollback
@@ -510,7 +539,8 @@ class FileAdapter extends InstallerAdapter
             if (\count($eFiles->children())) {
                 // Loop through all filenames elements
                 foreach ($eFiles->children() as $eFileName) {
-                    $path['src'] = $sourceFolder . '/' . $eFileName;
+                    $path         = [];
+                    $path['src']  = $sourceFolder . '/' . $eFileName;
                     $path['dest'] = $targetFolder . '/' . $eFileName;
                     $path['type'] = 'file';
 
@@ -526,7 +556,8 @@ class FileAdapter extends InstallerAdapter
                 $files = Folder::files($sourceFolder);
 
                 foreach ($files as $file) {
-                    $path['src'] = $sourceFolder . '/' . $file;
+                    $path         = [];
+                    $path['src']  = $sourceFolder . '/' . $file;
                     $path['dest'] = $targetFolder . '/' . $file;
 
                     $this->fileList[] = $path;
@@ -545,13 +576,13 @@ class FileAdapter extends InstallerAdapter
     public function refreshManifestCache()
     {
         // Need to find to find where the XML file is since we don't store this normally
-        $manifestPath = JPATH_MANIFESTS . '/files/' . $this->parent->extension->element . '.xml';
+        $manifestPath           = JPATH_MANIFESTS . '/files/' . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
 
-        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+        $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
-        $this->parent->extension->name = $manifest_details['name'];
+        $this->parent->extension->name           = $manifest_details['name'];
 
         try {
             return $this->parent->extension->store();

@@ -11,20 +11,21 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-$user        = Factory::getUser();
+/** @var \Joomla\Component\Users\Administrator\View\Groups\HtmlView $this */
+
+$user        = $this->getCurrentUser();
 $listOrder   = $this->escape($this->state->get('list.ordering'));
 $listDirn    = $this->escape($this->state->get('list.direction'));
 
 Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_users.admin-users-groups')
     ->useScript('multiselect')
     ->useScript('table.columns');
@@ -34,7 +35,7 @@ $wa->useScript('com_users.admin-users-groups')
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -89,7 +90,7 @@ $wa->useScript('com_users.admin-users-groups')
                                     <?php endif; ?>
                                 </td>
                                 <th scope="row">
-                                    <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)); ?>
+                                    <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]); ?>
                                     <?php if ($canEdit) : ?>
                                     <a href="<?php echo Route::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?></a>

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\MVC\View;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla Json View
  *
@@ -40,7 +44,7 @@ class JsonView extends AbstractView
      * @var    array
      * @since  4.0.0
      */
-    protected $_output = array();
+    protected $_output = [];
 
     /**
      * Constructor
@@ -56,7 +60,7 @@ class JsonView extends AbstractView
      *
      * @since   4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($config);
 
@@ -92,6 +96,6 @@ class JsonView extends AbstractView
         $result = json_encode($this->_output);
 
         // Pushing output to the document
-        $this->document->setBuffer($result);
+        $this->getDocument()->setBuffer($result);
     }
 }

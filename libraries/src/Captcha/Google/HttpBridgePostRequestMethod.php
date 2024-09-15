@@ -15,6 +15,10 @@ use Joomla\Http\Http;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Bridges the Joomla! HTTP API to the Google Recaptcha RequestMethod interface for a POST request.
  *
@@ -41,11 +45,11 @@ final class HttpBridgePostRequestMethod implements RequestMethod
     /**
      * Class constructor.
      *
-     * @param   Http|null  $http  The HTTP adapter
+     * @param   ?Http  $http  The HTTP adapter
      *
      * @since   3.9.0
      */
-    public function __construct(Http $http = null)
+    public function __construct(?Http $http = null)
     {
         $this->http = $http ?: HttpFactory::getHttp();
     }

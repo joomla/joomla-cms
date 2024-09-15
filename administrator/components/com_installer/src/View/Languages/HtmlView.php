@@ -11,13 +11,15 @@
 namespace Joomla\Component\Installer\Administrator\View\Languages;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Language Install View
@@ -37,11 +39,25 @@ class HtmlView extends InstallerViewDefault
     protected $pagination;
 
     /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
+    /**
      * Display the view.
      *
-     * @param   null  $tpl  template to display
+     * @param   string  $tpl  template to display
      *
-     * @return mixed|void
+     * @return  void
      */
     public function display($tpl = null)
     {
@@ -57,7 +73,7 @@ class HtmlView extends InstallerViewDefault
         $this->installedLang = LanguageHelper::getInstalledLanguages();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -71,13 +87,19 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_installer');
-        ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle-piece install');
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = $this->getDocument()->getToolbar();
 
-        if ($canDo->get('core.admin')) {
-            parent::addToolbar();
-
-            ToolbarHelper::help('Extensions:_Languages');
+        if ($canDo->get('core.manage')) {
+            $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE_LANGUAGES')
+                ->url('index.php?option=com_languages&view=installed');
+            $toolbar->linkButton('comments', 'COM_INSTALLER_TOOLBAR_MANAGE_LANGUAGES_CONTENT')
+                ->url('index.php?option=com_languages&view=languages');
+            $toolbar->divider();
         }
+
+        parent::addToolbar();
+
+        $toolbar->help('Extensions:_Languages');
     }
 }

@@ -17,6 +17,11 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Maps model for the Finder package.
@@ -28,23 +33,23 @@ class MapsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'state', 'a.state',
                 'title', 'a.title',
                 'branch',
                 'branch_title', 'd.branch_title',
                 'level', 'd.level',
                 'language', 'a.language',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -61,7 +66,7 @@ class MapsModel extends ListModel
      */
     protected function canDelete($record)
     {
-        return Factory::getUser()->authorise('core.delete', $this->option);
+        return $this->getCurrentUser()->authorise('core.delete', $this->option);
     }
 
     /**
@@ -75,7 +80,7 @@ class MapsModel extends ListModel
      */
     protected function canEditState($record)
     {
-        return Factory::getUser()->authorise('core.edit.state', $this->option);
+        return $this->getCurrentUser()->authorise('core.edit.state', $this->option);
     }
 
     /**
@@ -89,7 +94,7 @@ class MapsModel extends ListModel
      */
     public function delete(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Include the content plugins for the on delete events.
@@ -112,9 +117,9 @@ class MapsModel extends ListModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the onContentBeforeDelete event.
-                    $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
+                    $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$context, $table]);
 
-                    if (in_array(false, $result, true)) {
+                    if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
 
                         return false;
@@ -127,7 +132,7 @@ class MapsModel extends ListModel
                     }
 
                     // Trigger the onContentAfterDelete event.
-                    Factory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
+                    Factory::getApplication()->triggerEvent('onContentAfterDelete', [$context, $table]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -151,7 +156,7 @@ class MapsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   2.5
      */
@@ -267,7 +272,7 @@ class MapsModel extends ListModel
      *
      * @since   2.5
      */
-    public function getTable($type = 'Map', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Map', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -284,12 +289,6 @@ class MapsModel extends ListModel
      */
     protected function populateState($ordering = 'branch_title, a.lft', $direction = 'ASC')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-        $this->setState('filter.branch', $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '', 'cmd'));
-        $this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
-
         // Load the parameters.
         $params = ComponentHelper::getParams('com_finder');
         $this->setState('params', $params);
@@ -310,9 +309,9 @@ class MapsModel extends ListModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
         // Include the content plugins for the change of state event.
         PluginHelper::importPlugin('content');
@@ -331,7 +330,7 @@ class MapsModel extends ListModel
         }
 
         // Attempt to change the state of the records.
-        if (!$table->publish($pks, $value, $user->get('id'))) {
+        if (!$table->publish($pks, $value, $user->id)) {
             $this->setError($table->getError());
 
             return false;
@@ -340,9 +339,9 @@ class MapsModel extends ListModel
         $context = $this->option . '.' . $this->name;
 
         // Trigger the onContentChangeState event.
-        $result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+        $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
 
             return false;
@@ -363,7 +362,7 @@ class MapsModel extends ListModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__finder_taxonomy'))
             ->where($db->quoteName('parent_id') . ' > 1');

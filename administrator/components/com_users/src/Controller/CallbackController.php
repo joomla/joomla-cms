@@ -17,7 +17,10 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Input\Input;
-use RuntimeException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Multi-factor Authentication plugins' AJAX callback controller
@@ -29,14 +32,14 @@ class CallbackController extends BaseController
     /**
      * Public constructor
      *
-     * @param   array                     $config   Plugin configuration
-     * @param   MVCFactoryInterface|null  $factory  MVC Factory for the com_users component
-     * @param   CMSApplication|null       $app      CMS application object
-     * @param   Input|null                $input    Joomla CMS input object
+     * @param   array                 $config   Plugin configuration
+     * @param   ?MVCFactoryInterface  $factory  MVC Factory for the com_users component
+     * @param   ?CMSApplication       $app      CMS application object
+     * @param   ?Input                $input    Joomla CMS input object
      *
      * @since 4.2.0
      */
-    public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct(array $config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -46,9 +49,9 @@ class CallbackController extends BaseController
     /**
      * Implement a callback feature, typically used for OAuth2 authentication
      *
-     * @param   bool         $cachable    Can this view be cached
-     * @param   array|bool   $urlparams   An array of safe url parameters and their variable types, for valid values see
-     *                                    {@link JFilterInput::clean()}.
+     * @param   bool         $cachable   Can this view be cached
+     * @param   array|bool   $urlparams  An array of safe url parameters and their variable types.
+     *                       @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      * @since 4.2.0
@@ -61,7 +64,7 @@ class CallbackController extends BaseController
         $method = $this->input->getCmd('method', '');
 
         if (empty($method)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         PluginHelper::importPlugin('multifactorauth');
@@ -73,6 +76,6 @@ class CallbackController extends BaseController
          * The first plugin to handle the request should either redirect or close the application. If we are still here
          * no plugin handled the request successfully. Show an error.
          */
-        throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
     }
 }

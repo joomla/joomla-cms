@@ -10,15 +10,17 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Stages;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Workflow\Workflow;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Stages view class for the Workflow package.
@@ -42,6 +44,13 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     protected $stage;
+
+    /**
+     * The model state
+     *
+     * @var  object
+     */
+    protected $state;
 
     /**
      * The HTML for displaying sidebar
@@ -128,7 +137,7 @@ class HtmlView extends BaseHtmlView
         $this->workflow      = $this->get('Workflow');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -140,11 +149,6 @@ class HtmlView extends BaseHtmlView
 
         if (!empty($parts)) {
             $this->section = array_shift($parts);
-        }
-
-        if (!empty($this->stages)) {
-            $extension = Factory::getApplication()->input->getCmd('extension');
-            $workflow  = new Workflow($extension);
         }
 
         $this->addToolbar();
@@ -165,25 +169,25 @@ class HtmlView extends BaseHtmlView
 
         $user = $this->getCurrentUser();
 
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', Text::_($this->state->get('active_workflow', ''))), 'address contact');
 
-        $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+        $arrow  = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
-        ToolbarHelper::link(
-            Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension)),
+        $toolbar->link(
             'JTOOLBAR_BACK',
-            $arrow
-        );
+            Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension))
+        )
+            ->icon('icon-' . $arrow);
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('stage.add');
         }
 
         if ($canDo->get('core.edit.state') || $user->authorise('core.admin')) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -205,8 +209,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete')) {
-            $toolbar->delete('stages.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('stages.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

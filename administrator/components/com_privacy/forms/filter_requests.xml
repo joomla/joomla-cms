@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Privacy\Administrator\Field">
 	<fields name="filter">
 		<field
@@ -14,7 +14,7 @@
 			name="status"
 			type="requeststatus"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -23,7 +23,7 @@
 			name="request_type"
 			type="requesttype"
 			label="COM_PRIVACY_HEADING_REQUEST_TYPE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_PRIVACY_SELECT_REQUEST_TYPE</option>
 		</field>
@@ -34,7 +34,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.id DESC"
 			validate="options"
 			>
@@ -53,9 +53,8 @@
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
-			class="input-mini"
 			default="25"
-			onchange="this.form.submit();"
+			class="input-mini js-select-submit-on-change"
 		/>
 	</fields>
 </form>

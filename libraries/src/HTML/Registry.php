@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\HTML;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Service registry for JHtml services
  *
@@ -116,7 +120,7 @@ final class Registry
         // Otherwise the handler must be a class object
         if (!\is_string($handler) && !\is_object($handler)) {
             throw new \RuntimeException(
-                sprintf(
+                \sprintf(
                     'The handler for service key %1$s must be a PHP class name or class object, a %2$s was given.',
                     $key,
                     \gettype($handler)

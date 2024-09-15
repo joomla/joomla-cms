@@ -16,6 +16,10 @@ use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Access to module specific services.
  *
@@ -45,11 +49,11 @@ class Module implements ModuleInterface, HelperFactoryInterface
      * Module constructor.
      *
      * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
-     * @param   HelperFactoryInterface            $helperFactory      The helper factory
+     * @param   ?HelperFactoryInterface           $helperFactory      The helper factory
      *
      * @since   4.0.0
      */
-    public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, HelperFactoryInterface $helperFactory)
+    public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, ?HelperFactoryInterface $helperFactory)
     {
         $this->dispatcherFactory = $dispatcherFactory;
         $this->helperFactory     = $helperFactory;
@@ -60,13 +64,13 @@ class Module implements ModuleInterface, HelperFactoryInterface
      *
      * @param   \stdClass                $module       The module
      * @param   CMSApplicationInterface  $application  The application
-     * @param   Input                    $input        The input object, defaults to the one in the application
+     * @param   ?Input                   $input        The input object, defaults to the one in the application
      *
      * @return  DispatcherInterface
      *
      * @since   4.0.0
      */
-    public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
+    public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, ?Input $input = null): DispatcherInterface
     {
         $dispatcher = $this->dispatcherFactory->createDispatcher($module, $application, $input);
 

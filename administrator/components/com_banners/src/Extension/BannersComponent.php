@@ -23,6 +23,10 @@ use Joomla\Component\Banners\Administrator\Service\Html\Banner;
 use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component class for com_banners
  *
@@ -65,13 +69,13 @@ class BannersComponent extends MVCComponent implements
     /**
      * Returns the table for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getTableNameForSection(string $section = null)
+    protected function getTableNameForSection(?string $section = null)
     {
         return 'banners';
     }

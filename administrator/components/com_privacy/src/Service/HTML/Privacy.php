@@ -12,6 +12,10 @@ namespace Joomla\Component\Privacy\Administrator\Service\HTML;
 
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Privacy component HTML helper.
  *
@@ -42,7 +46,7 @@ class Privacy
 
             default:
             case 0:
-                return '<span class="badge bg-warning text-dark">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
+                return '<span class="badge bg-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
         }
     }
 }

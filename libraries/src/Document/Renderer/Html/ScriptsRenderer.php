@@ -4,13 +4,17 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * JDocument head renderer
@@ -39,7 +43,7 @@ class ScriptsRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         // Get line endings
         $lnEnd        = $this->_doc->_getLineEnd();
@@ -51,6 +55,9 @@ class ScriptsRenderer extends DocumentRenderer
         // Get a list of inline assets and their relation with regular assets
         $inlineAssets   = $wam->filterOutInlineAssets($assets);
         $inlineRelation = $wam->getInlineRelation($inlineAssets);
+
+        // Generate importmap first
+        $buffer .= $this->renderImportmap($assets);
 
         // Merge with existing scripts, for rendering
         $assets = array_merge(array_values($assets), $this->_doc->_scripts);
@@ -103,7 +110,7 @@ class ScriptsRenderer extends DocumentRenderer
             foreach ($contents as $content) {
                 $buffer .= $this->renderInlineElement(
                     [
-                        'type' => $type,
+                        'type'    => $type,
                         'content' => $content,
                     ]
                 );
@@ -134,7 +141,7 @@ class ScriptsRenderer extends DocumentRenderer
         $src    = $asset ? $asset->getUri() : ($item['src'] ?? '');
 
         // Make sure we have a src, and it not already rendered
-        if (!$src || !empty($this->renderedSrc[$src]) || ($asset && $asset->getOption('webcomponent'))) {
+        if (!$src || !empty($this->renderedSrc[$src])) {
             return '';
         }
 
@@ -155,15 +162,22 @@ class ScriptsRenderer extends DocumentRenderer
                 if ($asset->getDependencies()) {
                     $attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
                 }
+
+                if ($asset->getOption('deprecated')) {
+                    @trigger_error(
+                        \sprintf('Web Asset script [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
+                        E_USER_DEPRECATED
+                    );
+                }
             }
         } else {
             $attribs     = $item;
-            $version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+            $version     = $attribs['options']['version'] ?? '';
             $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -228,7 +242,7 @@ class ScriptsRenderer extends DocumentRenderer
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -266,8 +280,8 @@ class ScriptsRenderer extends DocumentRenderer
     {
         $buffer = '';
 
-        $defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
-        $html5NoValueAttributes = array('defer', 'async', 'nomodule');
+        $defaultJsMimes         = ['text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript'];
+        $html5NoValueAttributes = ['defer', 'async', 'nomodule'];
 
         foreach ($attributes as $attrib => $value) {
             // Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
@@ -276,12 +290,12 @@ class ScriptsRenderer extends DocumentRenderer
             }
 
             // Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-            if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultJsMimes)) {
+            if (\in_array($attrib, ['type', 'mime']) && $this->_doc->isHtml5() && \in_array($value, $defaultJsMimes)) {
                 continue;
             }
 
             // B/C: If defer and async is false or empty don't render the attribute. Also skip if value is bool:false.
-            if (\in_array($attrib, array('defer', 'async')) && !$value || $value === false) {
+            if (\in_array($attrib, ['defer', 'async']) && !$value || $value === false) {
                 continue;
             }
 
@@ -301,11 +315,84 @@ class ScriptsRenderer extends DocumentRenderer
 
             if (!($this->_doc->isHtml5() && $isNoValueAttrib)) {
                 // Json encode value if it's an array.
-                $value = !is_scalar($value) ? json_encode($value) : $value;
+                $value = !\is_scalar($value) ? json_encode($value) : $value;
 
                 $buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
             }
         }
+
+        return $buffer;
+    }
+
+    /**
+     * Renders ESM importmap element
+     *
+     * @param   WebAssetItemInterface[]  $assets  The assets list
+     *
+     * @return  string  The attributes string
+     *
+     * @since   5.0.0
+     */
+    private function renderImportmap(array &$assets)
+    {
+        $buffer       = '';
+        $importmap    = ['imports' => []];
+        $tab          = $this->_doc->_getTab();
+        $mediaVersion = $this->_doc->getMediaVersion();
+
+        // Collect a modules for the map
+        foreach ($assets as $k => $item) {
+            // Only importmap:true can be mapped
+            if (!$item->getOption('importmap')) {
+                continue;
+            }
+
+            $esmName  = $item->getOption('importmapName') ?: $item->getName();
+            $esmScope = $item->getOption('importmapScope');
+            $version  = $item->getVersion();
+            $src      = $item->getUri();
+
+            if (!$src) {
+                continue;
+            }
+
+            // Check if script uses media version.
+            if ($version && !str_contains($src, '?') && !str_ends_with($src, '/') && ($mediaVersion || $version !== 'auto')) {
+                $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+            }
+
+            if (!$esmScope) {
+                $importmap['imports'][$esmName] = $src;
+            } else {
+                $importmap['scopes'][$esmScope][$esmName] = $src;
+            }
+
+            // Remove the item from list of assets after it were added to the map.
+            unset($assets[$k]);
+        }
+
+        if (!empty($importmap['imports'])) {
+            // Add polyfill when exists
+            if (!empty($assets['es-module-shims'])) {
+                $buffer .= $this->renderElement($assets['es-module-shims']);
+            }
+
+            // Render importmap
+            $jsonImports = json_encode($importmap, JDEBUG ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : JSON_UNESCAPED_SLASHES);
+            $attribs     = ['type' => 'importmap'];
+
+            // Add "nonce" attribute if exist
+            if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
+                $attribs['nonce'] = $this->_doc->cspNonce;
+            }
+
+            $buffer .= $tab . '<script';
+            $buffer .= $this->renderAttributes($attribs);
+            $buffer .= '>' . $jsonImports . '</script>';
+        }
+
+        // Remove polyfill for "importmap" from assets list
+        unset($assets['es-module-shims']);
 
         return $buffer;
     }

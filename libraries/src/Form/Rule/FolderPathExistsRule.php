@@ -9,10 +9,13 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Rule class for the Joomla CMS.
@@ -29,14 +32,14 @@ class FolderPathExistsRule extends FilePathRule
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  boolean  True if the value is valid and points to an existing folder below the Joomla root, false otherwise.
      *
      * @since   4.0.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         if (!parent::test($element, $value, $group, $input, $form)) {
             return false;
@@ -60,6 +63,6 @@ class FolderPathExistsRule extends FilePathRule
             return false;
         }
 
-        return Folder::exists($pathCleaned);
+        return is_dir(Path::clean($pathCleaned));
     }
 }

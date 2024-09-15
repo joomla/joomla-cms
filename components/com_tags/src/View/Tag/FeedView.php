@@ -12,9 +12,13 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Tags component
@@ -28,14 +32,20 @@ class FeedView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      */
     public function display($tpl = null)
     {
         $app    = Factory::getApplication();
-        $ids    = (array) $app->input->get('id', array(), 'int');
+        $ids    = (array) $app->getInput()->get('id', [], 'int');
         $i      = 0;
         $tagIds = '';
+        $params = $app->getParams();
+
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
@@ -50,17 +60,17 @@ class FeedView extends BaseHtmlView
             $i++;
         }
 
-        $this->document->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
+        $this->getDocument()->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
 
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail = $app->get('mailfrom');
         $fromName  = $app->get('fromname');
         $feedEmail = $app->get('feed_email', 'none');
 
-        $this->document->editor = $fromName;
+        $this->getDocument()->editor = $fromName;
 
         if ($feedEmail !== 'none') {
-            $this->document->editorEmail = $siteEmail;
+            $this->getDocument()->editorEmail = $siteEmail;
         }
 
         // Get some data from the model
@@ -93,7 +103,7 @@ class FeedView extends BaseHtmlView
                 }
 
                 // Loads item info into RSS array
-                $this->document->addItem($feeditem);
+                $this->getDocument()->addItem($feeditem);
             }
         }
     }

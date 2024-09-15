@@ -10,17 +10,21 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$lang = Factory::getLanguage(); ?>
+/**
+ * @var \Joomla\Plugin\Content\PageNavigation\Extension\PageNavigation  $this
+ */
+$this->loadLanguage();
+$lang = $this->getLanguage();
+?>
 
-<nav class="pagenavigation">
+<nav class="pagenavigation" aria-label="<?php echo Text::_('PLG_PAGENAVIGATION_ARIA_LABEL'); ?>">
     <span class="pagination ms-0">
     <?php if ($row->prev) :
         $direction = $lang->isRtl() ? 'right' : 'left'; ?>
-            <a class="btn btn-sm btn-secondary" href="<?php echo Route::_($row->prev); ?>" rel="prev">
+            <a class="btn btn-sm btn-secondary previous" href="<?php echo Route::_($row->prev); ?>" rel="prev">
             <span class="visually-hidden">
                 <?php echo Text::sprintf('JPREVIOUS_TITLE', htmlspecialchars($rows[$location - 1]->title)); ?>
             </span>
@@ -29,7 +33,7 @@ $lang = Factory::getLanguage(); ?>
     <?php endif; ?>
     <?php if ($row->next) :
         $direction = $lang->isRtl() ? 'left' : 'right'; ?>
-            <a class="btn btn-sm btn-secondary" href="<?php echo Route::_($row->next); ?>" rel="next">
+            <a class="btn btn-sm btn-secondary next" href="<?php echo Route::_($row->next); ?>" rel="next">
             <span class="visually-hidden">
                 <?php echo Text::sprintf('JNEXT_TITLE', htmlspecialchars($rows[$location + 1]->title)); ?>
             </span>

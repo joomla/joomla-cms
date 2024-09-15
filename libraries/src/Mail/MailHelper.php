@@ -13,6 +13,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Email helper class, provides static methods to perform various tasks relevant
  * to the Joomla email routines.
@@ -113,8 +117,8 @@ abstract class MailHelper
     {
         // Split the email into a local and domain
         $atIndex = strrpos($email, '@');
-        $domain = substr($email, $atIndex + 1);
-        $local = substr($email, 0, $atIndex);
+        $domain  = substr($email, $atIndex + 1);
+        $local   = substr($email, 0, $atIndex);
 
         // Check Length of domain
         $domainLen = \strlen($domain);
@@ -130,7 +134,7 @@ abstract class MailHelper
          * Also, period should not appear 2 or more times consecutively
          */
         $allowed = "a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-";
-        $regex = "/^[$allowed][\.$allowed]{0,63}$/";
+        $regex   = "/^[$allowed][\.$allowed]{0,63}$/";
 
         if (!preg_match($regex, $local) || substr($local, -1) === '.' || $local[0] === '.' || preg_match('/\.\./', $local)) {
             return false;
@@ -152,7 +156,7 @@ abstract class MailHelper
 
         // Check the domain
         $domain_array = explode('.', $domain);
-        $regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
+        $regex        = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 
         foreach ($domain_array as $domain) {
             // Convert domain to punycode
@@ -212,16 +216,25 @@ abstract class MailHelper
             self::checkContent($content);
         }
 
-        // Replace relative links, image sources with absolute Urls
+        // Replace relative links, image sources with absolute Urls and lazyloading
         $protocols  = '[a-zA-Z0-9\-]+:';
-        $attributes = array('href=', 'src=', 'poster=');
+        $attributes = ['href=', 'src=', 'poster=', 'loading=', 'data-path='];
 
         foreach ($attributes as $attribute) {
             if (strpos($content, $attribute) !== false) {
-                $regex = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+                // If the attribute is 'loading=', remove loading="lazy"
+                if ($attribute === 'loading=') {
+                    $content = preg_replace('/\s' . $attribute . '"lazy"/i', '', $content);
+                } elseif ($attribute === 'data-path=') {
+                    // If the attribute is 'data-path=', remove the entire attribute
+                    $content = preg_replace('/\s' . $attribute . '"([^"]*)"/i', '', $content);
+                } else {
+                    // Define a regular expression pattern for matching relative URLs in the specified attribute
+                    $regex = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
 
-                $content = preg_replace($regex, ' ' . $attribute . '"' . $siteUrl . '$1"', $content);
-
+                    // Replace relative URLs with absolute URLs using the siteUrl variable
+                    $content = preg_replace($regex, ' ' . $attribute . '"' . $siteUrl . '$1"', $content);
+                }
                 self::checkContent($content);
             }
         }

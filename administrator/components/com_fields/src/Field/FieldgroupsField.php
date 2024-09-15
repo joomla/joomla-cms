@@ -10,9 +10,12 @@
 
 namespace Joomla\Component\Fields\Administrator\Field;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Fields Groups
@@ -35,11 +38,11 @@ class FieldgroupsField extends ListField
      */
     protected function getOptions()
     {
-        $context = (string) $this->element['context'];
+        $context   = (string) $this->element['context'];
         $states    = $this->element['state'] ?: '0,1';
         $states    = ArrayHelper::toInteger(explode(',', $states));
 
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
         $db    = $this->getDatabase();

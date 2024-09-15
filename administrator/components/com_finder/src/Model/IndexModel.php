@@ -16,6 +16,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\QueryInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Index model class for Finder.
@@ -51,16 +56,16 @@ class IndexModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'state', 'published', 'l.published',
                 'title', 'l.title',
                 'type', 'type_id', 'l.type_id',
@@ -69,7 +74,7 @@ class IndexModel extends ListModel
                 'language', 'l.language',
                 'indexdate', 'l.indexdate',
                 'content_map',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -86,7 +91,7 @@ class IndexModel extends ListModel
      */
     protected function canDelete($record)
     {
-        return Factory::getUser()->authorise('core.delete', $this->option);
+        return $this->getCurrentUser()->authorise('core.delete', $this->option);
     }
 
     /**
@@ -100,7 +105,7 @@ class IndexModel extends ListModel
      */
     protected function canEditState($record)
     {
-        return Factory::getUser()->authorise('core.edit.state', $this->option);
+        return $this->getCurrentUser()->authorise('core.edit.state', $this->option);
     }
 
     /**
@@ -114,7 +119,7 @@ class IndexModel extends ListModel
      */
     public function delete(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Include the content plugins for the on delete events.
@@ -127,9 +132,9 @@ class IndexModel extends ListModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the onContentBeforeDelete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
 
-                    if (in_array(false, $result, true)) {
+                    if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
 
                         return false;
@@ -142,7 +147,7 @@ class IndexModel extends ListModel
                     }
 
                     // Trigger the onContentAfterDelete event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -170,13 +175,13 @@ class IndexModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   2.5
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('l.*')
             ->select($db->quoteName('t.title', 't_title'))
@@ -253,7 +258,7 @@ class IndexModel extends ListModel
      */
     public function getPluginState()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('name, enabled')
             ->from($db->quoteName('#__extensions'))
@@ -298,7 +303,7 @@ class IndexModel extends ListModel
      */
     public function getTotalIndexed()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('COUNT(link_id)')
             ->from($db->quoteName('#__finder_links'));
@@ -318,7 +323,7 @@ class IndexModel extends ListModel
      *
      * @since   2.5
      */
-    public function getTable($type = 'Link', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Link', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -349,19 +354,19 @@ class IndexModel extends ListModel
 
         // Truncate the taxonomy table and insert the root node.
         $db->truncateTable('#__finder_taxonomy');
-        $root = (object) array(
-            'id' => 1,
+        $root = (object) [
+            'id'        => 1,
             'parent_id' => 0,
-            'lft' => 0,
-            'rgt' => 1,
-            'level' => 0,
-            'path' => '',
-            'title' => 'ROOT',
-            'alias' => 'root',
-            'state' => 1,
-            'access' => 1,
-            'language' => '*'
-        );
+            'lft'       => 0,
+            'rgt'       => 1,
+            'level'     => 0,
+            'path'      => '',
+            'title'     => 'ROOT',
+            'alias'     => 'root',
+            'state'     => 1,
+            'access'    => 1,
+            'language'  => '*',
+        ];
         $db->insertObject('#__finder_taxonomy', $root);
 
         // Truncate the tokens tables.
@@ -389,13 +394,6 @@ class IndexModel extends ListModel
      */
     protected function populateState($ordering = 'l.title', $direction = 'asc')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
-        $this->setState('filter.content_map', $this->getUserStateFromRequest($this->context . '.filter.content_map', 'filter_content_map', '', 'cmd'));
-        $this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', ''));
-
         // Load the parameters.
         $params = ComponentHelper::getParams('com_finder');
         $this->setState('params', $params);
@@ -416,9 +414,9 @@ class IndexModel extends ListModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
         // Include the content plugins for the change of state event.
         PluginHelper::importPlugin('content');
@@ -437,7 +435,7 @@ class IndexModel extends ListModel
         }
 
         // Attempt to change the state of the records.
-        if (!$table->publish($pks, $value, $user->get('id'))) {
+        if (!$table->publish($pks, $value, $user->id)) {
             $this->setError($table->getError());
 
             return false;
@@ -446,9 +444,9 @@ class IndexModel extends ListModel
         $context = $this->option . '.' . $this->name;
 
         // Trigger the onContentChangeState event.
-        $result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+        $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
 
             return false;

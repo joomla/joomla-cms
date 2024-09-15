@@ -11,6 +11,10 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * @var array $displayData Data for this field collected by ColorField
  */

@@ -15,10 +15,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Update\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('multiselect')
-    ->useScript('com_installer.changelog');
+    ->useScript('table.columns')
+    ->useScript('joomla.dialog-autocreate');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -31,7 +34,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php if ($this->showMessage) : ?>
                         <?php echo $this->loadTemplate('message'); ?>
                     <?php endif; ?>
-                    <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                    <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                     <?php if (empty($this->items)) : ?>
                         <div class="alert alert-info">
                             <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -67,7 +70,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <th scope="col" class="d-none d-md-table-cell">
                                     <?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
                                 </th>
-                                <th class="d-none d-md-table-cell">
+                                <th scope="col" class="d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="d-none d-md-table-cell">
@@ -110,26 +113,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php echo $item->type_translated; ?>
                                     </td>
                                     <td>
-                                        <span class="badge bg-warning text-dark"><?php echo $item->current_version; ?></span>
+                                        <span class="badge bg-warning"><?php echo $item->current_version; ?></span>
                                     </td>
                                     <td>
                                         <span class="badge bg-success"><?php echo $item->version; ?></span>
                                     </td>
                                     <td class="d-none d-md-table-cell text-center">
-                                        <?php if (!empty($item->changelogurl)) : ?>
-                                        <a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-sm changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-bs-toggle="modal">
-                                            <?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
-                                        </a>
-                                            <?php
-                                            echo HTMLHelper::_(
-                                                'bootstrap.renderModal',
-                                                'changelogModal' . $item->extension_id,
-                                                array(
-                                                'title' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
-                                                ),
-                                                ''
-                                            );
+                                        <?php if (!empty($item->changelogurl)) :
+                                            $popupOptions = [
+                                                'popupType'  => 'ajax',
+                                                'textHeader' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
+                                                'src'        => Route::_('index.php?option=com_installer&task=manage.loadChangelogRaw&eid=' . $item->extension_id . '&source=update&format=raw', false),
+                                                'width'      => '800px',
+                                                'height'     => 'fit-content',
+                                            ];
                                             ?>
+                                            <button type="button" class="btn btn-info btn-sm"
+                                                    data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)); ?>">
+                                                <?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?></button>
                                         <?php else :?>
                                         <span>
                                             <?php echo Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE')?>

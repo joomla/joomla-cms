@@ -17,6 +17,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Session\Session as BaseSession;
 use Joomla\Session\StorageInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class for managing HTTP sessions
  *
@@ -27,16 +31,16 @@ class Session extends BaseSession
     /**
      * Constructor
      *
-     * @param   StorageInterface     $store       A StorageInterface implementation.
-     * @param   DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
-     * @param   array                $options     Optional parameters. Supported keys include:
-     *                                            - name: The session name
-     *                                            - id: The session ID
-     *                                            - expire: The session lifetime in seconds
+     * @param   ?StorageInterface     $store       A StorageInterface implementation.
+     * @param   ?DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
+     * @param   array                 $options     Optional parameters. Supported keys include:
+     *                                             - name: The session name
+     *                                             - id: The session ID
+     *                                             - expire: The session lifetime in seconds
      *
      * @since   1.0
      */
-    public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = [])
+    public function __construct(?StorageInterface $store = null, ?DispatcherInterface $dispatcher = null, array $options = [])
     {
         // Extra hash the name of the session for b/c with Joomla 3.x or the session is never found.
         if (isset($options['name'])) {
@@ -63,12 +67,12 @@ class Session extends BaseSession
         $token = static::getFormToken();
 
         // Check from header first
-        if ($token === $app->input->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum')) {
+        if ($token === $app->getInput()->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum')) {
             return true;
         }
 
         // Then fallback to HTTP query
-        if (!$app->input->$method->get($token, '', 'alnum')) {
+        if (!$app->getInput()->$method->get($token, '', 'alnum')) {
             if ($app->getSession()->isNew()) {
                 // Redirect to login screen.
                 $app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
@@ -96,7 +100,7 @@ class Session extends BaseSession
     {
         $user = Factory::getUser();
 
-        return ApplicationHelper::getHash($user->get('id', 0) . Factory::getApplication()->getSession()->getToken($forceNew));
+        return ApplicationHelper::getHash($user->id . Factory::getApplication()->getSession()->getToken($forceNew));
     }
 
     /**
@@ -145,7 +149,10 @@ class Session extends BaseSession
      * @return  static  The Session object.
      *
      * @since   1.5
-     * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Load the session service from the dependency injection container or via $app->getSession()
+     *              Example: Factory::getApplication()->getSession();
      */
     public static function getInstance()
     {
@@ -176,7 +183,7 @@ class Session extends BaseSession
             if (!empty($args[2])) {
                 @trigger_error(
                     'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                    . 'The namespace should be prepended to the name instead.',
+                        . 'The namespace should be prepended to the name instead.',
                     E_USER_DEPRECATED
                 );
 
@@ -185,7 +192,7 @@ class Session extends BaseSession
         }
 
         if (parent::has($name)) {
-            // Parent is used because of b/c, can be changed in Joomla 5
+            // Parent is used because of b/c, can be changed in Joomla 6
             return parent::get($name, $default);
         }
 
@@ -199,7 +206,7 @@ class Session extends BaseSession
             return parent::get('__' . $name, $default);
         }
 
-        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 6
         // as no sessions should have this format anymore!
         if (parent::has('__default.' . $name)) {
             return parent::get('__default.' . $name, $default);
@@ -227,7 +234,7 @@ class Session extends BaseSession
             if (!empty($args[2])) {
                 @trigger_error(
                     'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                    . 'The namespace should be prepended to the name instead.',
+                        . 'The namespace should be prepended to the name instead.',
                     E_USER_DEPRECATED
                 );
 
@@ -256,7 +263,7 @@ class Session extends BaseSession
             if (!empty($args[1])) {
                 @trigger_error(
                     'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                    . 'The namespace should be prepended to the name instead.',
+                        . 'The namespace should be prepended to the name instead.',
                     E_USER_DEPRECATED
                 );
 
@@ -278,7 +285,7 @@ class Session extends BaseSession
             return true;
         }
 
-        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 6
         // as no sessions should have this format anymore!
         return parent::has('__default.' . $name);
     }
@@ -308,7 +315,7 @@ class Session extends BaseSession
                 if (\func_num_args() > 1 && !empty($args[1])) {
                     @trigger_error(
                         'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                         . 'The namespace should be prepended to the name instead.',
+                            . 'The namespace should be prepended to the name instead.',
                         E_USER_DEPRECATED
                     );
 

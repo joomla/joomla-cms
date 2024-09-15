@@ -12,6 +12,10 @@ namespace Joomla\CMS\Log\Logger;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Logger class that keeps all entries in memory
  *

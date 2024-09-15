@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Service\HTML;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -20,6 +19,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Content Component HTML Helper
@@ -40,7 +43,7 @@ class Icon
      *
      * @since  4.0.0
      */
-    public function create($category, $params, $attribs = array(), $legacy = false)
+    public function create($category, $params, $attribs = [], $legacy = false)
     {
         $uri = Uri::getInstance();
 
@@ -81,7 +84,7 @@ class Icon
      *
      * @since  4.0.0
      */
-    public function edit($article, $params, $attribs = array(), $legacy = false)
+    public function edit($article, $params, $attribs = [], $legacy = false)
     {
         $user = Factory::getUser();
         $uri  = Uri::getInstance();
@@ -92,7 +95,7 @@ class Icon
         }
 
         // Ignore if the state is negative (trashed).
-        if (!in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED])) {
+        if (!\in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED])) {
             return '';
         }
 
@@ -100,18 +103,18 @@ class Icon
         if (
             property_exists($article, 'checked_out')
             && property_exists($article, 'checked_out_time')
-            && !is_null($article->checked_out)
-            && $article->checked_out != $user->get('id')
+            && !\is_null($article->checked_out)
+            && $article->checked_out != $user->id
         ) {
             $checkoutUser = Factory::getUser($article->checked_out);
             $date         = HTMLHelper::_('date', $article->checked_out_time);
             $tooltip      = Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
                 . ' <br> ' . $date;
 
-            $text = LayoutHelper::render('joomla.content.icons.edit_lock', array('article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy));
+            $text = LayoutHelper::render('joomla.content.icons.edit_lock', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
             $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
-            $output = HTMLHelper::_('link', '#', $text, $attribs);
+            $output                      = HTMLHelper::_('link', '#', $text, $attribs);
 
             return $output;
         }
@@ -125,10 +128,10 @@ class Icon
             $tooltip = Text::_('COM_CONTENT_EDIT_PUBLISHED_ARTICLE');
         }
 
-        $text = LayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy));
+        $text = LayoutHelper::render('joomla.content.icons.edit', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
         $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
-        $output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+        $output                      = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
         return $output;
     }
@@ -145,7 +148,7 @@ class Icon
      */
     public function print_screen($params, $legacy = false)
     {
-        $text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
+        $text = LayoutHelper::render('joomla.content.icons.print_screen', ['params' => $params, 'legacy' => $legacy]);
 
         return '<button type="button" onclick="window.print();return false;">' . $text . '</button>';
     }

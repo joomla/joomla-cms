@@ -10,18 +10,19 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Administrator\View\Notes\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user       = Factory::getUser();
+$user       = $this->getCurrentUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 
@@ -30,7 +31,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -69,7 +70,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                     <tbody>
                     <?php foreach ($this->items as $i => $item) :
                         $canEdit    = $user->authorise('core.edit', 'com_users.category.' . $item->catid);
-                        $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                        $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                         $canChange  = $user->authorise('core.edit.state', 'com_users.category.' . $item->catid) && $canCheckin;
                         $subject    = $item->subject ?: Text::_('COM_USERS_EMPTY_SUBJECT');
                         ?>

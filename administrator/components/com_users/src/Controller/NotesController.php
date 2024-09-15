@@ -12,6 +12,10 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User notes controller class.
  *
@@ -38,7 +42,7 @@ class NotesController extends AdminController
      *
      * @since   2.5
      */
-    public function getModel($name = 'Note', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Note', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

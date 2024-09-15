@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Exception\ExecutionFailureException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Login Model
  *
@@ -35,13 +39,13 @@ class LoginModel extends BaseDatabaseModel
      */
     protected function populateState()
     {
-        $input = Factory::getApplication()->input->getInputForRequestMethod();
+        $input = Factory::getApplication()->getInput()->getInputForRequestMethod();
 
-        $credentials = array(
+        $credentials = [
             'username'  => $input->get('username', '', 'USERNAME'),
             'password'  => $input->get('passwd', '', 'RAW'),
             'secretkey' => $input->get('secretkey', '', 'RAW'),
-        );
+        ];
 
         $this->setState('credentials', $credentials);
 
@@ -74,30 +78,29 @@ class LoginModel extends BaseDatabaseModel
      */
     public static function getLoginModule($name = 'mod_login', $title = null)
     {
-        $result = null;
+        $result  = null;
         $modules = self::_load($name);
-        $total = count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the title if we're looking for a specific instance of the module.
-            if (!$title || $modules[$i]->title == $title) {
-                $result = $modules[$i];
+            if (!$title || $module->title == $title) {
+                $result = $module;
                 break;
             }
         }
 
         // If we didn't find it, and the name is mod_something, create a dummy object.
-        if (is_null($result) && substr($name, 0, 4) == 'mod_') {
-            $result = new \stdClass();
-            $result->id = 0;
-            $result->title = '';
-            $result->module = $name;
-            $result->position = '';
-            $result->content = '';
+        if (\is_null($result) && substr($name, 0, 4) == 'mod_') {
+            $result            = new \stdClass();
+            $result->id        = 0;
+            $result->title     = '';
+            $result->module    = $name;
+            $result->position  = '';
+            $result->content   = '';
             $result->showtitle = 0;
-            $result->control = '';
-            $result->params = '';
-            $result->user = 0;
+            $result->control   = '';
+            $result->params    = '';
+            $result->user      = 0;
         }
 
         return $result;
@@ -145,7 +148,7 @@ class LoginModel extends BaseDatabaseModel
                             'm.module',
                             'm.position',
                             'm.showtitle',
-                            'm.params'
+                            'm.params',
                         ]
                     )
                 )
@@ -175,7 +178,7 @@ class LoginModel extends BaseDatabaseModel
         };
 
         try {
-            return $clean = $cache->get($loader, array(), md5(serialize(array($clientId, $lang))));
+            return $clean = $cache->get($loader, [], md5(serialize([$clientId, $lang])));
         } catch (CacheExceptionInterface $cacheException) {
             try {
                 return $loader();
@@ -185,12 +188,12 @@ class LoginModel extends BaseDatabaseModel
                     'error'
                 );
 
-                return array();
+                return [];
             }
         } catch (ExecutionFailureException $databaseException) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
-            return array();
+            return [];
         }
     }
 }

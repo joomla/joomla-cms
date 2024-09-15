@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="filter">
 		<field
@@ -13,8 +13,7 @@
 		<field
 			name="published"
 			type="status"
-			label="COM_CONTENT_FILTER_PUBLISHED"
-			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -23,7 +22,7 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			multiple="true"
 			extension="com_content"
 			layout="joomla.form.field.list-fancy-select"
@@ -35,7 +34,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
@@ -45,7 +44,7 @@
 		<field
 			name="author_id"
 			type="author"
-			label="JOPTION_SELECT_AUTHOR"
+			label="JAUTHOR"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_AUTHOR"
@@ -57,8 +56,7 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"
@@ -71,8 +69,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_FILTER_LANGUAGE"
-			description="JOPTION_FILTER_LANGUAGE_DESC"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -95,8 +92,7 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_CONTENT_LIST_FULL_ORDERING"
-			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.title ASC"
 			validate="options"
@@ -131,8 +127,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_CONTENT_LIST_LIMIT"
-			description="COM_CONTENT_LIST_LIMIT_DESC"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

@@ -4,24 +4,30 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Extension\LegacyComponent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait which contains the legacy getInstance functionality
  *
  * @since       4.0.0
- * @deprecated  5.0 Will be removed without replacement
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 trait LegacyModelLoaderTrait
 {
@@ -34,9 +40,11 @@ trait LegacyModelLoaderTrait
      * @return  string  The filename
      *
      * @since       3.0
-     * @deprecated  5.0 See getInstance
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
-    protected static function _createFileName($type, $parts = array())
+    protected static function _createFileName($type, $parts = [])
     {
         return $type === 'model' ? strtolower($parts['name']) . '.php' : '';
     }
@@ -51,12 +59,15 @@ trait LegacyModelLoaderTrait
      * @return  self|boolean   A \JModelLegacy instance or false on failure
      *
      * @since       3.0
-     * @deprecated  5.0 Get the model through the MVCFactory instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement. Get the model through the MVCFactory instead
+     *              Example: Factory::getApplication()->bootComponent('com_xxx')->getMVCFactory()->createModel($type, $prefix, $config);
      */
-    public static function getInstance($type, $prefix = '', $config = array())
+    public static function getInstance($type, $prefix = '', $config = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s::getInstance() is deprecated. Load it through the MVC factory.',
                 self::class
             ),
@@ -72,10 +83,10 @@ trait LegacyModelLoaderTrait
         $modelClass = $prefix . ucfirst($type);
 
         if (!class_exists($modelClass)) {
-            $path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+            $path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', ['name' => $type]));
 
             if (!$path) {
-                $path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
+                $path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', ['name' => $type]));
             }
 
             if (!$path) {
@@ -102,7 +113,9 @@ trait LegacyModelLoaderTrait
      * @return  void
      *
      * @since       3.0
-     * @deprecated  5.0 See getInstance
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement. Get the model through the MVCFactory instead
      */
     public static function addTablePath($path)
     {
@@ -119,7 +132,9 @@ trait LegacyModelLoaderTrait
      * @return  ModelInterface|null   A ModelInterface instance or null on failure
      *
      * @since       4.0.0
-     * @deprecated  5.0 See getInstance
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     private static function createModelFromComponent($type, $prefix = '', $config = []): ?ModelInterface
     {

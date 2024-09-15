@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Privacy\Administrator\Export;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Data object representing all data contained in a domain.
  *

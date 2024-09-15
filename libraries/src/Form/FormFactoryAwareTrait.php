@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Defines the trait for a FormFactoryInterface Aware Class.
  *
@@ -44,13 +48,13 @@ trait FormFactoryAwareTrait
     /**
      * Set the form factory to use.
      *
-     * @param   FormFactoryInterface  $formFactory  The form factory to use.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory to use.
      *
      * @return  $this
      *
      * @since   4.0.0
      */
-    public function setFormFactory(FormFactoryInterface $formFactory = null)
+    public function setFormFactory(?FormFactoryInterface $formFactory = null)
     {
         $this->formFactory = $formFactory;
 

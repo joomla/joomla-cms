@@ -20,6 +20,10 @@ use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of contenthistory records.
  *
@@ -41,28 +45,28 @@ class PreviewModel extends ItemModel
     public function getItem($pk = null)
     {
         /** @var ContentHistory $table */
-        $table = $this->getTable('ContentHistory');
-        $versionId = Factory::getApplication()->input->getInt('version_id');
+        $table     = $this->getTable('ContentHistory');
+        $versionId = Factory::getApplication()->getInput()->getInt('version_id');
 
         if (!$versionId || \is_array($versionId) || !$table->load($versionId)) {
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Access check
         if (!$user->authorise('core.edit', $table->item_id) && !$this->canEdit($table)) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $result = new \stdClass();
+        $result               = new \stdClass();
         $result->version_note = $table->version_note;
-        $result->data = ContenthistoryHelper::prepareData($table);
+        $result->data         = ContenthistoryHelper::prepareData($table);
 
         // Let's use custom calendars when present
         $result->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
-        $dateProperties = array (
+        $dateProperties = [
             'modified_time',
             'created_time',
             'modified',
@@ -70,7 +74,7 @@ class PreviewModel extends ItemModel
             'checked_out_time',
             'publish_up',
             'publish_down',
-        );
+        ];
 
         $nullDate = $this->getDatabase()->getNullDate();
 
@@ -102,7 +106,7 @@ class PreviewModel extends ItemModel
      *
      * @since   3.2
      */
-    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -125,7 +129,7 @@ class PreviewModel extends ItemModel
              * Make sure user has edit privileges for this content item. Note that we use edit permissions
              * for the content item, not delete permissions for the content history row.
              */
-            $user   = Factory::getUser();
+            $user   = $this->getCurrentUser();
             $result = $user->authorise('core.edit', $record->item_id);
 
             // Finally try session (this catches edit.own case too)
@@ -134,10 +138,10 @@ class PreviewModel extends ItemModel
                 $contentTypeTable = $this->getTable('ContentType');
 
                 $typeAlias        = explode('.', $record->item_id);
-                $id = array_pop($typeAlias);
+                $id               = array_pop($typeAlias);
                 $typeAlias        = implode('.', $typeAlias);
-                $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-                $result = in_array((int) $id, $typeEditables);
+                $typeEditables    = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+                $result           = \in_array((int) $id, $typeEditables);
             }
         }
 

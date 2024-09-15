@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Guidedtours\Administrator\Field">
+	<config>
+		<inlinehelp button="show"/>
+	</config>
+	<field
+		name="id"
+		type="text"
+		label="JGLOBAL_FIELD_ID_LABEL"
+		class="readonly"
+		readonly="true"
+		default="0"
+	/>
+
+	<field
+		name="title"
+		type="text"
+		label="COM_GUIDEDTOURS_TITLE"
+		required="true"
+	/>
+
+	<field
+		name="title_translation"
+		type="text"
+		label="JGLOBAL_TITLE"
+		readonly="true"
+	/>
+
+	<field
+		name="uid"
+		type="text"
+		label="COM_GUIDEDTOURS_TOUR_UID_LABEL"
+		description="COM_GUIDEDTOURS_TOUR_UID_DESC"
+		hint="COM_GUIDEDTOURS_TOUR_UID_HINT"
+		required="false"
+	/>
+
+	<field
+		name="description"
+		type="editor"
+		label="JGLOBAL_DESCRIPTION"
+		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
+		buttons="true"
+		hide="readmore,pagebreak,module,menu,fields,contact,article"
+	/>
+
+	<field
+		name="description_translation"
+		type="editor"
+		label="JGLOBAL_DESCRIPTION"
+		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
+		buttons="false"
+		readonly="true"
+	/>
+
+	<field
+		name="published"
+		type="list"
+		label="JSTATUS"
+		default="1"
+		class="form-select-color-state"
+		validate="options"
+		>
+		<option value="1">JPUBLISHED</option>
+		<option value="0">JUNPUBLISHED</option>
+		<option value="2">JARCHIVED</option>
+		<option value="-2">JTRASHED</option>
+	</field>
+
+	<field
+		name="checked_out"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="checked_out_time"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="access"
+		type="accesslevel"
+		label="JFIELD_ACCESS_LABEL"
+		filter="UINT"
+		validate="options"
+	/>
+
+	<field
+		name="created_by"
+		type="user"
+		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+		validate="UserId"
+	/>
+
+	<field
+		name="created"
+		type="calendar"
+		label="JGLOBAL_CREATED_DATE"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
+	/>
+
+	<field
+		name="modified_by"
+		type="user"
+		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+		validate="UserId"
+	/>
+
+	<field
+		name="modified"
+		type="calendar"
+		label="JGLOBAL_FIELD_MODIFIED_LABEL"
+		class="readonly"
+		readonly="true"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
+	/>
+
+	<field
+		name="language"
+		type="contentlanguage"
+		label="JFIELD_LANGUAGE_LABEL"
+		default="*"
+		>
+		<option value="*">JALL</option>
+	</field>
+
+	<field
+		name="note"
+		type="text"
+		label="COM_GUIDEDTOURS_FIELD_NOTE_LABEL"
+		maxlength="255"
+	/>
+
+	<field
+		name="url"
+		type="url"
+		label="COM_GUIDEDTOURS_URL_LABEL"
+		description="COM_GUIDEDTOURS_URL_DESC"
+		required="true"
+	/>
+
+	<field
+		name="extensions"
+		type="components"
+		label="COM_GUIDEDTOURS_EXTENSIONS_LABEL"
+		description="COM_GUIDEDTOURS_EXTENSIONS_DESC"
+		required="true"
+		multiple="multiple"
+		layout="joomla.form.field.list-fancy-select"
+		default="*"
+		>
+		<option value="*">JALL</option>
+	</field>
+
+	<field
+		name="autostart"
+		type="radio"
+		label="COM_GUIDEDTOURS_AUTOSTART_LABEL"
+		description="COM_GUIDEDTOURS_AUTOSTART_DESC"
+		layout="joomla.form.field.radio.switcher"
+		default="0"
+		>
+		<option value="0">JNO</option>
+		<option value="1">JYES</option>
+	</field>
+</form>

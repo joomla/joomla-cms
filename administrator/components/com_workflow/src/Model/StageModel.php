@@ -18,6 +18,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class for stage
  *
@@ -61,11 +65,11 @@ class StageModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -83,7 +87,7 @@ class StageModel extends AdminModel
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
         $user       = $app->getIdentity();
-        $input      = $app->input;
+        $input      = $app->getInput();
         $workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
         if (empty($data['workflow_id'])) {
@@ -117,7 +121,7 @@ class StageModel extends AdminModel
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title) = $this->generateNewTitle(0, '', $data['title']);
+                list($title)   = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -147,14 +151,14 @@ class StageModel extends AdminModel
             return false;
         }
 
-        $app = Factory::getApplication();
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest('com_workflow.stage.filter.extension', 'extension', null, 'cmd');
 
         $parts = explode('.', $extension);
 
         $component = reset($parts);
 
-        if (!Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default) {
+        if (!$this->getCurrentUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
@@ -174,12 +178,12 @@ class StageModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
-        $app = Factory::getApplication();
-        $context = $this->option . '.' . $this->name;
+        $user      = $this->getCurrentUser();
+        $app       = Factory::getApplication();
+        $context   = $this->option . '.' . $this->name;
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
-        if (!\property_exists($record, 'workflow_id')) {
+        if (!property_exists($record, 'workflow_id')) {
             $workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
             $record->workflow_id = $workflowID;
         }
@@ -203,16 +207,16 @@ class StageModel extends AdminModel
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
             'com_workflow.state',
             'stage',
-            array(
-                'control' => 'jform',
-                'load_data' => $loadData
-            )
+            [
+                'control'   => 'jform',
+                'load_data' => $loadData,
+            ]
         );
 
         if (empty($form)) {
@@ -253,7 +257,7 @@ class StageModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_workflow.edit.state.data',
-            array()
+            []
         );
 
         if (empty($data)) {
@@ -293,7 +297,7 @@ class StageModel extends AdminModel
 
         if ($value) {
             // Verify that the home page for this language is unique per client id
-            if ($table->load(array('default' => '1', 'workflow_id' => $table->workflow_id))) {
+            if ($table->load(['default' => '1', 'workflow_id' => $table->workflow_id])) {
                 $table->default = 0;
                 $table->store();
             }
@@ -322,9 +326,9 @@ class StageModel extends AdminModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $table = $this->getTable();
-        $pks   = (array) $pks;
-        $app = Factory::getApplication();
+        $table     = $this->getTable();
+        $pks       = (array) $pks;
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', null, 'cmd');
 
         // Default item existence checks.
@@ -355,7 +359,7 @@ class StageModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->input->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension');
 
         $parts = explode('.', $extension);
 

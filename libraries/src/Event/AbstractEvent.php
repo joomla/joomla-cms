@@ -4,15 +4,17 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event;
 
-use BadMethodCallException;
 use Joomla\Event\Event;
-use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This class implements the base Event object used system-wide to offer orthogonality. Core objects such as Models,
@@ -34,7 +36,7 @@ use Joomla\String\Normalise;
  *
  * @since  4.0.0
  */
-abstract class AbstractEvent extends BaseEvent
+abstract class AbstractEvent extends Event
 {
     use CoreEventAware;
 
@@ -50,10 +52,15 @@ abstract class AbstractEvent extends BaseEvent
      * @return  static
      *
      * @since   4.0.0
-     * @throws  BadMethodCallException  If you do not provide a subject argument
+     * @throws  \BadMethodCallException  If you do not provide a subject argument
      */
     public static function create(string $eventName, array $arguments = [])
     {
+        // Make sure a non-empty subject argument exists and that it is an object
+        if (empty($arguments['subject']) || !\is_object($arguments['subject'])) {
+            throw new \BadMethodCallException("No subject given for the $eventName event");
+        }
+
         // Get the class name from the arguments, if specified
         $eventClassName = '';
 
@@ -63,36 +70,29 @@ abstract class AbstractEvent extends BaseEvent
             unset($arguments['eventClass']);
         }
 
+        if (!$eventClassName) {
+            // Look for known class name.
+            $eventClassName = self::getEventClassByEventName($eventName);
+
+            if ($eventClassName === Event::class) {
+                $eventClassName = '';
+            }
+        }
+
         /**
-         * If the class name isn't set/found determine it from the event name, e.g. TableBeforeLoadEvent from
+         * If the class name isn't set/found determine it from the event name, e.g. Table\BeforeLoadEvent from
          * the onTableBeforeLoad event name.
          */
-        if (empty($eventClassName) || !class_exists($eventClassName, true)) {
-            $bareName = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
-            $parts = Normalise::fromCamelCase($bareName, true);
+        if (!$eventClassName || !class_exists($eventClassName, true)) {
+            $bareName       = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
+            $parts          = Normalise::fromCamelCase($bareName, true);
             $eventClassName = __NAMESPACE__ . '\\' . ucfirst(array_shift($parts)) . '\\';
             $eventClassName .= implode('', $parts);
             $eventClassName .= 'Event';
         }
 
-        // Make sure a non-empty subject argument exists and that it is an object
-        if (!isset($arguments['subject']) || empty($arguments['subject']) || !\is_object($arguments['subject'])) {
-            throw new BadMethodCallException("No subject given for the $eventName event");
-        }
-
         // Create and return the event object
         if (class_exists($eventClassName, true)) {
-            return new $eventClassName($eventName, $arguments);
-        }
-
-        /**
-         * The detection code above failed. This is to be expected, it was written back when we only
-         * had the Table events. It does not address most other core events. So, let's use our
-         * fancier detection instead.
-         */
-        $eventClassName = self::getEventClassByEventName($eventName);
-
-        if (!empty($eventClassName) && ($eventClassName !== Event::class)) {
             return new $eventClassName($eventName, $arguments);
         }
 
@@ -111,17 +111,16 @@ abstract class AbstractEvent extends BaseEvent
     {
         parent::__construct($name, $arguments);
 
-        $this->arguments = [];
-
         foreach ($arguments as $argumentName => $value) {
             $this->setArgument($argumentName, $value);
         }
     }
 
     /**
-     * Get an event argument value. It will use a getter method if one exists. The getters have the signature:
+     * Get an event argument value.
+     * It will use a pre-processing method if one exists. The method has the signature:
      *
-     * get<ArgumentName>($value): mixed
+     * onGet<ArgumentName>($value): mixed
      *
      * where:
      *
@@ -137,21 +136,56 @@ abstract class AbstractEvent extends BaseEvent
      */
     public function getArgument($name, $default = null)
     {
-        $methodName = 'get' . ucfirst($name);
+        // B/C check for numeric access to named argument, eg $event->getArgument('0').
+        if (is_numeric($name)) {
+            if (key($this->arguments) != 0) {
+                $argNames = array_keys($this->arguments);
+                $name     = $argNames[$name] ?? '';
+            }
+
+            @trigger_error(
+                \sprintf(
+                    'Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s argument %s',
+                    \get_class($this),
+                    $name
+                ),
+                E_USER_DEPRECATED
+            );
+        }
+
+        // Look for the method for the value pre-processing/validation
+        $ucfirst     = ucfirst($name);
+        $methodName1 = 'onGet' . $ucfirst;
+        $methodName2 = 'get' . $ucfirst;
 
         $value = parent::getArgument($name, $default);
 
-        if (method_exists($this, $methodName)) {
-            return $this->{$methodName}($value);
+        if (method_exists($this, $methodName1)) {
+            return $this->{$methodName1}($value);
+        }
+
+        if (method_exists($this, $methodName2)) {
+            @trigger_error(
+                \sprintf(
+                    'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
+                    $methodName2,
+                    $methodName1,
+                    \get_class($this)
+                ),
+                E_USER_DEPRECATED
+            );
+
+            return $this->{$methodName2}($value);
         }
 
         return $value;
     }
 
     /**
-     * Add argument to event. It will use a setter method if one exists. The setters have the signature:
+     * Add argument to event.
+     * It will use a pre-processing method if one exists. The method has the signature:
      *
-     * set<ArgumentName>($value): mixed
+     * onSet<ArgumentName>($value): mixed
      *
      * where:
      *
@@ -167,10 +201,42 @@ abstract class AbstractEvent extends BaseEvent
      */
     public function setArgument($name, $value)
     {
-        $methodName = 'set' . ucfirst($name);
+        // B/C check for numeric access to named argument, eg $event->setArgument('0', $value).
+        if (is_numeric($name)) {
+            if (key($this->arguments) != 0) {
+                $argNames = array_keys($this->arguments);
+                $name     = $argNames[$name] ?? '';
+            }
 
-        if (method_exists($this, $methodName)) {
-            $value = $this->{$methodName}($value);
+            @trigger_error(
+                \sprintf(
+                    'Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s argument %s',
+                    \get_class($this),
+                    $name
+                ),
+                E_USER_DEPRECATED
+            );
+        }
+
+        // Look for the method for the value pre-processing/validation
+        $ucfirst     = ucfirst($name);
+        $methodName1 = 'onSet' . $ucfirst;
+        $methodName2 = 'set' . $ucfirst;
+
+        if (method_exists($this, $methodName1)) {
+            $value = $this->{$methodName1}($value);
+        } elseif (method_exists($this, $methodName2)) {
+            @trigger_error(
+                \sprintf(
+                    'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
+                    $methodName2,
+                    $methodName1,
+                    \get_class($this)
+                ),
+                E_USER_DEPRECATED
+            );
+
+            $value = $this->{$methodName2}($value);
         }
 
         return parent::setArgument($name, $value);

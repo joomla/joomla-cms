@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User view level controller class.
  *
@@ -58,7 +62,7 @@ class LevelController extends FormController
      *
      * @since   3.8.8
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         // Check for if Super Admin can edit
         $viewLevel = $this->getModel('Level', 'Administrator')->getItem((int) $data['id']);
@@ -95,14 +99,16 @@ class LevelController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
         if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-        } elseif (empty($ids)) {
+        }
+
+        if (empty($ids)) {
             $this->setMessage(Text::_('COM_USERS_NO_LEVELS_SELECTED'), 'warning');
         } else {
             // Get the model.
@@ -110,7 +116,7 @@ class LevelController extends FormController
 
             // Remove the items.
             if ($model->delete($ids)) {
-                $this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
+                $this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', \count($ids)));
             }
         }
 

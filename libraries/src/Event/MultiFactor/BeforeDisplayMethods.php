@@ -4,15 +4,18 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\User\User;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Concrete Event class for the onUserMultifactorBeforeDisplayMethods event
@@ -42,13 +45,29 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
      *
      * @return  User
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *               Use counterpart with onSet prefix
      */
     public function setUser(User $value): User
     {
         if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
-            throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
+            throw new \DomainException(\sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
         }
 
         return $value;
+    }
+
+    /**
+     * Validate the value of the 'user' named parameter
+     *
+     * @param   User  $value  The value to validate
+     *
+     * @return  User
+     * @since   4.4.0
+     */
+    protected function onSetUser(User $value): User
+    {
+        return $this->setUser($value);
     }
 }

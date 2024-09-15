@@ -13,8 +13,6 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
@@ -25,9 +23,15 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Module model.
@@ -75,29 +79,29 @@ class ModuleModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id' => 'batchLanguage',
-    );
+        'language_id'   => 'batchLanguage',
+    ];
 
     /**
      * Constructor.
      *
      * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         $config = array_merge(
-            array(
+            [
                 'event_after_delete'  => 'onExtensionAfterDelete',
                 'event_after_save'    => 'onExtensionAfterSave',
                 'event_before_delete' => 'onExtensionBeforeDelete',
                 'event_before_save'   => 'onExtensionBeforeSave',
-                'events_map'          => array(
+                'events_map'          => [
                     'save'   => 'extension',
-                    'delete' => 'extension'
-                )
-            ),
+                    'delete' => 'extension',
+                ],
+            ],
             $config
         );
 
@@ -118,7 +122,7 @@ class ModuleModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
 
         if (!$pk) {
             if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
@@ -147,9 +151,9 @@ class ModuleModel extends AdminModel
     protected function batchCopy($value, $pks, $contexts)
     {
         // Set the variables
-        $user = Factory::getUser();
-        $table = $this->getTable();
-        $newIds = array();
+        $user   = $this->getCurrentUser();
+        $table  = $this->getTable();
+        $newIds = [];
 
         foreach ($pks as $pk) {
             if ($user->authorise('core.create', 'com_modules')) {
@@ -171,7 +175,7 @@ class ModuleModel extends AdminModel
                 $oldAssetId = $table->asset_id;
 
                 // Alter the title if necessary
-                $data = $this->generateNewTitle(0, $table->title, $table->position);
+                $data         = $this->generateNewTitle(0, $table->title, $table->position);
                 $table->title = $data['0'];
 
                 // Reset the ID because we are making a copy
@@ -187,13 +191,13 @@ class ModuleModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
 
                 // Now we need to handle the module assignments
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select($db->quoteName('menuid'))
                     ->from($db->quoteName('#__modules_menu'))
@@ -250,7 +254,7 @@ class ModuleModel extends AdminModel
     protected function batchMove($value, $pks, $contexts)
     {
         // Set the variables
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
 
         foreach ($pks as $pk) {
@@ -300,7 +304,7 @@ class ModuleModel extends AdminModel
     {
         // Check for existing module.
         if (!empty($record->id)) {
-            return Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
+            return $this->getCurrentUser()->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
         }
 
         // Default to component settings if module not known.
@@ -321,7 +325,7 @@ class ModuleModel extends AdminModel
     {
         $app        = Factory::getApplication();
         $pks        = (array) $pks;
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
 
@@ -339,24 +343,24 @@ class ModuleModel extends AdminModel
                 }
 
                 // Trigger the before delete event.
-                $result = $app->triggerEvent($this->event_before_delete, array($context, $table));
+                $result = $app->triggerEvent($this->event_before_delete, [$context, $table]);
 
-                if (in_array(false, $result, true) || !$table->delete($pk)) {
+                if (\in_array(false, $result, true) || !$table->delete($pk)) {
                     throw new \Exception($table->getError());
-                } else {
-                    // Delete the menu assignments
-                    $pk    = (int) $pk;
-                    $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
-                        ->delete($db->quoteName('#__modules_menu'))
-                        ->where($db->quoteName('moduleid') . ' = :moduleid')
-                        ->bind(':moduleid', $pk, ParameterType::INTEGER);
-                    $db->setQuery($query);
-                    $db->execute();
-
-                    // Trigger the after delete event.
-                    $app->triggerEvent($this->event_after_delete, array($context, $table));
                 }
+
+                // Delete the menu assignments
+                $pk    = (int) $pk;
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->delete($db->quoteName('#__modules_menu'))
+                    ->where($db->quoteName('moduleid') . ' = :moduleid')
+                    ->bind(':moduleid', $pk, ParameterType::INTEGER);
+                $db->setQuery($query);
+                $db->execute();
+
+                // Trigger the after delete event.
+                $app->triggerEvent($this->event_after_delete, [$context, $table]);
 
                 // Clear module cache
                 parent::cleanCache($table->module);
@@ -383,7 +387,7 @@ class ModuleModel extends AdminModel
      */
     public function duplicate(&$pks)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $db   = $this->getDatabase();
 
         // Access checks.
@@ -392,6 +396,8 @@ class ModuleModel extends AdminModel
         }
 
         $table = $this->getTable();
+
+        $tuples = [];
 
         foreach ($pks as $pk) {
             if ($table->load($pk, true)) {
@@ -405,7 +411,7 @@ class ModuleModel extends AdminModel
                     $table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
                 }
 
-                $data = $this->generateNewTitle(0, $table->title, $table->position);
+                $data         = $this->generateNewTitle(0, $table->title, $table->position);
                 $table->title = $data[0];
 
                 // Unpublish duplicate module
@@ -437,7 +443,7 @@ class ModuleModel extends AdminModel
             // Module-Menu Mapping: Do it in one query
             $query = $db->getQuery(true)
                 ->insert($db->quoteName('#__modules_menu'))
-                ->columns($db->quoteName(array('moduleid', 'menuid')))
+                ->columns($db->quoteName(['moduleid', 'menuid']))
                 ->values($tuples);
 
             $db->setQuery($query);
@@ -473,11 +479,11 @@ class ModuleModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('position' => $position, 'title' => $title))) {
+        while ($table->load(['position' => $position, 'title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title);
+        return [$title];
     }
 
     /**
@@ -502,7 +508,7 @@ class ModuleModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // The folder and element vars are passed when saving the form.
         if (empty($data)) {
@@ -526,21 +532,21 @@ class ModuleModel extends AdminModel
 
         // Get the form.
         if ($clientId == 1) {
-            $form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+            $form = $this->loadForm('com_modules.module.admin', 'moduleadmin', ['control' => 'jform', 'load_data' => $loadData], true);
 
             // Display language field to filter admin custom menus per language
             if (!ModuleHelper::isAdminMultilang()) {
                 $form->setFieldAttribute('language', 'type', 'hidden');
             }
         } else {
-            $form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData), true);
+            $form = $this->loadForm('com_modules.module', 'module', ['control' => 'jform', 'load_data' => $loadData], true);
         }
 
         if (empty($form)) {
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         /**
          * Check for existing module
@@ -576,22 +582,23 @@ class ModuleModel extends AdminModel
      */
     protected function loadFormData()
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_modules.edit.module.data', array());
+        $data = $app->getUserState('com_modules.edit.module.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
 
             // Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
             if (!$data->id) {
-                $clientId = $app->input->getInt('client_id', 0);
+                $clientId = $input->getInt('client_id', 0);
                 $filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
-                $data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
-                $data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
+                $data->set('published', $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
+                $data->set('position', $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
+                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                $data->set('access', $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
             }
 
             // Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -599,7 +606,7 @@ class ModuleModel extends AdminModel
                 // This allows us to inject parameter settings into a new module.
                 $params = $app->getUserState('com_modules.add.module.params');
 
-                if (is_array($params)) {
+                if (\is_array($params)) {
                     $data->set('params', $params);
                 }
             }
@@ -678,7 +685,7 @@ class ModuleModel extends AdminModel
             $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
             // Convert the params field to an array.
-            $registry = new Registry($table->params);
+            $registry                  = new Registry($table->params);
             $this->_cache[$pk]->params = $registry->toArray();
 
             // Determine the page assignment mode.
@@ -732,7 +739,7 @@ class ModuleModel extends AdminModel
      */
     public function getHelp()
     {
-        return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
+        return (object) ['key' => $this->helpKey, 'url' => $this->helpURL];
     }
 
     /**
@@ -746,7 +753,7 @@ class ModuleModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
+    public function getTable($type = 'Module', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -789,7 +796,7 @@ class ModuleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         $lang->load($module, $client->path)
-        ||  $lang->load($module, $client->path . '/modules/' . $module);
+            || $lang->load($module, $client->path . '/modules/' . $module);
 
         if (file_exists($formFile)) {
             // Get the module form.
@@ -869,7 +876,7 @@ class ModuleModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_modules')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_modules')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -889,7 +896,7 @@ class ModuleModel extends AdminModel
      */
     public function save($data)
     {
-        $input      = Factory::getApplication()->input;
+        $input      = Factory::getApplication()->getInput();
         $table      = $this->getTable();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
         $isNew      = true;
@@ -933,9 +940,9 @@ class ModuleModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
 
             return false;
@@ -1003,7 +1010,7 @@ class ModuleModel extends AdminModel
 
                 $query->clear()
                     ->insert($db->quoteName('#__modules_menu'))
-                    ->columns($db->quoteName(array('moduleid', 'menuid')));
+                    ->columns($db->quoteName(['moduleid', 'menuid']));
 
                 foreach ($data['assigned'] as &$pk) {
                     $query->values((int) $table->id . ',' . (int) $pk * $sign);
@@ -1022,7 +1029,7 @@ class ModuleModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
 
         // Compute the extension id of this module in case the controller wants it.
         $query->clear()
@@ -1031,7 +1038,7 @@ class ModuleModel extends AdminModel
             ->join(
                 'LEFT',
                 $db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
-                ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+                    ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
             )
             ->where($db->quoteName('m.id') . ' = :id')
             ->bind(':id', $table->id, ParameterType::INTEGER);
@@ -1080,7 +1087,8 @@ class ModuleModel extends AdminModel
      * Custom clean cache method for different clients
      *
      * @param   string   $group     The name of the plugin group to import (defaults to null).
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

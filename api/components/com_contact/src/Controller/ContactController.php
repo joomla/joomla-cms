@@ -11,6 +11,8 @@
 namespace Joomla\Component\Contact\Api\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Contact\SubmitContactEvent;
+use Joomla\CMS\Event\Contact\ValidateContactEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -23,20 +25,27 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The contact controller
  *
  * @since  4.0.0
  */
-class ContactController extends ApiController
+class ContactController extends ApiController implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The content type of the item.
      *
@@ -142,7 +151,10 @@ class ContactController extends ApiController
         }
 
         // Validation succeeded, continue with custom handlers
-        $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
+        $results = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
+            'subject' => $contact,
+            'data'    => &$data, // @todo: Remove reference in Joomla 6, @deprecated: Data modification onValidateContact is not allowed, use onSubmitContact instead
+        ]))->getArgument('result', []);
 
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
@@ -151,7 +163,12 @@ class ContactController extends ApiController
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->app->triggerEvent('onSubmitContact', [&$contact, &$data]);
+        $event = $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
+            'subject' => $contact,
+            'data'    => &$data, // @todo: Remove reference in Joomla 6, see SubmitContactEvent::__constructor()
+        ]));
+        // Get the final data
+        $data = $event->getArgument('data', $data);
 
         // Send the email
         $sent = false;
@@ -184,21 +201,21 @@ class ContactController extends ApiController
     {
         $app = $this->app;
 
-        Factory::getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
+        $app->getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
 
         if ($contact->email_to == '' && $contact->user_id != 0) {
-            $contact_user      = User::getInstance($contact->user_id);
+            $contact_user      = $this->getUserFactory()->loadUserById($contact->user_id);
             $contact->email_to = $contact_user->get('email');
         }
 
         $templateData = [
-            'sitename' => $app->get('sitename'),
-            'name'     => $data['contact_name'],
-            'contactname' => $contact->name,
-            'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
-            'subject'  => $data['contact_subject'],
-            'body'     => stripslashes($data['contact_message']),
-            'url'      => Uri::base(),
+            'sitename'     => $app->get('sitename'),
+            'name'         => $data['contact_name'],
+            'contactname'  => $contact->name,
+            'email'        => PunycodeHelper::emailToPunycode($data['contact_email']),
+            'subject'      => $data['contact_subject'],
+            'body'         => stripslashes($data['contact_message']),
+            'url'          => Uri::base(),
             'customfields' => '',
         ];
 
@@ -207,11 +224,11 @@ class ContactController extends ApiController
             $output = FieldsHelper::render(
                 'com_contact.mail',
                 'fields.render',
-                array(
+                [
                     'context' => 'com_contact.mail',
                     'item'    => $contact,
                     'fields'  => $fields,
-                )
+                ]
             );
 
             if ($output) {

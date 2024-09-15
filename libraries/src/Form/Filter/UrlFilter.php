@@ -16,6 +16,10 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Filter class for URLs
  *
@@ -31,14 +35,14 @@ class UrlFilter implements FormFilterInterface
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  mixed   The filtered value.
      *
      * @since   4.0.0
      */
-    public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function filter(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         if (empty($value)) {
             return false;
@@ -49,7 +53,7 @@ class UrlFilter implements FormFilterInterface
         $value = trim($value);
 
         // <>" are never valid in a uri see https://www.ietf.org/rfc/rfc1738.txt
-        $value = str_replace(array('<', '>', '"'), '', $value);
+        $value = str_replace(['<', '>', '"'], '', $value);
 
         // Check for a protocol
         $protocol = parse_url($value, PHP_URL_SCHEME);
@@ -58,7 +62,7 @@ class UrlFilter implements FormFilterInterface
         // we assume that it is an external URL and prepend http://
         if (
             ((string) $element['type'] === 'url' && !$protocol && !$element['relative'])
-            || (!(string) $element['type'] === 'url' && !$protocol)
+            || ((string) $element['type'] !== 'url' && !$protocol)
         ) {
             $protocol = 'http';
 

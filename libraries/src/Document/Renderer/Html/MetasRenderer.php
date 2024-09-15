@@ -4,17 +4,22 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * JDocument metas renderer
@@ -34,11 +39,11 @@ class MetasRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         // Convert the tagids to titles
         if (isset($this->_doc->_metaTags['name']['tags'])) {
-            $tagsHelper = new TagsHelper();
+            $tagsHelper                            = new TagsHelper();
             $this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
         }
 
@@ -46,30 +51,41 @@ class MetasRenderer extends DocumentRenderer
         $app = Factory::getApplication();
         $wa  = $this->_doc->getWebAssetManager();
 
-        // Check for AttachBehavior and web components
-        foreach ($wa->getAssets('script', true) as $asset) {
-            if ($asset instanceof WebAssetAttachBehaviorInterface) {
-                $asset->onAttachCallback($this->_doc);
-            }
-        }
+        // Add a dummy asset for script options, this will prevent WebAssetManager from extra re-calculation later on.
+        $scriptOptionsAsset = $wa->addInline('script', '', ['name' => 'joomla.script.options'], [], ['core'])
+            ->getAsset('script', 'joomla.script.options');
+
+        // Check for AttachBehavior
+        $onAttachCallCache = WebAssetManager::callOnAttachCallback($wa->getAssets('script', true), $this->_doc);
 
         // Trigger the onBeforeCompileHead event
-        $app->triggerEvent('onBeforeCompileHead');
+        $app->getDispatcher()->dispatch(
+            'onBeforeCompileHead',
+            new BeforeCompileHeadEvent('onBeforeCompileHead', ['subject' => $app, 'document' => $this->_doc])
+        );
+
+        // Re-Check for AttachBehavior for newly added assets
+        WebAssetManager::callOnAttachCallback($wa->getAssets('script', true), $this->_doc, $onAttachCallCache);
 
         // Add Script Options as inline asset
         $scriptOptions = $this->_doc->getScriptOptions();
 
         if ($scriptOptions) {
-            $prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-            $jsonOptions = json_encode($scriptOptions, $prettyPrint);
-            $jsonOptions = $jsonOptions ?: '{}';
+            // Overriding ScriptOptions asset is not allowed
+            if ($scriptOptionsAsset !== $wa->getAsset('script', 'joomla.script.options')) {
+                throw new \RuntimeException('Detected an override for "joomla.script.options" asset');
+            }
 
-            $wa->addInlineScript(
-                $jsonOptions,
-                ['name' => 'joomla.script.options', 'position' => 'before'],
-                ['type' => 'application/json', 'class' => 'joomla-script-options new'],
-                ['core']
-            );
+            $jsonFlags   = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | (JDEBUG ? JSON_PRETTY_PRINT : 0);
+            $jsonOptions = json_encode($scriptOptions, $jsonFlags);
+
+            // Set content and update attributes of dummy asset to correct ones
+            $scriptOptionsAsset->setOption('content', $jsonOptions ?: '{}');
+            $scriptOptionsAsset->setOption('position', 'before');
+            $scriptOptionsAsset->setAttribute('type', 'application/json');
+            $scriptOptionsAsset->setAttribute('class', 'joomla-script-options new');
+        } else {
+            $wa->disableScript('joomla.script.options');
         }
 
         // Lock the AssetManager
@@ -106,7 +122,7 @@ class MetasRenderer extends DocumentRenderer
             $template = $app->getTemplate(true);
 
             // Try to find a favicon by checking the template and root folder
-            $icon = '/favicon.ico';
+            $icon           = '/favicon.ico';
             $foldersToCheck = [
                 JPATH_BASE,
                 JPATH_ROOT . '/media/templates/' . $client . $template->template,
@@ -123,8 +139,8 @@ class MetasRenderer extends DocumentRenderer
                 }
 
                 if (is_file($dir . $icon)) {
-                    $urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
-                    $base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
+                    $urlBase = \in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
+                    $base    = \in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
                     $path    = str_replace($base, '', $dir);
                     $path    = str_replace('\\', '/', $path);
                     $this->_doc->addFavicon($urlBase . $path . $icon);

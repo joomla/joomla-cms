@@ -15,7 +15,12 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit a language override
@@ -74,7 +79,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors));
         }
 
@@ -105,37 +110,39 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $canDo = ContentHelper::getActions('com_languages');
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments langmanager');
 
-        $toolbarButtons = [];
-
         if ($canDo->get('core.edit')) {
-            ToolbarHelper::apply('override.apply');
-
-            $toolbarButtons[] = ['save', 'override.save'];
+            $toolbar->apply('override.apply');
         }
 
-        // This component does not support Save as Copy.
-        if ($canDo->get('core.edit') && $canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2new', 'override.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo) {
+                if ($canDo->get('core.edit')) {
+                    $childBar->save('override.save');
+                }
+
+                // This component does not support Save as Copy.
+                if ($canDo->get('core.edit') && $canDo->get('core.create')) {
+                    $childBar->save2new('override.save2new');
+                }
+            }
         );
 
         if (empty($this->item->key)) {
-            ToolbarHelper::cancel('override.cancel');
+            $toolbar->cancel('override.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('override.cancel');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Languages:_Edit_Override');
+        $toolbar->divider();
+        $toolbar->help('Languages:_Edit_Override');
     }
 }

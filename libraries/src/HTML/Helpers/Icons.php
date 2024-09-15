@@ -13,6 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for icons.
  *
@@ -35,7 +39,7 @@ abstract class Icons
             return '';
         }
 
-        $html = array();
+        $html = [];
 
         foreach ($buttons as $button) {
             $html[] = HTMLHelper::_('icons.button', $button);
@@ -56,7 +60,7 @@ abstract class Icons
     public static function button($button)
     {
         if (isset($button['access'])) {
-            if (is_bool($button['access'])) {
+            if (\is_bool($button['access'])) {
                 if ($button['access'] == false) {
                     return '';
                 }
@@ -65,7 +69,7 @@ abstract class Icons
                 $user = Factory::getUser();
 
                 // Take each pair of permission, context values.
-                for ($i = 0, $n = count($button['access']); $i < $n; $i += 2) {
+                for ($i = 0, $n = \count($button['access']); $i < $n; $i += 2) {
                     if (!$user->authorise($button['access'][$i], $button['access'][$i + 1])) {
                         return '';
                     }

@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User controller class.
  *
@@ -41,7 +45,7 @@ class UserController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         // Check if this person is a Super Admin
         if (Access::check($data[$key], 'core.admin')) {
@@ -113,6 +117,11 @@ class UserController extends FormController
             $this->setRedirect($return);
         }
 
+        // If a user has to renew a password but has no permission for users
+        if ($task === 'save' && !$this->app->getIdentity()->authorise('core.manage', 'com_users')) {
+            $this->setRedirect(Uri::base());
+        }
+
         return $result;
     }
 
@@ -130,7 +139,7 @@ class UserController extends FormController
         $this->checkToken();
 
         // Set the model
-        $model = $this->getModel('User', 'Administrator', array());
+        $model = $this->getModel('User', 'Administrator', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_users&view=users' . $this->getRedirectToListAppend(), false));
@@ -148,7 +157,7 @@ class UserController extends FormController
      *
      * @since   3.1
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
     }
 }

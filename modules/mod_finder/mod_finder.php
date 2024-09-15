@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -24,12 +24,12 @@ $cparams = ComponentHelper::getParams('com_finder');
 // Check for OpenSearch
 if ($params->get('opensearch', $cparams->get('opensearch', 1))) {
     $defaultTitle = Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename');
-    $ostitle = $params->get('opensearch_name', $cparams->get('opensearch_name', $defaultTitle));
+    $ostitle      = $params->get('opensearch_name', $cparams->get('opensearch_name', $defaultTitle));
     $app->getDocument()->addHeadLink(
-        Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
+        Uri::getInstance()->toString(['scheme', 'host', 'port']) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
         'search',
         'rel',
-        array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
+        ['title' => $ostitle, 'type' => 'application/opensearchdescription+xml']
     );
 }
 
@@ -39,7 +39,7 @@ $route = RouteHelper::getSearchRoute($params->get('searchfilter', null));
 if ($params->get('set_itemid')) {
     $uri = Uri::getInstance($route);
     $uri->setVar('Itemid', $params->get('set_itemid'));
-    $route = $uri->toString(array('path', 'query'));
+    $route = $uri->toString(['path', 'query']);
 }
 
 // Load component language file.

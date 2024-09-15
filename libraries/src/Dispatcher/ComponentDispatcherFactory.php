@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Dispatcher;
@@ -12,6 +12,10 @@ namespace Joomla\CMS\Dispatcher;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Input\Input;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Namespace based implementation of the ComponentDispatcherFactoryInterface
@@ -56,13 +60,13 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
      * Creates a dispatcher.
      *
      * @param   CMSApplicationInterface  $application  The application
-     * @param   Input                    $input        The input object, defaults to the one in the application
+     * @param   ?Input                   $input        The input object, defaults to the one in the application
      *
      * @return  DispatcherInterface
      *
      * @since   4.0.0
      */
-    public function createDispatcher(CMSApplicationInterface $application, Input $input = null): DispatcherInterface
+    public function createDispatcher(CMSApplicationInterface $application, ?Input $input = null): DispatcherInterface
     {
         $name = ucfirst($application->getName());
 
@@ -76,6 +80,6 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
             }
         }
 
-        return new $className($application, $input ?: $application->input, $this->mvcFactory);
+        return new $className($application, $input ?: $application->getInput(), $this->mvcFactory);
     }
 }

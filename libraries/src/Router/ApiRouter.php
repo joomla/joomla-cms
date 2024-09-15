@@ -15,6 +15,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Router\Route;
 use Joomla\Router\Router;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! API Router class
  *
@@ -89,13 +93,11 @@ class ApiRouter extends Router
         $validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "TRACE", "PATCH"];
 
         if (!\in_array($method, $validMethods)) {
-            throw new \InvalidArgumentException(sprintf('%s is not a valid HTTP method.', $method));
+            throw new \InvalidArgumentException(\sprintf('%s is not a valid HTTP method.', $method));
         }
 
         // Get the path from the route and remove and leading or trailing slash.
         $routePath = $this->getRoutePath();
-
-        $query = Uri::getInstance()->getQuery(true);
 
         // Iterate through all of the known routes looking for a match.
         foreach ($this->routes as $route) {
@@ -109,18 +111,17 @@ class ApiRouter extends Router
                     }
 
                     $controller = preg_split("/[.]+/", $route->getController());
-                    $vars       = array_merge($vars, $query);
 
                     return [
                         'controller' => $controller[0],
                         'task'       => $controller[1],
-                        'vars'       => $vars
+                        'vars'       => $vars,
                     ];
                 }
             }
         }
 
-        throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $routePath));
+        throw new RouteNotFoundException(\sprintf('Unable to handle request for route `%s`.', $routePath));
     }
 
     /**

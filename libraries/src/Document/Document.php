@@ -15,6 +15,10 @@ use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\WebAsset\WebAssetManager;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Document class, provides an easy interface to parse and display a document
  *
@@ -140,9 +144,10 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
      */
-    public $_scripts = array();
+    public $_scripts = [];
 
     /**
      * Array of scripts placed in the header
@@ -150,16 +155,17 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
      */
-    public $_script = array();
+    public $_script = [];
 
     /**
      * Array of scripts options
      *
      * @var    array
      */
-    protected $scriptOptions = array();
+    protected $scriptOptions = [];
 
     /**
      * Array of linked style sheets
@@ -167,9 +173,10 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
      */
-    public $_styleSheets = array();
+    public $_styleSheets = [];
 
     /**
      * Array of included style declarations
@@ -177,9 +184,10 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
      */
-    public $_style = array();
+    public $_style = [];
 
     /**
      * Array of meta tags
@@ -187,7 +195,7 @@ class Document
      * @var    array
      * @since  1.7.0
      */
-    public $_metaTags = array();
+    public $_metaTags = [];
 
     /**
      * The rendering engine
@@ -219,7 +227,7 @@ class Document
      * @var    array
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Media version added to assets
@@ -268,7 +276,7 @@ class Document
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         if (\array_key_exists('lineend', $options)) {
             $this->setLineEnd($options['lineend']);
@@ -317,7 +325,7 @@ class Document
         if (\array_key_exists('webAssetManager', $options)) {
             $this->setWebAssetManager($options['webAssetManager']);
         } else {
-            $webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
+            $webAssetManager = new WebAssetManager(CmsFactory::getContainer()->get('webassetregistry'));
 
             $this->setWebAssetManager($webAssetManager);
         }
@@ -333,11 +341,14 @@ class Document
      * @return  static  The document object.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the \Joomla\CMS\Document\FactoryInterface instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the \Joomla\CMS\Document\FactoryInterface instead
+     *              Example: Factory::getApplication()->getDocument();
      */
-    public static function getInstance($type = 'html', $attributes = array())
+    public static function getInstance($type = 'html', $attributes = [])
     {
-        $signature = serialize(array($type, $attributes));
+        $signature = serialize([$type, $attributes]);
 
         if (empty(self::$instances[$signature])) {
             self::$instances[$signature] = CmsFactory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
@@ -412,7 +423,7 @@ class Document
      *
      * @since   1.7.0
      */
-    public function setBuffer($content, $options = array())
+    public function setBuffer($content, $options = [])
     {
         self::$_buffer = $content;
 
@@ -441,7 +452,7 @@ class Document
         } elseif ($name === 'description') {
             $result = $this->getDescription();
         } else {
-            $result = isset($this->_metaTags[$attribute]) && isset($this->_metaTags[$attribute][$name]) ? $this->_metaTags[$attribute][$name] : '';
+            $result = $this->_metaTags[$attribute][$name] ?? '';
         }
 
         return $result;
@@ -461,7 +472,7 @@ class Document
     public function setMetaData($name, $content, $attribute = 'name')
     {
         // Pop the element off the end of array if target function expects a string or this http_equiv parameter.
-        if (\is_array($content) && (\in_array($name, array('generator', 'description')) || !\is_string($attribute))) {
+        if (\is_array($content) && (\in_array($name, ['generator', 'description']) || !\is_string($attribute))) {
             $content = array_pop($content);
         }
 
@@ -492,9 +503,11 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
+     *              Example: $wa->registerAndUseScript(...);
      */
-    public function addScript($url, $options = array(), $attribs = array())
+    public function addScript($url, $options = [], $attribs = [])
     {
         // Default value for type.
         if (!isset($attribs['type']) && !isset($attribs['mime'])) {
@@ -517,14 +530,16 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
+     *              Example: $wa->addInlineScript(...);
      */
     public function addScriptDeclaration($content, $type = 'text/javascript')
     {
         $type = strtolower($type);
 
         if (empty($this->_script[$type])) {
-            $this->_script[$type] = array();
+            $this->_script[$type] = [];
         }
 
         $this->_script[$type][md5($content)] = $content;
@@ -546,7 +561,7 @@ class Document
     public function addScriptOptions($key, $options, $merge = true)
     {
         if (empty($this->scriptOptions[$key])) {
-            $this->scriptOptions[$key] = array();
+            $this->scriptOptions[$key] = [];
         }
 
         if ($merge && \is_array($options)) {
@@ -570,10 +585,10 @@ class Document
     public function getScriptOptions($key = null)
     {
         if ($key) {
-            return (empty($this->scriptOptions[$key])) ? array() : $this->scriptOptions[$key];
-        } else {
-            return $this->scriptOptions;
+            return (empty($this->scriptOptions[$key])) ? [] : $this->scriptOptions[$key];
         }
+
+        return $this->scriptOptions;
     }
 
     /**
@@ -587,9 +602,11 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
+     *              Example: $wa->registerAndUseStyle(...);
      */
-    public function addStyleSheet($url, $options = array(), $attribs = array())
+    public function addStyleSheet($url, $options = [], $attribs = [])
     {
         // Default value for type.
         if (!isset($attribs['type']) && !isset($attribs['mime'])) {
@@ -617,14 +634,20 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
+     *              Example: $wa->addInlineStyle(...);
      */
     public function addStyleDeclaration($content, $type = 'text/css')
     {
+        if ($content === null) {
+            return $this;
+        }
+
         $type = strtolower($type);
 
         if (empty($this->_style[$type])) {
-            $this->_style[$type] = array();
+            $this->_style[$type] = [];
         }
 
         $this->_style[$type][md5($content)] = $content;
@@ -954,11 +977,11 @@ class Document
     {
         if (!\is_string($date) && !($date instanceof Date)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
                     __METHOD__ . '()',
                     'Joomla\\CMS\\Date\\Date',
-                    \gettype($date) === 'object' ? (\get_class($date) . ' instance') : \gettype($date)
+                    \is_object($date) ? (\get_class($date) . ' instance') : \gettype($date)
                 )
             );
         }
@@ -1114,7 +1137,7 @@ class Document
      *
      * @since   1.7.0
      */
-    public function parse($params = array())
+    public function parse($params = [])
     {
         return $this;
     }
@@ -1129,7 +1152,7 @@ class Document
      *
      * @since   1.7.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         $app = CmsFactory::getApplication();
 
@@ -1174,7 +1197,7 @@ class Document
                 } elseif (\in_array($preloadMethod, $this->preloadTypes)) {
                     $this->getPreloadManager()->$preloadMethod($link);
                 } else {
-                    throw new \InvalidArgumentException(sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
+                    throw new \InvalidArgumentException(\sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
                 }
             }
         }
@@ -1192,7 +1215,7 @@ class Document
                 } elseif (\in_array($preloadMethod, $this->preloadTypes)) {
                     $this->getPreloadManager()->$preloadMethod($link);
                 } else {
-                    throw new \InvalidArgumentException(sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
+                    throw new \InvalidArgumentException(\sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
                 }
             }
         }

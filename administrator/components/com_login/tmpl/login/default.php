@@ -18,7 +18,7 @@ use Joomla\CMS\Helper\ModuleHelper;
  * in your layout override.
  */
 $loginmodule = \Joomla\Component\Login\Administrator\Model\LoginModel::getLoginModule('mod_login');
-echo ModuleHelper::renderModule($loginmodule, array('id' => 'section-box'));
+echo ModuleHelper::renderModule($loginmodule, ['id' => 'section-box']);
 
 
 /**
@@ -31,6 +31,6 @@ foreach ($modules as $module) {
 // Render the login modules
 
     if ($module->module != 'mod_login') {
-        echo ModuleHelper::renderModule($module, array('id' => 'section-box'));
+        echo ModuleHelper::renderModule($module, ['id' => 'section-box']);
     }
 }

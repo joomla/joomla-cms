@@ -46,15 +46,15 @@ class DBTestHelper
     public static function setupTest(IntegrationTestCase $test): void
     {
         if (!self::$driver) {
-            $factory = new DatabaseFactory();
+            $factory      = new DatabaseFactory();
             self::$driver = $factory->getDriver(
                 JTEST_DB_ENGINE,
                 [
                     'database' => JTEST_DB_NAME,
-                    'host' => JTEST_DB_HOST,
-                    'user' => JTEST_DB_USER,
+                    'host'     => JTEST_DB_HOST,
+                    'user'     => JTEST_DB_USER,
                     'password' => JTEST_DB_PASSWORD,
-                    'prefix' => 'jos' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION . '_'
+                    'prefix'   => 'jos' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION . '_',
                 ]
             );
         }
@@ -63,14 +63,14 @@ class DBTestHelper
         $files = $test->getSchemasToLoad();
 
         foreach ($files as $file) {
-            if (in_array($file, self::$loadedFiles)) {
+            if (\in_array($file, self::$loadedFiles)) {
                 continue;
             }
 
-            $sql = file_get_contents(JPATH_ROOT . '/tests/Integration/datasets/' . strtolower(JTEST_DB_ENGINE) . '/' . $file);
+            $sql     = file_get_contents(JPATH_ROOT . '/tests/Integration/datasets/' . strtolower(JTEST_DB_ENGINE) . '/' . $file);
             $queries = self::splitQueries($sql);
 
-            if (!count($queries)) {
+            if (!\count($queries)) {
                 continue;
             }
 
@@ -92,8 +92,8 @@ class DBTestHelper
      */
     protected static function splitQueries($query)
     {
-        $buffer    = array();
-        $queries   = array();
+        $buffer    = [];
+        $queries   = [];
         $in_string = false;
 
         // Trim any whitespace.
@@ -112,7 +112,7 @@ class DBTestHelper
         $query = $funct[0];
 
         // Parse the schema file to break up queries.
-        for ($i = 0; $i < strlen($query) - 1; $i++) {
+        for ($i = 0; $i < \strlen($query) - 1; $i++) {
             if ($query[$i] == ';' && !$in_string) {
                 $queries[] = substr($query, 0, $i);
                 $query     = substr($query, $i + 1);
@@ -138,7 +138,7 @@ class DBTestHelper
         }
 
         // Add function part as is.
-        for ($f = 1, $fMax = count($funct); $f < $fMax; $f++) {
+        for ($f = 1, $fMax = \count($funct); $f < $fMax; $f++) {
             $queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
         }
 

@@ -11,6 +11,11 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension table
@@ -28,7 +33,7 @@ class Extension extends Table
     protected $_supportNullValue = true;
 
     /**
-     * Ensure the params in json encoded in the bind method
+     * Ensure the params are json encoded in the bind method
      *
      * @var    array
      * @since  4.0.0
@@ -46,13 +51,14 @@ class Extension extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__extensions', 'extension_id', $db);
+        parent::__construct('#__extensions', 'extension_id', $db, $dispatcher);
 
         // Set the alias since the column is called enabled
         $this->setColumnAlias('published', 'enabled');
@@ -95,7 +101,7 @@ class Extension extends Table
      *
      * @since   1.7.0
      */
-    public function find($options = array())
+    public function find($options = [])
     {
         // Get the DatabaseQuery object
         $query = $this->_db->getQuery(true);

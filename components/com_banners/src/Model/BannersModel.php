@@ -13,11 +13,15 @@ namespace Joomla\Component\Banners\Site\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Banners model for the Joomla Banners component.
@@ -52,9 +56,9 @@ class BannersModel extends ListModel
     }
 
     /**
-     * Method to get a DatabaseQuery object for retrieving the data set from a database.
+     * Method to get a QueryInterface object for retrieving the data set from a database.
      *
-     * @return  DatabaseQuery   A DatabaseQuery object to retrieve the data set.
+     * @return  QueryInterface   An object implementing QueryInterface to retrieve the data set.
      *
      * @since   1.6
      */
@@ -127,7 +131,7 @@ class BannersModel extends ListModel
         // Filter by a single or group of categories
         if (is_numeric($categoryId)) {
             $categoryId = (int) $categoryId;
-            $type = $this->getState('filter.category_id.include', true) ? ' = ' : ' <> ';
+            $type       = $this->getState('filter.category_id.include', true) ? ' = ' : ' <> ';
 
             // Add subcategory check
             if ($this->getState('filter.subcategories', false)) {
@@ -165,7 +169,7 @@ class BannersModel extends ListModel
                 $query->where($db->quoteName('a.catid') . $type . ':categoryId')
                     ->bind(':categoryId', $categoryId, ParameterType::INTEGER);
             }
-        } elseif (is_array($categoryId) && (count($categoryId) > 0)) {
+        } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
             $categoryId = ArrayHelper::toInteger($categoryId);
 
             if ($this->getState('filter.category_id.include', true)) {
@@ -180,7 +184,7 @@ class BannersModel extends ListModel
                 // No keywords, select nothing.
                 $query->where('0 != 0');
             } else {
-                $temp   = array();
+                $temp   = [];
                 $config = ComponentHelper::getParams('com_banners');
                 $prefix = $config->get('metakey_prefix');
 
@@ -212,7 +216,7 @@ class BannersModel extends ListModel
                         . ' = SUBSTRING(' . $bounded[1] . ',1,LENGTH(' . $db->quoteName('cl.metakey_prefix') . '))'
                         . ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
                         . ' AND ' . $db->quoteName('cl.own_prefix') . ' = 0'
-                        . ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
+                        . ' AND ' . ($prefix == substr($keyword, 0, \strlen($prefix)) ? '0 = 0' : '0 != 0');
 
                     $condition2 = $db->quoteName('a.metakey') . ' ' . $query->regexp($bounded[2]);
 
@@ -259,7 +263,7 @@ class BannersModel extends ListModel
 
             // If no keywords are provided, avoid running the query.
             if (!$keywords) {
-                $this->cache['items'] = array();
+                $this->cache['items'] = [];
 
                 return $this->cache['items'];
             }
@@ -292,7 +296,7 @@ class BannersModel extends ListModel
         $db        = $this->getDatabase();
         $bid       = [];
 
-        if (!count($items)) {
+        if (!\count($items)) {
             return;
         }
 

@@ -9,7 +9,6 @@ const SampleData = {
 const sampledataAjax = (type, steps, step) => {
   // Get variables
   const baseUrl = `index.php?option=com_ajax&format=json&group=sampledata&${Joomla.getOptions('csrf.token')}=1`;
-  const options = Joomla.getOptions('sample-data');
 
   // Create list
   const list = document.createElement('div');
@@ -20,16 +19,15 @@ const sampledataAjax = (type, steps, step) => {
   // Create paragraph
   const para = document.createElement('p');
   para.classList.add('loader-image');
-  para.classList.add('text-center');
 
   // Create image
-  const img = document.createElement('img');
-  img.setAttribute('src', options.icon);
-  img.setAttribute('width', 30);
-  img.setAttribute('height', 30);
+  const loaderEl = document.createElement('joomla-core-loader');
+  loaderEl.setAttribute('inline', true);
+  loaderEl.setAttribute('size', 60);
+  loaderEl.setAttribute('color', 'transparent');
 
   // Append everything
-  para.appendChild(img);
+  para.appendChild(loaderEl);
   list.appendChild(para);
   document.querySelector(`.sampledata-progress-${type}`).appendChild(list);
 
@@ -115,7 +113,7 @@ const sampledataAjax = (type, steps, step) => {
       }
     },
     onError: () => {
-      Joomla.renderMessages({ error: ['Something went wrong! Please close and reopen the browser and try again!'] });
+      Joomla.renderMessages({ error: [Joomla.Text._('MOD_SAMPLEDATA_ERROR_RESPONSE')] });
       window.scroll({
         top: 0,
         left: 0,
@@ -149,13 +147,11 @@ const sampledataApply = (element) => {
   }
 
   // Turn on the progress container
-  const progressElements = [].slice.call(document.querySelectorAll(`.sampledata-progress-${type}`));
-
-  progressElements.forEach((progressElement) => {
+  document.querySelectorAll(`.sampledata-progress-${type}`).forEach((progressElement) => {
     progressElement.classList.remove('d-none');
   });
 
-  element.getAttribute('data-processed', true);
+  element.setAttribute('data-processed', true);
 
   SampleData.inProgress = true;
   sampledataAjax(type, steps, 1);
@@ -167,8 +163,7 @@ const sampledataApply = (element) => {
 const sampleDataWrapper = document.getElementById('sample-data-wrapper');
 
 if (sampleDataWrapper) {
-  const links = [].slice.call(sampleDataWrapper.querySelectorAll('.apply-sample-data'));
-  links.forEach((link) => {
+  sampleDataWrapper.querySelectorAll('.apply-sample-data').forEach((link) => {
     link.addEventListener('click', ({ currentTarget }) => sampledataApply(currentTarget));
   });
 }

@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a Joomla Administrator Controller
@@ -29,6 +33,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class AdminController extends BaseController
 {
+    /**
+     * The Application. Redeclared to show this class requires a web application.
+     *
+     * @var    CMSWebApplicationInterface
+     * @since  5.0.0
+     */
+    protected $app;
+
     /**
      * The URL option for the component.
      *
@@ -56,16 +68,17 @@ class AdminController extends BaseController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                         'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    The Input object for the request
+     * @param   array                        $config   An optional associative array of configuration settings.
+     *                                                 Recognized key values include 'name', 'default_task',
+     *                                                 'model_path', and 'view_path' (this list is not meant to be
+     *                                                 comprehensive).
+     * @param   ?MVCFactoryInterface         $factory  The factory.
+     * @param   ?CMSWebApplicationInterface  $app      The Application for the dispatcher
+     * @param   ?Input                       $input    The Input object for the request
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -99,7 +112,7 @@ class AdminController extends BaseController
         if (empty($this->view_list)) {
             $reflect = new \ReflectionClass($this);
 
-            $r = array(0 => '', 1 => '', 2 => $reflect->getShortName());
+            $r = [0 => '', 1 => '', 2 => $reflect->getShortName()];
 
             if ($reflect->getNamespaceName()) {
                 $r[2] = str_replace('Controller', '', $r[2]);
@@ -124,13 +137,13 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get items to remove from the request.
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
         if (empty($cid)) {
-            $this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+            $this->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             // Get the model.
             $model = $this->getModel();
@@ -160,7 +173,7 @@ class AdminController extends BaseController
      * after the item has been deleted.
      *
      * @param   BaseDatabaseModel  $model  The data model object.
-     * @param   integer            $id     The validated data.
+     * @param   integer[]          $id     An array of deleted IDs.
      *
      * @return  void
      *
@@ -183,8 +196,8 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get items to publish from the request.
-        $cid   = (array) $this->input->get('cid', array(), 'int');
-        $data  = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
+        $cid   = (array) $this->input->get('cid', [], 'int');
+        $data  = ['publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3];
         $task  = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 
@@ -192,7 +205,7 @@ class AdminController extends BaseController
         $cid = array_filter($cid);
 
         if (empty($cid)) {
-            $this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+            $this->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             // Get the model.
             $model = $this->getModel();
@@ -201,11 +214,14 @@ class AdminController extends BaseController
             try {
                 $model->publish($cid, $value);
                 $errors = $model->getErrors();
-                $ntext = null;
+                $ntext  = null;
 
                 if ($value === 1) {
                     if ($errors) {
-                        $this->app->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)), 'error');
+                        $this->app->enqueueMessage(
+                            Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)),
+                            CMSWebApplicationInterface::MSG_ERROR
+                        );
                     } else {
                         $ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
                     }
@@ -246,13 +262,13 @@ class AdminController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->post->get('cid', array(), 'int');
+        $ids = (array) $this->input->post->get('cid', [], 'int');
         $inc = $this->getTask() === 'orderup' ? -1 : 1;
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        $model = $this->getModel();
+        $model  = $this->getModel();
         $return = $model->reorder($ids, $inc);
 
         $redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
@@ -263,13 +279,13 @@ class AdminController extends BaseController
             $this->setRedirect($redirect, $message, 'error');
 
             return false;
-        } else {
-            // Reorder succeeded.
-            $message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-            $this->setRedirect($redirect, $message);
-
-            return true;
         }
+
+        // Reorder succeeded.
+        $message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+        $this->setRedirect($redirect, $message);
+
+        return true;
     }
 
     /**
@@ -285,8 +301,8 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get the input
-        $pks   = (array) $this->input->post->get('cid', array(), 'int');
-        $order = (array) $this->input->post->get('order', array(), 'int');
+        $pks   = (array) $this->input->post->get('cid', [], 'int');
+        $order = (array) $this->input->post->get('order', [], 'int');
 
         // Remove zero PKs and corresponding order values resulting from input filter for PK
         foreach ($pks as $i => $pk) {
@@ -310,13 +326,13 @@ class AdminController extends BaseController
             $this->setRedirect($redirect, $message, 'error');
 
             return false;
-        } else {
-            // Reorder succeeded.
-            $this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-            $this->setRedirect($redirect);
-
-            return true;
         }
+
+        // Reorder succeeded.
+        $this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+        $this->setRedirect($redirect);
+
+        return true;
     }
 
     /**
@@ -331,12 +347,12 @@ class AdminController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->post->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        $model = $this->getModel();
+        $model  = $this->getModel();
         $return = $model->checkin($ids);
 
         if ($return === false) {
@@ -352,19 +368,19 @@ class AdminController extends BaseController
             );
 
             return false;
-        } else {
-            // Checkin succeeded.
-            $message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
-            $this->setRedirect(
-                Route::_(
-                    'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
-                    false
-                ),
-                $message
-            );
-
-            return true;
         }
+
+        // Checkin succeeded.
+        $message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
+        $this->setRedirect(
+            Route::_(
+                'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
+                false
+            ),
+            $message
+        );
+
+        return true;
     }
 
     /**
@@ -380,8 +396,8 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get the input
-        $pks   = (array) $this->input->post->get('cid', array(), 'int');
-        $order = (array) $this->input->post->get('order', array(), 'int');
+        $pks   = (array) $this->input->post->get('cid', [], 'int');
+        $order = (array) $this->input->post->get('order', [], 'int');
 
         // Remove zero PKs and corresponding order values resulting from input filter for PK
         foreach ($pks as $i => $pk) {
@@ -418,7 +434,7 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get the input
-        $pks = (array) $this->input->post->get('cid', array(), 'int');
+        $pks = (array) $this->input->post->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $pks = array_filter($pks);

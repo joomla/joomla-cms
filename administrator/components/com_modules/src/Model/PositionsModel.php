@@ -13,10 +13,14 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Modules Component Positions Model
@@ -33,13 +37,13 @@ class PositionsModel extends ListModel
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'value',
                 'templates',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -59,22 +63,9 @@ class PositionsModel extends ListModel
      */
     protected function populateState($ordering = 'ordering', $direction = 'asc')
     {
-        // Load the filter state.
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-        $this->setState('filter.state', $state);
-
-        $template = $this->getUserStateFromRequest($this->context . '.filter.template', 'filter_template', '', 'string');
-        $this->setState('filter.template', $template);
-
-        $type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string');
-        $this->setState('filter.type', $type);
-
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array((int) $clientId, array (0, 1))) ? 0 : (int) $clientId;
+        $clientId = (!\in_array((int) $clientId, [0, 1])) ? 0 : (int) $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.
@@ -111,7 +102,7 @@ class PositionsModel extends ListModel
                 $clientId = (int) $clientId;
 
                 // Get the database object and a new query object.
-                $db  = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('DISTINCT ' . $db->quoteName('position', 'value'))
                     ->from($db->quoteName('#__modules'))
@@ -119,7 +110,7 @@ class PositionsModel extends ListModel
                     ->bind(':clientid', $clientId, ParameterType::INTEGER);
 
                 if ($search) {
-                    $search = '%' . str_replace(' ', '%', trim($search), true) . '%';
+                    $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                     $query->where($db->quoteName('position') . ' LIKE :position')
                         ->bind(':position', $search);
                 }
@@ -135,10 +126,10 @@ class PositionsModel extends ListModel
                 }
 
                 foreach ($positions as $value => $position) {
-                    $positions[$value] = array();
+                    $positions[$value] = [];
                 }
             } else {
-                $positions = array();
+                $positions = [];
             }
 
             // Load the positions from the installed templates.
@@ -157,8 +148,8 @@ class PositionsModel extends ListModel
                             $label = (string) $position;
 
                             if (!$value) {
-                                $value = $label;
-                                $label = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . $template->element . '_POSITION_' . $value);
+                                $value    = $label;
+                                $label    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . $template->element . '_POSITION_' . $value);
                                 $altlabel = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'COM_MODULES_POSITION_' . $value);
 
                                 if (!$lang->hasKey($label) && $lang->hasKey($altlabel)) {
@@ -168,9 +159,9 @@ class PositionsModel extends ListModel
 
                             if ($type == 'user' || ($state != '' && $state != $template->enabled)) {
                                 unset($positions[$value]);
-                            } elseif (preg_match(chr(1) . $search . chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element)) {
+                            } elseif (preg_match(\chr(1) . $search . \chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element)) {
                                 if (!isset($positions[$value])) {
-                                    $positions[$value] = array();
+                                    $positions[$value] = [];
                                 }
 
                                 $positions[$value][$template->name] = $label;
@@ -180,7 +171,7 @@ class PositionsModel extends ListModel
                 }
             }
 
-            $this->total = count($positions);
+            $this->total = \count($positions);
 
             if ($limitstart >= $this->total) {
                 $limitstart = $limitstart < $limit ? 0 : $limitstart - $limit;
@@ -201,7 +192,7 @@ class PositionsModel extends ListModel
                 }
             }
 
-            $this->items = array_slice($positions, $limitstart, $limit ?: null);
+            $this->items = \array_slice($positions, $limitstart, $limit ?: null);
         }
 
         return $this->items;

@@ -14,6 +14,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * FormRule for com_users to be sure only one redirect logout field has a value
  *
@@ -32,24 +36,24 @@ class LogoutUniqueFieldRule extends FormRule
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *
      * @since   3.6
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $logoutRedirectUrl      = $input['params']->logout_redirect_url;
         $logoutRedirectMenuitem = $input['params']->logout_redirect_menuitem;
 
         if ($form === null) {
-            throw new \InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
+            throw new \InvalidArgumentException(\sprintf('The value for $form must not be null in %s', \get_class($this)));
         }
 
         if ($input === null) {
-            throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
+            throw new \InvalidArgumentException(\sprintf('The value for $input must not be null in %s', \get_class($this)));
         }
 
         // Test the input values for logout.

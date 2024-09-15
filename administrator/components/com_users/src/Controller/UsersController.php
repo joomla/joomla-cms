@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Users list controller class.
  *
@@ -36,15 +40,15 @@ class UsersController extends AdminController
      * Constructor.
      *
      * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The CMSApplication for the dispatcher
-     * @param   Input                $input    Input
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The CMSApplication for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since  1.6
      * @see    BaseController
      * @throws \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -63,7 +67,7 @@ class UsersController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'User', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'User', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -80,8 +84,8 @@ class UsersController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('block' => 1, 'unblock' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['block' => 1, 'unblock' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -99,9 +103,9 @@ class UsersController extends AdminController
                 $this->setMessage($model->getError(), 'error');
             } else {
                 if ($value == 1) {
-                    $this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
+                    $this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', \count($ids)));
                 } elseif ($value == 0) {
-                    $this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', count($ids)));
+                    $this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', \count($ids)));
                 }
             }
         }
@@ -121,7 +125,7 @@ class UsersController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
@@ -136,7 +140,7 @@ class UsersController extends AdminController
             if (!$model->activate($ids)) {
                 $this->setMessage($model->getError(), 'error');
             } else {
-                $this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', count($ids)));
+                $this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', \count($ids)));
             }
         }
 
@@ -162,7 +166,7 @@ class UsersController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_USERS_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_USERS_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_USERS_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

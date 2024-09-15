@@ -23,6 +23,10 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Routing class of com_content
  *
@@ -77,9 +81,9 @@ class Router extends RouterView
         $this->categoryFactory = $categoryFactory;
         $this->db              = $db;
 
-        $params = ComponentHelper::getParams('com_content');
+        $params      = ComponentHelper::getParams('com_content');
         $this->noIDs = (bool) $params->get('sef_ids');
-        $categories = new RouterViewConfiguration('categories');
+        $categories  = new RouterViewConfiguration('categories');
         $categories->setKey('id');
         $this->registerView($categories);
         $category = new RouterViewConfiguration('category');
@@ -114,7 +118,7 @@ class Router extends RouterView
         $category = $this->getCategories(['access' => true])->get($id);
 
         if ($category) {
-            $path = array_reverse($category->getPath(), true);
+            $path    = array_reverse($category->getPath(), true);
             $path[0] = '1:root';
 
             if ($this->noIDs) {
@@ -126,7 +130,7 @@ class Router extends RouterView
             return $path;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -167,10 +171,10 @@ class Router extends RouterView
         if ($this->noIDs) {
             list($void, $segment) = explode(':', $id, 2);
 
-            return array($void => $segment);
+            return [$void => $segment];
         }
 
-        return array((int) $id => $id);
+        return [(int) $id => $id];
     }
 
     /**
@@ -246,14 +250,14 @@ class Router extends RouterView
             $dbquery = $this->db->getQuery(true);
             $dbquery->select($this->db->quoteName('id'))
                 ->from($this->db->quoteName('#__content'))
-                ->where(
-                    [
-                        $this->db->quoteName('alias') . ' = :alias',
-                        $this->db->quoteName('catid') . ' = :catid',
-                    ]
-                )
-                ->bind(':alias', $segment)
-                ->bind(':catid', $query['id'], ParameterType::INTEGER);
+                ->where($this->db->quoteName('alias') . ' = :segment')
+                ->bind(':segment', $segment);
+
+            if (isset($query['id']) && $query['id']) {
+                $dbquery->where($this->db->quoteName('catid') . ' = :id')
+                    ->bind(':id', $query['id'], ParameterType::INTEGER);
+            }
+
             $this->db->setQuery($dbquery);
 
             return (int) $this->db->loadResult();

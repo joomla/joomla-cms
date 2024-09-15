@@ -14,6 +14,11 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Model class for transitions
@@ -30,17 +35,17 @@ class TransitionsModel extends ListModel
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 't.id',
                 'published', 't.published',
                 'ordering', 't.ordering',
                 'title', 't.title',
                 'from_stage', 't.from_stage_id',
-                'to_stage', 't.to_stage_id'
-            );
+                'to_stage', 't.to_stage_id',
+            ];
         }
 
         parent::__construct($config);
@@ -64,9 +69,9 @@ class TransitionsModel extends ListModel
      */
     protected function populateState($ordering = 't.ordering', $direction = 'ASC')
     {
-        $app = Factory::getApplication();
+        $app        = Factory::getApplication();
         $workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
+        $extension  = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         if ($workflowID) {
             $table = $this->getTable('Workflow', 'Administrator');
@@ -93,7 +98,7 @@ class TransitionsModel extends ListModel
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Transition', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Transition', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -117,7 +122,7 @@ class TransitionsModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  string  The query to database.
+     * @return  QueryInterface  The query to database.
      *
      * @since  4.0.0
      */
@@ -205,7 +210,7 @@ class TransitionsModel extends ListModel
      *
      * @since   4.0.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 

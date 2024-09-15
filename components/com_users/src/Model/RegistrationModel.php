@@ -27,16 +27,24 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Registration model class for Users.
  *
  * @since  1.6
  */
-class RegistrationModel extends FormModel
+class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * @var    object  The user registration data.
      * @since  1.6
@@ -46,19 +54,19 @@ class RegistrationModel extends FormModel
     /**
      * Constructor.
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config = array_merge(
-            array(
-                'events_map' => array('validate' => 'user')
-            ),
+            [
+                'events_map' => ['validate' => 'user'],
+            ],
             $config
         );
 
@@ -123,17 +131,17 @@ class RegistrationModel extends FormModel
         PluginHelper::importPlugin('user');
 
         // Activate the user.
-        $user = Factory::getUser($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         // Admin activation is on and user is verifying their email
         if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0)) {
             $linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
             // Compile the admin notification mail values.
-            $data = $user->getProperties();
+            $data               = $user->getProperties();
             $data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
             $user->set('activation', $data['activation']);
-            $data['siteurl'] = Uri::base();
+            $data['siteurl']  = Uri::base();
             $data['activate'] = Route::link(
                 'site',
                 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
@@ -148,9 +156,9 @@ class RegistrationModel extends FormModel
             $user->setParam('activate', 1);
 
             // Get all admin users
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
-                ->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+                ->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
                 ->from($db->quoteName('#__users'))
                 ->where($db->quoteName('sendEmail') . ' = 1')
                 ->where($db->quoteName('block') . ' = 0');
@@ -167,7 +175,7 @@ class RegistrationModel extends FormModel
 
             // Send mail to all users with users creating permissions and receiving system emails
             foreach ($rows as $row) {
-                $usercreator = Factory::getUser($row->id);
+                $usercreator = $this->getUserFactory()->loadUserById($row->id);
 
                 if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users')) {
                     try {
@@ -206,8 +214,8 @@ class RegistrationModel extends FormModel
             $data['fromname'] = $app->get('fromname');
             $data['mailfrom'] = $app->get('mailfrom');
             $data['sitename'] = $app->get('sitename');
-            $data['siteurl'] = Uri::base();
-            $mailer = new MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
+            $data['siteurl']  = Uri::base();
+            $mailer           = new MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
 
@@ -261,18 +269,18 @@ class RegistrationModel extends FormModel
     {
         if ($this->data === null) {
             $this->data = new \stdClass();
-            $app = Factory::getApplication();
-            $params = ComponentHelper::getParams('com_users');
+            $app        = Factory::getApplication();
+            $params     = ComponentHelper::getParams('com_users');
 
             // Override the base user data with any data in the session.
-            $temp = (array) $app->getUserState('com_users.registration.data', array());
+            $temp = (array) $app->getUserState('com_users.registration.data', []);
 
             // Don't load the data in this getForm call, or we'll call ourself
-            $form = $this->getForm(array(), false);
+            $form = $this->getForm([], false);
 
             foreach ($temp as $k => $v) {
                 // Here we could have a grouped field, let's check it
-                if (is_array($v)) {
+                if (\is_array($v)) {
                     $this->data->$k = new \stdClass();
 
                     foreach ($v as $key => $val) {
@@ -287,7 +295,7 @@ class RegistrationModel extends FormModel
             }
 
             // Get the groups the user should be added to after registration.
-            $this->data->groups = array();
+            $this->data->groups = [];
 
             // Get the default new user group, guest or public group if not specified.
             $system = $params->get('new_usertype', $params->get('guest_usergroup', 1));
@@ -301,7 +309,7 @@ class RegistrationModel extends FormModel
             PluginHelper::importPlugin('user');
 
             // Trigger the data preparation event.
-            Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.registration', $this->data));
+            Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.registration', $this->data]);
         }
 
         return $this->data;
@@ -320,10 +328,10 @@ class RegistrationModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.registration', 'registration', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.registration', 'registration', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -331,7 +339,7 @@ class RegistrationModel extends FormModel
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         return $form;
@@ -394,7 +402,7 @@ class RegistrationModel extends FormModel
     protected function populateState()
     {
         // Get the application object.
-        $app = Factory::getApplication();
+        $app    = Factory::getApplication();
         $params = $app->getParams('com_users');
 
         // Load the parameters.
@@ -425,15 +433,15 @@ class RegistrationModel extends FormModel
         }
 
         // Prepare the data for the user object.
-        $data['email'] = PunycodeHelper::emailToPunycode($data['email1']);
+        $data['email']    = PunycodeHelper::emailToPunycode($data['email1']);
         $data['password'] = $data['password1'];
-        $useractivation = $params->get('useractivation');
-        $sendpassword = $params->get('sendpassword', 1);
+        $useractivation   = $params->get('useractivation');
+        $sendpassword     = $params->get('sendpassword', 1);
 
         // Check if the user needs to activate their account.
         if (($useractivation == 1) || ($useractivation == 2)) {
             $data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
-            $data['block'] = 1;
+            $data['block']      = 1;
         }
 
         // Bind the data.
@@ -453,16 +461,16 @@ class RegistrationModel extends FormModel
             return false;
         }
 
-        $app = Factory::getApplication();
-        $db = $this->getDatabase();
+        $app   = Factory::getApplication();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Compile the notification mail values.
-        $data = $user->getProperties();
+        $data             = $user->getProperties();
         $data['fromname'] = $app->get('fromname');
         $data['mailfrom'] = $app->get('mailfrom');
         $data['sitename'] = $app->get('sitename');
-        $data['siteurl'] = Uri::root();
+        $data['siteurl']  = Uri::root();
 
         // Handle account activation/confirmation emails.
         if ($useractivation == 2) {
@@ -504,6 +512,7 @@ class RegistrationModel extends FormModel
             $mailer = new MailTemplate($mailtemplate, $app->getLanguage()->getTag());
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
+            $mailer->addUnsafeTags(['username', 'password_clear', 'name']);
             $return = $mailer->send();
         } catch (\Exception $exception) {
             try {
@@ -523,7 +532,7 @@ class RegistrationModel extends FormModel
         if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1)) {
             // Get all admin users
             $query->clear()
-                ->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+                ->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
                 ->from($db->quoteName('#__users'))
                 ->where($db->quoteName('sendEmail') . ' = 1')
                 ->where($db->quoteName('block') . ' = 0');
@@ -540,7 +549,7 @@ class RegistrationModel extends FormModel
 
             // Send mail to all superadministrators id
             foreach ($rows as $row) {
-                $usercreator = Factory::getUser($row->id);
+                $usercreator = $this->getUserFactory()->loadUserById($row->id);
 
                 if (!$usercreator->authorise('core.create', 'com_users') || !$usercreator->authorise('core.manage', 'com_users')) {
                     continue;
@@ -550,6 +559,7 @@ class RegistrationModel extends FormModel
                     $mailer = new MailTemplate('com_users.registration.admin.new_notification', $app->getLanguage()->getTag());
                     $mailer->addTemplateData($data);
                     $mailer->addRecipient($row->email);
+                    $mailer->addUnsafeTags(['username', 'name']);
                     $return = $mailer->send();
                 } catch (\Exception $exception) {
                     try {
@@ -593,7 +603,7 @@ class RegistrationModel extends FormModel
                 return false;
             }
 
-            if (count($userids) > 0) {
+            if (\count($userids) > 0) {
                 $jdate     = new Date();
                 $dateToSql = $jdate->toSql();
                 $subject   = Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT');
@@ -635,10 +645,12 @@ class RegistrationModel extends FormModel
 
         if ($useractivation == 1) {
             return 'useractivate';
-        } elseif ($useractivation == 2) {
-            return 'adminactivate';
-        } else {
-            return $user->id;
         }
+
+        if ($useractivation == 2) {
+            return 'adminactivate';
+        }
+
+        return $user->id;
     }
 }

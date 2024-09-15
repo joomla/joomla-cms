@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
 
-use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
@@ -94,7 +93,7 @@ class FeedTest extends UnitTestCase
      */
     public function testMagicGetterWithValue()
     {
-        $value = 'test';
+        $value                 = 'test';
         $this->feed->testValue = $value;
 
         $this->assertEquals($value, $this->feed->testValue);
@@ -123,7 +122,7 @@ class FeedTest extends UnitTestCase
      */
     public function testMagicSetUpdatedDateWithDateObject()
     {
-        $date = new Date('October 12, 2011');
+        $date                    = new Date('October 12, 2011');
         $this->feed->updatedDate = $date;
 
         $updatedDate = $this->feed->updatedDate;
@@ -140,7 +139,7 @@ class FeedTest extends UnitTestCase
      */
     public function testSetAuthorWithNameAndEmail()
     {
-        $name = 'Brian Kernighan';
+        $name  = 'Brian Kernighan';
         $email = 'brian@example.com';
 
         $this->feed->setAuthor($name, $email);
@@ -160,8 +159,8 @@ class FeedTest extends UnitTestCase
      */
     public function testSetAuthorWithPerson()
     {
-        $name = 'Brian Kernighan';
-        $email = 'brian@example.com';
+        $name   = 'Brian Kernighan';
+        $email  = 'brian@example.com';
         $person = new FeedPerson($name, $email);
 
         $this->feed->author = $person;
@@ -181,7 +180,7 @@ class FeedTest extends UnitTestCase
      */
     public function testSetAuthorWithInvalidAuthor()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feed->author = 'Jack Sprat';
     }
 
@@ -194,7 +193,7 @@ class FeedTest extends UnitTestCase
      */
     public function testSetCategoriesWithInvalidProperty()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feed->categories = 'Can\'t touch this';
     }
 
@@ -207,7 +206,7 @@ class FeedTest extends UnitTestCase
      */
     public function testSetContributorsWithInvalidProperty()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feed->contributors = 'Can\'t touch this';
     }
 
@@ -220,7 +219,7 @@ class FeedTest extends UnitTestCase
      */
     public function testMagicSetter()
     {
-        $value = 'test';
+        $value                 = 'test';
         $this->feed->testValue = $value;
 
         $this->assertEquals($value, $this->feed->testValue);
@@ -236,7 +235,7 @@ class FeedTest extends UnitTestCase
     public function testAddSingleCategory()
     {
         $name = 'category';
-        $uri = 'http://www.example.com';
+        $uri  = 'http://www.example.com';
         $this->feed->addCategory($name, $uri);
 
         $categories = $this->feed->categories;
@@ -282,7 +281,7 @@ class FeedTest extends UnitTestCase
      */
     public function testAddNewContributor()
     {
-        $name = 'Dennis Ritchie';
+        $name  = 'Dennis Ritchie';
         $email = 'dennis.ritchie@example.com';
 
         $this->feed->addContributor($name, $email);
@@ -302,7 +301,7 @@ class FeedTest extends UnitTestCase
      */
     public function testAddExistingContributor()
     {
-        $name = 'Dennis Ritchie';
+        $name  = 'Dennis Ritchie';
         $email = 'dennis.ritchie@example.com';
 
         $this->feed->addContributor($name, $email);
@@ -386,8 +385,8 @@ class FeedTest extends UnitTestCase
      */
     public function testAddMultipleEntries()
     {
-        $feedEntry1 = $this->createMock(FeedEntry::class);
-        $feedEntry2 = $this->createMock(FeedEntry::class);
+        $feedEntry1       = $this->createMock(FeedEntry::class);
+        $feedEntry2       = $this->createMock(FeedEntry::class);
         $feedEntry2->name = 'name2';
 
         $this->feed->addEntry($feedEntry1);
@@ -439,7 +438,7 @@ class FeedTest extends UnitTestCase
      */
     public function testOffsetSetWithString()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feed->offsetSet(1, 'My string');
     }
 
@@ -487,7 +486,7 @@ class FeedTest extends UnitTestCase
     public function testRemoveCategory()
     {
         $name = 'category';
-        $uri = 'http://www.example.com';
+        $uri  = 'http://www.example.com';
 
         $this->feed->addCategory($name, $uri);
         $this->feed->removeCategory($name);
@@ -506,7 +505,7 @@ class FeedTest extends UnitTestCase
      */
     public function testRemoveContributor()
     {
-        $name = 'Dennis Ritchie';
+        $name  = 'Dennis Ritchie';
         $email = 'dennis.ritchie@example.com';
 
         $feedPerson = new FeedPerson($name, $email);

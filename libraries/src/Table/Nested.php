@@ -14,6 +14,10 @@ use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
@@ -86,7 +90,7 @@ class Nested extends Table
      * @var    array
      * @since  1.7.0
      */
-    protected $_cache = array();
+    protected $_cache = [];
 
     /**
      * Debug level
@@ -110,7 +114,7 @@ class Nested extends Table
      * @var    array
      * @since  3.7.0
      */
-    private $_validLocations = array('before', 'after', 'first-child', 'last-child');
+    private $_validLocations = ['before', 'after', 'first-child', 'last-child'];
 
     /**
      * Sets the debug level on or off
@@ -139,12 +143,12 @@ class Nested extends Table
      */
     public function getPath($pk = null, $diagnostic = false)
     {
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Get the path from the node to the root.
         $select = ($diagnostic) ? 'p.' . $k . ', p.parent_id, p.level, p.lft, p.rgt' : 'p.*';
-        $query = $this->_db->getQuery(true)
+        $query  = $this->_db->getQuery(true)
             ->select($select)
             ->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
             ->where('n.lft BETWEEN p.lft AND p.rgt')
@@ -169,12 +173,12 @@ class Nested extends Table
      */
     public function getTree($pk = null, $diagnostic = false)
     {
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Get the node and children as a tree.
         $select = ($diagnostic) ? 'n.' . $k . ', n.parent_id, n.level, n.lft, n.rgt' : 'n.*';
-        $query = $this->_db->getQuery(true)
+        $query  = $this->_db->getQuery(true)
             ->select($select)
             ->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
             ->where('n.lft BETWEEN p.lft AND p.rgt')
@@ -197,8 +201,8 @@ class Nested extends Table
      */
     public function isLeaf($pk = null)
     {
-        $k = $this->_tbl_key;
-        $pk = (\is_null($pk)) ? $this->$k : $pk;
+        $k    = $this->_tbl_key;
+        $pk   = (\is_null($pk)) ? $this->$k : $pk;
         $node = $this->_getNode($pk);
 
         // Get the node by primary key.
@@ -231,12 +235,12 @@ class Nested extends Table
         // Make sure the location is valid.
         if (!\in_array($position, $this->_validLocations)) {
             throw new \InvalidArgumentException(
-                sprintf('Invalid location "%1$s" given, valid values are %2$s', $position, implode(', ', $this->_validLocations))
+                \sprintf('Invalid location "%1$s" given, valid values are %2$s', $position, implode(', ', $this->_validLocations))
             );
         }
 
         // Set the location properties.
-        $this->_location = $position;
+        $this->_location    = $position;
         $this->_location_id = $referenceId;
     }
 
@@ -254,7 +258,7 @@ class Nested extends Table
      */
     public function move($delta, $where = '')
     {
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = $this->$k;
 
         $query = $this->_db->getQuery(true)
@@ -281,9 +285,9 @@ class Nested extends Table
 
         if ($referenceId) {
             return $this->moveByReference($referenceId, $position, $pk);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -305,7 +309,7 @@ class Nested extends Table
             echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
         }
 
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Get the node by id.
@@ -330,7 +334,7 @@ class Nested extends Table
         if (\in_array($referenceId, $children)) {
             $this->setError(
                 new \UnexpectedValueException(
-                    sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', \get_class($this), $pk)
+                    \sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', \get_class($this), $pk)
                 )
             );
 
@@ -444,7 +448,7 @@ class Nested extends Table
          * Calculate the offset between where the node used to be in the tree and
          * where it needs to be in the tree for left ids (also works for right ids).
          */
-        $offset = $repositionData->new_lft - $node->lft;
+        $offset      = $repositionData->new_lft - $node->lft;
         $levelOffset = $repositionData->new_level - $node->level;
 
         // Move the nodes back into position in the tree using the calculated offsets.
@@ -470,7 +474,7 @@ class Nested extends Table
                 $query->set('title = ' . $this->_db->quote($this->title));
             }
 
-            if (\array_key_exists('alias', $fields)  && $this->alias !== null) {
+            if (\array_key_exists('alias', $fields) && $this->alias !== null) {
                 $query->set('alias = ' . $this->_db->quote($this->alias));
             }
 
@@ -490,9 +494,9 @@ class Nested extends Table
 
         // Set the object values.
         $this->parent_id = $repositionData->new_parent_id;
-        $this->level = $repositionData->new_level;
-        $this->lft = $repositionData->new_lft;
-        $this->rgt = $repositionData->new_rgt;
+        $this->level     = $repositionData->new_level;
+        $this->lft       = $repositionData->new_lft;
+        $this->rgt       = $repositionData->new_rgt;
 
         return true;
     }
@@ -509,24 +513,22 @@ class Nested extends Table
      */
     public function delete($pk = null, $children = true)
     {
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Pre-processing by observers
         $event = new Event(
             'onBeforeDelete',
             [
-                'pk'    => $pk,
+                'pk' => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onBeforeDelete', $event);
 
         // If tracking assets, remove the asset first.
         if ($this->_trackAssets) {
-            $name = $this->_getAssetName();
-
-            /** @var Asset $asset */
-            $asset = Table::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+            $name  = $this->_getAssetName();
+            $asset = new Asset($this->getDbo(), $this->getDispatcher());
 
             if ($asset->loadByName($name)) {
                 // Delete the node in assets table.
@@ -627,7 +629,7 @@ class Nested extends Table
         $event = new Event(
             'onAfterDelete',
             [
-                'pk'    => $pk,
+                'pk' => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onAfterDelete', $event);
@@ -661,7 +663,7 @@ class Nested extends Table
         try {
             // Check that the parent_id field is valid.
             if ($this->parent_id == 0) {
-                throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new \UnexpectedValueException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
             }
 
             $query = $this->_db->getQuery(true)
@@ -670,7 +672,7 @@ class Nested extends Table
                 ->where($this->_tbl_key . ' = ' . $this->parent_id);
 
             if (!$this->_db->setQuery($query)->loadResult()) {
-                throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new \UnexpectedValueException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
             }
         } catch (\UnexpectedValueException $e) {
             // Validation error - record it and return false.
@@ -699,9 +701,9 @@ class Nested extends Table
         $event = AbstractEvent::create(
             'onTableBeforeStore',
             [
-                'subject'       => $this,
-                'updateNulls'   => $updateNulls,
-                'k'             => $k,
+                'subject'     => $this,
+                'updateNulls' => $updateNulls,
+                'k'           => $k,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeStore', $event);
@@ -779,12 +781,12 @@ class Nested extends Table
 
                 // Set the object values.
                 $this->parent_id = $repositionData->new_parent_id;
-                $this->level = $repositionData->new_level;
-                $this->lft = $repositionData->new_lft;
-                $this->rgt = $repositionData->new_rgt;
+                $this->level     = $repositionData->new_level;
+                $this->lft       = $repositionData->new_lft;
+                $this->rgt       = $repositionData->new_rgt;
             } else {
                 // Negative parent ids are invalid
-                $e = new \UnexpectedValueException(sprintf('%s::store() used a negative _location_id', \get_class($this)));
+                $e = new \UnexpectedValueException(\sprintf('%s::store() used a negative _location_id', \get_class($this)));
                 $this->setError($e);
 
                 return false;
@@ -814,7 +816,7 @@ class Nested extends Table
         // We do not want parent::store to update observers since tables are locked and we are updating it from this
         // level of store():
 
-        $oldDispatcher = clone $this->getDispatcher();
+        $oldDispatcher   = clone $this->getDispatcher();
         $blankDispatcher = new Dispatcher();
         $this->setDispatcher($blankDispatcher);
 
@@ -840,8 +842,8 @@ class Nested extends Table
         $event = AbstractEvent::create(
             'onTableAfterStore',
             [
-                'subject'   => $this,
-                'result'    => &$result,
+                'subject' => $this,
+                'result'  => &$result,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterStore', $event);
@@ -870,10 +872,11 @@ class Nested extends Table
     {
         $k = $this->_tbl_key;
 
-        $query     = $this->_db->getQuery(true);
-        $table     = $this->_db->quoteName($this->_tbl);
-        $published = $this->_db->quoteName($this->getColumnAlias('published'));
-        $key       = $this->_db->quoteName($k);
+        $query      = $this->_db->getQuery(true);
+        $table      = $this->_db->quoteName($this->_tbl);
+        $published  = $this->_db->quoteName($this->getColumnAlias('published'));
+        $checkedOut = $this->_db->quoteName($this->getColumnAlias('checked_out'));
+        $key        = $this->_db->quoteName($k);
 
         // Sanitize input.
         $pks    = ArrayHelper::toInteger($pks);
@@ -890,7 +893,7 @@ class Nested extends Table
                 $pks = explode(',', $this->$k);
             } else {
                 // Nothing to set publishing state on, return false.
-                $e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
+                $e = new \UnexpectedValueException(\sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
                 $this->setError($e);
 
                 return false;
@@ -915,13 +918,13 @@ class Nested extends Table
                     ->select('COUNT(' . $k . ')')
                     ->from($this->_tbl)
                     ->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt)
-                    ->where('(checked_out <> 0 AND checked_out <> ' . (int) $userId . ')');
+                    ->where('(' . $checkedOut . ' <> 0 AND ' . $checkedOut . ' <> ' . (int) $userId . ')');
                 $this->_db->setQuery($query);
 
                 // Check for checked out children.
                 if ($this->_db->loadResult()) {
                     // @todo Convert to a conflict exception when available.
-                    $e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
+                    $e = new \RuntimeException(\sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
 
                     $this->setError($e);
 
@@ -946,7 +949,7 @@ class Nested extends Table
 
                 if ($this->_db->loadResult()) {
                     $e = new \UnexpectedValueException(
-                        sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', \get_class($this), $pks[0], $state, $userId)
+                        \sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', \get_class($this), $pks[0], $state, $userId)
                     );
                     $this->setError($e);
 
@@ -984,7 +987,7 @@ class Nested extends Table
      */
     public function orderUp($pk)
     {
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Lock the table for writing.
@@ -1061,7 +1064,7 @@ class Nested extends Table
      */
     public function orderDown($pk)
     {
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Lock the table for writing.
@@ -1190,7 +1193,7 @@ class Nested extends Table
             }
         }
 
-        $e = new \UnexpectedValueException(sprintf('%s::getRootId', \get_class($this)));
+        $e = new \UnexpectedValueException(\sprintf('%s::getRootId', \get_class($this)));
         $this->setError($e);
         self::$root_id = false;
 
@@ -1244,7 +1247,7 @@ class Nested extends Table
         // Make a shortcut to database object.
 
         // Assemble the query to find all children of this node.
-        $this->_db->setQuery(sprintf($this->_cache['rebuild.sql'], (int) $parentId));
+        $this->_db->setQuery(\sprintf($this->_cache['rebuild.sql'], (int) $parentId));
 
         $children = $this->_db->loadObjectList();
 
@@ -1299,7 +1302,7 @@ class Nested extends Table
             return true;
         }
 
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Get the aliases for the path from the node to the root node.
@@ -1385,9 +1388,9 @@ class Nested extends Table
                 }
 
                 return $this->rebuild();
-            } else {
-                return false;
             }
+
+            return false;
         } catch (\Exception $e) {
             $this->_unlock();
             throw $e;
@@ -1521,7 +1524,7 @@ class Nested extends Table
 
         // Check for no $row returned
         if (empty($row)) {
-            $e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
+            $e = new \UnexpectedValueException(\sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
             $this->setError($e);
 
             return false;
@@ -1529,7 +1532,7 @@ class Nested extends Table
 
         // Do some simple calculations.
         $row->numChildren = (int) ($row->rgt - $row->lft - 1) / 2;
-        $row->width = (int) $row->rgt - $row->lft + 1;
+        $row->width       = (int) $row->rgt - $row->lft + 1;
 
         return $row;
     }
@@ -1562,50 +1565,50 @@ class Nested extends Table
             return false;
         }
 
-        $k = $this->_tbl_key;
+        $k    = $this->_tbl_key;
         $data = new \stdClass();
 
         // Run the calculations and build the data object by reference position.
         switch ($position) {
             case 'first-child':
-                $data->left_where = 'lft > ' . $referenceNode->lft;
+                $data->left_where  = 'lft > ' . $referenceNode->lft;
                 $data->right_where = 'rgt >= ' . $referenceNode->lft;
 
-                $data->new_lft = $referenceNode->lft + 1;
-                $data->new_rgt = $referenceNode->lft + $nodeWidth;
+                $data->new_lft       = $referenceNode->lft + 1;
+                $data->new_rgt       = $referenceNode->lft + $nodeWidth;
                 $data->new_parent_id = $referenceNode->$k;
-                $data->new_level = $referenceNode->level + 1;
+                $data->new_level     = $referenceNode->level + 1;
                 break;
 
             case 'last-child':
-                $data->left_where = 'lft > ' . ($referenceNode->rgt);
+                $data->left_where  = 'lft > ' . ($referenceNode->rgt);
                 $data->right_where = 'rgt >= ' . ($referenceNode->rgt);
 
-                $data->new_lft = $referenceNode->rgt;
-                $data->new_rgt = $referenceNode->rgt + $nodeWidth - 1;
+                $data->new_lft       = $referenceNode->rgt;
+                $data->new_rgt       = $referenceNode->rgt + $nodeWidth - 1;
                 $data->new_parent_id = $referenceNode->$k;
-                $data->new_level = $referenceNode->level + 1;
+                $data->new_level     = $referenceNode->level + 1;
                 break;
 
             case 'before':
-                $data->left_where = 'lft >= ' . $referenceNode->lft;
+                $data->left_where  = 'lft >= ' . $referenceNode->lft;
                 $data->right_where = 'rgt >= ' . $referenceNode->lft;
 
-                $data->new_lft = $referenceNode->lft;
-                $data->new_rgt = $referenceNode->lft + $nodeWidth - 1;
+                $data->new_lft       = $referenceNode->lft;
+                $data->new_rgt       = $referenceNode->lft + $nodeWidth - 1;
                 $data->new_parent_id = $referenceNode->parent_id;
-                $data->new_level = $referenceNode->level;
+                $data->new_level     = $referenceNode->level;
                 break;
 
             default:
             case 'after':
-                $data->left_where = 'lft > ' . $referenceNode->rgt;
+                $data->left_where  = 'lft > ' . $referenceNode->rgt;
                 $data->right_where = 'rgt > ' . $referenceNode->rgt;
 
-                $data->new_lft = $referenceNode->rgt + 1;
-                $data->new_rgt = $referenceNode->rgt + $nodeWidth;
+                $data->new_lft       = $referenceNode->rgt + 1;
+                $data->new_rgt       = $referenceNode->rgt + $nodeWidth;
                 $data->new_parent_id = $referenceNode->parent_id;
-                $data->new_level = $referenceNode->level;
+                $data->new_level     = $referenceNode->level;
                 break;
         }
 
@@ -1631,7 +1634,7 @@ class Nested extends Table
      */
     protected function _logtable($showData = true, $showQuery = true)
     {
-        $sep = "\n" . str_pad('', 40, '-');
+        $sep    = "\n" . str_pad('', 40, '-');
         $buffer = '';
 
         if ($showQuery) {
@@ -1646,11 +1649,11 @@ class Nested extends Table
             $this->_db->setQuery($query);
 
             $rows = $this->_db->loadRowList();
-            $buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $this->_tbl_key, 'par', 'lft', 'rgt');
+            $buffer .= \sprintf("\n| %4s | %4s | %4s | %4s |", $this->_tbl_key, 'par', 'lft', 'rgt');
             $buffer .= $sep;
 
             foreach ($rows as $row) {
-                $buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $row[0], $row[1], $row[2], $row[3]);
+                $buffer .= \sprintf("\n| %4s | %4s | %4s | %4s |", $row[0], $row[1], $row[2], $row[3]);
             }
 
             $buffer .= $sep;

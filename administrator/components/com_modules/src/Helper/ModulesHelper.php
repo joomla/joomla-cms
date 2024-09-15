@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Modules component helper.
  *
@@ -31,7 +35,7 @@ abstract class ModulesHelper
     public static function getStateOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
         $options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
@@ -48,7 +52,7 @@ abstract class ModulesHelper
     public static function getClientOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
@@ -78,7 +82,7 @@ abstract class ModulesHelper
 
         try {
             $positions = $db->loadColumn();
-            $positions = is_array($positions) ? $positions : array();
+            $positions = \is_array($positions) ? $positions : [];
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -86,7 +90,7 @@ abstract class ModulesHelper
         }
 
         // Build the list
-        $options = array();
+        $options = [];
 
         foreach ($positions as $position) {
             if (!$position && !$editPositions) {
@@ -164,15 +168,15 @@ abstract class ModulesHelper
 
         $db->setQuery($query);
         $modules = $db->loadObjectList();
-        $lang = Factory::getLanguage();
+        $lang    = Factory::getLanguage();
 
-        foreach ($modules as $i => $module) {
+        foreach ($modules as $module) {
             $extension = $module->value;
-            $path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-            $source = $path . "/modules/$extension";
-                $lang->load("$extension.sys", $path)
-            ||  $lang->load("$extension.sys", $source);
-            $modules[$i]->text = Text::_($module->text);
+            $path      = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $source    = $path . "/modules/$extension";
+            $lang->load("$extension.sys", $path)
+            || $lang->load("$extension.sys", $source);
+            $module->text = Text::_($module->text);
         }
 
         $modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);
@@ -189,7 +193,7 @@ abstract class ModulesHelper
      */
     public static function getAssignmentOptions($clientId)
     {
-        $options = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
         $options[] = HTMLHelper::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
@@ -223,25 +227,25 @@ abstract class ModulesHelper
         // Only load the template's language file if it hasn't been already
         if (!$loaded) {
             $lang->load('tpl_' . $template . '.sys', $path, null, false, false)
-            ||  $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
-            ||  $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
-            ||  $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+            || $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
+            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
         }
 
         $langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
-        $text = Text::_($langKey);
+        $text    = Text::_($langKey);
 
         // Avoid untranslated strings
         if (!self::isTranslatedText($langKey, $text)) {
             // Modules component translation
             $langKey = strtoupper('COM_MODULES_POSITION_' . $position);
-            $text = Text::_($langKey);
+            $text    = Text::_($langKey);
 
             // Avoid untranslated strings
             if (!self::isTranslatedText($langKey, $text)) {
                 // Try to humanize the position name
                 $text = ucfirst(preg_replace('/^' . $template . '\-/', '', $position));
-                $text = ucwords(str_replace(array('-', '_'), ' ', $text));
+                $text = ucwords(str_replace(['-', '_'], ' ', $text));
             }
         }
 
@@ -279,7 +283,7 @@ abstract class ModulesHelper
             $text = $value;
         }
 
-        $option = new \stdClass();
+        $option        = new \stdClass();
         $option->value = $value;
         $option->text  = $text;
 
@@ -296,9 +300,9 @@ abstract class ModulesHelper
      *
      * @since   3.0
      */
-    public static function createOptionGroup($label = '', $options = array())
+    public static function createOptionGroup($label = '', $options = [])
     {
-        $group = array();
+        $group          = [];
         $group['value'] = $label;
         $group['text']  = $label;
         $group['items'] = $options;

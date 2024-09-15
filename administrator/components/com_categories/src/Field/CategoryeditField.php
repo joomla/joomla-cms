@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Category Edit field..
  *
@@ -57,7 +61,7 @@ class CategoryeditField extends ListField
     protected $layout = 'joomla.form.field.categoryedit';
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -75,7 +79,7 @@ class CategoryeditField extends ListField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->allowAdd = isset($this->element['allowAdd']) ? (bool) $this->element['allowAdd'] : false;
+            $this->allowAdd     = isset($this->element['allowAdd']) ? (bool) $this->element['allowAdd'] : false;
             $this->customPrefix = (string) $this->element['customPrefix'];
         }
 
@@ -119,7 +123,7 @@ class CategoryeditField extends ListField
 
         switch ($name) {
             case 'allowAdd':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
             case 'customPrefix':
@@ -141,23 +145,22 @@ class CategoryeditField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
-        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array(0, 1);
-        $name = (string) $this->element['name'];
+        $options   = [];
+        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1];
+        $name      = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
 
         // Load the category options for a given extension.
 
         // For categories the old category is the category id or 0 for new category.
         if ($this->element['parent'] || $jinput->get('option') == 'com_categories') {
-            $oldCat = $jinput->get('id', 0);
+            $oldCat    = $jinput->get('id', 0);
             $oldParent = $this->form->getValue($name, 0);
             $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
-        } else // For items the old category is the category they are in when opened or 0 if new.
-        {
-            $oldCat = $this->form->getValue($name, 0);
+        } else { // For items the old category is the category they are in when opened or 0 if new.
+            $oldCat    = $this->form->getValue($name, 0);
             $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
         }
 
@@ -167,7 +170,7 @@ class CategoryeditField extends ListField
             : (int) $oldCat;
 
         $db   = $this->getDatabase();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $query = $db->getQuery(true)
             ->select(
@@ -239,23 +242,23 @@ class CategoryeditField extends ListField
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
-        for ($i = 0, $n = \count($options); $i < $n; $i++) {
+        foreach ($options as $option) {
             // Translate ROOT
             if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories') {
-                if ($options[$i]->level == 0) {
-                    $options[$i]->text = Text::_('JGLOBAL_ROOT_PARENT');
+                if ($option->level == 0) {
+                    $option->text = Text::_('JGLOBAL_ROOT_PARENT');
                 }
             }
 
-            if ($options[$i]->published == 1) {
-                $options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . $options[$i]->text;
+            if ($option->published == 1) {
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
             } else {
-                $options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . '[' . $options[$i]->text . ']';
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '[' . $option->text . ']';
             }
 
             // Displays language code if not set to All
-            if ($options[$i]->language !== '*') {
-                $options[$i]->text = $options[$i]->text . ' (' . $options[$i]->language . ')';
+            if ($option->language !== '*') {
+                $option->text .= ' (' . $option->language . ')';
             }
         }
 
@@ -328,7 +331,7 @@ class CategoryeditField extends ListField
             $row = $db->loadObject();
 
             if ($row->parent_id == '1') {
-                $parent = new \stdClass();
+                $parent       = new \stdClass();
                 $parent->text = Text::_('JGLOBAL_ROOT_PARENT');
                 array_unshift($options, $parent);
             }

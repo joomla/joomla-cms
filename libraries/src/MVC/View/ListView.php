@@ -9,12 +9,17 @@
 
 namespace Joomla\CMS\MVC\View;
 
-use Joomla\CMS\Factory;
+use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a Joomla List View
@@ -42,14 +47,14 @@ class ListView extends HtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
     /**
      * The actions the user is authorised to perform
      *
-     * @var  CMSObject
+     * @var  Registry
      */
     protected $canDo;
 
@@ -133,7 +138,8 @@ class ListView extends HtmlView
         }
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-        $this->canDo = new CMSObject();
+        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
+        $this->canDo = new CanDo();
     }
 
     /**
@@ -169,17 +175,17 @@ class ListView extends HtmlView
     protected function initializeView()
     {
         $componentName = substr($this->option, 4);
-        $helperClass = ucfirst($componentName . 'Helper');
+        $helperClass   = ucfirst($componentName . 'Helper');
 
         // Include the component helpers.
         \JLoader::register($helperClass, JPATH_COMPONENT . '/helpers/' . $componentName . '.php');
 
         if ($this->getLayout() !== 'modal') {
             if (\is_callable($helperClass . '::addSubmenu')) {
-                \call_user_func(array($helperClass, 'addSubmenu'), $this->getName());
+                \call_user_func([$helperClass, 'addSubmenu'], $this->getName());
             }
 
-            $this->sidebar = \JHtmlSidebar::render();
+            $this->sidebar = HTMLHelper::_('sidebar.render');
         }
 
         $this->items         = $this->get('Items');
@@ -199,13 +205,13 @@ class ListView extends HtmlView
     protected function addToolbar()
     {
         $canDo = $this->canDo;
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $bar = Toolbar::getInstance('toolbar');
+        $bar = $this->getDocument()->getToolbar();
 
-        $viewName = $this->getName();
-        $singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
+        $viewName         = $this->getName();
+        $singularViewName = InflectorFactory::create()->build()->singularize($viewName);
 
         ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
 
@@ -241,12 +247,18 @@ class ListView extends HtmlView
             // Instantiate a new LayoutFile instance and render the popup button
             $layout = new FileLayout('joomla.toolbar.popup');
 
-            $dhtml = $layout->render(array('title' => $title));
+            $dhtml = $layout->render(['title' => $title]);
             $bar->appendButton('Custom', $dhtml, 'batch');
         }
 
-        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_EMPTY_TRASH');
+        if (
+            $canDo->get('core.delete') &&
+            (
+                $this->state->get('filter.state') == -2 ||
+                $this->state->get('filter.published') == -2
+            )
+        ) {
+            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_DELETE_FROM_TRASH');
         } elseif ($canDo->get('core.edit.state')) {
             ToolbarHelper::trash($viewName . '.trash');
         }

@@ -14,6 +14,10 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Modules\Administrator\Model\SelectModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The modules view
  *
@@ -132,6 +136,6 @@ class JsonapiView extends BaseApiView
 
         $this->fieldsToRenderList = ['id', 'name', 'module', 'xml', 'desc'];
 
-        return parent::displayList($items);
+        return $this->displayList($items);
     }
 }

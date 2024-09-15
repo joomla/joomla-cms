@@ -25,6 +25,10 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Profile model class for Users.
  *
@@ -41,19 +45,19 @@ class ProfileModel extends FormModel
     /**
      * Constructor.
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config = array_merge(
-            array(
-                'events_map' => array('validate' => 'user')
-            ),
+            [
+                'events_map' => ['validate' => 'user'],
+            ],
             $config
         );
 
@@ -80,10 +84,10 @@ class ProfileModel extends FormModel
             $this->data = new User($userId);
 
             // Set the base user data.
-            $this->data->email1 = $this->data->get('email');
+            $this->data->email1 = $this->data->email;
 
             // Override the base user data with any data in the session.
-            $temp = (array) Factory::getApplication()->getUserState('com_users.edit.profile.data', array());
+            $temp = (array) Factory::getApplication()->getUserState('com_users.edit.profile.data', []);
 
             foreach ($temp as $k => $v) {
                 $this->data->$k = $v;
@@ -112,10 +116,10 @@ class ProfileModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.profile', 'profile', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -123,10 +127,11 @@ class ProfileModel extends FormModel
 
         // Check for username compliance and parameter set
         $isUsernameCompliant = true;
-        $username = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
+        $username            = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
 
         if ($username) {
-            $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
+            $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username)
+                || \strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
                 || trim($username) !== $username);
         }
 
@@ -144,11 +149,11 @@ class ProfileModel extends FormModel
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         // If the user needs to change their password, mark the password fields as required
-        if (Factory::getUser()->requireReset) {
+        if ($this->getCurrentUser()->requireReset) {
             $form->setFieldAttribute('password1', 'required', 'true');
             $form->setFieldAttribute('password2', 'required', 'true');
         }
@@ -190,7 +195,7 @@ class ProfileModel extends FormModel
         if (ComponentHelper::getParams('com_users')->get('frontend_userparams')) {
             $form->loadFile('frontend', false);
 
-            if (Factory::getUser()->authorise('core.login.admin')) {
+            if ($this->getCurrentUser()->authorise('core.login.admin')) {
                 $form->loadFile('frontend_admin', false);
             }
         }
@@ -215,7 +220,7 @@ class ProfileModel extends FormModel
 
         // Get the user id.
         $userId = Factory::getApplication()->getUserState('com_users.edit.profile.id');
-        $userId = !empty($userId) ? $userId : (int) Factory::getUser()->get('id');
+        $userId = !empty($userId) ? $userId : (int) $this->getCurrentUser()->id;
 
         // Set the user id.
         $this->setState('user.id', $userId);
@@ -276,7 +281,7 @@ class ProfileModel extends FormModel
         }
 
         // Destroy all active sessions for the user after changing the password
-        if ($data['password']) {
+        if ($data['password1']) {
             UserHelper::destroyUserSessions($user->id, true);
         }
 
@@ -292,7 +297,9 @@ class ProfileModel extends FormModel
      * @return  array
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     *
+     * @deprecated   4.2 will be removed in 6.0.
+     *               Will be removed without replacement
      */
     public function getTwofactorform($userId = null)
     {
@@ -307,12 +314,14 @@ class ProfileModel extends FormModel
      * @return  \stdClass
      *
      * @since   3.2
-     * @deprecated 4.2.0  Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 6.0.
+     *               Will be removed without replacement
      */
     public function getOtpConfig($userId = null)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
                 __METHOD__
             ),

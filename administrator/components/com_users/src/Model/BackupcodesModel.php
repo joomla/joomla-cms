@@ -12,12 +12,14 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Model for managing backup codes
@@ -37,18 +39,17 @@ class BackupcodesModel extends BaseDatabaseModel
     /**
      * Get the backup codes record for the specified user
      *
-     * @param   User|null   $user   The user in question. Use null for the currently logged in user.
+     * @param   ?User  $user  The user in question. Use null for the currently logged in user.
      *
-     * @return  MfaTable|null  Record object or null if none is found
+     * @return  ?MfaTable  Record object or null if none is found
      * @throws  \Exception
      * @since 4.2.0
      */
-    public function getBackupCodesRecord(User $user = null): ?MfaTable
+    public function getBackupCodesRecord(?User $user = null): ?MfaTable
     {
         // Make sure I have a user
         if (empty($user)) {
-            $user = Factory::getApplication()->getIdentity() ?:
-                Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         /** @var MfaTable $record */
@@ -71,18 +72,17 @@ class BackupcodesModel extends BaseDatabaseModel
      * Generate a new set of backup codes for the specified user. The generated codes are immediately saved to the
      * database and the internal cache is updated.
      *
-     * @param   User|null   $user   Which user to generate codes for?
+     * @param   ?User  $user  Which user to generate codes for?
      *
      * @return void
      * @throws \Exception
      * @since 4.2.0
      */
-    public function regenerateBackupCodes(User $user = null): void
+    public function regenerateBackupCodes(?User $user = null): void
     {
         // Make sure I have a user
         if (empty($user)) {
-            $user = Factory::getApplication()->getIdentity() ?:
-                Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         // Generate backup codes
@@ -90,7 +90,7 @@ class BackupcodesModel extends BaseDatabaseModel
 
         for ($i = 0; $i < 10; $i++) {
             // Each backup code is 2 groups of 4 digits
-            $backupCodes[$i] = sprintf('%04u%04u', random_int(0, 9999), random_int(0, 9999));
+            $backupCodes[$i] = \sprintf('%04u%04u', random_int(0, 9999), random_int(0, 9999));
         }
 
         // Save the backup codes to the database and update the cache
@@ -100,8 +100,8 @@ class BackupcodesModel extends BaseDatabaseModel
     /**
      * Saves the backup codes to the database
      *
-     * @param   array       $codes   An array of exactly 10 elements
-     * @param   User|null   $user    The user for which to save the backup codes
+     * @param   array  $codes   An array of exactly 10 elements
+     * @param   ?User  $user    The user for which to save the backup codes
      *
      * @return  boolean
      * @throws  \Exception
@@ -111,8 +111,7 @@ class BackupcodesModel extends BaseDatabaseModel
     {
         // Make sure I have a user
         if (empty($user)) {
-            $user = Factory::getApplication()->getIdentity() ?:
-                Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         // Try to load existing backup codes
@@ -122,12 +121,12 @@ class BackupcodesModel extends BaseDatabaseModel
         /** @var MfaTable $record */
         $record = $this->getTable('Mfa', 'Administrator');
 
-        if (is_null($existingCodes)) {
+        if (\is_null($existingCodes)) {
             $record->reset();
 
             $newData = [
                 'user_id'    => $user->id,
-                'title'      => Text::_('COM_USERS_PROFILE_OTEPS'),
+                'title'      => Text::_('COM_USERS_USER_BACKUPCODES'),
                 'method'     => 'backupcodes',
                 'default'    => 0,
                 'created_on' => $jNow->toSql(),
@@ -162,18 +161,17 @@ class BackupcodesModel extends BaseDatabaseModel
      * Returns the backup codes for the specified user. Cached values will be preferentially returned, therefore you
      * MUST go through this model's Methods ONLY when dealing with backup codes.
      *
-     * @param   User|null   $user   The user for which you want the backup codes
+     * @param   ?User  $user  The user for which you want the backup codes
      *
-     * @return  array|null  The backup codes, or null if they do not exist
+     * @return  ?array  The backup codes, or null if they do not exist
      * @throws  \Exception
      * @since 4.2.0
      */
-    public function getBackupCodes(User $user = null): ?array
+    public function getBackupCodes(?User $user = null): ?array
     {
         // Make sure I have a user
         if (empty($user)) {
-            $user = Factory::getApplication()->getIdentity() ?:
-                Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         if (isset($this->cache[$user->id])) {
@@ -204,8 +202,8 @@ class BackupcodesModel extends BaseDatabaseModel
      * Check if the provided string is a backup code. If it is, it will be removed from the list (replaced with an empty
      * string) and the codes will be saved to the database. All comparisons are performed in a timing safe manner.
      *
-     * @param   string      $code   The code to check
-     * @param   User|null   $user   The user to check against
+     * @param   string  $code   The code to check
+     * @param   ?User   $user   The user to check against
      *
      * @return  boolean
      * @throws  \Exception
@@ -229,20 +227,20 @@ class BackupcodesModel extends BaseDatabaseModel
         $newArray   = [];
         $dummyArray = [];
 
-        $realLength = count($codes);
+        $realLength = \count($codes);
         $restLength = 10 - $realLength;
 
-        for ($i = 0; $i < $realLength; $i++) {
-            if (hash_equals($codes[$i], $code)) {
+        foreach ($codes as $value) {
+            if (hash_equals($value, $code)) {
                 // This may seem redundant but makes sure both branches of the if-block are isochronous
                 $result       = $result || true;
                 $newArray[]   = '';
-                $dummyArray[] = $codes[$i];
+                $dummyArray[] = $value;
             } else {
                 // This may seem redundant but makes sure both branches of the if-block are isochronous
                 $result       = $result || false;
                 $dummyArray[] = '';
-                $newArray[]   = $codes[$i];
+                $newArray[]   = $value;
             }
         }
 

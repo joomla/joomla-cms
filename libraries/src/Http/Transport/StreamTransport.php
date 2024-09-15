@@ -19,6 +19,10 @@ use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
 use Laminas\Diactoros\Stream as StreamResponse;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTTP transport class for using PHP streams.
  *
@@ -44,12 +48,12 @@ class StreamTransport extends AbstractTransport implements TransportInterface
     public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
     {
         // Create the stream context options array with the required method offset.
-        $options = array('method' => strtoupper($method));
+        $options = ['method' => strtoupper($method)];
 
         // If data exists let's encode it and make sure our Content-Type header is set.
         if (isset($data)) {
             // If the data is a scalar value simply add it to the stream context options.
-            if (is_scalar($data)) {
+            if (\is_scalar($data)) {
                 $options['content'] = $data;
             } else {
                 // Otherwise we need to encode the value first.
@@ -81,7 +85,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         $options['follow_location'] = (int) $this->getOption('follow_location', 1);
 
         // Set any custom transport options
-        foreach ($this->getOption('transport.stream', array()) as $key => $value) {
+        foreach ($this->getOption('transport.stream', []) as $key => $value) {
             $options[$key] = $value;
         }
 
@@ -89,7 +93,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         $app = Factory::getApplication();
 
         if ($app->get('proxy_enable')) {
-            $options['proxy'] = $app->get('proxy_host') . ':' . $app->get('proxy_port');
+            $options['proxy']           = $app->get('proxy_host') . ':' . $app->get('proxy_port');
             $options['request_fulluri'] = true;
 
             // Put any required authorization into the headers array to be handled later
@@ -102,7 +106,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         }
 
         // Build the headers string for the request.
-        $headerEntries = array();
+        $headerEntries = [];
 
         if (isset($headers)) {
             foreach ($headers as $key => $value) {
@@ -121,15 +125,15 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 
         // Create the stream context for the request.
         $context = stream_context_create(
-            array(
+            [
                 'http' => $options,
-                'ssl' => array(
+                'ssl'  => [
                     'verify_peer'      => true,
                     'cafile'           => $this->getOption('stream.certpath', CaBundle::getBundledCaBundlePath()),
                     'verify_depth'     => 5,
                     'verify_peer_name' => true,
-                ),
-            )
+                ],
+            ]
         );
 
         // Authentication, if needed
@@ -139,27 +143,24 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         }
 
         // Capture PHP errors
-        $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
-        ini_set('track_errors', true);
+        // PHP sends a warning if the uri does not exist; we silence it and throw an exception instead.
+        set_error_handler(static function ($errno, $err) {
+            throw new \Exception($err);
+        }, \E_WARNING);
 
-        // Open the stream for reading.
-        $stream = @fopen((string) $uri, 'r', false, $context);
+        try {
+            // Open the stream for reading.
+            $stream = fopen((string) $uri, 'r', false, $context);
 
-        if (!$stream) {
-            if (!$php_errormsg) {
+            if (!$stream) {
                 // Error but nothing from php? Create our own
-                $php_errormsg = sprintf('Could not connect to resource: %s', $uri);
+                throw new \Exception(\sprintf('Could not connect to resource: %s', $uri));
             }
-
-            // Restore error tracking to give control to the exception handler
-            ini_set('track_errors', $track_errors);
-
-            throw new \RuntimeException($php_errormsg);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e->getMessage());
+        } finally {
+            restore_error_handler();
         }
-
-        // Restore error tracking to what it was before.
-        ini_set('track_errors', $track_errors);
 
         // Get the metadata for the stream, including response headers.
         $metadata = stream_get_meta_data($stream);
@@ -175,7 +176,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         } elseif (isset($metadata['wrapper_data'])) {
             $headers = $metadata['wrapper_data'];
         } else {
-            $headers = array();
+            $headers = [];
         }
 
         return $this->getResponse($headers, $content);
@@ -221,6 +222,6 @@ class StreamTransport extends AbstractTransport implements TransportInterface
      */
     public static function isSupported()
     {
-        return \function_exists('fopen') && \is_callable('fopen') && ini_get('allow_url_fopen');
+        return \function_exists('fopen') && \is_callable('fopen') && \ini_get('allow_url_fopen');
     }
 }

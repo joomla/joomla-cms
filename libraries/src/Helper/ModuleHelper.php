@@ -12,8 +12,8 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Module;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -21,7 +21,12 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Module helper class
@@ -36,23 +41,22 @@ abstract class ModuleHelper
      * @param   string  $name   The name of the module
      * @param   string  $title  The title of the module, optional
      *
-     * @return  \stdClass  The Module object
+     * @return  \stdClass|null  The Module object
      *
      * @since   1.5
      */
     public static function &getModule($name, $title = null)
     {
-        $result = null;
+        $result  = null;
         $modules =& static::load();
-        $total = \count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the name of the module
-            if ($modules[$i]->name === $name || $modules[$i]->module === $name) {
+            if ($module->name === $name || $module->module === $name) {
                 // Match the title if we're looking for a specific instance of the module
-                if (!$title || $modules[$i]->title === $title) {
+                if (!$title || $module->title === $title) {
                     // Found it
-                    $result = &$modules[$i];
+                    $result = $module;
                     break;
                 }
             }
@@ -60,7 +64,7 @@ abstract class ModuleHelper
 
         // If we didn't find it, and the name is mod_something, create a dummy object
         if ($result === null && strpos($name, 'mod_') === 0) {
-            $result = static::createDummyModule();
+            $result         = static::createDummyModule();
             $result->module = $name;
         }
 
@@ -79,23 +83,22 @@ abstract class ModuleHelper
     public static function &getModules($position)
     {
         $position = strtolower($position);
-        $result   = array();
-        $input    = Factory::getApplication()->input;
+        $result   = [];
+        $input    = Factory::getApplication()->getInput();
         $modules  = &static::load();
-        $total    = \count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
-            if ($modules[$i]->position === $position) {
-                $result[] = &$modules[$i];
+        foreach ($modules as $module) {
+            if ($module->position === $position) {
+                $result[] = $module;
             }
         }
 
         // Prepend a dummy module for template preview if no module is published in the position
         if (empty($result) && $input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) {
-            $dummy = static::createDummyModule();
-            $dummy->title = $position;
-            $dummy->position = $position;
-            $dummy->content = $position;
+            $dummy                  = static::createDummyModule();
+            $dummy->title           = $position;
+            $dummy->position        = $position;
+            $dummy->content         = $position;
             $dummy->contentRendered = true;
 
             array_unshift($result, $dummy);
@@ -133,17 +136,17 @@ abstract class ModuleHelper
      *
      * @since   1.5
      */
-    public static function renderModule($module, $attribs = array())
+    public static function renderModule($module, $attribs = [])
     {
         $app = Factory::getApplication();
 
         // Check that $module is a valid module object
         if (!\is_object($module) || !isset($module->module) || !isset($module->params)) {
             if (JDEBUG) {
-                Log::addLogger(array('text_file' => 'jmodulehelper.log.php'), Log::ALL, array('modulehelper'));
+                Log::addLogger(['text_file' => 'jmodulehelper.log.php'], Log::ALL, ['modulehelper']);
                 $app->getLogger()->debug(
                     __METHOD__ . '() - The $module parameter should be a module object.',
-                    array('category' => 'modulehelper')
+                    ['category' => 'modulehelper']
                 );
             }
 
@@ -170,6 +173,7 @@ abstract class ModuleHelper
 
         // Set scope to component name
         $app->scope = $module->module;
+        $dispatcher = $app->getDispatcher();
 
         // Get the template
         $template = $app->getTemplate();
@@ -195,27 +199,37 @@ abstract class ModuleHelper
         }
 
         // Dynamically add outline style
-        if ($app->input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) {
+        if ($app->getInput()->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) {
             $attribs['style'] .= ' outline';
         }
 
         $module->style = $attribs['style'];
 
         // If the $module is nulled it will return an empty content, otherwise it will render the module normally.
-        $app->triggerEvent('onRenderModule', array(&$module, &$attribs));
+        $brEvent = $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
+            'subject'    => $module,
+            'attributes' => &$attribs, // @todo: Remove reference in Joomla 6, see BeforeRenderModuleEvent::__constructor()
+        ]));
+        // Get final attributes
+        $attribs = $brEvent->getArgument('attributes', $attribs);
 
-        if ($module === null || !isset($module->content)) {
+        if (!isset($module->content)) {
             return '';
         }
 
-        $displayData = array(
+        // Prevent double modification of the module content by chrome style
+        $module = clone $module;
+
+        $displayData = [
             'module'  => $module,
             'params'  => $params,
             'attribs' => $attribs,
-        );
+        ];
 
         foreach (explode(' ', $attribs['style']) as $style) {
-            if ($moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath)) {
+            $moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath);
+
+            if ($moduleContent) {
                 $module->content = $moduleContent;
             }
         }
@@ -223,7 +237,10 @@ abstract class ModuleHelper
         // Revert the scope
         $app->scope = $scope;
 
-        $app->triggerEvent('onAfterRenderModule', array(&$module, &$attribs));
+        $dispatcher->dispatch('onAfterRenderModule', new Module\AfterRenderModuleEvent('onAfterRenderModule', [
+            'subject'    => $module,
+            'attributes' => $attribs,
+        ]));
 
         if (JDEBUG) {
             Profiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
@@ -243,7 +260,7 @@ abstract class ModuleHelper
      *
      * @since   4.0.0
      */
-    public static function renderRawModule($module, Registry $params, $attribs = array())
+    public static function renderRawModule($module, Registry $params, $attribs = [])
     {
         if (!empty($module->contentRendered)) {
             return $module->content;
@@ -304,9 +321,9 @@ abstract class ModuleHelper
 
         if (strpos($layout, ':') !== false) {
             // Get the template and file name from the string
-            $temp = explode(':', $layout);
-            $template = $temp[0] === '_' ? $template : $temp[0];
-            $layout = $temp[1];
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $template : $temp[0];
+            $layout        = $temp[1];
             $defaultLayout = $temp[1] ?: 'default';
         }
 
@@ -353,22 +370,27 @@ abstract class ModuleHelper
             return $modules;
         }
 
-        $app = Factory::getApplication();
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        $modules    = [];
 
-        $modules = null;
-
-        $app->triggerEvent('onPrepareModuleList', array(&$modules));
+        $modules = $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see PrepareModuleListEvent::__constructor()
+        ]))->getArgument('modules', $modules);
 
         // If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
-        if (!\is_array($modules)) {
+        if (!$modules) {
             $modules = static::getModuleList();
         }
 
-        $app->triggerEvent('onAfterModuleList', array(&$modules));
+        $modules = $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterModuleListEvent::__constructor()
+        ]))->getArgument('modules', $modules);
 
         $modules = static::cleanModuleList($modules);
 
-        $app->triggerEvent('onAfterCleanModuleList', array(&$modules));
+        $modules = $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterCleanModuleListEvent::__constructor()
+        ]))->getArgument('modules', $modules);
 
         return $modules;
     }
@@ -381,7 +403,7 @@ abstract class ModuleHelper
     public static function getModuleList()
     {
         $app      = Factory::getApplication();
-        $itemId   = $app->input->getInt('Itemid', 0);
+        $itemId   = $app->getInput()->getInt('Itemid', 0);
         $groups   = $app->getIdentity()->getAuthorisedViewLevels();
         $clientId = (int) $app->getClientId();
 
@@ -460,14 +482,14 @@ abstract class ModuleHelper
             $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
                 ->createCacheController('callback', ['defaultgroup' => 'com_modules']);
 
-            $modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
+            $modules = $cache->get([$db, 'loadObjectList'], [], md5($cacheId), false);
         } catch (\RuntimeException $e) {
             $app->getLogger()->warning(
                 Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
-                array('category' => 'jerror')
+                ['category' => 'jerror']
             );
 
-            return array();
+            return [];
         }
 
         return $modules;
@@ -483,10 +505,10 @@ abstract class ModuleHelper
     public static function cleanModuleList($modules)
     {
         // Apply negative selections and eliminate duplicates
-        $Itemid = Factory::getApplication()->input->getInt('Itemid');
-        $negId = $Itemid ? -(int) $Itemid : false;
-        $clean = array();
-        $dupes = array();
+        $Itemid = Factory::getApplication()->getInput()->getInt('Itemid');
+        $negId  = $Itemid ? -(int) $Itemid : false;
+        $clean  = [];
+        $dupes  = [];
 
         foreach ($modules as $i => $module) {
             // The module is excluded if there is an explicit prohibition
@@ -509,8 +531,8 @@ abstract class ModuleHelper
                 continue;
             }
 
-            $module->name = substr($module->module, 4);
-            $module->style = null;
+            $module->name     = substr($module->module, 4);
+            $module->style    = null;
             $module->position = strtolower($module->position);
 
             $clean[$module->id] = $module;
@@ -564,24 +586,24 @@ abstract class ModuleHelper
 
         // Turn cache off for internal callers if parameters are set to off and for all logged in users
         $ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
-        $cacheDisabled = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
+        $cacheDisabled    = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
 
-        if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id')) {
+        if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->id) {
             $cache->setCaching(false);
         }
 
         // Module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
         $cache->setLifeTime($moduleparams->get('cache_time', $app->get('cachetime') * 60) / 60);
 
-        $wrkaroundoptions = array('nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1);
+        $wrkaroundoptions = ['nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1];
 
-        $wrkarounds = true;
+        $wrkarounds  = true;
         $view_levels = md5(serialize($user->getAuthorisedViewLevels()));
 
         switch ($cacheparams->cachemode) {
             case 'id':
                 $ret = $cache->get(
-                    array($cacheparams->class, $cacheparams->method),
+                    [$cacheparams->class, $cacheparams->method],
                     $cacheparams->methodparams,
                     $cacheparams->modeparams . $cacheparams->cachesuffix,
                     $wrkarounds,
@@ -590,12 +612,11 @@ abstract class ModuleHelper
                 break;
 
             case 'safeuri':
-                $secureid = null;
+                $safeuri = new \stdClass();
 
                 if (\is_array($cacheparams->modeparams)) {
-                    $input   = $app->input;
-                    $uri     = $input->getArray();
-                    $safeuri = new \stdClass();
+                    $input        = $app->getInput();
+                    $uri          = $input->getArray();
                     $noHtmlFilter = InputFilter::getInstance();
 
                     foreach ($cacheparams->modeparams as $key => $value) {
@@ -606,9 +627,9 @@ abstract class ModuleHelper
                     }
                 }
 
-                $secureid = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
-                $ret = $cache->get(
-                    array($cacheparams->class, $cacheparams->method),
+                $secureid = md5(serialize([$safeuri, $cacheparams->method, $moduleparams]));
+                $ret      = $cache->get(
+                    [$cacheparams->class, $cacheparams->method],
                     $cacheparams->methodparams,
                     $module->id . $view_levels . $secureid . $cacheparams->cachesuffix,
                     $wrkarounds,
@@ -618,7 +639,7 @@ abstract class ModuleHelper
 
             case 'static':
                 $ret = $cache->get(
-                    array($cacheparams->class, $cacheparams->method),
+                    [$cacheparams->class, $cacheparams->method],
                     $cacheparams->methodparams,
                     $module->module . md5(serialize($cacheparams->methodparams)) . $cacheparams->cachesuffix,
                     $wrkarounds,
@@ -629,9 +650,9 @@ abstract class ModuleHelper
             case 'itemid':
             default:
                 $ret = $cache->get(
-                    array($cacheparams->class, $cacheparams->method),
+                    [$cacheparams->class, $cacheparams->method],
                     $cacheparams->methodparams,
-                    $module->id . $view_levels . $app->input->getInt('Itemid', null) . $cacheparams->cachesuffix,
+                    $module->id . $view_levels . $app->getInput()->getInt('Itemid', null) . $cacheparams->cachesuffix,
                     $wrkarounds,
                     $wrkaroundoptions
                 );
@@ -672,13 +693,11 @@ abstract class ModuleHelper
     {
         $modules =& static::load();
 
-        $total = \count($modules);
-
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the id of the module
-            if ((string) $modules[$i]->id === $id) {
+            if ((string) $module->id === $id) {
                 // Found it
-                return $modules[$i];
+                return $module;
             }
         }
 

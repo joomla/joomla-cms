@@ -13,6 +13,10 @@ namespace Joomla\Component\Privacy\Api\Controller;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Privacy\Api\View\Requests\JsonapiView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The requests controller
  *

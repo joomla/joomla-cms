@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\HtmlDocument;
@@ -26,8 +25,12 @@ use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper functions for captive MFA handling
@@ -61,7 +64,7 @@ abstract class Mfa
      * @param   User  $user  The user we are going to show the configuration UI for.
      *
      * @return  string|null  The HTML of the UI; null if we cannot / must not show it.
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public static function getConfigurationInterface(User $user): ?string
@@ -74,7 +77,7 @@ abstract class Mfa
         /** @var CMSApplication $app */
         $app = Factory::getApplication();
 
-        if (!$app->input->getCmd('option', '') === 'com_users') {
+        if ($app->getInput()->getCmd('option', '') !== 'com_users') {
             $app->getLanguage()->load('com_users');
             $app->getDocument()
                 ->getWebAssetManager()
@@ -106,10 +109,11 @@ abstract class Mfa
         $view->setModel($methodsModel, true);
         /** @noinspection PhpParamsInspection */
         $view->setModel($backupCodesModel);
-        $view->document  = $app->getDocument();
+        $view->setDocument($app->getDocument());
         $view->returnURL = base64_encode(Uri::getInstance()->toString());
         $view->user      = $user;
         $view->set('forHMVC', true);
+        $view->setLanguage($app->getLanguage());
 
         @ob_start();
 
@@ -125,7 +129,7 @@ abstract class Mfa
              * Global Configuration and you can see the error exception which will help you solve
              * your problem.
              */
-            if (defined('JDEBUG') && JDEBUG) {
+            if (\defined('JDEBUG') && JDEBUG) {
                 throw $e;
             }
 
@@ -145,7 +149,7 @@ abstract class Mfa
     {
         PluginHelper::importPlugin('multifactorauth');
 
-        if (is_null(self::$allMFAs)) {
+        if (\is_null(self::$allMFAs)) {
             // Get all the plugin results
             $event = new GetMethod();
             $temp  = Factory::getApplication()
@@ -157,7 +161,7 @@ abstract class Mfa
             self::$allMFAs = [];
 
             foreach ($temp as $method) {
-                if (!is_array($method) && !($method instanceof MethodDescriptor)) {
+                if (!\is_array($method) && !($method instanceof MethodDescriptor)) {
                     continue;
                 }
 
@@ -185,21 +189,21 @@ abstract class Mfa
      * @param   User|null  $user  The user you want to know if we're allowed to edit
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public static function canAddEditMethod(?User $user = null): bool
     {
         // Cannot do MFA operations on no user or a guest user.
-        if (is_null($user) || $user->guest) {
+        if (\is_null($user) || $user->guest) {
             return false;
         }
 
         // If the user is in a user group which disallows MFA we cannot allow adding / editing methods.
         $neverMFAGroups = ComponentHelper::getParams('com_users')->get('neverMFAUserGroups', []);
-        $neverMFAGroups = is_array($neverMFAGroups) ? $neverMFAGroups : [];
+        $neverMFAGroups = \is_array($neverMFAGroups) ? $neverMFAGroups : [];
 
-        if (count(array_intersect($user->getAuthorisedGroups(), $neverMFAGroups))) {
+        if (\count(array_intersect($user->getAuthorisedGroups(), $neverMFAGroups))) {
             return false;
         }
 
@@ -224,13 +228,13 @@ abstract class Mfa
      * @param   User|null  $user  The user being queried.
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public static function canDeleteMethod(?User $user = null): bool
     {
         // Cannot do MFA operations on no user or a guest user.
-        if (is_null($user) || $user->guest) {
+        if (\is_null($user) || $user->guest) {
             return false;
         }
 
@@ -247,7 +251,7 @@ abstract class Mfa
      * @param   int|null  $userId  User ID. NULL for currently logged in user.
      *
      * @return  MfaTable[]
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -258,8 +262,8 @@ abstract class Mfa
             $userId = $user->id ?: 0;
         }
 
-        /** @var DatabaseDriver $db */
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__user_mfa'))
@@ -268,7 +272,7 @@ abstract class Mfa
 
         try {
             $ids = $db->setQuery($query)->loadColumn() ?: [];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $ids = [];
         }
 
@@ -297,7 +301,7 @@ abstract class Mfa
         $records = array_filter(
             $records,
             function ($record) use (&$hasBackupCodes) {
-                $isValid = !is_null($record) && (!empty($record->options));
+                $isValid = !\is_null($record) && (!empty($record->options));
 
                 if ($isValid && ($record->method === 'backupcodes')) {
                     $hasBackupCodes = true;
@@ -308,7 +312,7 @@ abstract class Mfa
         );
 
         // If the only Method is backup codes it's as good as having no records
-        if ((count($records) === 1) && $hasBackupCodes) {
+        if ((\count($records) === 1) && $hasBackupCodes) {
             return [];
         }
 
@@ -321,7 +325,7 @@ abstract class Mfa
      * @param   User|null  $user  The user to be configured
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public static function canShowConfigurationInterface(?User $user = null): bool
@@ -334,7 +338,7 @@ abstract class Mfa
         // I need at least one MFA method plugin for the setup interface to make any sense.
         $plugins = PluginHelper::getPlugin('multifactorauth');
 
-        if (count($plugins) < 1) {
+        if (\count($plugins) < 1) {
             return false;
         }
 

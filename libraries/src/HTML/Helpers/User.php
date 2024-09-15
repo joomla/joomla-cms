@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class working with users
  *
@@ -34,15 +38,15 @@ abstract class User
     {
         $options = array_values(UserGroupsHelper::getInstance()->getAll());
 
-        for ($i = 0, $n = count($options); $i < $n; $i++) {
-            $options[$i]->value = $options[$i]->id;
-            $options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
-            $groups[] = HTMLHelper::_('select.option', $options[$i]->value, $options[$i]->text);
+        foreach ($options as $option) {
+            $option->value = $option->id;
+            $option->text  = str_repeat('- ', $option->level) . $option->title;
+            $groups[]      = HTMLHelper::_('select.option', $option->value, $option->text);
         }
 
         // Exclude super admin groups if requested
         if (!$includeSuperAdmin) {
-            $filteredGroups = array();
+            $filteredGroups = [];
 
             foreach ($groups as $group) {
                 if (!Access::checkGroup($group->value, 'core.admin')) {

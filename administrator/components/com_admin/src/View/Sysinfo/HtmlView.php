@@ -10,15 +10,17 @@
 
 namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
-use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Sysinfo View class for the Admin component
@@ -76,7 +78,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since   1.6
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {
@@ -108,16 +110,13 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         ToolbarHelper::title(Text::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-circle systeminfo');
-        ToolbarHelper::link(
-            Route::_('index.php?option=com_admin&view=sysinfo&format=text&' . Session::getFormToken() . '=1'),
-            'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT',
-            'download'
-        );
-        ToolbarHelper::link(
-            Route::_('index.php?option=com_admin&view=sysinfo&format=json&' . Session::getFormToken() . '=1'),
-            'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON',
-            'download'
-        );
-        ToolbarHelper::help('Site_System_Information');
+        $toolbar = $this->getDocument()->getToolbar();
+        $toolbar->linkButton('download', 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT')
+            ->url(Route::_('index.php?option=com_admin&view=sysinfo&format=text&' . Session::getFormToken() . '=1'));
+
+        $toolbar->linkButton('download', 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON')
+            ->url(Route::_('index.php?option=com_admin&view=sysinfo&format=json&' . Session::getFormToken() . '=1'));
+
+        $toolbar->help('Site_System_Information');
     }
 }

@@ -12,6 +12,10 @@ namespace Joomla\Module\Whosonline\Site\Helper;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_whosonline
  *
@@ -96,7 +100,7 @@ class WhosonlineHelper
             $groups = $user->getAuthorisedGroups();
 
             if (empty($groups)) {
-                return array();
+                return [];
             }
 
             $query->leftJoin($db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('a.userid'))
@@ -110,7 +114,7 @@ class WhosonlineHelper
         try {
             return (array) $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            return array();
+            return [];
         }
     }
 }

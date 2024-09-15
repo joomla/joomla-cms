@@ -9,10 +9,17 @@
 
 namespace Joomla\CMS\Component\Router;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Default routing class for missing or legacy component routers
  *
  * @since  3.3
+ * @deprecated  5.1 will be removed in 7.0
+ *              Will be removed without replacement. Use the class based router
+ *              implementing the RouterInterface
  */
 class RouterLegacy implements RouterInterface
 {
@@ -65,16 +72,15 @@ class RouterLegacy implements RouterInterface
 
         if (\function_exists($function)) {
             $segments = $function($query);
-            $total    = \count($segments);
 
-            for ($i = 0; $i < $total; $i++) {
-                $segments[$i] = str_replace(':', '-', $segments[$i]);
+            foreach ($segments as &$segment) {
+                $segment = str_replace(':', '-', $segment);
             }
 
             return $segments;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -91,15 +97,13 @@ class RouterLegacy implements RouterInterface
         $function = $this->component . 'ParseRoute';
 
         if (\function_exists($function)) {
-            $total = \count($segments);
-
-            for ($i = 0; $i < $total; $i++) {
-                $segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+            foreach ($segments as &$segment) {
+                $segment = preg_replace('/-/', ':', $segment, 1);
             }
 
             return $function($segments);
         }
 
-        return array();
+        return [];
     }
 }

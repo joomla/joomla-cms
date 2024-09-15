@@ -16,12 +16,16 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\UCM\UCMType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base feed View class for a category
  *
  * @since  3.2
  */
-class CategoryFeedView extends HtmlView
+class CategoryFeedView extends AbstractView
 {
     /**
      * Execute and display a template script.
@@ -36,28 +40,28 @@ class CategoryFeedView extends HtmlView
     public function display($tpl = null)
     {
         $app      = Factory::getApplication();
-        $document = Factory::getDocument();
+        $document = $this->getDocument();
 
-        $extension      = $app->input->getString('option');
-        $contentType = $extension . '.' . $this->viewName;
+        $extension      = $app->getInput()->getString('option');
+        $contentType    = $extension . '.' . $this->viewName;
 
-        $ucmType = new UCMType();
-        $ucmRow = $ucmType->getTypeByAlias($contentType);
+        $ucmType      = new UCMType();
+        $ucmRow       = $ucmType->getTypeByAlias($contentType);
         $ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
         $createdField = null;
-        $titleField = null;
+        $titleField   = null;
 
         if (\is_object($ucmMapCommon)) {
             $createdField = $ucmMapCommon->core_created_time;
-            $titleField = $ucmMapCommon->core_title;
+            $titleField   = $ucmMapCommon->core_title;
         } elseif (\is_array($ucmMapCommon)) {
             $createdField = $ucmMapCommon[0]->core_created_time;
-            $titleField = $ucmMapCommon[0]->core_title;
+            $titleField   = $ucmMapCommon[0]->core_title;
         }
 
-        $document->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+        $document->link = Route::_(RouteHelper::getCategoryRoute($app->getInput()->getInt('id'), $language = 0, $extension));
 
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail        = $app->get('mailfrom');
         $fromName         = $app->get('fromname');
         $feedEmail        = $app->get('feed_email', 'none');
@@ -70,6 +74,12 @@ class CategoryFeedView extends HtmlView
         // Get some data from the model
         $items    = $this->get('Items');
         $category = $this->get('Category');
+        $params   = $app->getParams();
+
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
 
         // Don't display feed if category id missing or non existent
         if ($category == false || $category->alias === 'root') {
@@ -81,8 +91,8 @@ class CategoryFeedView extends HtmlView
 
             // Strip html from feed item title
             if ($titleField) {
-                $title = $this->escape($item->$titleField);
-                $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+                $title = htmlspecialchars($item->$titleField, ENT_QUOTES, 'UTF-8');
+                $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
             } else {
                 $title = '';
             }
@@ -94,7 +104,7 @@ class CategoryFeedView extends HtmlView
             // Strip HTML from feed item description text.
             $description   = $item->description;
             $author        = $item->created_by_alias ?: $item->author;
-            $categoryTitle = isset($item->category_title) ? $item->category_title : $category->title;
+            $categoryTitle = $item->category_title ?? $category->title;
 
             if ($createdField) {
                 $date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';

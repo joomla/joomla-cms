@@ -4,22 +4,22 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Session;
 
-use InvalidArgumentException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\Handler;
 use Joomla\Session\HandlerInterface;
-use Memcached;
-use Redis;
-use RuntimeException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Factory for creating session API objects
@@ -54,7 +54,7 @@ class SessionFactory implements ContainerAwareInterface
         switch ($handlerType) {
             case 'apcu':
                 if (!Handler\ApcuHandler::isSupported()) {
-                    throw new RuntimeException('APCu is not supported on this system.');
+                    throw new \RuntimeException('APCu is not supported on this system.');
                 }
 
                 return new Handler\ApcuHandler();
@@ -65,7 +65,7 @@ class SessionFactory implements ContainerAwareInterface
             case 'filesystem':
             case 'none':
                 // Try to use a custom configured path, fall back to the path in the PHP runtime configuration
-                $path = $config->get('session_filesystem_path', ini_get('session.save_path'));
+                $path = $config->get('session_filesystem_path', \ini_get('session.save_path'));
 
                 // If we still have no path, as a last resort fall back to the system's temporary directory
                 if (empty($path)) {
@@ -76,13 +76,13 @@ class SessionFactory implements ContainerAwareInterface
 
             case 'memcached':
                 if (!Handler\MemcachedHandler::isSupported()) {
-                    throw new RuntimeException('Memcached is not supported on this system.');
+                    throw new \RuntimeException('Memcached is not supported on this system.');
                 }
 
                 $host = $config->get('session_memcached_server_host', 'localhost');
                 $port = $config->get('session_memcached_server_port', 11211);
 
-                $memcached = new Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
+                $memcached = new \Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
                 $memcached->addServer($host, $port);
 
                 ini_set('session.save_path', "$host:$port");
@@ -92,10 +92,10 @@ class SessionFactory implements ContainerAwareInterface
 
             case 'redis':
                 if (!Handler\RedisHandler::isSupported()) {
-                    throw new RuntimeException('Redis is not supported on this system.');
+                    throw new \RuntimeException('Redis is not supported on this system.');
                 }
 
-                $redis = new Redis();
+                $redis = new \Redis();
                 $host  = $config->get('session_redis_server_host', '127.0.0.1');
 
                 // Use default port if connecting over a socket whatever the config value
@@ -125,16 +125,8 @@ class SessionFactory implements ContainerAwareInterface
 
                 return new Handler\RedisHandler($redis, ['ttl' => $options['expire']]);
 
-            case 'wincache':
-                // @TODO Remove WinCache with Joomla 5.0
-                if (!Handler\WincacheHandler::isSupported()) {
-                    throw new RuntimeException('Wincache is not supported on this system.');
-                }
-
-                return new Handler\WincacheHandler();
-
             default:
-                throw new InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));
+                throw new \InvalidArgumentException(\sprintf('The "%s" session handler is not recognised.', $handlerType));
         }
     }
 

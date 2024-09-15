@@ -18,6 +18,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command to run scheduled tasks.
  *
@@ -85,7 +89,9 @@ class TasksRunCommand extends AbstractCommand
             $this->ioStyle->writeln('<error>No matching task found!</error>');
 
             return Status::NO_TASK;
-        } elseif (!$records) {
+        }
+
+        if (!$records) {
             $this->ioStyle->writeln('<error>No tasks due!</error>');
 
             return Status::NO_TASK;
@@ -101,7 +107,7 @@ class TasksRunCommand extends AbstractCommand
             $exit     = empty($task) ? Status::NO_RUN : $task->getContent()['status'];
             $duration = microtime(true) - $cStart;
             $key      = (\array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
-            $this->ioStyle->writeln(sprintf($outTextMap[$key], $record->id, $record->title, $duration, $exit));
+            $this->ioStyle->writeln(\sprintf($outTextMap[$key], $record->id, $record->title, $duration, $exit));
         }
 
         $netTime = round(microtime(true) - $status['startTime'], 2);

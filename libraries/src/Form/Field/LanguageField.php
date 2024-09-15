@@ -13,6 +13,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a list of installed application languages
@@ -33,7 +37,7 @@ class LanguageField extends ListField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   1.7.0
      */
@@ -65,27 +69,27 @@ class LanguageField extends ListField
         );
 
         // Set the default value active language
-        if ($langParams = ComponentHelper::getParams('com_languages')) {
-            switch ((string) $this->value) {
-                case 'site':
-                case 'frontend':
-                case '0':
-                    $this->value = $langParams->get('site', 'en-GB');
-                    break;
-                case 'admin':
-                case 'administrator':
-                case 'backend':
-                case '1':
-                    $this->value = $langParams->get('administrator', 'en-GB');
-                    break;
-                case 'active':
-                case 'auto':
-                    $lang = Factory::getLanguage();
-                    $this->value = $lang->getTag();
-                    break;
-                default:
-                    break;
-            }
+        $langParams = ComponentHelper::getParams('com_languages');
+
+        switch ((string) $this->value) {
+            case 'site':
+            case 'frontend':
+            case '0':
+                $this->value = $langParams->get('site', 'en-GB');
+                break;
+            case 'admin':
+            case 'administrator':
+            case 'backend':
+            case '1':
+                $this->value = $langParams->get('administrator', 'en-GB');
+                break;
+            case 'active':
+            case 'auto':
+                $lang        = Factory::getLanguage();
+                $this->value = $lang->getTag();
+                break;
+            default:
+                break;
         }
 
         return $options;

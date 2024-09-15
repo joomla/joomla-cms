@@ -10,17 +10,18 @@
 
 namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * MVC View for the Tasks list page.
@@ -49,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  4.1.0
      */
     protected $state;
@@ -95,6 +96,7 @@ class HtmlView extends BaseHtmlView
         $this->state         = $this->get('State');
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
+        $this->hasDueTasks   = $this->get('hasDueTasks');
 
         if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('empty_state');
@@ -105,10 +107,7 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        // We don't need toolbar in the modal window.
-        if ($this->getLayout() !== 'modal') {
-            $this->addToolbar();
-        }
+        $this->addToolbar();
 
         parent::display($tpl);
     }
@@ -123,14 +122,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $canDo = ContentHelper::getActions('com_scheduler');
-        $user  = Factory::getApplication()->getIdentity();
-
-        /*
-        * Get the toolbar object instance
-        * !! @todo : Replace usage with ToolbarFactoryInterface
-        */
-        $toolbar = Toolbar::getInstance();
+        $canDo   = ContentHelper::getActions('com_scheduler');
+        $user    = $this->getCurrentUser();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 
@@ -158,10 +152,10 @@ class HtmlView extends BaseHtmlView
                 $childBar->unpublish('tasks.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 
                 if ($canDo->get('core.admin')) {
-                    $childBar->checkin('tasks.checkin')->listCheck(true);
+                    $childBar->checkin('tasks.checkin');
                 }
 
-                $childBar->checkin('tasks.unlock', 'COM_SCHEDULER_TOOLBAR_UNLOCK')->listCheck(true)->icon('icon-unlock');
+                $childBar->checkin('tasks.unlock', 'COM_SCHEDULER_TOOLBAR_UNLOCK')->icon('icon-unlock');
 
                 // We don't want the batch Trash button if displayed entries are all trashed
                 if ($this->state->get('filter.state') != -2) {
@@ -172,9 +166,8 @@ class HtmlView extends BaseHtmlView
 
         // Add "Empty Trash" button if filtering by trashed.
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('tasks.delete')
+            $toolbar->delete('tasks.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
-                ->text('JTOOLBAR_EMPTY_TRASH')
                 ->listCheck(true);
         }
 

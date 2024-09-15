@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Media\Administrator\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event object for fetch media item.
  *
@@ -27,12 +31,12 @@ final class FetchMediaItemEvent extends AbstractMediaItemValidationEvent
      *
      * @since  4.1.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         parent::__construct($name, $arguments);
 
         // Check for required arguments
-        if (!\array_key_exists('item', $arguments) || !is_object($arguments['item'])) {
+        if (!\array_key_exists('item', $arguments) || !\is_object($arguments['item'])) {
             throw new \BadMethodCallException("Argument 'item' of event $name is not of the expected type");
         }
     }

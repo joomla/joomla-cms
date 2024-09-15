@@ -72,7 +72,7 @@ $lang     = Factory::getApplication()->getLanguage();
 $inputvalue = '';
 
 // Build the attributes array.
-$attributes = array();
+$attributes = [];
 
 empty($size)      ? null : $attributes['size'] = $size;
 empty($maxlength) ? null : $attributes['maxlength'] = $maxLength;

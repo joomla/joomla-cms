@@ -18,8 +18,12 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * View class for a list of template styles.
+ * View class for a list of templates.
  *
  * @since  1.6
  */
@@ -111,7 +115,7 @@ class HtmlView extends BaseHtmlView
         $this->pluginState   = PluginHelper::isEnabled('installer', 'override');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -131,9 +135,12 @@ class HtmlView extends BaseHtmlView
     {
         $canDo    = ContentHelper::getActions('com_templates');
         $clientId = (int) $this->get('State')->get('client_id');
+        $toolbar  = $this->getDocument()->getToolbar();
 
         // Add a shortcut to the styles list view.
-        ToolbarHelper::link('index.php?option=com_templates&view=styles&client_id=' . $clientId, 'COM_TEMPLATES_MANAGER_STYLES_BUTTON', 'brush thememanager');
+        $toolbar->linkButton('', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')
+            ->url('index.php?option=com_templates&view=styles&client_id=' . $clientId)
+            ->icon('icon-brush thememanager');
 
         // Set the title.
         if ($clientId === 1) {
@@ -143,10 +150,10 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_templates');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_templates');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Templates:_Templates');
+        $toolbar->help('Templates:_Templates');
     }
 }

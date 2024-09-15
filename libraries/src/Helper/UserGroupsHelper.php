@@ -12,6 +12,10 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper to deal with user groups.
  *
@@ -38,7 +42,7 @@ final class UserGroupsHelper
     /**
      * Singleton instance.
      *
-     * @var    array
+     * @var    UserGroupsHelper
      * @since  3.6.3
      */
     private static $instance;
@@ -49,7 +53,7 @@ final class UserGroupsHelper
      * @var    array
      * @since  3.6.3
      */
-    private $groups = array();
+    private $groups = [];
 
     /**
      * Mode this class is working: singleton or std instance
@@ -75,7 +79,7 @@ final class UserGroupsHelper
      *
      * @since   3.6.3
      */
-    public function __construct(array $groups = array(), $mode = self::MODE_INSTANCE)
+    public function __construct(array $groups = [], $mode = self::MODE_INSTANCE)
     {
         $this->mode = (int) $mode;
 
@@ -107,7 +111,7 @@ final class UserGroupsHelper
     {
         if (static::$instance === null) {
             // Only here to avoid code style issues...
-            $groups = array();
+            $groups = [];
 
             static::$instance = new static($groups, static::MODE_SINGLETON);
         }
@@ -248,7 +252,7 @@ final class UserGroupsHelper
      */
     public function loadAll()
     {
-        $this->groups = array();
+        $this->groups = [];
 
         $db = Factory::getDbo();
 
@@ -261,7 +265,7 @@ final class UserGroupsHelper
 
         $groups = $db->loadObjectList('id');
 
-        $this->groups = $groups ?: array();
+        $this->groups = $groups ?: [];
         $this->populateGroupsData();
 
         return $this;
@@ -301,7 +305,7 @@ final class UserGroupsHelper
         $parentId = (int) $group->parent_id;
 
         if ($parentId === 0) {
-            $group->path = array($group->id);
+            $group->path  = [$group->id];
             $group->level = 0;
 
             return $group;
@@ -313,7 +317,7 @@ final class UserGroupsHelper
             $parentGroup = $this->populateGroupData($parentGroup);
         }
 
-        $group->path = array_merge($parentGroup->path, array($group->id));
+        $group->path  = array_merge($parentGroup->path, [$group->id]);
         $group->level = \count($group->path) - 1;
 
         return $group;

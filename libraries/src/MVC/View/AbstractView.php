@@ -10,14 +10,21 @@
 namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a Joomla View
@@ -26,15 +33,25 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface
+#[\AllowDynamicProperties]
+abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
+    use LanguageAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait {
+        get as private legacyGet;
+    }
+
 
     /**
      * The active document object
      *
      * @var    Document
      * @since  3.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *             Use $this->getDocument() instead
      */
     public $document;
 
@@ -49,7 +66,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
     /**
      * The name of the view
      *
-     * @var    array
+     * @var    string
      * @since  3.0
      */
     protected $_name = null;
@@ -60,7 +77,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      * @var    array
      * @since  3.0
      */
-    protected $_models = array();
+    protected $_models = [];
 
     /**
      * The default model
@@ -84,7 +101,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @since   3.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         // Set the view name
         if (empty($this->_name)) {
@@ -143,8 +160,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             }
         }
 
-        // Degrade to CMSObject::get
-        return parent::get($property, $default);
+        return $this->legacyGet($property, $default);
     }
 
     /**
@@ -181,7 +197,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      */
     public function setModel($model, $default = false)
     {
-        $name = strtolower($model->getName());
+        $name                 = strtolower($model->getName());
         $this->_models[$name] = $model;
 
         if ($default) {
@@ -223,11 +239,67 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
+                throw new \Exception(\sprintf($this->getLanguage()->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
             }
         }
 
         return $this->_name;
+    }
+
+    /**
+     * Get the Document.
+     *
+     * @return  Document
+     *
+     * @since   4.4.0
+     * @throws  \UnexpectedValueException May be thrown if the document has not been set.
+     */
+    protected function getDocument(): Document
+    {
+        if ($this->document) {
+            return $this->document;
+        }
+
+        throw new \UnexpectedValueException('Document not set in ' . __CLASS__);
+    }
+
+    /**
+     * Set the document to use.
+     *
+     * @param   Document  $document  The document to use
+     *
+     * @return  void
+     *
+     * @since   4.4.0
+     */
+    public function setDocument(Document $document): void
+    {
+        $this->document = $document;
+    }
+
+    /**
+     * Get the event dispatcher.
+     *
+     * The override was made to keep a backward compatibility for legacy component.
+     * TODO: Remove the override in 6.0
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.4.0
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            @trigger_error(
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
+        return $this->dispatcher;
     }
 
     /**
@@ -238,13 +310,19 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      * @return  void
      *
      * @since   4.1.0
+     *
+     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
-        try {
-            $this->getDispatcher()->dispatch($event->getName(), $event);
-        } catch (\UnexpectedValueException $e) {
-            Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
-        }
+        $this->getDispatcher()->dispatch($event->getName(), $event);
+
+        @trigger_error(
+            \sprintf(
+                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
     }
 }

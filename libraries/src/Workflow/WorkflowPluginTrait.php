@@ -4,14 +4,16 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Object\CMSObject;
-use ReflectionClass;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait for component workflow plugins.
@@ -26,7 +28,7 @@ trait WorkflowPluginTrait
      * @param   Form      $form The form
      * @param   \stdClass $data The data
      *
-     * @return  boolean
+     * @return  boolean|\stdClass
      *
      * @since   4.0.0
      */
@@ -41,7 +43,11 @@ trait WorkflowPluginTrait
         }
 
         // Load XML file from "parent" plugin
-        $path = dirname((new ReflectionClass(static::class))->getFileName());
+        $path = \dirname((new \ReflectionClass(static::class))->getFileName());
+
+        if (!is_file($path . '/forms/action.xml')) {
+            $path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
+        }
 
         if (is_file($path . '/forms/action.xml')) {
             $form->loadFile($path . '/forms/action.xml');
@@ -53,21 +59,22 @@ trait WorkflowPluginTrait
     /**
      * Get the workflow for a given ID
      *
-     * @param   int|null $workflowId ID of the workflow
+     * @param   ?int  $workflowId ID of the workflow
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */
-    protected function getWorkflow(int $workflowId = null)
+    protected function getWorkflow(?int $workflowId = null)
     {
-        $workflowId = !empty($workflowId) ? $workflowId : $this->app->input->getInt('workflow_id');
+        $app        = $this->getApplication() ?? $this->app;
+        $workflowId = !empty($workflowId) ? $workflowId : $app->getInput()->getInt('workflow_id');
 
-        if (is_array($workflowId)) {
+        if (\is_array($workflowId)) {
             return false;
         }
 
-        return $this->app->bootComponent('com_workflow')
+        return $app->bootComponent('com_workflow')
             ->getMVCFactory()
             ->createModel('Workflow', 'Administrator', ['ignore_request' => true])
             ->getItem($workflowId);
@@ -96,8 +103,8 @@ trait WorkflowPluginTrait
      */
     protected function checkAllowedAndForbiddenlist($context)
     {
-        $allowedlist = \array_filter((array) $this->params->get('allowedlist', []));
-        $forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
+        $allowedlist   = array_filter((array) $this->params->get('allowedlist', []));
+        $forbiddenlist = array_filter((array) $this->params->get('forbiddenlist', []));
 
         if (!empty($allowedlist)) {
             foreach ($allowedlist as $allowed) {
@@ -130,7 +137,7 @@ trait WorkflowPluginTrait
     {
         $parts = explode('.', $context);
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = ($this->getApplication() ?? $this->app)->bootComponent($parts[0]);
 
         if (
             !$component instanceof WorkflowServiceInterface

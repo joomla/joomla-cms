@@ -15,6 +15,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field to load a list of all extensions that have logged actions
  *
@@ -48,7 +52,7 @@ class ExtensionField extends ListField
         $db->setQuery($query);
         $context = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         if (\count($context) > 0) {
             foreach ($context as $item) {

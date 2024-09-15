@@ -17,6 +17,10 @@ use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Featured View class
  *
@@ -36,7 +40,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item details
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    array
      *
      * @since  1.6.0
      */
@@ -95,16 +99,15 @@ class HtmlView extends BaseHtmlView
         $pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Prepare the data.
         // Compute the contact slug.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
-            $item       = &$items[$i];
-            $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-            $temp       = $item->params;
+        foreach ($items as $item) {
+            $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+            $temp         = $item->params;
             $item->params = clone $params;
             $item->params->merge($temp);
 
@@ -159,11 +162,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Log;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Log Class
  *
@@ -108,7 +112,7 @@ class Log
      * @var    array
      * @since  1.7.0
      */
-    protected $configurations = array();
+    protected $configurations = [];
 
     /**
      * Container for Logger objects.
@@ -116,7 +120,7 @@ class Log
      * @var    Logger[]
      * @since  1.7.0
      */
-    protected $loggers = array();
+    protected $loggers = [];
 
     /**
      * Lookup array for loggers.
@@ -124,7 +128,7 @@ class Log
      * @var    array
      * @since  1.7.0
      */
-    protected $lookup = array();
+    protected $lookup = [];
 
     /**
      * The registry of available loggers
@@ -157,7 +161,7 @@ class Log
      *
      * @since   1.7.0
      */
-    public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = array())
+    public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = [])
     {
         // Automatically instantiate the singleton object if not already done.
         if (empty(static::$instance)) {
@@ -184,7 +188,7 @@ class Log
      *
      * @since   1.7.0
      */
-    public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
+    public static function addLogger(array $options, $priorities = self::ALL, $categories = [], $exclude = false)
     {
         // Automatically instantiate the singleton object if not already done.
         if (empty(static::$instance)) {
@@ -228,7 +232,7 @@ class Log
      *
      * @since   1.7.0
      */
-    protected function addLoggerInternal(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
+    protected function addLoggerInternal(array $options, $priorities = self::ALL, $categories = [], $exclude = false)
     {
         // The default logger is the formatted text log file.
         if (empty($options['logger'])) {
@@ -241,10 +245,10 @@ class Log
         // Closure objects are not serializable so swap it out for a unique id first then back again later
         if (isset($options['callback'])) {
             if (is_a($options['callback'], 'closure')) {
-                $callback = $options['callback'];
+                $callback            = $options['callback'];
                 $options['callback'] = spl_object_hash($options['callback']);
             } elseif (\is_array($options['callback']) && \count($options['callback']) == 2 && \is_object($options['callback'][0])) {
-                $callback = $options['callback'];
+                $callback            = $options['callback'];
                 $options['callback'] = spl_object_hash($options['callback'][0]) . '::' . $options['callback'][1];
             }
         }
@@ -262,11 +266,11 @@ class Log
             $this->configurations[$signature] = $options;
         }
 
-        $this->lookup[$signature] = (object) array(
+        $this->lookup[$signature] = (object) [
             'priorities' => $priorities,
             'categories' => array_map('strtolower', (array) $categories),
-            'exclude' => (bool) $exclude,
-        );
+            'exclude'    => (bool) $exclude,
+        ];
     }
 
     /**
@@ -325,7 +329,7 @@ class Log
                     $class = $this->loggerRegistry->getLoggerClass($this->configurations[$signature]['logger']);
                 } else {
                     @trigger_error(
-                        sprintf(
+                        \sprintf(
                             'Attempting to automatically resolve loggers to the %s namespace is deprecated as of 4.0 and will be removed in 5.0.'
                             . ' Use the logger registry instead.',
                             __NAMESPACE__
@@ -360,7 +364,7 @@ class Log
      */
     protected function findLoggers($priority, $category)
     {
-        $loggers = array();
+        $loggers = [];
 
         // Sanitize inputs.
         $priority = (int) $priority;

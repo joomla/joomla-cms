@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Fields Subfields. Represents a list field with the options being all possible
  * custom field types, except the 'subform' custom field type.
@@ -51,7 +55,7 @@ class SubfieldsField extends ListField
      *
      * @since 4.0.0
      */
-    protected static $customFieldsCache = array();
+    protected static $customFieldsCache = [];
 
     /**
      * Method to get the field options.
@@ -71,11 +75,6 @@ class SubfieldsField extends ListField
 
         // Iterate over the custom fields for this context
         foreach (static::$customFieldsCache[$this->context] as $customField) {
-            // Skip our own subform type. We won't have subform in subform.
-            if ($customField->type == 'subform') {
-                continue;
-            }
-
             $options[] = HTMLHelper::_(
                 'select.option',
                 $customField->id,
@@ -91,7 +90,7 @@ class SubfieldsField extends ListField
             }
         );
 
-        if (count($options) == 0) {
+        if (\count($options) == 0) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'), 'warning');
         }
 
@@ -99,7 +98,7 @@ class SubfieldsField extends ListField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.

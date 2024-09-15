@@ -14,8 +14,12 @@ use Cron\CronExpression;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper class for supporting task execution rules.
@@ -100,7 +104,8 @@ class ExecRuleHelper
             case 'cron-expression':
                 // @todo: testing
                 $cExp     = new CronExpression((string) $this->rule->exp);
-                $nextExec = $cExp->getNextRunDate('now', 0, false, 'UTC');
+                $nextExec = $cExp->getNextRunDate('now', 0, false, Factory::getApplication()->get('offset', 'UTC'));
+                $nextExec->setTimezone(new \DateTimeZone('UTC'));
                 $nextExec = $string ? $this->dateTimeToSql($nextExec) : $nextExec;
                 break;
             default:
@@ -124,7 +129,7 @@ class ExecRuleHelper
     private function dateTimeToSql(\DateTime $dateTime): string
     {
         static $db;
-        $db = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
+        $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
 
         return $dateTime->format($db->getDateFormat());
     }

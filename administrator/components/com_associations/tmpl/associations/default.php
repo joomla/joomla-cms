@@ -10,29 +10,30 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
+/** @var Joomla\Component\Associations\Administrator\View\Associations\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_associations.admin-associations-default')
     ->useScript('table.columns')
     ->useScript('multiselect');
 
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
-$canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
+$canManageCheckin = $this->getCurrentUser()->authorise('core.manage', 'com_checkin');
 
-$iconStates = array(
+$iconStates = [
     -2 => 'icon-trash',
-    0  => 'icon-times',
-    1  => 'icon-check',
-    2  => 'icon-folder',
-);
+    0  => 'icon-unpublish',
+    1  => 'icon-publish',
+    2  => 'icon-archive',
+];
 
 Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 
@@ -41,7 +42,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if ($this->state->get('itemtype') == '' || $this->state->get('language') == '') : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -109,7 +110,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                                 <th scope="row" class="has-context">
                                     <div class="break-word">
                                         <?php if (isset($item->level)) : ?>
-                                            <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                                            <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                         <?php endif; ?>
                                         <?php if ($canCheckin && $isCheckout) : ?>
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>

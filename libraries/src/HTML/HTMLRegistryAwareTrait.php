@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\HTML;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Defines the trait for a HTML Registry aware class.
  *
@@ -44,13 +48,13 @@ trait HTMLRegistryAwareTrait
     /**
      * Set the registry to use.
      *
-     * @param   Registry  $registry  The registry
+     * @param   ?Registry  $registry  The registry
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function setRegistry(Registry $registry = null)
+    public function setRegistry(?Registry $registry = null)
     {
         $this->registry = $registry;
     }

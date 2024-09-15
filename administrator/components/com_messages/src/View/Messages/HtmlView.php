@@ -10,13 +10,15 @@
 
 namespace Joomla\Component\Messages\Administrator\View\Messages;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of messages.
@@ -42,7 +44,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -113,10 +115,10 @@ class HtmlView extends BaseHtmlView
     {
         $state = $this->get('State');
         $canDo = ContentHelper::getActions('com_messages');
-        $user  = Factory::getApplication()->getIdentity();
+        $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
@@ -148,12 +150,13 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $toolbar->appendButton('Link', 'cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config');
-        ToolbarHelper::divider();
+        $toolbar->linkButton('cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS')
+            ->url('index.php?option=com_messages&amp;view=config');
+        $toolbar->divider();
 
         if (!$this->isEmptyState && $this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
             $toolbar->delete('messages.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+                ->text('JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

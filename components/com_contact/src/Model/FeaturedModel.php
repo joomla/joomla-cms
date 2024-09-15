@@ -15,7 +15,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Featured contact model class.
@@ -31,10 +36,10 @@ class FeaturedModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'con_position', 'a.con_position',
@@ -42,7 +47,7 @@ class FeaturedModel extends ListModel
                 'state', 'a.state',
                 'country', 'a.country',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -59,9 +64,7 @@ class FeaturedModel extends ListModel
         $items = parent::getItems();
 
         // Convert the params field into an object, saving original in _params
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
-            $item = &$items[$i];
-
+        foreach ($items as $item) {
             if (!isset($this->_params)) {
                 $item->params = new Registry($item->params);
             }
@@ -73,13 +76,13 @@ class FeaturedModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  string    An SQL query
+     * @return  QueryInterface    An SQL query
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
-        $user = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = $user->getAuthorisedViewLevels();
 
         // Create a new query object.
@@ -156,36 +159,37 @@ class FeaturedModel extends ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app = Factory::getApplication();
+        $app    = Factory::getApplication();
+        $input  = $app->getInput();
         $params = ComponentHelper::getParams('com_contact');
 
         // List state information
         $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
         $this->setState('list.limit', $limit);
 
-        $limitstart = $app->input->get('limitstart', 0, 'uint');
+        $limitstart = $input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $limitstart);
 
         // Optional filter text
-        $this->setState('list.filter', $app->input->getString('filter-search'));
+        $this->setState('list.filter', $input->getString('filter-search'));
 
-        $orderCol = $app->input->get('filter_order', 'ordering');
+        $orderCol = $input->get('filter_order', 'ordering');
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
         }
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $app->input->get('filter_order_Dir', 'ASC');
+        $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
         $this->setState('list.direction', $listOrder);
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) {
             // Limit to published for people who can't edit or edit.state.

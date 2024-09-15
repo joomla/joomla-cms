@@ -15,8 +15,12 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit a user view level.
@@ -43,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      * @since 1.6
      */
     protected $state;
@@ -62,7 +66,7 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -80,41 +84,43 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $isNew = ($this->item->id == 0);
-        $canDo = ContentHelper::getActions('com_users');
+        $isNew   = ($this->item->id == 0);
+        $canDo   = ContentHelper::getActions('com_users');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'user-lock levels-add');
 
-        $toolbarButtons = [];
-
         if ($canDo->get('core.edit') || $canDo->get('core.create')) {
-            ToolbarHelper::apply('level.apply');
-            $toolbarButtons[] = ['save', 'level.save'];
+            $toolbar->apply('level.apply');
         }
 
-        if ($canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2new', 'level.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo, $isNew) {
+                if ($canDo->get('core.edit') || $canDo->get('core.create')) {
+                    $childBar->save('level.save');
+                }
 
-        // If an existing item, can save to a copy.
-        if (!$isNew && $canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2copy', 'level.save2copy'];
-        }
+                if ($canDo->get('core.create')) {
+                    $childBar->save2new('level.save2new');
+                }
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+                // If an existing item, can save to a copy.
+                if (!$isNew && $canDo->get('core.create')) {
+                    $childBar->save2copy('level.save2copy');
+                }
+            }
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('level.cancel');
+            $toolbar->cancel('level.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('level.cancel');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Users:_Edit_Viewing_Access_Level');
+        $toolbar->divider();
+        $toolbar->help('Users:_Edit_Viewing_Access_Level');
     }
 }

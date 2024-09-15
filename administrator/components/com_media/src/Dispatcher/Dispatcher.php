@@ -13,6 +13,10 @@ namespace Joomla\Component\Media\Administrator\Dispatcher;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * ComponentDispatcher class for com_media
  *
@@ -38,7 +42,7 @@ class Dispatcher extends ComponentDispatcher
             !$user->authorise('core.manage', 'com_media')
             && (!$asset || (!$user->authorise('core.edit', $asset)
             && !$user->authorise('core.create', $asset)
-            && count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
+            && \count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
             && !($user->id == $author && $user->authorise('core.edit.own', $asset)))
         ) {
             throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a text field telephone numbers.
@@ -46,7 +50,7 @@ class TelephoneField extends TextField
     protected function getInput()
     {
         // Trim the trailing line in the layout file
-        return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+        return rtrim($this->getRenderer($this->layout)->render($this->collectLayoutData()), PHP_EOL);
     }
 
     /**
@@ -63,9 +67,9 @@ class TelephoneField extends TextField
         // Initialize some field attributes.
         $maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
 
-        $extraData = array(
+        $extraData = [
             'maxLength' => $maxLength,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

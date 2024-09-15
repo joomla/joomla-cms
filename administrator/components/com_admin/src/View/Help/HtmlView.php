@@ -10,11 +10,14 @@
 
 namespace Joomla\Component\Admin\Administrator\View\Help;
 
-use Exception;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Admin\Administrator\Model\HelpModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Admin component
@@ -64,7 +67,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since   1.6
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {

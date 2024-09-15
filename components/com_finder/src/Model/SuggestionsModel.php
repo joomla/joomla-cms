@@ -15,9 +15,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Suggestions model class for the Finder package.
@@ -57,20 +61,20 @@ class SuggestionsModel extends ListModel
     /**
      * Method to build a database query to load the list data.
      *
-     * @return  DatabaseQuery  A database query
+     * @return  QueryInterface  A database query
      *
      * @since   2.5
      */
     protected function getListQuery()
     {
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
         $lang   = Helper::getPrimaryLanguage($this->getState('language'));
 
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db          = $this->getDatabase();
         $termIdQuery = $db->getQuery(true);
-        $termQuery = $db->getQuery(true);
+        $termQuery   = $db->getQuery(true);
 
         // Limit term count to a reasonable number of results to reduce main query join size
         $termIdQuery->select('ti.term_id')
@@ -84,7 +88,7 @@ class SuggestionsModel extends ListModel
         $termIds = $db->setQuery($termIdQuery, 0, 100)->loadColumn();
 
         // Early return on term mismatch
-        if (!count($termIds)) {
+        if (!\count($termIds)) {
             return $termIdQuery;
         }
 
@@ -147,10 +151,10 @@ class SuggestionsModel extends ListModel
     protected function populateState($ordering = null, $direction = null)
     {
         // Get the configuration options.
-        $app = Factory::getApplication();
-        $input = $app->input;
+        $app    = Factory::getApplication();
+        $input  = $app->getInput();
         $params = ComponentHelper::getParams('com_finder');
-        $user = Factory::getUser();
+        $user   = $this->getCurrentUser();
 
         // Get the query input.
         $this->setState('input', $input->request->get('q', '', 'string'));
@@ -172,6 +176,6 @@ class SuggestionsModel extends ListModel
         $this->setState('params', $params);
 
         // Load the user state.
-        $this->setState('user.id', (int) $user->get('id'));
+        $this->setState('user.id', (int) $user->id);
     }
 }

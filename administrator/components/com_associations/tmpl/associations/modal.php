@@ -18,6 +18,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
+/** @var Joomla\Component\Associations\Administrator\View\Associations\HtmlView $this */
+
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
@@ -25,29 +27,29 @@ if ($app->isClient('site')) {
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('com_associations.admin-associations-modal');
 
-$function         = $app->input->getCmd('function', 'jSelectAssociation');
+$function         = $app->getInput()->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
-$canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
+$canManageCheckin = $this->getCurrentUser()->authorise('core.manage', 'com_checkin');
 
-$iconStates = array(
+$iconStates = [
     -2 => 'icon-trash',
-    0  => 'icon-times',
-    1  => 'icon-check',
-    2  => 'icon-folder',
-);
+    0  => 'icon-unpublish',
+    1  => 'icon-publish',
+    2  => 'icon-archive',
+];
 
-$this->document->addScriptOptions('associations-modal', ['func' => $function]);
+$this->getDocument()->addScriptOptions('associations-modal', ['func' => $function]);
 
 ?>
 <div class="container-popup">
     <form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
     . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -107,7 +109,7 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
                     <?php endif; ?>
                     <th scope="row" class="has-context">
                         <?php if (isset($item->level)) : ?>
-                            <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                            <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                         <?php endif; ?>
                         <?php if (($canEdit && !$isCheckout) || ($canEdit && $canCheckin && $isCheckout)) : ?>
                             <a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>">
@@ -163,8 +165,8 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
         <?php endif; ?>
 
         <input type="hidden" name="task" value="">
-        <input type="hidden" name="forcedItemType" value="<?php echo $app->input->get('forcedItemType', '', 'string'); ?>">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
+        <input type="hidden" name="forcedItemType" value="<?php echo $app->getInput()->get('forcedItemType', '', 'string'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'cmd'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>
 </div>

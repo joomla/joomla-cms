@@ -20,6 +20,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to edit a contact.
  *
@@ -44,9 +48,18 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Display the view.
@@ -62,13 +75,19 @@ class HtmlView extends BaseHtmlView
         $this->item  = $this->get('Item');
         $this->state = $this->get('State');
 
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
+        }
+
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -80,7 +99,11 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
 
         parent::display($tpl);
     }
@@ -94,25 +117,24 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
-
-        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title($isNew ? Text::_('COM_CONTACT_MANAGER_CONTACT_NEW') : Text::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address-book contact');
 
         // Build the actions for new and existing records.
         if ($isNew) {
             // For new records, check the create permission.
-            if (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
-                ToolbarHelper::apply('contact.apply');
+            if (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
+                $toolbar->apply('contact.apply');
 
                 $saveGroup = $toolbar->dropdownButton('save-group');
 
@@ -129,7 +151,7 @@ class HtmlView extends BaseHtmlView
                 );
             }
 
-            ToolbarHelper::cancel('contact.cancel');
+            $toolbar->cancel('contact.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
@@ -165,18 +187,53 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            ToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('contact.cancel');
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable) {
-                ToolbarHelper::versions('com_contact.contact', $this->item->id);
+                $toolbar->versions('com_contact.contact', $this->item->id);
             }
 
             if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations')) {
-                ToolbarHelper::custom('contact.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
+                $toolbar->standardButton('contract', 'JTOOLBAR_ASSOCIATIONS', 'contact.editAssociations')
+                    ->icon('icon-contract')
+                    ->listCheck(false);
             }
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Contacts:_New_or_Edit');
+        $toolbar->divider();
+        $toolbar->help('Contacts:_Edit');
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $user       = $this->getCurrentUser();
+        $userId     = $user->id;
+        $isNew      = ($this->item->id == 0);
+        $toolbar    = $this->getDocument()->getToolbar();
+
+        // Since we don't track these assets at the item level, use the category id.
+        $canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
+
+        ToolbarHelper::title($isNew ? Text::_('COM_CONTACT_MANAGER_CONTACT_NEW') : Text::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address-book contact');
+
+        $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0);
+        $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+
+        // For new records, check the create permission.
+        if ($canCreate || $canEdit) {
+            $toolbar->apply('contact.apply');
+            $toolbar->save('contact.save');
+        }
+
+        $toolbar->cancel('contact.cancel');
     }
 }

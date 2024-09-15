@@ -18,8 +18,13 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Banner table
@@ -39,15 +44,16 @@ class BannerTable extends Table implements VersionableTableInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_banners.banner';
 
-        parent::__construct('#__banners', 'id', $db);
+        parent::__construct('#__banners', 'id', $db, $dispatcher);
 
         $this->created = Factory::getDate()->toSql();
         $this->setColumnAlias('published', 'state');
@@ -137,7 +143,7 @@ class BannerTable extends Table implements VersionableTableInterface
             $this->ordering = 0;
         } elseif (empty($this->ordering)) {
             // Set ordering to last if ordering was 0
-            $this->ordering = self::getNextOrder($this->_db->quoteName('catid') . ' = ' . ((int) $this->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
+            $this->ordering = $this->getNextOrder($this->_db->quoteName('catid') . ' = ' . ((int) $this->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
         }
 
         // Set modified to created if not set
@@ -156,14 +162,14 @@ class BannerTable extends Table implements VersionableTableInterface
     /**
      * Overloaded bind function
      *
-     * @param   mixed  $array   An associative array or object to bind to the \JTable instance.
+     * @param   mixed  $array   An associative array or object to bind to the \Joomla\CMS\Table\Table instance.
      * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
      *
      * @return  boolean  True on success
      *
      * @since   1.5
      */
-    public function bind($array, $ignore = array())
+    public function bind($array, $ignore = [])
     {
         if (isset($array['params']) && \is_array($array['params'])) {
             $registry = new Registry($array['params']);
@@ -227,19 +233,19 @@ class BannerTable extends Table implements VersionableTableInterface
                     $this->reset = null;
                     break;
                 case 2:
-                    $date = Factory::getDate('+1 year ' . date('Y-m-d'));
+                    $date        = Factory::getDate('+1 year ' . date('Y-m-d'));
                     $this->reset = $date->toSql();
                     break;
                 case 3:
-                    $date = Factory::getDate('+1 month ' . date('Y-m-d'));
+                    $date        = Factory::getDate('+1 month ' . date('Y-m-d'));
                     $this->reset = $date->toSql();
                     break;
                 case 4:
-                    $date = Factory::getDate('+7 day ' . date('Y-m-d'));
+                    $date        = Factory::getDate('+7 day ' . date('Y-m-d'));
                     $this->reset = $date->toSql();
                     break;
                 case 5:
-                    $date = Factory::getDate('+1 day ' . date('Y-m-d'));
+                    $date        = Factory::getDate('+1 day ' . date('Y-m-d'));
                     $this->reset = $date->toSql();
                     break;
             }
@@ -248,18 +254,16 @@ class BannerTable extends Table implements VersionableTableInterface
             parent::store($updateNulls);
         } else {
             // Get the old row
-            /** @var BannerTable $oldrow */
-            $oldrow = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
+            $oldrow = new self($db, $this->getDispatcher());
 
             if (!$oldrow->load($this->id) && $oldrow->getError()) {
                 $this->setError($oldrow->getError());
             }
 
             // Verify that the alias is unique
-            /** @var BannerTable $table */
-            $table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
+            $table = new self($db, $this->getDispatcher());
 
-            if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+            if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
                 $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 
                 return false;
@@ -303,7 +307,7 @@ class BannerTable extends Table implements VersionableTableInterface
         // If there are no primary keys set check to see if the instance key is set.
         if (empty($pks)) {
             if ($this->$k) {
-                $pks = array($this->$k);
+                $pks = [$this->$k];
             } else {
                 // Nothing to set publishing state on, return false.
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
@@ -313,8 +317,7 @@ class BannerTable extends Table implements VersionableTableInterface
         }
 
         // Get an instance of the table
-        /** @var BannerTable $table */
-        $table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $this->_db));
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         // For all keys
         foreach ($pks as $pk) {
@@ -326,8 +329,8 @@ class BannerTable extends Table implements VersionableTableInterface
             // Verify checkout
             if (\is_null($table->checked_out) || $table->checked_out == $userId) {
                 // Change the state
-                $table->sticky = $state;
-                $table->checked_out = null;
+                $table->sticky           = $state;
+                $table->checked_out      = null;
                 $table->checked_out_time = null;
 
                 // Check the row

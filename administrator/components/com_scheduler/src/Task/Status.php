@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A namespace mapping Task statuses to integer values.
  *

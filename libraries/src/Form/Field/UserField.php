@@ -9,10 +9,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field to select a user ID from a modal list.
@@ -34,6 +37,7 @@ class UserField extends FormField
      *
      * @var   array
      * @since 3.5
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $groups = null;
 
@@ -42,6 +46,7 @@ class UserField extends FormField
      *
      * @var   array
      * @since 3.5
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $excluded = null;
 
@@ -74,7 +79,7 @@ class UserField extends FormField
 
         // If user can't access com_users the field should be readonly.
         if ($return && !$this->readonly) {
-            $this->readonly = !Factory::getUser()->authorise('core.manage', 'com_users');
+            $this->readonly = !$this->getCurrentUser()->authorise('core.manage', 'com_users');
         }
 
         return $return;
@@ -90,10 +95,10 @@ class UserField extends FormField
     protected function getInput()
     {
         if (empty($this->layout)) {
-            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+            throw new \UnexpectedValueException(\sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -116,7 +121,7 @@ class UserField extends FormField
         } elseif (strtoupper($this->value) === 'CURRENT') {
             // Handle the special case for "current".
             // 'CURRENT' is not a reasonable value to be placed in the html
-            $current = Factory::getUser();
+            $current = $this->getCurrentUser();
 
             $this->value = $current->id;
 
@@ -130,11 +135,11 @@ class UserField extends FormField
             $name = $this->value;
         }
 
-        $extraData = array(
-            'userName'  => $name,
-            'groups'    => $this->getGroups(),
-            'excluded'  => $this->getExcluded(),
-        );
+        $extraData = [
+            'userName' => $name,
+            'groups'   => $this->getGroups(),
+            'excluded' => $this->getExcluded(),
+        ];
 
         return array_merge($data, $extraData);
     }
@@ -142,7 +147,7 @@ class UserField extends FormField
     /**
      * Method to get the filtering groups (null means no filtering)
      *
-     * @return  mixed  Array of filtering groups or null.
+     * @return  string[]  Array of filtering groups or null.
      *
      * @since   1.6
      */
@@ -151,12 +156,14 @@ class UserField extends FormField
         if (isset($this->element['groups'])) {
             return explode(',', $this->element['groups']);
         }
+
+        return [];
     }
 
     /**
      * Method to get the users to exclude from the list of users
      *
-     * @return  mixed  Array of users to exclude or null to to not exclude them
+     * @return  string[]  Array of users to exclude or null to not exclude them
      *
      * @since   1.6
      */
@@ -165,5 +172,7 @@ class UserField extends FormField
         if (isset($this->element['exclude'])) {
             return explode(',', $this->element['exclude']);
         }
+
+        return [];
     }
 }

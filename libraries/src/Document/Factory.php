@@ -12,6 +12,10 @@ namespace Joomla\CMS\Document;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Default factory for creating Document objects
  *
@@ -94,7 +98,7 @@ class Factory implements FactoryInterface
             $class = '\\JDocumentRenderer' . $type;
 
             if (!class_exists($class)) {
-                throw new \RuntimeException(sprintf('Unable to load renderer class %s', $type), 500);
+                throw new \RuntimeException(\sprintf('Unable to load renderer class %s', $type), 500);
             }
         }
 

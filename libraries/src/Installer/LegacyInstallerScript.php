@@ -9,13 +9,25 @@
 
 namespace Joomla\CMS\Installer;
 
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Legacy installer script which delegates the methods to the internal instance when possible.
  *
  * @since  4.2.0
  */
-class LegacyInstallerScript implements InstallerScriptInterface
+class LegacyInstallerScript implements InstallerScriptInterface, DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * @var    \stdClass
      * @since  4.2.0
@@ -144,7 +156,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
      */
     public function __call(string $name, array $arguments)
     {
-        return call_user_func_array([$this->installerScript, $name], $arguments);
+        return \call_user_func_array([$this->installerScript, $name], $arguments);
     }
 
     /**
@@ -162,6 +174,15 @@ class LegacyInstallerScript implements InstallerScriptInterface
     {
         if (!method_exists($this->installerScript, $name)) {
             return true;
+        }
+
+        if ($this->installerScript instanceof DatabaseAwareInterface) {
+            try {
+                $this->installerScript->setDatabase($this->getDatabase());
+            } catch (DatabaseNotFoundException $e) {
+                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 6.0 in %s.', __METHOD__), E_USER_DEPRECATED);
+                $this->installerScript->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+            }
         }
 
         $return = $this->__call($name, $arguments);

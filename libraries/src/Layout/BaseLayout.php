@@ -11,6 +11,10 @@ namespace Joomla\CMS\Layout;
 
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for rendering a display layout
  *
@@ -33,7 +37,7 @@ class BaseLayout implements LayoutInterface
      * @var    array
      * @since  3.5
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * Debug information messages
@@ -41,7 +45,7 @@ class BaseLayout implements LayoutInterface
      * @var    array
      * @since  3.2
      */
-    protected $debugMessages = array();
+    protected $debugMessages = [];
 
     /**
      * Set the options
@@ -180,7 +184,7 @@ class BaseLayout implements LayoutInterface
      */
     public function clearDebugMessages()
     {
-        $this->debugMessages = array();
+        $this->debugMessages = [];
 
         return $this;
     }
@@ -194,7 +198,7 @@ class BaseLayout implements LayoutInterface
      *
      * @since    3.5
      */
-    public function debug($data = array())
+    public function debug($data = [])
     {
         $this->setDebug(true);
 
@@ -262,7 +266,7 @@ class BaseLayout implements LayoutInterface
     }
 
     /**
-     * Set the the data passed the layout
+     * Set the data passed the layout
      *
      * @param   array  $data  Array with the data for the layout
      *

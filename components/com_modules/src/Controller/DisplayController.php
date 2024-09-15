@@ -16,26 +16,30 @@ use Joomla\CMS\Input\Input;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * Modules manager master display controller.
+ * Modules manager display controller.
  *
  * @since  3.5
  */
 class DisplayController extends BaseController
 {
     /**
-     * @param   array                     $config   An optional associative array of configuration settings.
-     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                              'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface|null  $factory  The factory.
-     * @param   CMSApplication|null       $app      The Application for the dispatcher
-     * @param   Input|null                $input    The Input object for the request
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    The Input object for the request
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
-        $this->input = Factory::getApplication()->input;
+        $this->input = Factory::getApplication()->getInput();
 
         // Modules frontpage Editor Module proxying.
         if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal') {

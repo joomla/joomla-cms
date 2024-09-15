@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Associations controller class.
  *
@@ -42,7 +46,7 @@ class AssociationsController extends AdminController
      *
      * @since  3.7.0
      */
-    public function getModel($name = 'Associations', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Associations', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -104,7 +108,7 @@ class AssociationsController extends AdminController
             return;
         }
 
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         if (empty($cid)) {
             // Seems we don't have an id to work with.

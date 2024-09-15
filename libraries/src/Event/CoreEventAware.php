@@ -4,50 +4,16 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Event\Model\BeforeBatchEvent;
-use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate as PlgSystemWebauthnAjaxCreate;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete as PlgSystemWebauthnAjaxDelete;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate as PlgSystemWebauthnAjaxInitCreate;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin as PlgSystemWebauthnAjaxLogin;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAjaxSaveLabel;
-use Joomla\CMS\Event\QuickIcon\GetIconEvent;
-use Joomla\CMS\Event\Table\AfterBindEvent;
-use Joomla\CMS\Event\Table\AfterCheckinEvent;
-use Joomla\CMS\Event\Table\AfterCheckoutEvent;
-use Joomla\CMS\Event\Table\AfterDeleteEvent;
-use Joomla\CMS\Event\Table\AfterHitEvent;
-use Joomla\CMS\Event\Table\AfterLoadEvent;
-use Joomla\CMS\Event\Table\AfterMoveEvent;
-use Joomla\CMS\Event\Table\AfterPublishEvent;
-use Joomla\CMS\Event\Table\AfterReorderEvent;
-use Joomla\CMS\Event\Table\AfterResetEvent;
-use Joomla\CMS\Event\Table\AfterStoreEvent;
-use Joomla\CMS\Event\Table\BeforeBindEvent;
-use Joomla\CMS\Event\Table\BeforeCheckinEvent;
-use Joomla\CMS\Event\Table\BeforeCheckoutEvent;
-use Joomla\CMS\Event\Table\BeforeDeleteEvent;
-use Joomla\CMS\Event\Table\BeforeHitEvent;
-use Joomla\CMS\Event\Table\BeforeLoadEvent;
-use Joomla\CMS\Event\Table\BeforeMoveEvent;
-use Joomla\CMS\Event\Table\BeforePublishEvent;
-use Joomla\CMS\Event\Table\BeforeReorderEvent;
-use Joomla\CMS\Event\Table\BeforeResetEvent;
-use Joomla\CMS\Event\Table\BeforeStoreEvent;
-use Joomla\CMS\Event\Table\CheckEvent;
-use Joomla\CMS\Event\Table\ObjectCreateEvent;
-use Joomla\CMS\Event\Table\SetNewTagsEvent;
-use Joomla\CMS\Event\View\DisplayEvent;
-use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
-use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
-use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\Event\Event;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Returns the most suitable event class for a Joomla core event name
@@ -66,51 +32,179 @@ trait CoreEventAware
      * @since 4.2.0
      */
     private static $eventNameToConcreteClass = [
-        // Model
-        'onBeforeBatch'               => BeforeBatchEvent::class,
+        // Application
+        'onBeforeExecute'     => Application\BeforeExecuteEvent::class,
+        'onAfterExecute'      => Application\AfterExecuteEvent::class,
+        'onAfterInitialise'   => Application\AfterInitialiseEvent::class,
+        'onAfterRoute'        => Application\AfterRouteEvent::class,
+        'onBeforeApiRoute'    => Application\BeforeApiRouteEvent::class,
+        'onAfterApiRoute'     => Application\AfterApiRouteEvent::class,
+        'onAfterDispatch'     => Application\AfterDispatchEvent::class,
+        'onBeforeRender'      => Application\BeforeRenderEvent::class,
+        'onAfterRender'       => Application\AfterRenderEvent::class,
+        'onBeforeCompileHead' => Application\BeforeCompileHeadEvent::class,
+        'onAfterCompress'     => Application\AfterCompressEvent::class,
+        'onBeforeRespond'     => Application\BeforeRespondEvent::class,
+        'onAfterRespond'      => Application\AfterRespondEvent::class,
+        'onError'             => ErrorEvent::class,
+        // Application configuration
+        'onApplicationBeforeSave' => Application\BeforeSaveConfigurationEvent::class,
+        'onApplicationAfterSave'  => Application\AfterSaveConfigurationEvent::class,
         // Quickicon
-        'onGetIcon'                   => GetIconEvent::class,
+        'onGetIcon' => QuickIcon\GetIconEvent::class,
         // Table
-        'onTableAfterBind'            => AfterBindEvent::class,
-        'onTableAfterCheckin'         => AfterCheckinEvent::class,
-        'onTableAfterCheckout'        => AfterCheckoutEvent::class,
-        'onTableAfterDelete'          => AfterDeleteEvent::class,
-        'onTableAfterHit'             => AfterHitEvent::class,
-        'onTableAfterLoad'            => AfterLoadEvent::class,
-        'onTableAfterMove'            => AfterMoveEvent::class,
-        'onTableAfterPublish'         => AfterPublishEvent::class,
-        'onTableAfterReorder'         => AfterReorderEvent::class,
-        'onTableAfterReset'           => AfterResetEvent::class,
-        'onTableAfterStore'           => AfterStoreEvent::class,
-        'onTableBeforeBind'           => BeforeBindEvent::class,
-        'onTableBeforeCheckin'        => BeforeCheckinEvent::class,
-        'onTableBeforeCheckout'       => BeforeCheckoutEvent::class,
-        'onTableBeforeDelete'         => BeforeDeleteEvent::class,
-        'onTableBeforeHit'            => BeforeHitEvent::class,
-        'onTableBeforeLoad'           => BeforeLoadEvent::class,
-        'onTableBeforeMove'           => BeforeMoveEvent::class,
-        'onTableBeforePublish'        => BeforePublishEvent::class,
-        'onTableBeforeReorder'        => BeforeReorderEvent::class,
-        'onTableBeforeReset'          => BeforeResetEvent::class,
-        'onTableBeforeStore'          => BeforeStoreEvent::class,
-        'onTableCheck'                => CheckEvent::class,
-        'onTableObjectCreate'         => ObjectCreateEvent::class,
-        'onTableSetNewTags'           => SetNewTagsEvent::class,
+        'onTableAfterBind'      => Table\AfterBindEvent::class,
+        'onTableAfterCheckin'   => Table\AfterCheckinEvent::class,
+        'onTableAfterCheckout'  => Table\AfterCheckoutEvent::class,
+        'onTableAfterDelete'    => Table\AfterDeleteEvent::class,
+        'onTableAfterHit'       => Table\AfterHitEvent::class,
+        'onTableAfterLoad'      => Table\AfterLoadEvent::class,
+        'onTableAfterMove'      => Table\AfterMoveEvent::class,
+        'onTableAfterPublish'   => Table\AfterPublishEvent::class,
+        'onTableAfterReorder'   => Table\AfterReorderEvent::class,
+        'onTableAfterReset'     => Table\AfterResetEvent::class,
+        'onTableAfterStore'     => Table\AfterStoreEvent::class,
+        'onTableBeforeBind'     => Table\BeforeBindEvent::class,
+        'onTableBeforeCheckin'  => Table\BeforeCheckinEvent::class,
+        'onTableBeforeCheckout' => Table\BeforeCheckoutEvent::class,
+        'onTableBeforeDelete'   => Table\BeforeDeleteEvent::class,
+        'onTableBeforeHit'      => Table\BeforeHitEvent::class,
+        'onTableBeforeLoad'     => Table\BeforeLoadEvent::class,
+        'onTableBeforeMove'     => Table\BeforeMoveEvent::class,
+        'onTableBeforePublish'  => Table\BeforePublishEvent::class,
+        'onTableBeforeReorder'  => Table\BeforeReorderEvent::class,
+        'onTableBeforeReset'    => Table\BeforeResetEvent::class,
+        'onTableBeforeStore'    => Table\BeforeStoreEvent::class,
+        'onTableCheck'          => Table\CheckEvent::class,
+        'onTableObjectCreate'   => Table\ObjectCreateEvent::class,
+        'onTableSetNewTags'     => Table\SetNewTagsEvent::class,
         // View
-        'onBeforeDisplay'             => DisplayEvent::class,
-        'onAfterDisplay'              => DisplayEvent::class,
+        'onBeforeDisplay' => View\DisplayEvent::class,
+        'onAfterDisplay'  => View\DisplayEvent::class,
         // Workflow
-        'onWorkflowFunctionalityUsed' => WorkflowFunctionalityUsedEvent::class,
-        'onWorkflowAfterTransition'   => WorkflowTransitionEvent::class,
-        'onWorkflowBeforeTransition'  => WorkflowTransitionEvent::class,
-        // Plugin: System, WebAuthn
-        'onAjaxWebauthn'              => PlgSystemWebauthnAjax::class,
-        'onAjaxWebauthnChallenge'     => PlgSystemWebauthnAjaxChallenge::class,
-        'onAjaxWebauthnCreate'        => PlgSystemWebauthnAjaxCreate::class,
-        'onAjaxWebauthnDelete'        => PlgSystemWebauthnAjaxDelete::class,
-        'onAjaxWebauthnInitcreate'    => PlgSystemWebauthnAjaxInitCreate::class,
-        'onAjaxWebauthnLogin'         => PlgSystemWebauthnAjaxLogin::class,
-        'onAjaxWebauthnSavelabel'     => PlgSystemWebauthnAjaxSaveLabel::class,
+        'onWorkflowFunctionalityUsed' => Workflow\WorkflowFunctionalityUsedEvent::class,
+        'onWorkflowAfterTransition'   => Workflow\WorkflowTransitionEvent::class,
+        'onWorkflowBeforeTransition'  => Workflow\WorkflowTransitionEvent::class,
+        // Plugin: System, Schemaorg
+        'onSchemaBeforeCompileHead' => Plugin\System\Schemaorg\BeforeCompileHeadEvent::class,
+        'onSchemaPrepareData'       => Plugin\System\Schemaorg\PrepareDataEvent::class,
+        'onSchemaPrepareForm'       => Plugin\System\Schemaorg\PrepareFormEvent::class,
+        'onSchemaPrepareSave'       => Plugin\System\Schemaorg\PrepareSaveEvent::class,
+        // Content
+        'onContentPrepare'       => Content\ContentPrepareEvent::class,
+        'onContentAfterTitle'    => Content\AfterTitleEvent::class,
+        'onContentBeforeDisplay' => Content\BeforeDisplayEvent::class,
+        'onContentAfterDisplay'  => Content\AfterDisplayEvent::class,
+        // Model
+        'onContentNormaliseRequestData' => Model\NormaliseRequestDataEvent::class,
+        'onContentBeforeValidateData'   => Model\BeforeValidateDataEvent::class,
+        'onContentPrepareForm'          => Model\PrepareFormEvent::class,
+        'onContentPrepareData'          => Model\PrepareDataEvent::class,
+        'onContentBeforeSave'           => Model\BeforeSaveEvent::class,
+        'onContentAfterSave'            => Model\AfterSaveEvent::class,
+        'onContentBeforeDelete'         => Model\BeforeDeleteEvent::class,
+        'onContentAfterDelete'          => Model\AfterDeleteEvent::class,
+        'onContentBeforeChangeState'    => Model\BeforeChangeStateEvent::class,
+        'onContentChangeState'          => Model\AfterChangeStateEvent::class,
+        'onCategoryChangeState'         => Model\AfterCategoryChangeStateEvent::class,
+        'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
+        // User
+        'onUserAuthenticate'         => User\AuthenticationEvent::class,
+        'onUserAuthorisation'        => User\AuthorisationEvent::class,
+        'onUserAuthorisationFailure' => User\AuthorisationFailureEvent::class,
+        'onUserLogin'                => User\LoginEvent::class,
+        'onUserAfterLogin'           => User\AfterLoginEvent::class,
+        'onUserLoginFailure'         => User\LoginFailureEvent::class,
+        'onUserLogout'               => User\LogoutEvent::class,
+        'onUserAfterLogout'          => User\AfterLogoutEvent::class,
+        'onUserLogoutFailure'        => User\LogoutFailureEvent::class,
+        'onUserLoginButtons'         => User\LoginButtonsEvent::class,
+        'onUserBeforeSave'           => User\BeforeSaveEvent::class,
+        'onUserAfterSave'            => User\AfterSaveEvent::class,
+        'onUserBeforeDelete'         => User\BeforeDeleteEvent::class,
+        'onUserAfterDelete'          => User\AfterDeleteEvent::class,
+        'onUserAfterRemind'          => User\AfterRemindEvent::class,
+        'onUserBeforeResetRequest'   => User\BeforeResetRequestEvent::class,
+        'onUserAfterResetRequest'    => User\AfterResetRequestEvent::class,
+        'onUserBeforeResetComplete'  => User\BeforeResetCompleteEvent::class,
+        'onUserAfterResetComplete'   => User\AfterResetCompleteEvent::class,
+        // User Group
+        'onUserBeforeSaveGroup'   => Model\BeforeSaveEvent::class,
+        'onUserAfterSaveGroup'    => Model\AfterSaveEvent::class,
+        'onUserBeforeDeleteGroup' => Model\BeforeDeleteEvent::class,
+        'onUserAfterDeleteGroup'  => Model\AfterDeleteEvent::class,
+        // Modules
+        'onRenderModule'         => Module\BeforeRenderModuleEvent::class,
+        'onAfterRenderModule'    => Module\AfterRenderModuleEvent::class,
+        'onAfterRenderModules'   => Module\AfterRenderModulesEvent::class,
+        'onPrepareModuleList'    => Module\PrepareModuleListEvent::class,
+        'onAfterModuleList'      => Module\AfterModuleListEvent::class,
+        'onAfterCleanModuleList' => Module\AfterCleanModuleListEvent::class,
+        // Extension
+        'onBeforeExtensionBoot'      => BeforeExtensionBootEvent::class,
+        'onAfterExtensionBoot'       => AfterExtensionBootEvent::class,
+        'onExtensionBeforeInstall'   => Extension\BeforeInstallEvent::class,
+        'onExtensionAfterInstall'    => Extension\AfterInstallEvent::class,
+        'onExtensionBeforeUninstall' => Extension\BeforeUninstallEvent::class,
+        'onExtensionAfterUninstall'  => Extension\AfterUninstallEvent::class,
+        'onExtensionBeforeUpdate'    => Extension\BeforeUpdateEvent::class,
+        'onExtensionAfterUpdate'     => Extension\AfterUpdateEvent::class,
+        'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
+        'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
+        'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
+        'onExtensionChangeState'     => Model\BeforeChangeStateEvent::class,
+        'onJoomlaBeforeUpdate'       => Extension\BeforeJoomlaUpdateEvent::class,
+        'onJoomlaAfterUpdate'        => Extension\AfterJoomlaUpdateEvent::class,
+        // Installer
+        'onInstallerAddInstallationTab'    => Installer\AddInstallationTabEvent::class,
+        'onInstallerBeforeInstallation'    => Installer\BeforeInstallationEvent::class,
+        'onInstallerBeforeInstaller'       => Installer\BeforeInstallerEvent::class,
+        'onInstallerAfterInstaller'        => Installer\AfterInstallerEvent::class,
+        'onInstallerBeforePackageDownload' => Installer\BeforePackageDownloadEvent::class,
+        // Finder
+        'onFinderCategoryChangeState' => Finder\AfterCategoryChangeStateEvent::class,
+        'onFinderChangeState'         => Finder\AfterChangeStateEvent::class,
+        'onFinderAfterDelete'         => Finder\AfterDeleteEvent::class,
+        'onFinderBeforeSave'          => Finder\BeforeSaveEvent::class,
+        'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
+        'onFinderResult'              => Finder\ResultEvent::class,
+        'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
+        'onBeforeIndex'               => Finder\BeforeIndexEvent::class,
+        'onBuildIndex'                => Finder\BuildIndexEvent::class,
+        'onStartIndex'                => Finder\StartIndexEvent::class,
+        'onFinderGarbageCollection'   => Finder\GarbageCollectionEvent::class,
+        // Menu
+        'onBeforeRenderMenuItems'   => Menu\BeforeRenderMenuItemsViewEvent::class,
+        'onAfterGetMenuTypeOptions' => Menu\AfterGetMenuTypeOptionsEvent::class,
+        'onPreprocessMenuItems'     => Menu\PreprocessMenuItemsEvent::class,
+        // ActionLog
+        'onAfterLogPurge'  => ActionLog\AfterLogPurgeEvent::class,
+        'onAfterLogExport' => ActionLog\AfterLogExportEvent::class,
+        // Cache
+        'onAfterPurge' => Cache\AfterPurgeEvent::class,
+        // Contact
+        'onValidateContact' => Contact\ValidateContactEvent::class,
+        'onSubmitContact'   => Contact\SubmitContactEvent::class,
+        // Checkin
+        'onAfterCheckin' => Checkin\AfterCheckinEvent::class,
+        // Custom Fields
+        'onCustomFieldsGetTypes'           => CustomFields\GetTypesEvent::class,
+        'onCustomFieldsPrepareDom'         => CustomFields\PrepareDomEvent::class,
+        'onCustomFieldsBeforePrepareField' => CustomFields\BeforePrepareFieldEvent::class,
+        'onCustomFieldsPrepareField'       => CustomFields\PrepareFieldEvent::class,
+        'onCustomFieldsAfterPrepareField'  => CustomFields\AfterPrepareFieldEvent::class,
+        // Privacy
+        'onPrivacyCollectAdminCapabilities'    => Privacy\CollectCapabilitiesEvent::class,
+        'onPrivacyCheckPrivacyPolicyPublished' => Privacy\CheckPrivacyPolicyPublishedEvent::class,
+        'onPrivacyExportRequest'               => Privacy\ExportRequestEvent::class,
+        'onPrivacyCanRemoveData'               => Privacy\CanRemoveDataEvent::class,
+        'onPrivacyRemoveData'                  => Privacy\RemoveDataEvent::class,
+        // PageCache
+        'onPageCacheSetCaching' => PageCache\SetCachingEvent::class,
+        'onPageCacheGetKey'     => PageCache\GetKeyEvent::class,
+        'onPageCacheIsExcluded' => PageCache\IsExcludedEvent::class,
+        // Mail
+        'onMailBeforeRendering' => Mail\BeforeRenderingMailTemplateEvent::class,
     ];
 
     /**
@@ -126,10 +220,6 @@ trait CoreEventAware
      */
     protected static function getEventClassByEventName(string $eventName): string
     {
-        if (strpos($eventName, 'onWebAssetRegistryChangedAsset') === 0) {
-            return WebAssetRegistryAssetChanged::class;
-        }
-
         return self::$eventNameToConcreteClass[$eventName] ?? Event::class;
     }
 }

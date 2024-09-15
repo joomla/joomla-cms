@@ -12,8 +12,12 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\QueryInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Supports a custom SQL select list
@@ -55,6 +59,14 @@ class SqlField extends ListField
     protected $translate = false;
 
     /**
+     * The header.
+     *
+     * @var    mixed
+     * @since  4.3.0
+     */
+    protected $header;
+
+    /**
      * The query.
      *
      * @var    string
@@ -77,6 +89,7 @@ class SqlField extends ListField
             case 'keyField':
             case 'valueField':
             case 'translate':
+            case 'header':
             case 'query':
                 return $this->$name;
         }
@@ -97,9 +110,13 @@ class SqlField extends ListField
     public function __set($name, $value)
     {
         switch ($name) {
+            case 'translate':
+                $this->$name = (bool) $value;
+                break;
+
             case 'keyField':
             case 'valueField':
-            case 'translate':
+            case 'header':
             case 'query':
                 $this->$name = (string) $value;
                 break;
@@ -133,8 +150,8 @@ class SqlField extends ListField
 
             if (empty($this->query)) {
                 // Get the query from the form
-                $query    = array();
-                $defaults = array();
+                $query    = [];
+                $defaults = [];
 
                 $sql_select = (string) $this->element['sql_select'];
                 $sql_from   = (string) $this->element['sql_from'];
@@ -148,17 +165,15 @@ class SqlField extends ListField
                     $query['order']  = (string) $this->element['sql_order'];
 
                     // Get the filters
-                    $filters = isset($this->element['sql_filter']) ? explode(',', $this->element['sql_filter']) : '';
+                    $filters = isset($this->element['sql_filter']) ? explode(',', $this->element['sql_filter']) : [];
 
                     // Get the default value for query if empty
-                    if (\is_array($filters)) {
-                        foreach ($filters as $filter) {
-                            $name   = "sql_default_{$filter}";
-                            $attrib = (string) $this->element[$name];
+                    foreach ($filters as $filter) {
+                        $name   = "sql_default_{$filter}";
+                        $attrib = (string) $this->element[$name];
 
-                            if (!empty($attrib)) {
-                                $defaults[$filter] = $attrib;
-                            }
+                        if (!empty($attrib)) {
+                            $defaults[$filter] = $attrib;
                         }
                     }
 
@@ -179,11 +194,11 @@ class SqlField extends ListField
     /**
      * Method to process the query from form.
      *
-     * @param   array   $conditions  The conditions from the form.
-     * @param   string  $filters     The columns to filter.
-     * @param   array   $defaults    The defaults value to set if condition is empty.
+     * @param   string[]  $conditions  The conditions from the form.
+     * @param   string[]  $filters     The columns to filter.
+     * @param   string[]  $defaults    The defaults value to set if condition is empty.
      *
-     * @return  DatabaseQuery  The query object.
+     * @return  QueryInterface  The query object.
      *
      * @since   3.5
      */
@@ -218,11 +233,20 @@ class SqlField extends ListField
 
         // Process the filters
         if (\is_array($filters)) {
-            $html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+            // @TODO: Loading the filtering value from the request need to be deprecated.
+            $html_filters = $this->context ? Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array') : false;
+            $form         = $this->form;
 
             foreach ($filters as $k => $value) {
-                if (!empty($html_filters[$value])) {
+                // Get the filter value from the linked filter field
+                $filterFieldValue = $form->getValue($value, $this->group);
+
+                if ($html_filters && !empty($html_filters[$value])) {
                     $escape = $db->quote($db->escape($html_filters[$value]), false);
+
+                    $query->where("{$value} = {$escape}");
+                } elseif ($filterFieldValue !== null) {
+                    $escape = $db->quote($db->escape($filterFieldValue), false);
 
                     $query->where("{$value} = {$escape}");
                 } elseif (!empty($defaults[$value])) {
@@ -245,17 +269,17 @@ class SqlField extends ListField
      * Method to get the custom field options.
      * Use the query attribute to supply a query to generate the list.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   1.7.0
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Initialize some field attributes.
-        $key   = $this->keyField;
-        $value = $this->valueField;
+        $key    = $this->keyField;
+        $value  = $this->valueField;
         $header = $this->header;
 
         if ($this->query) {
@@ -270,12 +294,6 @@ class SqlField extends ListField
             } catch (ExecutionFailureException $e) {
                 Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
             }
-        }
-
-        // Add header.
-        if (!empty($header)) {
-            $header_title = Text::_($header);
-            $options[] = HTMLHelper::_('select.option', '', $header_title);
         }
 
         // Build the field options.

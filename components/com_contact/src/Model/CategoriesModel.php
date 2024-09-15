@@ -16,6 +16,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This models supports retrieving lists of contact categories.
  *
@@ -69,7 +73,7 @@ class CategoriesModel extends ListModel
         $this->setState('filter.extension', $this->_extension);
 
         // Get the parent id if defined.
-        $parentId = $app->input->getInt('id');
+        $parentId = $app->getInput()->getInt('id');
         $this->setState('filter.parentId', $parentId);
 
         $params = $app->getParams();
@@ -109,8 +113,8 @@ class CategoriesModel extends ListModel
     public function getItems()
     {
         if ($this->_items === null) {
-            $app = Factory::getApplication();
-            $menu = $app->getMenu();
+            $app    = Factory::getApplication();
+            $menu   = $app->getMenu();
             $active = $menu->getActive();
 
             if ($active) {
@@ -119,12 +123,12 @@ class CategoriesModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options               = [];
             $options['countItems'] = $params->get('show_cat_items_cat', 1) || !$params->get('show_empty_categories_cat', 0);
-            $categories = Categories::getInstance('Contact', $options);
-            $this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
+            $categories            = Categories::getInstance('Contact', $options);
+            $this->_parent         = $categories->get($this->getState('filter.parentId', 'root'));
 
-            if (is_object($this->_parent)) {
+            if (\is_object($this->_parent)) {
                 $this->_items = $this->_parent->getChildren();
             } else {
                 $this->_items = false;
@@ -143,7 +147,7 @@ class CategoriesModel extends ListModel
      */
     public function getParent()
     {
-        if (!is_object($this->_parent)) {
+        if (!\is_object($this->_parent)) {
             $this->getItems();
         }
 

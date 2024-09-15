@@ -16,10 +16,13 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Requests view class
@@ -73,7 +76,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.9.0
      */
     protected $state;
@@ -109,12 +112,12 @@ class HtmlView extends BaseHtmlView
         $this->urgentRequestAge = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
         $this->sendMailEnabled  = (bool) Factory::getApplication()->get('mailonline', 1);
 
-        if (!count($this->items) && $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new Genericdataexception(implode("\n", $errors), 500);
         }
 
@@ -134,12 +137,14 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
 
+        $toolbar = $this->getDocument()->getToolbar();
+
         // Requests can only be created if mail sending is enabled
         if (Factory::getApplication()->get('mailonline', 1)) {
-            ToolbarHelper::addNew('request.add');
+            $toolbar->addNew('request.add');
         }
 
-        ToolbarHelper::preferences('com_privacy');
-        ToolbarHelper::help('Privacy:_Information_Requests');
+        $toolbar->preferences('com_privacy');
+        $toolbar->help('Privacy:_Information_Requests');
     }
 }

@@ -13,6 +13,10 @@ use Joomla\Console\Command\AbstractCommand;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * PSR-11 compatible writable command loader.
  *
@@ -78,7 +82,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
     public function get(string $name): AbstractCommand
     {
         if (!$this->has($name)) {
-            throw new CommandNotFoundException(sprintf('Command "%s" does not exist.', $name));
+            throw new CommandNotFoundException(\sprintf('Command "%s" does not exist.', $name));
         }
 
         return $this->container->get($this->commandMap[$name]);

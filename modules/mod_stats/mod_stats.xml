@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_stats</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>MOD_STATS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Stats</namespace>
 	<files>
-		<filename module="mod_stats">mod_stats.php</filename>
+		<folder module="mod_stats">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

@@ -12,6 +12,10 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides a list of available database connections, optionally limiting to
@@ -43,6 +47,8 @@ class DatabaseconnectionField extends ListField
      */
     protected function getOptions()
     {
+        $options = [];
+
         // This gets the connectors available in the platform and supported by the server.
         $available = array_map('strtolower', DatabaseDriver::getConnectors());
 

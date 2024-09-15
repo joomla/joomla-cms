@@ -13,7 +13,7 @@
   flex-direction: column;
 }
 .mod-articlesnews-horizontal li:not(:last-child) {
-  margin-right: 2rem;
+  margin-inline-end: 2rem;
 }
 .mod-articlesnews-horizontal .readmore {
   margin-top: auto;
@@ -26,6 +26,6 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
   .mod-articlesnews-horizontal li:not(:last-child) {
-    margin-right: 0;
+    margin-inline-end: 0;
   }
 }

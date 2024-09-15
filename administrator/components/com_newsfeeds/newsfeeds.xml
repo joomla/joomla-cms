@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_newsfeeds</name>
 	<author>Joomla! Project</author>
@@ -49,6 +49,7 @@
 			<filename>newsfeeds.xml</filename>
 			<folder>forms</folder>
 			<folder>helpers</folder>
+			<folder>layouts</folder>
 			<folder>services</folder>
 			<folder>sql</folder>
 			<folder>src</folder>

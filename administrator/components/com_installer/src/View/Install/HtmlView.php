@@ -11,12 +11,14 @@
 namespace Joomla\Component\Installer\Administrator\View\Install;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Install View
@@ -59,13 +61,16 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
+        $toolbar = $this->getDocument()->getToolbar();
+
         if (ContentHelper::getActions('com_installer')->get('core.manage')) {
-            ToolbarHelper::link('index.php?option=com_installer&view=manage', 'COM_INSTALLER_TOOLBAR_MANAGE', 'list');
-            ToolbarHelper::divider();
+            $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE')
+                ->url('index.php?option=com_installer&view=manage');
+            $toolbar->divider();
         }
 
         parent::addToolbar();
 
-        ToolbarHelper::help('Extensions:_Install');
+        $toolbar->help('Extensions:_Install');
     }
 }

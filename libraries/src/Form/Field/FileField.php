@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides an input field for files
@@ -122,7 +126,7 @@ class FileField extends FormField
      */
     protected function getInput()
     {
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -136,10 +140,10 @@ class FileField extends FormField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
+        $extraData = [
             'accept'   => $this->accept,
             'multiple' => $this->multiple,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

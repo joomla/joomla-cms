@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Implements a combo box field.
@@ -43,10 +47,10 @@ class ComboField extends ListField
     protected function getInput()
     {
         if (empty($this->layout)) {
-            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+            throw new \UnexpectedValueException(\sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -63,9 +67,9 @@ class ComboField extends ListField
         // Get the field options.
         $options = $this->getOptions();
 
-        $extraData = array(
+        $extraData = [
             'options' => $options,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

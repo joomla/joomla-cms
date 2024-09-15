@@ -11,7 +11,6 @@
 namespace Joomla\Component\Plugins\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -19,8 +18,13 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Plugin model.
@@ -50,22 +54,22 @@ class PluginModel extends AdminModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
-            array(
+            [
                 'event_after_save'  => 'onExtensionAfterSave',
                 'event_before_save' => 'onExtensionBeforeSave',
-                'events_map'        => array(
-                    'save' => 'extension'
-                )
-            ),
+                'events_map'        => [
+                    'save' => 'extension',
+                ],
+            ],
             $config
         );
 
@@ -82,7 +86,7 @@ class PluginModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // The folder and element vars are passed when saving the form.
         if (empty($data)) {
@@ -102,7 +106,7 @@ class PluginModel extends AdminModel
         $this->setState('item.element', $element);
 
         // Get the form.
-        $form = $this->loadForm('com_plugins.plugin', 'plugin', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_plugins.plugin', 'plugin', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -133,7 +137,7 @@ class PluginModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
+        $data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -174,11 +178,11 @@ class PluginModel extends AdminModel
             }
 
             // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
-            $properties = $table->getProperties(1);
+            $properties             = $table->getProperties(1);
             $this->_cache[$cacheId] = ArrayHelper::toObject($properties, CMSObject::class);
 
             // Convert the params field to an array.
-            $registry = new Registry($table->params);
+            $registry                       = new Registry($table->params);
             $this->_cache[$cacheId]->params = $registry->toArray();
 
             // Get the plugin XML.
@@ -203,7 +207,7 @@ class PluginModel extends AdminModel
      *
      * @return  Table   A database object
      */
-    public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())
+    public function getTable($type = 'Extension', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -225,7 +229,7 @@ class PluginModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('extension_id');
+        $pk = $app->getInput()->getInt('extension_id');
         $this->setState('plugin.id', $pk);
     }
 
@@ -236,7 +240,7 @@ class PluginModel extends AdminModel
      * @param   mixed   $data   The data expected for the form.
      * @param   string  $group  Cache group name.
      *
-     * @return  mixed  True if successful.
+     * @return  void
      *
      * @since   1.6
      *
@@ -261,7 +265,7 @@ class PluginModel extends AdminModel
 
         foreach ($elements as $elementa) {
             $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR)
-            || $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa);
+                || $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa);
         }
 
         if (empty($folder) || empty($element)) {
@@ -276,8 +280,8 @@ class PluginModel extends AdminModel
         }
 
         // Load the core and/or local language file(s).
-            $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
-        ||  $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
+        $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
+            || $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
 
         if (file_exists($formFile)) {
             // Get the plugin form.
@@ -351,14 +355,15 @@ class PluginModel extends AdminModel
      */
     public function getHelp()
     {
-        return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
+        return (object) ['key' => $this->helpKey, 'url' => $this->helpURL];
     }
 
     /**
      * Custom clean cache method, plugins are cached in 2 places for different clients.
      *
      * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

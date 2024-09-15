@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides and input field for email addresses
@@ -45,7 +49,7 @@ class EmailField extends TextField
     protected function getInput()
     {
         // Trim the trailing line in the layout file
-        return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+        return rtrim($this->getRenderer($this->layout)->render($this->collectLayoutData()), PHP_EOL);
     }
     /**
      * Method to get the data to be passed to the layout for rendering.
@@ -58,10 +62,10 @@ class EmailField extends TextField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
-            'maxLength'  => $this->maxLength,
-            'multiple'   => $this->multiple,
-        );
+        $extraData = [
+            'maxLength' => $this->maxLength,
+            'multiple'  => $this->multiple,
+        ];
 
         return array_merge($data, $extraData);
     }

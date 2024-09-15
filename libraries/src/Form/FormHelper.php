@@ -9,9 +9,13 @@
 
 namespace Joomla\CMS\Form;
 
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form's helper class.
@@ -32,7 +36,7 @@ class FormHelper
      * - /path/1
      * - /path/2
      *
-     * @var    array
+     * @var    array[]
      * @since  1.7.0
      */
     protected static $paths;
@@ -40,10 +44,10 @@ class FormHelper
     /**
      * The class namespaces.
      *
-     * @var   string
+     * @var   array[]
      * @since 3.8.0
      */
-    protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
+    protected static $prefixes = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
 
     /**
      * Static array of Form's entity objects for re-use.
@@ -54,10 +58,10 @@ class FormHelper
      * {ENTITY_NAME}:
      * {KEY}: {OBJECT}
      *
-     * @var    array
+     * @var    array[]
      * @since  1.7.0
      */
-    protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
+    protected static $entities = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
 
     /**
      * Method to load a form field object given a type.
@@ -210,7 +214,7 @@ class FormHelper
 
             if (strpos($name, '.')) {
                 list($subPrefix, $name) = explode('.', $name);
-                $subPrefix = ucfirst($subPrefix) . '\\';
+                $subPrefix              = ucfirst($subPrefix) . '\\';
             }
 
             // Compile the classname
@@ -240,9 +244,9 @@ class FormHelper
         // If the type is complex, add the base type to the paths.
         if ($pos = strpos($type, '_')) {
             // Add the complex type prefix to the paths.
-            for ($i = 0, $n = \count($paths); $i < $n; $i++) {
+            foreach ($paths as $value) {
                 // Derive the new path.
-                $path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
+                $path = $value . '/' . strtolower(substr($type, 0, $pos));
 
                 // If the path does not exist, add it.
                 if (!\in_array($path, $paths)) {
@@ -278,9 +282,9 @@ class FormHelper
     /**
      * Method to add a path to the list of field include paths.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -292,9 +296,9 @@ class FormHelper
     /**
      * Method to add a path to the list of form include paths.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -306,9 +310,9 @@ class FormHelper
     /**
      * Method to add a path to the list of rule include paths.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -320,9 +324,9 @@ class FormHelper
     /**
      * Method to add a path to the list of filter include paths.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   4.0.0
      */
@@ -335,10 +339,10 @@ class FormHelper
      * Method to add a path to the list of include paths for one of the form's entities.
      * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
      *
-     * @param   string  $entity  Form's entity name for which paths will be added.
-     * @param   mixed   $new     A path or array of paths to add.
+     * @param   string            $entity  Form's entity name for which paths will be added.
+     * @param   string|string[]   $new     A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -356,10 +360,10 @@ class FormHelper
 
         // Add the new paths to the stack if not already there.
         foreach ($new as $path) {
-            $path = \trim($path);
+            $path = trim($path);
 
             if (!\in_array($path, $paths)) {
-                \array_unshift($paths, $path);
+                array_unshift($paths, $path);
             }
         }
 
@@ -369,9 +373,9 @@ class FormHelper
     /**
      * Method to add a namespace prefix to the list of field lookups.
      *
-     * @param   mixed  $new  A namespaces or array of namespaces to add.
+     * @param   string|string[]  $new  A namespaces or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   3.8.0
      */
@@ -383,9 +387,9 @@ class FormHelper
     /**
      * Method to add a namespace to the list of form lookups.
      *
-     * @param   mixed  $new  A namespace or array of namespaces to add.
+     * @param   string|string[]  $new  A namespace or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   3.8.0
      */
@@ -397,9 +401,9 @@ class FormHelper
     /**
      * Method to add a namespace to the list of rule lookups.
      *
-     * @param   mixed  $new  A namespace or array of namespaces to add.
+     * @param   string|string[]  $new  A namespace or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   3.8.0
      */
@@ -411,9 +415,9 @@ class FormHelper
     /**
      * Method to add a namespace to the list of filter lookups.
      *
-     * @param   mixed  $new  A namespace or array of namespaces to add.
+     * @param   string|string[]  $new  A namespace or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   4.0.0
      */
@@ -426,10 +430,10 @@ class FormHelper
      * Method to add a namespace to the list of namespaces for one of the form's entities.
      * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
      *
-     * @param   string  $entity  Form's entity name for which paths will be added.
-     * @param   mixed   $new     A namespace or array of namespaces to add.
+     * @param   string           $entity  Form's entity name for which paths will be added.
+     * @param   string|string[]  $new     A namespace or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   3.8.0
      */
@@ -467,7 +471,7 @@ class FormHelper
      * @param   string  $formControl  Form name.
      * @param   string  $group        The dot-separated form group path.
      *
-     * @return  array   Array with show on conditions.
+     * @return  array[]   Array with show on conditions.
      *
      * @since   3.7.0
      */
@@ -475,7 +479,7 @@ class FormHelper
     {
         // Process the showon data.
         if (!$showOn) {
-            return array();
+            return [];
         }
 
         $formPath = $formControl ?: '';
@@ -495,7 +499,7 @@ class FormHelper
             }
         }
 
-        $showOnData  = array();
+        $showOnData  = [];
         $showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
         $op          = '';
 
@@ -521,17 +525,17 @@ class FormHelper
                         $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
                     } else {
                         $groupParts = explode('.', $showOnPartBlocks[0]);
-                        $field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+                        $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
                     }
                 }
             }
 
-            $showOnData[] = array(
+            $showOnData[] = [
                 'field'  => $field,
                 'values' => explode(',', $showOnPartBlocks[1]),
                 'sign'   => $compareEqual === true ? '=' : '!=',
                 'op'     => $op,
-            );
+            ];
 
             if ($op !== '') {
                 $op = '';

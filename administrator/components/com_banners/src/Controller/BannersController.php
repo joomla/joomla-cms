@@ -14,8 +14,13 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Banners list controller class.
@@ -35,14 +40,14 @@ class BannersController extends AdminController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -60,7 +65,7 @@ class BannersController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Banner', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Banner', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -77,8 +82,8 @@ class BannersController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['sticky_publish' => 1, 'sticky_unpublish' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -107,5 +112,29 @@ class BannersController extends AdminController
         }
 
         $this->setRedirect('index.php?option=com_banners&view=banners');
+    }
+
+    /**
+     * Method to get the number of published banners for quickicons
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function getQuickiconContent()
+    {
+        $model = $this->getModel('banners');
+
+        $model->setState('filter.published', 1);
+
+        $amount = (int) $model->getTotal();
+
+        $result = [];
+
+        $result['amount'] = $amount;
+        $result['sronly'] = Text::plural('COM_BANNERS_N_QUICKICON_SRONLY', $amount);
+        $result['name']   = Text::plural('COM_BANNERS_N_QUICKICON', $amount);
+
+        echo new JsonResponse($result);
     }
 }

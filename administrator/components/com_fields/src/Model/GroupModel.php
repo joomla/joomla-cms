@@ -11,13 +11,17 @@
 namespace Joomla\Component\Fields\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Group Model
@@ -38,10 +42,10 @@ class GroupModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
-    );
+        'language_id'   => 'batchLanguage',
+    ];
 
     /**
      * Method to save the form data.
@@ -55,7 +59,7 @@ class GroupModel extends AdminModel
     public function save($data)
     {
         // Alter the title for save as copy
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Save new group as unpublished
         if ($input->get('task') == 'save2copy') {
@@ -77,7 +81,7 @@ class GroupModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Group', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Group', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -92,10 +96,10 @@ class GroupModel extends AdminModel
      *
      * @since   3.7.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $context = $this->getState('filter.context');
-        $jinput = Factory::getApplication()->input;
+        $jinput  = Factory::getApplication()->getInput();
 
         if (empty($context) && isset($data['context'])) {
             $context = $data['context'];
@@ -106,10 +110,10 @@ class GroupModel extends AdminModel
         $form = $this->loadForm(
             'com_fields.group.' . $context,
             'group',
-            array(
+            [
                 'control'   => 'jform',
                 'load_data' => $loadData,
-            )
+            ]
         );
 
         if (empty($form)) {
@@ -121,7 +125,7 @@ class GroupModel extends AdminModel
             $data['context'] = $context;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (!$user->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id'))) {
             // Disable fields for display.
@@ -156,7 +160,7 @@ class GroupModel extends AdminModel
             return false;
         }
 
-        return Factory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
     }
 
     /**
@@ -171,7 +175,7 @@ class GroupModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Check for existing fieldgroup.
         if (!empty($record->id)) {
@@ -236,29 +240,30 @@ class GroupModel extends AdminModel
 
         $parts = FieldsHelper::extract($this->state->get('filter.context'));
 
+        // If we don't have a valid context then return early
+        if (!$parts) {
+            return;
+        }
+
         // Extract the component name
         $component = $parts[0];
 
-        // Extract the optional section name
-        $section = (count($parts) > 1) ? $parts[1] : null;
+        // Extract the section name
+        $section = $parts[1];
 
-        if ($parts) {
-            // Set the access control rules field component value.
-            $form->setFieldAttribute('rules', 'component', $component);
-        }
+        // Set the access control rules field component value.
+        $form->setFieldAttribute('rules', 'component', $component);
 
-        if ($section !== null) {
-            // Looking first in the component models/forms folder
-            $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+        // Looking first in the component models/forms folder
+        $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
-            if (file_exists($path)) {
-                $lang = Factory::getLanguage();
-                $lang->load($component, JPATH_BASE);
-                $lang->load($component, JPATH_BASE . '/components/' . $component);
+        if (file_exists($path)) {
+            $lang = Factory::getLanguage();
+            $lang->load($component, JPATH_BASE);
+            $lang->load($component, JPATH_BASE . '/components/' . $component);
 
-                if (!$form->loadFile($path, false)) {
-                    throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-                }
+            if (!$form->loadFile($path, false)) {
+                throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
         }
     }
@@ -272,13 +277,13 @@ class GroupModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_fields')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -297,8 +302,9 @@ class GroupModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.group.data', array());
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
+        $data  = $app->getUserState('com_fields.edit.group.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -311,15 +317,15 @@ class GroupModel extends AdminModel
 
                 $data->set(
                     'state',
-                    $app->input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
+                    $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
                 );
                 $data->set(
                     'language',
-                    $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
+                    $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
                 );
                 $data->set(
                     'access',
-                    $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
             }
         }
@@ -358,7 +364,8 @@ class GroupModel extends AdminModel
      * Clean the cache
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
@@ -366,7 +373,7 @@ class GroupModel extends AdminModel
      */
     protected function cleanCache($group = null, $clientId = 0)
     {
-        $context = Factory::getApplication()->input->get('context');
+        $context = Factory::getApplication()->getInput()->get('context');
 
         parent::cleanCache($context);
     }

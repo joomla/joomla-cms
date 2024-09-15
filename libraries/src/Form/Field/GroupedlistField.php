@@ -13,6 +13,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides a grouped list select field.
@@ -40,23 +44,26 @@ class GroupedlistField extends FormField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.7.0
      * @throws  \UnexpectedValueException
      */
     protected function getGroups()
     {
-        $groups = array();
-        $label = 0;
+        $groups = [];
+        $label  = $this->layout === 'joomla.form.field.groupedlist-fancy-select' ? '' : 0;
+        // To be able to display an out-of-group option when using grouped list with fancy-select,
+        // this one should be in an empty group. This allows you to have a placeholder option with a non-empty value.
+        // Choices.js issue about mixed options with optgroup: https://github.com/Choices-js/Choices/pull/1110
 
         foreach ($this->element->children() as $element) {
             switch ($element->getName()) {
-                // The element is an <option />
                 case 'option':
+                    // The element is an <option />
                     // Initialize the group if necessary.
                     if (!isset($groups[$label])) {
-                        $groups[$label] = array();
+                        $groups[$label] = [];
                     }
 
                     $disabled = (string) $element['disabled'];
@@ -82,8 +89,8 @@ class GroupedlistField extends FormField
                     $groups[$label][] = $tmp;
                     break;
 
-                // The element is a <group />
                 case 'group':
+                    // The element is a <group />
                     // Get the group label.
                     if ($groupLabel = (string) $element['label']) {
                         $label = Text::_($groupLabel);
@@ -91,7 +98,7 @@ class GroupedlistField extends FormField
 
                     // Initialize the group if necessary.
                     if (!isset($groups[$label])) {
-                        $groups[$label] = array();
+                        $groups[$label] = [];
                     }
 
                     // Iterate through the children and build an array of options.
@@ -129,9 +136,9 @@ class GroupedlistField extends FormField
                     }
                     break;
 
-                // Unknown element type.
                 default:
-                    throw new \UnexpectedValueException(sprintf('Unsupported element %s in GroupedlistField', $element->getName()), 500);
+                    // Unknown element type.
+                    throw new \UnexpectedValueException(\sprintf('Unsupported element %s in GroupedlistField', $element->getName()), 500);
             }
         }
 
@@ -141,7 +148,7 @@ class GroupedlistField extends FormField
     }
 
     /**
-     * Method to get the field input markup fora grouped list.
+     * Method to get the field input markup for a grouped list.
      * Multiselect is enabled by using the multiple attribute.
      *
      * @return  string  The field input markup.
@@ -150,7 +157,7 @@ class GroupedlistField extends FormField
      */
     protected function getInput()
     {
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         // Get the field groups.
         $data['groups'] = (array) $this->getGroups();

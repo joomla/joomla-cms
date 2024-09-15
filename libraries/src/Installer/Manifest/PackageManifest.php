@@ -12,6 +12,10 @@ namespace Joomla\CMS\Installer\Manifest;
 use Joomla\CMS\Installer\InstallerExtension;
 use Joomla\CMS\Installer\Manifest;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Package Manifest File
  *
@@ -19,6 +23,30 @@ use Joomla\CMS\Installer\Manifest;
  */
 class PackageManifest extends Manifest
 {
+    /**
+     * Author url of the package
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $authorurl;
+
+    /**
+     * Author of the package
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $author;
+
+    /**
+     * Author email of the package
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $authoremail;
+
     /**
      * Unique name of the package
      *

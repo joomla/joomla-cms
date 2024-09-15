@@ -16,16 +16,18 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Associations\Administrator\Model\AssociationModel;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of articles.
@@ -55,7 +57,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -230,7 +232,7 @@ class HtmlView extends BaseHtmlView
         $this->app  = Factory::getApplication();
         $this->form = $model->getForm();
         /** @var Input $input */
-        $input             = $this->app->input;
+        $input             = $this->app->getInput();
         $this->referenceId = $input->get('id', 0, 'int');
 
         [$extensionName, $typeName] = explode('.', $input->get('itemtype', '', 'string'), 2);
@@ -314,7 +316,7 @@ class HtmlView extends BaseHtmlView
              * Let's put the target src into a variable to use in the javascript code
              * to avoid race conditions when the reference iframe loads.
              */
-            $this->document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
+            $this->getDocument()->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
             $this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
         }
 
@@ -335,7 +337,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         // Hide main menu.
-        $this->app->input->set('hidemainmenu', 1);
+        $this->app->getInput()->set('hidemainmenu', 1);
 
         $helper = AssociationsHelper::getExtensionHelper($this->extensionName);
         $title  = $helper->getTypeTitle($this->typeName);
@@ -355,29 +357,24 @@ class HtmlView extends BaseHtmlView
             'language assoc'
         );
 
-        $bar = Toolbar::getInstance();
-
-        $bar->appendButton(
-            'Custom',
-            '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
+        $toolbar = $this->getDocument()->getToolbar();
+        $toolbar->customButton('reference')
+            ->html('<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'
-            . Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>',
-            'reference'
-        );
+            . Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>');
 
-        $bar->appendButton(
-            'Custom',
-            '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'target\')" '
+        $toolbar->customButton('target')
+            ->html('<joomla-toolbar-button id="toolbar-target"><button onclick="Joomla.submitbutton(\'target\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'
-            . Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>',
-            'target'
-        );
+            . Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>');
 
         if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true) {
-            ToolbarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+            $toolbar->standardButton('copy', 'COM_ASSOCIATIONS_COPY_REFERENCE', 'copy')
+                ->icon('icon-copy')
+                ->listCheck(false);
         }
 
-        ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
-        ToolbarHelper::help('Multilingual_Associations:_Edit');
+        $toolbar->cancel('association.cancel');
+        $toolbar->help('Multilingual_Associations:_Edit');
     }
 }

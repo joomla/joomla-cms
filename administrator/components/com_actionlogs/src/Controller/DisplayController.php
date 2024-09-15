@@ -12,8 +12,12 @@ namespace Joomla\Component\Actionlogs\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * Plugins master display controller.
+ * Actionlogs display controller.
  *
  * @since  4.0.0
  */

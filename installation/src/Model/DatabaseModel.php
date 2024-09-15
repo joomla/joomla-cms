@@ -14,10 +14,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -27,35 +30,22 @@ use Joomla\Utilities\ArrayHelper;
 class DatabaseModel extends BaseInstallationModel
 {
     /**
-     * Get the current setup options from the session.
-     *
-     * @return  array  An array of options from the session.
-     *
-     * @since   4.0.0
-     */
-    public function getOptions()
-    {
-        return Factory::getSession()->get('setup.options', array());
-    }
-
-    /**
      * Method to initialise the database.
      *
-     * @param   boolean  $select  Select the database when creating the connections.
+     * @param   array    $options  Array with db connection credentials
+     * @param   boolean  $select   Select the database when creating the connections.
      *
      * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
      *
      * @since   3.1
      */
-    public function initialise($select = true)
+    public function initialise(array $options, bool $select = true)
     {
-        $options = $this->getOptions();
-
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
 
         // Load the backend language files so that the DB error messages work.
-        $lang = Factory::getLanguage();
+        $lang        = Factory::getLanguage();
         $currentLang = $lang->getTag();
 
         // Load the selected language
@@ -103,21 +93,24 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to create a new database.
      *
+     * @param   array  $options  Array of database credentials
+     *
      * @return  boolean
      *
      * @since   3.1
      * @throws  \RuntimeException
      */
-    public function createDatabase()
+    public function createDatabase(array $options)
     {
-        $options = (object) $this->getOptions();
-
-        $db = $this->initialise(false);
+        $db = $this->initialise($options, false);
 
         if ($db === false) {
             // Error messages are enqueued by the initialise function, we just need to tell the controller how to redirect
             return false;
         }
+
+        // Get the options as an object for easier handling.
+        $options = ArrayHelper::toObject($options);
 
         // Check database version.
         $type = $options->db_type;
@@ -143,7 +136,7 @@ class DatabaseModel extends BaseInstallationModel
                  */
                 if ($type === 'mysql') {
                     // MySQL (PDO): Don't specify database name
-                    $altDBoptions = array(
+                    $altDBoptions = [
                         'driver'   => $options->db_type,
                         'host'     => $options->db_host,
                         'user'     => $options->db_user,
@@ -151,10 +144,10 @@ class DatabaseModel extends BaseInstallationModel
                         'prefix'   => $options->db_prefix,
                         'select'   => false,
                         DatabaseHelper::getEncryptionSettings($options),
-                    );
+                    ];
                 } else {
                     // PostgreSQL (PDO): Use 'postgres'
-                    $altDBoptions = array(
+                    $altDBoptions = [
                         'driver'   => $options->db_type,
                         'host'     => $options->db_host,
                         'user'     => $options->db_user,
@@ -163,7 +156,7 @@ class DatabaseModel extends BaseInstallationModel
                         'prefix'   => $options->db_prefix,
                         'select'   => false,
                         DatabaseHelper::getEncryptionSettings($options),
-                    );
+                    ];
                 }
 
                 $altDB = DatabaseDriver::getInstance($altDBoptions);
@@ -206,12 +199,12 @@ class DatabaseModel extends BaseInstallationModel
         }
 
         // @internal Check for spaces in beginning or end of name.
-        if (strlen(trim($options->db_name)) <> strlen($options->db_name)) {
+        if (\strlen(trim($options->db_name)) <> \strlen($options->db_name)) {
             throw new \RuntimeException(Text::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
         }
 
         // @internal Check for asc(00) Null in name.
-        if (strpos($options->db_name, chr(00)) !== false) {
+        if (strpos($options->db_name, \chr(00)) !== false) {
             throw new \RuntimeException(Text::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
         }
 
@@ -258,34 +251,31 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to process the old database.
      *
+     * @param   array  $options  Array with database credentials
+     *
      * @return  boolean  True on success.
      *
      * @since   3.1
      */
-    public function handleOldDatabase()
+    public function handleOldDatabase(array $options)
     {
-        $options = $this->getOptions();
-
         if (!isset($options['db_created']) || !$options['db_created']) {
             return $this->createDatabase($options);
         }
 
-        // Get the options as an object for easier handling.
-        $options = ArrayHelper::toObject($options);
-
-        if (!$db = $this->initialise()) {
+        if (!$db = $this->initialise($options)) {
             return false;
         }
 
         // Set the character set to UTF-8 for pre-existing databases.
         try {
-            $db->alterDbCharacterSet($options->db_name);
+            $db->alterDbCharacterSet($options['db_name']);
         } catch (\RuntimeException $e) {
             // Continue Anyhow
         }
 
         // Backup any old database.
-        if (!$this->backupDatabase($db, $options->db_prefix)) {
+        if (!$this->backupDatabase($db, $options['db_prefix'])) {
             return false;
         }
 
@@ -295,22 +285,23 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to create the database tables.
      *
-     * @param   string  $schema  The SQL schema file to apply.
+     * @param   string  $schema   The SQL schema file to apply.
+     * @param   array   $options  Array with database credentials
      *
      * @return  boolean  True on success.
      *
      * @since   3.1
      */
-    public function createTables($schema)
+    public function createTables(string $schema, array $options)
     {
-        if (!$db = $this->initialise()) {
+        if (!$db = $this->initialise($options)) {
             return false;
         }
 
         $serverType = $db->getServerType();
 
         // Set the appropriate schema script based on UTF-8 support.
-        $schemaFile = 'sql/' . $serverType . '/' . $schema . '.sql';
+        $schemaFile = JPATH_INSTALLATION . '/sql/' . $serverType . '/' . $schema . '.sql';
 
         // Check if the schema is a valid file
         if (!is_file($schemaFile)) {
@@ -330,7 +321,7 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to backup all tables in a database with a given prefix.
      *
-     * @param   DatabaseDriver  $db      JDatabaseDriver object.
+     * @param   DatabaseDriver  $db      DatabaseDriver object.
      * @param   string          $prefix  Database table prefix.
      *
      * @return  boolean  True on success.
@@ -379,10 +370,10 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to create a new database.
      *
-     * @param   DatabaseDriver  $db       Database object.
-     * @param   CMSObject       $options  CMSObject coming from "initialise" function to pass user
-     *                                    and database name to database driver.
-     * @param   boolean         $utf      True if the database supports the UTF-8 character set.
+     * @param   DatabaseInterface  $db       Database object.
+     * @param   object             $options  Object with database credentials to pass user
+     *                                       and database name to database driver.
+     * @param   boolean            $utf      True if the database supports the UTF-8 character set.
      *
      * @return  boolean  True on success.
      *
@@ -405,8 +396,8 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to import a database schema from a file.
      *
-     * @param   \Joomla\Database\DatabaseInterface  $db      JDatabase object.
-     * @param   string                              $schema  Path to the schema file.
+     * @param   DatabaseInterface  $db      Database object.
+     * @param   string             $schema  Path to the schema file.
      *
      * @return  boolean  True on success.
      *
@@ -459,8 +450,8 @@ class DatabaseModel extends BaseInstallationModel
      */
     protected function splitQueries($query)
     {
-        $buffer    = array();
-        $queries   = array();
+        $buffer    = [];
+        $queries   = [];
         $in_string = false;
 
         // Trim any whitespace.
@@ -479,7 +470,7 @@ class DatabaseModel extends BaseInstallationModel
         $query = $funct[0];
 
         // Parse the schema file to break up queries.
-        for ($i = 0; $i < strlen($query) - 1; $i++) {
+        for ($i = 0; $i < \strlen($query) - 1; $i++) {
             if ($query[$i] == ';' && !$in_string) {
                 $queries[] = substr($query, 0, $i);
                 $query     = substr($query, $i + 1);
@@ -505,7 +496,7 @@ class DatabaseModel extends BaseInstallationModel
         }
 
         // Add function part as is.
-        for ($f = 1, $fMax = count($funct); $f < $fMax; $f++) {
+        for ($f = 1, $fMax = \count($funct); $f < $fMax; $f++) {
             $queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
         }
 

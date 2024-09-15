@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Privacy\Administrator\Model\ConsentsModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Consents management controller class.
  *
@@ -49,7 +53,7 @@ class ConsentsController extends FormController
             if (!$model->invalidate($ids)) {
                 $this->setMessage($model->getError());
             } else {
-                $this->setMessage(Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', count($ids)));
+                $this->setMessage(Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', \count($ids)));
             }
         }
 

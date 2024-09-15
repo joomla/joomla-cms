@@ -18,6 +18,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class for workflow
  *
@@ -61,11 +65,11 @@ class WorkflowModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -82,7 +86,7 @@ class WorkflowModel extends AdminModel
         $table             = $this->getTable();
         $app               = Factory::getApplication();
         $user              = $app->getIdentity();
-        $input             = $app->input;
+        $input             = $app->getInput();
         $context           = $this->option . '.' . $this->name;
         $extension         = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
         $data['extension'] = !empty($data['extension']) ? $data['extension'] : $extension;
@@ -106,13 +110,13 @@ class WorkflowModel extends AdminModel
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title) = $this->generateNewTitle(0, '', $data['title']);
+                list($title)   = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
             // Unpublish new copy
             $data['published'] = 0;
-            $data['default'] = 0;
+            $data['default']   = 0;
         }
 
         $result = parent::save($data);
@@ -123,12 +127,12 @@ class WorkflowModel extends AdminModel
 
             $table = $this->getTable('Stage');
 
-            $table->id = 0;
-            $table->title = 'COM_WORKFLOW_BASIC_STAGE';
+            $table->id          = 0;
+            $table->title       = 'COM_WORKFLOW_BASIC_STAGE';
             $table->description = '';
             $table->workflow_id = $workflow_id;
-            $table->published = 1;
-            $table->default = 1;
+            $table->published   = 1;
+            $table->default     = 1;
 
             $table->store();
         }
@@ -146,16 +150,16 @@ class WorkflowModel extends AdminModel
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
             'com_workflow.workflow',
             'workflow',
-            array(
+            [
                 'control'   => 'jform',
-                'load_data' => $loadData
-            )
+                'load_data' => $loadData,
+            ]
         );
 
         if (empty($form)) {
@@ -199,7 +203,7 @@ class WorkflowModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_workflow.edit.workflow.data',
-            array()
+            []
         );
 
         if (empty($data)) {
@@ -222,7 +226,7 @@ class WorkflowModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->input->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension');
 
         $parts = explode('.', $extension);
 
@@ -287,12 +291,12 @@ class WorkflowModel extends AdminModel
             if (
                 $table->load(
                     [
-                    'default' => '1',
-                    'extension' => $table->get('extension')
+                    'default'   => '1',
+                    'extension' => $table->extension,
                     ]
                 )
             ) {
-                $table->default = 0;
+                $table->default  = 0;
                 $table->modified = $date;
                 $table->store();
             }
@@ -325,7 +329,7 @@ class WorkflowModel extends AdminModel
             return false;
         }
 
-        return Factory::getUser()->authorise('core.delete', $record->extension . '.workflow.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', $record->extension . '.workflow.' . (int) $record->id);
     }
 
     /**
@@ -339,7 +343,7 @@ class WorkflowModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Check for existing workflow.
         if (!empty($record->id)) {

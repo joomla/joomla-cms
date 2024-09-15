@@ -17,18 +17,26 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Newsfeed Table class.
  *
  * @since  1.6
  */
-class NewsfeedTable extends Table implements VersionableTableInterface, TaggableTableInterface
+class NewsfeedTable extends Table implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
+    use CurrentUserTrait;
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -44,17 +52,20 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
      * @var    array
      * @since  3.3
      */
-    protected $_jsonEncode = array('params', 'metadata', 'images');
+    protected $_jsonEncode = ['params', 'metadata', 'images'];
 
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   1.6
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_newsfeeds.newsfeed';
-        parent::__construct('#__newsfeeds', 'id', $db);
+        parent::__construct('#__newsfeeds', 'id', $db, $dispatcher);
         $this->setColumnAlias('title', 'name');
     }
 
@@ -107,11 +118,11 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $bad_characters = array("\"", '<', '>');
+            $bad_characters = ["\"", '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 
-        if (is_null($this->hits)) {
+        if (!$this->hits) {
             $this->hits = 0;
         }
 
@@ -119,7 +130,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
     }
 
     /**
-     * Overridden \JTable::store to set modified data.
+     * Overridden \Joomla\CMS\Table\Table::store to set modified data.
      *
      * @param   boolean  $updateNulls  True to update fields even if they are null.
      *
@@ -130,7 +141,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
     public function store($updateNulls = true)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created) {
@@ -139,12 +150,12 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
         if ($this->id) {
             // Existing item
-            $this->modified_by = $user->get('id');
+            $this->modified_by = $user->id;
             $this->modified    = $date->toSql();
         } else {
             // Field created_by can be set by the user, so we don't touch it if it's set.
             if (empty($this->created_by)) {
-                $this->created_by = $user->get('id');
+                $this->created_by = $user->id;
             }
 
             if (!(int) $this->modified) {
@@ -166,10 +177,15 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\', array('dbo' => $this->_db));
+        $table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\', ['dbo' => $this->_db]);
 
-        if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
+            // Is the existing newsfeed trashed?
             $this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+
+            if ($table->published === -2) {
+                $this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS_TRASHED'));
+            }
 
             return false;
         }

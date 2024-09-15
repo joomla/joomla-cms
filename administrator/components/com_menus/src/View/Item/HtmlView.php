@@ -17,8 +17,12 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The HTML Menus Menu Item View.
@@ -37,7 +41,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The active item
      *
-     * @var   CMSObject
+     * @var   \stdClass
      */
     protected $item;
 
@@ -49,14 +53,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
     /**
      * The actions the user is authorised to perform
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.7.0
      */
     protected $canDo;
@@ -68,6 +72,15 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     protected $levels;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Display the view
@@ -94,12 +107,18 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
+        }
+
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -108,8 +127,13 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
         }
 
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
+
         parent::display($tpl);
-        $this->addToolbar();
     }
 
     /**
@@ -121,64 +145,72 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $input->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
         $clientId   = $this->state->get('item.client_id', 0);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
-
-        $toolbarButtons = [];
 
         // If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
         if ($isNew && $canDo->get('core.create')) {
             if ($canDo->get('core.edit')) {
-                ToolbarHelper::apply('item.apply');
+                $toolbar->apply('item.apply');
             }
-
-            $toolbarButtons[] = ['save', 'item.save'];
         }
 
         // If not checked out, can save the item.
         if (!$isNew && !$checkedOut && $canDo->get('core.edit')) {
-            ToolbarHelper::apply('item.apply');
-
-            $toolbarButtons[] = ['save', 'item.save'];
+            $toolbar->apply('item.apply');
         }
 
-        // If the user can create new items, allow them to see Save & New
-        if ($canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2new', 'item.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        // If an existing item, can save to a copy only if we have create rights.
-        if (!$isNew && $canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2copy', 'item.save2copy'];
-        }
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($isNew, $checkedOut, $canDo) {
+                // If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
+                if ($isNew && $canDo->get('core.create')) {
+                    $childBar->save('item.save');
+                }
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+                // If not checked out, can save the item.
+                if (!$isNew && !$checkedOut && $canDo->get('core.edit')) {
+                    $childBar->save('item.save');
+                }
+
+                // If the user can create new items, allow them to see Save & New
+                if ($canDo->get('core.create')) {
+                    $childBar->save2new('item.save2new');
+                }
+
+                // If an existing item, can save to a copy only if we have create rights.
+                if (!$isNew && $canDo->get('core.create')) {
+                    $childBar->save2copy('item.save2copy');
+                }
+            }
         );
 
         if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations') && $clientId != 1) {
-            ToolbarHelper::custom('item.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
+            $toolbar->standardButton('associations', 'JTOOLBAR_ASSOCIATIONS', 'item.editAssociations')
+                ->icon('icon-contract')
+                ->listCheck(false);
         }
 
         if ($isNew) {
-            ToolbarHelper::cancel('item.cancel');
+            $toolbar->cancel('item.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('item.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('item.cancel');
         }
 
-        ToolbarHelper::divider();
+        $toolbar->divider();
 
         // Get the help information for the menu item.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
 
         $help = $this->get('Help');
 
@@ -190,6 +222,36 @@ class HtmlView extends BaseHtmlView
             $url = $help->url;
         }
 
-        ToolbarHelper::help($help->key, $help->local, $url);
+        $toolbar->help($help->key, $help->local, $url);
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $user       = $this->getCurrentUser();
+        $isNew      = ($this->item->id == 0);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
+        $canDo      = $this->canDo;
+        $toolbar    = $this->getDocument()->getToolbar();
+
+        ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
+
+        $canSave = !$checkedOut && ($isNew && $canDo->get('core.create') || $canDo->get('core.edit'));
+
+        // For new records, check the create permission.
+        if ($canSave) {
+            $toolbar->apply('item.apply');
+            $toolbar->save('item.save');
+        }
+
+        $toolbar->cancel('item.cancel');
     }
 }

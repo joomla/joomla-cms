@@ -13,6 +13,10 @@ namespace Joomla\Component\Fields\Administrator\Plugin;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base plugin for all list based plugins
  *
@@ -27,7 +31,7 @@ class FieldsListPlugin extends FieldsPlugin
      * @param   \DOMElement  $parent  The field node parent.
      * @param   Form         $form    The form.
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since   3.7.0
      */
@@ -42,7 +46,7 @@ class FieldsListPlugin extends FieldsPlugin
         $fieldNode->setAttribute('validate', 'options');
 
         foreach ($this->getOptionsFromField($field) as $value => $name) {
-            $option = new \DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
+            $option              = new \DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
             $option->textContent = htmlspecialchars(Text::_($name), ENT_COMPAT, 'UTF-8');
 
             $element = $fieldNode->appendChild($option);
@@ -63,14 +67,14 @@ class FieldsListPlugin extends FieldsPlugin
      */
     public function getOptionsFromField($field)
     {
-        $data = array();
+        $data = [];
 
         // Fetch the options from the plugin
         $params = clone $this->params;
         $params->merge($field->fieldparams);
 
-        foreach ($params->get('options', array()) as $option) {
-            $op = (object) $option;
+        foreach ($params->get('options', []) as $option) {
+            $op               = (object) $option;
             $data[$op->value] = $op->name;
         }
 

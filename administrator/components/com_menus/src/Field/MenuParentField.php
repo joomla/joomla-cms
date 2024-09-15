@@ -15,6 +15,10 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu Parent field.
  *
@@ -39,9 +43,9 @@ class MenuParentField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -66,7 +70,7 @@ class MenuParentField extends ListField
         // Filter by client id.
         $clientId = $this->getAttribute('clientid');
 
-        if (!is_null($clientId)) {
+        if (!\is_null($clientId)) {
             $clientId = (int) $clientId;
             $query->where($db->quoteName('a.client_id') . ' = :clientId')
                 ->bind(':clientId', $clientId, ParameterType::INTEGER);
@@ -95,12 +99,12 @@ class MenuParentField extends ListField
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
-        for ($i = 0, $n = count($options); $i < $n; $i++) {
+        foreach ($options as $option) {
             if ($clientId != 0) {
                 // Allow translation of custom admin menus
-                $options[$i]->text = str_repeat('- ', $options[$i]->level) . Text::_($options[$i]->text);
+                $option->text = str_repeat('- ', $option->level) . Text::_($option->text);
             } else {
-                $options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+                $option->text = str_repeat('- ', $option->level) . $option->text;
             }
         }
 

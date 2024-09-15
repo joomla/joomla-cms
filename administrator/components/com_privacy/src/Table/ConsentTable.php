@@ -13,6 +13,11 @@ namespace Joomla\Component\Privacy\Administrator\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Table interface class for the #__privacy_consents table
@@ -29,13 +34,14 @@ class ConsentTable extends Table
     /**
      * The class constructor.
      *
-     * @param   DatabaseDriver  $db  DatabaseInterface connector object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.9.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__privacy_consents', 'id', $db);
+        parent::__construct('#__privacy_consents', 'id', $db, $dispatcher);
     }
 
     /**

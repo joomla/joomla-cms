@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -22,27 +21,27 @@ use Joomla\Console\Application;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Joomla! CMS Console Application
  *
  * @since  4.0.0
  */
-class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
+class ConsoleApplication extends Application implements CMSApplicationInterface
 {
-    use DispatcherAwareTrait;
     use EventAware;
     use IdentityAware;
     use ContainerAwareTrait;
@@ -158,7 +157,11 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  mixed   A value if the property name is valid, null otherwise.
      *
      * @since       4.0.0
-     * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              This is a B/C proxy for deprecated read accesses, use getInput() method instead
+     *              Example:
+     *              $app->getInput();
      */
     public function __get($name)
     {
@@ -174,7 +177,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
             default:
                 $trace = debug_backtrace();
                 trigger_error(
-                    sprintf(
+                    \sprintf(
                         'Undefined property via __get(): %1$s in %2$s on line %3$s',
                         $name,
                         $trace[0]['file'],
@@ -245,8 +248,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         $this->populateHttpHost();
 
         // Import CMS plugin groups to be able to subscribe to events
-        PluginHelper::importPlugin('system');
-        PluginHelper::importPlugin('console');
+        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('console', null, true, $this->getDispatcher());
 
         parent::execute();
     }
@@ -263,7 +267,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      */
     public function enqueueMessage($msg, $type = self::MSG_INFO)
     {
-        if (!array_key_exists($type, $this->messages)) {
+        if (!\array_key_exists($type, $this->messages)) {
             $this->messages[$type] = [];
         }
 
@@ -296,6 +300,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
             [
                 new Console\CleanCacheCommand(),
                 new Console\CheckUpdatesCommand(),
+                new Console\CheckJoomlaUpdatesCommand(),
                 new Console\RemoveOldFilesCommand(),
                 new Console\AddUserCommand($this->getDatabase()),
                 new Console\AddUserToGroupCommand($this->getDatabase()),
@@ -303,6 +308,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
                 new Console\DeleteUserCommand($this->getDatabase()),
                 new Console\ChangeUserPasswordCommand(),
                 new Console\ListUserCommand($this->getDatabase()),
+                new Console\SiteCreatePublicFolderCommand(),
             ]
         );
     }
@@ -389,7 +395,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
      */
     public function isCli()
     {
@@ -436,7 +444,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      */
     public function getLongVersion(): string
     {
-        return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
+        return \sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
     }
 
     /**
@@ -466,12 +474,14 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @throws     \InvalidArgumentException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(ApiRouter::class);
      */
-    public static function getRouter($name = null, array $options = array())
+    public static function getRouter($name = null, array $options = [])
     {
         if (empty($name)) {
-            throw new InvalidArgumentException('A router name must be set in console application.');
+            throw new \InvalidArgumentException('A router name must be set in console application.');
         }
 
         $options['mode'] = Factory::getApplication()->get('sef');
@@ -493,8 +503,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * service for that component which in turn relies on an instance of SiteApplication.
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
-     * @see     https://github.com/joomla/joomla-cms/issues/38518
+     * @since   4.2.1
+     * @link    https://github.com/joomla/joomla-cms/issues/38518
      */
     protected function populateHttpHost()
     {
@@ -527,42 +537,68 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  InputDefinition
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.1
      */
     protected function getDefaultInputDefinition(): InputDefinition
     {
-        return new InputDefinition(
-            [
-                new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
-                new InputOption(
-                    '--live-site',
-                    null,
-                    InputOption::VALUE_OPTIONAL,
-                    'The URL to your site, e.g. https://www.example.com'
-                ),
-                new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display the help information'),
-                new InputOption(
-                    '--quiet',
-                    '-q',
-                    InputOption::VALUE_NONE,
-                    'Flag indicating that all output should be silenced'
-                ),
-                new InputOption(
-                    '--verbose',
-                    '-v|vv|vvv',
-                    InputOption::VALUE_NONE,
-                    'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-                ),
-                new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Displays the application version'),
-                new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
-                new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
-                new InputOption(
-                    '--no-interaction',
-                    '-n',
-                    InputOption::VALUE_NONE,
-                    'Flag to disable interacting with the user'
-                ),
-            ]
+        $inputDefinition = parent::getDefaultInputDefinition();
+        $inputDefinition->addOption(
+            new InputOption(
+                '--live-site',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The URL to your site, e.g. https://www.example.com'
+            )
         );
+
+        return $inputDefinition;
+    }
+
+    /**
+     * Gets a user state.
+     *
+     * @param   string  $key      The path of the state.
+     * @param   mixed   $default  Optional default value, returned if the internal value is null.
+     *
+     * @return  mixed  The user state or null.
+     *
+     * @since   4.4.0
+     */
+    public function getUserState($key, $default = null)
+    {
+        $registry = $this->getSession()->get('registry');
+
+        if ($registry !== null) {
+            return $registry->get($key, $default);
+        }
+
+        return $default;
+    }
+
+    /**
+     * Gets the value of a user state variable.
+     *
+     * @param   string  $key      The key of the user state variable.
+     * @param   string  $request  The name of the variable passed in a request.
+     * @param   string  $default  The default value for the variable if not found. Optional.
+     * @param   string  $type     Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
+     *
+     * @return  mixed  The request user state.
+     *
+     * @since   4.4.0
+     */
+    public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
+    {
+        $cur_state = $this->getUserState($key, $default);
+        $new_state = $this->input->get($request, null, $type);
+
+        if ($new_state === null) {
+            return $cur_state;
+        }
+
+        // Save the new value only if it was set in this request.
+        $this->setUserState($key, $new_state);
+
+        return $new_state;
     }
 }

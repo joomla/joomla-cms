@@ -15,6 +15,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Text Filters form field.
  *
@@ -51,24 +55,25 @@ class FiltersField extends FormField
         $groups = $this->getUserGroups();
 
         // Build the form control.
-        $html = array();
+        $html = [];
 
         // Open the table.
         $html[] = '<table id="filter-config" class="table">';
+        $html[] = '<caption class="visually-hidden">' . Text::_('COM_CONFIG_TEXT_FILTERS') . '</caption>';
 
         // The table heading.
         $html[] = '	<thead>';
         $html[] = '	<tr>';
-        $html[] = '		<th>';
+        $html[] = '		<th scope="col">';
         $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
         $html[] = '		</th>';
-        $html[] = '		<th>';
+        $html[] = '		<th scope="col">';
         $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
         $html[] = '		</th>';
-        $html[] = '		<th>';
+        $html[] = '		<th scope="col">';
         $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
         $html[] = '		</th>';
-        $html[] = '		<th>';
+        $html[] = '		<th scope="col">';
         $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
         $html[] = '		</th>';
         $html[] = '	</tr>';
@@ -79,7 +84,7 @@ class FiltersField extends FormField
 
         foreach ($groups as $group) {
             if (!isset($this->value[$group->value])) {
-                $this->value[$group->value] = array('filter_type' => 'BL', 'filter_tags' => '', 'filter_attributes' => '');
+                $this->value[$group->value] = ['filter_type' => 'BL', 'filter_tags' => '', 'filter_attributes' => ''];
             }
 
             $group_filter = $this->value[$group->value];
@@ -88,9 +93,9 @@ class FiltersField extends FormField
             $group_filter['filter_attributes'] = !empty($group_filter['filter_attributes']) ? $group_filter['filter_attributes'] : '';
 
             $html[] = '	<tr>';
-            $html[] = '		<td class="acl-groups left">';
-            $html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
-            $html[] = '		</td>';
+            $html[] = '		<th class="acl-groups left" scope="row">';
+            $html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', ['level' => $group->level + 1]) . $group->text;
+            $html[] = '		</th>';
             $html[] = '		<td>';
             $html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="visually-hidden">'
                 . Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</label>';

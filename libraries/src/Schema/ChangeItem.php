@@ -13,6 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Each object represents one query, which is one line from a DDL SQL query.
  * This class is used to check the site's database to see if the DDL query has been run.
@@ -93,7 +97,7 @@ abstract class ChangeItem
      * @var    array
      * @since  2.5
      */
-    public $msgElements = array();
+    public $msgElements = [];
 
     /**
      * Checked status
@@ -123,8 +127,8 @@ abstract class ChangeItem
     public function __construct($db, $file, $query)
     {
         $this->updateQuery = $query;
-        $this->file = $file;
-        $this->db = $db;
+        $this->file        = $file;
+        $this->db          = $db;
         $this->buildCheckQuery();
     }
 
@@ -145,11 +149,6 @@ abstract class ChangeItem
         // Get the class name
         $serverType = $db->getServerType();
 
-        // For `mssql` server types, convert the type to `sqlsrv`
-        if ($serverType === 'mssql') {
-            $serverType = 'sqlsrv';
-        }
-
         $class = '\\Joomla\\CMS\\Schema\\ChangeItem\\' . ucfirst($serverType) . 'ChangeItem';
 
         // If the class exists, return it.
@@ -157,7 +156,7 @@ abstract class ChangeItem
             return new $class($db, $file, $query);
         }
 
-        throw new \RuntimeException(sprintf('ChangeItem child class not found for the %s database driver', $serverType), 500);
+        throw new \RuntimeException(\sprintf('ChangeItem child class not found for the %s database driver', $serverType), 500);
     }
 
     /**

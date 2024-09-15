@@ -1,5 +1,5 @@
 <template>
-  <media-modal
+  <MediaModal
     v-if="$store.state.showCreateFolderModal"
     :size="'md'"
     label-element="createFolderTitle"
@@ -24,6 +24,7 @@
             <label for="folder">{{ translate('COM_MEDIA_FOLDER_NAME') }}</label>
             <input
               id="folder"
+              ref="input"
               v-model.trim="folder"
               class="form-control"
               type="text"
@@ -52,21 +53,34 @@
         </button>
       </div>
     </template>
-  </media-modal>
+  </MediaModal>
 </template>
 
 <script>
 import * as types from '../../store/mutation-types.es6';
+import MediaModal from './modal.vue';
 
 export default {
   name: 'MediaCreateFolderModal',
+  components: {
+    MediaModal,
+  },
   data() {
     return {
       folder: '',
     };
   },
+  watch: {
+    '$store.state.showCreateFolderModal': function (show) {
+      this.$nextTick(() => {
+        if (show && this.$refs.input) {
+          this.$refs.input.focus();
+        }
+      });
+    },
+  },
   methods: {
-    /* Check if the the form is valid */
+    /* Check if the form is valid */
     isValid() {
       return (this.folder);
     },

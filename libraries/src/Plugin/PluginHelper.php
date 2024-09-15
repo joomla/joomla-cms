@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin helper class
  *
@@ -43,38 +47,49 @@ abstract class PluginHelper
      */
     public static function getLayoutPath($type, $name, $layout = 'default')
     {
-        $templateObj   = Factory::getApplication()->getTemplate(true);
+        $app = Factory::getApplication();
+
+        if ($app->isClient('site') || $app->isClient('administrator')) {
+            $templateObj = $app->getTemplate(true);
+        } else {
+            $templateObj = (object) [
+                'template' => '',
+                'parent'   => '',
+            ];
+        }
+
         $defaultLayout = $layout;
         $template      = $templateObj->template;
 
         if (strpos($layout, ':') !== false) {
             // Get the template and file name from the string
-            $temp = explode(':', $layout);
-            $template = $temp[0] === '_' ? $templateObj->template : $temp[0];
-            $layout = $temp[1];
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $templateObj->template : $temp[0];
+            $layout        = $temp[1];
             $defaultLayout = $temp[1] ?: 'default';
         }
 
         // Build the template and base path for the layout
-        $tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-        $iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-        $bPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
-        $dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
+        $layoutPaths = [];
 
-        // If the template has a layout override use it
-        if (is_file($tPath)) {
-            return $tPath;
+        if ($template) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
         }
 
-        if (!empty($templateObj->parent) && is_file($iPath)) {
-            return $iPath;
+        if ($templateObj->parent) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
         }
 
-        if (is_file($bPath)) {
-            return $bPath;
+        $layoutPaths[] = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
+        $layoutPaths[] = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
+
+        foreach ($layoutPaths as $path) {
+            if (is_file($path)) {
+                return $path;
+            }
         }
 
-        return $dPath;
+        return end($layoutPaths);
     }
 
     /**
@@ -90,7 +105,7 @@ abstract class PluginHelper
      */
     public static function getPlugin($type, $plugin = null)
     {
-        $result = [];
+        $result  = [];
         $plugins = static::load();
 
         // Find the correct plugin(s) to return.
@@ -135,16 +150,16 @@ abstract class PluginHelper
      * Loads all the plugin files for a particular type if no specific plugin is specified
      * otherwise only the specific plugin is loaded.
      *
-     * @param   string               $type        The plugin type, relates to the subdirectory in the plugins directory.
-     * @param   string               $plugin      The plugin name.
-     * @param   boolean              $autocreate  Autocreate the plugin.
-     * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     * @param   string                $type        The plugin type, relates to the subdirectory in the plugins directory.
+     * @param   string                $plugin      The plugin name.
+     * @param   boolean               $autocreate  Autocreate the plugin.
+     * @param   ?DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
      *
      * @return  boolean  True on success.
      *
      * @since   1.5
      */
-    public static function importPlugin($type, $plugin = null, $autocreate = true, DispatcherInterface $dispatcher = null)
+    public static function importPlugin($type, $plugin = null, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
         static $loaded = [];
 
@@ -172,9 +187,9 @@ abstract class PluginHelper
             $plugins = static::load();
 
             // Get the specified plugin(s).
-            for ($i = 0, $t = \count($plugins); $i < $t; $i++) {
-                if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin)) {
-                    static::import($plugins[$i], $autocreate, $dispatcher);
+            foreach ($plugins as $value) {
+                if ($value->type === $type && ($plugin === null || $value->name === $plugin)) {
+                    static::import($value, $autocreate, $dispatcher);
                     $results = true;
                 }
             }
@@ -193,15 +208,15 @@ abstract class PluginHelper
     /**
      * Loads the plugin file.
      *
-     * @param   object               $plugin      The plugin.
-     * @param   boolean              $autocreate  True to autocreate.
-     * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     * @param   object                $plugin      The plugin.
+     * @param   boolean               $autocreate  True to autocreate.
+     * @param   ?DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
      *
      * @return  void
      *
      * @since   3.2
      */
-    protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
+    protected static function import($plugin, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
         static $plugins = [];
 
@@ -246,7 +261,7 @@ abstract class PluginHelper
         $cache = Factory::getCache('com_plugins', 'callback');
 
         $loader = function () use ($levels) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     $db->quoteName(

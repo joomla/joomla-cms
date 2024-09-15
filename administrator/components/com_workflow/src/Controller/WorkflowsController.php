@@ -18,6 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Workflows controller
  *
@@ -44,15 +48,15 @@ class WorkflowsController extends AdminController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   4.0.0
      * @throws  \InvalidArgumentException when no extension is set
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -87,7 +91,7 @@ class WorkflowsController extends AdminController
      *
      * @since  4.0.0
      */
-    public function getModel($name = 'Workflow', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Workflow', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -105,8 +109,8 @@ class WorkflowsController extends AdminController
         $this->checkToken();
 
         // Get items to publish from the request.
-        $cid   = (array) $this->input->get('cid', array(), 'int');
-        $data  = array('setDefault' => 1, 'unsetDefault' => 0);
+        $cid   = (array) $this->input->get('cid', [], 'int');
+        $data  = ['setDefault' => 1, 'unsetDefault' => 0];
         $task  = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 
@@ -128,7 +132,7 @@ class WorkflowsController extends AdminController
 
         if (empty($cid)) {
             $this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
-        } elseif (count($cid) > 1) {
+        } elseif (\count($cid) > 1) {
             $this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_WORKFLOWS'), 'error');
         } else {
             // Get the model.
@@ -147,7 +151,7 @@ class WorkflowsController extends AdminController
                     $ntext = 'COM_WORKFLOW_ITEM_UNSET_DEFAULT';
                 }
 
-                $this->setMessage(Text::_($ntext, count($cid)));
+                $this->setMessage(Text::_($ntext, \count($cid)));
             }
         }
 

@@ -9,12 +9,18 @@
 
 namespace Joomla\CMS\Filesystem;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * File system helper
  *
  * Holds support functions for the filesystem, particularly the stream
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Helper instead.
  */
 class FilesystemHelper
 {
@@ -27,6 +33,8 @@ class FilesystemHelper
      *
      * @link    https://www.php.net/manual/en/function.filesize.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::remotefsize() instead.
      */
     public static function remotefsize($url)
     {
@@ -48,10 +56,10 @@ class FilesystemHelper
 
         if (($sch === 'ftp') || ($sch === 'ftps')) {
             $server = parse_url($url, PHP_URL_HOST);
-            $port = parse_url($url, PHP_URL_PORT);
-            $path = parse_url($url, PHP_URL_PATH);
-            $user = parse_url($url, PHP_URL_USER);
-            $pass = parse_url($url, PHP_URL_PASS);
+            $port   = parse_url($url, PHP_URL_PORT);
+            $path   = parse_url($url, PHP_URL_PATH);
+            $user   = parse_url($url, PHP_URL_USER);
+            $pass   = parse_url($url, PHP_URL_PASS);
 
             if ((!$server) || (!$path)) {
                 return false;
@@ -110,6 +118,8 @@ class FilesystemHelper
      *
      * @link    https://www.php.net/manual/en/function.ftp-chmod.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::ftpChmod() instead.
      */
     public static function ftpChmod($url, $mode)
     {
@@ -120,10 +130,10 @@ class FilesystemHelper
         }
 
         $server = parse_url($url, PHP_URL_HOST);
-        $port = parse_url($url, PHP_URL_PORT);
-        $path = parse_url($url, PHP_URL_PATH);
-        $user = parse_url($url, PHP_URL_USER);
-        $pass = parse_url($url, PHP_URL_PASS);
+        $port   = parse_url($url, PHP_URL_PORT);
+        $path   = parse_url($url, PHP_URL_PATH);
+        $user   = parse_url($url, PHP_URL_USER);
+        $pass   = parse_url($url, PHP_URL_PASS);
 
         if ((!$server) || (!$path)) {
             return false;
@@ -173,10 +183,12 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getWriteModes() instead.
      */
     public static function getWriteModes()
     {
-        return array('w', 'w+', 'a', 'a+', 'r+', 'x', 'x+');
+        return ['w', 'w+', 'a', 'a+', 'r+', 'x', 'x+'];
     }
 
     /**
@@ -188,6 +200,8 @@ class FilesystemHelper
      * @return  array  Streams
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getSupported() instead.
      */
     public static function getSupported()
     {
@@ -207,6 +221,8 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getTransports() instead.
      */
     public static function getTransports()
     {
@@ -220,6 +236,8 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getFilters() instead.
      */
     public static function getFilters()
     {
@@ -234,10 +252,12 @@ class FilesystemHelper
      * @return  array
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::getJStreams() instead.
      */
     public static function getJStreams()
     {
-        static $streams = array();
+        static $streams = [];
 
         if (!$streams) {
             $files = new \DirectoryIterator(__DIR__ . '/Streams');
@@ -264,6 +284,8 @@ class FilesystemHelper
      * @return  boolean  True for a Joomla Stream
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Helper::isJoomlaStream() instead.
      */
     public static function isJoomlaStream($streamname)
     {
@@ -283,12 +305,12 @@ class FilesystemHelper
      */
     public static function fileUploadMaxSize($unitOutput = true)
     {
-        static $max_size = false;
+        static $max_size    = false;
         static $output_type = true;
 
         if ($max_size === false || $output_type != $unitOutput) {
-            $max_size   = self::parseSize(ini_get('post_max_size'));
-            $upload_max = self::parseSize(ini_get('upload_max_filesize'));
+            $max_size   = self::parseSize(\ini_get('post_max_size'));
+            $upload_max = self::parseSize(\ini_get('upload_max_filesize'));
 
             if ($upload_max > 0 && ($upload_max < $max_size || $max_size == 0)) {
                 $max_size = $upload_max;
@@ -339,7 +361,7 @@ class FilesystemHelper
     private static function parseSizeUnit($maxSize)
     {
         $base     = log($maxSize) / log(1024);
-        $suffixes = array('', 'k', 'M', 'G', 'T');
+        $suffixes = ['', 'k', 'M', 'G', 'T'];
 
         return round(pow(1024, $base - floor($base)), 0) . $suffixes[floor($base)];
     }

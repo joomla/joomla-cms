@@ -20,6 +20,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View class for a list of search terms.
  *
@@ -51,7 +55,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -76,7 +80,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -115,13 +119,18 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if component is enabled
         if (!$this->enabled) {
-            $app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
+            // Check if the user has access to the component options
+            if ($this->canDo->get('core.admin') || $this->canDo->get('core.options')) {
+                $app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
+            } else {
+                $app->enqueueMessage(Text::_('COM_FINDER_LOGGING_DISABLED_NO_AUTH'), 'warning');
+            }
         }
 
         // Prepare the view.
@@ -139,22 +148,25 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = $this->canDo;
+        $canDo   = $this->canDo;
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
 
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
-                ToolbarHelper::custom('searches.reset', 'refresh', '', 'JSEARCH_RESET', false);
+                $toolbar->standardButton('reset', 'JSEARCH_RESET', 'searches.reset')
+                    ->icon('icon-refresh')
+                    ->listCheck(false);
             }
 
-            ToolbarHelper::divider();
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_finder');
+            $toolbar->preferences('com_finder');
         }
 
-        ToolbarHelper::help('Smart_Search:_Search_Term_Analysis');
+        $toolbar->help('Smart_Search:_Search_Term_Analysis');
     }
 }

@@ -17,6 +17,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_popular
  *
@@ -27,20 +31,20 @@ abstract class PopularHelper
     /**
      * Get a list of the most popular articles.
      *
-     * @param   Registry       &$params  The module parameters.
-     * @param   ArticlesModel  $model    The model.
+     * @param   Registry       $params  The module parameters.
+     * @param   ArticlesModel  $model   The model.
      *
      * @return  mixed  An array of articles, or false on error.
      *
      * @throws  \Exception
      */
-    public static function getList(Registry &$params, ArticlesModel $model)
+    public static function getList(Registry $params, ArticlesModel $model)
     {
         $user = Factory::getUser();
 
         // Set List SELECT
         $model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-            ' a.publish_up, a.hits');
+            ' a.created_by, a.publish_up, a.hits');
 
         // Set Ordering filter
         $model->setState('list.ordering', 'a.hits');
@@ -54,7 +58,7 @@ abstract class PopularHelper
         }
 
         // Set User Filter.
-        $userId = $user->get('id');
+        $userId = $user->id;
 
         switch ($params->get('user_id', '0')) {
             case 'by_me':

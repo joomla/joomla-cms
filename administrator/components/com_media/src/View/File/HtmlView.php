@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to edit a file.
  *
@@ -34,7 +38,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         $this->form = $this->get('Form');
 
@@ -65,10 +69,13 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
-        ToolbarHelper::apply('apply');
-        ToolbarHelper::save('save');
-        ToolbarHelper::custom('reset', 'refresh', '', 'COM_MEDIA_RESET', false);
+        $toolbar = $this->getDocument()->getToolbar();
+        $toolbar->apply('apply');
+        $toolbar->save('save');
+        $toolbar->standardButton('reset', 'COM_MEDIA_RESET', 'reset')
+            ->icon('icon-refresh')
+            ->listCheck(false);
 
-        ToolbarHelper::cancel('cancel', 'JTOOLBAR_CLOSE');
+        $toolbar->cancel('cancel');
     }
 }

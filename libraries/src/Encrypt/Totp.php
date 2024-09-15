@@ -10,6 +10,10 @@
 
 namespace Joomla\CMS\Encrypt;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This class provides an RFC6238-compliant Time-based One Time Passwords,
  * compatible with Google Authenticator (with PassCodeLength = 6 and TimePeriod = 30).
@@ -139,12 +143,12 @@ class Totp
         $time = pack("N", $period);
         $time = str_pad($time, 8, \chr(0), STR_PAD_LEFT);
 
-        $hash = hash_hmac('sha1', $time, $secret, true);
+        $hash   = hash_hmac('sha1', $time, $secret, true);
         $offset = \ord(substr($hash, -1));
-        $offset = $offset & 0xF;
+        $offset &= 0xF;
 
         $truncatedHash = $this->hashToInt($hash, $offset) & 0x7FFFFFFF;
-        $pinValue = str_pad($truncatedHash % $this->_pinModulo, $this->_passCodeLength, "0", STR_PAD_LEFT);
+        $pinValue      = str_pad($truncatedHash % $this->_pinModulo, $this->_passCodeLength, "0", STR_PAD_LEFT);
 
         return $pinValue;
     }
@@ -160,7 +164,7 @@ class Totp
     protected function hashToInt($bytes, $start)
     {
         $input = substr($bytes, $start, \strlen($bytes) - $start);
-        $val2 = unpack("N", substr($input, 0, 4));
+        $val2  = unpack("N", substr($input, 0, 4));
 
         return $val2[1];
     }
@@ -176,8 +180,8 @@ class Totp
      */
     public function getUrl($user, $hostname, $secret)
     {
-        $url = sprintf("otpauth://totp/%s@%s?secret=%s", $user, $hostname, $secret);
-        $encoder = "https://chart.googleapis.com/chart?chs=200x200&chld=Q|2&cht=qr&chl=";
+        $url        = \sprintf("otpauth://totp/%s@%s?secret=%s", $user, $hostname, $secret);
+        $encoder    = "https://chart.googleapis.com/chart?chs=200x200&chld=Q|2&cht=qr&chl=";
         $encoderURL = $encoder . urlencode($url);
 
         return $encoderURL;

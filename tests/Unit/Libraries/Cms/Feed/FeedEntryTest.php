@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
 
-use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedLink;
@@ -110,7 +109,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testMagicSetUpdatedDateWithDateObject()
     {
-        $date = new Date('October 12, 2011');
+        $date                         = new Date('October 12, 2011');
         $this->feedEntry->updatedDate = $date;
 
         $updatedDate = $this->feedEntry->updatedDate;
@@ -127,8 +126,8 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testSetAuthorWithPerson()
     {
-        $name = 'Brian Kernighan';
-        $email = 'brian@example.com';
+        $name   = 'Brian Kernighan';
+        $email  = 'brian@example.com';
         $person = new FeedPerson($name, $email);
 
         $this->feedEntry->author = $person;
@@ -148,7 +147,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testSetAuthorWithInvalidAuthor()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feedEntry->author = 'Jack Sprat';
     }
 
@@ -161,7 +160,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testSetSourceWithInvalidSource()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feedEntry->source = 'Outer Space';
     }
 
@@ -174,7 +173,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testSetCategoriesWithInvalidProperty()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feedEntry->categories = 'Can\'t touch this';
     }
 
@@ -187,7 +186,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testMagicSetter()
     {
-        $value = 'test';
+        $value                      = 'test';
         $this->feedEntry->testValue = $value;
 
         $this->assertEquals($value, $this->feedEntry->testValue);
@@ -203,7 +202,7 @@ class FeedEntryTest extends UnitTestCase
     public function testAddSingleCategory()
     {
         $name = 'category';
-        $uri = 'http://www.example.com';
+        $uri  = 'http://www.example.com';
         $this->feedEntry->addCategory($name, $uri);
 
         $categories = $this->feedEntry->categories;
@@ -249,7 +248,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testAddNewContributor()
     {
-        $name = 'Dennis Ritchie';
+        $name  = 'Dennis Ritchie';
         $email = 'dennis.ritchie@example.com';
 
         $this->feedEntry->addContributor($name, $email);
@@ -269,7 +268,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testAddExistingContributor()
     {
-        $name = 'Dennis Ritchie';
+        $name  = 'Dennis Ritchie';
         $email = 'dennis.ritchie@example.com';
 
         $this->feedEntry->addContributor($name, $email);
@@ -318,7 +317,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testAddNewLink()
     {
-        $link = 'http://domain.com/path/to/resource';
+        $link     = 'http://domain.com/path/to/resource';
         $feedLink = new FeedLink($link);
 
         $this->feedEntry->addLink($feedLink);
@@ -337,7 +336,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testAddExistingLink()
     {
-        $link = 'http://domain.com/path/to/resource';
+        $link     = 'http://domain.com/path/to/resource';
         $feedLink = new FeedLink($link);
 
         $this->feedEntry->addLink($feedLink);
@@ -358,7 +357,7 @@ class FeedEntryTest extends UnitTestCase
     public function testRemoveCategory()
     {
         $name = 'category';
-        $uri = 'http://www.example.com';
+        $uri  = 'http://www.example.com';
 
         $this->feedEntry->addCategory($name, $uri);
         $this->feedEntry->removeCategory($name);
@@ -377,7 +376,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testRemoveContributor()
     {
-        $name = 'Dennis Ritchie';
+        $name  = 'Dennis Ritchie';
         $email = 'dennis.ritchie@example.com';
 
         $feedPerson = new FeedPerson($name, $email);
@@ -397,7 +396,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testRemoveLink()
     {
-        $link = 'http://domain.com/path/to/resource';
+        $link     = 'http://domain.com/path/to/resource';
         $feedLink = new FeedLink($link);
 
         $this->feedEntry->addLink($feedLink);
@@ -415,10 +414,10 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testSetAuthor()
     {
-        $name = 'name';
+        $name  = 'name';
         $email = 'email@email.com';
-        $uri = 'http://example.com';
-        $type = 'some type';
+        $uri   = 'http://example.com';
+        $type  = 'some type';
 
         $this->feedEntry->setAuthor($name, $email, $uri, $type);
 

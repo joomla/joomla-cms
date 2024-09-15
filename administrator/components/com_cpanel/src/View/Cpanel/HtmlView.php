@@ -10,12 +10,16 @@
 
 namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Filter\OutputFilter;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Cpanel component
@@ -54,10 +58,11 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $app = Factory::getApplication();
-        $dashboard = $app->input->getCmd('dashboard', '');
+        $app       = Factory::getApplication();
+        $dashboard = $app->getInput()->getCmd('dashboard', '');
+        $toolbar   = $this->getDocument()->getToolbar();
 
-        $position = ApplicationHelper::stringURLSafe($dashboard);
+        $position = OutputFilter::stringURLSafe($dashboard);
 
         // Generate a title for the view cpanel
         if (!empty($dashboard)) {
@@ -69,7 +74,7 @@ class HtmlView extends BaseHtmlView
             }
 
             // Need to load the language file
-            $lang = Factory::getLanguage();
+            $lang = $this->getLanguage();
             $lang->load($component, JPATH_BASE)
             || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
             $lang->load($component);
@@ -97,8 +102,8 @@ class HtmlView extends BaseHtmlView
                 $prefix = strtoupper($component) . '_DASHBOARD';
 
                 $sectionkey = !empty($parts[1]) ? '_' . strtoupper($parts[1]) : '';
-                $key = $prefix . $sectionkey . '_TITLE';
-                $keyIcon = $prefix . $sectionkey . '_ICON';
+                $key        = $prefix . $sectionkey . '_TITLE';
+                $keyIcon    = $prefix . $sectionkey . '_ICON';
 
                 // Search for a component title
                 if ($lang->hasKey($key)) {
@@ -135,18 +140,18 @@ class HtmlView extends BaseHtmlView
         } else {
             // Home Dashboard
             $title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
-            $icon = 'icon-home';
+            $icon  = 'icon-home';
         }
 
         // Set toolbar items for the page
         ToolbarHelper::title($title, $icon . ' cpanel');
-        ToolbarHelper::help('screen.cpanel');
+        $toolbar->help('screen.cpanel');
 
         // Display the cpanel modules
         $this->position = $position ? 'cpanel-' . $position : 'cpanel';
-        $this->modules = ModuleHelper::getModules($this->position);
+        $this->modules  = ModuleHelper::getModules($this->position);
 
-        $quickicons = $position ? 'icon-' . $position : 'icon';
+        $quickicons       = $position ? 'icon-' . $position : 'icon';
         $this->quickicons = ModuleHelper::getModules($quickicons);
 
         parent::display($tpl);

@@ -16,6 +16,10 @@ use Joomla\Component\Contact\Api\Serializer\ContactSerializer;
 use Joomla\Component\Content\Api\Helper\ContentHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The contacts view
  *
@@ -124,13 +128,13 @@ class JsonapiView extends BaseApiView
     /**
      * Execute and display a template script.
      *
-     * @param   array|null  $items  Array of items
+     * @param   ?array  $items  Array of items
      *
      * @return  string
      *
      * @since   4.0.0
      */
-    public function displayList(array $items = null)
+    public function displayList(?array $items = null)
     {
         foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
             $this->fieldsToRenderList[] = $field->name;

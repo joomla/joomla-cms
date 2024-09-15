@@ -14,7 +14,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -33,10 +32,16 @@ use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Content\Administrator\Event\Model\FeatureEvent;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Item Model for an Article.
@@ -92,14 +97,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     /**
      * Constructor.
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @since   1.6
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config['events_map'] = $config['events_map'] ?? [];
 
@@ -134,7 +139,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     {
         // Check if the article was featured and update the #__content_frontpage table
         if ($table->featured == 1) {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -156,8 +161,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     ->bind(':featuredUp', $featured->featured_up, $featured->featured_up ? ParameterType::STRING : ParameterType::NULL)
                     ->bind(':featuredDown', $featured->featured_down, $featured->featured_down ? ParameterType::STRING : ParameterType::NULL);
 
-                    $db->setQuery($query);
-                    $db->execute();
+                $db->setQuery($query);
+                $db->execute();
             }
         }
 
@@ -167,17 +172,17 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         $oldItem->load($oldId);
         $fields = FieldsHelper::getFields('com_content.article', $oldItem, true);
 
-        $fieldsData = array();
+        $fieldsData = [];
 
         if (!empty($fields)) {
-            $fieldsData['com_fields'] = array();
+            $fieldsData['com_fields'] = [];
 
             foreach ($fields as $field) {
                 $fieldsData['com_fields'][$field->name] = $field->rawvalue;
             }
         }
 
-        Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
+        Factory::getApplication()->triggerEvent('onContentAfterSave', ['com_content.article', &$this->table, false, $fieldsData]);
     }
 
     /**
@@ -195,11 +200,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     {
         if (empty($this->batchSet)) {
             // Set some needed variables.
-            $this->user = Factory::getUser();
-            $this->table = $this->getTable();
-            $this->tableClassName = get_class($this->table);
-            $this->contentType = new UCMType();
-            $this->type = $this->contentType->getTypeByTable($this->tableClassName);
+            $this->user           = $this->getCurrentUser();
+            $this->table          = $this->getTable();
+            $this->tableClassName = \get_class($this->table);
+            $this->contentType    = new UCMType();
+            $this->type           = $this->contentType->getTypeByTable($this->tableClassName);
         }
 
         $categoryId = (int) $value;
@@ -225,19 +230,19 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             $fields = FieldsHelper::getFields('com_content.article', $this->table, true);
 
-            $fieldsData = array();
+            $fieldsData = [];
 
             if (!empty($fields)) {
-                $fieldsData['com_fields'] = array();
+                $fieldsData['com_fields'] = [];
 
                 foreach ($fields as $field) {
                     $fieldsData['com_fields'][$field->name] = $field->rawvalue;
@@ -267,7 +272,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             }
 
             // Run event for moved article
-            Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
+            Factory::getApplication()->triggerEvent('onContentAfterSave', ['com_content.article', &$this->table, false, $fieldsData]);
         }
 
         // Clean the cache
@@ -291,7 +296,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             return false;
         }
 
-        return Factory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
     }
 
     /**
@@ -305,7 +310,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Check for existing article.
         if (!empty($record->id)) {
@@ -337,7 +342,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $table->publish_up = Factory::getDate()->toSql();
         }
 
-        if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0) {
+        if ($table->state == Workflow::CONDITION_PUBLISHED && \intval($table->publish_down) == 0) {
             $table->publish_down = null;
         }
 
@@ -378,19 +383,19 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     {
         if ($item = parent::getItem($pk)) {
             // Convert the params field to an array.
-            $registry = new Registry($item->attribs);
+            $registry      = new Registry($item->attribs);
             $item->attribs = $registry->toArray();
 
             // Convert the metadata field to an array.
-            $registry = new Registry($item->metadata);
+            $registry       = new Registry($item->metadata);
             $item->metadata = $registry->toArray();
 
             // Convert the images field to an array.
-            $registry = new Registry($item->images);
+            $registry     = new Registry($item->images);
             $item->images = $registry->toArray();
 
             // Convert the urls field to an array.
-            $registry = new Registry($item->urls);
+            $registry   = new Registry($item->urls);
             $item->urls = $registry->toArray();
 
             $item->articletext = ($item->fulltext !== null && trim($item->fulltext) != '') ? $item->introtext . '<hr id="system-readmore">' . $item->fulltext : $item->introtext;
@@ -404,7 +409,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
                 if ($item->featured) {
                     // Get featured dates.
-                    $db = $this->getDatabase();
+                    $db    = $this->getDatabase();
                     $query = $db->getQuery(true)
                         ->select(
                             [
@@ -430,7 +435,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         $assoc = Associations::isEnabled();
 
         if ($assoc) {
-            $item->associations = array();
+            $item->associations = [];
 
             if ($item->id != null) {
                 $associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
@@ -454,12 +459,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $app  = Factory::getApplication();
 
         // Get the form.
-        $form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_content.article', 'article', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -470,8 +475,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         // Get ID of the article from input, for frontend, we use a_id while backend uses id
         $articleIdFromInput = $app->isClient('site')
-            ? $app->input->getInt('a_id', 0)
-            : $app->input->getInt('id', 0);
+            ? $app->getInput()->getInt('a_id', 0)
+            : $app->getInput()->getInt('id', 0);
 
         // On edit article, we get ID of article from article.id state, but on save, we use data from input
         $id = (int) $this->getState('article.id', $articleIdFromInput);
@@ -482,7 +487,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if ($id == 0 && $formField = $form->getField('catid')) {
             $assignedCatids = $data['catid'] ?? $form->getValue('catid');
 
-            $assignedCatids = is_array($assignedCatids)
+            $assignedCatids = \is_array($assignedCatids)
                 ? (int) reset($assignedCatids)
                 : (int) $assignedCatids;
 
@@ -514,7 +519,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             } else {
                 $catIds  = $form->getValue('catid');
 
-                $catId = is_array($catIds)
+                $catId = \is_array($catIds)
                     ? (int) reset($catIds)
                     : (int) $catIds;
 
@@ -549,7 +554,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Don't allow to change the created_by user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_by', 'filter', 'unset');
         }
 
@@ -566,8 +571,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app = Factory::getApplication();
-        $data = $app->getUserState('com_content.edit.article.data', array());
+        $app  = Factory::getApplication();
+        $data = $app->getUserState('com_content.edit.article.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -577,20 +582,20 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $filters = (array) $app->getUserState('com_content.articles.filter');
                 $data->set(
                     'state',
-                    $app->input->getInt(
+                    $app->getInput()->getInt(
                         'state',
                         ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                     )
                 );
-                $data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
+                $data->set('catid', $app->getInput()->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 
                 if ($app->isClient('administrator')) {
-                    $data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                    $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
                 }
 
                 $data->set(
                     'access',
-                    $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
             }
         }
@@ -615,12 +620,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.7.0
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_content')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_content')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -641,7 +646,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     public function save($data)
     {
         $app    = Factory::getApplication();
-        $input  = $app->input;
+        $input  = $app->getInput();
         $filter = InputFilter::getInstance();
 
         if (isset($data['metadata']) && isset($data['metadata']['author'])) {
@@ -652,7 +657,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $data['created_by_alias'] = $filter->clean($data['created_by_alias'], 'TRIM');
         }
 
-        if (isset($data['images']) && is_array($data['images'])) {
+        if (isset($data['images']) && \is_array($data['images'])) {
             $registry = new Registry($data['images']);
 
             $data['images'] = (string) $registry;
@@ -663,7 +668,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         // Create new category, if needed.
         $createCategory = true;
 
-        if (is_null($data['catid'])) {
+        if (\is_null($data['catid'])) {
             // When there is no catid passed don't try to create one
             $createCategory = false;
         }
@@ -699,8 +704,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $data['catid'] = $categoryModel->getState('category.id');
         }
 
-        if (isset($data['urls']) && is_array($data['urls'])) {
-            $check = $input->post->get('jform', array(), 'array');
+        if (isset($data['urls']) && \is_array($data['urls'])) {
+            $check = $input->post->get('jform', [], 'array');
 
             foreach ($data['urls'] as $i => $url) {
                 if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
@@ -741,15 +746,15 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
             if ($data['title'] == $origTable->title) {
                 list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['title'] = $title;
-                $data['alias'] = $alias;
+                $data['title']       = $title;
+                $data['alias']       = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
             }
         }
 
         // Automatic handling of alias for empty fields
-        if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0)) {
+        if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
             if ($data['alias'] == null) {
                 if ($app->get('unicodeslugs') == 1) {
                     $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
@@ -759,12 +764,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
                 $table = $this->getTable();
 
-                if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid']))) {
+                if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
                     $msg = Text::_('COM_CONTENT_SAVE_WARNING');
                 }
 
                 list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias'] = $alias;
+                $data['alias']       = $alias;
 
                 if (isset($msg)) {
                     $app->enqueueMessage($msg, 'warning');
@@ -841,7 +846,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             AbstractEvent::create(
                 $this->event_before_change_featured,
                 [
-                    'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+                    'eventClass' => FeatureEvent::class,
                     'subject'    => $this,
                     'extension'  => $context,
                     'pks'        => $pks,
@@ -857,7 +862,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         try {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__content'))
                 ->set($db->quoteName('featured') . ' = :featured')
@@ -885,7 +890,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $oldFeatured = $db->loadColumn();
 
                 // Update old featured articles
-                if (count($oldFeatured)) {
+                if (\count($oldFeatured)) {
                     $query = $db->getQuery(true)
                         ->update($db->quoteName('#__content_frontpage'))
                         ->set(
@@ -946,7 +951,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             AbstractEvent::create(
                 $this->event_after_change_featured,
                 [
-                    'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+                    'eventClass' => FeatureEvent::class,
                     'subject'    => $this,
                     'extension'  => $context,
                     'pks'        => $pks,
@@ -1000,9 +1005,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if (Associations::isEnabled()) {
             $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
-                $fields = $addform->addChild('fields');
+                $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
                 $fieldset = $fields->addChild('fieldset');
                 $fieldset->addAttribute('name', 'item_associations');
@@ -1034,7 +1039,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * Custom clean the cache of com_content and content modules
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
@@ -1071,13 +1077,13 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     private function canCreateCategory()
     {
-        return Factory::getUser()->authorise('core.create', 'com_content');
+        return $this->getCurrentUser()->authorise('core.create', 'com_content');
     }
 
     /**
      * Delete #__content_frontpage items if the deleted articles was featured
      *
-     * @param   object  $pks  The primary key related to the contents that was deleted.
+     * @param   array  $pks  The primary key related to the contents that was deleted.
      *
      * @return  boolean
      *
@@ -1089,7 +1095,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         if ($return) {
             // Now check to see if this articles was featured if so delete it from the #__content_frontpage table
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__content_frontpage'))
                 ->whereIn($db->quoteName('content_id'), $pks);

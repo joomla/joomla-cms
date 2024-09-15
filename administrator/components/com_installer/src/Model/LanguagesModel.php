@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages Installer Model
  *
@@ -34,19 +38,19 @@ class LanguagesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'name',
                 'element',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -150,8 +154,8 @@ class LanguagesModel extends ListModel
             return;
         }
 
-        $languages     = array();
-        $search        = strtolower($this->getState('filter.search'));
+        $languages     = [];
+        $search        = strtolower($this->getState('filter.search', ''));
 
         foreach ($updateSiteXML->extension as $extension) {
             $language = new \stdClass();
@@ -179,21 +183,21 @@ class LanguagesModel extends ListModel
         usort(
             $languages,
             function ($a, $b) use ($that) {
-                $ordering = $that->getState('list.ordering');
+                $ordering = $that->getState('list.ordering', 'name');
 
-                if (strtolower($that->getState('list.direction')) === 'asc') {
+                if (strtolower($that->getState('list.direction', 'asc')) === 'asc') {
                     return StringHelper::strcmp($a->$ordering, $b->$ordering);
-                } else {
-                    return StringHelper::strcmp($b->$ordering, $a->$ordering);
                 }
+
+                return StringHelper::strcmp($b->$ordering, $a->$ordering);
             }
         );
 
         // Count the non-paginated list
-        $this->languageCount = count($languages);
-        $limit               = ($this->getState('list.limit') > 0) ? $this->getState('list.limit') : $this->languageCount;
+        $this->languageCount = \count($languages);
+        $limit               = ($this->getState('list.limit', 20) > 0) ? $this->getState('list.limit', 20) : $this->languageCount;
 
-        return array_slice($languages, $this->getStart(), $limit);
+        return \array_slice($languages, $this->getStart() ?? 0, $limit);
     }
 
     /**
@@ -241,8 +245,6 @@ class LanguagesModel extends ListModel
      */
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-
         $this->setState('extension_message', Factory::getApplication()->getUserState('com_installer.extension_message'));
 
         parent::populateState($ordering, $direction);

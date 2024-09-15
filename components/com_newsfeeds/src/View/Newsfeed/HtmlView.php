@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Newsfeeds component
  *
@@ -95,7 +99,7 @@ class HtmlView extends BaseHtmlView
         $user = $this->getCurrentUser();
 
         // Get view related request variables.
-        $print = $app->input->getBool('print');
+        $print = $app->getInput()->getBool('print');
 
         // Get model data.
         $state = $this->get('State');
@@ -103,21 +107,21 @@ class HtmlView extends BaseHtmlView
 
         // Check for errors.
         // @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Add router helpers.
-        $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-        $item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+        $item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+        $item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
         $item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
         // Merge newsfeed params. If this is single-newsfeed view, menu params override newsfeed params
         // Otherwise, newsfeed params override menu item params
-        $params = $state->get('params');
+        $params          = $state->get('params');
         $newsfeed_params = clone $item->params;
-        $active = $app->getMenu()->getActive();
-        $temp = clone $params;
+        $active          = $app->getMenu()->getActive();
+        $temp            = clone $params;
 
         // Check to see which parameters should take priority
         if ($active) {
@@ -159,7 +163,7 @@ class HtmlView extends BaseHtmlView
         // Check the access to the newsfeed
         $levels = $user->getAuthorisedViewLevels();
 
-        if (!in_array($item->access, $levels) || (in_array($item->access, $levels) && (!in_array($item->category_access, $levels)))) {
+        if (!\in_array($item->access, $levels) || (\in_array($item->access, $levels) && (!\in_array($item->category_access, $levels)))) {
             $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
             $app->setHeader('status', 403, true);
 
@@ -172,7 +176,7 @@ class HtmlView extends BaseHtmlView
         $params->merge($item->params);
 
         try {
-            $feed = new FeedFactory();
+            $feed         = new FeedFactory();
             $this->rssDoc = $feed->getFeed($item->link);
         } catch (\InvalidArgumentException $e) {
             $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
@@ -208,8 +212,10 @@ class HtmlView extends BaseHtmlView
         $item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 
         // Increment the hit counter of the newsfeed.
-        $model = $this->getModel();
-        $model->hit();
+        if (\in_array($app->getInput()->getMethod(), ['GET', 'POST'])) {
+            $model = $this->getModel();
+            $model->hit();
+        }
 
         $this->_prepareDocument();
 
@@ -252,14 +258,15 @@ class HtmlView extends BaseHtmlView
                 $title = $this->item->name;
             }
 
-            $path = array(array('title' => $this->item->name, 'link' => ''));
+            $path     = [['title' => $this->item->name, 'link' => '']];
             $category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
 
             while (
-                (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
-                || $id != $category->id) && $category->id > 1
+                isset($category->id) && $category->id > 1
+                && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
+                || $id != $category->id)
             ) {
-                $path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id));
+                $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id)];
                 $category = $category->getParent();
             }
 
@@ -277,24 +284,24 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($title);
 
         if ($this->item->metadesc) {
-            $this->document->setDescription($this->item->metadesc);
+            $this->getDocument()->setDescription($this->item->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
 
         if ($app->get('MetaAuthor') == '1') {
-            $this->document->setMetaData('author', $this->item->author);
+            $this->getDocument()->setMetaData('author', $this->item->author);
         }
 
         $mdata = $this->item->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
             if ($v) {
-                $this->document->setMetaData($k, $v);
+                $this->getDocument()->setMetaData($k, $v);
             }
         }
     }

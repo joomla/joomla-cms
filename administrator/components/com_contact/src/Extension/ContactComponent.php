@@ -19,16 +19,23 @@ use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsFormServiceInterface;
+use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
+use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Contact\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Contact\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Component class for com_contact
@@ -38,7 +45,8 @@ use Psr\Container\ContainerInterface;
 class ContactComponent extends MVCComponent implements
     BootableExtensionInterface,
     CategoryServiceInterface,
-    FieldsServiceInterface,
+    FieldsFormServiceInterface,
+    SchemaorgServiceInterface,
     AssociationServiceInterface,
     RouterServiceInterface,
     TagServiceInterface
@@ -46,9 +54,11 @@ class ContactComponent extends MVCComponent implements
     use AssociationServiceTrait;
     use HTMLRegistryAwareTrait;
     use RouterServiceTrait;
-    use CategoryServiceTrait, TagServiceTrait {
+    use SchemaorgServiceTrait;
+    use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::prepareForm insteadof FieldsServiceTrait;
     }
 
     /**
@@ -112,11 +122,11 @@ class ContactComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
+        $contexts = [
             'com_contact.contact'    => Text::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
             'com_contact.mail'       => Text::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
-            'com_contact.categories' => Text::_('JCATEGORY')
-        );
+            'com_contact.categories' => Text::_('JCATEGORY'),
+        ];
 
         return $contexts;
     }
@@ -124,13 +134,13 @@ class ContactComponent extends MVCComponent implements
     /**
      * Returns the table for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getTableNameForSection(string $section = null)
+    protected function getTableNameForSection(?string $section = null)
     {
         return ($section === 'category' ? 'categories' : 'contact_details');
     }
@@ -138,14 +148,32 @@ class ContactComponent extends MVCComponent implements
     /**
      * Returns the state column for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getStateColumnForSection(string $section = null)
+    protected function getStateColumnForSection(?string $section = null)
     {
         return 'published';
+    }
+
+    /**
+     * Returns valid contexts for schemaorg
+     *
+     * @return  array
+     *
+     * @since  5.0.0
+     */
+    public function getSchemaorgContexts(): array
+    {
+        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+        $contexts = [
+            'com_contact.contact' => Text::_('COM_CONTACT'),
+        ];
+
+        return $contexts;
     }
 }

@@ -14,9 +14,11 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Manage View
@@ -47,6 +49,20 @@ class HtmlView extends InstallerViewDefault
     protected $form;
 
     /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
+    /**
      * Display the view.
      *
      * @param   string  $tpl  Template
@@ -64,7 +80,7 @@ class HtmlView extends InstallerViewDefault
         $this->activeFilters = $this->get('ActiveFilters');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -81,35 +97,39 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
         $canDo   = ContentHelper::getActions('com_installer');
 
-        if ($canDo->get('core.edit.state')) {
-            $toolbar->publish('manage.publish')
-                ->text('JTOOLBAR_ENABLE')
-                ->listCheck(true);
-            $toolbar->unpublish('manage.unpublish')
-                ->text('JTOOLBAR_DISABLE')
-                ->listCheck(true);
-            $toolbar->divider();
-        }
-
-        $toolbar->standardButton('refresh')
-            ->text('JTOOLBAR_REFRESH_CACHE')
-            ->task('manage.refresh')
+        $dropdown = $toolbar->dropdownButton('status-group')
+            ->text('JTOOLBAR_CHANGE_STATUS')
+            ->toggleSplit(false)
+            ->icon('icon-ellipsis-h')
+            ->buttonClass('btn btn-action')
             ->listCheck(true);
-        $toolbar->divider();
+
+        $childBar = $dropdown->getChildToolbar();
+
+        if ($canDo->get('core.edit.state')) {
+            $childBar->publish('manage.publish', 'JTOOLBAR_ENABLE')
+                ->listCheck(true);
+            $childBar->unpublish('manage.unpublish', 'JTOOLBAR_DISABLE')
+                ->listCheck(true);
+        }
 
         if ($canDo->get('core.delete')) {
-            $toolbar->delete('manage.remove')
-                ->text('JTOOLBAR_UNINSTALL')
+            $childBar->delete('manage.remove', 'JTOOLBAR_UNINSTALL')
                 ->message('COM_INSTALLER_CONFIRM_UNINSTALL')
                 ->listCheck(true);
-            $toolbar->divider();
         }
 
+        $childBar->standardButton('refresh', 'JTOOLBAR_REFRESH_CACHE', 'manage.refresh')
+            ->listCheck(true);
+
         if ($canDo->get('core.manage')) {
-            ToolbarHelper::link('index.php?option=com_installer&view=install', 'COM_INSTALLER_TOOLBAR_INSTALL_EXTENSIONS', 'upload');
+            $toolbar->linkButton('upload', 'COM_INSTALLER_TOOLBAR_INSTALL_EXTENSIONS')
+                ->url('index.php?option=com_installer&view=install');
+            $toolbar->linkButton('refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES')
+                ->url('index.php?option=com_installer&view=update');
             $toolbar->divider();
         }
 

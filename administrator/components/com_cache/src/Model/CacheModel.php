@@ -14,11 +14,16 @@ use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
+use Joomla\CMS\Event\Cache\AfterPurgeEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Cache Model
@@ -32,7 +37,7 @@ class CacheModel extends ListModel
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Group total
@@ -55,15 +60,15 @@ class CacheModel extends ListModel
      *
      * @since   3.5
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'group',
                 'count',
                 'size',
                 'client_id',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -83,9 +88,6 @@ class CacheModel extends ListModel
      */
     protected function populateState($ordering = 'group', $direction = 'asc')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-
         parent::populateState($ordering, $direction);
     }
 
@@ -147,14 +149,14 @@ class CacheModel extends ListModel
                         return \array_slice($this->_data, $start, $limit);
                     }
                 } else {
-                    $this->_data = array();
+                    $this->_data = [];
                 }
             } catch (CacheConnectingException $exception) {
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
-                $this->_data = array();
+                $this->_data = [];
             } catch (UnsupportedCacheException $exception) {
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
-                $this->_data = array();
+                $this->_data = [];
             }
         }
 
@@ -170,12 +172,12 @@ class CacheModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $options = array(
+        $options = [
             'defaultgroup' => '',
             'storage'      => $app->get('cache_handler', ''),
             'caching'      => true,
-            'cachebase'    => $app->get('cache_path', JPATH_CACHE)
-        );
+            'cachebase'    => $app->get('cache_path', JPATH_CACHE),
+        ];
 
         return Cache::getInstance('', $options);
     }
@@ -188,7 +190,7 @@ class CacheModel extends ListModel
     public function getTotal()
     {
         if (empty($this->_total)) {
-            $this->_total = count($this->getData());
+            $this->_total = \count($this->getData());
         }
 
         return $this->_total;
@@ -226,7 +228,7 @@ class CacheModel extends ListModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterPurge', array($group));
+        $this->getDispatcher()->dispatch('onAfterPurge', new AfterPurgeEvent('onAfterPurge', ['subject' => $group]));
 
         return true;
     }
@@ -240,7 +242,7 @@ class CacheModel extends ListModel
      */
     public function cleanlist($array)
     {
-        $errors = array();
+        $errors = [];
 
         foreach ($array as $group) {
             if (!$this->clean($group)) {
@@ -266,7 +268,7 @@ class CacheModel extends ListModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterPurge', array());
+        $this->getDispatcher()->dispatch('onAfterPurge', new AfterPurgeEvent('onAfterPurge'));
 
         return true;
     }

@@ -16,6 +16,10 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Rule class for the Joomla Platform.
  *
@@ -33,8 +37,8 @@ class PasswordRule extends FormRule
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *
@@ -42,7 +46,7 @@ class PasswordRule extends FormRule
      * @throws  \InvalidArgumentException
      * @throws  \UnexpectedValueException
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $meter            = isset($element['strengthmeter']) ? ' meter="0"' : '1';
         $threshold        = isset($element['threshold']) ? (int) $element['threshold'] : 66;
@@ -54,7 +58,10 @@ class PasswordRule extends FormRule
 
         // In the installer we don't have any access to the
         // database yet so use the hard coded default settings
-        if (!Factory::getApplication()->isClient('installation')) {
+        if (
+            !Factory::getApplication()->isClient('installation')
+            && !Factory::getApplication()->isClient('cli_installation')
+        ) {
             // If we have parameters from com_users, use those instead.
             // Some of these may be empty for legacy reasons.
             $params = ComponentHelper::getParams('com_users');
@@ -68,13 +75,13 @@ class PasswordRule extends FormRule
                 $meterp            = $params->get('meter');
                 $thresholdp        = $params->get('threshold', 66);
 
-                empty($minimumLengthp) ? : $minimumLength = (int) $minimumLengthp;
-                empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
-                empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
-                empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
-                empty($minimumLowercasep) ? : $minimumLowercase = (int) $minimumLowercasep;
-                empty($meterp) ? : $meter = $meterp;
-                empty($thresholdp) ? : $threshold = $thresholdp;
+                empty($minimumLengthp) ?: $minimumLength       = (int) $minimumLengthp;
+                empty($minimumIntegersp) ?: $minimumIntegers   = (int) $minimumIntegersp;
+                empty($minimumSymbolsp) ?: $minimumSymbols     = (int) $minimumSymbolsp;
+                empty($minimumUppercasep) ?: $minimumUppercase = (int) $minimumUppercasep;
+                empty($minimumLowercasep) ?: $minimumLowercase = (int) $minimumLowercasep;
+                empty($meterp) ?: $meter                       = $meterp;
+                empty($thresholdp) ?: $threshold               = $thresholdp;
             }
         }
 

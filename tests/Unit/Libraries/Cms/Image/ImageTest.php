@@ -2,7 +2,7 @@
 
 /**
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
@@ -72,7 +72,7 @@ class ImageTest extends UnitTestCase
         parent::setUp();
 
         // Verify that GD support for PHP is available.
-        if (!extension_loaded('gd')) {
+        if (!\extension_loaded('gd')) {
             $this->markTestSkipped('No GD support so skipping Image tests.');
         }
 
@@ -128,16 +128,16 @@ class ImageTest extends UnitTestCase
      */
     public function getPrepareDimensionsData()
     {
-        return array(
+        return [
             // Note: inputHeight, inputWidth, inputScale, imageHeight, imageWidth, expectedHeight, expectedWidth
-            array(43, 56, Image::SCALE_FILL, 100, 100, 43, 56),
-            array(33, 56, Image::SCALE_FILL, 10, 10, 33, 56),
-            array(24, 76, Image::SCALE_INSIDE, 100, 100, 24, 24),
-            array(44, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80),
-            array(24, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80),
-            array(33, 50, Image::SCALE_INSIDE, 20, 100, 10, 50),
-            array(12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50)
-        );
+            [43, 56, Image::SCALE_FILL, 100, 100, 43, 56],
+            [33, 56, Image::SCALE_FILL, 10, 10, 33, 56],
+            [24, 76, Image::SCALE_INSIDE, 100, 100, 24, 24],
+            [44, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80],
+            [24, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80],
+            [33, 50, Image::SCALE_INSIDE, 20, 100, 10, 50],
+            [12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50],
+        ];
     }
 
     /**
@@ -149,15 +149,15 @@ class ImageTest extends UnitTestCase
      */
     public function getSanitizeDimensionData()
     {
-        return array(
+        return [
             // Note: inputHeight, inputWidth, imageHeight, imageWidth, expectedHeight, expectedWidth
-            array(42.5, 56.2, 10, 10, 43, 56),
-            array(33, 56.2, 10, 10, 33, 56),
-            array('40%', 56.2, 10, 10, 4, 56),
-            array(42.5, '5%', 10, 10, 43, 1),
-            array('33%', '25%', 10, 10, 3, 3),
-            array('40%', null, 10, 10, 4, 4)
-        );
+            [42.5, 56.2, 10, 10, 43, 56],
+            [33, 56.2, 10, 10, 33, 56],
+            ['40%', 56.2, 10, 10, 4, 56],
+            [42.5, '5%', 10, 10, 43, 1],
+            ['33%', '25%', 10, 10, 3, 3],
+            ['40%', null, 10, 10, 4, 4],
+        ];
     }
 
     /**
@@ -173,14 +173,14 @@ class ImageTest extends UnitTestCase
      */
     public function getCropData()
     {
-        return array(
+        return [
             // Note: startHeight, startWidth, cropHeight, cropWidth, cropTop, cropLeft, transparency
-            array(100, 100, 10, 10, 25, 25, false),
-            array(100, 100, 25, 25, 40, 31, true),
-            array(225, 432, 45, 11, 123, 12, true),
-            array(100, 100, 10, 10, null, 25, false),
-            array(100, 100, 10, 10, 25, null, false),
-        );
+            [100, 100, 10, 10, 25, 25, false],
+            [100, 100, 25, 25, 40, 31, true],
+            [225, 432, 45, 11, 123, 12, true],
+            [100, 100, 10, 10, null, 25, false],
+            [100, 100, 10, 10, 25, null, false],
+        ];
     }
 
     /**
@@ -192,11 +192,11 @@ class ImageTest extends UnitTestCase
      */
     public function getSanitizeOffsetData()
     {
-        return array(
+        return [
             // Note: input, expected
-            array(42.5, 43),
-            array(56.2, 56)
-        );
+            [42.5, 43],
+            [56.2, 56],
+        ];
     }
 
     /**
@@ -929,7 +929,7 @@ class ImageTest extends UnitTestCase
     {
         $this->instance->loadFile($this->testFile);
 
-        $thumbs = $this->instance->createThumbs('50x38', Image::CROP);
+        $thumbs     = $this->instance->createThumbs('50x38', Image::CROP);
         $outFileGif = TestHelper::getValue($thumbs[0], 'path');
 
         $a = Image::getImageFileProperties($this->testFile);
@@ -1068,18 +1068,18 @@ class ImageTest extends UnitTestCase
         }
 
         // Define red and white.
-        $red = imagecolorallocate($imageHandle, 255, 0, 0);
+        $red   = imagecolorallocate($imageHandle, 255, 0, 0);
         $white = imagecolorallocate($imageHandle, 255, 255, 255);
 
         $actualCropTop = $cropTop;
 
-        if (is_null($cropTop)) {
+        if (\is_null($cropTop)) {
             $cropTop = round(($startHeight - $cropHeight) / 2);
         }
 
         $actualCropLeft = $cropLeft;
 
-        if (is_null($cropLeft)) {
+        if (\is_null($cropLeft)) {
             $cropLeft = round(($startWidth - $cropWidth) / 2);
         }
 
@@ -1182,7 +1182,7 @@ class ImageTest extends UnitTestCase
         $imageHandle = imagecreatetruecolor(101, 101);
 
         // Define red and white.
-        $red = imagecolorallocate($imageHandle, 255, 0, 0);
+        $red   = imagecolorallocate($imageHandle, 255, 0, 0);
         $white = imagecolorallocate($imageHandle, 255, 255, 255);
 
         // Draw a red horizontal line in the middle of the image.
@@ -1233,7 +1233,7 @@ class ImageTest extends UnitTestCase
         $handle = imagecreatetruecolor(1, 1);
 
         // Create the mock filter.
-        $mockFilter = $this->getMockForAbstractClass('\\Joomla\\CMS\\Image\\ImageFilter', array($handle), 'ImageFilterMock', true, false, true);
+        $mockFilter = $this->getMockForAbstractClass('\\Joomla\\CMS\\Image\\ImageFilter', [$handle], 'ImageFilterMock', true, false, true);
 
         // Setup the mock method call expectation.
         $mockFilter->expects($this->once())

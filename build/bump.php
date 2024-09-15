@@ -13,6 +13,7 @@
  * - php build/bump.php -v 3.6.0-beta2
  * - php build/bump.php -v 3.6.0-rc1
  * - php build/bump.php -v 3.6.0
+ * - php build/bump.php -v 3.6.0 -d "2015-05-12 16:00"
  * - php build/bump.php -v 3.6.0 -c Unicorn
  * - php build/bump.php -v 3.6.0 -c "Custom Codename"
  * - /usr/bin/php /path/to/joomla-cms/build/bump.php -v 3.7.0
@@ -28,8 +29,9 @@ function usage($command)
     echo PHP_EOL;
     echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
     echo PHP_TAB . '[options]:' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '-v <version>:' . PHP_TAB . 'Version (ex: 3.6.0-dev, 3.6.0-beta1, 3.6.0-beta1-dev, 3.6.0-rc1, 3.6.0)' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '-c <codename>:' . PHP_TAB . 'Codename [optional] (ex: Unicorn)' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '-v <version>:' . PHP_TAB . PHP_TAB . 'Version (ex: 3.6.0-dev, 3.6.0-beta1, 3.6.0-beta1-dev, 3.6.0-rc1, 3.6.0)' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '-c <codename>:' . PHP_TAB . PHP_TAB . 'Codename [optional] (ex: Unicorn)' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '-d <release date>:' . PHP_TAB . 'Release Date in ISO 8601 format [optional] (ex: "2015-05-12 16:00")' . PHP_EOL;
     echo PHP_EOL;
 }
 
@@ -39,11 +41,11 @@ const PHP_TAB = "\t";
 // File paths.
 $versionFile = '/libraries/src/Version.php';
 
-$coreXmlFiles = array(
+$coreXmlFiles = [
     '/administrator/manifests/files/joomla.xml',
-);
+];
 
-$languageXmlFiles = array(
+$languageXmlFiles = [
     '/language/en-GB/langmetadata.xml',
     '/language/en-GB/install.xml',
     '/administrator/language/en-GB/langmetadata.xml',
@@ -51,16 +53,21 @@ $languageXmlFiles = array(
     '/installation/language/en-GB/langmetadata.xml',
     '/api/language/en-GB/langmetadata.xml',
     '/api/language/en-GB/install.xml',
-);
+];
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
-$readMeFiles = array(
+$packageJsonFiles = [
+    '/package.json',
+    '/package-lock.json',
+];
+
+$readMeFiles = [
     '/README.md',
     '/README.txt',
-);
+];
 
 /*
  * Change copyright date exclusions.
@@ -68,7 +75,7 @@ $readMeFiles = array(
  * Also exclude build resources such as the packaging space or the API documentation build
  * as well as external libraries.
  */
-$directoryLoopExcludeDirectories = array(
+$directoryLoopExcludeDirectories = [
     '/.git',
     '/build/api/',
     '/build/coverage/',
@@ -76,12 +83,12 @@ $directoryLoopExcludeDirectories = array(
     '/libraries/vendor/',
     '/libraries/php-encryption/',
     '/libraries/phpass/',
-);
+];
 
-$directoryLoopExcludeFiles = array();
+$directoryLoopExcludeFiles = [];
 
 // Check arguments (exit if incorrect cli arguments).
-$opts = getopt("v:c:");
+$opts = getopt("v:c:d:");
 
 if (empty($opts['v'])) {
     usage($argv[0]);
@@ -139,7 +146,11 @@ if (!isset($versionParts[2])) {
 // Set version properties.
 $versionSubParts = explode('.', $versionParts[0]);
 
-$version = array(
+// The release date
+$date = new DateTime($opts['d'] ?? 'now');
+
+// The version data
+$version = [
     'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
     'major'      => $versionSubParts[0],
     'minor'      => $versionSubParts[1],
@@ -149,11 +160,11 @@ $version = array(
     'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
     'dev_status' => $dev_status,
     'build'      => '',
-    'reldate'    => date('j-F-Y'),
-    'reltime'    => date('H:i'),
+    'reldate'    => $date->format('j-F-Y'),
+    'reltime'    => $date->format('H:i'),
     'reltz'      => 'GMT',
-    'credate'    => date('Y-m'),
-);
+    'credate'    => $date->format('Y-m'),
+];
 
 // Version Codename.
 if (!empty($opts['c'])) {
@@ -180,7 +191,7 @@ if (!empty($version['codename'])) {
 
 echo PHP_EOL;
 
-$rootPath = dirname(__DIR__);
+$rootPath = \dirname(__DIR__);
 
 // Updates the version in version class.
 if (file_exists($rootPath . $versionFile)) {
@@ -239,6 +250,17 @@ if (file_exists($rootPath . $antJobFile)) {
     file_put_contents($rootPath . $antJobFile, $fileContents);
 }
 
+// Updates the version in the package.json file.
+foreach ($packageJsonFiles as $packageJsonFile) {
+    if (file_exists($rootPath . $packageJsonFile)) {
+        $package          = json_decode(file_get_contents($rootPath . $packageJsonFile));
+        $package->version = $version['release'];
+
+        // @todo use a native formatter whenever https://github.com/php/php-src/issues/8864 is resolved
+        file_put_contents($rootPath . $packageJsonFile, str_replace('    ', '  ', json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) . "\n");
+    }
+}
+
 // Updates the version in readme files.
 foreach ($readMeFiles as $readMeFile) {
     if (file_exists($rootPath . $readMeFile)) {
@@ -265,7 +287,7 @@ foreach ($iterator as $file) {
         }
 
         // Exclude certain files.
-        if (in_array($relativePath, $directoryLoopExcludeFiles)) {
+        if (\in_array($relativePath, $directoryLoopExcludeFiles)) {
             continue;
         }
 
@@ -288,7 +310,7 @@ foreach ($iterator as $file) {
             // Check if need to change the since version.
             if ($relativePath !== '/build/bump.php' && preg_match('#__DEPLOY_VERSION__#', $fileContents)) {
                 $changeSinceVersion = true;
-                $fileContents = preg_replace('#__DEPLOY_VERSION__#', $version['release'], $fileContents);
+                $fileContents       = preg_replace('#__DEPLOY_VERSION__#', $version['release'], $fileContents);
                 $changedFilesSinceVersion++;
             }
 

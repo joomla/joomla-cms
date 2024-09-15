@@ -14,6 +14,10 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User groups list controller class.
  *
@@ -38,7 +42,7 @@ class GroupsController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Group', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Group', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

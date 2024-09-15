@@ -17,6 +17,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Collection Update Adapter Class
  *
@@ -38,7 +42,7 @@ class CollectionAdapter extends UpdateAdapter
      * @var    array
      * @since  1.7.0
      */
-    protected $parent = array(0);
+    protected $parent = [0];
 
     /**
      * Used to control if an item has a child or not
@@ -53,14 +57,14 @@ class CollectionAdapter extends UpdateAdapter
      *
      * @var  array
      */
-    protected $update_sites = array();
+    protected $update_sites = [];
 
     /**
      * A list of discovered updates
      *
      * @var  array
      */
-    protected $updates = array();
+    protected $updates = [];
 
     /**
      * Gets the reference to the current direct parent
@@ -97,7 +101,7 @@ class CollectionAdapter extends UpdateAdapter
      *
      * @since   1.7.0
      */
-    public function _startElement($parser, $name, $attrs = array())
+    public function _startElement($parser, $name, $attrs = [])
     {
         $this->stack[] = $name;
         $tag           = $this->_getStackLocation();
@@ -110,15 +114,15 @@ class CollectionAdapter extends UpdateAdapter
         switch ($name) {
             case 'CATEGORY':
                 if (isset($attrs['REF'])) {
-                    $this->update_sites[] = array('type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->updateSiteId);
+                    $this->update_sites[] = ['type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->updateSiteId];
                 } else {
                     // This item will have children, so prepare to attach them
                     $this->pop_parent = 1;
                 }
                 break;
             case 'EXTENSION':
-                $update = Table::getInstance('update');
-                $update->set('update_site_id', $this->updateSiteId);
+                $update                 = Table::getInstance('update');
+                $update->update_site_id = $this->updateSiteId;
 
                 foreach ($this->updatecols as $col) {
                     // Reset the values if it doesn't exist
@@ -131,11 +135,13 @@ class CollectionAdapter extends UpdateAdapter
                     }
                 }
 
-                $client = ApplicationHelper::getClientInfo($attrs['CLIENT'], 1);
+                $client = ApplicationHelper::getClientInfo($attrs['CLIENT'], true);
 
                 if (isset($client->id)) {
                     $attrs['CLIENT_ID'] = $client->id;
                 }
+
+                $values = [];
 
                 // Lower case all of the fields
                 foreach ($attrs as $key => $attr) {
@@ -228,13 +234,13 @@ class CollectionAdapter extends UpdateAdapter
             }
 
             $app = Factory::getApplication();
-            $app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
+            $app->getLogger()->warning("Error parsing url: {$this->_url}", ['category' => 'updater']);
             $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
             return false;
         }
 
         // @todo: Decrement the bad counter if non-zero
-        return array('update_sites' => $this->update_sites, 'updates' => $this->updates);
+        return ['update_sites' => $this->update_sites, 'updates' => $this->updates];
     }
 }

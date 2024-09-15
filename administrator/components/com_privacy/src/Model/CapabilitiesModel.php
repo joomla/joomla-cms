@@ -11,10 +11,15 @@
 namespace Joomla\Component\Privacy\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Privacy\CollectCapabilitiesEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Capabilities model class.
@@ -66,13 +71,18 @@ class CapabilitiesModel extends BaseModel
          * This is in addition to plugin groups which are imported before this method is triggered, generally this is the system group.
          */
 
-        PluginHelper::importPlugin('authentication');
-        PluginHelper::importPlugin('captcha');
-        PluginHelper::importPlugin('installer');
-        PluginHelper::importPlugin('privacy');
-        PluginHelper::importPlugin('user');
+        $dispatcher = $app->getDispatcher();
 
-        $pluginResults = $app->triggerEvent('onPrivacyCollectAdminCapabilities');
+        PluginHelper::importPlugin('authentication', null, true, $dispatcher);
+        PluginHelper::importPlugin('captcha', null, true, $dispatcher);
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
+        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
+
+        $pluginResults = $dispatcher->dispatch(
+            'onPrivacyCollectAdminCapabilities',
+            new CollectCapabilitiesEvent('onPrivacyCollectAdminCapabilities')
+        )->getArgument('result', []);
 
         // We are going to "cheat" here and include this component's capabilities without using a plugin
         $extensionCapabilities = [

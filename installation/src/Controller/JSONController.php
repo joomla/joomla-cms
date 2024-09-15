@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Default JSON controller class for the Joomla Installer controllers.
  *
@@ -39,7 +43,7 @@ abstract class JSONController extends BaseController
         $this->app->mimeType = 'application/json';
 
         // Very crude workaround to give an error message when JSON is disabled
-        if (!function_exists('json_encode') || !function_exists('json_decode')) {
+        if (!\function_exists('json_encode') || !\function_exists('json_decode')) {
             $this->app->setHeader('status', 500);
             echo '{"token":"' . Session::getFormToken(true) . '","lang":"' . Factory::getLanguage()->getTag()
                 . '","error":true,"header":"' . Text::_('INSTL_HEADER_ERROR') . '","message":"' . Text::_('INSTL_WARNJSON') . '"}';

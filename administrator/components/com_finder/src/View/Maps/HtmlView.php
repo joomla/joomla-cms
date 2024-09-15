@@ -14,9 +14,13 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Groups view class for Finder.
@@ -46,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  3.6.1
      */
@@ -113,7 +117,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -132,17 +136,15 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_finder');
+        $canDo   = ContentHelper::getActions('com_finder');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'search-plus finder');
 
-        // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
-
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
-                $dropdown = $toolbar->dropdownButton('status-group')
-                    ->text('JTOOLBAR_CHANGE_STATUS')
+                /** @var DropdownButton $dropdown */
+                $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                     ->toggleSplit(false)
                     ->icon('icon-ellipsis-h')
                     ->buttonClass('btn btn-action')
@@ -154,20 +156,28 @@ class HtmlView extends BaseHtmlView
                 $childBar->unpublish('maps.unpublish')->listCheck(true);
             }
 
-            ToolbarHelper::divider();
-            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
-            ToolbarHelper::divider();
-
             if ($canDo->get('core.delete')) {
-                ToolbarHelper::deleteList('', 'maps.delete');
-                ToolbarHelper::divider();
+                $toolbar->standardButton('delete', 'JTOOLBAR_DELETE', 'maps.delete')
+                    ->listCheck(true);
+                $toolbar->divider();
             }
+
+            $toolbar->divider();
+            $toolbar->popupButton('bars', 'COM_FINDER_STATISTICS')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_STATISTICS_TITLE'))
+                ->url('index.php?option=com_finder&view=statistics&tmpl=component')
+                ->modalWidth('800px')
+                ->modalHeight('500px')
+                ->title(Text::_('COM_FINDER_STATISTICS_TITLE'))
+                ->icon('icon-bars');
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_finder');
+            $toolbar->preferences('com_finder');
         }
 
-        ToolbarHelper::help('Smart_Search:_Content_Maps');
+        $toolbar->help('Smart_Search:_Content_Maps');
     }
 }

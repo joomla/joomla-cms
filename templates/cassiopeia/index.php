@@ -17,8 +17,9 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\Document\HtmlDocument $this */
 
-$app = Factory::getApplication();
-$wa  = $this->getWebAssetManager();
+$app   = Factory::getApplication();
+$input = $app->getInput();
+$wa    = $this->getWebAssetManager();
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
@@ -26,11 +27,11 @@ $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alte
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Detecting Active Variables
-$option   = $app->input->getCmd('option', '');
-$view     = $app->input->getCmd('view', '');
-$layout   = $app->input->getCmd('layout', '');
-$task     = $app->input->getCmd('task', '');
-$itemid   = $app->input->getCmd('Itemid', '');
+$option   = $input->getCmd('option', '');
+$view     = $input->getCmd('view', '');
+$layout   = $input->getCmd('layout', '');
+$task     = $input->getCmd('task', '');
+$itemid   = $input->getCmd('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
@@ -38,7 +39,6 @@ $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, 'media/templates/site/cassiopeia/css/global/' . $paramsColorName . '.css');
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
@@ -49,16 +49,28 @@ if ($paramsFontScheme) {
         $this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', ['crossorigin' => 'anonymous']);
         $this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', ['crossorigin' => 'anonymous']);
         $this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style', 'crossorigin' => 'anonymous']);
-        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'', 'crossorigin' => 'anonymous']);
+        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['rel' => 'lazy-stylesheet', 'crossorigin' => 'anonymous']);
 
         if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0) {
             $fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', $matches[1][1] ?? $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
         }
+    } elseif ($paramsFontScheme === 'system') {
+        $fontStylesBody    = $this->params->get('systemFontBody', '');
+        $fontStylesHeading = $this->params->get('systemFontHeading', '');
+
+        if ($fontStylesBody) {
+            $fontStyles = '--cassiopeia-font-family-body: ' . $fontStylesBody . ';
+            --cassiopeia-font-weight-normal: 400;';
+        }
+        if ($fontStylesHeading) {
+            $fontStyles .= '--cassiopeia-font-family-headings: ' . $fontStylesHeading . ';
+    		--cassiopeia-font-weight-headings: 700;';
+        }
     } else {
-        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['rel' => 'lazy-stylesheet']);
         $this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
     }
 }
@@ -66,6 +78,7 @@ if ($paramsFontScheme) {
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->useStyle('template.active.language')
+    ->registerAndUseStyle($assetColorName, 'global/' . $paramsColorName . '.css')
     ->useStyle('template.user')
     ->useScript('template.user')
     ->addInlineStyle(":root {
@@ -73,7 +86,7 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
-		--template-link-color: #2a69b8;
+		--template-link-color: var(--link-color);
 		--template-special-color: #001B4C;
 		$fontStyles
 	}");
@@ -83,11 +96,11 @@ $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($th
 
 // Logo file or site title param
 if ($this->params->get('logoFile')) {
-    $logo = '<img src="' . Uri::root(true) . '/' . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+    $logo = HTMLHelper::_('image', Uri::root(false) . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES), $sitename, ['loading' => 'eager', 'decoding' => 'async'], false, 0);
 } elseif ($this->params->get('siteTitle')) {
     $logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 } else {
-    $logo = HTMLHelper::_('image', 'logo.svg', $sitename, ['class' => 'logo d-inline-block'], true, 0);
+    $logo = HTMLHelper::_('image', 'logo.svg', $sitename, ['class' => 'logo d-inline-block', 'loading' => 'eager', 'decoding' => 'async'], true, 0);
 }
 
 $hasClass = '';
@@ -112,6 +125,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
@@ -132,7 +146,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 
         <?php if ($this->countModules('topbar')) : ?>
             <div class="container-topbar">
-            <jdoc:include type="modules" name="topbar" style="none" />
+                <jdoc:include type="modules" name="topbar" style="none" />
             </div>
         <?php endif; ?>
 
@@ -177,21 +191,21 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
         <?php endif; ?>
 
         <?php if ($this->countModules('top-a', true)) : ?>
-        <div class="grid-child container-top-a">
-            <jdoc:include type="modules" name="top-a" style="card" />
-        </div>
+            <div class="grid-child container-top-a">
+                <jdoc:include type="modules" name="top-a" style="card" />
+            </div>
         <?php endif; ?>
 
         <?php if ($this->countModules('top-b', true)) : ?>
-        <div class="grid-child container-top-b">
-            <jdoc:include type="modules" name="top-b" style="card" />
-        </div>
+            <div class="grid-child container-top-b">
+                <jdoc:include type="modules" name="top-b" style="card" />
+            </div>
         <?php endif; ?>
 
         <?php if ($this->countModules('sidebar-left', true)) : ?>
-        <div class="grid-child container-sidebar-left">
-            <jdoc:include type="modules" name="sidebar-left" style="card" />
-        </div>
+            <div class="grid-child container-sidebar-left">
+                <jdoc:include type="modules" name="sidebar-left" style="card" />
+            </div>
         <?php endif; ?>
 
         <div class="grid-child container-component">
@@ -199,36 +213,36 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
             <jdoc:include type="modules" name="main-top" style="card" />
             <jdoc:include type="message" />
             <main>
-            <jdoc:include type="component" />
+                <jdoc:include type="component" />
             </main>
             <jdoc:include type="modules" name="main-bottom" style="card" />
         </div>
 
         <?php if ($this->countModules('sidebar-right', true)) : ?>
-        <div class="grid-child container-sidebar-right">
-            <jdoc:include type="modules" name="sidebar-right" style="card" />
-        </div>
+            <div class="grid-child container-sidebar-right">
+                <jdoc:include type="modules" name="sidebar-right" style="card" />
+            </div>
         <?php endif; ?>
 
         <?php if ($this->countModules('bottom-a', true)) : ?>
-        <div class="grid-child container-bottom-a">
-            <jdoc:include type="modules" name="bottom-a" style="card" />
-        </div>
+            <div class="grid-child container-bottom-a">
+                <jdoc:include type="modules" name="bottom-a" style="card" />
+            </div>
         <?php endif; ?>
 
         <?php if ($this->countModules('bottom-b', true)) : ?>
-        <div class="grid-child container-bottom-b">
-            <jdoc:include type="modules" name="bottom-b" style="card" />
-        </div>
+            <div class="grid-child container-bottom-b">
+                <jdoc:include type="modules" name="bottom-b" style="card" />
+            </div>
         <?php endif; ?>
     </div>
 
     <?php if ($this->countModules('footer', true)) : ?>
-    <footer class="container-footer footer full-width">
-        <div class="grid-child">
-            <jdoc:include type="modules" name="footer" style="none" />
-        </div>
-    </footer>
+        <footer class="container-footer footer full-width">
+            <div class="grid-child">
+                <jdoc:include type="modules" name="footer" style="none" />
+            </div>
+        </footer>
     <?php endif; ?>
 
     <?php if ($this->params->get('backTop') == 1) : ?>
@@ -239,4 +253,5 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
+
 </html>

@@ -14,16 +14,25 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Workflow table
  *
  * @since  4.0.0
  */
-class WorkflowTable extends Table
+class WorkflowTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -34,15 +43,16 @@ class WorkflowTable extends Table
     protected $_supportNullValue = true;
 
     /**
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = '{extension}.workflow';
 
-        parent::__construct('#__workflows', 'id', $db);
+        parent::__construct('#__workflows', 'id', $db, $dispatcher);
     }
 
     /**
@@ -72,7 +82,7 @@ class WorkflowTable extends Table
         $isDefault = $db->setQuery($query)->loadResult();
 
         if ($isDefault) {
-            $app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
+            $app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'), 'error');
 
             return false;
         }
@@ -169,9 +179,9 @@ class WorkflowTable extends Table
     public function store($updateNulls = true)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
-        $table = new WorkflowTable($this->getDbo());
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         if ($this->id) {
             // Existing item
@@ -202,8 +212,8 @@ class WorkflowTable extends Table
             if (
                 $table->load(
                     [
-                    'default' => '1',
-                    'extension' => $this->extension
+                    'default'   => '1',
+                    'extension' => $this->extension,
                     ]
                 )
             ) {
@@ -228,7 +238,7 @@ class WorkflowTable extends Table
      * @since   4.0.0
      * @throws  \InvalidArgumentException
      */
-    public function bind($src, $ignore = array())
+    public function bind($src, $ignore = [])
     {
         // Bind the rules.
         if (isset($src['rules']) && \is_array($src['rules'])) {
@@ -274,14 +284,14 @@ class WorkflowTable extends Table
     /**
      * Get the parent asset id for the record
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     The id for the asset
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     The id for the asset
      *
      * @return  integer  The id of the asset's parent
      *
      * @since  4.0.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
 
@@ -306,8 +316,8 @@ class WorkflowTable extends Table
         // Return the asset id.
         if ($assetId) {
             return $assetId;
-        } else {
-            return parent::_getAssetParentId($table, $id);
         }
+
+        return parent::_getAssetParentId($table, $id);
     }
 }

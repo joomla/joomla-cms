@@ -15,17 +15,26 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Tags table
  *
  * @since  3.1
  */
-class TagTable extends Nested implements VersionableTableInterface
+class TagTable extends Nested implements VersionableTableInterface, CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * An array of key names to be json encoded in the bind function
      *
@@ -45,13 +54,16 @@ class TagTable extends Nested implements VersionableTableInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   3.1.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_tags.tag';
 
-        parent::__construct('#__tags', 'id', $db);
+        parent::__construct('#__tags', 'id', $db, $dispatcher);
     }
 
     /**
@@ -95,7 +107,7 @@ class TagTable extends Nested implements VersionableTableInterface
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $bad_characters = array("\"", '<', '>');
+            $bad_characters = ["\"", '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 
@@ -147,7 +159,7 @@ class TagTable extends Nested implements VersionableTableInterface
     }
 
     /**
-     * Overridden \JTable::store to set modified data and user id.
+     * Overridden \Joomla\CMS\Table\Table::store to set modified data and user id.
      *
      * @param   boolean  $updateNulls  True to update fields even if they are null.
      *
@@ -158,12 +170,12 @@ class TagTable extends Nested implements VersionableTableInterface
     public function store($updateNulls = true)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($this->id) {
             // Existing item
-            $this->modified_user_id = $user->get('id');
-            $this->modified_time = $date->toSql();
+            $this->modified_user_id = $user->id;
+            $this->modified_time    = $date->toSql();
         } else {
             // New tag. A tag created and created_by field can be set by the user,
             // so we don't touch either of these if they are set.
@@ -172,7 +184,7 @@ class TagTable extends Nested implements VersionableTableInterface
             }
 
             if (empty($this->created_user_id)) {
-                $this->created_user_id = $user->get('id');
+                $this->created_user_id = $user->id;
             }
 
             if (!(int) $this->modified_time) {
@@ -187,8 +199,13 @@ class TagTable extends Nested implements VersionableTableInterface
         // Verify that the alias is unique
         $table = new static($this->getDbo());
 
-        if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['alias' => $this->alias]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+
+            // Is the existing tag trashed?
+            if ($table->published === -2) {
+                $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS_TRASHED'));
+            }
 
             return false;
         }

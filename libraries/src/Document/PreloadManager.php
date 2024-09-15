@@ -13,6 +13,10 @@ use Fig\Link\GenericLinkProvider;
 use Fig\Link\Link;
 use Psr\Link\EvolvableLinkProviderInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Preload Manager
  *
@@ -31,11 +35,11 @@ class PreloadManager implements PreloadManagerInterface
     /**
      * PreloadManager constructor
      *
-     * @param   EvolvableLinkProviderInterface  $linkProvider  The link provider
+     * @param   ?EvolvableLinkProviderInterface  $linkProvider  The link provider
      *
      * @since   4.0.0
      */
-    public function __construct(EvolvableLinkProviderInterface $linkProvider = null)
+    public function __construct(?EvolvableLinkProviderInterface $linkProvider = null)
     {
         $this->linkProvider = $linkProvider ?: new GenericLinkProvider();
     }

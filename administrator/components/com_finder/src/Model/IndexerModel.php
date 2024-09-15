@@ -10,13 +10,41 @@
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\MVC\Model\FormModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Indexer model class for Finder.
  *
  * @since  2.5
  */
-class IndexerModel extends BaseDatabaseModel
+class IndexerModel extends FormModel
 {
+    /**
+     * Method for getting a form.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  Form
+     *
+     * @since   5.0.0
+     *
+     * @throws \Exception
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        // Get the form.
+        $form = $this->loadForm('com_finder.indexer', 'indexer', ['control' => '', 'load_data' => $loadData]);
+
+        if (empty($form)) {
+            return false;
+        }
+
+        return $form;
+    }
 }
