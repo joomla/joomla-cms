@@ -239,7 +239,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(sprintf($this->getLanguage()->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
+                throw new \Exception(\sprintf($this->getLanguage()->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
             }
         }
 
@@ -292,7 +292,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 
@@ -318,7 +318,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
         $this->getDispatcher()->dispatch($event->getName(), $event);
 
         @trigger_error(
-            sprintf(
+            \sprintf(
                 'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
                 __METHOD__
             ),
