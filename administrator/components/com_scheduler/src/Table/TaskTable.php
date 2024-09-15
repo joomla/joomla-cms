@@ -45,7 +45,7 @@ class TaskTable extends Table implements CurrentUserInterface
     protected $_supportNullValue = true;
 
     /**
-     * Ensure params are json encoded by the bind method.
+     * Ensure params are json encoded in the bind method.
      *
      * @var    string[]
      * @since  4.1.0
@@ -82,7 +82,7 @@ class TaskTable extends Table implements CurrentUserInterface
      *
      * @since   4.1.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->setColumnAlias('published', 'state');
 

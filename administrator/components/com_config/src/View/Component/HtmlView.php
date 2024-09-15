@@ -13,7 +13,6 @@ namespace Joomla\Component\Config\Administrator\View\Component;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
@@ -53,6 +52,33 @@ class HtmlView extends BaseHtmlView
     public $component;
 
     /**
+     * List of fieldset objects
+     *
+     * @var    object[]
+     *
+     * @since  5.2.0
+     */
+    public $fieldsets;
+
+    /**
+     * Form control
+     *
+     * @var    string
+     *
+     * @since  5.2.0
+     */
+    public $formControl;
+
+    /**
+     * Base64 encoded return URL
+     *
+     * @var    string
+     *
+     * @since  5.2.0
+     */
+    public $return;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -65,41 +91,38 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         try {
-            $component = $this->get('component');
+            $this->component = $this->get('component');
 
-            if (!$component->enabled) {
+            if (!$this->component->enabled) {
                 return;
             }
 
-            $form = $this->get('form');
-            $user = $this->getCurrentUser();
+            $this->form = $this->get('Form');
+            $user       = $this->getCurrentUser();
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
             return;
         }
 
-        $this->fieldsets   = $form ? $form->getFieldsets() : null;
-        $this->formControl = $form ? $form->getFormControl() : null;
+        $this->fieldsets   = $this->form ? $this->form->getFieldsets() : null;
+        $this->formControl = $this->form ? $this->form->getFormControl() : null;
 
         // Remove unauthorised preference tabs.
         foreach ($this->fieldsets as $key => $value) {
             if ($key === 'permissions') {
                 if (
-                    (!$user->authorise('core.admin', $component->option) || !$user->authorise('core.options.permission', $component->option))
+                    (!$user->authorise('core.admin', $this->component->option) || !$user->authorise('core.options.permission', $this->component->option))
                     && isset($this->fieldsets['permissions'])
                 ) {
                     unset($this->fieldsets['permissions']);
                 }
             } else {
-                if (!$user->authorise("core.options.$key", $component->option) && isset($this->fieldsets[$key])) {
+                if (!$user->authorise("core.options.$key", $this->component->option) && isset($this->fieldsets[$key])) {
                     unset($this->fieldsets[$key]);
                 }
             }
         }
-
-        $this->form      = &$form;
-        $this->component = &$component;
 
         $this->components = ConfigHelper::getComponentsWithConfig();
 
@@ -121,7 +144,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
         $toolbar->apply('component.apply');

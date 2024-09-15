@@ -19,9 +19,7 @@
   };
 
   const updateSelectboxColour = () => {
-    const colourSelects = [].slice.call(document.querySelectorAll('.form-select-color-state'));
-
-    colourSelects.forEach((colourSelect) => {
+    document.querySelectorAll('.form-select-color-state').forEach((colourSelect) => {
       const value = parseInt(colourSelect.value, 10);
 
       // Add class on page load

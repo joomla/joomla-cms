@@ -71,7 +71,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name
         $this->name = 'administrator';
@@ -410,7 +410,7 @@ class AdministratorApplication extends CMSApplication
         $rootUser = $this->get('root_user');
 
         if (property_exists('\JConfig', 'root_user')) {
-            if (Factory::getUser()->get('username') === $rootUser || Factory::getUser()->id === (string) $rootUser) {
+            if ($this->getIdentity()->username === $rootUser || $this->getIdentity()->id === (string) $rootUser) {
                 $this->enqueueMessage(
                     Text::sprintf(
                         'JWARNING_REMOVE_ROOT_USER',
@@ -418,7 +418,7 @@ class AdministratorApplication extends CMSApplication
                     ),
                     'warning'
                 );
-            } elseif (Factory::getUser()->authorise('core.admin')) {
+            } elseif ($this->getIdentity()->authorise('core.admin')) {
                 // Show this message to superusers too
                 $this->enqueueMessage(
                     Text::sprintf(
@@ -487,7 +487,7 @@ class AdministratorApplication extends CMSApplication
          * request to go through. Otherwise we force com_login to be loaded, letting the user (re)try authenticating
          * with a user account that has the Backend Login privilege.
          */
-        if ($user->get('guest') || !$user->authorise('core.login.admin')) {
+        if ($user->guest || !$user->authorise('core.login.admin')) {
             $option = \in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
         }
 

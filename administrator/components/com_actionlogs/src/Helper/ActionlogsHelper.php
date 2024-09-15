@@ -53,7 +53,7 @@ class ActionlogsHelper
     {
         if (!is_iterable($data)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
                     \is_object($data) ? \get_class($data) : \gettype($data)
@@ -177,10 +177,10 @@ class ActionlogsHelper
      */
     public static function getHumanReadableLogMessage($log, $generateLinks = true)
     {
+        static::loadActionLogPluginsLanguage();
         static $links = [];
-
-        $message     = Text::_($log->message_language_key);
-        $messageData = json_decode($log->message, true);
+        $message      = Text::_($log->message_language_key);
+        $messageData  = json_decode($log->message, true);
 
         // Special handling for translation extension name
         if (isset($messageData['extension_name'])) {

@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Finder\Administrator\View\Filters\HtmlView $this */
 
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 

@@ -117,6 +117,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
             'scss' => 'css',
             'sass' => 'css',
             'less' => 'css',
+            'js'   => 'javascript',
         ];
         $options->mode = !empty($params['syntax']) ? $params['syntax'] : $this->params->get('syntax', 'html');
         $options->mode = $modeAlias[$options->mode] ?? $options->mode;
