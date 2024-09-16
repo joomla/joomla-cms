@@ -23,6 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -177,7 +178,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     {
         parent::__construct($basepath, $classprefix, $adapterfolder);
 
-        $this->extension = new Extension(Factory::getDbo());
+        $this->extension = Table::getInstance('Extension');
     }
 
     /**
