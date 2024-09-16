@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
@@ -2691,7 +2691,7 @@ class JoomlaInstallerScript
 
         foreach ($newComponents as $component) {
             /** @var \Joomla\CMS\Table\Asset $asset */
-            $asset = Table::getInstance('Asset');
+            $asset = new Asset(Factory::getDbo());
 
             if ($asset->loadByName($component)) {
                 continue;

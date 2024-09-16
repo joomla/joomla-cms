@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Language;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
@@ -70,7 +71,7 @@ class LanguageModel extends AdminModel
      */
     public function getTable($name = '', $prefix = '', $options = [])
     {
-        return Table::getInstance('Language', 'Joomla\\CMS\\Table\\');
+        return new Language($this->getDatabase());
     }
 
     /**

@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
@@ -55,7 +55,7 @@ class ExtensionAdapter extends UpdateAdapter
 
         switch ($name) {
             case 'UPDATE':
-                $this->currentUpdate                 = Table::getInstance('update');
+                $this->currentUpdate                 = new Update($this->db);
                 $this->currentUpdate->update_site_id = $this->updateSiteId;
                 $this->currentUpdate->detailsurl     = $this->_url;
                 $this->currentUpdate->folder         = '';

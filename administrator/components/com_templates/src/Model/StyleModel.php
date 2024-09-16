@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -454,7 +454,7 @@ class StyleModel extends AdminModel
     public function save($data)
     {
         // Detect disabled extension
-        $extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
+        $extension = new Extension($this->getDatabase());
 
         if ($extension->load(['enabled' => 0, 'type' => 'template', 'element' => $data['template'], 'client_id' => $data['client_id']])) {
             $this->setError(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
@@ -597,7 +597,7 @@ class StyleModel extends AdminModel
         }
 
         // Detect disabled extension
-        $extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
+        $extension = new Extension($this->getDatabase());
 
         if ($extension->load(['enabled' => 0, 'type' => 'template', 'element' => $style->template, 'client_id' => $style->client_id])) {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
