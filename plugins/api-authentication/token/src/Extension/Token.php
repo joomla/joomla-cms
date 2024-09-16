@@ -126,6 +126,11 @@ final class Token extends CMSPlugin implements SubscriberInterface
             }
         }
 
+        // Another Apache specific fix. See https://github.com/symfony/symfony/issues/1813
+        if (empty($authHeader)) {
+            $authHeader  = $this->getApplication()->getInput()->server->get('REDIRECT_HTTP_AUTHORIZATION', '', 'string');
+        }
+
         if (substr($authHeader, 0, 7) == 'Bearer ') {
             $parts       = explode(' ', $authHeader, 2);
             $tokenString = trim($parts[1]);
@@ -247,8 +252,8 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $response->username      = $user->username;
         $response->email         = $user->email;
         $response->fullname      = $user->name;
-        $response->timezone      = $user->get('timezone');
-        $response->language      = $user->get('language');
+        $response->timezone      = $user->getParam('timezone', $this->getApplication()->get('offset', 'UTC'));
+        $response->language      = $user->getParam('language', $this->getApplication()->get('language'));
 
         // Stop event propagation when status is STATUS_SUCCESS
         $event->stopPropagation();

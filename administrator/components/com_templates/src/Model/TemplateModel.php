@@ -409,26 +409,52 @@ class TemplateModel extends FormModel
     {
         $result = [];
 
+        $prefix      = JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template->element;
+        $mediaPrefix = JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'administrator' . DIRECTORY_SEPARATOR . $this->template->element;
+
+        if ($this->template->client_id === 0) {
+            $prefix      = JPATH_ROOT . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template->element;
+            $mediaPrefix = JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'site' . DIRECTORY_SEPARATOR . $this->template->element;
+        }
+
         $dirFiles = scandir($dir);
 
-        foreach ($dirFiles as $key => $value) {
-            if (!\in_array($value, ['.', '..', 'node_modules'])) {
-                if (is_dir($dir . $value)) {
-                    $relativePath                                   = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
-                    $relativePath                                   = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
-                    $result[str_replace('\\', '//', $relativePath)] = $this->getDirectoryTree($dir . $value . '/');
-                } else {
-                    $ext           = pathinfo($dir . $value, PATHINFO_EXTENSION);
-                    $allowedFormat = $this->checkFormat($ext);
+        foreach ($dirFiles as $value) {
+            if (\in_array($value, ['.', '..', 'node_modules'])) {
+                continue;
+            }
 
-                    if ($allowedFormat == true) {
-                        $relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates'  . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
-                        $relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
-                        $result[]     = $this->getFile($relativePath, $value);
-                    }
-                }
+            $relativePath = str_replace([$prefix, $mediaPrefix], '', $dir . $value);
+
+            if (is_dir($dir . $value)) {
+                $result[str_replace('\\', '//', $relativePath)] = $this->getDirectoryTree($dir . $value . '/');
+
+                continue;
+            }
+
+            $ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
+
+            if ($this->checkFormat($ext)) {
+                $result[] = $this->getFile($relativePath, $value);
             }
         }
+
+        // Sort directories first, then files alphabetically.
+        uksort($result, function ($a, $b) use ($result) {
+            if (\is_string($a)) {
+                if (\is_string($b)) {
+                    return strnatcmp($a, $b);
+                }
+
+                return -1;
+            }
+
+            if (\is_string($b)) {
+                return 1;
+            }
+
+            return strnatcmp($result[$a]->name, $result[$b]->name);
+        });
 
         return !empty($result) ? $result : ['.'];
     }
@@ -599,7 +625,7 @@ class TemplateModel extends FormModel
      *
      * @since   1.6
      */
-    public function &getTemplate()
+    public function getTemplate()
     {
         if (empty($this->template)) {
             $pk  = (int) $this->getState('extension.id');
@@ -1499,7 +1525,7 @@ class TemplateModel extends FormModel
 
             try {
                 $image      = new Image($path);
-                $properties = $image->getImageFileProperties($path);
+                $properties = Image::getImageFileProperties($path);
 
                 switch ($properties->mime) {
                     case 'image/webp':
@@ -1544,7 +1570,7 @@ class TemplateModel extends FormModel
 
             try {
                 $image      = new Image($path);
-                $properties = $image->getImageFileProperties($path);
+                $properties = Image::getImageFileProperties($path);
 
                 switch ($properties->mime) {
                     case 'image/webp':

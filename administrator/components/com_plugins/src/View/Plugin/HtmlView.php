@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -49,6 +48,15 @@ class HtmlView extends BaseHtmlView
      * @var   \Joomla\Registry\Registry
      */
     protected $state;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Display the view.
@@ -95,7 +103,7 @@ class HtmlView extends BaseHtmlView
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $canDo   = ContentHelper::getActions('com_plugins');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
 
@@ -138,7 +146,7 @@ class HtmlView extends BaseHtmlView
     protected function addModalToolbar()
     {
         $canDo   = ContentHelper::getActions('com_plugins');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
 
@@ -150,5 +158,7 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->cancel('plugin.cancel');
+
+        $toolbar->inlinehelp();
     }
 }
