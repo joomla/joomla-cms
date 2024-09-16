@@ -46,7 +46,7 @@ class AjaxController extends BaseController
             $this->app->close();
         }
 
-        if (!in_array($context, ['tour.complete', 'tour.cancel', 'tour.skip'])) {
+        if (!\in_array($context, ['tour.complete', 'tour.cancel', 'tour.skip'])) {
             echo new JsonResponse(['success' => false, 'tourId' => $tourId], Text::_('COM_GUIDEDTOURS_USERSTATE_WRONGCONTEXT'), true);
             $this->app->close();
         }
