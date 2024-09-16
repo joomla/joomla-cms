@@ -36,9 +36,20 @@ function queryTestDB(joomlaQuery, config) {
   // Do we use PostgreSQL?
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
     if (postgresConnectionPool === null) {
+
+      let host_or_socket = config.env.db_host;
+
+      // Check if db_host is a Unix socket by verifying the "unix:/" prefix.
+      // PostgreSQL does not handle this prefix, it needs to be stripped.
+      // This approach maintains compatibility with PHP driver and simplifies the overall configuration.
+      if (host_or_socket.startsWith("unix:/")) {
+        // e.g. 'unix:/var/run/postgresql' -> '/var/run/postgresql'
+        host_or_socket = host_or_socket.replace("unix:", "");
+      }
+
       // Initialisation on the first call
       postgresConnectionPool = postgres({
-        host: config.env.db_host,
+        host: host_or_socket,
         port: config.env.db_port,
         database: config.env.db_name,
         username: config.env.db_user,
@@ -78,13 +89,32 @@ function queryTestDB(joomlaQuery, config) {
   // Return a promise which runs the query for MariaDB / MySQL
   return new Promise((resolve, reject) => {
     // Create the connection and connect
-    const connection = mysql.createConnection({
-      host: config.env.db_host,
-      port: config.env.db_port,
-      user: config.env.db_user,
-      password: config.env.db_password,
-      database: config.env.db_name,
-    });
+    let connectionConfig;
+    // Check if db_host is a Unix socket by verifying the "unix:/" prefix.
+    // MariaDB and MySQL does not handle this prefix, it needs to be stripped.
+    // This approach maintains compatibility with PHP drivers and simplifies the overall configuration.
+    if (config.env.db_host.startsWith("unix:/")) {
+      // If the host is a Unix socket, extract the socket path
+      connectionConfig = {
+        // e.g. 'unix:/var/run/mysqld/mysqld.sock' -> '/var/run/mysqld/mysqld.sock'
+        socketPath: config.env.db_host.replace("unix:", ""),
+        user: config.env.db_user,
+        password: config.env.db_password,
+        database: config.env.db_name,
+      };
+    } else {
+      // Otherwise, use regular TCP host connection settings
+      connectionConfig = {
+        host: config.env.db_host,
+        port: config.env.db_port,
+        user: config.env.db_user,
+        password: config.env.db_password,
+        database: config.env.db_name,
+      };
+    }
+
+    // Create the MySQL/MariaDB connection
+    const connection = mysql.createConnection(connectionConfig);
 
     // Perform the query
     connection.query(query, (error, results) => {
