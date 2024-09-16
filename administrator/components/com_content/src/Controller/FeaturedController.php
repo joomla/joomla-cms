@@ -60,10 +60,13 @@ class FeaturedController extends ArticlesController
         } else {
             /** @var \Joomla\Component\Content\Administrator\Model\FeatureModel $model */
             $model = $this->getModel();
+            $model->setUseExceptions(true);
 
             // Remove the items.
-            if (!$model->featured($ids, 0)) {
-                $this->app->enqueueMessage($model->getError(), 'error');
+            try {
+                $model->featured($ids, 0);
+            } catch (\Exception $e) {
+                $this->app->enqueueMessage($e->getMessage(), 'error');
             }
         }
 

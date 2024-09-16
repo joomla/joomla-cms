@@ -108,27 +108,29 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
-        $this->vote          = PluginHelper::isEnabled('content', 'vote');
-        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
-            $this->setLayout('emptystate');
-        }
+        try {
+            $this->items         = $this->get('Items');
+            $this->pagination    = $this->get('Pagination');
+            $this->state         = $this->get('State');
+            $this->filterForm    = $this->get('FilterForm');
+            $this->activeFilters = $this->get('ActiveFilters');
+            $this->vote          = PluginHelper::isEnabled('content', 'vote');
+            $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
 
-        if (ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
-            PluginHelper::importPlugin('workflow');
+            if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+                $this->setLayout('emptystate');
+            }
 
-            $this->transitions = $this->get('Transitions');
-        }
+            if (ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
+                PluginHelper::importPlugin('workflow');
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors')) || $this->transitions === false) {
-            throw new GenericDataException(implode("\n", $errors), 500);
+                $this->transitions = $this->get('Transitions');
+            }
+        } catch (\Exception $e) {
+            throw new GenericDataException($e->getMessage(), 500, $e);
         }
 
         // We don't need toolbar in the modal window.

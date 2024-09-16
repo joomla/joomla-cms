@@ -833,9 +833,13 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         if (empty($pks)) {
-            $this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
+            if (!$this->shouldUseExceptions()) {
+                $this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
 
-            return false;
+                return false;
+            }
+
+            throw new \Exception(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
         }
 
         $table = $this->getTable('Featured', 'Administrator');
@@ -856,9 +860,13 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         );
 
         if ($eventResult->getArgument('abort', false)) {
-            $this->setError(Text::_($eventResult->getArgument('abortReason')));
+            if (!$this->shouldUseExceptions()) {
+                $this->setError(Text::_($eventResult->getArgument('abortReason')));
 
-            return false;
+                return false;
+            }
+
+            throw new \Exception(Text::_($eventResult->getArgument('abortReason')));
         }
 
         try {
@@ -938,9 +946,13 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 }
             }
         } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+            if (!$this->shouldUseExceptions()) {
+                $this->setError($e->getMessage());
 
-            return false;
+                return false;
+            }
+
+            throw $e;
         }
 
         $table->reorder();

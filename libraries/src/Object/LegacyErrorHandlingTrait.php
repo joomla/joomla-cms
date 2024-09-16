@@ -37,6 +37,15 @@ trait LegacyErrorHandlingTrait
     // phpcs:enable PSR2.Classes.PropertyDeclaration
 
     /**
+     * Use exceptions rather than getError/setError. This will default to true in Joomla 6 and removed in Joomla 7.
+     *
+     * @var          boolean
+     * @since        __DEPLOY_VERSION__
+     * @deprecated   7.0
+     */
+    private bool $useExceptions = false;
+
+    /**
      * Get the most recent error message.
      *
      * @param   integer  $i         Option error index.
@@ -103,5 +112,33 @@ trait LegacyErrorHandlingTrait
     public function setError($error)
     {
         $this->_errors[] = $error;
+    }
+
+    /**
+     * If true then subclasses should throw exceptions rather than use getError and setError.
+     *
+     * @return  boolean
+     *
+     * @since        __DEPLOY_VERSION__
+     * @deprecated   7.0
+     */
+    public function shouldUseExceptions(): bool
+    {
+        return $this->useExceptions;
+    }
+
+    /**
+     * If true then subclasses should throw exceptions rather than use getError and setError.
+     *
+     * @param   boolean   $value  The value to set for the field.
+     *
+     * @return  void
+     *
+     * @since        __DEPLOY_VERSION__
+     * @deprecated   7.0
+     */
+    public function setUseExceptions(bool $value): void
+    {
+        $this->useExceptions = $value;
     }
 }

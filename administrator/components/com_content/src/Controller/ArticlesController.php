@@ -101,10 +101,13 @@ class ArticlesController extends AdminController
         // Get the model.
         /** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Publish the items.
-        if (!$model->featured($ids, $value)) {
-            $this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+        try {
+            $model->featured($ids, $value);
+        } catch (\Exception $e) {
+            $this->setRedirect(Route::_($redirectUrl, false), $e->getMessage(), 'error');
 
             return;
         }

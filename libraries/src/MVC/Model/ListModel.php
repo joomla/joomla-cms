@@ -360,9 +360,13 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             // Load the total and add the total to the internal cache.
             $this->cache[$store] = (int) $this->_getListCount($this->_getListQuery());
         } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+            if (!$this->shouldUseExceptions()) {
+                $this->setError($e->getMessage());
 
-            return false;
+                return false;
+            }
+
+            throw $e;
         }
 
         return $this->cache[$store];

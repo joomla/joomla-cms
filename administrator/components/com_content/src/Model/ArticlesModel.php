@@ -596,9 +596,13 @@ class ArticlesModel extends ListModel
                 $this->cache[$store] = $transitions;
             }
         } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+            if (!$this->shouldUseExceptions()) {
+                $this->setError($e->getMessage());
 
-            return false;
+                return false;
+            }
+
+            throw $e;
         }
 
         return $this->cache[$store];
