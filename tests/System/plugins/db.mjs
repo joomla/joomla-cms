@@ -36,20 +36,19 @@ function queryTestDB(joomlaQuery, config) {
   // Do we use PostgreSQL?
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
     if (postgresConnectionPool === null) {
-
-      let host_or_socket = config.env.db_host;
+      let hostOrUnixPath = config.env.db_host;
 
       // Check if db_host is a Unix socket by verifying the "unix:/" prefix.
       // PostgreSQL does not handle this prefix, it needs to be stripped.
       // This approach maintains compatibility with PHP driver and simplifies the overall configuration.
-      if (host_or_socket.startsWith("unix:/")) {
+      if (hostOrUnixPath.startsWith('unix:/')) {
         // e.g. 'unix:/var/run/postgresql' -> '/var/run/postgresql'
-        host_or_socket = host_or_socket.replace("unix:", "");
+        hostOrUnixPath = hostOrUnixPath.replace('unix:', '');
       }
 
       // Initialisation on the first call
       postgresConnectionPool = postgres({
-        host: host_or_socket,
+        host: hostOrUnixPath,
         port: config.env.db_port,
         database: config.env.db_name,
         username: config.env.db_user,
@@ -93,11 +92,11 @@ function queryTestDB(joomlaQuery, config) {
     // Check if db_host is a Unix socket by verifying the "unix:/" prefix.
     // MariaDB and MySQL does not handle this prefix, it needs to be stripped.
     // This approach maintains compatibility with PHP drivers and simplifies the overall configuration.
-    if (config.env.db_host.startsWith("unix:/")) {
+    if (config.env.db_host.startsWith('unix:/')) {
       // If the host is a Unix socket, extract the socket path
       connectionConfig = {
         // e.g. 'unix:/var/run/mysqld/mysqld.sock' -> '/var/run/mysqld/mysqld.sock'
-        socketPath: config.env.db_host.replace("unix:", ""),
+        socketPath: config.env.db_host.replace('unix:', ''),
         user: config.env.db_user,
         password: config.env.db_password,
         database: config.env.db_name,
