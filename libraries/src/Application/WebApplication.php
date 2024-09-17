@@ -145,7 +145,7 @@ abstract class WebApplication extends AbstractWebApplication
         // Only create the object if it doesn't exist.
         if (empty(static::$instance)) {
             if (!is_subclass_of($name, '\\Joomla\\CMS\\Application\\WebApplication')) {
-                throw new \RuntimeException(sprintf('Unable to load application: %s', $name), 500);
+                throw new \RuntimeException(\sprintf('Unable to load application: %s', $name), 500);
             }
 
             static::$instance = new $name();
