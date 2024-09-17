@@ -358,7 +358,11 @@ class TaskModel extends AdminModel
     public function getTask(array $options = []): ?\stdClass
     {
         $resolver = new OptionsResolver();
-        $this->configureTaskGetterOptions($resolver);
+
+        try {
+            static::configureTaskGetterOptions($resolver);
+        } catch (\Exception $e) {
+        }
 
         try {
             $options = $resolver->resolve($options);
@@ -556,7 +560,6 @@ class TaskModel extends AdminModel
 
         return $task;
     }
-
 
     /**
      * Set up an {@see OptionsResolver} to resolve options compatible with the {@see GetTask()} method.
