@@ -1,5 +1,6 @@
 import mysql from 'mysql';
 import pkg from 'pg';
+
 const { Pool } = pkg; // Using Pool from pg for PostgreSQL connections
 
 // Items cache which are added by an insert statement
@@ -35,7 +36,6 @@ function queryTestDB(joomlaQuery, config) {
 
   // Do we use PostgreSQL?
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
-
     if (postgresConnectionPool === null) {
       // Initialisation on the first call
       postgresConnectionPool = new Pool({
@@ -74,9 +74,9 @@ function queryTestDB(joomlaQuery, config) {
       // Normalize the object and return from PostgreSQL
       return { insertId: result.rows[0].id };
     })
-    .catch((error) => {
-      throw new Error(`Postgres query failed: ${error.message}`);
-    });
+      .catch((error) => {
+        throw new Error(`Postgres query failed: ${error.message}`);
+      });
   }
 
   // Return a promise which runs the query for MariaDB / MySQL
