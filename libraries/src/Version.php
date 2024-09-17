@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'beta3-dev';
+    public const EXTRA_VERSION = 'rc1-dev';
 
     /**
      * Development status.
