@@ -543,7 +543,7 @@ class JoomlaInstallerScript
             if (!$installer->refreshManifestCache($extension->extension_id)) {
                 $this->collectError(
                     __METHOD__,
-                    new \Exception(sprintf(
+                    new \Exception(\sprintf(
                         'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
                         $extension->type,
                         $extension->element,
@@ -2636,7 +2636,7 @@ class JoomlaInstallerScript
                     if (File::delete(JPATH_ROOT . $file)) {
                         $status['files_deleted'][] = $file;
                     } else {
-                        $status['files_errors'][] = sprintf('Error on deleting file or folder %s', $file);
+                        $status['files_errors'][] = \sprintf('Error on deleting file or folder %s', $file);
                     }
                 }
             }
@@ -2650,7 +2650,7 @@ class JoomlaInstallerScript
                     if (Folder::delete(JPATH_ROOT . $folder)) {
                         $status['folders_deleted'][] = $folder;
                     } else {
-                        $status['folders_errors'][] = sprintf('Error on deleting file or folder %s', $folder);
+                        $status['folders_errors'][] = \sprintf('Error on deleting file or folder %s', $folder);
                     }
                 }
             }

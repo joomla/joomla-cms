@@ -235,7 +235,7 @@ class Nested extends Table
         // Make sure the location is valid.
         if (!\in_array($position, $this->_validLocations)) {
             throw new \InvalidArgumentException(
-                sprintf('Invalid location "%1$s" given, valid values are %2$s', $position, implode(', ', $this->_validLocations))
+                \sprintf('Invalid location "%1$s" given, valid values are %2$s', $position, implode(', ', $this->_validLocations))
             );
         }
 
@@ -334,7 +334,7 @@ class Nested extends Table
         if (\in_array($referenceId, $children)) {
             $this->setError(
                 new \UnexpectedValueException(
-                    sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', \get_class($this), $pk)
+                    \sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', \get_class($this), $pk)
                 )
             );
 
@@ -663,7 +663,7 @@ class Nested extends Table
         try {
             // Check that the parent_id field is valid.
             if ($this->parent_id == 0) {
-                throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new \UnexpectedValueException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
             }
 
             $query = $this->_db->getQuery(true)
@@ -672,7 +672,7 @@ class Nested extends Table
                 ->where($this->_tbl_key . ' = ' . $this->parent_id);
 
             if (!$this->_db->setQuery($query)->loadResult()) {
-                throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new \UnexpectedValueException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
             }
         } catch (\UnexpectedValueException $e) {
             // Validation error - record it and return false.
@@ -786,7 +786,7 @@ class Nested extends Table
                 $this->rgt       = $repositionData->new_rgt;
             } else {
                 // Negative parent ids are invalid
-                $e = new \UnexpectedValueException(sprintf('%s::store() used a negative _location_id', \get_class($this)));
+                $e = new \UnexpectedValueException(\sprintf('%s::store() used a negative _location_id', \get_class($this)));
                 $this->setError($e);
 
                 return false;
@@ -893,7 +893,7 @@ class Nested extends Table
                 $pks = explode(',', $this->$k);
             } else {
                 // Nothing to set publishing state on, return false.
-                $e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
+                $e = new \UnexpectedValueException(\sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
                 $this->setError($e);
 
                 return false;
@@ -924,7 +924,7 @@ class Nested extends Table
                 // Check for checked out children.
                 if ($this->_db->loadResult()) {
                     // @todo Convert to a conflict exception when available.
-                    $e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
+                    $e = new \RuntimeException(\sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
 
                     $this->setError($e);
 
@@ -949,7 +949,7 @@ class Nested extends Table
 
                 if ($this->_db->loadResult()) {
                     $e = new \UnexpectedValueException(
-                        sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', \get_class($this), $pks[0], $state, $userId)
+                        \sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', \get_class($this), $pks[0], $state, $userId)
                     );
                     $this->setError($e);
 
@@ -1193,7 +1193,7 @@ class Nested extends Table
             }
         }
 
-        $e = new \UnexpectedValueException(sprintf('%s::getRootId', \get_class($this)));
+        $e = new \UnexpectedValueException(\sprintf('%s::getRootId', \get_class($this)));
         $this->setError($e);
         self::$root_id = false;
 
@@ -1247,7 +1247,7 @@ class Nested extends Table
         // Make a shortcut to database object.
 
         // Assemble the query to find all children of this node.
-        $this->_db->setQuery(sprintf($this->_cache['rebuild.sql'], (int) $parentId));
+        $this->_db->setQuery(\sprintf($this->_cache['rebuild.sql'], (int) $parentId));
 
         $children = $this->_db->loadObjectList();
 
@@ -1524,7 +1524,7 @@ class Nested extends Table
 
         // Check for no $row returned
         if (empty($row)) {
-            $e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
+            $e = new \UnexpectedValueException(\sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
             $this->setError($e);
 
             return false;
@@ -1649,11 +1649,11 @@ class Nested extends Table
             $this->_db->setQuery($query);
 
             $rows = $this->_db->loadRowList();
-            $buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $this->_tbl_key, 'par', 'lft', 'rgt');
+            $buffer .= \sprintf("\n| %4s | %4s | %4s | %4s |", $this->_tbl_key, 'par', 'lft', 'rgt');
             $buffer .= $sep;
 
             foreach ($rows as $row) {
-                $buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $row[0], $row[1], $row[2], $row[3]);
+                $buffer .= \sprintf("\n| %4s | %4s | %4s | %4s |", $row[0], $row[1], $row[2], $row[3]);
             }
 
             $buffer .= $sep;

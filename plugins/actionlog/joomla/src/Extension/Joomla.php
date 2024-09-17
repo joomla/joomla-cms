@@ -1311,7 +1311,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public function onBeforeTourSaveUserState(AbstractEvent $event): void
     {

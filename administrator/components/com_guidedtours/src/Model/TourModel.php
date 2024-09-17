@@ -201,7 +201,8 @@ class TourModel extends AdminModel
         $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 
         $table = $this->getTable();
-        if (\is_integer($pk)) {
+
+        if (\is_int($pk)) {
             $result = $table->load((int) $pk);
         } else {
             // Attempt to load the row by uid.
@@ -576,7 +577,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public function saveTourUserState($id, $state = ''): bool
     {
