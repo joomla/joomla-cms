@@ -38,7 +38,7 @@ abstract class AbstractLoginEvent extends UserEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function __construct($name, array $arguments = [])
     {
