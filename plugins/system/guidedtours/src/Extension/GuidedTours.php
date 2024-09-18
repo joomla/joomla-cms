@@ -367,7 +367,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     private function fixImagePaths($description)
     {
