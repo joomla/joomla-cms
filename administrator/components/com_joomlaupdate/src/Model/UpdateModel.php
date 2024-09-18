@@ -1320,10 +1320,9 @@ ENDDATA;
         if (!empty($disabledFunctions)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
             $disabledFunctions         = explode(',', trim($disabledFunctions));
-            $numberOfDisabledFunctions = \count($disabledFunctions);
 
-            for ($i = 0; $i < $numberOfDisabledFunctions; $i++) {
-                $disabledFunctions[$i] = trim($disabledFunctions[$i]);
+            foreach ($disabledFunctions as &$disabledFunction) {
+                $disabledFunction = trim($disabledFunction);
             }
 
             $result = !\in_array('parse_ini_string', $disabledFunctions);
@@ -1795,7 +1794,7 @@ ENDDATA;
 
         // Log it
         Log::add(
-            sprintf(
+            \sprintf(
                 'An error has occurred while running "%s". Code: %s. Message: %s.',
                 $context,
                 $error->getCode(),
@@ -1807,7 +1806,7 @@ ENDDATA;
 
         if (JDEBUG) {
             $trace = $error->getFile() . ':' . $error->getLine() . PHP_EOL . $error->getTraceAsString();
-            Log::add(sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
+            Log::add(\sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
         }
     }
 
@@ -2081,7 +2080,7 @@ ENDDATA;
             $db->execute();
         } catch (\Exception $e) {
             Log::add(
-                sprintf(
+                \sprintf(
                     'An error has occurred while running "resetUpdateSource". Code: %s. Message: %s.',
                     $e->getCode(),
                     $e->getMessage()

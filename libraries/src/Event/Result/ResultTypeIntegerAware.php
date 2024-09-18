@@ -64,7 +64,7 @@ trait ResultTypeIntegerAware
         }
 
         if (!\is_int($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Integer results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Integer results.', $this->getName()));
         }
     }
 }

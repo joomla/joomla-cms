@@ -54,7 +54,7 @@ class State extends Registry
     {
         if (isset($this->data->$path) && empty($this->data->$path)) {
             @trigger_error(
-                sprintf('Instead of an empty value, the default value will be returned in 7.0 in %s::%s.', __METHOD__, __CLASS__),
+                \sprintf('Instead of an empty value, the default value will be returned in 7.0 in %s::%s.', __METHOD__, __CLASS__),
                 E_USER_DEPRECATED
             );
             return $this->data->$path;
@@ -91,7 +91,7 @@ class State extends Registry
      */
     public function __get($name)
     {
-        @trigger_error(sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
+        @trigger_error(\sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
 
         return $this->get($name);
     }
@@ -111,7 +111,7 @@ class State extends Registry
      */
     public function __set($name, $value)
     {
-        @trigger_error(sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
+        @trigger_error(\sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
 
         return $this->set($name, $value);
     }
@@ -130,7 +130,7 @@ class State extends Registry
      */
     public function __isset($name)
     {
-        @trigger_error(sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
+        @trigger_error(\sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
 
         return $this->exists($name);
     }

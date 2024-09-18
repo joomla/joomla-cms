@@ -32,7 +32,7 @@ use Joomla\String\StringHelper;
 /**
  * Helper for mod_articles
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class ArticlesHelper implements DatabaseAwareInterface
 {
@@ -46,7 +46,7 @@ class ArticlesHelper implements DatabaseAwareInterface
      *
      * @return  object[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function getArticles(Registry $params, SiteApplication $app)
     {
@@ -331,7 +331,7 @@ class ArticlesHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
     {
@@ -375,7 +375,7 @@ class ArticlesHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
     {
@@ -438,7 +438,7 @@ class ArticlesHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function groupByTags($list, $direction = 'ksort')
     {
