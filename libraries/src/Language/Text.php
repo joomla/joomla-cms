@@ -327,7 +327,7 @@ class Text
     {
         if ($string === null) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
                     . ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
                     __METHOD__,

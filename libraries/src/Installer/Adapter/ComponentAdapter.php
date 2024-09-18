@@ -559,7 +559,7 @@ class ComponentAdapter extends InstallerAdapter
 
             default:
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Unsupported client ID %d for component %s',
                         $this->parent->extension->client_id,
                         $this->parent->extension->element
