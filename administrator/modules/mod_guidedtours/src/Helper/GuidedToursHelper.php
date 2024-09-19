@@ -59,7 +59,7 @@ class GuidedToursHelper
             $uri = new Uri($item->url);
 
             if ($extension = $uri->getVar('option')) {
-                if ($extension == 'com_categories') {
+                if ($extension === 'com_categories') {
                     $extension = $uri->getVar('extension');
                 }
                 if (!$user->authorise('core.manage', $extension)) {
