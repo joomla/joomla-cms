@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -24,11 +25,17 @@ $wa->useScript('core')
 
 $uploadLink = 'index.php?option=com_joomlaupdate&view=upload';
 
+if (ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 0) == 0) :
+    $formURL = 'index.php?option=com_joomlaupdate&view=joomlaupdate'; //simple update
+else :
+    $formURL = 'index.php?option=com_joomlaupdate&view=update'; //chunked updates using ajax
+endif;
+
 $displayData = [
     'textPrefix' => 'COM_JOOMLAUPDATE_UPDATE',
     'title'      => Text::sprintf('COM_JOOMLAUPDATE_UPDATE_EMPTYSTATE_TITLE', $this->escape($this->updateInfo['latest'])),
     'content'    => Text::sprintf($this->langKey, $this->updateSourceKey),
-    'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
+    'formURL'    => $formURL,
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
     'icon'       => 'icon-loop joomlaupdate',
     'createURL'  => '#'

@@ -72,4 +72,67 @@
 		</field>
 
 	</fieldset>
+	<fieldset
+		name="update"
+		label="COM_JOOMLAUPDATE_CONFIG_UPDATE_LABEL"
+		description="COM_JOOMLAUPDATE_CONFIG_UPDATE_DESC"
+	>
+
+		<field
+			name="chunked_download"
+			type="radio"
+			label="COM_JOOMLAUPDATE_CONFIG_CHUNKED_DOWNLOAD_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_CHUNKED_DOWNLOAD_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="chunk_length"
+			type="list"
+			label="COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_DESC"
+			default="10485760"
+			filter="integer"
+			showon="chunked_download:1"
+			validate="options"
+			>
+			<option value="262144">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_256KB</option>
+			<option value="524288">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_512KB</option>
+			<option value="1048576">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_1MIB</option>
+			<option value="2097152">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_2MIB</option>
+			<option value="5242880">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_5MIB</option>
+			<option value="10485760">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_10MIB</option>
+			<option value="20971520">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_20MIB</option>
+		</field>
+
+		<field
+			name="min_chunk_wait"
+			type="integer"
+			label="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_DESC"
+			default="2"
+			first="0"
+			last="10"
+			step="1"
+			filter="integer"
+			showon="chunked_download:1"
+		/>
+
+		<field
+			name="http_timeout"
+			type="integer"
+			label="COM_JOOMLAUPDATE_CONFIG_HTTPTIMEOUT_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_HTTPTIMEOUT_DESC"
+			default="10"
+			first="0"
+			last="120"
+			step="10"
+			filter="integer"
+		/>
+	</fieldset>
 </config>
