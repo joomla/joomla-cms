@@ -321,7 +321,12 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
     data = JSON.parse(temp.data);
 
     const message = Joomla.Text._(`MOD_COMMUNITY_ERROR_${msgString}`);
-    Joomla.renderMessages({ error: [`${message}`, `Message: ${split[0]}`, `Messages: ${temp.messages}`, `Data: ${data}`] });
+
+    if (Joomla.getOptions('mod_community_info').debug === 1) {
+      Joomla.renderMessages({ error: [`${message}`, `Message: ${split[0]}`, `Messages: ${temp.messages}`, `Data: ${data}`] });
+    } else {
+      Joomla.renderMessages({ error: [`${message}`] });
+    }
   }
 
   return data;
