@@ -518,18 +518,17 @@ class CommunityInfoHelper
         $prio = $input->get('priority', 8, 'cmd');
 
         // Convert priority to proper integer value
-        if (\is_string($prio))
-        {
-          $prio = \strtoupper($prio);
+        if (\is_string($prio)) {
+          $prio     = \strtoupper($prio);
           $constant = "Joomla\CMS\Log\Log::$prio";
-          $prio = \constant($constant);
+          $prio     = \constant($constant);
         }
 
         $this->moduleId = $moduleId;
         $this->setParams();
 
         // Add logger if needed
-        Log::addLogger(['text_file' =>  'mod_community_info.log.php'], Log::ALL, ['mod_community_info']);
+        Log::addLogger(['text_file' => 'mod_community_info.log.php'], Log::ALL, ['mod_community_info']);
 
         // Log message
         Log::add($msg, $prio, 'mod_community_info');
