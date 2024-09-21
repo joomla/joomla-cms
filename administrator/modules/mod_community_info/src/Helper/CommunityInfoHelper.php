@@ -507,10 +507,6 @@ class CommunityInfoHelper
             return 'Permission denied!';
         }
 
-        if (!$moduleId = $input->get('module_id', false, 'int')) {
-            return 'You must provide a "module_id" variable with the request!';
-        }
-
         if (!$msg = $input->get('message', false, 'string')) {
             return 'You must provide a "message" variable with the request!';
         }
@@ -523,9 +519,6 @@ class CommunityInfoHelper
             $constant = "Joomla\CMS\Log\Log::$prio";
             $prio     = \constant($constant);
         }
-
-        $this->moduleId = $moduleId;
-        $this->setParams();
 
         // Add logger if needed
         Log::addLogger(['text_file' => 'mod_community_info.log.php'], Log::ALL, ['mod_community_info']);

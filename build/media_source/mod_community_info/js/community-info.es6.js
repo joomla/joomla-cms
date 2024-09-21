@@ -15,27 +15,6 @@ const sprintf = function (text, ...args) {
 };
 
 /**
- * Logging to the Joomla logger
- *
- * @param   {String}   msg      The message to be logged
- * @param   {String}   prio     The logging priority (error, warning, notice, info, debug)
- * @param   {Boolean}  always   True to log anyway, False only when debug is enabled
- */
-const addLog = async function (msg, prio, always = false) {
-  if (always || Joomla.getOptions('mod_community_info').debug === 1) {
-    try {
-      result = await ajaxTask(moduleId, 'addLog', {'message': msg, 'priority': prio}, 'ADD_LOG');
-
-      if (!is_null(result) && result !== 'True') {
-        Joomla.renderMessages({ error: [result] });
-      }
-    } catch (error) {
-      Joomla.renderMessages({ error: ['Problem reaching com_ajax.'] });
-    }
-  }
-};
-
-/**
  * Fix a geolocation string
  *
  * @param   {String}   geolocation   Geolocation string
@@ -125,133 +104,6 @@ const locationSelectChange = function (event, moduleId) {
 };
 
 /**
- * Fetches data from an endpoint
- *
- * @param   {String}   url        Request url
- * @param   {Object}   variables  Request variables
- * @param   {String}   format     The expected format of the returned content
- *
- * @returns {Object} Result object
- */
-const fetchAPI = async function (url, variables = {}, format = 'json') {
-  const urlSearchParams = new URLSearchParams(variables);
-
-  let targetUrl = url;
-  if (Object.keys(variables).length !== 0) {
-    targetUrl = `${url}?${urlSearchParams.toString()}`;
-  }
-
-  // Set request parameters
-  const parameters = {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'default',
-    redirect: 'follow',
-    referrerPolicy: 'origin',
-  };
-
-  // Perform the fetch request
-  const response = await fetch(targetUrl, parameters);
-
-  // Initialize data
-  let data = null;
-
-  if (!response.ok) {
-    // Catch network error
-    const message = Joomla.Text._('MOD_COMMUNITY_ERROR_FETCH_API');
-    Joomla.renderMessages({ error: [sprintf(message, targetUrl, response.status, response.statusText)] });
-    addLog(`fetchAPI request failed, Status Code: ${response.status}, Message: ${response.statusText}`, 'error', true);
-
-    return data;
-  }
-
-  // Request successful
-  const txt = await response.text();
-  let error = false;
-  let errorcode = '';
-
-  if (format === 'json') {
-    try {
-      data = JSON.parse(txt);
-    } catch (err) {
-      error = true;
-      errorcode = err.message;
-    }
-  } else if (format === 'xml') {
-    const parser = new DOMParser();
-    data = parser.parseFromString(txt, 'text/xml');
-
-    if (data.getElementsByTagName('parsererror').length > 0) {
-      error = true;
-      errorcode = data.getElementsByTagName('parsererror')[0].textContent;
-    }
-  } else {
-    data = txt;
-  }
-
-  if (error) {
-    // Parsing error
-    const message = Joomla.Text._('MOD_COMMUNITY_ERROR_FETCH_API');
-    Joomla.renderMessages({ error: [sprintf(message, targetUrl, '-', errorcode)] });
-    addLog(`fetchAPI request failed, Status Code: -, Message: ${errorcode}`, 'error', true)
-
-    return null;
-  }
-
-  return data;
-};
-
-/**
- * Search for a location
- *
- * @param   {Interger} moduleId  ID of the current module
- */
-const searchLocation = async function (moduleId) {
-  const search = document.getElementById(`locsearch${moduleId}`).value;
-
-  // Fetch search results
-  const res = await fetchAPI('https://nominatim.openstreetmap.org/search.php', { q: search, format: 'jsonv2' });
-
-  if (Array.isArray(res) && res.length > 0) {
-    // Create the selection list
-    const select = document.createElement('select');
-    select.className = 'form-select';
-    select.size = Math.max(Math.min(res.length, 15), 2);
-
-    res.forEach((result, i) => {
-      const option = document.createElement('option');
-      option.value = `${result.lat},${result.lon}`;
-      option.textContent = `${result.name} (${result.display_name.slice(0, 100)}...)`;
-      if (i === 0) {
-        option.selected = true;
-        // Add first element to input
-        document.getElementById(`jform_lat${moduleId}`).value = result.lat;
-        document.getElementById(`jform_lng${moduleId}`).value = result.lon;
-      }
-      select.appendChild(option);
-    });
-
-    // Place selection into DOM
-    const resultsContainer = document.getElementById(`locsearch_results${moduleId}`);
-    resultsContainer.innerHTML = '';
-    resultsContainer.appendChild(select);
-
-    // Install event listener
-    select.addEventListener('change', (event) => {
-      locationSelectChange(event, moduleId);
-    });
-
-    // Activate button
-    document.getElementById(`btn-saveLoc${moduleId}`).disabled = false;
-  } else {
-    document.getElementById(`locsearch_results${moduleId}`).innerHTML = `<p>${Joomla.Text._('MOD_COMMUNITY_MSG_NO_LOCATIONS_FOUND')}</p>`;
-
-    // Deactivate button
-    document.getElementById(`btn-saveLoc${moduleId}`).disabled = true;
-  }
-};
-
-/**
  * Perform an ajax request to the helper method via com_ajax
  *
  * @param   {Interger} moduleId      ID of the current module
@@ -330,6 +182,154 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
   }
 
   return data;
+};
+
+/**
+ * Logging to the Joomla logger
+ *
+ * @param   {String}   msg      The message to be logged
+ * @param   {String}   prio     The logging priority (error, warning, notice, info, debug)
+ * @param   {Boolean}  always   True to log anyway, False only when debug is enabled
+ */
+const addLog = async function (msg, prio, always = false) {
+  if (always || Joomla.getOptions('mod_community_info').debug === 1) {
+    try {
+      const result = await ajaxTask(1, 'addLog', { message: msg, priority: prio }, 'ADD_LOG');
+
+      if (result && result !== 'True') {
+        Joomla.renderMessages({ error: [result] });
+      }
+    } catch (error) {
+      Joomla.renderMessages({ error: ['Problem reaching com_ajax.'] });
+    }
+  }
+};
+
+/**
+ * Fetches data from an endpoint
+ *
+ * @param   {String}   url        Request url
+ * @param   {Object}   variables  Request variables
+ * @param   {String}   format     The expected format of the returned content
+ *
+ * @returns {Object} Result object
+ */
+const fetchAPI = async function (url, variables = {}, format = 'json') {
+  const urlSearchParams = new URLSearchParams(variables);
+
+  let targetUrl = url;
+  if (Object.keys(variables).length !== 0) {
+    targetUrl = `${url}?${urlSearchParams.toString()}`;
+  }
+
+  // Set request parameters
+  const parameters = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'default',
+    redirect: 'follow',
+    referrerPolicy: 'origin',
+  };
+
+  // Perform the fetch request
+  const response = await fetch(targetUrl, parameters);
+
+  // Initialize data
+  let data = null;
+
+  if (!response.ok) {
+    // Catch network error
+    const message = Joomla.Text._('MOD_COMMUNITY_ERROR_FETCH_API');
+    Joomla.renderMessages({ error: [sprintf(message, targetUrl, response.status, response.statusText)] });
+    addLog(`fetchAPI request failed, Status Code: ${response.status}, Message: ${response.statusText}`, 'error', true);
+
+    return data;
+  }
+
+  // Request successful
+  const txt = await response.text();
+  let error = false;
+  let errorcode = '';
+
+  if (format === 'json') {
+    try {
+      data = JSON.parse(txt);
+    } catch (err) {
+      error = true;
+      errorcode = err.message;
+    }
+  } else if (format === 'xml') {
+    const parser = new DOMParser();
+    data = parser.parseFromString(txt, 'text/xml');
+
+    if (data.getElementsByTagName('parsererror').length > 0) {
+      error = true;
+      errorcode = data.getElementsByTagName('parsererror')[0].textContent;
+    }
+  } else {
+    data = txt;
+  }
+
+  if (error) {
+    // Parsing error
+    const message = Joomla.Text._('MOD_COMMUNITY_ERROR_FETCH_API');
+    Joomla.renderMessages({ error: [sprintf(message, targetUrl, '-', errorcode)] });
+    addLog(`fetchAPI request failed, Status Code: -, Message: ${errorcode}`, 'error', true);
+
+    return null;
+  }
+
+  return data;
+};
+
+/**
+ * Search for a location
+ *
+ * @param   {Interger} moduleId  ID of the current module
+ */
+const searchLocation = async function (moduleId) {
+  const search = document.getElementById(`locsearch${moduleId}`).value;
+
+  // Fetch search results
+  const res = await fetchAPI('https://nominatim.openstreetmap.org/search.php', { q: search, format: 'jsonv2' });
+
+  if (Array.isArray(res) && res.length > 0) {
+    // Create the selection list
+    const select = document.createElement('select');
+    select.className = 'form-select';
+    select.size = Math.max(Math.min(res.length, 15), 2);
+
+    res.forEach((result, i) => {
+      const option = document.createElement('option');
+      option.value = `${result.lat},${result.lon}`;
+      option.textContent = `${result.name} (${result.display_name.slice(0, 100)}...)`;
+      if (i === 0) {
+        option.selected = true;
+        // Add first element to input
+        document.getElementById(`jform_lat${moduleId}`).value = result.lat;
+        document.getElementById(`jform_lng${moduleId}`).value = result.lon;
+      }
+      select.appendChild(option);
+    });
+
+    // Place selection into DOM
+    const resultsContainer = document.getElementById(`locsearch_results${moduleId}`);
+    resultsContainer.innerHTML = '';
+    resultsContainer.appendChild(select);
+
+    // Install event listener
+    select.addEventListener('change', (event) => {
+      locationSelectChange(event, moduleId);
+    });
+
+    // Activate button
+    document.getElementById(`btn-saveLoc${moduleId}`).disabled = false;
+  } else {
+    document.getElementById(`locsearch_results${moduleId}`).innerHTML = `<p>${Joomla.Text._('MOD_COMMUNITY_MSG_NO_LOCATIONS_FOUND')}</p>`;
+
+    // Deactivate button
+    document.getElementById(`btn-saveLoc${moduleId}`).disabled = true;
+  }
 };
 
 /**
@@ -559,7 +559,7 @@ const iniModules = async function () {
           const response = await ajaxTask(moduleId, 'setLocation', { current_location: location }, 'SAVE_LOCATION');
           addLog(`Update location: ${Joomla.Text._(response)}`, 'debug', false);
         } else {
-          addLog(`Location is up to date.`, 'debug', false);
+          addLog('Location is up to date.', 'debug', false);
         }
       } catch (error) {
         addLog(`Error during autolocation: ${error}`, 'debug', false);
