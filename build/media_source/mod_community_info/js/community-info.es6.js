@@ -15,13 +15,23 @@ const sprintf = function (text, ...args) {
 };
 
 /**
- * Logging debug information to the browser console
+ * Logging to the Joomla logger
  *
- * @param   {Integer}   prio   The logging priority (1: log always, 2: log only when debug is enabled)
+ * @param   {String}   msg      The message to be logged
+ * @param   {String}   prio     The logging priority (error, warning, notice, info, debug)
+ * @param   {Boolean}  always   True to log anyway, False only when debug is enabled
  */
-const consoleLog = function (prio, ...args) {
-  if (prio <= 1 || Joomla.getOptions('mod_community_info').debug === 1) {
-    console.log(...args);
+const addLog = async function (msg, prio, always = false) {
+  if (always || Joomla.getOptions('mod_community_info').debug === 1) {
+    try {
+      result = await ajaxTask(moduleId, 'addLog', {'message': msg, 'priority': prio}, 'ADD_LOG');
+
+      if (!is_null(result) && result !== 'True') {
+        Joomla.renderMessages({ error: [result] });
+      }
+    } catch (error) {
+      Joomla.renderMessages({ error: ['Problem reaching com_ajax.'] });
+    }
   }
 };
 
@@ -150,7 +160,7 @@ const fetchAPI = async function (url, variables = {}, format = 'json') {
     // Catch network error
     const message = Joomla.Text._('MOD_COMMUNITY_ERROR_FETCH_API');
     Joomla.renderMessages({ error: [sprintf(message, targetUrl, response.status, response.statusText)] });
-    consoleLog(2, `mod_community_info: fetchAPI request failed. Status Code: ${response.status}. Message: ${response.statusText}`);
+    addLog(`fetchAPI request failed, Status Code: ${response.status}, Message: ${response.statusText}`, 'error', true);
 
     return data;
   }
@@ -183,7 +193,7 @@ const fetchAPI = async function (url, variables = {}, format = 'json') {
     // Parsing error
     const message = Joomla.Text._('MOD_COMMUNITY_ERROR_FETCH_API');
     Joomla.renderMessages({ error: [sprintf(message, targetUrl, '-', errorcode)] });
-    consoleLog(2, `mod_community_info: fetchAPI request failed. Status Code: -. Message: ${errorcode}`);
+    addLog(`fetchAPI request failed, Status Code: -, Message: ${errorcode}`, 'error', true)
 
     return null;
   }
@@ -286,11 +296,7 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
   if (!response.ok) {
     // Catch network error
     const message = Joomla.Text._(`MOD_COMMUNITY_ERROR_${msgString}`);
-    const message2 = Joomla.Text._('MOD_COMMUNITY_ERROR_BROWSER_CONSOLE');
-    Joomla.renderMessages({ error: [`${message} ${sprintf(message2, 'Network error')}`] });
-
-    consoleLog(2, `mod_community_info: ${method} request failed.`);
-    consoleLog(2, `Status Code: ${response.status}. Message: ${response.statusText}`);
+    Joomla.renderMessages({ error: [`${message}`] });
 
     return data;
   }
@@ -307,11 +313,7 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
   } else if (txt.includes('Fatal error')) {
     // PHP fatal error occurred
     const message = Joomla.Text._(`MOD_COMMUNITY_ERROR_${msgString}`);
-    const message2 = Joomla.Text._('MOD_COMMUNITY_ERROR_BROWSER_CONSOLE');
-    Joomla.renderMessages({ error: [`${message} ${sprintf(message2, 'PHP error')}`] });
-
-    consoleLog(2, `mod_community_info: ${method} request failed.`);
-    consoleLog(2, txt);
+    Joomla.renderMessages({ error: [`${message}`] });
   } else {
     // Response is not of type json --> probably some php warnings/notices
     const split = txt.split('\n{"');
@@ -319,12 +321,7 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
     data = JSON.parse(temp.data);
 
     const message = Joomla.Text._(`MOD_COMMUNITY_ERROR_${msgString}`);
-    const message2 = Joomla.Text._('MOD_COMMUNITY_ERROR_BROWSER_CONSOLE');
-    Joomla.renderMessages({ error: [`${message} ${sprintf(message2, 'PHP warnings')}`] });
-    consoleLog(2, `mod_community_info: ${method} request failed.`);
-    consoleLog(2, `Message: ${split[0]}`);
-    consoleLog(2, `Messages: ${temp.messages}`);
-    consoleLog(2, `Data: ${data}`);
+    Joomla.renderMessages({ error: [`${message}`, `Message: ${split[0]}`, `Messages: ${temp.messages}`, `Data: ${data}`] });
   }
 
   return data;
@@ -434,56 +431,48 @@ const updateContent = async function (moduleId, forceUpdate = false) {
 
   if (forceUpdate || !checkCache(linksTime, moduleId)) {
     // Links are outdated and need update
-    try {
-      communityLinks = await ajaxTask(moduleId, 'getLinks', {}, 'FETCH_LINKS');
-      consoleLog(2, 'Fetched community links:', communityLinks);
+    communityLinks = await ajaxTask(moduleId, 'getLinks', {}, 'FETCH_LINKS');
+    addLog(`Fetched community links: ${communityLinks}`, 'debug', false);
 
-      // Get current link texts
-      const contactTxt = document.getElementById(`contactTxt${moduleId}`);
-      const contributeTxt = document.getElementById(`contributeTxt${moduleId}`);
+    // Get current link texts
+    const contactTxt = document.getElementById(`contactTxt${moduleId}`);
+    const contributeTxt = document.getElementById(`contributeTxt${moduleId}`);
 
-      if (communityLinks && contactTxt !== null) {
-        // Exchange contact link text
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = communityLinks.html.contact;
-        contactTxt.parentNode.replaceChild(tempDiv.firstChild, contactTxt);
-      }
-
-      if (communityLinks && contributeTxt !== null) {
-        // Exchange contribute link text
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = communityLinks.html.contribute;
-        const contributeTxtParent = contributeTxt.parentNode;
-        contributeTxtParent.replaceChild(tempDiv.firstChild, contributeTxt);
-        contributeTxtParent.appendChild(tempDiv.lastChild);
-      }
-
-      // Links successfully updated
-      update = true;
-    } catch (error) {
-      consoleLog(1, 'Error fetching community links:', error);
+    if (communityLinks && contactTxt !== null) {
+      // Exchange contact link text
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = communityLinks.html.contact;
+      contactTxt.parentNode.replaceChild(tempDiv.firstChild, contactTxt);
     }
+
+    if (communityLinks && contributeTxt !== null) {
+      // Exchange contribute link text
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = communityLinks.html.contribute;
+      const contributeTxtParent = contributeTxt.parentNode;
+      contributeTxtParent.replaceChild(tempDiv.firstChild, contributeTxt);
+      contributeTxtParent.appendChild(tempDiv.lastChild);
+    }
+
+    // Links successfully updated
+    update = true;
   }
 
   const newsTime = document.getElementById(`collapseNews${moduleId}`).getAttribute('data-fetch-time');
 
   if (update || !checkCache(newsTime, moduleId)) {
     // Fetch news feed
-    try {
-      communityNews = await ajaxTask(moduleId, 'getNewsFeed', { url: communityLinks.links.news_feed }, 'FETCH_NEWS');
-      consoleLog(2, 'Fetched news feed:', communityNews);
+    communityNews = await ajaxTask(moduleId, 'getNewsFeed', { url: communityLinks.links.news_feed }, 'FETCH_NEWS');
+    addLog(`Fetched news feed: ${communityNews}`, 'debug', false);
 
-      // Get current news feed table
-      const newsFeetTable = document.getElementById(`collapseNews${moduleId}`);
+    // Get current news feed table
+    const newsFeetTable = document.getElementById(`collapseNews${moduleId}`);
 
-      if (communityNews && newsFeetTable !== null) {
-        // Exchange news feed table
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = communityNews.html;
-        newsFeetTable.parentNode.replaceChild(tempDiv.firstChild, newsFeetTable);
-      }
-    } catch (error) {
-      consoleLog(1, 'Error fetching news feed:', error);
+    if (communityNews && newsFeetTable !== null) {
+      // Exchange news feed table
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = communityNews.html;
+      newsFeetTable.parentNode.replaceChild(tempDiv.firstChild, newsFeetTable);
     }
   }
 
@@ -491,21 +480,17 @@ const updateContent = async function (moduleId, forceUpdate = false) {
 
   if (update || !checkCache(eventsTime, moduleId)) {
     // Fetch events feed
-    try {
-      communityEvents = await ajaxTask(moduleId, 'getEventsFeed', { url: communityLinks.links.events_feed }, 'FETCH_EVENTS');
-      consoleLog(2, 'Fetched events feed:', communityEvents);
+    communityEvents = await ajaxTask(moduleId, 'getEventsFeed', { url: communityLinks.links.events_feed }, 'FETCH_EVENTS');
+    addLog(`Fetched events feed: ${communityEvents}`, 'debug', false);
 
-      // Get current events feed table
-      const eventsFeetTable = document.getElementById(`collapseEvents${moduleId}`);
+    // Get current events feed table
+    const eventsFeetTable = document.getElementById(`collapseEvents${moduleId}`);
 
-      if (communityEvents && eventsFeetTable !== null) {
-        // Exchange events feed table
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = communityEvents.html;
-        eventsFeetTable.parentNode.replaceChild(tempDiv.firstChild, eventsFeetTable);
-      }
-    } catch (error) {
-      consoleLog(1, 'Error fetching events feed:', error);
+    if (communityEvents && eventsFeetTable !== null) {
+      // Exchange events feed table
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = communityEvents.html;
+      eventsFeetTable.parentNode.replaceChild(tempDiv.firstChild, eventsFeetTable);
     }
   }
 };
@@ -567,12 +552,12 @@ const iniModules = async function () {
           // Location has changed
           locChanged = true;
           const response = await ajaxTask(moduleId, 'setLocation', { current_location: location }, 'SAVE_LOCATION');
-          consoleLog(2, 'Update location:', Joomla.Text._(response));
+          addLog(`Update location: ${Joomla.Text._(response)}`, 'debug', false);
         } else {
-          consoleLog(2, 'Location is up to date.');
+          addLog(`Location is up to date.`, 'debug', false);
         }
       } catch (error) {
-        consoleLog(2, 'Error during autolocation:', error);
+        addLog(`Error during autolocation: ${error}`, 'debug', false);
       }
     }
 

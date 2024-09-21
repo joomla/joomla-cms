@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
@@ -489,6 +490,51 @@ class CommunityInfoHelper
         $html        = LayoutHelper::render($layoutName, $displayData, str_replace($layoutName . '.php', '', $layoutPath));
 
         return ['items' => $upcomingEvents, 'html' => trim($html)];
+    }
+
+    /**
+     * Adds a log entry to Joomla\CMS\Log\Log with com_ajax
+     *
+     * @return  string    Successful or error message
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addLogAjax()
+    {
+        $input = Factory::getApplication()->input;
+
+        if ($input->getCmd('option') !== 'com_ajax' || $input->getCmd('module') !== 'community_info') {
+            return 'Permission denied!';
+        }
+
+        if (!$moduleId = $input->get('module_id', false, 'int')) {
+            return 'You must provide a "module_id" variable with the request!';
+        }
+
+        if (!$msg = $input->get('message', false, 'string')) {
+            return 'You must provide a "message" variable with the request!';
+        }
+
+        $prio = $input->get('priority', 8, 'cmd');
+
+        // Convert priority to proper integer value
+        if (\is_string($prio))
+        {
+          $prio = \strtoupper($prio);
+          $constant = "Joomla\CMS\Log\Log::$prio";
+          $prio = \constant($constant);
+        }
+
+        $this->moduleId = $moduleId;
+        $this->setParams();
+
+        // Add logger if needed
+        Log::addLogger(['text_file' =>  'mod_community_info.log.php'], Log::ALL, ['mod_community_info']);
+
+        // Log message
+        Log::add($msg, $prio, 'mod_community_info');
+
+        return 'True';
     }
 
     /**
