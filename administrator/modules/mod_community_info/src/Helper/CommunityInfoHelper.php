@@ -519,7 +519,7 @@ class CommunityInfoHelper
 
         // Convert priority to proper integer value
         if (\is_string($prio)) {
-            $prio     = \strtoupper($prio);
+            $prio     = strtoupper($prio);
             $constant = "Joomla\CMS\Log\Log::$prio";
             $prio     = \constant($constant);
         }
