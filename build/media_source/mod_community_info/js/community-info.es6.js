@@ -195,13 +195,15 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
 const addLog = async function (msg, prio, always = false, maxLength = 100) {
   if (always || Joomla.getOptions('mod_community_info').debug === 1) {
     try {
+      let truncatedMsg = msg;
+
       // Cut the message if it is to long
       if (msg.length > maxLength) {
-        msg = `${msg.slice(0, maxLength)}...`;
+        truncatedMsg = `${msg.slice(0, maxLength)}...`;
       }
 
       // Sends a request to log the message
-      const result = await ajaxTask(1, 'addLog', { message: msg, priority: prio }, 'ADD_LOG');
+      const result = await ajaxTask(1, 'addLog', { message: truncatedMsg, priority: prio }, 'ADD_LOG');
 
       if (result && result !== 'True') {
         Joomla.renderMessages({ error: [`mod_community_info: ${result}`] });
