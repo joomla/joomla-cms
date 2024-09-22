@@ -145,6 +145,8 @@
 		type="url"
 		label="COM_GUIDEDTOURS_URL_LABEL"
 		description="COM_GUIDEDTOURS_URL_DESC"
+		relative="true"
+		validate="url"
 		required="true"
 	/>
 
