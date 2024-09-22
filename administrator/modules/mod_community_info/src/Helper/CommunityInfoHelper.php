@@ -387,41 +387,52 @@ class CommunityInfoHelper
         $lang->load('mod_community_info', JPATH_ADMINISTRATOR . '/modules/mod_community_info');
 
         // Load rss xml from endpoint
-        $items = [];
+        $items     = [];
+        $sublayout = '_news';
 
         try {
             $ff   = new FeedFactory();
             $feed = $ff->getFeed($url);
         } catch (\Exception $e) {
-            return $items;
+            $this->addLog($e, 'error');
+            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, $e), 'error');
+
+            // Create html
+            $displayData = ['module' => (object) ['id' => $moduleId], 'news_time' => date('Y-m-d H:i:s')];
+            $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . '_nonews');
+            $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
+            $html        = LayoutHelper::render($layoutName, $displayData, str_replace($layoutName . '.php', '', $layoutPath));
+
+            return ['items' => $items, 'html' => trim($html)];
         }
 
         if (empty($feed)) {
+            $this->addLog(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'Parsing error.'), 'warning');
             Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'Parsing error.'), 'warning');
 
-            return $items;
-        }
+            $sublayout = '_nonews';
+        } else {
+            // Collect the newsfeed entries
+            for ($i = 0; $i < $this->params->get('num_news', 3); $i++) {
+              if (!$feed->offsetExists($i)) {
+                  break;
+              }
 
-        // Collect the newsfeed entries
-        for ($i = 0; $i < $this->params->get('num_news', 3); $i++) {
-            if (!$feed->offsetExists($i)) {
-                break;
+              $obj           = new \stdClass();
+              $obj->title    = trim($feed[$i]->title);
+              $obj->link     = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+              $obj->guid     = trim($feed[$i]->guid);
+              $obj->text     = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
+              $obj->category = (string) trim($feed->title);
+              $obj->pubDate  = $feed[$i]->publishedDate;
+
+              // Strip unneeded objects
+              $obj->text = OutputFilter::stripImages($obj->text);
+              $obj->text = str_replace('&apos;', "'", $obj->text);
+
+              $items[] = $obj;
             }
-
-            $obj           = new \stdClass();
-            $obj->title    = trim($feed[$i]->title);
-            $obj->link     = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-            $obj->guid     = trim($feed[$i]->guid);
-            $obj->text     = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
-            $obj->category = (string) trim($feed->title);
-            $obj->pubDate  = $feed[$i]->publishedDate;
-
-            // Strip unneeded objects
-            $obj->text = OutputFilter::stripImages($obj->text);
-            $obj->text = str_replace('&apos;', "'", $obj->text);
-
-            $items[] = $obj;
-        }
+        }        
 
         // Set news to Session
         Factory::getApplication()->setUserState('mod_community_info.news', $items);
@@ -429,7 +440,7 @@ class CommunityInfoHelper
 
         // Create html
         $displayData = ['module' => (object) ['id' => $moduleId], 'news_time' => date('Y-m-d H:i:s'), 'params' => $this->params, 'news' => $items];
-        $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . '_news');
+        $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . $sublayout);
         $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
         $html        = LayoutHelper::render($layoutName, $displayData, str_replace($layoutName . '.php', '', $layoutPath));
 
@@ -465,6 +476,7 @@ class CommunityInfoHelper
         // Load json from endpoint
         $vars           = [];
         $upcomingEvents = [];
+        $sublayout      = '_events';
 
         if ($events  = $this->fetchAPI($url, $vars)) {
             // Sort the array by the 'start' property to ensure events are in chronological order
@@ -477,6 +489,18 @@ class CommunityInfoHelper
             $upcomingEvents = array_map(function ($event) {
                 return (object) $event;
             }, $nextEvents);
+        } else {
+          // Create empty html
+          $displayData = ['module' => (object) ['id' => $moduleId], 'events_time' => date('Y-m-d H:i:s')];
+          $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . '_noevents');
+          $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
+          $html        = LayoutHelper::render($layoutName, $displayData, str_replace($layoutName . '.php', '', $layoutPath));
+
+          return ['items' => [], 'html' => trim($html)];
+        }
+
+        if (empty($upcomingEvents)) {
+          $sublayout = '_noevents';
         }
 
         // Set news to Session
@@ -485,7 +509,7 @@ class CommunityInfoHelper
 
         // Create html
         $displayData = ['module' => (object) ['id' => $moduleId], 'events_time' => date('Y-m-d H:i:s'), 'params' => $this->params, 'events' => $upcomingEvents];
-        $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . '_events');
+        $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . $sublayout);
         $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
         $html        = LayoutHelper::render($layoutName, $displayData, str_replace($layoutName . '.php', '', $layoutPath));
 
@@ -511,22 +535,12 @@ class CommunityInfoHelper
             return 'You must provide a "message" variable with the request!';
         }
 
-        $prio = $input->get('priority', 8, 'cmd');
-
-        // Convert priority to proper integer value
-        if (\is_string($prio)) {
-            $prio     = strtoupper($prio);
-            $constant = "Joomla\CMS\Log\Log::$prio";
-            $prio     = \constant($constant);
+        if ($this->addLog($msg, $input->get('priority', 8, 'cmd'))) {
+            return 'True';
         }
-
-        // Add logger if needed
-        Log::addLogger(['text_file' => 'mod_community_info.log.php'], Log::ALL, ['mod_community_info']);
-
-        // Log message
-        Log::add($msg, $prio, 'mod_community_info');
-
-        return 'True';
+        else {
+            return '';
+        }        
     }
 
     /**
@@ -644,6 +658,47 @@ class CommunityInfoHelper
     }
 
     /**
+     * Write message to Joomla log
+     *
+     * @param   string   $msg         Message to be logged
+     * @param   mixed    $prio        Message priority
+     * @param   int      $maxLength   Maximum allowed length of the message
+     *
+     * @return  bool     True if message was successfully logged
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function addLog(string $msg, $prio = 8, int $maxLength = 300): bool
+    {
+        try {
+            // Convert priority to proper integer value
+            if (\is_string($prio)) {
+                $prio     = strtoupper($prio);
+                $constant = "Joomla\CMS\Log\Log::$prio";
+                $prio     = \constant($constant);
+            }
+
+            // Add logger if needed
+            Log::addLogger(['text_file' => 'mod_community_info.log.php'], Log::ALL, ['mod_community_info']);
+
+            // Cut message if needed
+            if (strlen($msg) > $maxLength) {
+              $msg = substr($msg, 0, $maxLength) . "...";
+            }
+
+            // Remove line breaks
+            $msg = str_replace(["\r\n", "\r", "\n"], '', $msg);
+
+            // Log message
+            Log::add($msg, $prio, 'mod_community_info');
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get adress based on coordinates
      *
      * @param   string     $lat     Latitude
@@ -756,12 +811,14 @@ class CommunityInfoHelper
         try {
             $response = HttpFactory::getHttp($options)->get($target);
         } catch (\Exception $e) {
+            $this->addLog(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, $e->getCode(), $e), 'warning');
             Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, $e->getCode(), $e), 'warning');
 
             return false;
         }
 
         if ($response->code != 200) {
+            $this->addLog(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, $response->code, $response->body), 'warning');
             Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, $response->code, $response->body), 'warning');
 
             return false;
@@ -771,6 +828,7 @@ class CommunityInfoHelper
         try {
             $data = json_decode($response->body, true, 512, JSON_THROW_ON_ERROR);
         } catch (\Exception $e) {
+            $this->addLog(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, 200, $e->getMessage()), 'warning');
             Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, 200, $e->getMessage()), 'warning');
 
             return false;

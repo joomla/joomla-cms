@@ -23,7 +23,6 @@ $wa->useScript('bootstrap.modal');
 $wa->useScript('bootstrap.collapse');
 $wa->useStyle('communityinfo.style');
 $wa->useScript('communityinfo.script');
-$wa->addInlineScript('window.', ['position' => 'after'], [], ['communityinfo.script']);
 
 /** @var Joomla\CMS\Document\HtmlDocument $doc */
 $doc = Factory::getApplication()->getDocument();
@@ -57,11 +56,7 @@ CommunityInfoHelper::addText();
       <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNews<?php echo strval($module->id); ?>" aria-expanded="false" aria-controls="collapseNews"><span class="icon-arrow-down" aria-hidden="true"></span></button>
     </div>
     <?php if (empty($news)) : ?>
-      <div id="collapseNews<?php echo strval($module->id); ?>" class="community-info-news collapse">
-        <div class="alert alert-info" role="alert">
-          <?php echo Text::_('MOD_COMMUNITY_NO_NEWS_FOUND'); ?>
-        </div>
-      </div>
+        <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_nonews'); ?>
     <?php else : ?>
         <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_news'); ?>
     <?php endif; ?>
@@ -76,11 +71,7 @@ CommunityInfoHelper::addText();
       <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvents<?php echo strval($module->id); ?>" aria-expanded="false" aria-controls="collapseEvents"><span class="icon-arrow-down" aria-hidden="true"></span></button>
     </div>
     <?php if (empty($events)) : ?>
-      <div id="collapseEvents<?php echo strval($module->id); ?>" class="community-info-events collapse">
-        <div class="alert alert-info" role="alert">
-          <?php echo Text::_('MOD_COMMUNITY_NO_EVENTS_FOUND'); ?>
-        </div>
-      </div>
+        <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_noevents'); ?>
     <?php else : ?>
         <?php require ModuleHelper::getLayoutPath('mod_community_info', $params->get('layout', 'default') . '_events'); ?>
     <?php endif; ?>

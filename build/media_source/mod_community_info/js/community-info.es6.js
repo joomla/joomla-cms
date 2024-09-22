@@ -187,20 +187,27 @@ const ajaxTask = async function (moduleId, method, requestVars, msgString) {
 /**
  * Logging to the Joomla logger
  *
- * @param   {String}   msg      The message to be logged
- * @param   {String}   prio     The logging priority (error, warning, notice, info, debug)
- * @param   {Boolean}  always   True to log anyway, False only when debug is enabled
+ * @param   {String}   msg        The message to be logged
+ * @param   {String}   prio       The logging priority (error, warning, notice, info, debug)
+ * @param   {Boolean}  always     True to log anyway, False only when debug is enabled
+ * @param   {Integer}  maxLength  Maximum allowed length of the message
  */
-const addLog = async function (msg, prio, always = false) {
+const addLog = async function (msg, prio, always = false, maxLength = 100) {
   if (always || Joomla.getOptions('mod_community_info').debug === 1) {
     try {
+      // Cut the message if it is to long
+      if (msg.length > maxLength) {
+        msg = `${msg.slice(0, maxLength)}...`;
+      }
+
+      // Sends a request to log the message
       const result = await ajaxTask(1, 'addLog', { message: msg, priority: prio }, 'ADD_LOG');
 
       if (result && result !== 'True') {
-        Joomla.renderMessages({ error: [result] });
+        Joomla.renderMessages({ error: [`mod_community_info: ${result}`] });
       }
     } catch (error) {
-      Joomla.renderMessages({ error: ['Problem reaching com_ajax.'] });
+      Joomla.renderMessages({ error: ['mod_community_info: Problem reaching com_ajax.'] });
     }
   }
 };
@@ -401,6 +408,11 @@ const openModal = function (moduleId, modalId) {
  * @returns {Bool}     True if cached data is still valid, false otherwise
  */
 const checkCache = function (datetime, moduleId) {
+  if (!datetime) {
+    // No datetime given
+    return false;
+  }
+
   // Convert to JavaScript Date object
   const date = new Date(datetime.replace(' ', 'T'));
 
@@ -437,7 +449,7 @@ const updateContent = async function (moduleId, forceUpdate = false) {
   if (forceUpdate || !checkCache(linksTime, moduleId)) {
     // Links are outdated and need update
     communityLinks = await ajaxTask(moduleId, 'getLinks', {}, 'FETCH_LINKS');
-    addLog(`Fetched community links: ${communityLinks}`, 'debug', false);
+    addLog(`Fetched community links: ${JSON.stringify(communityLinks, null, 2)}`, 'debug', false);
 
     // Get current link texts
     const contactTxt = document.getElementById(`contactTxt${moduleId}`);
@@ -468,7 +480,7 @@ const updateContent = async function (moduleId, forceUpdate = false) {
   if (update || !checkCache(newsTime, moduleId)) {
     // Fetch news feed
     communityNews = await ajaxTask(moduleId, 'getNewsFeed', { url: communityLinks.links.news_feed }, 'FETCH_NEWS');
-    addLog(`Fetched news feed: ${communityNews}`, 'debug', false);
+    addLog(`Fetched news feed: ${JSON.stringify(communityNews, null, 2)}`, 'debug', false);
 
     // Get current news feed table
     const newsFeetTable = document.getElementById(`collapseNews${moduleId}`);
@@ -486,7 +498,7 @@ const updateContent = async function (moduleId, forceUpdate = false) {
   if (update || !checkCache(eventsTime, moduleId)) {
     // Fetch events feed
     communityEvents = await ajaxTask(moduleId, 'getEventsFeed', { url: communityLinks.links.events_feed }, 'FETCH_EVENTS');
-    addLog(`Fetched events feed: ${communityEvents}`, 'debug', false);
+    addLog(`Fetched events feed: ${JSON.stringify(communityEvents, null, 2)}`, 'debug', false);
 
     // Get current events feed table
     const eventsFeetTable = document.getElementById(`collapseEvents${moduleId}`);
