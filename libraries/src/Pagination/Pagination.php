@@ -113,15 +113,15 @@ class Pagination
     /**
      * Constructor.
      *
-     * @param   integer         $total       The total number of items.
-     * @param   integer         $limitstart  The offset of the item to start at.
-     * @param   integer         $limit       The number of items to display per page.
-     * @param   string          $prefix      The prefix used for request variables.
-     * @param   CMSApplication  $app         The application object
+     * @param   integer          $total       The total number of items.
+     * @param   integer          $limitstart  The offset of the item to start at.
+     * @param   integer          $limit       The number of items to display per page.
+     * @param   string           $prefix      The prefix used for request variables.
+     * @param   ?CMSApplication  $app         The application object
      *
      * @since   1.5
      */
-    public function __construct($total, $limitstart, $limit, $prefix = '', CMSApplication $app = null)
+    public function __construct($total, $limitstart, $limit, $prefix = '', ?CMSApplication $app = null)
     {
         // Value/type checking.
         $this->total      = (int) $total;

@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -146,7 +147,7 @@ class SearchModel extends ListModel
     /**
      * Method to build a database query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery  A database query.
+     * @return  QueryInterface  A database query.
      *
      * @since   2.5
      */
@@ -197,8 +198,8 @@ class SearchModel extends ListModel
                 ->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
 
             // Iterate through each taxonomy group.
-            for ($i = 0, $c = \count($groups); $i < $c; $i++) {
-                $query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $groups[$i]) . ') THEN 1 ELSE 0 END) > 0');
+            foreach ($groups as $group) {
+                $query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $group) . ') THEN 1 ELSE 0 END) > 0');
             }
         }
 
@@ -470,37 +471,35 @@ class SearchModel extends ListModel
         $params   = $app->getParams();
         $user     = $this->getCurrentUser();
         $language = $app->getLanguage();
+        $options  = [];
 
         $this->setState('filter.language', Multilanguage::isEnabled());
-
-        $request = $input->request;
-        $options = [];
 
         // Get the empty query setting.
         $options['empty'] = $params->get('allow_empty_query', 0);
 
         // Get the static taxonomy filters.
-        $options['filter'] = $request->getInt('f', $params->get('f', ''));
+        $options['filter'] = $input->getInt('f', $params->get('f', ''));
 
         // Get the dynamic taxonomy filters.
-        $options['filters'] = $request->get('t', $params->get('t', []), 'array');
+        $options['filters'] = $input->get('t', $params->get('t', []), 'array');
 
         // Get the query string.
-        $options['input'] = $request->getString('q', $params->get('q', ''));
+        $options['input'] = $input->getString('q', $params->get('q', ''));
 
         // Get the query language.
-        $options['language'] = $request->getCmd('l', $params->get('l', $language->getTag()));
+        $options['language'] = $input->getCmd('l', $params->get('l', $language->getTag()));
 
         // Set the word match mode
         $options['word_match'] = $params->get('word_match', 'exact');
 
         // Get the start date and start date modifier filters.
-        $options['date1'] = $request->getString('d1', $params->get('d1', ''));
-        $options['when1'] = $request->getString('w1', $params->get('w1', ''));
+        $options['date1'] = $input->getString('d1', $params->get('d1', ''));
+        $options['when1'] = $input->getString('w1', $params->get('w1', ''));
 
         // Get the end date and end date modifier filters.
-        $options['date2'] = $request->getString('d2', $params->get('d2', ''));
-        $options['when2'] = $request->getString('w2', $params->get('w2', ''));
+        $options['date2'] = $input->getString('d2', $params->get('d2', ''));
+        $options['when2'] = $input->getString('w2', $params->get('w2', ''));
 
         // Load the query object.
         $this->searchquery = new Query($options, $this->getDatabase());
@@ -578,7 +577,7 @@ class SearchModel extends ListModel
         $this->setState('params', $params);
 
         // Load the user state.
-        $this->setState('user.id', (int) $user->get('id'));
+        $this->setState('user.id', (int) $user->id);
         $this->setState('user.groups', $user->getAuthorisedViewLevels());
     }
 }

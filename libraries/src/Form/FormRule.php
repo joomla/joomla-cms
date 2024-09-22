@@ -69,11 +69,11 @@ class FormRule
      * @since   1.6
      * @throws  \UnexpectedValueException if rule is invalid.
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // Check for a valid regex.
         if (empty($this->regex)) {
-            throw new \UnexpectedValueException(sprintf('%s has invalid regex.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s has invalid regex.', \get_class($this)));
         }
 
         // Detect if we have full UTF-8 and unicode PCRE support.

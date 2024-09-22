@@ -21,6 +21,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
 $canEdit = $params->get('access-edit');
@@ -121,7 +122,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
             <?php echo $this->loadTemplate('links'); ?>
         <?php endif; ?>
         <?php // Optional teaser intro text for guests ?>
-    <?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
+    <?php elseif ($params->get('show_noauth') == true && $user->guest) : ?>
         <?php echo LayoutHelper::render('joomla.content.intro_image', $this->item); ?>
         <?php echo HTMLHelper::_('content.prepare', $this->item->introtext); ?>
         <?php // Optional link to let them register to see the whole article. ?>
