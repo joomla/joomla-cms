@@ -414,23 +414,23 @@ class CommunityInfoHelper
         } else {
             // Collect the newsfeed entries
             for ($i = 0; $i < $this->params->get('num_news', 3); $i++) {
-              if (!$feed->offsetExists($i)) {
-                  break;
-              }
+                if (!$feed->offsetExists($i)) {
+                    break;
+                }
 
-              $obj           = new \stdClass();
-              $obj->title    = trim($feed[$i]->title);
-              $obj->link     = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-              $obj->guid     = trim($feed[$i]->guid);
-              $obj->text     = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
-              $obj->category = (string) trim($feed->title);
-              $obj->pubDate  = $feed[$i]->publishedDate;
+                $obj           = new \stdClass();
+                $obj->title    = trim($feed[$i]->title);
+                $obj->link     = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+                $obj->guid     = trim($feed[$i]->guid);
+                $obj->text     = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
+                $obj->category = (string) trim($feed->title);
+                $obj->pubDate  = $feed[$i]->publishedDate;
 
-              // Strip unneeded objects
-              $obj->text = OutputFilter::stripImages($obj->text);
-              $obj->text = str_replace('&apos;', "'", $obj->text);
+                // Strip unneeded objects
+                $obj->text = OutputFilter::stripImages($obj->text);
+                $obj->text = str_replace('&apos;', "'", $obj->text);
 
-              $items[] = $obj;
+                $items[] = $obj;
             }
         }        
 
@@ -490,17 +490,17 @@ class CommunityInfoHelper
                 return (object) $event;
             }, $nextEvents);
         } else {
-          // Create empty html
-          $displayData = ['module' => (object) ['id' => $moduleId], 'events_time' => date('Y-m-d H:i:s')];
-          $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . '_noevents');
-          $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
-          $html        = LayoutHelper::render($layoutName, $displayData, str_replace($layoutName . '.php', '', $layoutPath));
+            // Create empty html
+            $displayData = ['module' => (object) ['id' => $moduleId], 'events_time' => date('Y-m-d H:i:s')];
+            $layoutName  = str_replace('_:', '', $this->params->get('layout', 'default') . '_noevents');
+            $layoutPath  = ModuleHelper::getLayoutPath('mod_community_info', $layoutName);
+            $html        = LayoutHelper::render($layoutName, $displayData, str_replace($layoutName . '.php', '', $layoutPath));
 
-          return ['items' => [], 'html' => trim($html)];
+            return ['items' => [], 'html' => trim($html)];
         }
 
         if (empty($upcomingEvents)) {
-          $sublayout = '_noevents';
+            $sublayout = '_noevents';
         }
 
         // Set news to Session
@@ -538,9 +538,8 @@ class CommunityInfoHelper
         if ($this->addLog($msg, $input->get('priority', 8, 'cmd'))) {
             return 'True';
         }
-        else {
-            return '';
-        }        
+        
+        return '';
     }
 
     /**
@@ -682,8 +681,8 @@ class CommunityInfoHelper
             Log::addLogger(['text_file' => 'mod_community_info.log.php'], Log::ALL, ['mod_community_info']);
 
             // Cut message if needed
-            if (strlen($msg) > $maxLength) {
-              $msg = substr($msg, 0, $maxLength) . "...";
+            if (\strlen($msg) > $maxLength) {
+                $msg = substr($msg, 0, $maxLength) . "...";
             }
 
             // Remove line breaks
