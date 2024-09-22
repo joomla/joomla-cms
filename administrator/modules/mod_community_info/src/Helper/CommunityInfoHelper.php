@@ -432,7 +432,7 @@ class CommunityInfoHelper
 
                 $items[] = $obj;
             }
-        }        
+        }
 
         // Set news to Session
         Factory::getApplication()->setUserState('mod_community_info.news', $items);
@@ -538,7 +538,7 @@ class CommunityInfoHelper
         if ($this->addLog($msg, $input->get('priority', 8, 'cmd'))) {
             return 'True';
         }
-        
+
         return '';
     }
 
