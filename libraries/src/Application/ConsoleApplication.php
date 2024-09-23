@@ -177,7 +177,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
             default:
                 $trace = debug_backtrace();
                 trigger_error(
-                    sprintf(
+                    \sprintf(
                         'Undefined property via __get(): %1$s in %2$s on line %3$s',
                         $name,
                         $trace[0]['file'],
@@ -444,7 +444,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
      */
     public function getLongVersion(): string
     {
-        return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
+        return \sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
     }
 
     /**

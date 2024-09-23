@@ -46,7 +46,7 @@ class SubformRule extends FormRule
         $field = $form->getField($element['name'], $group);
 
         if (!($field instanceof SubformField)) {
-            throw new \UnexpectedValueException(sprintf('%s is no subform field.', $element['name']));
+            throw new \UnexpectedValueException(\sprintf('%s is no subform field.', $element['name']));
         }
 
         if ($value === null) {
