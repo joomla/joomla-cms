@@ -171,7 +171,7 @@ class HtmlView extends BaseHtmlView
                     'task'     => 'association.edit',
                 ];
 
-                $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
+                $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters, '', '&');
             }
         }
 
