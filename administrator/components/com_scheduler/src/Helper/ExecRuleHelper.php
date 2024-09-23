@@ -93,12 +93,46 @@ class ExecRuleHelper
      */
     public function nextExec(bool $string = true, bool $basisNow = false)
     {
-        // Exception handling here
-        switch ($this->type) {
-            case 'interval':
-                $lastExec = Factory::getDate($basisNow ? 'now' : $this->getFromTask('last_execution'), 'UTC');
-                $interval = new \DateInterval($this->rule->exp);
-                $nextExec = $lastExec->add($interval);
+        $executionRules = $this->getFromTask('execution_rules');
+        $type           = $executionRules['rule-type'];
+        switch ($type) {
+            case 'interval-minutes':
+                $now             = Factory::getDate('now', 'UTC');
+                $intervalMinutes = (int) $executionRules['interval-minutes'];
+                $interval        = new \DateInterval('PT' . $intervalMinutes . 'M');
+                $nextExec        = $now->add($interval);
+                $nextExec        = $string ? $nextExec->toSql() : $nextExec;
+                break;
+            case 'interval-hours':
+                $now           = Factory::getDate('now', 'UTC');
+                $intervalHours = $executionRules['interval-hours'];
+                $interval      = new \DateInterval('PT' . $intervalHours . 'H');
+                $nextExec      = $now->add($interval);
+                $nextExec      = $string ? $nextExec->toSql() : $nextExec;
+                break;
+            case 'interval-days':
+                $now                 = Factory::getDate('now', 'UTC');
+                $intervalDays        = $executionRules['interval-days'];
+                $interval            = new \DateInterval('P' . $intervalDays . 'D');
+                $nextExec            = $now->add($interval);
+                $execTime            = $executionRules['exec-time'];
+                list($hour, $minute) = explode(':', $execTime);
+                $nextExec->setTime($hour, $minute);
+                $nextExec = $string ? $nextExec->toSql() : $nextExec;
+                break;
+            case 'interval-months':
+                $now            = Factory::getDate('now', 'UTC');
+                $intervalMonths = $executionRules['interval-months'];
+                $interval       = new \DateInterval('P' . $intervalMonths . 'M');
+                $nextExec       = $now->add($interval);
+                $execDay        = $executionRules['exec-day'];
+                $nextExecYear   = $nextExec->format('Y');
+                $nextExecMonth  = $nextExec->format('n');
+                $nextExec->setDate($nextExecYear, $nextExecMonth, $execDay);
+
+                $execTime            = $executionRules['exec-time'];
+                list($hour, $minute) = explode(':', $execTime);
+                $nextExec->setTime($hour, $minute);
                 $nextExec = $string ? $nextExec->toSql() : $nextExec;
                 break;
             case 'cron-expression':
