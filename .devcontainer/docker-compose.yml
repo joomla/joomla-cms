@@ -1,8 +1,6 @@
-version: "3.1"
-
 services:
   app:
-    image: joomla:4.4.8
+    image: joomla:4.4.8-apache
     restart: always
     ports:
       - 8080:80
@@ -20,7 +18,7 @@ services:
       - ../..:/workspaces:cached
 
   db:
-    image: mysql:8.0
+    image: mysql
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: joomla_db
