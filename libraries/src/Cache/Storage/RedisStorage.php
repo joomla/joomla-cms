@@ -26,6 +26,16 @@ use Joomla\CMS\Log\Log;
 class RedisStorage extends CacheStorage
 {
     /**
+     * Cache key
+     *
+     * This constant is used as a prefix for all cache keys to ensure they are easily identifiable
+     * and to avoid potential conflicts with other keys in the Redis store.
+     *
+     * @since  4.4
+     */
+    protected const CACHE_KEY = '-cache-';
+
+    /**
      * Redis connection object
      *
      * @var    \Redis
@@ -191,7 +201,7 @@ class RedisStorage extends CacheStorage
             return false;
         }
 
-        $allKeys = static::$_redis->keys('*');
+        $allKeys = static::$_redis->keys('*' . self::CACHE_KEY . '*');
         $data    = [];
         $secret  = $this->_hash;
 
@@ -277,7 +287,7 @@ class RedisStorage extends CacheStorage
             return false;
         }
 
-        $allKeys = static::$_redis->keys('*');
+        $allKeys = static::$_redis->keys('*' . self::CACHE_KEY . '*');
 
         if ($allKeys === false) {
             $allKeys = [];
@@ -286,11 +296,11 @@ class RedisStorage extends CacheStorage
         $secret = $this->_hash;
 
         foreach ($allKeys as $key) {
-            if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode === 'group') {
+            if (strpos($key, $secret . self::CACHE_KEY . $group . '-') === 0 && $mode === 'group') {
                 static::$_redis->del($key);
             }
 
-            if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode !== 'group') {
+            if (strpos($key, $secret . self::CACHE_KEY . $group . '-') !== 0 && $mode !== 'group') {
                 static::$_redis->del($key);
             }
         }
