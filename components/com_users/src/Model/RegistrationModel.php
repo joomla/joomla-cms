@@ -555,6 +555,7 @@ class RegistrationModel extends FormModel
                     $mailer = new MailTemplate('com_users.registration.admin.new_notification', $app->getLanguage()->getTag());
                     $mailer->addTemplateData($data);
                     $mailer->addRecipient($row->email);
+                    $mailer->addUnsafeTags(['username', 'name']);
                     $return = $mailer->send();
                 } catch (\Exception $exception) {
                     try {

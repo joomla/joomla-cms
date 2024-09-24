@@ -153,6 +153,8 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
 
+        $input = $app->getInput()->get;
+
         // Add additional parameters
         $queryParameterList = [
             'f'  => 'int',
@@ -163,10 +165,12 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
             'd2' => 'string',
             'w1' => 'string',
             'w2' => 'string',
+            'o'  => 'word',
+            'od' => 'word',
         ];
 
         foreach ($queryParameterList as $parameter => $filter) {
-            $value = $app->input->get($parameter, null, $filter);
+            $value = $input->get($parameter, null, $filter);
 
             if (is_null($value)) {
                 continue;

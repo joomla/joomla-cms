@@ -1,6 +1,6 @@
-import { getMails, clearEmails, startMailServer } from "./mail.mjs";
-import { writeRelativeFile, deleteRelativePath } from "./fs.mjs";
-import { queryTestDB, deleteInsertedItems } from "./db.mjs";
+import { getMails, clearEmails, startMailServer } from './mail.mjs';
+import { writeRelativeFile, deleteRelativePath } from './fs.mjs';
+import { queryTestDB, deleteInsertedItems } from './db.mjs';
 
 /**
  * Does the setup of the plugins.
@@ -21,4 +21,3 @@ export default function setupPlugins(on, config) {
     startMailServer: () => startMailServer(config),
   });
 }
-

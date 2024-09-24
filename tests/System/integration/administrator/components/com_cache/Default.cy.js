@@ -4,7 +4,7 @@ describe('Test in backend that the cache', () => {
     cy.visit('/administrator/index.php?option=com_cache&view=cache');
   });
 
-  it('have a title', () => {
+  it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'Maintenance: Clear Cache');
   });
 

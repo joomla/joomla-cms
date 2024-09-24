@@ -19,7 +19,7 @@
   // Additional global variables your script accesses during execution
   "globals": {
     "Joomla": true,
-    "MediaManager" : true,
+    "MediaManager": true,
     "bootstrap": true
   },
   // Rule overrides
@@ -52,24 +52,24 @@
     ]
   },
   "overrides": [
-	{
-	  "files": ["tests/**/*.js"],
-	  "rules": {
-		"no-undef": ["off"],
-		"import/no-extraneous-dependencies": ["off"]
-	  }
-	},
-	{
-	  "files": ["tests/System/support/index.js"],
-	  "rules": {
-		"no-console": ["off"]
-	  }
-	},
-	{
-	  "files": ["tests/System/support/commands/db.js","tests/System/plugins/index.js"],
-	  "rules": {
-		"no-useless-escape": ["off"]
-	  }
-	}
+    {
+      "files": ["tests/**/*.js", "tests/**/*.mjs"],
+      "rules": {
+        "no-undef": ["off"],
+        "import/no-extraneous-dependencies": ["off"]
+      }
+    },
+    {
+      "files": ["tests/System/support/index.js"],
+      "rules": {
+        "no-console": ["off"]
+      }
+    },
+    {
+      "files": ["tests/System/support/commands/db.mjs"],
+      "rules": {
+        "no-useless-escape": ["off"]
+      }
+    }
   ]
 }

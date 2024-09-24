@@ -36,9 +36,9 @@ $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 
 $iconStates = [
     -2 => 'icon-trash',
-    0  => 'icon-times',
-    1  => 'icon-check',
-    2  => 'icon-folder',
+    0  => 'icon-unpublish',
+    1  => 'icon-publish',
+    2  => 'icon-archive',
 ];
 
 $this->document->addScriptOptions('associations-modal', ['func' => $function]);

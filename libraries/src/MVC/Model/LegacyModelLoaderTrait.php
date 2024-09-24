@@ -62,7 +62,7 @@ trait LegacyModelLoaderTrait
      *
      * @deprecated  4.3 will be removed in 6.0
      *              Will be removed without replacement. Get the model through the MVCFactory instead
-     *              Example: Factory::getApplication->bootComponent('com_xxx')->getMVCFactory()->createModel($type, $prefix, $config);
+     *              Example: Factory::getApplication()->bootComponent('com_xxx')->getMVCFactory()->createModel($type, $prefix, $config);
      */
     public static function getInstance($type, $prefix = '', $config = [])
     {

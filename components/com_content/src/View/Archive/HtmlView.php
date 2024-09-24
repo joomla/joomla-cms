@@ -221,7 +221,7 @@ class HtmlView extends BaseHtmlView
         $this->pagination->setAdditionalUrlParam('month', $state->get('filter.month'));
         $this->pagination->setAdditionalUrlParam('year', $state->get('filter.year'));
         $this->pagination->setAdditionalUrlParam('filter-search', $state->get('list.filter'));
-        $this->pagination->setAdditionalUrlParam('catid', $app->input->get('catid', [], 'array'));
+        $this->pagination->setAdditionalUrlParam('catid', $app->getInput()->get->get('catid', [], 'array'));
 
         $this->_prepareDocument();
 
