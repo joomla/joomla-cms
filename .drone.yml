@@ -506,7 +506,7 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 4.4](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 4.4](https://developer.joomla.org/nightly-builds.html) FAILED to build."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -520,6 +520,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 0f965e69f4773b289498dd7e06d3031f9ad89038606a7ace3632766c47283045
+hmac: 457f0f91e84d98a759e33c32f45e878f562ca987b5bee426593263ce99bb144f
 
 ...
