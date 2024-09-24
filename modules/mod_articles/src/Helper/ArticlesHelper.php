@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\Helpers\StringHelper as SpecialStringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -25,7 +26,6 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Event\Content;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
