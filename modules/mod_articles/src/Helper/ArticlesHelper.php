@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\Helpers\StringHelper as SpecialStringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -24,6 +25,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Event\Content;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -236,6 +238,40 @@ class ArticlesHelper implements DatabaseAwareInterface
                 $return = base64_encode($articleLink);
 
                 $item->link = Route::_('index.php?option=com_users&view=login&Itemid=' . $Itemid . '&return=' . $return);
+            }
+
+            $item->event   = new \stdClass();
+
+            // Check if we should trigger additional plugin events
+            if ($params->get('triggerevents', 0)) {
+                $dispatcher = Factory::getApplication()->getDispatcher();
+
+                // Process the content plugins.
+                PluginHelper::importPlugin('content', null, true, $dispatcher);
+
+                $contentEventArguments = [
+                    'context' => 'com_content.article',
+                    'subject' => $item,
+                    'params'  => $item->params,
+                ];
+
+                // Extra content from events
+
+                $contentEvents = [
+                    'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                    'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+                    'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+                ];
+
+                foreach ($contentEvents as $resultKey => $event) {
+                    $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+                    $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
+                }
+            } else {
+                $item->event->afterDisplayTitle    = '';
+                $item->event->beforeDisplayContent = '';
+                $item->event->afterDisplayContent  = '';
             }
 
             // Used for styling the active article
