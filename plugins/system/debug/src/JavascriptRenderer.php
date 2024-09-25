@@ -56,13 +56,10 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
     public function renderHead()
     {
         list($cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead) = $this->getAssets(null, self::RELATIVE_URL);
-        $html                                                         = '';
-        $doc                                                          = Factory::getApplication()->getDocument();
+        $html = '';
+        $doc = Factory::getApplication()->getDocument();
 
-        $nonce = '';
-        if ($doc->cspNonce) {
-            $nonce = ' nonce="' . $doc->cspNonce . '"';
-        }
+        $nonce = ($doc->cspNonce) ? ' nonce="' . $doc->cspNonce . '"' : '';
 
         foreach ($cssFiles as $file) {
             $html .= \sprintf('<link rel="stylesheet" href="%s">' . "\n", $file);
@@ -73,7 +70,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
         }
 
         foreach ($jsFiles as $file) {
-            $html .= \sprintf('<script src="%s" defer%s></script>' . "\n", $file, $nonce);
+            $html .= \sprintf('<script src="%s"%s defer></script>' . "\n", $file, $nonce);
         }
 
         foreach ($inlineJs as $content) {
