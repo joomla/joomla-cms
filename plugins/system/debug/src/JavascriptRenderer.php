@@ -58,7 +58,6 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
         list($cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead) = $this->getAssets(null, self::RELATIVE_URL);
         $html = '';
         $doc = Factory::getApplication()->getDocument();
-
         $nonce = ($doc->cspNonce) ? ' nonce="' . $doc->cspNonce . '"' : '';
 
         foreach ($cssFiles as $file) {
