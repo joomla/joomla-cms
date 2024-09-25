@@ -250,7 +250,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                 PluginHelper::importPlugin('content', null, true, $dispatcher);
 
                 $contentEventArguments = [
-                    'context' => 'com_content.article',
+                    'context' => 'mod_articles.article',
                     'subject' => $item,
                     'params'  => $item->params,
                 ];
