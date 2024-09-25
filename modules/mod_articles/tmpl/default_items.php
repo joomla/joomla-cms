@@ -107,16 +107,18 @@ $direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right
                         <?php endif; ?>
 
                         <?php if ($params->get('show_readmore')) : ?>
-                            <p class="mod-articles-category-readmore">
-                                <a class="mod-articles-category-title btn btn-secondary" href="<?php echo $item->link; ?>">
+                            <p class="mod-articles-item-readmore">
+                                <a class="mod-articles-item-title btn btn-secondary" href="<?php echo $item->link; ?>">
                                     <?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
                                     <?php if ($item->alternative_readmore) : ?>
                                         <?php echo $item->alternative_readmore; ?>
+                                    <?php elseif ($params->get('show_readmore_title', 0)) : ?>
+                                        <?php echo sprintf(
+                                            Text::_('JGLOBAL_READ_MORE_TITLE'),
+                                            HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'))
+                                        ); ?>
                                     <?php else : ?>
                                         <?php echo Text::_('JGLOBAL_READ_MORE'); ?>
-                                    <?php endif; ?>
-                                    <?php if ($params->get('show_readmore_title', 0)) : ?>
-                                        <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
                                     <?php endif; ?>
                                 </a>
                             </p>
