@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -18,8 +19,10 @@ if ($params->get('articles_layout') == 1) {
     $gridCols = 'grid-cols-' . $params->get('layout_columns');
 }
 
+// Get the language direction
+$direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right';
 ?>
-<ul class="mod-articles-items <?php echo ($params->get('articles_layout') == 1 ? 'mod-articles-grid ' . $gridCols : ''); ?> mod-list">
+<ul class="mod-articles-items<?php echo ($params->get('articles_layout') == 1 ? ' mod-articles-grid ' . $gridCols : ''); ?> mod-list">
     <?php foreach ($items as $item) : ?>
         <?php
         $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
@@ -28,7 +31,7 @@ if ($params->get('articles_layout') == 1) {
             <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
 
                 <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('show_readmore')) : ?>
-                    <div class="mod-articles-item-content">
+                    <div class="mod-articles-item-content<?php echo $item->active ? ' $item->active' : ''; ?>">
 
                         <?php if ($params->get('item_title')) : ?>
                             <?php $item_heading = $params->get('item_heading', 'h4'); ?>
@@ -87,7 +90,6 @@ if ($params->get('articles_layout') == 1) {
                                     </dd>
                                 <?php endif; ?>
                             </dl>
-
                         <?php endif; ?>
 
                         <?php if (in_array($params->get('img_intro_full'), ['intro', 'full']) && !empty($item->imageSrc)) : ?>
@@ -105,13 +107,19 @@ if ($params->get('articles_layout') == 1) {
                         <?php endif; ?>
 
                         <?php if ($params->get('show_readmore')) : ?>
-                            <?php if ($params->get('show_readmore_title') === 0) : ?>
-                                <?php $item->params->set('show_readmore_title', 0); ?>
-                            <?php endif; ?>
-                            <?php if ($params->get('readmore_limit') >= 0) : ?>
-                                <?php $item->params->set('readmore_limit', $params->get('readmore_limit')); ?>
-                            <?php endif; ?>
-                            <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $item, 'params' => $item->params, 'link' => $item->link]); ?>
+                            <p class="mod-articles-category-readmore">
+                                <a class="mod-articles-category-title btn btn-secondary" href="<?php echo $item->link; ?>">
+                                    <?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
+                                    <?php if ($item->alternative_readmore) : ?>
+                                        <?php echo $item->alternative_readmore; ?>
+                                    <?php else : ?>
+                                        <?php echo Text::_('JGLOBAL_READ_MORE'); ?>
+                                    <?php endif; ?>
+                                    <?php if ($params->get('show_readmore_title', 0)) : ?>
+                                        <?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+                                    <?php endif; ?>
+                                </a>
+                            </p>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
