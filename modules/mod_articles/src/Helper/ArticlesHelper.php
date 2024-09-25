@@ -67,9 +67,12 @@ class ArticlesHelper implements DatabaseAwareInterface
         $articles->setState('list.limit', (int) $params->get('count', 0));
         $articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
+        // Get the user object
+        $user = $app->getIdentity();
+
         // Access filter
         $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
+        $authorised = Access::getAuthorisedViewLevels($user->id);
         $articles->setState('filter.access', $access);
 
         $catids = $params->get('catid');
@@ -137,9 +140,17 @@ class ArticlesHelper implements DatabaseAwareInterface
         // Filter by multiple tags
         $articles->setState('filter.tag', $params->get('filter_tag', []));
 
+        // Filter by featured
         $articles->setState('filter.featured', $params->get('show_featured', 'show'));
-        $articles->setState('filter.author_id', $params->get('created_by', []));
-        $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
+
+        // Filter by author
+        if ($params->get('author_filtering_type', 1) === 2) {
+            $articles->setState('filter.author_id', [$user->id]);
+        } else {
+            $articles->setState('filter.author_id', $params->get('created_by', []));
+            $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
+        }
+
         $articles->setState('filter.author_alias', $params->get('created_by_alias', []));
         $articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 
