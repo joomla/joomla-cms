@@ -174,7 +174,7 @@ class ArticlesHelper implements DatabaseAwareInterface
             $articlesList[] = (int) $article['id'];
         }
 
-        if (!empty($articles)) {
+        if (!empty($articlesList)) {
             $articles->setState('filter.article_id', $articlesList);
             $articles->setState('filter.article_id.include', $filterInclude);
         }
