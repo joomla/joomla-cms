@@ -1432,6 +1432,8 @@ final class Blog extends CMSPlugin
                 'position' => 'sidebar-right',
                 'module'   => 'mod_articles',
                 'params'   => [
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
                     'count'                        => 10,
                     'category_filtering_type'      => 1,
                     'show_child_category_articles' => 0,
@@ -1498,6 +1500,8 @@ final class Blog extends CMSPlugin
                 'assignment' => 1,
                 'showtitle'  => 0,
                 'params'     => [
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
                     'count'                        => 3,
                     'category_filtering_type'      => 1,
                     'catid'                        => $catIds[2],
@@ -1560,6 +1564,8 @@ final class Blog extends CMSPlugin
                 'position' => 'bottom-b',
                 'module'   => 'mod_articles',
                 'params'   => [
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
                     'count'                        => 6,
                     'category_filtering_type'      => 1,
                     'catid'                        => $catIds[0],
