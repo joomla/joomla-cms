@@ -24,6 +24,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -150,10 +151,10 @@ class ArticlesHelper implements DatabaseAwareInterface
 
         // Check if we include or exclude articles and process data
         $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
-        $filterInclude = true;
-        $articles = [];
+        $filterInclude          = true;
+        $articlesList           = [];
 
-        $articlesListToProcess = $params->get('included_articles', [], 'array');
+        $articlesListToProcess = $params->get('included_articles', '');
 
         if ($ex_or_include_articles === 0) {
             $filterInclude = false;
@@ -163,18 +164,18 @@ class ArticlesHelper implements DatabaseAwareInterface
                 && $input->get('option') === 'com_content'
                 && $input->get('view') === 'article'
             ) {
-                $articles[] = $input->get('id', 0, 'UINT');
+                $articlesList[] = $input->get('id', 0, 'UINT');
             }
 
-            $articlesListToProcess = $params->get('excluded_articles', [], 'array');
+            $articlesListToProcess = $params->get('excluded_articles', '');
         }
 
-        foreach ($articlesListToProcess as $article) {
-            $articles[] = $article['id'];
+        foreach (ArrayHelper::fromObject($articlesListToProcess) as $article) {
+            $articlesList[] = (int) $article['id'];
         }
 
         if (!empty($articles)) {
-            $articles->setState('filter.article_id', $articles);
+            $articles->setState('filter.article_id', $articlesList);
             $articles->setState('filter.article_id.include', $filterInclude);
         }
 

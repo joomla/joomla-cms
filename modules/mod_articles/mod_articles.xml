@@ -97,7 +97,7 @@
 					default="1"
 					filter="integer"
 					showon="ex_or_include_articles:0"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -110,7 +110,7 @@
 					multiple="true"
 					buttons="add,remove"
 					showon="ex_or_include_articles:0"
-				>
+					>
 					<form>
 						<field
 							name="id"
@@ -131,7 +131,7 @@
 					multiple="true"
 					buttons="add,remove"
 					showon="ex_or_include_articles:1"
-				>
+					>
 					<form>
 						<field
 							name="id"
