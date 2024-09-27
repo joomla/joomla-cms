@@ -243,7 +243,7 @@ class ArticlesHelper implements DatabaseAwareInterface
             $item->event   = new \stdClass();
 
             // Check if we should trigger additional plugin events
-            if ($params->get('triggerevents', 0)) {
+            if ($params->get('trigger_events', 0)) {
                 $dispatcher = Factory::getApplication()->getDispatcher();
 
                 // Process the content plugins.
