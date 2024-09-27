@@ -28,9 +28,10 @@
 					name="count"
 					type="number"
 					label="MOD_ARTICLES_FIELD_COUNT_LABEL"
+					description="MOD_ARTICLES_FIELD_COUNT_DESC"
 					default="5"
 					filter="integer"
-					min="1"
+					min="0"
 					validate="number"
 				/>
 
