@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd2a2685606da4cbf9778daee4d55f37",
+    "content-hash": "b4730542e342b0e2e39d4cfb81f5be63",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1717,16 +1717,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "c636a134c95f9c7003cdf8f8d18d416a83688f2a"
+                "reference": "c69358f6500b8d931bd6e4e3042aa365dcace155"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/c636a134c95f9c7003cdf8f8d18d416a83688f2a",
-                "reference": "c636a134c95f9c7003cdf8f8d18d416a83688f2a",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/c69358f6500b8d931bd6e4e3042aa365dcace155",
+                "reference": "c69358f6500b8d931bd6e4e3042aa365dcace155",
                 "shasum": ""
             },
             "require": {
@@ -1765,7 +1765,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/3.0.1"
+                "source": "https://github.com/joomla-framework/filesystem/tree/3.0.2"
             },
             "funding": [
                 {
@@ -1777,7 +1777,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-16T09:41:56+00:00"
+            "time": "2024-09-12T11:44:35+00:00"
         },
         {
             "name": "joomla/filter",
@@ -2864,16 +2864,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.22.4",
+            "version": "v1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "ec4979077ff5ddf987eb2457055ee343f466c250"
+                "reference": "0143b7c17daad5336ebd406c279333c84723cc41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/ec4979077ff5ddf987eb2457055ee343f466c250",
-                "reference": "ec4979077ff5ddf987eb2457055ee343f466c250",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/0143b7c17daad5336ebd406c279333c84723cc41",
+                "reference": "0143b7c17daad5336ebd406c279333c84723cc41",
                 "shasum": ""
             },
             "require": {
@@ -2895,7 +2895,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.22-dev"
+                    "dev-master": "1.23-dev"
                 }
             },
             "autoload": {
@@ -2926,9 +2926,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.22.4"
+                "source": "https://github.com/maximebf/php-debugbar/tree/v1.23.0"
             },
-            "time": "2024-09-06T17:37:59+00:00"
+            "time": "2024-09-10T17:28:47+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -7682,16 +7682,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.2",
+            "version": "1.12.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "0ca1c7bb55fca8fe6448f16fff0f311ccec960a1"
+                "reference": "ffa517cb918591b93acc9b95c0bebdcd0e4538bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0ca1c7bb55fca8fe6448f16fff0f311ccec960a1",
-                "reference": "0ca1c7bb55fca8fe6448f16fff0f311ccec960a1",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ffa517cb918591b93acc9b95c0bebdcd0e4538bd",
+                "reference": "ffa517cb918591b93acc9b95c0bebdcd0e4538bd",
                 "shasum": ""
             },
             "require": {
@@ -7736,25 +7736,25 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-05T16:09:28+00:00"
+            "time": "2024-09-19T07:58:01+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-deprecation-rules.git",
-                "reference": "fa8cce7720fa782899a0aa97b6a41225d1bb7b26"
+                "reference": "f94d246cc143ec5a23da868f8f7e1393b50eaa82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/fa8cce7720fa782899a0aa97b6a41225d1bb7b26",
-                "reference": "fa8cce7720fa782899a0aa97b6a41225d1bb7b26",
+                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/f94d246cc143ec5a23da868f8f7e1393b50eaa82",
+                "reference": "f94d246cc143ec5a23da868f8f7e1393b50eaa82",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.11"
+                "phpstan/phpstan": "^1.12"
             },
             "require-dev": {
                 "php-parallel-lint/php-parallel-lint": "^1.2",
@@ -7781,9 +7781,9 @@
             "description": "PHPStan rules for detecting usage of deprecated classes, methods, properties, constants and traits.",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-deprecation-rules/issues",
-                "source": "https://github.com/phpstan/phpstan-deprecation-rules/tree/1.2.0"
+                "source": "https://github.com/phpstan/phpstan-deprecation-rules/tree/1.2.1"
             },
-            "time": "2024-04-20T06:39:48+00:00"
+            "time": "2024-09-11T15:52:35+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -8106,16 +8106,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.20",
+            "version": "9.6.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "49d7820565836236411f5dc002d16dd689cde42f"
+                "reference": "de6abf3b6f8dd955fac3caad3af7a9504e8c2ffa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/49d7820565836236411f5dc002d16dd689cde42f",
-                "reference": "49d7820565836236411f5dc002d16dd689cde42f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/de6abf3b6f8dd955fac3caad3af7a9504e8c2ffa",
+                "reference": "de6abf3b6f8dd955fac3caad3af7a9504e8c2ffa",
                 "shasum": ""
             },
             "require": {
@@ -8130,7 +8130,7 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=7.3",
-                "phpunit/php-code-coverage": "^9.2.31",
+                "phpunit/php-code-coverage": "^9.2.32",
                 "phpunit/php-file-iterator": "^3.0.6",
                 "phpunit/php-invoker": "^3.1.1",
                 "phpunit/php-text-template": "^2.0.4",
@@ -8189,7 +8189,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.20"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.21"
             },
             "funding": [
                 {
@@ -8205,7 +8205,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-10T11:45:39+00:00"
+            "time": "2024-09-19T10:50:18+00:00"
         },
         {
             "name": "react/cache",
@@ -9702,16 +9702,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.10.2",
+            "version": "3.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "86e5f5dd9a840c46810ebe5ff1885581c42a3017"
+                "reference": "62d32998e820bddc40f99f8251958aed187a5c9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/86e5f5dd9a840c46810ebe5ff1885581c42a3017",
-                "reference": "86e5f5dd9a840c46810ebe5ff1885581c42a3017",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/62d32998e820bddc40f99f8251958aed187a5c9c",
+                "reference": "62d32998e820bddc40f99f8251958aed187a5c9c",
                 "shasum": ""
             },
             "require": {
@@ -9778,7 +9778,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-07-21T23:26:44+00:00"
+            "time": "2024-09-18T10:38:58+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
