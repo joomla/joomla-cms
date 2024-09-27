@@ -105,7 +105,7 @@ class ComponentModel extends FormModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  object  The default data is an empty array.
+     * @return  object  The default data is an empty object.
      *
      * @since   4.0.0
      */

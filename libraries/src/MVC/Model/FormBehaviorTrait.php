@@ -126,7 +126,7 @@ trait FormBehaviorTrait
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  \stdClass  The default data is an empty array.
+     * @return  \stdClass  The default data is an empty object.
      *
      * @since   4.0.0
      */
