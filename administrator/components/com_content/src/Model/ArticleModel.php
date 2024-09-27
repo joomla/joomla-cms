@@ -564,7 +564,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -572,7 +572,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_content.edit.article.data', []);
+        $data = $app->getUserState('com_content.edit.article.data');
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -580,23 +580,17 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             // Pre-select some filters (Status, Category, Language, Access) in edit form if those have been selected in Article Manager: Articles
             if ($this->getState('article.id') == 0) {
                 $filters = (array) $app->getUserState('com_content.articles.filter');
-                $data->set(
+                $data->state = $app->getInput()->getInt(
                     'state',
-                    $app->getInput()->getInt(
-                        'state',
-                        ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
-                    )
+                    ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                 );
-                $data->set('catid', $app->getInput()->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
+                $data->catid = $app->getInput()->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null));
 
                 if ($app->isClient('administrator')) {
-                    $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                    $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
                 }
 
-                $data->set(
-                    'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->access = $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 

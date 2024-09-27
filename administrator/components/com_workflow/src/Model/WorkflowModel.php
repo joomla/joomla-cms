@@ -194,17 +194,14 @@ class WorkflowModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return mixed  The data for the form.
+     * @return object  The data for the form.
      *
      * @since  4.0.0
      */
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState(
-            'com_workflow.edit.workflow.data',
-            []
-        );
+        $data = Factory::getApplication()->getUserState('com_workflow.edit.workflow.data');
 
         if (empty($data)) {
             $data = $this->getItem();

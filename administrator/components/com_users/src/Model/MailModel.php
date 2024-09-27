@@ -59,7 +59,7 @@ class MailModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      * @throws  \Exception
@@ -67,7 +67,7 @@ class MailModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_users.display.mail.data', []);
+        $data = Factory::getApplication()->getUserState('com_users.display.mail.data', new \stdClass());
 
         $this->preprocessData('com_users.mail', $data);
 

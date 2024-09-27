@@ -295,7 +295,7 @@ class GroupModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  array    The default data is an empty array.
+     * @return  object  The default data is an empty array.
      *
      * @since   3.7.0
      */
@@ -304,7 +304,7 @@ class GroupModel extends AdminModel
         // Check the session for previously entered form data.
         $app   = Factory::getApplication();
         $input = $app->getInput();
-        $data  = $app->getUserState('com_fields.edit.group.data', []);
+        $data  = $app->getUserState('com_fields.edit.group.data');
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -315,18 +315,9 @@ class GroupModel extends AdminModel
                 $context = substr($app->getUserState('com_fields.groups.filter.context', ''), 4);
                 $filters = (array) $app->getUserState('com_fields.groups.' . $context . '.filter');
 
-                $data->set(
-                    'state',
-                    $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
-                );
-                $data->set(
-                    'language',
-                    $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
-                );
-                $data->set(
-                    'access',
-                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->state = $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null));
+                $data->language = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 

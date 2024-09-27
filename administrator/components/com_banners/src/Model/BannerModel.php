@@ -246,7 +246,7 @@ class BannerModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -254,7 +254,7 @@ class BannerModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_banners.edit.banner.data', []);
+        $data = $app->getUserState('com_banners.edit.banner.data');
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -264,7 +264,7 @@ class BannerModel extends AdminModel
                 $filters     = (array) $app->getUserState('com_banners.banners.filter');
                 $filterCatId = $filters['category_id'] ?? null;
 
-                $data->set('catid', $app->getInput()->getInt('catid', $filterCatId));
+                $data->catid = $app->getInput()->getInt('catid', $filterCatId);
             }
         }
 

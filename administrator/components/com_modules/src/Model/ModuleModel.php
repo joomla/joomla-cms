@@ -576,7 +576,7 @@ class ModuleModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -586,7 +586,7 @@ class ModuleModel extends AdminModel
         $input = $app->getInput();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_modules.edit.module.data', []);
+        $data = $app->getUserState('com_modules.edit.module.data');
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -595,10 +595,10 @@ class ModuleModel extends AdminModel
             if (!$data->id) {
                 $clientId = $input->getInt('client_id', 0);
                 $filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
-                $data->set('published', $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('position', $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
-                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('access', $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
+                $data->published = $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null));
+                $data->position = $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null));
+                $data->language = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
 
             // Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -607,7 +607,7 @@ class ModuleModel extends AdminModel
                 $params = $app->getUserState('com_modules.add.module.params');
 
                 if (\is_array($params)) {
-                    $data->set('params', $params);
+                    $data->params = $params;
                 }
             }
         }

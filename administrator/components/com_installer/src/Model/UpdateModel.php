@@ -539,14 +539,14 @@ class UpdateModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   2.5.2
      */
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState($this->context, []);
+        $data = Factory::getApplication()->getUserState($this->context, new \stdClass());
 
         return $data;
     }

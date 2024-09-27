@@ -142,21 +142,21 @@ class ContactModel extends FormModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  array    The default data is an empty array.
+     * @return  object    The default data is an empty object.
      *
      * @since   1.6.2
      */
     protected function loadFormData()
     {
-        $data = (array) Factory::getApplication()->getUserState('com_contact.contact.data', []);
+        $data = Factory::getApplication()->getUserState('com_contact.contact.data', new \stdClass());
 
-        if (empty($data['language']) && Multilanguage::isEnabled()) {
-            $data['language'] = Factory::getLanguage()->getTag();
+        if (empty($data->language) && Multilanguage::isEnabled()) {
+            $data->language = Factory::getLanguage()->getTag();
         }
 
         // Add contact catid to contact form data, so fields plugin can work properly
-        if (empty($data['catid'])) {
-            $data['catid'] = $this->getItem()->catid;
+        if (empty($data->catid)) {
+            $data->catid = $this->getItem()->catid;
         }
 
         $this->preprocessData('com_contact.contact', $data);

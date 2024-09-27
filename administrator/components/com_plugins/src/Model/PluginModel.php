@@ -130,14 +130,14 @@ class PluginModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', []);
+        $data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data');
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -153,7 +153,7 @@ class PluginModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  object|boolean  Object on success, false on failure.
      */
     public function getItem($pk = null)
     {

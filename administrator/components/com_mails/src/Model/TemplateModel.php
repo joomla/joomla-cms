@@ -254,7 +254,7 @@ class TemplateModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   4.0.0
      */
@@ -262,7 +262,7 @@ class TemplateModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_mails.edit.template.data', []);
+        $data = $app->getUserState('com_mails.edit.template.data');
 
         if (empty($data)) {
             $data = $this->getItem();
