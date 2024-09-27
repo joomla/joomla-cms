@@ -156,7 +156,7 @@ class NewsfeedModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('newsfeed.id') == 0) {
-                $app = Factory::getApplication();
+                $app         = Factory::getApplication();
                 $data->catid = $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int');
             }
         }

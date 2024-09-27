@@ -593,12 +593,12 @@ class ModuleModel extends AdminModel
 
             // Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
             if (!$data->id) {
-                $clientId = $input->getInt('client_id', 0);
-                $filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
+                $clientId        = $input->getInt('client_id', 0);
+                $filters         = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
                 $data->published = $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null));
-                $data->position = $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null));
-                $data->language = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
-                $data->access = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
+                $data->position  = $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null));
+                $data->language  = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access    = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
 
             // Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.

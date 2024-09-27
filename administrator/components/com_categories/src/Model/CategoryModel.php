@@ -342,7 +342,7 @@ class CategoryModel extends AdminModel
                     ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                 );
                 $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
-                $data->access = $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
+                $data->access   = $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 

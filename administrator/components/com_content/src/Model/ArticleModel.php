@@ -579,7 +579,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
             // Pre-select some filters (Status, Category, Language, Access) in edit form if those have been selected in Article Manager: Articles
             if ($this->getState('article.id') == 0) {
-                $filters = (array) $app->getUserState('com_content.articles.filter');
+                $filters     = (array) $app->getUserState('com_content.articles.filter');
                 $data->state = $app->getInput()->getInt(
                     'state',
                     ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
