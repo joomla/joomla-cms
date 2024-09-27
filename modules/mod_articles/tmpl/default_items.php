@@ -31,7 +31,7 @@ $direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right
             <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
 
                 <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('show_readmore')) : ?>
-                    <div class="mod-articles-item-content<?php echo $item->active ? ' $item->active' : ''; ?>">
+                    <div class="mod-articles-item-content<?php echo $item->active ? ' active' : ''; ?>">
 
                         <?php if ($params->get('item_title')) : ?>
                             <?php $item_heading = $params->get('item_heading', 'h4'); ?>
@@ -106,22 +106,12 @@ $direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right
                             <?php echo $item->displayIntrotext; ?>
                         <?php endif; ?>
 
-                        <?php if ($params->get('show_readmore')) : ?>
-                            <p class="mod-articles-item-readmore">
-                                <a class="mod-articles-item-title btn btn-secondary" href="<?php echo $item->link; ?>">
-                                    <?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
-                                    <?php if ($item->alternative_readmore) : ?>
-                                        <?php echo $item->alternative_readmore; ?>
-                                    <?php elseif ($params->get('show_readmore_title', 0)) : ?>
-                                        <?php echo sprintf(
-                                            Text::_('JGLOBAL_READ_MORE_TITLE'),
-                                            HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'))
-                                        ); ?>
-                                    <?php else : ?>
-                                        <?php echo Text::_('JGLOBAL_READ_MORE'); ?>
-                                    <?php endif; ?>
-                                </a>
-                            </p>
+                        <?php if (isset($item->link) && $item->readmore != 0 && $params->get('show_readmore')) : ?>
+                            <?php if ($params->get('show_readmore_title', '') !== '') : ?>
+                                <?php $item->params->set('show_readmore_title', $params->get('show_readmore_title')); ?>
+                                <?php $item->params->set('readmore_limit', $params->get('readmore_limit')); ?>
+                            <?php endif; ?>
+                            <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $item, 'params' => $item->params, 'link' => $item->link]); ?>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
