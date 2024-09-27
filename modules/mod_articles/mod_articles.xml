@@ -23,7 +23,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic"
-					  addfieldprefix="Joomla\Component\Content\Administrator\Field" >
+					addfieldprefix="Joomla\Component\Content\Administrator\Field" >
 				<field
 					name="count"
 					type="number"
