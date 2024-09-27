@@ -26,6 +26,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -150,33 +151,34 @@ class ArticlesHelper implements DatabaseAwareInterface
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
         }
 
-        // Filter by id in case it should be excluded
-        $excluded_articles = $params->get('excluded_articles', '');
-        if (
-            $params->get('exclude_current', true)
-            && $input->get('option') === 'com_content'
-            && $input->get('view') === 'article'
-        ) {
-            // Add current article to excluded list
-            $excluded_articles .= "\r\n" . $input->get('id', 0, 'UINT');
+        // Check if we include or exclude articles and process data
+        $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
+        $filterInclude          = true;
+        $articlesList           = [];
+
+        $articlesListToProcess = $params->get('included_articles', '');
+
+        if ($ex_or_include_articles === 0) {
+            $filterInclude = false;
+
+            if (
+                $params->get('exclude_current', 1) === 1
+                && $input->get('option') === 'com_content'
+                && $input->get('view') === 'article'
+            ) {
+                $articlesList[] = $input->get('id', 0, 'UINT');
+            }
+
+            $articlesListToProcess = $params->get('excluded_articles', '');
         }
 
-        if ($excluded_articles) {
-            $excluded_articles = explode("\r\n", $excluded_articles);
-            $articles->setState('filter.article_id', $excluded_articles);
-
-            // Exclude
-            $articles->setState('filter.article_id.include', false);
+        foreach (ArrayHelper::fromObject($articlesListToProcess) as $article) {
+            $articlesList[] = (int) $article['id'];
         }
 
-        // Filter by id in case it should be included only
-        $included_articles = $params->get('included_articles', '');
-        if ($included_articles) {
-            $included_articles = explode("\r\n", $included_articles);
-            $articles->setState('filter.article_id', $included_articles);
-
-            // Include
-            $articles->setState('filter.article_id.include', true);
+        if (!empty($articlesList)) {
+            $articles->setState('filter.article_id', $articlesList);
+            $articles->setState('filter.article_id.include', $filterInclude);
         }
 
         $date_filtering = $params->get('date_filtering', 'off');
