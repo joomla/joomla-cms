@@ -153,7 +153,7 @@ class PluginModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  object|boolean  Object on success, false on failure.
+     * @return  object|false  Object on success, false on failure.
      */
     public function getItem($pk = null)
     {
