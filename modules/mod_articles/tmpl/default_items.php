@@ -31,7 +31,7 @@ $direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right
             <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
 
                 <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('show_readmore')) : ?>
-                    <div class="mod-articles-item-content<?php echo $item->active ? ' active' : ''; ?>">
+                    <div class="mod-articles-item-content">
 
                         <?php if ($params->get('item_title')) : ?>
                             <?php $item_heading = $params->get('item_heading', 'h4'); ?>
