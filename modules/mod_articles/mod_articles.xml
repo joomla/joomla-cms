@@ -532,6 +532,7 @@
 					>
 					<option value="0">MOD_ARTICLES_OPTION_EXCLUSIVE_VALUE</option>
 					<option value="1">MOD_ARTICLES_OPTION_INCLUSIVE_VALUE</option>
+					<option value="2">MOD_ARTICLES_OPTION_ONLYCURRENTUSER_VALUE</option>
 				</field>
 
 				<field
@@ -542,6 +543,7 @@
 					layout="joomla.form.field.list-fancy-select"
 					filter="intarray"
 					class="multipleAuthors"
+					showon="author_filtering_type!:2"
 				/>
 
 				<field
