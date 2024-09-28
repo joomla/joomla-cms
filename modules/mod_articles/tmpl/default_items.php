@@ -47,6 +47,8 @@ $direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right
                             </<?php echo $item_heading; ?>>
                         <?php endif; ?>
 
+                        <?php echo $item->event->afterDisplayTitle; ?>
+
                         <?php if ($displayInfo) : ?>
                             <?php $listClass = ($params->get('info_layout') == 1) ? 'list-inline' : 'list-unstyled'; ?>
                             <dl class="<?php echo $listClass; ?>">
@@ -102,9 +104,13 @@ $direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right
                             </div>
                         <?php endif; ?>
 
-                        <?php if ($params->get('show_introtext')) : ?>
-                            <?php echo $item->displayIntrotext; ?>
+                        <?php echo $item->event->beforeDisplayContent; ?>
+
+                        <?php if ($params->get('show_introtext', 1)) : ?>
+                            <?php echo $item->introtext; ?>
                         <?php endif; ?>
+
+                        <?php echo $item->event->afterDisplayContent; ?>
 
                         <?php if (isset($item->link) && $item->readmore != 0 && $params->get('show_readmore')) : ?>
                             <?php if ($params->get('show_readmore_title', '') !== '') : ?>
