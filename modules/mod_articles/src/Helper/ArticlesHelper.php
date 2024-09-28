@@ -75,8 +75,59 @@ class ArticlesHelper implements DatabaseAwareInterface
         $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
         $articles->setState('filter.access', $access);
 
-        $catids = $params->get('catid');
-        $articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
+        // Prep for Normal or Dynamic Modes
+        $mode = $params->get('mode', 'normal');
+
+        switch ($mode) {
+            case 'dynamic':
+                $option = $input->get('option');
+                $view   = $input->get('view');
+
+                if ($option === 'com_content') {
+                    switch ($view) {
+                        case 'category':
+                        case 'categories':
+                            $catids = [$input->getInt('id')];
+                            break;
+                        case 'article':
+                            if ($params->get('show_on_article_page', 1)) {
+                                $article_id = $input->getInt('id');
+                                $catid      = $input->getInt('catid');
+
+                                if (!$catid) {
+                                    // Get an instance of the generic article model
+                                    $article = $factory->createModel('Article', 'Site', ['ignore_request' => true]);
+
+                                    $article->setState('params', $appParams);
+                                    $article->setState('filter.published', 1);
+                                    $article->setState('article.id', (int) $article_id);
+                                    $item   = $article->getItem();
+                                    $catids = [$item->catid];
+                                } else {
+                                    $catids = [$catid];
+                                }
+                            } else {
+                                // Return right away if show_on_article_page option is off
+                                return;
+                            }
+                            break;
+
+                        default:
+                            // Return right away if not on the category or article views
+                            return;
+                    }
+                } else {
+                    // Return right away if not on a com_content page
+                    return;
+                }
+
+                break;
+
+            default:
+                $catids = $params->get('catid');
+                $articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
+                break;
+        }
 
         // Category filter
         if ($catids) {
