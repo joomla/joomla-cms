@@ -100,7 +100,7 @@ class LanguageModel extends AdminModel
      *
      * @param   integer  $langId  The id of the member to get.
      *
-     * @return  object|boolean  User data object on success, false on failure.
+     * @return  object|false  User data object on success, false on failure.
      *
      * @since   1.0
      */
