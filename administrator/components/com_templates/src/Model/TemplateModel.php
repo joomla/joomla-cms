@@ -893,7 +893,7 @@ class TemplateModel extends FormModel
     /**
      * Method to get a single record.
      *
-     * @return  object|boolean  Object on success, false on failure.
+     * @return  object|false  Object on success, false on failure.
      *
      * @since   1.6
      */
