@@ -100,7 +100,7 @@
     "postgres": "^3.3.5",
     "recursive-readdir": "^2.2.3",
     "rimraf": "^3.0.2",
-    "rollup": "^2.79.1",
+    "rollup": "^2.79.2",
     "rollup-plugin-vue": "^6.0.0",
     "rtlcss": "^3.5.0",
     "sass-embedded": "^1.67.0",
