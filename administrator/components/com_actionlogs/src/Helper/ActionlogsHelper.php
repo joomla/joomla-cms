@@ -344,6 +344,34 @@ class ActionlogsHelper
 
         // Load com_privacy too.
         $lang->load('com_privacy', JPATH_ADMINISTRATOR);
+
+        // Load all configured extensions
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('extension'))
+            ->from($db->quoteName('#__action_logs_extensions'));
+        $db->setQuery($query);
+
+        try {
+            $extensions = $db->loadColumn();
+        } catch (\RuntimeException $e) {
+            $extensions = [];
+        }
+
+        if (empty($extensions)) {
+            return;
+        }
+
+        foreach ($extensions as $extension) {
+            $extension = strtolower($extension);
+
+            // If language already loaded, don't load it again.
+            if ($lang->getPaths($extension)) {
+                continue;
+            }
+
+            $lang->load($extension, JPATH_ADMINISTRATOR)
+                || $lang->load($extension, JPATH_ADMINISTRATOR . '/components/' . $extension);
+        }
     }
 
     /**
