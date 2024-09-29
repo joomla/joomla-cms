@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -19,8 +18,6 @@ if ($params->get('articles_layout') == 1) {
     $gridCols = 'grid-cols-' . $params->get('layout_columns');
 }
 
-// Get the language direction
-$direction = Factory::getApplication()->getLanguage()->isRtl() ? 'left' : 'right';
 ?>
 <ul class="mod-articles-items<?php echo ($params->get('articles_layout') == 1 ? ' mod-articles-grid ' . $gridCols : ''); ?> mod-list">
     <?php foreach ($items as $item) : ?>
