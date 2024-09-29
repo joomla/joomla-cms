@@ -19,7 +19,7 @@ if ($params->get('articles_layout') == 1) {
 }
 
 ?>
-<ul class="mod-articles-items <?php echo ($params->get('articles_layout') == 1 ? 'mod-articles-grid ' . $gridCols : ''); ?> mod-list">
+<ul class="mod-articles-items<?php echo ($params->get('articles_layout') == 1 ? ' mod-articles-grid ' . $gridCols : ''); ?> mod-list">
     <?php foreach ($items as $item) : ?>
         <?php
         $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
@@ -89,7 +89,6 @@ if ($params->get('articles_layout') == 1) {
                                     </dd>
                                 <?php endif; ?>
                             </dl>
-
                         <?php endif; ?>
 
                         <?php if (in_array($params->get('img_intro_full'), ['intro', 'full']) && !empty($item->imageSrc)) : ?>
@@ -110,7 +109,11 @@ if ($params->get('articles_layout') == 1) {
 
                         <?php echo $item->event->afterDisplayContent; ?>
 
-                        <?php if ($params->get('show_readmore')) : ?>
+                        <?php if (isset($item->link) && $item->readmore != 0 && $params->get('show_readmore')) : ?>
+                            <?php if ($params->get('show_readmore_title', '') !== '') : ?>
+                                <?php $item->params->set('show_readmore_title', $params->get('show_readmore_title')); ?>
+                                <?php $item->params->set('readmore_limit', $params->get('readmore_limit')); ?>
+                            <?php endif; ?>
                             <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $item, 'params' => $item->params, 'link' => $item->link]); ?>
                         <?php endif; ?>
                     </div>
