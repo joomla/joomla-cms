@@ -270,7 +270,7 @@ class ApiController extends BaseController
         $move         = $content->get('move', true);
 
         if ($mediaContent != null) {
-            $this->checkContent();
+            $this->checkFileSize(\strlen($mediaContent));
 
             $this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
         }
