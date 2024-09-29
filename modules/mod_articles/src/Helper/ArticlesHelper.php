@@ -322,6 +322,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                 // Extra content from events
 
                 $contentEvents = [
+                    'contentPrepare'       => new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments),
                     'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
                     'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
                     'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
