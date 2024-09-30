@@ -19,6 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
+use Joomla\Component\Users\Site\Model\ProfileModel;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -102,16 +103,17 @@ class HtmlView extends BaseHtmlView
     {
         $user = $this->getCurrentUser();
 
-        // Get the view data.
-        $this->data               = $this->get('Data');
-        $this->form               = $this->getModel()->getForm(new CMSObject(['id' => $user->id]));
-        $this->state              = $this->get('State');
+        /** @var ProfileModel $model */
+        $model                    = $this->getModel();
+        $this->data               = $model->getData();
+        $this->form               = $model->getForm();
+        $this->state              = $model->getState();
         $this->params             = $this->state->get('params');
         $this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
         $this->db                 = Factory::getDbo();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
