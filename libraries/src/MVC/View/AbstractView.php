@@ -221,20 +221,17 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     public function getName()
     {
         if (empty($this->_name)) {
-            $reflection = new \ReflectionClass($this);
+            $className = get_class($this);
+            $elements  = explode('\\', $className);
 
-            if ($viewNamespace = $reflection->getNamespaceName()) {
-                $pos = strrpos($viewNamespace, '\\');
-
-                if ($pos !== false) {
-                    $this->_name = strtolower(substr($viewNamespace, $pos + 1));
-                }
+            if (count($elements) > 1) {
+                array_pop($elements);
+                $this->_name = strtolower(array_pop($elements));
             } else {
-                $className = \get_class($this);
-                $viewPos   = strpos($className, 'View');
+                $viewPos   = strpos($elements[0], 'View');
 
                 if ($viewPos != false) {
-                    $this->_name = strtolower(substr($className, $viewPos + 4));
+                    $this->_name = strtolower(substr($elements[0], $viewPos + 4));
                 }
             }
 
