@@ -82,8 +82,8 @@ class HtmlView extends BaseHtmlView
         $this->showMessage = false;
 
         if (\is_object($state)) {
-            $message1    = $state->get('message');
-            $message2    = $state->get('extension_message');
+            $message1          = $state->get('message');
+            $message2          = $state->get('extension_message');
             $this->showMessage = ($message1 || $message2);
         }
 
