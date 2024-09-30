@@ -12,6 +12,8 @@ namespace Joomla\Component\Templates\Administrator\View\Style;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Templates\Administrator\Model\StyleModel;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -56,8 +58,11 @@ class JsonView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var StyleModel $model */
+        $model = $this->getModel();
+
         try {
-            $this->item = $this->get('Item');
+            $this->item = $model->getItem();
         } catch (\Exception $e) {
             $app = Factory::getApplication();
             $app->enqueueMessage($e->getMessage(), 'error');
@@ -65,7 +70,7 @@ class JsonView extends BaseHtmlView
             return false;
         }
 
-        $paramsList = $this->item->getProperties();
+        $paramsList = (array) $this->item;
 
         unset($paramsList['xml']);
 
