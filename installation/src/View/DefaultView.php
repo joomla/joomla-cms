@@ -11,7 +11,6 @@
 namespace Joomla\CMS\Installation\View;
 
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 // phpcs:disable PSR1.Files.SideEffects
