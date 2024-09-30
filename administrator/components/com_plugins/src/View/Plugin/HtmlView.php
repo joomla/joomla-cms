@@ -124,7 +124,9 @@ class HtmlView extends BaseHtmlView
         // Get the help information for the plugin item.
         $lang = $this->getLanguage();
 
-        $help = $this->get('Help');
+        /** @var PluginModel $model */
+        $model = $this->getModel();
+        $help  = $model->getHelp();
 
         if ($help->url && $lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);

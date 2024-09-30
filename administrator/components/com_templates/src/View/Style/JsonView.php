@@ -13,7 +13,6 @@ namespace Joomla\Component\Templates\Administrator\View\Style;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Templates\Administrator\Model\StyleModel;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

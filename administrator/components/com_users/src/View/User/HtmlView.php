@@ -121,8 +121,8 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $user = $this->getCurrentUser();
 
         if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
-            $this->grouplist = $this->get('Groups');
-            $this->groups    = $this->get('AssignedGroups');
+            $this->grouplist = $model->getGroups();
+            $this->groups    = $model->getAssignedGroups();
         }
 
         $this->form->setValue('password', null);
