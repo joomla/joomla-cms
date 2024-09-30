@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
 
         if ($this->getLayout() !== 'captive') {
             /** @var WarningsModel $warningsModel */
-            $warningsModel = $this->getModel('warnings');
+            $warningsModel  = $this->getModel('warnings');
             $this->warnings = $warningsModel->getItems();
         }
 
