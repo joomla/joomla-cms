@@ -138,6 +138,10 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @return  mixed  The return value of the method
      *
      * @since   3.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 8.0.
+     *              Retrieve the model with $model = $this->getModel(); and call the methods
+     *              to the model directly, e.g. $model->getItems() instead of $this->get('Items').
      */
     public function get($property, $default = null)
     {
