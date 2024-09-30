@@ -52,7 +52,7 @@ class HtmlView extends DefaultView
     public function display($tpl = null)
     {
         /** @var ChecksModel $model */
-        $model = $this->getModel();
+        $model         = $this->getModel();
         $this->options = $model->getPhpOptions();
 
         parent::display($tpl);
