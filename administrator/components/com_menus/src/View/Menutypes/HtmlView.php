@@ -158,7 +158,7 @@ class HtmlView extends BaseHtmlView
         $o->request     = null;
         $list[]         = $o;
 
-        if ($this->get('state')->get('client_id') == 1) {
+        if ($this->state->get('client_id') == 1) {
             $o              = new CMSObject();
             $o->title       = 'COM_MENUS_TYPE_CONTAINER';
             $o->type        = 'container';

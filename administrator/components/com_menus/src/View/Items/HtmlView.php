@@ -302,7 +302,7 @@ class HtmlView extends BaseHtmlView
         $user  = $this->getCurrentUser();
 
         // Get the menu title
-        $menuTypeTitle = $this->get('State')->get('menutypetitle');
+        $menuTypeTitle = $this->state->get('menutypetitle');
 
         // Get the toolbar object instance
         $toolbar = $this->getDocument()->getToolbar();

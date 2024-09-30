@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $state = $this->get('State');
+        $state = $this->state;
         $canDo = ContentHelper::getActions('com_modules');
         $user  = $this->getCurrentUser();
 

@@ -178,7 +178,7 @@ class HtmlView extends BaseHtmlView
 
         // The critical plugins check is only available for major updates.
         if (version_compare($this->updateInfo['latest'], (string) $nextMajorVersion, '>=')) {
-            $this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
+            $this->nonCoreCriticalPlugins = $model->getNonCorePlugins();
         }
 
         // Set to true if a required PHP option is not ok
@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $this->state = $this->get('State');
+        $this->state = $model->getState();
 
         $hasUpdate   = !empty($this->updateInfo['hasUpdate']);
         $hasDownload = isset($this->updateInfo['object']->downloadurl->_data);

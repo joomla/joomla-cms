@@ -180,7 +180,9 @@ class HtmlView extends BaseHtmlView
         // Get the help information for the menu item.
         $lang = $this->getLanguage();
 
-        $help = $this->get('Help');
+        /** @var ModuleModel $model */
+        $model = $this->getModel();
+        $help  = $model->getHelp();
 
         if ($lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
