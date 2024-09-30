@@ -41,7 +41,7 @@ class JsonapiView extends BaseApiView
     public function displayList(?array $items = null)
     {
         try {
-            $component = ComponentHelper::getComponent($this->get('component_name'));
+            $component = ComponentHelper::getComponent($this->component_name);
 
             if ($component === null || !$component->enabled) {
                 // @todo: exception component unavailable
@@ -128,7 +128,7 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
-        $item->id = ExtensionHelper::getExtensionRecord($this->get('component_name'), 'component')->extension_id;
+        $item->id = ExtensionHelper::getExtensionRecord($this->component_name, 'component')->extension_id;
 
         return $item;
     }
