@@ -46,7 +46,7 @@ class DefaultView extends BaseHtmlView
     {
         $model      = $this->getModel();
 
-        if (is_callable([$model, 'getForm'])) {
+        if (\is_callable([$model, 'getForm'])) {
             $this->form = $model->getForm();
         }
 
