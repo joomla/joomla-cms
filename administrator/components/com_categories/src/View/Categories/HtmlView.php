@@ -109,9 +109,9 @@ class HtmlView extends BaseHtmlView
         $this->state         = $model->getState();
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
-        $this->assoc         = $this->get('Assoc');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $this->assoc         = $model->getAssoc();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         // Written this way because we only want to call IsEmptyState if no items, to prevent always calling it when not needed.
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
