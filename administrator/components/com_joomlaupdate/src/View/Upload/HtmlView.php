@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -85,7 +86,9 @@ class HtmlView extends BaseHtmlView
         $this->selfUpdateAvailable = $model->getCheckForSelfUpdate();
 
         if ($this->getLayout() !== 'captive') {
-            $this->warnings = $this->get('Items', 'warnings');
+            /** @var WarningsModel $warningsModel */
+            $warningsModel = $this->getModel('warnings');
+            $this->warnings = $warningsModel->getItems();
         }
 
         $params               = ComponentHelper::getParams('com_joomlaupdate');
