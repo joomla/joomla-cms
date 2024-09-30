@@ -44,9 +44,11 @@ class DefaultView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        /** @var ChecksModel $model */
         $model      = $this->getModel();
-        $this->form = $model->getForm();
+
+        if (is_callable([$model, 'getForm'])) {
+            $this->form = $model->getForm();
+        }
 
         parent::display($tpl);
     }
