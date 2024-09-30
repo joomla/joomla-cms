@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -58,7 +59,10 @@ class HtmlView extends BaseHtmlView
         $app            = Factory::getApplication();
         $this->recordId = $app->getInput()->getInt('recordId');
 
-        $types = $this->get('TypeOptions');
+        /** @var MenutypesModel $model */
+        $model = $this->getModel();
+
+        $types = $model->getTypeOptions();
 
         $this->addCustomTypes($types);
 

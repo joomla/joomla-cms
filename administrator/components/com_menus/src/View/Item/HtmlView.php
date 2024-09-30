@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -93,11 +94,14 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state   = $this->get('State');
-        $this->form    = $this->get('Form');
-        $this->item    = $this->get('Item');
-        $this->modules = $this->get('Modules');
-        $this->levels  = $this->get('ViewLevels');
+        /** @var ItemModel $model */
+        $model = $this->getModel();
+
+        $this->state   = $model->getState();
+        $this->form    = $model->getForm();
+        $this->item    = $model->getItem();
+        $this->modules = $model->getModules();
+        $this->levels  = $model->getViewLevels();
         $this->canDo   = ContentHelper::getActions('com_menus', 'menu', (int) $this->state->get('item.menutypeid'));
 
         // Check if we're allowed to edit this item
@@ -107,7 +111,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
