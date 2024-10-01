@@ -32,6 +32,7 @@ list($lighterRd, $lighterGd, $lighterBd) = adjustColorLightness($rd, $gd, $bd, 1
 
 $linkColorDarkHvr = sprintf("%d, %d, %d", $lighterRd, $lighterGd, $lighterBd);
 
+// phpcs:disable PSR1.Files.SideEffects
 function adjustColorLightness($r, $g, $b, $percent)
 {
     $adjust = function ($color) use ($percent) {
@@ -40,6 +41,7 @@ function adjustColorLightness($r, $g, $b, $percent)
     };
     return [$adjust($r), $adjust($g), $adjust($b)];
 }
+// phpcs:enable PSR1.Files.SideEffects
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
