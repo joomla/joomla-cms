@@ -368,7 +368,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                 }
 
                 if ($introtext_limit != 0) {
-                    $item->displayIntrotext = SpecialStringHelper::truncate($item->introtext, $introtext_limit, true, false);
+                    $item->displayIntrotext = SpecialStringHelper::truncateComplex($item->displayIntrotext, $introtext_limit, true);
                 }
             }
 
