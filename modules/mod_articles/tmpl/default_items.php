@@ -25,7 +25,7 @@ if ($params->get('articles_layout') == 1) {
         $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
         ?>
         <li>
-            <article class="mod-articles-item<?php echo $item->active ? ' ' . $item->active : ''; ?>" itemscope itemtype="https://schema.org/Article">
+            <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
 
                 <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('show_readmore')) : ?>
                     <div class="mod-articles-item-content">
