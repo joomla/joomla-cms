@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
         $model = $this->getModel();
 
         // Get data from the model.
-        $this->state = $state = $model->getState();
+        $this->state = $model->getState();
 
         // Are there messages to display?
         $this->showMessage = false;
