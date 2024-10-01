@@ -8,9 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
