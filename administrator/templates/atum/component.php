@@ -40,7 +40,7 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
         --link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
 		--template-special-color: ' . $this->params->get('special-color', 'var(--template-special-color)') . ';
 	}')
-    ->addInlineStyle(':root[data-color-scheme="dark"]
+    ->addInlineStyle(':root[data-color-scheme="dark"] {
 		--link-color: ' . $linkColorDark . ';
 		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
 	}');
