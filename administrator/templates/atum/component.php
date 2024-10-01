@@ -40,10 +40,10 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
         --link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
 		--template-special-color: ' . $this->params->get('special-color', 'var(--template-special-color)') . ';
 	}')
-   ->addInlineStyle('@media (prefers-color-scheme: dark) { :root {
+    ->addInlineStyle(':root[data-color-scheme="dark"]
 		--link-color: ' . $linkColorDark . ';
 		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
-	}}');
+	}');
 
 // No template.js for modals
 $wa->disableScript('template.atum');
@@ -75,14 +75,17 @@ if ($colorScheme) {
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" <?php echo $themeModeAttr; ?>>
+
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>
+
 <body class="contentpane component">
     <jdoc:include type="message" />
     <jdoc:include type="component" />
 </body>
+
 </html>
