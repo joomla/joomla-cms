@@ -325,7 +325,11 @@ class TagModel extends AdminModel
     protected function prepareTable($table)
     {
         // Increment the content version number.
-        $table->version = empty($table->version) ? 1 : $table->version++;
+        if (empty($table->version)) {
+            $table->version = 1;
+        } else {
+            $table->version++;
+        }
     }
 
     /**

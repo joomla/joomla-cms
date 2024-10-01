@@ -346,7 +346,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Increment the content version number.
-        $table->version = empty($table->version) ? 1 : $table->version++;
+        if (empty($table->version)) {
+            $table->version = 1;
+        } else {
+            $table->version++;
+        }
 
         // Reorder the articles within the category so the new article is first
         if (empty($table->id)) {
