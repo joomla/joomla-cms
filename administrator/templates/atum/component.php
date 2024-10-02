@@ -18,6 +18,15 @@ use Joomla\CMS\HTML\HTMLHelper;
 $app = Factory::getApplication();
 $wa  = $this->getWebAssetManager();
 
+function adjustColorLightness($r, $g, $b, $percent)
+{
+    $adjust = function ($color) use ($percent) {
+        $newColor = $color + ($color * $percent / 100);
+        return min(max(0, $newColor), 255);
+    };
+    return [$adjust($r), $adjust($g), $adjust($b)];
+}
+
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
@@ -29,17 +38,6 @@ list($rd, $gd, $bd) = sscanf($linkColorDark, "#%02x%02x%02x");
 list($lighterRd, $lighterGd, $lighterBd) = adjustColorLightness($rd, $gd, $bd, 10);
 
 $linkColorDarkHvr = sprintf("%d, %d, %d", $lighterRd, $lighterGd, $lighterBd);
-
-// phpcs:disable PSR1.Files.SideEffects
-function adjustColorLightness($r, $g, $b, $percent)
-{
-    $adjust = function ($color) use ($percent) {
-        $newColor = $color + ($color * $percent / 100);
-        return min(max(0, $newColor), 255);
-    };
-    return [$adjust($r), $adjust($g), $adjust($b)];
-}
-// phpcs:enable PSR1.Files.SideEffects
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
