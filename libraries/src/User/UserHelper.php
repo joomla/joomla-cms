@@ -295,8 +295,8 @@ abstract class UserHelper
         $results = $db->loadObjectList();
 
         // Set the titles for the user groups.
-        for ($i = 0, $n = \count($results); $i < $n; $i++) {
-            $user->groups[$results[$i]->id] = $results[$i]->id;
+        foreach ($results as $result) {
+            $user->groups[$result->id] = $result->id;
         }
 
         // Store the user object.

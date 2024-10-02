@@ -64,9 +64,7 @@ class FeaturedModel extends ListModel
         $items = parent::getItems();
 
         // Convert the params field into an object, saving original in _params
-        for ($i = 0, $n = \count($items); $i < $n; $i++) {
-            $item = &$items[$i];
-
+        foreach ($items as $item) {
             if (!isset($this->_params)) {
                 $item->params = new Registry($item->params);
             }

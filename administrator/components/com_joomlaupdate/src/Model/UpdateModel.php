@@ -1320,10 +1320,9 @@ ENDDATA;
         if (!empty($disabledFunctions)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
             $disabledFunctions         = explode(',', trim($disabledFunctions));
-            $numberOfDisabledFunctions = \count($disabledFunctions);
 
-            for ($i = 0; $i < $numberOfDisabledFunctions; $i++) {
-                $disabledFunctions[$i] = trim($disabledFunctions[$i]);
+            foreach ($disabledFunctions as &$disabledFunction) {
+                $disabledFunction = trim($disabledFunction);
             }
 
             $result = !\in_array('parse_ini_string', $disabledFunctions);
