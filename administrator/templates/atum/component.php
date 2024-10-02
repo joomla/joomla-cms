@@ -8,7 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -17,15 +19,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 $app = Factory::getApplication();
 $wa  = $this->getWebAssetManager();
-
-function adjustColorLightness($r, $g, $b, $percent)
-{
-    $adjust = function ($color) use ($percent) {
-        $newColor = $color + ($color * $percent / 100);
-        return min(max(0, $newColor), 255);
-    };
-    return [$adjust($r), $adjust($g), $adjust($b)];
-}
 
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
@@ -36,6 +29,17 @@ list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
 $linkColorDark = $this->params->get('link-color-dark', '#6fbfdb');
 list($rd, $gd, $bd) = sscanf($linkColorDark, "#%02x%02x%02x");
 list($lighterRd, $lighterGd, $lighterBd) = adjustColorLightness($rd, $gd, $bd, 10);
+
+// phpcs:disable PSR1.Files.SideEffects
+function adjustColorLightness($r, $g, $b, $percent)
+{
+    $adjust = function ($color) use ($percent) {
+        $newColor = $color + ($color * $percent / 100);
+        return min(max(0, $newColor), 255);
+    };
+    return [$adjust($r), $adjust($g), $adjust($b)];
+}
+// phpcs:enable PSR1.Files.SideEffects
 
 $linkColorDarkHvr = sprintf("%d, %d, %d", $lighterRd, $lighterGd, $lighterBd);
 
