@@ -114,10 +114,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
 
         // Set the default view search path
         if (\array_key_exists('table_path', $config)) {
-            $this->addTablePath($config['table_path']);
+            static::addTablePath($config['table_path']);
         } elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR')) {
-            $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-            $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
+            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
         }
 
         // Set the clean cache event
