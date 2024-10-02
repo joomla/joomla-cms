@@ -12,7 +12,7 @@ on:
 
 env:
   JOOMLA_MAJOR_VERSION: 5
-  JOOMLA_MINOR_VERSION: 5.2
+  JOOMLA_MINOR_VERSION: 5.3
 
 permissions:
   contents: read
