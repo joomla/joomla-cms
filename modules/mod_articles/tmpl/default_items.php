@@ -104,7 +104,7 @@ if ($params->get('articles_layout') == 1) {
                         <?php echo $item->event->beforeDisplayContent; ?>
 
                         <?php if ($params->get('show_introtext', 1)) : ?>
-                            <?php echo $item->introtext; ?>
+                            <?php echo $item->displayIntrotext; ?>
                         <?php endif; ?>
 
                         <?php echo $item->event->afterDisplayContent; ?>
