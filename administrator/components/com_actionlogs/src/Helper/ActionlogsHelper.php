@@ -274,6 +274,12 @@ class ActionlogsHelper
      */
     public static function loadActionLogPluginsLanguage()
     {
+        static $loaded;
+        if ($loaded) {
+            return;
+        }
+        $loaded = true;
+
         $lang = Factory::getLanguage();
         $db   = Factory::getDbo();
 
