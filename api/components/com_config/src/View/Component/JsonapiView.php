@@ -41,7 +41,7 @@ class JsonapiView extends BaseApiView
     public function displayList(?array $items = null)
     {
         try {
-            $component = ComponentHelper::getComponent($this->component_name);
+            $component = ComponentHelper::getComponent($this->get('component_name'));
 
             if ($component === null || !$component->enabled) {
                 // @todo: exception component unavailable
