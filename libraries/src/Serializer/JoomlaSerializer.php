@@ -43,16 +43,16 @@ class JoomlaSerializer extends AbstractSerializer
      * Get the attributes array.
      *
      * @param   array|object  $post    The data container
-     * @param   array|null    $fields  The requested fields to be rendered
+     * @param   ?array        $fields  The requested fields to be rendered
      *
      * @return  array
      *
      * @since   4.0.0
      */
-    public function getAttributes($post, array $fields = null)
+    public function getAttributes($post, ?array $fields = null)
     {
         if (!\is_array($post) && !\is_object($post)) {
-            $message = sprintf(
+            $message = \sprintf(
                 'Invalid argument for %s. Expected array or object. Got %s',
                 static::class,
                 \gettype($post)

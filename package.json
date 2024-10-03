@@ -29,8 +29,8 @@
     "versioning": "node build/build.js --versioning",
     "browserlist:update": "npx browserslist@latest --update-db",
     "cypress:install": "cypress install",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:open": "cypress open --config-file cypress.config.mjs",
+    "cypress:run": "cypress run --config-file cypress.config.mjs"
   },
   "browserslist": [
     "last 2 major version",
@@ -58,7 +58,7 @@
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "accessibility": "^3.0.17",
     "awesomplete": "^1.1.5",
-    "bootstrap": "5.3.2",
+    "bootstrap": "5.3.3",
     "choices.js": "^9.1.0",
     "chosen-js": "^1.8.7",
     "cropperjs": "^1.6.1",
@@ -81,7 +81,7 @@
     "shepherd.js": "^11.2.0",
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.7",
-    "tinymce": "^6.8.3",
+    "tinymce": "^6.8.4",
     "vue": "^3.2.45",
     "vue-focus-lock": "^2.0.6",
     "vuex": "^4.1.0",

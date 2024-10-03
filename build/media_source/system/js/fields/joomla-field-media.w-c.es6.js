@@ -39,12 +39,12 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['type', 'base-path', 'root-folder', 'url', 'modal-title', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'preview', 'preview-width', 'preview-height'];
+    return ['base-path', 'root-folder', 'url', 'modal-title', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'preview', 'preview-width', 'preview-height'];
   }
 
-  get type() { return this.getAttribute('type'); }
+  get types() { return this.getAttribute('types') || ''; }
 
-  set type(value) { this.setAttribute('type', value); }
+  set types(value) { this.setAttribute('types', value); }
 
   get basePath() { return this.getAttribute('base-path'); }
 
@@ -175,7 +175,13 @@ class JoomlaFieldMedia extends HTMLElement {
 
   async modalClose() {
     try {
-      await Joomla.getMedia(Joomla.selectedMediaFile, this.inputElement, this);
+      const item = Joomla.selectedMediaFile;
+      if (item && item.type === 'dir') {
+        // Set directory path as value only when the field is configured to support of directories
+        this.setValue(this.types.includes('directories') ? item.path : '');
+      } else {
+        await Joomla.getMedia(item, this.inputElement, this);
+      }
     } catch (err) {
       Joomla.renderMessages({
         error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],

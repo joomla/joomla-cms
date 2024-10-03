@@ -258,7 +258,7 @@ class ModuleController extends FormController
     /**
      * Method to get the other modules in the same position
      *
-     * @return  string  The data for the Ajax request.
+     * @return  void
      *
      * @since   3.6.3
      */
@@ -303,23 +303,22 @@ class ModuleController extends FormController
         } catch (\RuntimeException $e) {
             $app->enqueueMessage($e->getMessage(), 'error');
 
-            return '';
+            return;
         }
 
         $orders2 = [];
-        $n       = \count($orders);
 
-        if ($n > 0) {
-            for ($i = 0; $i < $n; $i++) {
-                if (!isset($orders2[$orders[$i]->position])) {
-                    $orders2[$orders[$i]->position] = 0;
+        if (\count($orders)) {
+            foreach ($orders as $order) {
+                if (!isset($orders2[$order->position])) {
+                    $orders2[$order->position] = 0;
                 }
 
-                $orders2[$orders[$i]->position]++;
-                $ord   = $orders2[$orders[$i]->position];
-                $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
+                $orders2[$order->position]++;
+                $ord   = $orders2[$order->position];
+                $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($order->title, ENT_QUOTES, 'UTF-8'));
 
-                $html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
+                $html[] = $order->position . ',' . $ord . ',' . $title;
             }
         } else {
             $html[] = $position . ',' . 1 . ',' . Text::_('JNONE');

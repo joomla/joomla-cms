@@ -31,13 +31,13 @@ class OverridesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   2.5
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -233,7 +233,7 @@ class OverridesModel extends ListModel
     /**
      * Removes all of the cached strings from the table.
      *
-     * @return  boolean  result of operation
+     * @return  void|\RuntimeException
      *
      * @since   3.4.2
      */

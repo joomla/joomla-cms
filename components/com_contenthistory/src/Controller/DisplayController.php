@@ -34,7 +34,7 @@ class DisplayController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 
