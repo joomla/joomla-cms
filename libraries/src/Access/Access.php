@@ -219,6 +219,8 @@ class Access
      *                                 name - When $assetsList is list of asset names;
      *
      * @return void
+     * 
+     * @since   __DEPLOY_VERSION__
      */
     public static function preloadItems(string $extensionName, array $assetsList, string $key = 'name'): void
     {
