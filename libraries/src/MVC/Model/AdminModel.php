@@ -331,10 +331,8 @@ abstract class AdminModel extends FormModel
                     if (!$this->batchTags($commands[$identifier], $pks, $contexts, $removeTags)) {
                         return false;
                     }
-                } else {
-                    if (!$this->$command($commands[$identifier], $pks, $contexts)) {
-                        return false;
-                    }
+                } elseif (!$this->$command($commands[$identifier], $pks, $contexts)) {
+                    return false;
                 }
 
                 $done = true;
