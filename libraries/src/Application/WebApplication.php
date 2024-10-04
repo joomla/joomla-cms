@@ -19,13 +19,13 @@ use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
 use Joomla\Filter\OutputFilter;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
@@ -94,7 +94,7 @@ abstract class WebApplication extends AbstractWebApplication
      * Class constructor.
      *
      * @param   ?Input              $input     An optional argument to provide dependency injection for the application's
-     *                                         input object.  If the argument is a JInput object that object will become
+     *                                         input object.  If the argument is a Input object that object will become
      *                                         the application's input object, otherwise a default input object is created.
      * @param   ?Registry           $config    An optional argument to provide dependency injection for the application's
      *                                         config object.  If the argument is a Registry object that object will become
@@ -111,7 +111,7 @@ abstract class WebApplication extends AbstractWebApplication
      */
     public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?ResponseInterface $response = null)
     {
-        // Ensure we have a CMS Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
+        // Ensure we have a Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
         $input = $input ?: new Input();
 
         parent::__construct($input, $config, $client, $response);
