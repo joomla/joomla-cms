@@ -109,7 +109,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        /** @var ArticlesModel $model */      
+        /** @var ArticlesModel $model */
         $model = $this->getModel();
         $model->setUseExceptions(true);
 
