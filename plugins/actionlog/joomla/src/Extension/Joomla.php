@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Application;
 use Joomla\CMS\Event\Cache;
 use Joomla\CMS\Event\Checkin;
@@ -131,6 +132,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             'onUserAfterResetRequest'   => 'onUserAfterResetRequest',
             'onUserAfterResetComplete'  => 'onUserAfterResetComplete',
             'onUserBeforeSave'          => 'onUserBeforeSave',
+            'onBeforeTourSaveUserState' => 'onBeforeTourSaveUserState',
         ];
     }
 
@@ -1300,5 +1302,57 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $blockunblock = $new['block'] === '1' ? 'block' : 'unblock';
             $session->set('block', $blockunblock);
         }
+    }
+
+    /**
+     * Method is called when a user cancels, completes or skips a tour
+     *
+     * @param   AbstractEvent $event The event instance.
+     *
+     * @return  void
+     *
+     * @since  5.2.0
+     */
+    public function onBeforeTourSaveUserState(AbstractEvent $event): void
+    {
+        $option = $this->getApplication()->getInput()->get('option');
+
+        if (!$this->checkLoggable($option)) {
+            return;
+        }
+
+        $tourId     = $event->getArgument('tourId');
+        $state      = $event->getArgument('actionState');
+        $stepNumber = $event->getArgument('stepNumber');
+
+        switch ($state) {
+            case 'skipped':
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURSKIPPED';
+                break;
+            case 'completed':
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURCOMPLETED';
+                break;
+            default:
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURDELAYED';
+        }
+
+        // Get the tour from the model to fetch the translated title of the tour
+        $factory   = $this->getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
+        $tourModel = $factory->createModel(
+            'Tour',
+            'Administrator',
+            ['ignore_request' => true]
+        );
+
+        $tour = $tourModel->getItem($tourId);
+
+        $message = [
+            'id'    => $tourId,
+            'title' => $tour->title_translation,
+            'state' => $state,
+            'step'  => $stepNumber,
+        ];
+
+        $this->addLog([$message], $messageLanguageKey, 'com_guidedtours.state');
     }
 }
