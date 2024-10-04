@@ -194,7 +194,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
-(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_fields","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_scheduler","com_tags","com_templates","com_users"]}', '', 0, 0),
+(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_fields","com_guidedtours","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_scheduler","com_tags","com_templates","com_users"]}', '', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, 1, '', '{}', '', 0, 0),
 (0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
 (0, 'com_scheduler', 'component', 'com_scheduler', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0),
@@ -228,7 +228,8 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'mod_articles_category', 'module', 'mod_articles_category', '', 0, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'mod_articles_categories', 'module', 'mod_articles_categories', '', 0, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 0, 1, '', '', '', 0, 0),
-(0, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, 1, '', '', '', 0, 0);
+(0, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, 1, '', '', '', 0, 0),
+(0, 'mod_articles', 'module', 'mod_articles', '', 0, 1, 0, 0, 1, '', '', '', 0, 0);
 
 -- Modules: Administrator
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
@@ -365,7 +366,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 0, 1, '', '', '', 16, 0),
 (0, 'plg_system_schedulerunner', 'plugin', 'schedulerunner', 'system', 0, 1, 1, 0, 1, '', '{}', '', 17, 0),
 (0, 'plg_system_schemaorg', 'plugin', 'schemaorg', 'system', 0, 1, 1, 0, 0, '', '{}', '', 18, 0),
-(0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, 1, '', '', '', 19, 0),
+(0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, 1, '', '{"domain":"","indexphp":"1","trailingslash":"0","enforcesuffix":"1","strictrouting":"1"}', '', 19, 0),
 (0, 'plg_system_shortcut', 'plugin', 'shortcut', 'system', 0, 1, 1, 0, 1, '', '{}', '', 21, 0),
 (0, 'plg_system_skipto', 'plugin', 'skipto', 'system', 0, 1, 1, 0, 1, '', '{}', '', 22, 0),
 (0, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, 1, '', '', '', 23, 0),

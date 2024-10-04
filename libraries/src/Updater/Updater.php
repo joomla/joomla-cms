@@ -302,20 +302,20 @@ class Updater extends Adapter
                     $uid = $update
                         ->find(
                             [
-                                'element'   => $current_update->get('element'),
-                                'type'      => $current_update->get('type'),
-                                'client_id' => $current_update->get('client_id'),
-                                'folder'    => $current_update->get('folder'),
+                                'element'   => $current_update->element,
+                                'type'      => $current_update->type,
+                                'client_id' => $current_update->client_id,
+                                'folder'    => isset($current_update->folder) ? $current_update->folder : '',
                             ]
                         );
 
                     $eid = $extension
                         ->find(
                             [
-                                'element'   => $current_update->get('element'),
-                                'type'      => $current_update->get('type'),
-                                'client_id' => $current_update->get('client_id'),
-                                'folder'    => $current_update->get('folder'),
+                                'element'   => $current_update->element,
+                                'type'      => $current_update->type,
+                                'client_id' => $current_update->client_id,
+                                'folder'    => isset($current_update->folder) ? $current_update->folder : '',
                             ]
                         );
 

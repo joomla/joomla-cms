@@ -1,0 +1,2 @@
+-- This file is a dummy which can be removed or renamed and filled with content
+-- when the first update SQL script for Joomla 6 will be added.

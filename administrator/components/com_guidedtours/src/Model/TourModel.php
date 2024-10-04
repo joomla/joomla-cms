@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -125,7 +126,7 @@ class TourModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return \JForm|boolean  A JForm object on success, false on failure
+     * @return \JForm|boolean  A Form object on success, false on failure
      *
      * @since  4.3.0
      */
@@ -200,7 +201,8 @@ class TourModel extends AdminModel
         $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 
         $table = $this->getTable();
-        if (\is_integer($pk)) {
+
+        if (\is_int($pk)) {
             $result = $table->load((int) $pk);
         } else {
             // Attempt to load the row by uid.
@@ -510,7 +512,7 @@ class TourModel extends AdminModel
      * @param   int  $id         Id of a tour
      * @param   int  $autostart  The autostart value of a tour
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public function setAutostart($id, $autostart)
     {
@@ -530,20 +532,28 @@ class TourModel extends AdminModel
     /**
      * Retrieve a tour's autostart value
      *
-     * @param   string  $uid  the uid of a tour
+     * @param   string  $pk  the id or uid of a tour
      *
-     * @since  __DEPLOY_VERSION__
+     * @return  boolean
+     *
+     * @since  5.1.0
      */
-    public function isAutostart($uid)
+    public function isAutostart($pk): bool
     {
         $db = $this->getDatabase();
 
         $query = $db->getQuery(true)
             ->select($db->quoteName('autostart'))
             ->from($db->quoteName('#__guidedtours'))
-            ->where($db->quoteName('published') . ' = 1')
-            ->where($db->quoteName('uid') . ' = :uid')
-            ->bind(':uid', $uid, ParameterType::STRING);
+            ->where($db->quoteName('published') . ' = 1');
+
+        if (\is_integer($pk)) {
+            $query->where($db->quoteName('id') . ' = :id')
+                ->bind(':id', $pk, ParameterType::INTEGER);
+        } else {
+            $query->where($db->quoteName('uid') . ' = :uid')
+                ->bind(':uid', $pk, ParameterType::STRING);
+        }
 
         $db->setQuery($query);
 
@@ -557,5 +567,65 @@ class TourModel extends AdminModel
         }
 
         return $result;
+    }
+
+    /**
+     * Save a tour state for a specific user.
+     *
+     * @param   int      $id       The id of the tour
+     * @param   string   $state    The label of the state to be saved (completed, delayed or skipped)
+     *
+     * @return  boolean
+     *
+     * @since  5.2.0
+     */
+    public function saveTourUserState($id, $state = ''): bool
+    {
+        $user = $this->getCurrentUser();
+        $db   = $this->getDatabase();
+
+        $profileKey = 'guidedtour.id.' . $id;
+
+        // Check if the profile key already exists.
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('profile_value'))
+            ->from($db->quoteName('#__user_profiles'))
+            ->where($db->quoteName('user_id') . ' = :user_id')
+            ->where($db->quoteName('profile_key') . ' = :profileKey')
+            ->bind(':user_id', $user->id, ParameterType::INTEGER)
+            ->bind(':profileKey', $profileKey, ParameterType::STRING);
+
+        try {
+            $result = $db->setQuery($query)->loadResult();
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        $tourState = [];
+
+        $tourState['state'] = $state;
+        if ($state === 'delayed') {
+            $tourState['time'] = Date::getInstance();
+        }
+
+        $profileObject = (object)[
+            'user_id'       => $user->id,
+            'profile_key'   => $profileKey,
+            'profile_value' => json_encode($tourState),
+            'ordering'      => 0,
+        ];
+
+        if (!\is_null($result)) {
+            $values = json_decode($result, true);
+
+            // The profile is updated only when delayed. 'Completed' and 'Skipped' are final
+            if (!empty($values) && $values['state'] === 'delayed') {
+                $db->updateObject('#__user_profiles', $profileObject, ['user_id', 'profile_key']);
+            }
+        } else {
+            $db->insertObject('#__user_profiles', $profileObject);
+        }
+
+        return true;
     }
 }

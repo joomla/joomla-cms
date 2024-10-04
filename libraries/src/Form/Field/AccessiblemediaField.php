@@ -195,6 +195,9 @@ class AccessiblemediaField extends SubformField
 			preview="$this->preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 		/>
 
 		<field

@@ -113,7 +113,7 @@ export default {
       }
 
       // @todo remove the hardcoded extensions here
-      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mp3', 'pdf'];
+      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'mp4', 'mp3', 'pdf'];
 
       // Show preview
       if (this.item.extension
@@ -136,31 +136,31 @@ export default {
      * @param event
      */
     onClick(event) {
-      const path = false;
       const data = {
-        path,
+        type: this.item.type,
+        name: this.item.name,
+        path: this.item.path,
         thumb: false,
         fileType: this.item.mime_type ? this.item.mime_type : false,
         extension: this.item.extension ? this.item.extension : false,
       };
 
       if (this.item.type === 'file') {
-        data.path = this.item.path;
         data.thumb = this.item.thumb ? this.item.thumb : false;
         data.width = this.item.width ? this.item.width : 0;
         data.height = this.item.height ? this.item.height : 0;
-
-        window.parent.document.dispatchEvent(
-          new CustomEvent(
-            'onMediaFileSelected',
-            {
-              bubbles: true,
-              cancelable: false,
-              detail: data,
-            },
-          ),
-        );
       }
+
+      window.parent.document.dispatchEvent(
+        new CustomEvent(
+          'onMediaFileSelected',
+          {
+            bubbles: true,
+            cancelable: false,
+            detail: data,
+          },
+        ),
+      );
 
       // Handle clicks when the item was not selected
       if (!this.isSelected()) {

@@ -449,7 +449,7 @@
             {
               type: 'submit',
               name: 'save',
-              text: 'Save',
+              text: 'Insert',
               primary: true
             }
           ],

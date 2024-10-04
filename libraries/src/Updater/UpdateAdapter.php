@@ -258,7 +258,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         // Log the time it took to load this update site's information
         $endTime    = microtime(true);
-        $timeToLoad = sprintf('%0.2f', $endTime - $startTime);
+        $timeToLoad = \sprintf('%0.2f', $endTime - $startTime);
         Log::add(
             "Loading information from update site #{$this->updateSiteId} with name " .
             "\"$this->updateSiteName\" and URL $url took $timeToLoad seconds",
@@ -277,7 +277,10 @@ abstract class UpdateAdapter extends AdapterInstance
             // Log the exact update site name and URL which could not be loaded
             Log::add('Error opening url: ' . $url . ' for update site: ' . $this->updateSiteName, Log::WARNING, 'updater');
             $app = Factory::getApplication();
-            $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
+            $app->enqueueMessage(
+                html_entity_decode(Text::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url)),
+                'warning'
+            );
 
             return false;
         }

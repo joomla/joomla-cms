@@ -11,10 +11,10 @@ namespace Joomla\CMS\HTML;
 
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
@@ -142,7 +142,7 @@ abstract class HTMLHelper
             $toCall = [$service, $func];
 
             if (!\is_callable($toCall)) {
-                throw new \InvalidArgumentException(sprintf('%s::%s not found.', $file, $func), 500);
+                throw new \InvalidArgumentException(\sprintf('%s::%s not found.', $file, $func), 500);
             }
 
             static::register($key, $toCall);
@@ -156,14 +156,14 @@ abstract class HTMLHelper
             $path = Path::find(static::$includePaths, strtolower($file) . '.php');
 
             if (!$path) {
-                throw new \InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
+                throw new \InvalidArgumentException(\sprintf('%s %s not found.', $prefix, $file), 500);
             }
 
             \JLoader::register($className, $path);
 
             if (!class_exists($className)) {
                 if ($prefix !== 'Joomla\\CMS\\HTML\\HTMLHelper') {
-                    throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                    throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
                 }
 
                 // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
@@ -172,7 +172,7 @@ abstract class HTMLHelper
                 \JLoader::register($className, $path);
 
                 if (!class_exists($className)) {
-                    throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                    throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
                 }
             }
         }
@@ -187,7 +187,7 @@ abstract class HTMLHelper
         $toCall = [$className, $func];
 
         if (!\is_callable($toCall)) {
-            throw new \InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
+            throw new \InvalidArgumentException(\sprintf('%s::%s not found.', $className, $func), 500);
         }
 
         static::register($key, $toCall);
@@ -884,8 +884,10 @@ abstract class HTMLHelper
             // Get a date object based on UTC.
             $date = Factory::getDate($input, 'UTC');
 
-            // Set the correct time zone based on the user configuration.
-            $date->setTimezone($app->getIdentity()->getTimezone());
+            // Set the correct time zone based on the user configuration. CLI doesn't have a user
+            if ($app->getIdentity()) {
+                $date->setTimezone($app->getIdentity()->getTimezone());
+            }
         } elseif ($tz === false) {
             // UTC date converted to server time zone.
             // Get a date object based on UTC.

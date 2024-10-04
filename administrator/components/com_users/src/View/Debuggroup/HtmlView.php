@@ -15,8 +15,8 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Users\Administrator\Model\DebuggroupModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -96,16 +96,19 @@ class HtmlView extends BaseHtmlView
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $this->actions       = $this->get('DebugActions');
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->group         = $this->get('Group');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var DebuggroupModel $model */
+        $model = $this->getModel();
+
+        $this->actions       = $model->getDebugActions();
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->group         = $model->getGroup();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -124,7 +127,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo   = ContentHelper::getActions('com_users');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->escape($this->group->title)), 'users groups');
         $toolbar->cancel('group.cancel');

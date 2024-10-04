@@ -200,7 +200,7 @@ abstract class AdminModel extends FormModel
      * @since   1.6
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         parent::__construct($config, $factory, $formFactory);
 
@@ -505,7 +505,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Get the new item ID
-            $newId = $this->table->get('id');
+            $newId = $this->table->id;
 
             if (!empty($oldAssetId)) {
                 $dbType = strtolower($db->getServerType());
@@ -1145,7 +1145,7 @@ abstract class AdminModel extends FormModel
                  */
                 $publishedColumnName = $table->getColumnAlias('published');
 
-                if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value) {
+                if (property_exists($table, $publishedColumnName) && (isset($table->$publishedColumnName) ? $table->$publishedColumnName : $value) == $value) {
                     unset($pks[$i]);
                 }
             }
@@ -1171,7 +1171,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Attempt to change the state of the records.
-        if (!$table->publish($pks, $value, $user->get('id'))) {
+        if (!$table->publish($pks, $value, $user->id)) {
             $this->setError($table->getError());
 
             return false;

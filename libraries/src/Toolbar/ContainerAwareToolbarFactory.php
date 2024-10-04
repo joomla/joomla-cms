@@ -60,7 +60,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
         }
 
         if (!class_exists($buttonClass)) {
-            throw new \InvalidArgumentException(sprintf('Class `%1$s` does not exist, could not create a toolbar button.', $buttonClass));
+            throw new \InvalidArgumentException(\sprintf('Class `%1$s` does not exist, could not create a toolbar button.', $buttonClass));
         }
 
         // Check for a possible service from the container otherwise manually instantiate the class

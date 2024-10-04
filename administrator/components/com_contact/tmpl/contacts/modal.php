@@ -28,7 +28,7 @@ if ($app->isClient('site')) {
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('modal-content-select')
     ->useScript('com_contact.admin-contacts-modal');
 
@@ -42,7 +42,7 @@ $multilang = Multilanguage::isEnabled();
 
 if (!empty($editor)) {
     // This view is used also in com_menus. Load the xtd script only if the editor is set!
-    $this->document->addScriptOptions('xtd-contacts', ['editor' => $editor]);
+    $this->getDocument()->addScriptOptions('xtd-contacts', ['editor' => $editor]);
     $onclick = "jSelectContact";
 }
 ?>
@@ -92,9 +92,9 @@ if (!empty($editor)) {
                 <?php
                 $iconStates = [
                     -2 => 'icon-trash',
-                    0  => 'icon-times',
-                    1  => 'icon-check',
-                    2  => 'icon-folder',
+                    0  => 'icon-unpublish',
+                    1  => 'icon-publish',
+                    2  => 'icon-archive',
                 ];
                 ?>
                 <?php foreach ($this->items as $i => $item) : ?>
