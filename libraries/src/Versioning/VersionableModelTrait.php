@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Versioning;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
@@ -42,7 +43,7 @@ trait VersionableModelTrait
         }
 
         // Get an instance of the row to checkout.
-        $historyTable = Table::getInstance('ContentHistory');
+        $historyTable = new ContentHistory($this->getDbo());
 
         if (!$historyTable->load($versionId)) {
             $this->setError($historyTable->getError());

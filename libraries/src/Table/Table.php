@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
@@ -84,9 +83,9 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     protected $_tbl_keys = [];
 
     /**
-     * DatabaseDriver object.
+     * DatabaseInterface object.
      *
-     * @var    DatabaseDriver
+     * @var    DatabaseInterface
      * @since  1.7.0
      */
     protected $_db;
@@ -162,12 +161,12 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @param   string                $table       Name of the table to model.
      * @param   mixed                 $key         Name of the primary key field in the table or array of field names that compose the primary key.
-     * @param   DatabaseDriver        $db          DatabaseDriver object.
+     * @param   DatabaseInterface     $db          DatabaseInterface object.
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct($table, $key, DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct($table, $key, DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         // Set internal variables.
         $this->_tbl = $table;
@@ -274,8 +273,9 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * @since       1.7.0
      *
      * @deprecated  4.3 will be removed in 6.0
-     *              Use the MvcFactory instead
+     *              Use the MvcFactory instead or instantiate the table class directly.
      *              Example: Factory::getApplication()->bootComponent('...')->getMVCFactory()->createTable($name, $prefix, $config);
+     *              $table = new \Joomla\CMS\Table\Content($db);
      */
     public static function getInstance($type, $prefix = 'JTable', $config = [])
     {
@@ -525,9 +525,9 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     }
 
     /**
-     * Method to get the DatabaseDriver object.
+     * Method to get the DatabaseInterface object.
      *
-     * @return  DatabaseDriver  The internal database driver object.
+     * @return  DatabaseInterface  The internal database driver object.
      *
      * @since   1.7.0
      */
@@ -537,15 +537,15 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     }
 
     /**
-     * Method to set the DatabaseDriver object.
+     * Method to set the DatabaseInterface object.
      *
-     * @param   DatabaseDriver  $db  A DatabaseDriver object to be used by the table object.
+     * @param   DatabaseInterface  $db  A DatabaseInterface object to be used by the table object.
      *
      * @return  boolean  True on success.
      *
      * @since   1.7.0
      */
-    public function setDbo(DatabaseDriver $db)
+    public function setDbo(DatabaseInterface $db)
     {
         $this->_db = $db;
 

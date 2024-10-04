@@ -13,7 +13,7 @@ namespace Joomla\Component\Languages\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Language;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 
@@ -182,7 +182,9 @@ class LanguagesModel extends ListModel
      */
     public function setPublished($cid, $value = 0)
     {
-        return Table::getInstance('Language', 'Joomla\\CMS\\Table\\')->publish($cid, $value);
+        $table = new Language($this->getDatabase());
+
+        return $table->publish($cid, $value);
     }
 
     /**
@@ -200,7 +202,7 @@ class LanguagesModel extends ListModel
         $pks = (array) $pks;
 
         // Get a row instance.
-        $table = Table::getInstance('Language', 'Joomla\\CMS\\Table\\');
+        $table = new Language($this->getDatabase());
 
         // Iterate the items to delete each one.
         foreach ($pks as $itemId) {

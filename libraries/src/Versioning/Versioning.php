@@ -13,7 +13,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 
@@ -92,10 +93,10 @@ class Versioning
      */
     public static function store($typeAlias, $id, $data, $note = '')
     {
-        $typeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
+        $typeTable = new ContentType(Factory::getDbo());
         $typeTable->load(['type_alias' => $typeAlias]);
 
-        $historyTable          = Table::getInstance('ContentHistory', '\\Joomla\\CMS\\Table\\');
+        $historyTable          = new ContentHistory(Factory::getDbo());
         $historyTable->item_id = $typeAlias . '.' . $id;
 
         $aliasParts = explode('.', $typeAlias);
