@@ -12,6 +12,7 @@ namespace Joomla\Component\Contenthistory\Administrator\View\Compare;
 
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Contenthistory\Administrator\Model\CompareModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -49,11 +50,14 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->items = $this->get('Items');
+        /** @var CompareModel $model */
+        $model = $this->getModel();
+
+        $this->state = $model->getState();
+        $this->items = $model->getItems();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -40,12 +40,40 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data   = parent::getLayoutData();
         $params = $data['params'];
 
+        // Prep for Normal or Dynamic Modes
+        $mode   = $params->get('mode', 'normal');
+        $idBase = null;
+
+        switch ($mode) {
+            case 'dynamic':
+                $option = $data['input']->get('option');
+                $view   = $data['input']->get('view');
+
+                if ($option === 'com_content') {
+                    switch ($view) {
+                        case 'category':
+                        case 'categories':
+                            $idBase = $data['input']->getInt('id');
+                            break;
+                        case 'article':
+                            if ($params->get('show_on_article_page', 1)) {
+                                $idBase = $data['input']->getInt('catid');
+                            }
+                            break;
+                    }
+                }
+                break;
+            default:
+                $idBase = $params->get('catid');
+                break;
+        }
+
         $cacheParams               = new \stdClass();
         $cacheParams->cachemode    = 'id';
         $cacheParams->class        = $this->getHelperFactory()->getHelper('ArticlesHelper');
         $cacheParams->method       = 'getArticles';
         $cacheParams->methodparams = [$params, $data['app']];
-        $cacheParams->modeparams   = md5(serialize([$params->get('catid'), $this->module->module, $this->module->id]));
+        $cacheParams->modeparams   = md5(serialize([$idBase, $this->module->module, $this->module->id]));
 
         $data['list'] = ModuleHelper::moduleCache($this->module, $params, $cacheParams);
 
