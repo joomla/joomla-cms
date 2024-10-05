@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Event\SubscriberRegistrationCheckerInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
@@ -236,6 +237,11 @@ abstract class PluginHelper
         }
 
         if (!$autocreate) {
+            return;
+        }
+
+        // Check whether we should register the subscriber in current runtime
+        if ($plugin instanceof SubscriberRegistrationCheckerInterface && !$plugin->shouldRegisterListeners()) {
             return;
         }
 
