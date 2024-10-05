@@ -500,7 +500,7 @@ final class Joomla extends CMSPlugin
             }
         } else {
             // No existing user and autoregister off, this is a temporary user.
-            $instance->set('tmp_user', true);
+            $instance->tmp_user = true;
         }
 
         return $instance;
