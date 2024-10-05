@@ -110,14 +110,14 @@
     "php-tuf/php-tuf": "^1.0.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.6.20",
+    "phpunit/phpunit": "^9.6.21",
     "friendsofphp/php-cs-fixer": "^3.64.0",
-    "squizlabs/php_codesniffer": "^3.10.2",
+    "squizlabs/php_codesniffer": "^3.10.3",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
     "joomla/mediawiki": "^3.0",
     "joomla/test": "~3.0",
-    "phpstan/phpstan": "^1.12.3",
-    "phpstan/phpstan-deprecation-rules": "^1.2.0"
+    "phpstan/phpstan": "^1.12.4",
+    "phpstan/phpstan-deprecation-rules": "^1.2.1"
   },
   "replace": {
     "paragonie/random_compat": "9.99.99",
