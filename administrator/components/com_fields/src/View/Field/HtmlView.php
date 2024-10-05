@@ -93,9 +93,9 @@ class HtmlView extends BaseHtmlView
     {
         $component = $this->state->get('field.component');
         $section   = $this->state->get('field.section');
-        $userId    = $this->getCurrentUser()->get('id');
+        $userId    = $this->getCurrentUser()->id;
         $canDo     = $this->canDo;
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
@@ -161,6 +161,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->cancel('field.cancel');
         }
 
+        $toolbar->inlinehelp();
         $toolbar->help('Fields:_Edit');
     }
 }

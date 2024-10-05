@@ -23,7 +23,7 @@ $input  = $app->getInput();
 $user   = $app->getIdentity();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useStyle('com_media.mediamanager')
     ->useScript('com_media.mediamanager');
@@ -55,11 +55,11 @@ $config = [
     'canEdit'             => $user->authorise('core.edit', 'com_media'),
     'canDelete'           => $user->authorise('core.delete', 'com_media'),
 ];
-$this->document->addScriptOptions('com_media', $config);
+$this->getDocument()->addScriptOptions('com_media', $config);
 ?>
 <?php if ($tmpl === 'component') : ?>
 <div class="subhead noshadow mb-3">
-    <?php echo $this->document->getToolbar('toolbar')->render(); ?>
+    <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>
 </div>
 <?php endif; ?>
 <div id="com-media"></div>

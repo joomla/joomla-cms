@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Users\Site\View\Profile\HtmlView $this */
 ?>
 <?php $fields = $this->form->getFieldset('params'); ?>
 <?php if (count($fields)) : ?>

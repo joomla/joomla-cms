@@ -19,10 +19,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
-/** @var \Joomla\Component\Redirect\Administrator\View\Link\HtmlView $this */
+/** @var \Joomla\Component\Redirect\Administrator\View\Links\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
     ->useScript('joomla.dialog-autocreate');

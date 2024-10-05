@@ -32,7 +32,7 @@ class ContentType extends Table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__content_types', 'type_id', $db, $dispatcher);
     }
@@ -57,13 +57,13 @@ class ContentType extends Table
 
         // Check for valid name.
         if (trim($this->type_title) === '') {
-            throw new \UnexpectedValueException(sprintf('The title is empty'));
+            throw new \UnexpectedValueException(\sprintf('The title is empty'));
         }
 
         $this->type_title = ucfirst($this->type_title);
 
         if (empty($this->type_alias)) {
-            throw new \UnexpectedValueException(sprintf('The type_alias is empty'));
+            throw new \UnexpectedValueException(\sprintf('The type_alias is empty'));
         }
 
         return true;

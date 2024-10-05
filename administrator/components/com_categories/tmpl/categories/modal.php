@@ -28,7 +28,7 @@ if ($app->isClient('site')) {
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('modal-content-select');
 
@@ -79,9 +79,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php
                     $iconStates = [
                         -2 => 'icon-trash',
-                        0  => 'icon-times',
-                        1  => 'icon-check',
-                        2  => 'icon-folder',
+                        0  => 'icon-unpublish',
+                        1  => 'icon-publish',
+                        2  => 'icon-archive',
                     ];
                     ?>
                     <?php foreach ($this->items as $i => $item) : ?>

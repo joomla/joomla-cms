@@ -55,8 +55,8 @@ class CacheController
 
         // Overwrite default options with given options
         foreach ($options as $option => $value) {
-            if (isset($options[$option])) {
-                $this->options[$option] = $options[$option];
+            if ($value !== null) {
+                $this->options[$option] = $value;
             }
         }
     }
@@ -94,7 +94,7 @@ class CacheController
     public static function getInstance($type = 'output', $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The cache controller should be fetched from the factory.',
                 __METHOD__
             ),

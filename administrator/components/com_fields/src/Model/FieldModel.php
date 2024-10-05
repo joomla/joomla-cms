@@ -87,13 +87,13 @@ class FieldModel extends AdminModel
     /**
      * Constructor
      *
-     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -330,7 +330,7 @@ class FieldModel extends AdminModel
             try {
                 $rule->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException $e) {
-                @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -584,17 +584,9 @@ class FieldModel extends AdminModel
             $form->setFieldAttribute('created_user_id', 'filter', 'unset');
         }
 
-        // In case we are editing a field, field type cannot be changed, so some extra handling below is needed
+        // In case we are editing a field, field type cannot be changed, so remove showon attribute to avoid js errors
         if ($fieldId) {
-            $fieldType = $form->getField('type');
-
-            if ($fieldType->value == 'subform') {
-                // Only Use In subform should not be available for subform field type, so we remove it
-                $form->removeField('only_use_in_subform');
-            } else {
-                // Field type could not be changed, so remove showon attribute to avoid js errors
-                $form->setFieldAttribute('only_use_in_subform', 'showon', '');
-            }
+            $form->setFieldAttribute('only_use_in_subform', 'showon', '');
         }
 
         return $form;
@@ -1200,7 +1192,7 @@ class FieldModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
