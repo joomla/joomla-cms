@@ -10,10 +10,10 @@
 
 namespace Joomla\Plugin\Privacy\Contact\Extension;
 
-use Joomla\CMS\User\User;
+use Joomla\CMS\Event\Privacy\ExportRequestEvent;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
-use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,8 +24,22 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.9.0
  */
-final class Contact extends PrivacyPlugin
+final class Contact extends PrivacyPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onPrivacyExportRequest' => 'onPrivacyExportRequest',
+        ];
+    }
+
     /**
      * Processes an export request for Joomla core user contact data
      *
@@ -33,17 +47,19 @@ final class Contact extends PrivacyPlugin
      *
      * - Contact custom fields
      *
-     * @param   RequestTable  $request  The request record being processed
-     * @param   ?User         $user     The user account associated with this request if available
+     * @param   ExportRequestEvent  $event  The request event
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onPrivacyExportRequest(RequestTable $request, ?User $user = null)
+    public function onPrivacyExportRequest(ExportRequestEvent $event): void
     {
+        $request = $event->getRequest();
+        $user    = $event->getUser();
+
         if (!$user && !$request->email) {
-            return [];
+            return;
         }
 
         $domains   = [];
@@ -72,6 +88,6 @@ final class Contact extends PrivacyPlugin
 
         $domains[] = $this->createCustomFieldsDomain('com_contact.contact', $items);
 
-        return $domains;
+        $event->addResult($domains);
     }
 }
