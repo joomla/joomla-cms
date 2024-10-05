@@ -13,6 +13,8 @@ namespace Joomla\Plugin\Content\Finder\Extension;
 use Joomla\CMS\Event\Finder as FinderEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,8 +25,10 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  2.5
  */
-final class Finder extends CMSPlugin
+final class Finder extends CMSPlugin implements DispatcherAwareInterface
 {
+    use DispatcherAwareTrait;
+
     /**
      * Flag to check whether finder plugins already imported.
      *
