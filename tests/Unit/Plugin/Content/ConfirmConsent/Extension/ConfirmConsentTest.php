@@ -11,6 +11,7 @@
 namespace Joomla\Tests\Unit\Plugin\Content\ConfirmConsent\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
@@ -48,7 +49,10 @@ class ConfirmConsentTest extends UnitTestCase
         $dispatcher = new Dispatcher();
         $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
         $plugin->setApplication($app);
-        $plugin->onContentPrepareForm($form, []);
+        $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
+            'subject' => $form,
+            'data'    => [],
+        ]));
 
         $this->assertNotFalse($form->getField('consentbox'));
     }
@@ -68,7 +72,10 @@ class ConfirmConsentTest extends UnitTestCase
         $dispatcher = new Dispatcher();
         $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
-        $plugin->onContentPrepareForm($form, []);
+        $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
+            'subject' => $form,
+            'data'    => [],
+        ]));
 
         $this->assertFalse($form->getField('consentbox'));
     }
@@ -91,7 +98,10 @@ class ConfirmConsentTest extends UnitTestCase
         $dispatcher = new Dispatcher();
         $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
         $plugin->setApplication($app);
-        $plugin->onContentPrepareForm($form, []);
+        $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
+            'subject' => $form,
+            'data'    => [],
+        ]));
 
         $this->assertFalse($form->getField('consentbox'));
     }
