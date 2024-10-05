@@ -103,21 +103,6 @@ class ItemsModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
-        $search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
-        $this->setState('filter.published', $published);
-
-        $access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-        $this->setState('filter.access', $access);
-
-        $parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
-        $this->setState('filter.parent_id', $parentId);
-
-        $level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-        $this->setState('filter.level', $level);
-
         // Watch changes in client_id and menutype and keep sync whenever needed.
         $currentClientId = $app->getUserState($this->context . '.client_id', 0);
         $clientId        = $app->getInput()->getInt('client_id', $currentClientId);
@@ -341,7 +326,7 @@ class ItemsModel extends ListModel
             ->bind(':clientId', $clientId, ParameterType::INTEGER);
 
         // Filter on the published state.
-        $published = $this->getState('filter.published');
+        $published = $this->getState('filter.published', '');
 
         if (is_numeric($published)) {
             $published = (int) $published;

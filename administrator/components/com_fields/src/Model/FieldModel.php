@@ -330,7 +330,7 @@ class FieldModel extends AdminModel
             try {
                 $rule->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException $e) {
-                @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -1192,7 +1192,7 @@ class FieldModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;

@@ -16,8 +16,8 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Workflow\Administrator\Model\TransitionsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -123,15 +123,18 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state            = $this->get('State');
-        $this->transitions      = $this->get('Items');
-        $this->pagination       = $this->get('Pagination');
-        $this->filterForm       = $this->get('FilterForm');
-        $this->activeFilters    = $this->get('ActiveFilters');
-        $this->workflow         = $this->get('Workflow');
+        /** @var TransitionsModel $model */
+        $model = $this->getModel();
+
+        $this->state         = $model->getState();
+        $this->transitions   = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->workflow      = $model->getWorkflow();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -161,7 +164,7 @@ class HtmlView extends BaseHtmlView
     {
         $canDo   = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
         $user    = $this->getCurrentUser();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', Text::_($this->state->get('active_workflow'))), 'address contact');
 

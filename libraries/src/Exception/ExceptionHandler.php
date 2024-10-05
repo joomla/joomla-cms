@@ -216,7 +216,7 @@ class ExceptionHandler
         // Try to log the error, but don't let the logging cause a fatal error
         try {
             Log::add(
-                sprintf(
+                \sprintf(
                     'Uncaught Throwable of type %1$s thrown with message "%2$s". Stack trace: %3$s',
                     \get_class($error),
                     $error->getMessage(),

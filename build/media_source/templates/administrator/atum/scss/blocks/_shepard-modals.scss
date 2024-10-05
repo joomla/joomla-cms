@@ -8,8 +8,12 @@
 
 @if $enable-dark-mode {
   @include color-mode(dark) {
+    .shepherd-element, .shepherd-arrow:before {
+      background-color: #2f4156 !important;
+    }
+
     .shepherd-has-title .shepherd-content .shepherd-header, .shepherd-element.shepherd-has-title[data-popper-placement^=bottom] > .shepherd-arrow:before {
-      background-color: #000 !important;
+      background-color: #222f3e !important;
     }
 
     .shepherd-has-title .shepherd-content .shepherd-cancel-icon {
@@ -30,9 +34,6 @@
         color: var(--btn-secondary-color-hvr) !important;
         background-color: var(--btn-secondary-bg-hvr) !important;
       }
-
     }
-
-
   }
 }

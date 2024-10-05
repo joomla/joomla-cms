@@ -21,6 +21,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -77,6 +78,15 @@ class HtmlView extends BaseHtmlView
     protected $checkTags = false;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display the view.
      *
      * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -85,12 +95,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var CategoryModel $model */
+        $model = $this->getModel();
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
         $section     = $this->state->get('category.section') ? $this->state->get('category.section') . '.' : '';
         $this->canDo = ContentHelper::getActions($this->state->get('category.component'), $section . 'category', $this->item->id);
-        $this->assoc = $this->get('Assoc');
+        $this->assoc = $model->getAssoc();
 
         if ($this->getLayout() === 'modalreturn') {
             parent::display($tpl);
@@ -99,7 +112,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -145,7 +158,7 @@ class HtmlView extends BaseHtmlView
 
         $user      = $this->getCurrentUser();
         $userId    = $user->id;
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
@@ -327,7 +340,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
         if ($extension == 'com_categories') {

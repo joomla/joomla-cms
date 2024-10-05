@@ -15,7 +15,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
@@ -25,6 +24,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
@@ -625,7 +625,7 @@ class TemplateModel extends FormModel
      *
      * @since   1.6
      */
-    public function &getTemplate()
+    public function getTemplate()
     {
         if (empty($this->template)) {
             $pk  = (int) $this->getState('extension.id');
@@ -1525,7 +1525,7 @@ class TemplateModel extends FormModel
 
             try {
                 $image      = new Image($path);
-                $properties = $image->getImageFileProperties($path);
+                $properties = Image::getImageFileProperties($path);
 
                 switch ($properties->mime) {
                     case 'image/webp':
@@ -1570,7 +1570,7 @@ class TemplateModel extends FormModel
 
             try {
                 $image      = new Image($path);
-                $properties = $image->getImageFileProperties($path);
+                $properties = Image::getImageFileProperties($path);
 
                 switch ($properties->mime) {
                     case 'image/webp':
