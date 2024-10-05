@@ -20,7 +20,7 @@ function notify(message, options) {
 }
 
 const notifications = {
-  /* Send and success notification */
+  /* Send a success notification */
   success: (message, options) => {
     notify(message, {
       type: 'message', // @todo rename it to success
@@ -33,6 +33,15 @@ const notifications = {
   error: (message, options) => {
     notify(message, {
       type: 'error', // @todo rename it to danger
+      dismiss: true,
+      ...options,
+    });
+  },
+
+  /* Send a general notification */
+  notify: (message, options) => {
+    notify(message, {
+      type: 'message',
       dismiss: true,
       ...options,
     });
