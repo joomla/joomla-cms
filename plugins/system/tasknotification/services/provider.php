@@ -10,6 +10,7 @@
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\LazyServiceSubscriber;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -33,7 +34,7 @@ return new class () implements ServiceProviderInterface {
     public function register(Container $container): void
     {
         $container->set(
-            PluginInterface::class,
+            TaskNotification::class,
             function (Container $container) {
                 $plugin     = new TaskNotification(
                     $container->get(DispatcherInterface::class),
@@ -44,6 +45,11 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
+            }
+        )->set(
+            PluginInterface::class,
+            function (Container $container) {
+                return new LazyServiceSubscriber($container, TaskNotification::class);
             }
         );
     }

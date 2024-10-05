@@ -12,6 +12,7 @@
 
 use Joomla\Application\ApplicationInterface;
 use Joomla\Application\SessionAwareWebApplicationInterface;
+use Joomla\CMS\Event\LazyServiceSubscriber;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -40,7 +41,7 @@ return new class () implements ServiceProviderInterface {
     public function register(Container $container)
     {
         $container->set(
-            PluginInterface::class,
+            Webauthn::class,
             function (Container $container) {
                 $app     = Factory::getApplication();
                 $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
@@ -71,6 +72,11 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication($app);
 
                 return $plugin;
+            }
+        )->set(
+            PluginInterface::class,
+            function (Container $container) {
+                return new LazyServiceSubscriber($container, Webauthn::class);
             }
         );
     }
