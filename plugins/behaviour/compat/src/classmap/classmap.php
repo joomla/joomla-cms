@@ -484,7 +484,7 @@ JLoader::registerAlias(
 );
 
 JLoader::registerAlias('JFile', '\\Joomla\\CMS\\Filesystem\\File', '6.0');
-JLoader::registerAlias('JFolder', '\\Joomla\\CMS\\Filesystem\\Folder', '6.0');
+JLoader::registerAlias('JFolder', '\\Joomla\\Filesystem\\Folder', '6.0');
 JLoader::registerAlias('JFilesystemHelper', '\\Joomla\\CMS\\Filesystem\\FilesystemHelper', '6.0');
 JLoader::registerAlias('JFilesystemPatcher', '\\Joomla\\CMS\\Filesystem\\Patcher', '6.0');
 JLoader::registerAlias('JPath', '\\Joomla\\CMS\\Filesystem\\Path', '6.0');
