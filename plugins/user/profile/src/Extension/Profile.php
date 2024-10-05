@@ -11,7 +11,11 @@
 namespace Joomla\Plugin\User\Profile\Extension;
 
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Event\Model\PrepareDataEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
+use Joomla\CMS\Event\User\AfterDeleteEvent;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -19,6 +23,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,7 +35,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-final class Profile extends CMSPlugin
+final class Profile extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -44,20 +49,40 @@ final class Profile extends CMSPlugin
     private $date = '';
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareData' => 'onContentPrepareData',
+            'onContentPrepareForm' => 'onContentPrepareForm',
+            'onUserBeforeSave'     => 'onUserBeforeSave',
+            'onUserAfterSave'      => 'onUserAfterSave',
+            'onUserAfterDelete'    => 'onUserAfterDelete',
+        ];
+    }
+
+    /**
      * Runs on content preparation
      *
-     * @param   string  $context  The context for the data
-     * @param   object  $data     An object containing the data for the form.
+     * @param   PrepareDataEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   1.6
      */
-    public function onContentPrepareData($context, $data)
+    public function onContentPrepareData(PrepareDataEvent $event)
     {
+        $context = $event->getContext();
+        $data    = $event->getData();
+
         // Check we are manipulating a valid form.
         if (!\in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration'])) {
-            return true;
+            return;
         }
 
         // Load plugin language files
@@ -114,8 +139,6 @@ final class Profile extends CMSPlugin
                 HTMLHelper::register('users.dob', [__CLASS__, 'dob']);
             }
         }
-
-        return true;
     }
 
     /**
@@ -192,20 +215,20 @@ final class Profile extends CMSPlugin
     /**
      * Adds additional fields to the user editing form
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   PrepareFormEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   1.6
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(PrepareFormEvent $event)
     {
+        $form = $event->getForm();
         // Check we are manipulating a valid form.
         $name = $form->getName();
 
         if (!\in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration'])) {
-            return true;
+            return;
         }
 
         // Load plugin language files
@@ -281,24 +304,22 @@ final class Profile extends CMSPlugin
         if (!\count($remainingfields)) {
             $form->removeGroup('profile');
         }
-
-        return true;
     }
 
     /**
      * Method is called before user data is stored in the database
      *
-     * @param   array    $user   Holds the old user data.
-     * @param   boolean  $isnew  True if a new user is stored.
-     * @param   array    $data   Holds the new user data.
+     * @param   BeforeSaveEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.1
      * @throws  \InvalidArgumentException on invalid date.
      */
-    public function onUserBeforeSave($user, $isnew, $data)
+    public function onUserBeforeSave(BeforeSaveEvent $event)
     {
+        $data = $event->getData();
+
         // Load plugin language files
         $this->loadLanguage();
 
@@ -327,22 +348,19 @@ final class Profile extends CMSPlugin
         if ($task === 'register' && $tosEnabled && $option === 'com_users' && !$data['profile']['tos']) {
             throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
         }
-
-        return true;
     }
 
     /**
      * Saves user profile data
      *
-     * @param   array    $data    entered user data
-     * @param   boolean  $isNew   true if this is a new user
-     * @param   boolean  $result  true if saving the user worked
-     * @param   string   $error   error message
+     * @param   AfterSaveEvent $event  The event instance.
      *
      * @return  void
      */
-    public function onUserAfterSave($data, $isNew, $result, $error): void
+    public function onUserAfterSave(AfterSaveEvent $event): void
     {
+        $data   = $event->getUser();
+        $result = $event->getSavingResult();
         $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
         if ($userId && $result && isset($data['profile']) && \count($data['profile'])) {
@@ -415,14 +433,15 @@ final class Profile extends CMSPlugin
      *
      * Method is called after user data is deleted from the database
      *
-     * @param   array    $user     Holds the user data
-     * @param   boolean  $success  True if user was successfully stored in the database
-     * @param   string   $msg      Message
+     * @param   AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      */
-    public function onUserAfterDelete($user, $success, $msg): void
+    public function onUserAfterDelete(AfterDeleteEvent $event): void
     {
+        $user    = $event->getUser();
+        $success = $event->getDeletingResult();
+
         if (!$success) {
             return;
         }
