@@ -12,7 +12,6 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
@@ -24,8 +23,9 @@ use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\Exception\FilesystemException
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -348,10 +348,14 @@ class LocalAdapter implements AdapterInterface
                 throw new FileNotFoundException();
             }
 
-            $success = Folder::delete($localPath);
+            try {
+                $success = Folder::delete($localPath);
 
-            if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_dir($thumbnailPaths['fs'])) {
-                Folder::delete($thumbnailPaths['fs']);
+                if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_dir($thumbnailPaths['fs'])) {
+                    Folder::delete($thumbnailPaths['fs']);
+                }
+            } catch (FilesystemException | \UnexpectedValueException $exception) {
+                throw new \Exception('Delete not possible!', 500, $exception);
             }
         }
 
