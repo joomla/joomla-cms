@@ -105,7 +105,7 @@ class Pagination
      *
      * @var  string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $paramsFromRequest = [
         'format'        => 'CMD',
@@ -212,7 +212,7 @@ class Pagination
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function setUrlParamsFromRequest()
     {
