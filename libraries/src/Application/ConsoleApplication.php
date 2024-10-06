@@ -529,14 +529,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
             $uri = Uri::getInstance('https://joomla.invalid/set/by/console/application');
         }
 
-        /**
-         * Yes, this is icky but it is the only way to trick WebApplication into compliance.
-         *
-         * @see \Joomla\Application\AbstractWebApplication::detectRequestUri
-         */
-        $_SERVER['HTTP_HOST']   = $uri->toString(['host', 'port']);
-        $_SERVER['REQUEST_URI'] = $uri->getPath();
-        $_SERVER['HTTPS']       = $uri->getScheme() === 'https' ? 'on' : 'off';
+        $this->set('uri.request', $uri->toString());
     }
 
     /**

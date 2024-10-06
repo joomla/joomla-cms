@@ -81,9 +81,6 @@ class AdministratorApplication extends CMSApplication
 
         // Execute the parent constructor
         parent::__construct($input, $config, $client, $container);
-
-        // Set the root in the URI based on the application name
-        Uri::root(null, rtrim(\dirname(Uri::base(true)), '/\\'));
     }
 
     /**
@@ -507,5 +504,18 @@ class AdministratorApplication extends CMSApplication
         $app->getInput()->set('option', $option);
 
         return $option;
+    }
+
+    /**
+     * Hook to allow applications to configure anything inside the static variables of \Joomla\CMS\Uri\Uri.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function configureBaseUrlForApplication(): void
+    {
+        // Set the root in the URI based on the application name
+        Uri::root(null, rtrim(\dirname(Uri::base(true)), '/\\'));
     }
 }

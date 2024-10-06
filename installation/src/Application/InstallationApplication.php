@@ -75,11 +75,6 @@ final class InstallationApplication extends CMSApplication
 
         // Register the config to Factory.
         Factory::$config = $this->config;
-
-        // Set the root in the URI one level up.
-        $parts = explode('/', Uri::base(true));
-        array_pop($parts);
-        Uri::root(null, implode('/', $parts));
     }
 
     /**
@@ -237,6 +232,11 @@ final class InstallationApplication extends CMSApplication
      */
     public function execute()
     {
+        // Set the root in the URI one level up.
+        $parts = explode('/', Uri::base(true));
+        array_pop($parts);
+        Uri::root(null, implode('/', $parts));
+
         try {
             // Perform application routines.
             $this->doExecute();
