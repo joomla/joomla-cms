@@ -16,7 +16,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\Helpers\StringHelper as SpecialStringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -368,7 +367,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                 }
 
                 if ($introtext_limit != 0) {
-                    $item->displayIntrotext = SpecialStringHelper::truncate($item->introtext, $introtext_limit, true, false);
+                    $item->displayIntrotext = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
                 }
             }
 
