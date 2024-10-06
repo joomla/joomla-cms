@@ -12,7 +12,6 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
@@ -25,6 +24,7 @@ use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
@@ -260,7 +260,10 @@ class LocalAdapter implements AdapterInterface
 
         $this->checkContent($localPath, $data);
 
-        File::write($localPath, $data);
+        try {
+            File::write($localPath, $data);
+        } catch (FilesystemException $exception) {
+        }
 
         if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
             $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
@@ -298,7 +301,10 @@ class LocalAdapter implements AdapterInterface
 
         $this->checkContent($localPath, $data);
 
-        File::write($localPath, $data);
+        try {
+            File::write($localPath, $data);
+        } catch (FilesystemException $exception) {
+        }
 
         if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
             $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
@@ -328,11 +334,15 @@ class LocalAdapter implements AdapterInterface
         $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
         if (is_file($localPath)) {
-            if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_file($thumbnailPaths['fs'])) {
-                File::delete($thumbnailPaths['fs']);
-            }
+            try {
+                if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_file($thumbnailPaths['fs'])) {
+                    File::delete($thumbnailPaths['fs']);
+                }
 
-            $success = File::delete($localPath);
+                $success = File::delete($localPath);
+            } catch (\Throwable $exception) {
+                throw new \Exception('Delete not possible!', 500, $exception);
+            }
         } else {
             if (!is_dir(Path::clean($localPath))) {
                 throw new FileNotFoundException();
@@ -525,7 +535,9 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_COPY_FILE_NOT_POSSIBLE_FILE_ALREADY_EXISTS'));
         }
 
-        if (!File::copy($sourcePath, $destinationPath)) {
+        try {
+            File::copy($sourcePath, $destinationPath);
+        } catch (FilesystemException $exception) {
             throw new \Exception(Text::_('COM_MEDIA_COPY_FILE_NOT_POSSIBLE'));
         }
     }
@@ -548,7 +560,11 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_COPY_FOLDER_ALREADY_EXISTS'));
         }
 
-        if (is_file($destinationPath) && !File::delete($destinationPath)) {
+        try {
+            if (is_file($destinationPath)) {
+                File::delete($destinationPath);
+            }
+        } catch (FilesystemException $exception) {
             throw new \Exception(Text::_('COM_MEDIA_COPY_FOLDER_DESTINATION_CAN_NOT_DELETE'));
         }
 
@@ -634,7 +650,9 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_ALREADY_EXISTS'));
         }
 
-        if (!File::move($sourcePath, $destinationPath)) {
+        try {
+            File::move($sourcePath, $destinationPath);
+        } catch (FilesystemException $exception) {
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_NOT_POSSIBLE'));
         }
     }
@@ -657,7 +675,11 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FOLDER_ALREADY_EXISTS'));
         }
 
-        if (is_file($destinationPath) && !File::delete($destinationPath)) {
+        try {
+            if (is_file($destinationPath)) {
+                File::delete($destinationPath);
+            }
+        } catch (FilesystemException $exception) {
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FOLDER_NOT_POSSIBLE'));
         }
 
@@ -828,13 +850,18 @@ class LocalAdapter implements AdapterInterface
         // @todo find a better way to check the input, by not writing the file to the disk
         $tmpFile = Path::clean(\dirname($localPath) . '/' . uniqid() . '.' . strtolower(File::getExt($name)));
 
-        if (!File::write($tmpFile, $mediaContent)) {
+        try {
+            File::write($tmpFile, $mediaContent);
+        } catch (FilesystemException $exception) {
             throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
         }
 
         $can = $helper->canUpload(['name' => $name, 'size' => \strlen($mediaContent), 'tmp_name' => $tmpFile], 'com_media');
 
-        File::delete($tmpFile);
+        try {
+            File::delete($tmpFile);
+        } catch (FilesystemException $exception) {
+        }
 
         if (!$can) {
             throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 403);
