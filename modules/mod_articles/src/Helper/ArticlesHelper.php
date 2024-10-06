@@ -1,4 +1,4 @@
-<?php
+        }<?php
 
 /**
  * @package     Joomla.Site
@@ -212,35 +212,54 @@ class ArticlesHelper implements DatabaseAwareInterface
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
         }
 
-        // Check if we include or exclude articles and process data
-        $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
-        $filterInclude          = true;
-        $articlesList           = [];
+        // Find current Article ID if on an article page
+        $option = $input->get('option');
+        $view   = $input->get('view');
 
-        $articlesListToProcess = $params->get('included_articles', '');
+        $activeArticle = ($option === 'com_content' && $view === 'article') ? $input->getInt('id') : 0;
 
-        if ($ex_or_include_articles === 0) {
-            $filterInclude = false;
+        $includedList = [];
+        $excludedList = [];
+        $articlesList = [];
 
-            if (
-                $params->get('exclude_current', 1) === 1
-                && $input->get('option') === 'com_content'
-                && $input->get('view') === 'article'
-            ) {
-                $articlesList[] = $input->get('id', 0, 'UINT');
+        foreach (ArrayHelper::fromObject($params->get('included_articles', '')) as $article) {
+            $includedList[] = (int) $article['id'];
+        }
+
+        foreach (ArrayHelper::fromObject($params->get('excluded_articles', '')) as $article) {
+            $excludedList[] = (int) $article['id'];
+        }
+
+        if ($params->get('exclude_current', 1) && $activeArticle !== 0) {
+             // Add the id of the current article to the excluded list
+            $excludedList[] = $activeArticle;
+        }
+
+        // Build the filter lists
+        $filterInclude = [];
+        $filterExclude = [];
+
+        if (!empty($includedList) && !empty($excludedList)) {
+
+            // Remove duplicates from the list. If an article is excluded and included, ignore the id.
+            $tmp1 = array_diff($includedList, $excludedList); // Values only in $array1
+            $tmp2 = array_diff($excludedList, $includedList); // Values only in $array2
+
+            // Merge the unique values
+            $articlesList = array_merge($tmp1, $tmp2);
+            
+            // Separate the lists again so we can set filters
+            foreach ($articlesList as $value) {
+                if (in_array($value, $includedList)) {
+                    $filterInclude[] = $value;
+                } else {
+                    $filterExclude[] = $value;
+                }
             }
-
-            $articlesListToProcess = $params->get('excluded_articles', '');
         }
 
-        foreach (ArrayHelper::fromObject($articlesListToProcess) as $article) {
-            $articlesList[] = (int) $article['id'];
-        }
-
-        if (!empty($articlesList)) {
-            $articles->setState('filter.article_id', $articlesList);
-            $articles->setState('filter.article_id.include', $filterInclude);
-        }
+        // Set filters for included IDs
+        $articles->setState('article_id.include', $filterInclude);
 
         $date_filtering = $params->get('date_filtering', 'off');
 
@@ -267,19 +286,17 @@ class ArticlesHelper implements DatabaseAwareInterface
         $show_author        = $params->get('show_author', 0);
         $show_introtext     = $params->get('show_introtext', 0);
         $introtext_limit    = $params->get('introtext_limit', 100);
-
-        // Find current Article ID if on an article page
-        $option = $input->get('option');
-        $view   = $input->get('view');
-
-        if ($option === 'com_content' && $view === 'article') {
-            $active_article_id = $input->getInt('id');
-        } else {
-            $active_article_id = 0;
+            
+        // Eliminate excluded items
+        foreach ($items as $key => $item) {
+            if (in_array($item->id, $filterExclude)) {
+                unset($items[$key]);
+            }
         }
 
         // Prepare data for display using display options
         foreach ($items as &$item) {
+
             $item->slug = $item->id . ':' . $item->alias;
 
             $articleLink = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
@@ -338,7 +355,7 @@ class ArticlesHelper implements DatabaseAwareInterface
             }
 
             // Used for styling the active article
-            $item->active      = $item->id == $active_article_id ? 'active' : '';
+            $item->active      = $item->id == $activeArticle ? 'active' : '';
 
             if ($show_date) {
                 $item->displayDate = HTMLHelper::_('date', $item->$show_date_field, $show_date_format);
