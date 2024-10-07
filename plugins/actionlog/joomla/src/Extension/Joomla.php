@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Application;
 use Joomla\CMS\Event\Cache;
 use Joomla\CMS\Event\Checkin;
@@ -100,7 +101,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -131,6 +132,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             'onUserAfterResetRequest'   => 'onUserAfterResetRequest',
             'onUserAfterResetComplete'  => 'onUserAfterResetComplete',
             'onUserBeforeSave'          => 'onUserBeforeSave',
+            'onBeforeTourSaveUserState' => 'onBeforeTourSaveUserState',
         ];
     }
 
@@ -531,7 +533,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         $option = $this->getApplication()->getInput()->getCmd('option');
 
-        if ($table->get('module') != null) {
+        if ($table->module != null) {
             $option = 'com_modules';
         }
 
@@ -561,13 +563,15 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $messageLanguageKey = $defaultLanguageKey;
         }
 
-        $message = [
+        $id_holder    = $params->id_holder;
+        $title_holder = $params->title_holder;
+        $message      = [
             'action'         => $isNew ? 'add' : 'update',
             'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $params->type_title,
-            'id'             => $table->get($params->id_holder),
-            'title'          => $table->get($params->title_holder),
-            'extension_name' => $table->get($params->title_holder),
-            'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->get($params->id_holder), $params->id_holder),
+            'id'             => $table->$id_holder,
+            'title'          => $table->$title_holder,
+            'extension_name' => $table->$title_holder,
+            'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->$id_holder, $id_holder),
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -601,10 +605,11 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
-        $message = [
+        $title_holder = $params->title_holder;
+        $message      = [
             'action' => 'delete',
             'type'   => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $params->type_title,
-            'title'  => $table->get($params->title_holder),
+            'title'  => $table->$title_holder,
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -1297,5 +1302,57 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $blockunblock = $new['block'] === '1' ? 'block' : 'unblock';
             $session->set('block', $blockunblock);
         }
+    }
+
+    /**
+     * Method is called when a user cancels, completes or skips a tour
+     *
+     * @param   AbstractEvent $event The event instance.
+     *
+     * @return  void
+     *
+     * @since  5.2.0
+     */
+    public function onBeforeTourSaveUserState(AbstractEvent $event): void
+    {
+        $option = $this->getApplication()->getInput()->get('option');
+
+        if (!$this->checkLoggable($option)) {
+            return;
+        }
+
+        $tourId     = $event->getArgument('tourId');
+        $state      = $event->getArgument('actionState');
+        $stepNumber = $event->getArgument('stepNumber');
+
+        switch ($state) {
+            case 'skipped':
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURSKIPPED';
+                break;
+            case 'completed':
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURCOMPLETED';
+                break;
+            default:
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURDELAYED';
+        }
+
+        // Get the tour from the model to fetch the translated title of the tour
+        $factory   = $this->getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
+        $tourModel = $factory->createModel(
+            'Tour',
+            'Administrator',
+            ['ignore_request' => true]
+        );
+
+        $tour = $tourModel->getItem($tourId);
+
+        $message = [
+            'id'    => $tourId,
+            'title' => $tour->title_translation,
+            'state' => $state,
+            'step'  => $stepNumber,
+        ];
+
+        $this->addLog([$message], $messageLanguageKey, 'com_guidedtours.state');
     }
 }

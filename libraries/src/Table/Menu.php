@@ -11,13 +11,13 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -47,7 +47,7 @@ class Menu extends Nested
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__menu', 'id', $db, $dispatcher);
 
@@ -258,22 +258,6 @@ class Menu extends Nested
         }
 
         if ($this->home == '1') {
-            // Verify that the home page for this menu is unique.
-            if (
-                $table->load(
-                    [
-                    'menutype'  => $this->menutype,
-                    'client_id' => (int) $this->client_id,
-                    'home'      => '1',
-                    ]
-                )
-                && ($table->language != $this->language)
-            ) {
-                $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
-
-                return false;
-            }
-
             // Verify that the home page for this language is unique per client id
             if ($table->load(['home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id])) {
                 if ($table->checked_out && $table->checked_out != $this->checked_out) {

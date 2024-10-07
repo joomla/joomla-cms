@@ -90,6 +90,7 @@ export default {
             cancelable: false,
             detail: {
               type: item.type,
+              name: item.name,
               path: item.path,
             },
           },

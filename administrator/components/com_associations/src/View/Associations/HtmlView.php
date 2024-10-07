@@ -15,9 +15,9 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Associations\Administrator\Model\AssociationsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -67,6 +67,56 @@ class HtmlView extends BaseHtmlView
     public $itemType = null;
 
     /**
+     * Main Extension Name
+     *
+     * @var    string
+     *
+     * @since  5.2.0
+     */
+    public $extensionName;
+
+    /**
+     * Subtype of the extension
+     *
+     * @var    string
+     *
+     * @since  5.2.0
+     */
+    public $typeName;
+
+    /**
+     * Supported features
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $typeSupports;
+
+    /**
+     * Fields
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $typeFields;
+
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -77,9 +127,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var AssociationsModel $model */
+        $model = $this->getModel();
+
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         if (!Associations::isEnabled()) {
             $link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
@@ -162,8 +215,8 @@ class HtmlView extends BaseHtmlView
                     }
                 }
 
-                $this->items      = $this->get('Items');
-                $this->pagination = $this->get('Pagination');
+                $this->items      = $model->getItems();
+                $this->pagination = $model->getPagination();
 
                 $linkParameters = [
                     'layout'   => 'edit',
@@ -176,7 +229,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new \Exception(implode("\n", $errors), 500);
         }
 
@@ -218,7 +271,7 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'language assoc');
         }
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations')) {
             if (!isset($this->typeName)) {

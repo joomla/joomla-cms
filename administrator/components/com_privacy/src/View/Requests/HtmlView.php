@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
@@ -113,12 +112,12 @@ class HtmlView extends BaseHtmlView
         $this->urgentRequestAge = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
         $this->sendMailEnabled  = (bool) Factory::getApplication()->get('mailonline', 1);
 
-        if (!\count($this->items) && $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new Genericdataexception(implode("\n", $errors), 500);
         }
 
@@ -138,7 +137,7 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Requests can only be created if mail sending is enabled
         if (Factory::getApplication()->get('mailonline', 1)) {

@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -91,7 +90,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     protected function addToolbar()
     {
         $app     = Factory::getApplication();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($this->getLayout() == 'edit') {
             $app->getInput()->set('hidemainmenu', true);
@@ -106,7 +105,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             $sender = $this->getUserFactory()->loadUserById($this->item->user_id_from);
 
             if (
-                $sender->id !== $app->getIdentity()->get('id') && ($sender->authorise('core.admin')
+                $sender->id !== $app->getIdentity()->id && ($sender->authorise('core.admin')
                 || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
                 && $app->getIdentity()->authorise('core.manage', 'com_users')
             ) {

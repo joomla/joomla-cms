@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\BasicButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
@@ -119,8 +118,8 @@ class HtmlView extends BaseHtmlView
 
         // Load data from the model
         $this->isAdmin    = $app->isClient('administrator');
-        $this->records    = $this->get('records');
-        $this->record     = $this->get('record');
+        $this->records    = $model->getRecords();
+        $this->record     = $model->getRecord();
         $this->mfaMethods = MfaHelper::getMfaMethods();
 
         if (!empty($this->records)) {
@@ -183,7 +182,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Which title should I use for the page?
-        $this->title = $this->get('PageTitle');
+        $this->title = $model->getPageTitle();
 
         // Back-end: always show a title in the 'title' module position, not in the page body
         if ($this->isAdmin) {
@@ -192,7 +191,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->isAdmin && $this->getLayout() === 'default') {
-            $bar    = Toolbar::getInstance();
+            $bar    = $this->getDocument()->getToolbar();
             $button = (new BasicButton('user-mfa-submit'))
                 ->text($this->renderOptions['submit_text'])
                 ->icon($this->renderOptions['submit_icon']);
