@@ -12,7 +12,6 @@ namespace Joomla\CMS\Changelog;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
@@ -28,7 +27,6 @@ use Joomla\Registry\Registry;
  */
 class Changelog
 {
-    use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
 
     /**
