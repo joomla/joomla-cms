@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Finder\Administrator\Model\FilterModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -79,7 +80,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $ignore_fieldsets = [];
 
@@ -94,15 +95,18 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var FilterModel $model */
+        $model = $this->getModel();
+
         // Load the view data.
-        $this->filter = $this->get('Filter');
-        $this->item   = $this->get('Item');
-        $this->form   = $this->get('Form');
-        $this->state  = $this->get('State');
-        $this->total  = $this->get('Total');
+        $this->filter = $model->getFilter();
+        $this->item   = $model->getItem();
+        $this->form   = $model->getForm();
+        $this->state  = $model->getState();
+        $this->total  = $model->getTotal();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -25,7 +25,7 @@ use Joomla\Filesystem\Path;
  * Form Field to display a list of the layouts for a field from
  * the extension or template overrides.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class MailtemplateLayoutField extends FormField
 {
@@ -33,7 +33,7 @@ class MailtemplateLayoutField extends FormField
      * The form field type.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $type = 'MailtemplateLayout';
 
@@ -42,7 +42,7 @@ class MailtemplateLayoutField extends FormField
      *
      * @return  string   The field input.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     protected function getInput()
     {

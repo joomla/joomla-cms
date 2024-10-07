@@ -625,7 +625,7 @@ class TemplateModel extends FormModel
      *
      * @since   1.6
      */
-    public function &getTemplate()
+    public function getTemplate()
     {
         if (empty($this->template)) {
             $pk  = (int) $this->getState('extension.id');
@@ -1525,7 +1525,7 @@ class TemplateModel extends FormModel
 
             try {
                 $image      = new Image($path);
-                $properties = $image->getImageFileProperties($path);
+                $properties = Image::getImageFileProperties($path);
 
                 switch ($properties->mime) {
                     case 'image/webp':
@@ -1570,7 +1570,7 @@ class TemplateModel extends FormModel
 
             try {
                 $image      = new Image($path);
-                $properties = $image->getImageFileProperties($path);
+                $properties = Image::getImageFileProperties($path);
 
                 switch ($properties->mime) {
                     case 'image/webp':
