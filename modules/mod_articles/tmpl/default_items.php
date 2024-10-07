@@ -104,12 +104,12 @@ if ($params->get('articles_layout') == 1) {
                         <?php echo $item->event->beforeDisplayContent; ?>
 
                         <?php if ($params->get('show_introtext', 1)) : ?>
-                            <?php echo $item->introtext; ?>
+                            <?php echo $item->displayIntrotext; ?>
                         <?php endif; ?>
 
                         <?php echo $item->event->afterDisplayContent; ?>
 
-                        <?php if (isset($item->link) && $item->readmore != 0 && $params->get('show_readmore')) : ?>
+                        <?php if ($params->get('show_readmore')) : ?>
                             <?php if ($params->get('show_readmore_title', '') !== '') : ?>
                                 <?php $item->params->set('show_readmore_title', $params->get('show_readmore_title')); ?>
                                 <?php $item->params->set('readmore_limit', $params->get('readmore_limit')); ?>
