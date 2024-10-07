@@ -250,7 +250,7 @@ class ArticlesHelper implements DatabaseAwareInterface
             
             // Separate the lists again so we can set filters
             foreach ($articlesList as $value) {
-                if (in_array($value, $includedList)) {
+                if (\in_array($value, $includedList)) {
                     $filterInclude[] = $value;
                 } else {
                     $filterExclude[] = $value;
