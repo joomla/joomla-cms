@@ -16,7 +16,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\Helpers\StringHelper as SpecialStringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -70,13 +69,67 @@ class ArticlesHelper implements DatabaseAwareInterface
         $articles->setState('list.limit', (int) $params->get('count', 0));
         $articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
+        // Get the user object
+        $user = $app->getIdentity();
+
         // Access filter
         $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
+        $authorised = Access::getAuthorisedViewLevels($user->id);
         $articles->setState('filter.access', $access);
 
-        $catids = $params->get('catid');
-        $articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
+        // Prep for Normal or Dynamic Modes
+        $mode = $params->get('mode', 'normal');
+
+        switch ($mode) {
+            case 'dynamic':
+                $option = $input->get('option');
+                $view   = $input->get('view');
+
+                if ($option === 'com_content') {
+                    switch ($view) {
+                        case 'category':
+                        case 'categories':
+                            $catids = [$input->getInt('id')];
+                            break;
+                        case 'article':
+                            if ($params->get('show_on_article_page', 1)) {
+                                $article_id = $input->getInt('id');
+                                $catid      = $input->getInt('catid');
+
+                                if (!$catid) {
+                                    // Get an instance of the generic article model
+                                    $article = $factory->createModel('Article', 'Site', ['ignore_request' => true]);
+
+                                    $article->setState('params', $appParams);
+                                    $article->setState('filter.published', 1);
+                                    $article->setState('article.id', (int) $article_id);
+                                    $item   = $article->getItem();
+                                    $catids = [$item->catid];
+                                } else {
+                                    $catids = [$catid];
+                                }
+                            } else {
+                                // Return right away if show_on_article_page option is off
+                                return;
+                            }
+                            break;
+
+                        default:
+                            // Return right away if not on the category or article views
+                            return;
+                    }
+                } else {
+                    // Return right away if not on a com_content page
+                    return;
+                }
+
+                break;
+
+            default:
+                $catids = $params->get('catid');
+                $articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
+                break;
+        }
 
         // Category filter
         if ($catids) {
@@ -140,9 +193,17 @@ class ArticlesHelper implements DatabaseAwareInterface
         // Filter by multiple tags
         $articles->setState('filter.tag', $params->get('filter_tag', []));
 
+        // Filter by featured
         $articles->setState('filter.featured', $params->get('show_featured', 'show'));
-        $articles->setState('filter.author_id', $params->get('created_by', []));
-        $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
+
+        // Filter by author
+        if ($params->get('author_filtering_type', 1) === 2) {
+            $articles->setState('filter.author_id', [$user->id]);
+        } else {
+            $articles->setState('filter.author_id', $params->get('created_by', []));
+            $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
+        }
+
         $articles->setState('filter.author_alias', $params->get('created_by_alias', []));
         $articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 
@@ -306,7 +367,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                 }
 
                 if ($introtext_limit != 0) {
-                    $item->displayIntrotext = SpecialStringHelper::truncate($item->introtext, $introtext_limit, true, false);
+                    $item->displayIntrotext = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
                 }
             }
 
