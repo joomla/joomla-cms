@@ -445,9 +445,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         // Set the default model search path
         if (\array_key_exists('model_path', $config)) {
             // User-defined dirs
-            $this->addModelPath($config['model_path'], $this->model_prefix);
+            static::addModelPath($config['model_path'], $this->model_prefix);
         } else {
-            $this->addModelPath($this->basePath . '/models', $this->model_prefix);
+            static::addModelPath($this->basePath . '/models', $this->model_prefix);
         }
 
         // Set the default view search path
