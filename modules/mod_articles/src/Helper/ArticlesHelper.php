@@ -286,7 +286,7 @@ class ArticlesHelper implements DatabaseAwareInterface
         $show_author        = $params->get('show_author', 0);
         $show_introtext     = $params->get('show_introtext', 0);
         $introtext_limit    = $params->get('introtext_limit', 100);
-            
+
         // Eliminate excluded items
         foreach ($items as $key => $item) {
             if (\in_array($item->id, $filterExclude)) {
