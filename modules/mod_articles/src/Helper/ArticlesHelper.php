@@ -239,11 +239,11 @@ class ArticlesHelper implements DatabaseAwareInterface
         $filterInclude = [];
         $filterExclude = [];
 
-        if (!empty($includedList) && !empty($excludedList)) {
+        if (!empty($includedList) || !empty($excludedList)) {
 
             // Remove duplicates from the list. If an article is excluded and included, ignore the id.
-            $tmp1 = array_diff($includedList, $excludedList); // Values only in $array1
-            $tmp2 = array_diff($excludedList, $includedList); // Values only in $array2
+            $tmp1 = array_diff($includedList, $excludedList);
+            $tmp2 = array_diff($excludedList, $includedList);
 
             // Merge the unique values
             $articlesList = array_merge($tmp1, $tmp2);
