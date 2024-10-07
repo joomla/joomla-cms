@@ -353,7 +353,7 @@ class ArticlesHelper implements DatabaseAwareInterface
             }
 
             // Used for styling the active article
-            $item->active      = $item->id == $activeArticle ? 'active' : '';
+            $item->active = $item->id == $activeArticle ? 'active' : '';
 
             if ($show_date) {
                 $item->displayDate = HTMLHelper::_('date', $item->$show_date_field, $show_date_format);
