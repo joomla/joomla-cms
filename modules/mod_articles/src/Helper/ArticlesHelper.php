@@ -289,7 +289,7 @@ class ArticlesHelper implements DatabaseAwareInterface
             
         // Eliminate excluded items
         foreach ($items as $key => $item) {
-            if (in_array($item->id, $filterExclude)) {
+            if (\in_array($item->id, $filterExclude)) {
                 unset($items[$key]);
             }
         }
