@@ -240,7 +240,6 @@ class ArticlesHelper implements DatabaseAwareInterface
         $filterExclude = [];
 
         if (!empty($includedList) || !empty($excludedList)) {
-
             // Remove duplicates from the list. If an article is excluded and included, ignore the id.
             $tmp1 = array_diff($includedList, $excludedList);
             $tmp2 = array_diff($excludedList, $includedList);
@@ -296,7 +295,6 @@ class ArticlesHelper implements DatabaseAwareInterface
 
         // Prepare data for display using display options
         foreach ($items as &$item) {
-
             $item->slug = $item->id . ':' . $item->alias;
 
             $articleLink = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
