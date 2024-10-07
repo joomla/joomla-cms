@@ -247,7 +247,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
             // Merge the unique values
             $articlesList = array_merge($tmp1, $tmp2);
-            
+
             // Separate the lists again so we can set filters
             foreach ($articlesList as $value) {
                 if (\in_array($value, $includedList)) {
