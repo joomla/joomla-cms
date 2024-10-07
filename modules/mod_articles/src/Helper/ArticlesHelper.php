@@ -231,7 +231,7 @@ class ArticlesHelper implements DatabaseAwareInterface
         }
 
         if ($params->get('exclude_current', 1) && $activeArticle !== 0) {
-             // Add the id of the current article to the excluded list
+            // Add the id of the current article to the excluded list
             $excludedList[] = $activeArticle;
         }
 
