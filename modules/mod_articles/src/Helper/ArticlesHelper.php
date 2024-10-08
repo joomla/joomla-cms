@@ -258,7 +258,7 @@ class ArticlesHelper implements DatabaseAwareInterface
             && (int) $article['id'] === $currentArticleId
             && empty($articlesList)
         ) {
-            $filterInclude = false;
+            $filterInclude  = false;
             $articlesList[] = $currentArticleId;
         }
 
