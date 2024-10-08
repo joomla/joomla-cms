@@ -216,6 +216,7 @@ class ArticlesHelper implements DatabaseAwareInterface
         $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
         $filterInclude          = true;
         $articlesList           = [];
+        $currentArticleId       = $input->get('id', 0, 'UINT');
 
         $articlesListToProcess = $params->get('included_articles', '');
 
@@ -227,13 +228,22 @@ class ArticlesHelper implements DatabaseAwareInterface
                 && $input->get('option') === 'com_content'
                 && $input->get('view') === 'article'
             ) {
-                $articlesList[] = $input->get('id', 0, 'UINT');
+                $articlesList[] = $currentArticleId;
             }
 
             $articlesListToProcess = $params->get('excluded_articles', '');
         }
 
         foreach (ArrayHelper::fromObject($articlesListToProcess) as $article) {
+            if (
+                $ex_or_include_articles === 1
+                && $params->get('exclude_current', 1) === 1
+                && $input->get('option') === 'com_content'
+                && (int) $article['id'] === $currentArticleId
+            ) {
+                continue;
+            }
+
             $articlesList[] = (int) $article['id'];
         }
 
