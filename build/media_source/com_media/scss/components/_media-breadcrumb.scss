@@ -31,6 +31,9 @@
   }
   &:last-of-type {
     background-color: $breadcrumbs-current-bg;
+    a {
+      color: var(--body-color);
+    }
     &::after {
       border-inline-start-color: $breadcrumbs-current-bg;
     }
