@@ -9,13 +9,12 @@
 
 namespace Joomla\CMS\Error\JsonApi;
 
-use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**

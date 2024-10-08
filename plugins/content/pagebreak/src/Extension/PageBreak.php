@@ -141,7 +141,7 @@ final class PageBreak extends CMSPlugin
         }
 
         // Count the number of pages.
-        $n = count($text);
+        $n = \count($text);
 
         // We have found at least one plugin, therefore at least 2 pages.
         if ($n > 1) {

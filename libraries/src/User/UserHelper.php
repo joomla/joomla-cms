@@ -30,7 +30,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -295,8 +295,8 @@ abstract class UserHelper
         $results = $db->loadObjectList();
 
         // Set the titles for the user groups.
-        for ($i = 0, $n = \count($results); $i < $n; $i++) {
-            $user->groups[$results[$i]->id] = $results[$i]->id;
+        foreach ($results as $result) {
+            $user->groups[$result->id] = $result->id;
         }
 
         // Store the user object.
@@ -443,7 +443,7 @@ abstract class UserHelper
         }
 
         // Unsupported algorithm, sorry!
-        throw new \InvalidArgumentException(sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
+        throw new \InvalidArgumentException(\sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
     }
 
     /**
@@ -623,7 +623,7 @@ abstract class UserHelper
 
         // Convert PostgreSQL Session IDs into strings (see GitHub #33822)
         foreach ($sessionIds as &$sessionId) {
-            if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream') {
+            if (\is_resource($sessionId) && get_resource_type($sessionId) === 'stream') {
                 $sessionId = stream_get_contents($sessionId);
             }
         }

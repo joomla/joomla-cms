@@ -18,6 +18,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -43,15 +44,16 @@ class BannerTable extends Table implements VersionableTableInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_banners.banner';
 
-        parent::__construct('#__banners', 'id', $db);
+        parent::__construct('#__banners', 'id', $db, $dispatcher);
 
         $this->created = Factory::getDate()->toSql();
         $this->setColumnAlias('published', 'state');
@@ -141,7 +143,7 @@ class BannerTable extends Table implements VersionableTableInterface
             $this->ordering = 0;
         } elseif (empty($this->ordering)) {
             // Set ordering to last if ordering was 0
-            $this->ordering = self::getNextOrder($this->_db->quoteName('catid') . ' = ' . ((int) $this->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
+            $this->ordering = $this->getNextOrder($this->_db->quoteName('catid') . ' = ' . ((int) $this->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
         }
 
         // Set modified to created if not set
@@ -160,7 +162,7 @@ class BannerTable extends Table implements VersionableTableInterface
     /**
      * Overloaded bind function
      *
-     * @param   mixed  $array   An associative array or object to bind to the \JTable instance.
+     * @param   mixed  $array   An associative array or object to bind to the \Joomla\CMS\Table\Table instance.
      * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
      *
      * @return  boolean  True on success
@@ -252,16 +254,14 @@ class BannerTable extends Table implements VersionableTableInterface
             parent::store($updateNulls);
         } else {
             // Get the old row
-            /** @var BannerTable $oldrow */
-            $oldrow = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', ['dbo' => $db]);
+            $oldrow = new self($db, $this->getDispatcher());
 
             if (!$oldrow->load($this->id) && $oldrow->getError()) {
                 $this->setError($oldrow->getError());
             }
 
             // Verify that the alias is unique
-            /** @var BannerTable $table */
-            $table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', ['dbo' => $db]);
+            $table = new self($db, $this->getDispatcher());
 
             if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
                 $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
@@ -317,8 +317,7 @@ class BannerTable extends Table implements VersionableTableInterface
         }
 
         // Get an instance of the table
-        /** @var BannerTable $table */
-        $table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', ['dbo' => $this->_db]);
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         // For all keys
         foreach ($pks as $pk) {

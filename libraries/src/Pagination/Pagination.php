@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -105,7 +105,7 @@ class Pagination
      *
      * @var  string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $paramsFromRequest = [
         'format'        => 'CMD',
@@ -139,15 +139,15 @@ class Pagination
     /**
      * Constructor.
      *
-     * @param   integer         $total       The total number of items.
-     * @param   integer         $limitstart  The offset of the item to start at.
-     * @param   integer         $limit       The number of items to display per page.
-     * @param   string          $prefix      The prefix used for request variables.
-     * @param   CMSApplication  $app         The application object
+     * @param   integer          $total       The total number of items.
+     * @param   integer          $limitstart  The offset of the item to start at.
+     * @param   integer          $limit       The number of items to display per page.
+     * @param   string           $prefix      The prefix used for request variables.
+     * @param   ?CMSApplication  $app         The application object
      *
      * @since   1.5
      */
-    public function __construct($total, $limitstart, $limit, $prefix = '', CMSApplication $app = null)
+    public function __construct($total, $limitstart, $limit, $prefix = '', ?CMSApplication $app = null)
     {
         // Value/type checking.
         $this->total      = (int) $total;
@@ -212,7 +212,7 @@ class Pagination
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function setUrlParamsFromRequest()
     {
@@ -435,9 +435,9 @@ class Pagination
 
         if ($this->total > $this->limit) {
             return $this->_list_render($list);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -618,9 +618,9 @@ class Pagination
     {
         if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
             return HTMLHelper::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
-        } else {
-            return '&#160;';
         }
+
+        return '&#160;';
     }
 
     /**
@@ -642,9 +642,9 @@ class Pagination
     {
         if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition) {
             return HTMLHelper::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
-        } else {
-            return '&#160;';
         }
+
+        return '&#160;';
     }
 
     /**

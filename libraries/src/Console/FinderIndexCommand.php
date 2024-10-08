@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -155,7 +155,7 @@ The <info>%command.name%</info> Purges and rebuilds the index (search filters ar
 
   <info>php %command.full_name%</info>
 EOF;
-        $this->setDescription('Purges and rebuild the index');
+        $this->setDescription('Purge and rebuild the index');
         $this->setHelp($help);
     }
 
@@ -246,7 +246,7 @@ EOF;
         try {
             $language = $this->getLanguage();
         } catch (\UnexpectedValueException $e) {
-            @trigger_error(sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
             $language = Factory::getLanguage();
         }
 
@@ -306,7 +306,7 @@ EOF;
             }
         }
 
-        $this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
+        $this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', \count($filters)));
     }
 
     /**
@@ -504,6 +504,6 @@ EOF;
             $db->setQuery($query)->execute();
         }
 
-        $this->ioStyle->text(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
+        $this->ioStyle->text(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', \count($this->filters)));
     }
 }

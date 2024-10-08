@@ -100,7 +100,7 @@ final class MultiLanguage extends CMSPlugin
 
         $languages = LanguageHelper::getContentLanguages([0, 1]);
 
-        if (count($languages) < 2) {
+        if (\count($languages) < 2) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_MULTILANG_MISSING_LANGUAGE');
@@ -1154,7 +1154,7 @@ final class MultiLanguage extends CMSPlugin
             $row           = new \stdClass();
             $row->language = $lang;
 
-            if (!is_array($info)) {
+            if (!\is_array($info)) {
                 continue;
             }
 

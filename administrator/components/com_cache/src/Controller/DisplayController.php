@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Cache\Administrator\Controller;
 
+use Joomla\CMS\Event\Cache\AfterPurgeEvent;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -131,7 +132,7 @@ class DisplayController extends BaseController
             $this->app->enqueueMessage(Text::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
         }
 
-        $this->app->triggerEvent('onAfterPurge', []);
+        $this->getDispatcher()->dispatch('onAfterPurge', new AfterPurgeEvent('onAfterPurge'));
         $this->setRedirect('index.php?option=com_cache&view=cache');
     }
 

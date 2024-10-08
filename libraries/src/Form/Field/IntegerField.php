@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -51,13 +51,19 @@ class IntegerField extends ListField
         if ($step == 0) {
             // Step of 0 will create an endless loop.
             return $options;
-        } elseif ($first < $last && $step < 0) {
+        }
+
+        if ($first < $last && $step < 0) {
             // A negative step will never reach the last number.
             return $options;
-        } elseif ($first > $last && $step > 0) {
+        }
+
+        if ($first > $last && $step > 0) {
             // A position step will never reach the last number.
             return $options;
-        } elseif ($step < 0) {
+        }
+
+        if ($step < 0) {
             // Build the options array backwards.
             for ($i = $first; $i >= $last; $i += $step) {
                 $options[] = HTMLHelper::_('select.option', $i);

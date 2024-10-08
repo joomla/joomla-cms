@@ -77,7 +77,7 @@
 		name="description"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"
-		filter="JComponentHelper::filterText"
+		filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak"
 	/>
@@ -130,8 +130,8 @@
 		type="textarea"
 		label="JFIELD_META_DESCRIPTION_LABEL"
 		rows="3"
-		cols="40"
-		maxlength="160"
+		cols="30"
+		maxlength="300"
 		charcounter="true"
 	/>
 

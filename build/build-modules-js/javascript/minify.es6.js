@@ -2,7 +2,7 @@ const { transform } = require('esbuild');
 const { readFile, writeFile } = require('fs-extra');
 const { basename } = require('path');
 /**
- * Minify a js file using Terser
+ * Minify a js file using esbuild
  *
  * @param file
  * @returns {Promise<void>}
@@ -16,7 +16,7 @@ const minifyFile = async (file) => {
 };
 
 /**
- * Minify a chunk of js using Terser
+ * Minify a chunk of js using esbuild
  *
  * @param code
  * @returns {Promise<void>}

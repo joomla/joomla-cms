@@ -39,14 +39,14 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
     /**
      * Public constructor
      *
-     * @param   array                     $config   Plugin configuration
-     * @param   MVCFactoryInterface|null  $factory  MVC Factory for the com_users component
-     * @param   CMSApplication|null       $app      CMS application object
-     * @param   Input|null                $input    Joomla CMS input object
+     * @param   array                 $config   Plugin configuration
+     * @param   ?MVCFactoryInterface  $factory  MVC Factory for the com_users component
+     * @param   ?CMSApplication       $app      CMS application object
+     * @param   ?Input                $input    Joomla CMS input object
      *
      * @since 4.2.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         // We have to tell Joomla what is the name of the view, otherwise it defaults to the name of the *component*.
         $config['default_view'] = 'Methods';
@@ -57,9 +57,9 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
     /**
      * Disable Multi-factor Authentication for the current user
      *
-     * @param   bool   $cachable     Can this view be cached
-     * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
-     *                               {@link JFilterInput::clean()}.
+     * @param   bool   $cachable   Can this view be cached
+     * @param   array  $urlparams  An array of safe url parameters and their variable types.
+     *                 @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      * @since   4.2.0
@@ -111,9 +111,9 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
     /**
      * List all available Multi-factor Authentication Methods available and guide the user to setting them up
      *
-     * @param   bool   $cachable     Can this view be cached
-     * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
-     *                               {@link JFilterInput::clean()}.
+     * @param   bool   $cachable   Can this view be cached
+     * @param   array  $urlparams  An array of safe url parameters and their variable types.
+     *                 @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      * @since   4.2.0
@@ -153,9 +153,9 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
     /**
      * Disable Multi-factor Authentication for the current user
      *
-     * @param   bool   $cachable     Can this view be cached
-     * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
-     *                               {@link JFilterInput::clean()}.
+     * @param   bool   $cachable   Can this view be cached
+     * @param   array  $urlparams  An array of safe url parameters and their variable types.
+     *                 @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      * @since   4.2.0

@@ -53,7 +53,7 @@
 			name="articletext"
 			type="editor"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			buttons="true"
 		/>
 
@@ -208,7 +208,7 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
-			maxlength="160"
+			maxlength="300"
 			charcounter="true"
 		/>
 
@@ -935,13 +935,13 @@
 		<field
 			name="introtext"
 			label="COM_CONTENT_FIELD_INTROTEXT"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 
 		<field
 			name="fulltext"
 			label="COM_CONTENT_FIELD_FULLTEXT"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 	</fields>
 

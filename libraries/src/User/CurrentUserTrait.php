@@ -12,7 +12,7 @@ namespace Joomla\CMS\User;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,7 +42,7 @@ trait CurrentUserTrait
     {
         if (!$this->currentUser) {
             @trigger_error(
-                sprintf('User must be set in %s. This will not be caught anymore in 6.0', __METHOD__),
+                \sprintf('User must be set in %s. This will not be caught anymore in 6.0', __METHOD__),
                 E_USER_DEPRECATED
             );
             $this->currentUser = Factory::getApplication()->getIdentity() ?: Factory::getUser();

@@ -10,11 +10,11 @@
 namespace Joomla\CMS\Event\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeCheckout event
+ * Event class for \Joomla\CMS\Table\Table onBeforeCheckout event
  *
  * @since  4.0.0
  */
@@ -24,9 +24,9 @@ class BeforeCheckoutEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * userId       integer         The Id of the user checking out the row.
-     * pk           mixed           An optional primary key value to check out.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * userId       integer                          The Id of the user checking out the row.
+     * pk           mixed                            An optional primary key value to check out.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.

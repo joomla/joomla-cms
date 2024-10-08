@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,10 +47,10 @@ class ComboField extends ListField
     protected function getInput()
     {
         if (empty($this->layout)) {
-            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+            throw new \UnexpectedValueException(\sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**

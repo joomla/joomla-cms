@@ -18,14 +18,39 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
+/** @var \Joomla\Component\Finder\Administrator\View\Index\HtmlView $this */
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $lang      = $this->getLanguage();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('multiselect')
-    ->useScript('table.columns');
+    ->useScript('table.columns')
+    ->useScript('joomla.dialog-autocreate');
+
+// Show warning that the content - finder plugin is disabled
+if ($this->finderPluginId) {
+    $popupOptions = [
+        'popupType'  => 'iframe',
+        'textHeader' => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
+        'src'        => Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->finderPluginId . '&tmpl=component&layout=modal', false),
+    ];
+    $link = HTMLHelper::_(
+        'link',
+        '#',
+        Text::_('COM_FINDER_CONTENT_PLUGIN'),
+        [
+            'class'                 => 'alert-link',
+            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
+            'data-checkin-url'      => Route::_('index.php?option=com_plugins&task=plugins.checkin&format=json&cid[]=' . $this->finderPluginId),
+            'data-close-on-message' => '',
+            'data-reload-on-close'  => '',
+        ],
+    );
+    Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
+}
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
@@ -33,31 +58,6 @@ $wa->useScript('multiselect')
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
-                <?php if ($this->finderPluginId) : ?>
-                    <?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->finderPluginId . '&tmpl=component&layout=modal'); ?>
-                    <?php echo HTMLHelper::_(
-                        'bootstrap.renderModal',
-                        'plugin' . $this->finderPluginId . 'Modal',
-                        [
-                            'url'         => $link,
-                            'title'       => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
-                            'height'      => '400px',
-                            'width'       => '800px',
-                            'bodyHeight'  => '70',
-                            'modalWidth'  => '80',
-                            'closeButton' => false,
-                            'backdrop'    => 'static',
-                            'keyboard'    => false,
-                            'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
-                                . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                                . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                                . Text::_("JSAVE") . '</button>'
-                                . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-                                . Text::_("JAPPLY") . '</button>'
-                        ]
-                    ); ?>
-                <?php endif; ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -101,7 +101,7 @@ $wa->useScript('multiselect')
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $canChange = Factory::getUser()->authorise('core.manage', 'com_finder'); ?>
+                            <?php $canChange = $this->getCurrentUser()->authorise('core.manage', 'com_finder'); ?>
                             <?php foreach ($this->items as $i => $item) : ?>
                             <tr class="row<?php echo $i % 2; ?>">
                                 <td class="text-center">
@@ -111,7 +111,13 @@ $wa->useScript('multiselect')
                                     <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
                                 </td>
                                 <th scope="row">
-                                    <?php echo $this->escape($item->title); ?>
+                                    <?php if (JDEBUG) : ?>
+                                        <a href="index.php?option=com_finder&view=item&id=<?php echo $item->link_id; ?>">
+                                            <?php echo $this->escape($item->title); ?>
+                                        </a>
+                                    <?php else : ?>
+                                        <?php echo $this->escape($item->title); ?>
+                                    <?php endif; ?>
                                 </th>
                                 <td class="small d-none d-md-table-cell">
                                     <?php

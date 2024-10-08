@@ -14,7 +14,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -33,8 +32,10 @@ use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Content\Administrator\Event\Model\FeatureEvent;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -96,14 +97,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     /**
      * Constructor.
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @since   1.6
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config['events_map'] = $config['events_map'] ?? [];
 
@@ -201,7 +202,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             // Set some needed variables.
             $this->user           = $this->getCurrentUser();
             $this->table          = $this->getTable();
-            $this->tableClassName = get_class($this->table);
+            $this->tableClassName = \get_class($this->table);
             $this->contentType    = new UCMType();
             $this->type           = $this->contentType->getTypeByTable($this->tableClassName);
         }
@@ -229,11 +230,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             $fields = FieldsHelper::getFields('com_content.article', $this->table, true);
@@ -341,7 +342,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $table->publish_up = Factory::getDate()->toSql();
         }
 
-        if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0) {
+        if ($table->state == Workflow::CONDITION_PUBLISHED && \intval($table->publish_down) == 0) {
             $table->publish_down = null;
         }
 
@@ -486,7 +487,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if ($id == 0 && $formField = $form->getField('catid')) {
             $assignedCatids = $data['catid'] ?? $form->getValue('catid');
 
-            $assignedCatids = is_array($assignedCatids)
+            $assignedCatids = \is_array($assignedCatids)
                 ? (int) reset($assignedCatids)
                 : (int) $assignedCatids;
 
@@ -518,7 +519,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             } else {
                 $catIds  = $form->getValue('catid');
 
-                $catId = is_array($catIds)
+                $catId = \is_array($catIds)
                     ? (int) reset($catIds)
                     : (int) $catIds;
 
@@ -619,7 +620,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.7.0
      */
     public function validate($form, $data, $group = null)
@@ -656,7 +657,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $data['created_by_alias'] = $filter->clean($data['created_by_alias'], 'TRIM');
         }
 
-        if (isset($data['images']) && is_array($data['images'])) {
+        if (isset($data['images']) && \is_array($data['images'])) {
             $registry = new Registry($data['images']);
 
             $data['images'] = (string) $registry;
@@ -667,7 +668,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         // Create new category, if needed.
         $createCategory = true;
 
-        if (is_null($data['catid'])) {
+        if (\is_null($data['catid'])) {
             // When there is no catid passed don't try to create one
             $createCategory = false;
         }
@@ -703,7 +704,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $data['catid'] = $categoryModel->getState('category.id');
         }
 
-        if (isset($data['urls']) && is_array($data['urls'])) {
+        if (isset($data['urls']) && \is_array($data['urls'])) {
             $check = $input->post->get('jform', [], 'array');
 
             foreach ($data['urls'] as $i => $url) {
@@ -753,7 +754,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Automatic handling of alias for empty fields
-        if (in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
+        if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
             if ($data['alias'] == null) {
                 if ($app->get('unicodeslugs') == 1) {
                     $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
@@ -845,7 +846,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             AbstractEvent::create(
                 $this->event_before_change_featured,
                 [
-                    'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+                    'eventClass' => FeatureEvent::class,
                     'subject'    => $this,
                     'extension'  => $context,
                     'pks'        => $pks,
@@ -889,7 +890,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $oldFeatured = $db->loadColumn();
 
                 // Update old featured articles
-                if (count($oldFeatured)) {
+                if (\count($oldFeatured)) {
                     $query = $db->getQuery(true)
                         ->update($db->quoteName('#__content_frontpage'))
                         ->set(
@@ -950,7 +951,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             AbstractEvent::create(
                 $this->event_after_change_featured,
                 [
-                    'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+                    'eventClass' => FeatureEvent::class,
                     'subject'    => $this,
                     'extension'  => $context,
                     'pks'        => $pks,
@@ -1004,7 +1005,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if (Associations::isEnabled()) {
             $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
                 $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');

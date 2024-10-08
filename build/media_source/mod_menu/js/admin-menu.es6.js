@@ -2,8 +2,8 @@
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-const allMenus = document.querySelectorAll('ul.main-nav');
-allMenus.forEach((menu) => {
+
+document.querySelectorAll('ul.main-nav').forEach((menu) => {
   // eslint-disable-next-line no-new, no-undef
   new MetisMenu(menu);
 });
@@ -20,12 +20,10 @@ if (!sidebar) {
 if (sidebar && !sidebar.getAttribute('data-hidden')) {
   // Sidebar
   const menuToggle = document.getElementById('menu-collapse');
-  const firsts = [].slice.call(sidebar.querySelectorAll('.collapse-level-1'));
 
   // Apply 2nd level collapse
-  firsts.forEach((first) => {
-    const seconds = [].slice.call(first.querySelectorAll('.collapse-level-1'));
-    seconds.forEach((second) => {
+  sidebar.querySelectorAll('.collapse-level-1').forEach((first) => {
+    first.querySelectorAll('.collapse-level-1').forEach((second) => {
       if (second) {
         second.classList.remove('collapse-level-1');
         second.classList.add('collapse-level-2');
@@ -40,10 +38,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     menuToggleIcon.classList.toggle('icon-toggle-on');
     menuToggleIcon.classList.toggle('icon-toggle-off');
 
-    const listItems = [].slice.call(document.querySelectorAll('.main-nav > li'));
-    listItems.forEach((item) => {
-      item.classList.remove('open');
-    });
+    document.querySelectorAll('.main-nav > li').forEach((item) => item.classList.remove('open'));
 
     const elem = document.querySelector('.child-open');
     if (elem) {
@@ -58,14 +53,11 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   });
 
   // Sidebar Nav
-  const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
   const currentUrl = window.location.href;
   const mainNav = document.querySelector('ul.main-nav');
-  const menuParents = [].slice.call(document.querySelectorAll('ul.main-nav li.parent > a'));
-  const subMenusClose = [].slice.call(document.querySelectorAll('ul.main-nav li.parent .close'));
 
   // Set active class
-  allLinks.forEach((link) => {
+  wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a').forEach((link) => {
     if (
       (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0)
       || (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))) {
@@ -120,20 +112,15 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     }));
   };
 
-  menuParents.forEach((parent) => {
+  document.querySelectorAll('ul.main-nav li.parent > a').forEach((parent) => {
     parent.addEventListener('click', openToggle);
     parent.addEventListener('keyup', openToggle);
   });
 
   // Menu close
-  subMenusClose.forEach((subMenu) => {
+  document.querySelectorAll('ul.main-nav li.parent .close').forEach((subMenu) => {
     subMenu.addEventListener('click', () => {
-      const menuChildsOpen = [].slice.call(mainNav.querySelectorAll('.open'));
-
-      menuChildsOpen.forEach((menuChild) => {
-        menuChild.classList.remove('open');
-      });
-
+      mainNav.querySelectorAll('.open').forEach((menuChild) => menuChild.classList.remove('open'));
       mainNav.classList.remove('child-open');
     });
   });

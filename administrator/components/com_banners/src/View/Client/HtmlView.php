@@ -17,7 +17,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Model\ClientModel;
@@ -44,7 +43,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The active item
      *
-     * @var    CMSObject
+     * @var    \stdClass
      * @since  1.5
      */
     protected $item;
@@ -52,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  1.5
      */
     protected $state;
@@ -60,7 +59,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Object containing permissions for the item
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  1.5
      */
     protected $canDo;
@@ -112,14 +111,12 @@ class HtmlView extends BaseHtmlView
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             $isNew ? Text::_('COM_BANNERS_MANAGER_CLIENT_NEW') : Text::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
             'bookmark banners-clients'
         );
-
-        $toolbarButtons = [];
 
         // If not checked out, can save the item.
         if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create'))) {

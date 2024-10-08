@@ -271,7 +271,7 @@ class NewsfeedModel extends AdminModel
         }
 
         if (!empty($item->id)) {
-            $item->tags = new  TagsHelper();
+            $item->tags = new TagsHelper();
             $item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 
             // @todo: We probably don't need this in any client - but needs careful validation
@@ -386,7 +386,7 @@ class NewsfeedModel extends AdminModel
         if (Associations::isEnabled()) {
             $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
                 $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');

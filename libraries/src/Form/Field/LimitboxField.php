@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -82,7 +82,7 @@ class LimitboxField extends ListField
             asort($limits);
 
             // Add an option to show all?
-            $showAll = isset($this->element['showall']) ? (string) $this->element['showall'] === 'true' : true;
+            $showAll = !isset($this->element['showall']) || (string) $this->element['showall'] === 'true';
 
             if ($showAll) {
                 $limits[] = 0;

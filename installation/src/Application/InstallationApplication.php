@@ -46,20 +46,20 @@ final class InstallationApplication extends CMSApplication
     /**
      * Class constructor.
      *
-     * @param   Input|null      $input      An optional argument to provide dependency injection for the application's input
-     *                                      object.  If the argument is a JInput object that object will become the
-     *                                      application's input object, otherwise a default input object is created.
-     * @param   Registry|null   $config     An optional argument to provide dependency injection for the application's
-     *                                      config object.  If the argument is a Registry object that object will become
-     *                                      the application's config object, otherwise a default config object is created.
-     * @param   WebClient|null  $client     An optional argument to provide dependency injection for the application's
-     *                                      client object.  If the argument is a WebClient object that object will become the
-     *                                      application's client object, otherwise a default client object is created.
-     * @param   Container|null  $container  Dependency injection container.
+     * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
+     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  application's input object, otherwise a default input object is created.
+     * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's
+     *                                  config object.  If the argument is a Registry object that object will become
+     *                                  the application's config object, otherwise a default config object is created.
+     * @param   ?WebClient  $client     An optional argument to provide dependency injection for the application's
+     *                                  client object.  If the argument is a WebClient object that object will become the
+     *                                  application's client object, otherwise a default client object is created.
+     * @param   ?Container  $container  Dependency injection container.
      *
      * @since   3.1
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name.
         $this->name = 'installation';
@@ -118,7 +118,7 @@ final class InstallationApplication extends CMSApplication
 
         $errorfiles = $lang->getErrorFiles();
 
-        if (count($errorfiles)) {
+        if (\count($errorfiles)) {
             $output .= '<ul>';
 
             foreach ($errorfiles as $error) {
@@ -134,7 +134,7 @@ final class InstallationApplication extends CMSApplication
         $output .= '<pre>';
         $orphans = $lang->getOrphans();
 
-        if (count($orphans)) {
+        if (\count($orphans)) {
             ksort($orphans, SORT_STRING);
 
             $guesses = [];
@@ -144,7 +144,7 @@ final class InstallationApplication extends CMSApplication
 
                 $parts = explode(' ', $guess);
 
-                if (count($parts) > 1) {
+                if (\count($parts) > 1) {
                     array_shift($parts);
                     $guess = implode(' ', $parts);
                 }
@@ -248,7 +248,7 @@ final class InstallationApplication extends CMSApplication
             }
 
             // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-            if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler')) {
+            if ($this->get('gzip') && !\ini_get('zlib.output_compression') && (\ini_get('output_handler') != 'ob_gzhandler')) {
                 $this->compress();
             }
         } catch (\Throwable $throwable) {
@@ -297,7 +297,7 @@ final class InstallationApplication extends CMSApplication
             list($controllerName, $task) = explode('.', $task, 2);
         }
 
-        $factory = new MVCFactory('Joomla\\CMS');
+        $factory = new MVCFactory('Joomla\\CMS', $this->getLogger());
         $factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
         // Create the instance
@@ -340,19 +340,19 @@ final class InstallationApplication extends CMSApplication
     /**
      * Returns the installed language files in the administrative and frontend area.
      *
-     * @param   DatabaseInterface|null  $db  Database driver.
+     * @param   ?DatabaseInterface  $db  Database driver.
      *
      * @return  array  Array with installed language packs in admin and site area.
      *
      * @since   3.1
      */
-    public function getLocaliseAdmin(DatabaseInterface $db = null)
+    public function getLocaliseAdmin(?DatabaseInterface $db = null)
     {
         $langfiles = [];
 
         // If db connection, fetch them from the database.
         if ($db) {
-            foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language) {
+            foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 
                 foreach ($language as $languageCode => $lang) {
@@ -471,13 +471,13 @@ final class InstallationApplication extends CMSApplication
      * but for many applications it will make sense to override this method and create a document,
      * if required, based on more specific needs.
      *
-     * @param   Document|null  $document  An optional document object. If omitted, the factory document is created.
+     * @param   ?Document  $document  An optional document object. If omitted, the factory document is created.
      *
      * @return  InstallationApplication This method is chainable.
      *
      * @since   3.2
      */
-    public function loadDocument(Document $document = null)
+    public function loadDocument(?Document $document = null)
     {
         if ($document === null) {
             $lang = $this->getLanguage();

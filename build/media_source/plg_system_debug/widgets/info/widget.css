@@ -1,32 +1,32 @@
 table.phpdebugbar-widgets-info {
-    margin-left: 5px;
-    margin-top: 5px;
-    width: 75%;
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    line-height: 1.3em;
+  width: 75%;
+  margin-top: 5px;
+  margin-left: 5px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  line-height: 1.3em;
 }
 
 table.phpdebugbar-widgets-info td {
-    border-bottom: 1px solid silver;
-    padding-right: 10px;
+  padding-right: 10px;
+  border-bottom: 1px solid #c0c0c0;
 }
 
 table.phpdebugbar-widgets-info dt {
-    float: left;
-    width: 30%;
-    text-align: left;
-    padding: .25em;
-    clear: left;
+  float: left;
+  width: 30%;
+  padding: .25em;
+  clear: left;
+  text-align: left;
 }
 
 table.phpdebugbar-widgets-info dd {
-    float: left;
-    width: 60%;
-    padding: .25em 0;
+  float: left;
+  width: 60%;
+  padding: .25em 0;
 }
 
 table.phpdebugbar-widgets-info dl:after {
-    content: "";
-    display: table;
-    clear: both;
+  display: table;
+  clear: both;
+  content: "";
 }

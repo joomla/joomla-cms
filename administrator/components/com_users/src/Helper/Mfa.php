@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\HtmlDocument;
@@ -110,7 +109,7 @@ abstract class Mfa
         $view->setModel($methodsModel, true);
         /** @noinspection PhpParamsInspection */
         $view->setModel($backupCodesModel);
-        $view->document  = $app->getDocument();
+        $view->setDocument($app->getDocument());
         $view->returnURL = base64_encode(Uri::getInstance()->toString());
         $view->user      = $user;
         $view->set('forHMVC', true);
@@ -130,7 +129,7 @@ abstract class Mfa
              * Global Configuration and you can see the error exception which will help you solve
              * your problem.
              */
-            if (defined('JDEBUG') && JDEBUG) {
+            if (\defined('JDEBUG') && JDEBUG) {
                 throw $e;
             }
 
@@ -150,7 +149,7 @@ abstract class Mfa
     {
         PluginHelper::importPlugin('multifactorauth');
 
-        if (is_null(self::$allMFAs)) {
+        if (\is_null(self::$allMFAs)) {
             // Get all the plugin results
             $event = new GetMethod();
             $temp  = Factory::getApplication()
@@ -162,7 +161,7 @@ abstract class Mfa
             self::$allMFAs = [];
 
             foreach ($temp as $method) {
-                if (!is_array($method) && !($method instanceof MethodDescriptor)) {
+                if (!\is_array($method) && !($method instanceof MethodDescriptor)) {
                     continue;
                 }
 
@@ -196,15 +195,15 @@ abstract class Mfa
     public static function canAddEditMethod(?User $user = null): bool
     {
         // Cannot do MFA operations on no user or a guest user.
-        if (is_null($user) || $user->guest) {
+        if (\is_null($user) || $user->guest) {
             return false;
         }
 
         // If the user is in a user group which disallows MFA we cannot allow adding / editing methods.
         $neverMFAGroups = ComponentHelper::getParams('com_users')->get('neverMFAUserGroups', []);
-        $neverMFAGroups = is_array($neverMFAGroups) ? $neverMFAGroups : [];
+        $neverMFAGroups = \is_array($neverMFAGroups) ? $neverMFAGroups : [];
 
-        if (count(array_intersect($user->getAuthorisedGroups(), $neverMFAGroups))) {
+        if (\count(array_intersect($user->getAuthorisedGroups(), $neverMFAGroups))) {
             return false;
         }
 
@@ -235,7 +234,7 @@ abstract class Mfa
     public static function canDeleteMethod(?User $user = null): bool
     {
         // Cannot do MFA operations on no user or a guest user.
-        if (is_null($user) || $user->guest) {
+        if (\is_null($user) || $user->guest) {
             return false;
         }
 
@@ -302,7 +301,7 @@ abstract class Mfa
         $records = array_filter(
             $records,
             function ($record) use (&$hasBackupCodes) {
-                $isValid = !is_null($record) && (!empty($record->options));
+                $isValid = !\is_null($record) && (!empty($record->options));
 
                 if ($isValid && ($record->method === 'backupcodes')) {
                     $hasBackupCodes = true;
@@ -313,7 +312,7 @@ abstract class Mfa
         );
 
         // If the only Method is backup codes it's as good as having no records
-        if ((count($records) === 1) && $hasBackupCodes) {
+        if ((\count($records) === 1) && $hasBackupCodes) {
             return [];
         }
 
@@ -339,7 +338,7 @@ abstract class Mfa
         // I need at least one MFA method plugin for the setup interface to make any sense.
         $plugins = PluginHelper::getPlugin('multifactorauth');
 
-        if (count($plugins) < 1) {
+        if (\count($plugins) < 1) {
             return false;
         }
 

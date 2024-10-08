@@ -11,14 +11,14 @@ namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Extension\LegacyComponent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -67,7 +67,7 @@ trait LegacyModelLoaderTrait
     public static function getInstance($type, $prefix = '', $config = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%1$s::getInstance() is deprecated. Load it through the MVC factory.',
                 self::class
             ),

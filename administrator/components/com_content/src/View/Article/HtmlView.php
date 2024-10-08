@@ -58,7 +58,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $canDo;
 
@@ -68,6 +68,15 @@ class HtmlView extends BaseHtmlView
      * @var  string
      */
     protected $eName;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Execute and display a template script.
@@ -93,8 +102,14 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
         $this->canDo = ContentHelper::getActions('com_content', 'article', $this->item->id);
 
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
+        }
+
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -111,7 +126,11 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
 
         parent::display($tpl);
     }
@@ -131,8 +150,8 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = Toolbar::getInstance();
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Built the actions for new and existing records.
         $canDo = $this->canDo;
@@ -143,7 +162,7 @@ class HtmlView extends BaseHtmlView
         );
 
         // For new records, check the create permission.
-        if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)) {
+        if ($isNew && (\count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)) {
             $toolbar->apply('article.apply');
 
             $saveGroup = $toolbar->dropdownButton('save-group');
@@ -225,5 +244,42 @@ class HtmlView extends BaseHtmlView
         $toolbar->divider();
         $toolbar->inlinehelp();
         $toolbar->help('Articles:_Edit');
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $user       = $this->getCurrentUser();
+        $userId     = $user->id;
+        $isNew      = ($this->item->id == 0);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = $this->getDocument()->getToolbar();
+
+        // Build the actions for new and existing records.
+        $canDo = $this->canDo;
+
+        ToolbarHelper::title(
+            Text::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
+            'pencil-alt article-add'
+        );
+
+        $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_content', 'core.create')) > 0);
+        $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+
+        // For new records, check the create permission.
+        if ($canCreate || $canEdit) {
+            $toolbar->apply('article.apply');
+            $toolbar->save('article.save');
+        }
+
+        $toolbar->cancel('article.cancel');
     }
 }

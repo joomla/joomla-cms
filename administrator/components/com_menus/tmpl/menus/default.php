@@ -10,22 +10,25 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Menus\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
-    ->useScript('com_menus.admin-menus');
+    ->useScript('com_menus.admin-menus')
+    ->useScript('joomla.dialog-autocreate');
 
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
@@ -37,7 +40,25 @@ foreach ($this->items as $item) {
     }
 }
 
-$this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
+$saveOrder = $listOrder == 'a.ordering';
+
+if ($saveOrder) {
+    $saveOrderingUrl = 'index.php?option=com_menus&task=menus.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    HTMLHelper::_('draggablelist.draggable');
+}
+
+$this->getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
+
+// Set up the modal options that will be used for module editor
+$popupOptionsEdit = [
+    'popupType'  => 'iframe',
+    'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+];
+$popupOptionsAdd = [
+    'popupType'  => 'iframe',
+    'textHeader' => Text::_('COM_MENUS_ADD_MENU_MODULE'),
+];
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
@@ -61,6 +82,9 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                 <td class="w-1 text-center">
                                     <?php echo HTMLHelper::_('grid.checkall'); ?>
                                 </td>
+                                <th scope="col" class="w-1 text-center d-none d-md-table-cell">
+                                    <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+                                </th>
                                 <th scope="col">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
@@ -88,14 +112,34 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody <?php if ($saveOrder) :
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                               endif; ?>>
                         <?php foreach ($this->items as $i => $item) :
+                            $ordering       = ($listOrder == 'a.ordering');
                             $canEdit        = $user->authorise('core.edit', 'com_menus.menu.' . (int) $item->id);
                             $canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
+                            $canChange      = $user->authorise('core.edit.state', 'com_menus.menu.' . (int) $item->id);
                             ?>
-                            <tr class="row<?php echo $i % 2; ?>">
+                            <tr class="row<?php echo $i % 2; ?>" data-draggable-group="0">
                                 <td class="text-center">
                                     <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell">
+                                    <?php
+                                    $iconClass = '';
+                                    if (!$canChange) {
+                                        $iconClass = ' inactive';
+                                    } elseif (!$saveOrder) {
+                                        $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+                                    }
+                                    ?>
+                                    <span class="sortable-handler<?php echo $iconClass; ?>">
+                                        <span class="icon-ellipsis-v" aria-hidden="true"></span>
+                                    </span>
+                                    <?php if ($canChange && $saveOrder) : ?>
+                                        <input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
+                                    <?php endif; ?>
                                 </td>
                                 <th scope="row">
                                     <div class="name break-word">
@@ -179,10 +223,13 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                 <span class="caret"></span>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <?php foreach ($this->modules[$item->menutype] as &$module) : ?>
+                                                <?php foreach ($this->modules[$item->menutype] as $module) : ?>
                                                     <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
-                                                        <?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-                                                        <button type="button" class="dropdown-item" data-bs-target="#moduleEdit<?php echo $module->id; ?>Modal" data-bs-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
+                                                        <?php $popupOptionsEdit['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
+                                                        <button type="button" class="dropdown-item"
+                                                            data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>"
+                                                            data-checkin-url="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>"
+                                                            data-close-on-message data-reload-on-close>
                                                             <?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
                                                     <?php else : ?>
                                                         <span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
@@ -190,62 +237,11 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                 <?php endforeach; ?>
                                             </div>
                                          </div>
-                                        <?php foreach ($this->modules[$item->menutype] as &$module) : ?>
-                                            <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
-                                                <?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-                                                <?php echo HTMLHelper::_(
-                                                    'bootstrap.renderModal',
-                                                    'moduleEdit' . $module->id . 'Modal',
-                                                    [
-                                                            'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-                                                            'backdrop'    => 'static',
-                                                            'keyboard'    => false,
-                                                            'closeButton' => false,
-                                                            'url'         => $link,
-                                                            'height'      => '400px',
-                                                            'width'       => '800px',
-                                                            'bodyHeight'  => 70,
-                                                            'modalWidth'  => 80,
-                                                            'footer'      => '<button type="button" class="btn btn-danger" data-bs-dismiss="modal"'
-                                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                                                                    . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                                                                    . '<button type="button" class="btn btn-success"'
-                                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                                                                    . Text::_('JSAVE') . '</button>'
-                                                                    . '<button type="button" class="btn btn-success"'
-                                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
-                                                                    . Text::_('JAPPLY') . '</button>',
-                                                        ]
-                                                ); ?>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
                                     <?php elseif ($modMenuId) : ?>
-                                        <?php $link = Route::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#moduleAddModal"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
-                                        <?php echo HTMLHelper::_(
-                                            'bootstrap.renderModal',
-                                            'moduleAddModal',
-                                            [
-                                                    'title'       => Text::_('COM_MENUS_ADD_MENU_MODULE'),
-                                                    'backdrop'    => 'static',
-                                                    'keyboard'    => false,
-                                                    'closeButton' => false,
-                                                    'url'         => $link,
-                                                    'height'      => '400px',
-                                                    'width'       => '800px',
-                                                    'bodyHeight'  => 70,
-                                                    'modalWidth'  => 80,
-                                                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
-                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
-                                                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                                                            . '<button type="button" class="btn btn-primary"'
-                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#saveBtn\'})">'
-                                                            . Text::_('JSAVE') . '</button>'
-                                                            . '<button type="button" class="btn btn-success"'
-                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
-                                                            . Text::_('JAPPLY') . '</button>',
-                                                ]
-                                        ); ?>
+                                        <?php $popupOptionsAdd['src'] = Route::_('index.php?option=com_modules&task=module.add&tmpl=component&layout=modal&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype, false); ?>
+                                        <button type="button" class="btn btn-sm btn-primary"
+                                            data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsAdd, JSON_UNESCAPED_SLASHES)) ?>"
+                                            data-close-on-message data-reload-on-close><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
                                     <?php endif; ?>
                                 </td>
                                 <td class="d-none d-lg-table-cell">

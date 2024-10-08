@@ -10,10 +10,12 @@
 
 namespace Joomla\Plugin\EditorsXtd\Article\Extension;
 
+use Joomla\CMS\Editor\Button\Button;
+use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,24 +26,54 @@ use Joomla\CMS\Session\Session;
  *
  * @since  1.5
  */
-final class Article extends CMSPlugin
+final class Article extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Load the language file on instantiation.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    boolean
-     * @since  3.1
+     * @return array
+     *
+     * @since   5.0.0
      */
-    protected $autoloadLanguage = true;
+    public static function getSubscribedEvents(): array
+    {
+        return ['onEditorButtonsSetup' => 'onEditorButtonsSetup'];
+    }
+
+    /**
+     * @param  EditorButtonsSetupEvent $event
+     * @return void
+     *
+     * @since   5.0.0
+     */
+    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event): void
+    {
+        $subject  = $event->getButtonsRegistry();
+        $disabled = $event->getDisabledButtons();
+
+        if (\in_array($this->_name, $disabled)) {
+            return;
+        }
+
+        $this->loadLanguage();
+
+        $button = $this->onDisplay($event->getEditorId());
+
+        if ($button) {
+            $subject->add($button);
+        }
+    }
 
     /**
      * Display the button
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  CMSObject|void  The button options as CMSObject, void if ACL check fails.
+     * @return  Button|void  The button options as Button object, void if ACL check fails.
      *
      * @since   1.5
+     *
+     * @deprecated  5.0 Use onEditorButtonsSetup event
      */
     public function onDisplay($name)
     {
@@ -49,11 +81,11 @@ final class Article extends CMSPlugin
 
         // Can create in any category (component permission) or at least in one category
         $canCreateRecords = $user->authorise('core.create', 'com_content')
-            || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
+            || \count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
 
         // Instead of checking edit on all records, we can use **same** check as the form editing view
         $values           = (array) $this->getApplication()->getUserState('com_content.edit.article.id');
-        $isEditingRecords = count($values);
+        $isEditingRecords = \count($values);
 
         // This ACL check is probably a double-check (form view already performed checks)
         $hasAccess = $canCreateRecords || $isEditingRecords;
@@ -61,23 +93,22 @@ final class Article extends CMSPlugin
             return;
         }
 
-        $link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
-            . Session::getFormToken() . '=1&amp;editor=' . $name;
+        $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&'
+            . Session::getFormToken() . '=1&editor=' . $name;
 
-        $button          = new CMSObject();
-        $button->modal   = true;
-        $button->link    = $link;
-        $button->text    = Text::_('PLG_ARTICLE_BUTTON_ARTICLE');
-        $button->name    = $this->_type . '_' . $this->_name;
-        $button->icon    = 'file-add';
-        $button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M28 24v-4h-4v4h-4v4h4v4h4v-4h4v-4zM2 2h18v6h6v10h2v-10l-8-'
-            . '8h-20v32h18v-2h-16z"></path></svg>';
-        $button->options = [
-            'height'     => '300px',
-            'width'      => '800px',
-            'bodyHeight' => '70',
-            'modalWidth' => '80',
-        ];
+        $button = new Button(
+            $this->_name,
+            [
+                'action'  => 'modal',
+                'link'    => $link,
+                'text'    => Text::_('PLG_ARTICLE_BUTTON_ARTICLE'),
+                'icon'    => 'file-add',
+                'iconSVG' => '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M28 24v-4h-4v4h-4v4h4v4h4v-4h4v-4zM2 2h18v6h6v10h2v-10l-8-'
+                    . '8h-20v32h18v-2h-16z"></path></svg>',
+                // This is whole Plugin name, it is needed for keeping backward compatibility
+                'name' => $this->_type . '_' . $this->_name,
+            ]
+        );
 
         return $button;
     }

@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,17 +38,18 @@ class ClientTable extends Table implements VersionableTableInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_banners.client';
 
         $this->setColumnAlias('published', 'state');
 
-        parent::__construct('#__banner_clients', 'id', $db);
+        parent::__construct('#__banner_clients', 'id', $db, $dispatcher);
     }
 
     /**

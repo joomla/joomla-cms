@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -166,8 +166,8 @@ class RssRenderer extends DocumentRenderer
             $feed .= "		<skipDays>" . htmlspecialchars($data->skipDays, ENT_COMPAT, 'UTF-8') . "</skipDays>\n";
         }
 
-        for ($i = 0, $count = \count($data->items); $i < $count; $i++) {
-            $itemlink = $data->items[$i]->link;
+        foreach ($data->items as $item) {
+            $itemlink = $item->link;
 
             if (preg_match('/[\x80-\xFF]/', $itemlink)) {
                 $itemlink = implode('/', array_map('rawurlencode', explode('/', $itemlink)));
@@ -178,20 +178,20 @@ class RssRenderer extends DocumentRenderer
             }
 
             $feed .= "		<item>\n";
-            $feed .= "			<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
+            $feed .= "			<title>" . htmlspecialchars(strip_tags($item->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
             $feed .= "			<link>" . str_replace(' ', '%20', $itemlink) . "</link>\n";
 
-            if (empty($data->items[$i]->guid)) {
+            if (empty($item->guid)) {
                 $feed .= "			<guid isPermaLink=\"true\">" . str_replace(' ', '%20', $itemlink) . "</guid>\n";
             } else {
-                $feed .= "			<guid isPermaLink=\"false\">" . htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8') . "</guid>\n";
+                $feed .= "			<guid isPermaLink=\"false\">" . htmlspecialchars($item->guid, ENT_COMPAT, 'UTF-8') . "</guid>\n";
             }
 
-            $feed .= "			<description><![CDATA[" . $this->_relToAbs($data->items[$i]->description) . "]]></description>\n";
+            $feed .= "			<description><![CDATA[" . $this->_relToAbs($item->description) . "]]></description>\n";
 
-            if ($data->items[$i]->authorEmail != '') {
+            if ($item->authorEmail != '') {
                 $feed .= '			<author>'
-                    . htmlspecialchars($data->items[$i]->authorEmail . ' (' . $data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8') . "</author>\n";
+                    . htmlspecialchars($item->authorEmail . ' (' . $item->author . ')', ENT_COMPAT, 'UTF-8') . "</author>\n";
             }
 
             /*
@@ -202,33 +202,33 @@ class RssRenderer extends DocumentRenderer
              * }
              */
 
-            if (empty($data->items[$i]->category) === false) {
-                if (\is_array($data->items[$i]->category)) {
-                    foreach ($data->items[$i]->category as $cat) {
+            if (empty($item->category) === false) {
+                if (\is_array($item->category)) {
+                    foreach ($item->category as $cat) {
                         $feed .= "			<category>" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
                     }
                 } else {
-                    $feed .= "			<category>" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "</category>\n";
+                    $feed .= "			<category>" . htmlspecialchars($item->category, ENT_COMPAT, 'UTF-8') . "</category>\n";
                 }
             }
 
-            if ($data->items[$i]->comments != '') {
-                $feed .= "			<comments>" . htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8') . "</comments>\n";
+            if ($item->comments != '') {
+                $feed .= "			<comments>" . htmlspecialchars($item->comments, ENT_COMPAT, 'UTF-8') . "</comments>\n";
             }
 
-            if ($data->items[$i]->date != '') {
-                $itemDate = Factory::getDate($data->items[$i]->date);
+            if ($item->date != '') {
+                $itemDate = Factory::getDate($item->date);
                 $itemDate->setTimezone($tz);
                 $feed .= "			<pubDate>" . htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
             }
 
-            if ($data->items[$i]->enclosure != null) {
+            if ($item->enclosure != null) {
                 $feed .= "			<enclosure url=\"";
-                $feed .= $data->items[$i]->enclosure->url;
+                $feed .= $item->enclosure->url;
                 $feed .= "\" length=\"";
-                $feed .= $data->items[$i]->enclosure->length;
+                $feed .= $item->enclosure->length;
                 $feed .= "\" type=\"";
-                $feed .= $data->items[$i]->enclosure->type;
+                $feed .= $item->enclosure->type;
                 $feed .= "\"/>\n";
             }
 

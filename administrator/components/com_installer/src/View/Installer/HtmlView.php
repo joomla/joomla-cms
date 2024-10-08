@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,7 +30,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -78,7 +77,7 @@ class HtmlView extends BaseHtmlView
         // Are there messages to display?
         $showMessage = false;
 
-        if (is_object($state)) {
+        if (\is_object($state)) {
             $message1    = $state->get('message');
             $message2    = $state->get('extension_message');
             $showMessage = ($message1 || $message2);
@@ -101,7 +100,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo   = ContentHelper::getActions('com_installer');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . strtoupper($this->getName())), 'puzzle-piece install');
 

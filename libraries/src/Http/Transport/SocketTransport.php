@@ -19,7 +19,7 @@ use Joomla\Uri\UriInterface;
 use Laminas\Diactoros\Stream as StreamResponse;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -72,7 +72,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         // If we have data to send make sure our request is setup for it.
         if (!empty($data)) {
             // If the data is not a scalar value encode it to be sent with the request.
-            if (!is_scalar($data)) {
+            if (!\is_scalar($data)) {
                 $data = http_build_query($data);
             }
 
@@ -130,8 +130,8 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $content = $this->getResponse($content);
 
         // Follow Http redirects
-        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location'])) {
-            return $this->request($method, new Uri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
+        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location'][0])) {
+            return $this->request($method, new Uri($content->headers['Location'][0]), $data, $headers, $timeout, $userAgent);
         }
 
         return $content;
@@ -226,32 +226,32 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         }
 
         if (!is_numeric($timeout)) {
-            $timeout = ini_get('default_socket_timeout');
+            $timeout = \ini_get('default_socket_timeout');
         }
 
         // Capture PHP errors
-        $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
-        ini_set('track_errors', true);
+        // PHP sends a warning if the uri does not exist; we silence it and throw an exception instead.
+        set_error_handler(static function ($errno, $err) {
+            throw new \Exception($err);
+        }, \E_WARNING);
 
-        // PHP sends a warning if the uri does not exists; we silence it and throw an exception instead.
-        // Attempt to connect to the server
-        $connection = @fsockopen($host, $port, $errno, $err, $timeout);
+        try {
+            // Attempt to connect to the server
+            $connection = fsockopen($host, $port, $errno, $err, $timeout);
 
-        if (!$connection) {
-            if (!$php_errormsg) {
+            if (!$connection) {
                 // Error but nothing from php? Create our own
-                $php_errormsg = sprintf('Could not connect to resource %s: %s (error code %d)', $uri, $err, $errno);
+                if (!$err) {
+                    $err = \sprintf('Could not connect to host: %s:%s', $host, $port);
+                }
+
+                throw new \Exception($err);
             }
-
-            // Restore error tracking to give control to the exception handler
-            ini_set('track_errors', $track_errors);
-
-            throw new \RuntimeException($php_errormsg);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e->getMessage());
+        } finally {
+            restore_error_handler();
         }
-
-        // Restore error tracking to what it was before.
-        ini_set('track_errors', $track_errors);
 
         // Since the connection was successful let's store it in case we need to use it later.
         $this->connections[$key] = $connection;

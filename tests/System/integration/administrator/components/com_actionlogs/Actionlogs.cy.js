@@ -30,13 +30,13 @@ describe('Test in backend that the action logs', () => {
 
   it('can clear logs', () => {
     cy.get('#toolbar-delete1').click();
-    cy.on('window:confirm', () => true);
+    cy.clickDialogConfirm(true);
     cy.get('#system-message-container').contains('All User Action logs have been deleted').should('exist');
   });
 
   it('can delete selected logs', () => {
     cy.get('#toolbar-delete').click();
-    cy.on('window:confirm', () => true);
+    cy.clickDialogConfirm(true);
     cy.get('#system-message-container').contains('Please first make a selection from the list').should('exist');
     cy.log('Make a selection first');
     cy.doAdministratorLogout();
@@ -44,7 +44,7 @@ describe('Test in backend that the action logs', () => {
     cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
     cy.checkAllResults();
     cy.get('#toolbar-delete').click();
-    cy.on('window:confirm', () => true);
+    cy.clickDialogConfirm(true);
     cy.get('#system-message-container').contains('logs deleted').should('exist');
     cy.task('queryDB', 'TRUNCATE #__action_logs');
   });

@@ -13,7 +13,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -294,7 +294,7 @@ class InputFilter extends BaseInputFilter
                     || $options['shorttag_in_content'] || $options['phar_stub_in_content']
                     || ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions']))
                 ) {
-                    $fp = strlen($tempName) ? @fopen($tempName, 'r') : false;
+                    $fp = \strlen($tempName) ? @fopen($tempName, 'r') : false;
 
                     if ($fp !== false) {
                         $data = '';
@@ -454,7 +454,7 @@ class InputFilter extends BaseInputFilter
         $source = preg_replace_callback(
             '/&#x([a-f0-9]+);/mi',
             function ($m) {
-                return mb_convert_encoding(\chr(\hexdec($m[1])), 'UTF-8', 'ISO-8859-1');
+                return mb_convert_encoding(\chr(hexdec($m[1])), 'UTF-8', 'ISO-8859-1');
             },
             $source
         );

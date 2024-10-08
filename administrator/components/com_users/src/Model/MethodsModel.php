@@ -41,7 +41,7 @@ class MethodsModel extends BaseDatabaseModel
      */
     public function getMethods(?User $user = null): array
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -87,8 +87,8 @@ class MethodsModel extends BaseDatabaseModel
     public function deleteAll(?User $user = null): void
     {
         // Make sure we have a user object
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser() ?: Factory::getApplication()->getIdentity();
         }
 
         // If the user object is a guest (who can't have MFA) we stop with an error
@@ -110,7 +110,7 @@ class MethodsModel extends BaseDatabaseModel
      * Today, 08:33
      * January 1, 2015
      *
-     * @param   string  $dateTimeText  The database time string to use, e.g. "2017-01-13 13:25:36"
+     * @param   ?string  $dateTimeText  The database time string to use, e.g. "2017-01-13 13:25:36"
      *
      * @return  string  The formatted, human-readable date
      * @throws  \Exception
@@ -170,7 +170,7 @@ class MethodsModel extends BaseDatabaseModel
             }
         }
 
-        return sprintf($containerString, $jDate->format($formatString, true));
+        return \sprintf($containerString, $jDate->format($formatString, true));
     }
 
     /**
@@ -201,7 +201,7 @@ class MethodsModel extends BaseDatabaseModel
             return;
         }
 
-        $exists = !is_null($result);
+        $exists = !\is_null($result);
 
         $object = (object) [
             'user_id'       => $user->id,

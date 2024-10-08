@@ -42,6 +42,9 @@ trait AjaxHandlerCreate
      */
     public function onAjaxWebauthnCreate(AjaxCreate $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         /**
          * Fundamental sanity check: this callback is only allowed after a Public Key has been created server-side and
          * the user it was created for matches the current user.

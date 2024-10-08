@@ -16,8 +16,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -56,7 +54,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var CMSObject
+     * @var \Joomla\Registry\Registry
      * @since  4.1.0
      */
     protected $state;
@@ -64,10 +62,19 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      * @since  4.1.0
      */
     protected $canDo;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Overloads the parent constructor.
@@ -128,7 +135,7 @@ class HtmlView extends BaseHtmlView
 
         $isNew   = ($this->item->id == 0);
         $canDo   = $this->canDo;
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title($isNew ? Text::_('COM_SCHEDULER_MANAGER_TASK_NEW') : Text::_('COM_SCHEDULER_MANAGER_TASK_EDIT'), 'clock');
 

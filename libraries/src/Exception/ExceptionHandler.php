@@ -11,11 +11,12 @@ namespace Joomla\CMS\Exception;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Error\AbstractRenderer;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -123,6 +124,15 @@ class ExceptionHandler
             Factory::$document = $renderer->getDocument();
             Factory::getApplication()->loadDocument(Factory::$document);
 
+            // Trigger the onAfterInitialiseDocument event.
+            $app->getDispatcher()->dispatch(
+                'onAfterInitialiseDocument',
+                new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', [
+                    'subject'  => $app,
+                    'document' => $renderer->getDocument(),
+                ])
+            );
+
             $data = $renderer->render($error);
 
             // If nothing was rendered, just use the message from the Exception
@@ -206,7 +216,7 @@ class ExceptionHandler
         // Try to log the error, but don't let the logging cause a fatal error
         try {
             Log::add(
-                sprintf(
+                \sprintf(
                     'Uncaught Throwable of type %1$s thrown with message "%2$s". Stack trace: %3$s',
                     \get_class($error),
                     $error->getMessage(),

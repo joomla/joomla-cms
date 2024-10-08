@@ -19,14 +19,16 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $app       = Factory::getApplication();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
@@ -107,7 +109,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                             $orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
                             $canCreate = $user->authorise('core.create', 'com_menus.menu.' . $item->menutype_id);
                             $canEdit = $user->authorise('core.edit', 'com_menus.menu.' . $item->menutype_id);
-                            $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                            $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                             $canChange = $user->authorise('core.edit.state', 'com_menus.menu.' . $item->menutype_id) && $canCheckin;
 
                             // Get the parents of item for sorting
@@ -269,15 +271,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 
                     <?php // Load the batch processing form if user is allowed ?>
                     <?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            [
-                                'title'  => Text::_('COM_MENUS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer')
-                            ],
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
 

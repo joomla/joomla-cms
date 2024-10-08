@@ -12,13 +12,13 @@ namespace Joomla\Component\Contenthistory\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -51,7 +51,7 @@ class ContenthistoryHelper
         foreach ($object as $name => $value) {
             $result[$name] = $value;
 
-            if (is_object($value)) {
+            if (\is_object($value)) {
                 foreach ($value as $subName => $subValue) {
                     $result[$subName] = $subValue;
                 }
@@ -74,9 +74,9 @@ class ContenthistoryHelper
     {
         $object = json_decode($jsonString);
 
-        if (is_object($object)) {
+        if (\is_object($object)) {
             foreach ($object as $name => $value) {
-                if (!is_null($value) && $subObject = json_decode($value)) {
+                if (!\is_null($value) && $subObject = json_decode($value)) {
                     $object->$name = $subObject;
                 }
             }
@@ -130,7 +130,7 @@ class ContenthistoryHelper
 
                         $valueText = null;
 
-                        if (is_array($optionFieldArray) && count($optionFieldArray)) {
+                        if (\is_array($optionFieldArray) && \count($optionFieldArray)) {
                             $valueText = trim((string) $optionFieldArray[0]);
                         }
 
@@ -161,7 +161,7 @@ class ContenthistoryHelper
         // First, see if we have a file name in the $typesTable
         $options = json_decode($typesTable->content_history_options);
 
-        if (is_object($options) && isset($options->formFile) && is_file(JPATH_ROOT . '/' . $options->formFile)) {
+        if (\is_object($options) && isset($options->formFile) && is_file(JPATH_ROOT . '/' . $options->formFile)) {
             $result = JPATH_ROOT . '/' . $options->formFile;
         } else {
             $aliasArray = explode('.', $typesTable->type_alias);
@@ -223,7 +223,7 @@ class ContenthistoryHelper
     public static function hideFields($object, ContentType $typeTable)
     {
         if ($options = json_decode($typeTable->content_history_options)) {
-            if (isset($options->hideFields) && is_array($options->hideFields)) {
+            if (isset($options->hideFields) && \is_array($options->hideFields)) {
                 foreach ($options->hideFields as $field) {
                     unset($object->$field);
                 }
@@ -246,7 +246,7 @@ class ContenthistoryHelper
     {
         $aliasArray = explode('.', $typeAlias);
 
-        if (is_array($aliasArray) && count($aliasArray) == 2) {
+        if (\is_array($aliasArray) && \count($aliasArray) == 2) {
             $component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
             $lang      = Factory::getLanguage();
 
@@ -292,7 +292,7 @@ class ContenthistoryHelper
             $result->$name->value = $valuesArray[$name] ?? $value;
             $result->$name->label = $labelsArray[$name] ?? $name;
 
-            if (is_object($value)) {
+            if (\is_object($value)) {
                 $subObject = new \stdClass();
 
                 foreach ($value as $subName => $subValue) {
@@ -346,7 +346,7 @@ class ContenthistoryHelper
     public static function processLookupFields($object, ContentType $typesTable)
     {
         if ($options = json_decode($typesTable->content_history_options)) {
-            if (isset($options->displayLookup) && is_array($options->displayLookup)) {
+            if (isset($options->displayLookup) && \is_array($options->displayLookup)) {
                 foreach ($options->displayLookup as $lookup) {
                     $sourceColumn = $lookup->sourceColumn ?? false;
                     $sourceValue  = $object->$sourceColumn->value ?? false;

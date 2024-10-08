@@ -27,6 +27,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
 
@@ -39,8 +41,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class RegistrationModel extends FormModel
+class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * @var    object  The user registration data.
      * @since  1.6
@@ -50,14 +54,14 @@ class RegistrationModel extends FormModel
     /**
      * Constructor.
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config = array_merge(
             [
@@ -127,7 +131,7 @@ class RegistrationModel extends FormModel
         PluginHelper::importPlugin('user');
 
         // Activate the user.
-        $user = Factory::getUser($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         // Admin activation is on and user is verifying their email
         if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0)) {
@@ -171,7 +175,7 @@ class RegistrationModel extends FormModel
 
             // Send mail to all users with users creating permissions and receiving system emails
             foreach ($rows as $row) {
-                $usercreator = Factory::getUser($row->id);
+                $usercreator = $this->getUserFactory()->loadUserById($row->id);
 
                 if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users')) {
                     try {
@@ -276,7 +280,7 @@ class RegistrationModel extends FormModel
 
             foreach ($temp as $k => $v) {
                 // Here we could have a grouped field, let's check it
-                if (is_array($v)) {
+                if (\is_array($v)) {
                     $this->data->$k = new \stdClass();
 
                     foreach ($v as $key => $val) {
@@ -335,7 +339,7 @@ class RegistrationModel extends FormModel
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         return $form;
@@ -545,7 +549,7 @@ class RegistrationModel extends FormModel
 
             // Send mail to all superadministrators id
             foreach ($rows as $row) {
-                $usercreator = Factory::getUser($row->id);
+                $usercreator = $this->getUserFactory()->loadUserById($row->id);
 
                 if (!$usercreator->authorise('core.create', 'com_users') || !$usercreator->authorise('core.manage', 'com_users')) {
                     continue;
@@ -599,7 +603,7 @@ class RegistrationModel extends FormModel
                 return false;
             }
 
-            if (count($userids) > 0) {
+            if (\count($userids) > 0) {
                 $jdate     = new Date();
                 $dateToSql = $jdate->toSql();
                 $subject   = Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT');
@@ -641,10 +645,12 @@ class RegistrationModel extends FormModel
 
         if ($useractivation == 1) {
             return 'useractivate';
-        } elseif ($useractivation == 2) {
-            return 'adminactivate';
-        } else {
-            return $user->id;
         }
+
+        if ($useractivation == 2) {
+            return 'adminactivate';
+        }
+
+        return $user->id;
     }
 }

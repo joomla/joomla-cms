@@ -17,8 +17,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,13 +43,13 @@ class UsersModel extends ListModel
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -167,7 +167,7 @@ class UsersModel extends ListModel
             $groups  = $this->getState('filter.groups');
             $groupId = $this->getState('filter.group_id');
 
-            if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups))) {
+            if (isset($groups) && (empty($groups) || $groupId && !\in_array($groupId, $groups))) {
                 $items = [];
             } else {
                 $items = parent::getItems();
@@ -281,7 +281,7 @@ class UsersModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */

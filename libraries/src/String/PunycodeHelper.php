@@ -15,7 +15,7 @@ use Algo26\IdnaConvert\ToUnicode;
 use Joomla\Uri\UriHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -196,7 +196,7 @@ abstract class PunycodeHelper
     public static function emailToPunycode($email)
     {
         if ($email === null) {
-            @trigger_error(sprintf('Passing null value is deprecated in %s and will throw an exception in 6.0.', __METHOD__), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Passing null value is deprecated in %s and will throw an exception in 6.0.', __METHOD__), E_USER_DEPRECATED);
             return '';
         }
 
@@ -215,7 +215,7 @@ abstract class PunycodeHelper
             }
 
             $newdomain = substr($newdomain, 0, -1);
-            $newEmail  = $newEmail . '@' . $newdomain;
+            $newEmail .= '@' . $newdomain;
         }
 
         return $newEmail;
@@ -248,7 +248,7 @@ abstract class PunycodeHelper
             }
 
             $newdomain = substr($newdomain, 0, -1);
-            $newEmail  = $newEmail . '@' . $newdomain;
+            $newEmail .= '@' . $newdomain;
         }
 
         return $newEmail;

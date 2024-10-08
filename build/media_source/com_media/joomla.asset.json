@@ -6,23 +6,11 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_media.edit-images.es5",
-      "type": "script",
-      "uri": "com_media/edit-images-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_media.edit-images",
       "type": "script",
       "uri": "com_media/edit-images.min.js",
       "dependencies": [
-        "com_media.edit-images.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -34,23 +22,11 @@
       "uri": "com_media/media-manager.min.css"
     },
     {
-      "name": "com_media.mediamanager.es5",
-      "type": "script",
-      "uri": "com_media/media-manager-es5.min.js",
-      "dependencies": [
-        "core", "messages"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_media.mediamanager",
       "type": "script",
       "uri": "com_media/media-manager.min.js",
       "dependencies": [
-        "com_media.mediamanager.es5"
+        "core", "messages"
       ],
       "attributes": {
         "type": "module"

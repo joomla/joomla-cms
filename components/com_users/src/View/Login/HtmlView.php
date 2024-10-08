@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\User;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -46,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -103,7 +102,7 @@ class HtmlView extends BaseHtmlView
         $this->params = $this->state->get('params');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -134,7 +133,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function prepareDocument()
     {
-        $login = $this->getCurrentUser()->get('guest') ? true : false;
+        $login = (bool) $this->getCurrentUser()->guest;
 
         // Because the application sets a default page title,
         // we need to get it from the menu item itself

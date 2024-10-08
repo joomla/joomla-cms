@@ -13,8 +13,6 @@ namespace Joomla\Component\Privacy\Administrator\View\Capabilities;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -39,7 +37,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.9.0
      */
     protected $state;
@@ -62,7 +60,7 @@ class HtmlView extends BaseHtmlView
         $this->state        = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new Genericdataexception(implode("\n", $errors), 500);
         }
 
@@ -80,7 +78,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_CAPABILITIES'), 'lock');
 
