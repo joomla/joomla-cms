@@ -248,6 +248,20 @@ class ArticlesHelper implements DatabaseAwareInterface
             $articlesList[] = (int) $article['id'];
         }
 
+        // Edge case when the user select include mode but didn't add an article,
+        // we might have to exclude the current article
+        if (
+            $ex_or_include_articles === 1
+            && $params->get('exclude_current', 1) === 1
+            && $input->get('option') === 'com_content'
+            && $input->get('view') === 'article'
+            && (int) $article['id'] === $currentArticleId
+            && empty($articlesList)
+        ) {
+            $filterInclude = false;
+            $articlesList[] = $currentArticleId;
+        }
+
         if (!empty($articlesList)) {
             $articles->setState('filter.article_id', $articlesList);
             $articles->setState('filter.article_id.include', $filterInclude);
