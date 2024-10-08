@@ -698,3 +698,44 @@ if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem
 } else {
   emptyStorage();
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Select all field-calendar elements
+  const fieldCalendars = document.querySelectorAll(".field-calendar");
+
+  fieldCalendars.forEach(fieldCalendar => {
+    // Find the button with the data attribute
+    const button = fieldCalendar.querySelector("button[data-inputfield]");
+    const calendar = fieldCalendar.querySelector(".js-calendar");
+
+    // Ensure both elements exist
+    if (button && calendar) {
+      // Function to handle adding the class when "shepherd-enabled" is present
+      const addClassToCalendar = () => {
+        if (button.classList.contains("shepherd-enabled")) {
+          calendar.classList.add("shepherd-enabled");
+          calendar.style.zIndex = 9998;
+          console.log("Shepherd-enabled class added to calendar:", calendar);
+        } else {
+          calendar.style.zIndex = 1060;
+        }
+      };
+
+      // Check initially in case the class is already present
+      addClassToCalendar();
+
+      // Set up a MutationObserver to watch for changes in the button's class list
+      const observer = new MutationObserver((mutationsList) => {
+        for (let mutation of mutationsList) {
+          if (mutation.type === "attributes" && mutation.attributeName === "class") {
+            // Check again if the "shepherd-enabled" class was added
+            addClassToCalendar();
+          }
+        }
+      });
+
+      // Observe changes to the button's attributes
+      observer.observe(button, { attributes: true });
+    }
+  });
+});
