@@ -1,11 +1,12 @@
 import mysql from 'mysql';
-import postgres from 'postgres';
+import pkg from 'pg';
+
+const { Pool } = pkg; // Using Pool from pg for PostgreSQL connections
 
 // Items cache which are added by an insert statement
 let insertedItems = [];
 
-// Use of the PostgreSQL connection pool to limit the number of sessions, see
-// https://github.com/porsager/postgres?tab=readme-ov-file#connection-details
+// Use of the PostgreSQL connection pool to limit the number of sessions
 let postgresConnectionPool = null;
 
 /**
@@ -37,11 +38,11 @@ function queryTestDB(joomlaQuery, config) {
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
     if (postgresConnectionPool === null) {
       // Initialisation on the first call
-      postgresConnectionPool = postgres({
+      postgresConnectionPool = new Pool({
         host: config.env.db_host,
         port: config.env.db_port,
         database: config.env.db_name,
-        username: config.env.db_user,
+        user: config.env.db_user,
         password: config.env.db_password,
         max: 10, // Use only this (unchanged default) maximum number of connections in the pool
       });
@@ -55,24 +56,27 @@ function queryTestDB(joomlaQuery, config) {
     // Postgres needs double quotes
     query = query.replaceAll('`', '"');
 
-    return postgresConnectionPool.unsafe(query).then((result) => {
+    return postgresConnectionPool.query(query).then((result) => {
       // Select query should always return an array
-      if (query.indexOf('SELECT') === 0 && !Array.isArray(result)) {
-        return [result];
+      if (query.startsWith('SELECT') && !Array.isArray(result.rows)) {
+        return [result.rows];
       }
 
-      if (!insertItem || result.length === 0) {
-        return result;
+      if (!insertItem || result.rows.length === 0) {
+        return result.rows;
       }
 
       // Push the id to the cache when it is an insert operation
-      if (insertItem && result.length && result[0].id) {
-        insertItem.rows.push(result[0].id);
+      if (insertItem && result.rows.length && result.rows[0].id) {
+        insertItem.rows.push(result.rows[0].id);
       }
 
       // Normalize the object and return from PostgreSQL
-      return { insertId: result[0].id };
-    });
+      return { insertId: result.rows[0].id };
+    })
+      .catch((error) => {
+        throw new Error(`Postgres query failed: ${error.message}`);
+      });
   }
 
   // Return a promise which runs the query for MariaDB / MySQL
