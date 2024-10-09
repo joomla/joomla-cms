@@ -255,7 +255,6 @@ class ArticlesHelper implements DatabaseAwareInterface
             && $params->get('exclude_current', 1) === 1
             && $input->get('option') === 'com_content'
             && $input->get('view') === 'article'
-            && (int) $article['id'] === $currentArticleId
             && empty($articlesList)
         ) {
             $filterInclude  = false;
