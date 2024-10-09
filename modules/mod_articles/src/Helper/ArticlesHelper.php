@@ -222,7 +222,6 @@ class ArticlesHelper implements DatabaseAwareInterface
             && $input->get('option') === 'com_content'
             && $input->get('view') === 'article';
 
-
         $articlesListToProcess = $params->get('included_articles', '');
 
         if ($ex_or_include_articles === 0) {
