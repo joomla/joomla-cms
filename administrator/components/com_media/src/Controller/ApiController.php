@@ -339,7 +339,7 @@ class ApiController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.9
      * @throws  \Exception
      */
     private function checkFileSize(int $fileSize)
