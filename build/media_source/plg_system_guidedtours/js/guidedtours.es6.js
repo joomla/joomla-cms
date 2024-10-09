@@ -699,23 +699,21 @@ if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem
   emptyStorage();
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+// bringing calendar to the front when clicked in guided tours
+document.addEventListener('DOMContentLoaded', () => {
   // Select all field-calendar elements
-  const fieldCalendars = document.querySelectorAll(".field-calendar");
+  const fieldCalendars = document.querySelectorAll('.field-calendar');
 
-  fieldCalendars.forEach(fieldCalendar => {
+  fieldCalendars.forEach((fieldCalendar) => {
     // Find the button with the data attribute
-    const button = fieldCalendar.querySelector("button[data-inputfield]");
-    const calendar = fieldCalendar.querySelector(".js-calendar");
+    const button = fieldCalendar.querySelector('button[data-inputfield]');
+    const calendar = fieldCalendar.querySelector('.js-calendar');
 
     // Ensure both elements exist
     if (button && calendar) {
-      // Function to handle adding the class when "shepherd-enabled" is present
       const addClassToCalendar = () => {
-        if (button.classList.contains("shepherd-enabled")) {
-          calendar.classList.add("shepherd-enabled");
+        if (button.classList.contains('shepherd-enabled')) {
           calendar.style.zIndex = 9998;
-          console.log("Shepherd-enabled class added to calendar:", calendar);
         } else {
           calendar.style.zIndex = 1060;
         }
@@ -726,12 +724,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // Set up a MutationObserver to watch for changes in the button's class list
       const observer = new MutationObserver((mutationsList) => {
-        for (let mutation of mutationsList) {
-          if (mutation.type === "attributes" && mutation.attributeName === "class") {
+        mutationsList.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
             // Check again if the "shepherd-enabled" class was added
             addClassToCalendar();
           }
-        }
+        });
       });
 
       // Observe changes to the button's attributes
