@@ -13,10 +13,10 @@ use Joomla\CMS\Event\Application\AfterExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\DaemonForkEvent;
 use Joomla\CMS\Event\Application\DaemonReceiveSignalEvent;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects

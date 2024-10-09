@@ -13,10 +13,10 @@ namespace Joomla\Component\Menus\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\Menu\AfterGetMenuTypeOptionsEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -145,7 +145,7 @@ class MenutypesModel extends BaseDatabaseModel
      */
     public function addReverseLookupUrl($option)
     {
-        $this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
+        $this->rlu[MenusHelper::getLinkKey($option->request)] = $option->title;
     }
 
     /**
