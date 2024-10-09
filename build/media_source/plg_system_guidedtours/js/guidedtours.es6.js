@@ -711,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Ensure both elements exist
     if (button && calendar) {
-      const addClassToCalendar = () => {
+      const changeZindex = () => {
         if (button.classList.contains('shepherd-enabled')) {
           calendar.style.zIndex = 9998;
         } else {
@@ -719,21 +719,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       };
 
-      // Check initially in case the class is already present
-      addClassToCalendar();
+      changeZindex();
 
       // Set up a MutationObserver to watch for changes in the button's class list
       const observer = new MutationObserver((mutationsList) => {
         mutationsList.forEach((mutation) => {
           if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-            // Check again if the "shepherd-enabled" class was added
-            addClassToCalendar();
+            changeZindex();
           }
         });
       });
 
       // Observe changes to the button's attributes
       observer.observe(button, { attributes: true });
+
+      // Disable Shepherd's keyboard navigation when the calendar is opened
+      button.addEventListener('click', () => {
+        if (calendar.classList.contains('open')) {
+          const tour = Shepherd.activeTour;
+          if (tour) {
+            tour.options.keyboardNavigation = false;
+          }
+          changeZindex();
+        }
+      });
+
+      // Re-enable Shepherd's keyboard navigation when the calendar is closed
+      calendar.addEventListener('click', () => {
+        if (!calendar.classList.contains('open')) {
+          const tour = Shepherd.activeTour;
+          if (tour) {
+            tour.options.keyboardNavigation = true;
+          }
+          changeZindex();
+        }
+      });
     }
   });
 });
