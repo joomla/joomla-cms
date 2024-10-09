@@ -218,16 +218,17 @@ class ArticlesHelper implements DatabaseAwareInterface
         $articlesList           = [];
         $currentArticleId       = $input->get('id', 0, 'UINT');
 
+        $isArticleAndShouldExcluded = $params->get('exclude_current', 1) === 1
+            && $input->get('option') === 'com_content'
+            && $input->get('view') === 'article';
+
+
         $articlesListToProcess = $params->get('included_articles', '');
 
         if ($ex_or_include_articles === 0) {
             $filterInclude = false;
 
-            if (
-                $params->get('exclude_current', 1) === 1
-                && $input->get('option') === 'com_content'
-                && $input->get('view') === 'article'
-            ) {
+            if ($isArticleAndShouldExcluded) {
                 $articlesList[] = $currentArticleId;
             }
 
@@ -237,9 +238,7 @@ class ArticlesHelper implements DatabaseAwareInterface
         foreach (ArrayHelper::fromObject($articlesListToProcess) as $article) {
             if (
                 $ex_or_include_articles === 1
-                && $params->get('exclude_current', 1) === 1
-                && $input->get('option') === 'com_content'
-                && $input->get('view') === 'article'
+                && $isArticleAndShouldExcluded
                 && (int) $article['id'] === $currentArticleId
             ) {
                 continue;
@@ -252,9 +251,7 @@ class ArticlesHelper implements DatabaseAwareInterface
         // we might have to exclude the current article
         if (
             $ex_or_include_articles === 1
-            && $params->get('exclude_current', 1) === 1
-            && $input->get('option') === 'com_content'
-            && $input->get('view') === 'article'
+            && $isArticleAndShouldExcluded
             && empty($articlesList)
         ) {
             $filterInclude  = false;
