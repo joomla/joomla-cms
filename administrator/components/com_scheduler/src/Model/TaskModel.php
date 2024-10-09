@@ -358,56 +358,98 @@ class TaskModel extends AdminModel
     public function getTask(array $options = []): ?\stdClass
     {
         $resolver = new OptionsResolver();
-
-        try {
-            $this->configureTaskGetterOptions($resolver);
-        } catch (\Exception $e) {
-        }
+        $this->configureTaskGetterOptions($resolver);
 
         try {
             $options = $resolver->resolve($options);
-        } catch (\Exception $e) {
-            if ($e instanceof UndefinedOptionsException || $e instanceof InvalidOptionsException) {
-                throw $e;
-            }
+        } catch (UndefinedOptionsException | InvalidOptionsException $e) {
+            throw $e;
         }
 
-        $db  = $this->getDatabase();
-        $now = Factory::getDate()->toSql();
+        $db           = $this->getDatabase();
+        $now          = Factory::getDate()->toSql();
+        $affectedRows = 0;
 
-        // Get lock on the table to help with concurrency issues
-        $db->lockTable(self::TASK_TABLE);
+        try {
+            $db->lockTable(self::TASK_TABLE);
 
-        // If concurrency is not allowed, we only get a task if another one does not have a "lock"
-        if (!$options['allowConcurrent']) {
-            // Get count of locked (presumed running) tasks
-            $lockCountQuery = $db->getQuery(true)
-                ->from($db->quoteName(self::TASK_TABLE))
-                ->select('COUNT(id)')
-                ->where($db->quoteName('locked') . ' IS NOT NULL');
-
-            try {
-                $runningCount = $db->setQuery($lockCountQuery)->loadResult();
-            } catch (\RuntimeException $e) {
-                $db->unlockTables();
-
+            if (!$options['allowConcurrent'] && $this->hasRunningTasks($db)) {
                 return null;
             }
 
-            if ($runningCount !== 0) {
-                $db->unlockTables();
+            $lockQuery = $this->buildLockQuery($db, $now, $options);
 
-                return null;
+            if ($options['id'] > 0) {
+                $lockQuery->where($db->quoteName('id') . ' = :taskId')
+                    ->bind(':taskId', $options['id'], ParameterType::INTEGER);
+            } else {
+                $id = $this->getNextTaskId($db, $now, $options);
+                if (count($id) === 0) {
+                    return null;
+                }
+                $lockQuery->where($db->quoteName('id') . ' = :taskId')
+                    ->bind(':taskId', $id, ParameterType::INTEGER);
             }
+
+            $db->setQuery($lockQuery)->execute();
+            $affectedRows = $db->getAffectedRows();
+        } catch (\RuntimeException $e) {
+            return null;
+        } finally {
+            $db->unlockTables();
         }
 
-        $lockQuery = $db->getQuery(true);
+        if ($affectedRows != 1) {
+            return null;
+        }
 
-        $lockQuery->update($db->quoteName(self::TASK_TABLE))
+        return $this->fetchTask($db, $now);
+    }
+
+    /**
+     * Checks if there are any running tasks in the database.
+     *
+     * @param \JDatabaseDriver $db The database driver to use.
+     * @return bool True if there are running tasks, false otherwise.
+     * @since 4.4.9
+     */
+    private function hasRunningTasks($db): bool
+    {
+        $lockCountQuery = $db->getQuery(true)
+            ->select('COUNT(id)')
+            ->from($db->quoteName(self::TASK_TABLE))
+            ->where($db->quoteName('locked') . ' IS NOT NULL')
+            ->where($db->quoteName('state') . ' = 1');
+
+        try {
+            $runningCount = $db->setQuery($lockCountQuery)->loadResult();
+        } catch (\RuntimeException $e) {
+            return false;
+        }
+
+        return $runningCount != 0;
+    }
+
+    /**
+     * Builds a query to lock a task.
+     *
+     * @param Database $db The database object.
+     * @param string $now The current time.
+     * @param array $options The options for building the query.
+     *                      - includeCliExclusive: Whether to include CLI exclusive tasks.
+     *                      - bypassScheduling: Whether to bypass scheduling.
+     *                      - allowDisabled: Whether to allow disabled tasks.
+     *                      - id: The ID of the task.
+     * @return Query The lock query.
+     * @since 4.4.9
+     */
+    private function buildLockQuery($db, $now, $options)
+    {
+        $lockQuery = $db->getQuery(true)
+            ->update($db->quoteName(self::TASK_TABLE))
             ->set($db->quoteName('locked') . ' = :now1')
             ->bind(':now1', $now);
 
-        // Array of all active routine ids
         $activeRoutines = array_map(
             static function (TaskOption $taskOption): string {
                 return $taskOption->id;
@@ -415,10 +457,8 @@ class TaskModel extends AdminModel
             SchedulerHelper::getTaskOptions()->options
         );
 
-        // "Orphaned" tasks are not a part of the task queue!
         $lockQuery->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
 
-        // If directed, exclude CLI exclusive tasks
         if (!$options['includeCliExclusive']) {
             $lockQuery->where($db->quoteName('cli_exclusive') . ' = 0');
         }
@@ -428,80 +468,95 @@ class TaskModel extends AdminModel
                 ->bind(':now2', $now);
         }
 
-        if ($options['allowDisabled']) {
-            $lockQuery->whereIn($db->quoteName('state'), [0, 1]);
-        } else {
-            $lockQuery->where($db->quoteName('state') . ' = 1');
+        $stateCondition = $options['allowDisabled'] ? [0, 1] : [1];
+        $lockQuery->whereIn($db->quoteName('state'), $stateCondition);
+
+        return $lockQuery;
+    }
+
+    /**
+     * Retrieves the ID of the next task based on the given criteria.
+     *
+     * @param \JDatabaseDriver $db The database object.
+     * @param string $now The current time.
+     * @param array $options The options for retrieving the next task.
+     *                       - includeCliExclusive: Whether to include CLI exclusive tasks.
+     *                       - bypassScheduling: Whether to bypass scheduling.
+     *                       - allowDisabled: Whether to allow disabled tasks.
+     * @return array The ID of the next task, or an empty array if no task is found.
+     *
+     * @since 4.4.9
+     * @throws \RuntimeException If there is an error executing the query.
+     */
+    private function getNextTaskId($db, $now, $options)
+    {
+        $idQuery = $db->getQuery(true)
+            ->from($db->quoteName(self::TASK_TABLE))
+            ->select($db->quoteName('id'));
+
+        $activeRoutines = array_map(
+            static function (TaskOption $taskOption): string {
+                return $taskOption->id;
+            },
+            SchedulerHelper::getTaskOptions()->options
+        );
+
+        $idQuery->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+
+        if (!$options['includeCliExclusive']) {
+            $idQuery->where($db->quoteName('cli_exclusive') . ' = 0');
         }
 
-        if ($options['id'] > 0) {
-            $lockQuery->where($db->quoteName('id') . ' = :taskId')
-                ->bind(':taskId', $options['id'], ParameterType::INTEGER);
-        } else {
-            // Pick from the front of the task queue if no 'id' is specified
-            // Get the id of the next task in the task queue
-            $idQuery = $db->getQuery(true)
-                ->from($db->quoteName(self::TASK_TABLE))
-                ->select($db->quoteName('id'))
-                ->where($db->quoteName('state') . ' = 1')
-                ->order($db->quoteName('priority') . ' DESC')
-                ->order($db->quoteName('next_execution') . ' ASC')
-                ->setLimit(1);
-
-            try {
-                $ids = $db->setQuery($idQuery)->loadColumn();
-            } catch (\RuntimeException $e) {
-                $db->unlockTables();
-
-                return null;
-            }
-
-            if (count($ids) === 0) {
-                $db->unlockTables();
-
-                return null;
-            }
-
-            $lockQuery->whereIn($db->quoteName('id'), $ids);
+        if (!$options['bypassScheduling']) {
+            $idQuery->where($db->quoteName('next_execution') . ' <= :now2')
+                ->bind(':now2', $now);
         }
+
+        $stateCondition = $options['allowDisabled'] ? [0, 1] : [1];
+        $idQuery->whereIn($db->quoteName('state'), $stateCondition);
+
+        $idQuery->where($db->quoteName('next_execution') . ' IS NOT NULL')
+            ->order($db->quoteName('priority') . ' DESC')
+            ->order($db->quoteName('next_execution') . ' ASC')
+            ->setLimit(1);
 
         try {
-            $db->setQuery($lockQuery)->execute();
+            return $db->setQuery($idQuery)->loadColumn();
         } catch (\RuntimeException $e) {
-        } finally {
-            $affectedRows = $db->getAffectedRows();
-
-            $db->unlockTables();
+            return [];
         }
+    }
 
-        if ($affectedRows != 1) {
-            /*
-             // @todo
-            // ? Fatal failure handling here?
-            // ! Question is, how? If we check for tasks running beyond there time here, we have no way of
-            //  ! what's already been notified (since we're not auto-unlocking/recovering tasks anymore).
-            // The solution __may__ be in a "last_successful_finish" (or something) column.
-            */
-
-            return null;
-        }
-
-        $getQuery = $db->getQuery(true);
-
-        $getQuery->select('*')
+    /**
+     * Fetches a task from the database based on the current time.
+     *
+     * @param \JDatabaseDriver $db The database driver to use.
+     * @param string $now The current time in the database's time format.
+     * @return \stdClass|null The fetched task object, or null if no task was found.
+     * @since 4.4.9
+     * @throws \RuntimeException If there was an error executing the query.
+     */
+    private function fetchTask($db, $now): ?\stdClass
+    {
+        $getQuery = $db->getQuery(true)
+            ->select('*')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' = :now')
             ->bind(':now', $now);
 
-        $task = $db->setQuery($getQuery)->loadObject();
+        try {
+            $task = $db->setQuery($getQuery)->loadObject();
+        } catch (\RuntimeException $e) {
+            return null;
+        }
 
         $task->execution_rules = json_decode($task->execution_rules);
         $task->cron_rules      = json_decode($task->cron_rules);
-
-        $task->taskOption = SchedulerHelper::getTaskOptions()->findOption($task->type);
+        $task->taskOption      = SchedulerHelper::getTaskOptions()->findOption($task->type);
 
         return $task;
     }
+
 
     /**
      * Set up an {@see OptionsResolver} to resolve options compatible with the {@see GetTask()} method.

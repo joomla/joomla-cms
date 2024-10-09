@@ -998,7 +998,7 @@ class ItemModel extends AdminModel
 
         $this->setState('item.type', $type);
 
-        $link = $app->isClient('api') ? $app->getInput()->get('link') :
+        $link = $app->isClient('api') ? $app->getInput()->get('link', null, 'string') :
             $app->getUserState('com_menus.edit.item.link');
 
         if ($link) {
