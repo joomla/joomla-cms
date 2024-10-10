@@ -14,8 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
@@ -25,6 +23,9 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
@@ -748,7 +749,10 @@ class TemplateModel extends FormModel
                     $dst = Path::clean($toPath . '/' . $folder . '/' . $languageFile);
 
                     if (is_file($src)) {
-                        File::copy($src, $dst);
+                        try {
+                            File::copy($src, $dst);
+                        } catch (FilesystemException $exception) {
+                        }
                     }
                 }
             }
@@ -812,7 +816,12 @@ class TemplateModel extends FormModel
 
         foreach ($files as $file) {
             $newFile = '/' . str_replace($oldName, $newName, basename($file));
-            $result  = File::move($file, \dirname($file) . $newFile) && $result;
+
+            try {
+                $result = File::move($file, \dirname($file) . $newFile) && $result;
+            } catch (FilesystemException $exception) {
+                $result = false;
+            }
         }
 
         // Edit XML file
@@ -827,7 +836,12 @@ class TemplateModel extends FormModel
             $pattern[] = '#<media(.*)' . $oldName . '(.*)>#';
             $replace[] = '<media${1}' . $newName . '${2}>';
             $contents  = preg_replace($pattern, $replace, $contents);
-            $result    = File::write($xmlFile, $contents) && $result;
+
+            try {
+                $result = File::write($xmlFile, $contents) && $result;
+            } catch (FilesystemException $exception) {
+                $result = false;
+            }
         }
 
         return $result;
@@ -999,9 +1013,9 @@ class TemplateModel extends FormModel
             return false;
         }
 
-        $return = File::write($filePath, $data['source']);
-
-        if (!$return) {
+        try {
+            File::write($filePath, $data['source']);
+        } catch (FilesystemException $exception) {
             $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
 
             return false;
@@ -1253,7 +1267,11 @@ class TemplateModel extends FormModel
                 $htmlFilePath = File::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . File::getExt($htmlFilePath);
             }
 
-            $return = File::copy($file, $htmlFilePath, '', true);
+            try {
+                $return = File::copy($file, $htmlFilePath, '', true);
+            } catch (FilesystemException $exception) {
+                $return = false;
+            }
         }
 
         return $return;
@@ -1274,7 +1292,11 @@ class TemplateModel extends FormModel
             $app      = Factory::getApplication();
             $filePath = $this->getBasePath() . urldecode(base64_decode($file));
 
-            $return = File::delete($filePath);
+            try {
+                $return = File::delete($filePath);
+            } catch (FilesystemException $exception) {
+                $return = false;
+            }
 
             if (!$return) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
@@ -1361,7 +1383,9 @@ class TemplateModel extends FormModel
                 return false;
             }
 
-            if (!File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName))) {
+            try {
+                File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName));
+            } catch (FilesystemException $exception) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
 
                 return false;
@@ -1720,11 +1744,15 @@ class TemplateModel extends FormModel
                 return false;
             }
 
-            if (File::copy($path . $relPath, $newPath)) {
-                $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
-
-                return true;
+            try {
+                File::copy($path . $relPath, $newPath);
+            } catch (FilesystemException $exception) {
+                return false;
             }
+
+            $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
+
+            return true;
         }
 
         return false;
@@ -1933,7 +1961,9 @@ class TemplateModel extends FormModel
         Folder::create($toPath . '/html');
 
         // Copy the template definition from the parent template
-        if (!File::copy($fromPath, $toPath . '/templateDetails.xml')) {
+        try {
+            File::copy($fromPath, $toPath . '/templateDetails.xml');
+        } catch (FilesystemException $exception) {
             return false;
         }
 
@@ -2014,9 +2044,9 @@ class TemplateModel extends FormModel
         $dom->formatOutput       = true;
         $dom->loadXML($xml->asXML());
 
-        $result = File::write($xmlFile, $dom->saveXML());
-
-        if (!$result) {
+        try {
+            $result = File::write($xmlFile, $dom->saveXML());
+        } catch (FilesystemException $exception) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
             return false;
