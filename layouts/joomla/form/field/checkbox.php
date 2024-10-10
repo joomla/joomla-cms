@@ -60,6 +60,11 @@ $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 
 ?>
 <div class="form-check form-check-inline">
+    <?php
+    // Submit an empty value when nothing is checked,
+    // because browser does not submit anything when <input type="checkbox"> is unchecked.
+    ?>
+    <input type="hidden" name="<?php echo $name; ?>" value="">
     <input
         type="checkbox"
         name="<?php echo $name; ?>"
