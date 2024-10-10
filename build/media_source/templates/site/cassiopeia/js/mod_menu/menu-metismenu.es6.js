@@ -6,7 +6,6 @@
  * @since       4.0.0
  */
 
-
 document.querySelectorAll('ul.mod-menu_dropdown-metismenu').forEach((menu) => {
   // eslint-disable-next-line no-new, no-undef
   const mm = new MetisMenu(menu, {
@@ -14,7 +13,7 @@ document.querySelectorAll('ul.mod-menu_dropdown-metismenu').forEach((menu) => {
   }).on('shown.metisMenu', (event) => {
     window.addEventListener('click', function mmClick(e) {
       if (!event.target.contains(e.target)) {
-        mm.addEventListener('hidden.metisMenu', (ev) => {
+        mm.addEventListener('hidden.metisMenu', () => {
           window.removeEventListener('click', mmClick);
         });
         mm.hide(event.detail.shownElement);
