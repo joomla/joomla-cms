@@ -1642,7 +1642,7 @@ class TemplateModel extends FormModel
     /**
      * Template preview.
      *
-     * @return  object  object containing the id of the template.
+     * @return  object|null  object containing the id of the template.
      *
      * @since   3.2
      */
