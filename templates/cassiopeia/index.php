@@ -115,6 +115,13 @@ if ($this->countModules('sidebar-right', true)) {
 
 // Container
 $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
+$navPadding = $this->params->get('removepaddingHorizontalnav', 0);
+
+if ($navPadding) {
+    $navPadding = 'remove-padding-nav';
+} else {
+    $navPadding = '';
+}
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
@@ -142,7 +149,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     . $hasClass
     . ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-    <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
+    <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; echo ' ' . $navPadding;?>">
 
         <?php if ($this->countModules('topbar')) : ?>
             <div class="container-topbar">

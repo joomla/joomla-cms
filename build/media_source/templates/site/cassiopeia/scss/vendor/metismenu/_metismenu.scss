@@ -179,6 +179,7 @@
         }
       }
     }
+
   }
 
   .sidebar-right,
@@ -215,4 +216,18 @@
       }
     }
   }
+
+}
+
+.remove-padding-nav {
+  ul.metismenu {
+    li:first-of-type {
+      padding-left: 0;
+    }
+
+    li:last-of-type {
+      padding-right: 0;
+    }
+  }
+
 }
