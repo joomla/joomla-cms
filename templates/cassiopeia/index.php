@@ -118,7 +118,7 @@ $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-sta
 $navPadding = $this->params->get('removepaddingHorizontalnav', 0);
 
 if ($navPadding) {
-    $navPadding = 'remove-padding-nav';
+    $navPadding = ' remove-padding-nav';
 } else {
     $navPadding = '';
 }
@@ -149,7 +149,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     . $hasClass
     . ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-    <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; echo ' ' . $navPadding;?>">
+    <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; echo $navPadding;?>">
 
         <?php if ($this->countModules('topbar')) : ?>
             <div class="container-topbar">
