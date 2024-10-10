@@ -242,7 +242,7 @@ class ContactModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -251,14 +251,14 @@ class ContactModel extends AdminModel
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_contact.edit.contact.data', []);
+        $data = $app->getUserState('com_contact.edit.contact.data');
 
         if (empty($data)) {
             $data = $this->getItem();
 
             // Prime some default values.
             if ($this->getState('contact.id') == 0) {
-                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int');
             }
         }
 

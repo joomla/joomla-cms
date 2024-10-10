@@ -142,22 +142,22 @@ class NewsfeedModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', []);
+        $data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data');
 
         if (empty($data)) {
             $data = $this->getItem();
 
             // Prime some default values.
             if ($this->getState('newsfeed.id') == 0) {
-                $app = Factory::getApplication();
-                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
+                $app         = Factory::getApplication();
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int');
             }
         }
 

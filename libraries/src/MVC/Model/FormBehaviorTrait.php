@@ -107,7 +107,7 @@ trait FormBehaviorTrait
             // Get the data for the form.
             $data = $this->loadFormData();
         } else {
-            $data = [];
+            $data = new \stdClass();
         }
 
         // Allow for additional modification of the form, and events to be triggered.
@@ -126,13 +126,13 @@ trait FormBehaviorTrait
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  array  The default data is an empty array.
+     * @return  \stdClass  The default data is an empty object.
      *
      * @since   4.0.0
      */
     protected function loadFormData()
     {
-        return [];
+        return new \stdClass();
     }
 
     /**

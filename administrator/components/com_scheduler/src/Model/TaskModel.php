@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
@@ -269,11 +268,10 @@ class TaskModel extends AdminModel
      */
     protected function loadFormData()
     {
-        $data = $this->app->getUserState('com_scheduler.edit.task.data', []);
+        $data = $this->app->getUserState('com_scheduler.edit.task.data');
 
         // If the data from UserState is empty, we fetch it with getItem()
         if (empty($data)) {
-            /** @var CMSObject $data */
             $data = $this->getItem();
 
             // @todo : further data processing goes here

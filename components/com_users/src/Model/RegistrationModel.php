@@ -260,7 +260,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
      * The base form data is loaded and then an event is fired
      * for users plugins to extend the data.
      *
-     * @return  mixed  Data object on success, false on failure.
+     * @return  object|boolean  Data object on success, false on failure.
      *
      * @since   1.6
      * @throws  \Exception
@@ -348,7 +348,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */

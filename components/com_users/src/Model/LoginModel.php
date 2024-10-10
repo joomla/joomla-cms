@@ -56,7 +56,7 @@ class LoginModel extends FormModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  array  The default data is an empty array.
+     * @return  object  The default data is an empty object.
      *
      * @since   1.6
      * @throws  \Exception
@@ -65,16 +65,16 @@ class LoginModel extends FormModel
     {
         // Check the session for previously entered login form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('users.login.form.data', []);
+        $data = $app->getUserState('users.login.form.data', new \stdClass());
 
         $input = $app->getInput()->getInputForRequestMethod();
 
         // Check for return URL from the request first
         if ($return = $input->get('return', '', 'BASE64')) {
-            $data['return'] = base64_decode($return);
+            $data->return = base64_decode($return);
 
-            if (!Uri::isInternal($data['return'])) {
-                $data['return'] = '';
+            if (!Uri::isInternal($data->return)) {
+                $data->return = '';
             }
         }
 

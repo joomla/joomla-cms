@@ -87,7 +87,7 @@ class NoteModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      * @throws  \Exception
@@ -98,14 +98,14 @@ class NoteModel extends AdminModel
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_users.edit.note.data', []);
+        $data = $app->getUserState('com_users.edit.note.data');
 
         if (empty($data)) {
             $data = $this->getItem();
 
             // Prime some default values.
             if ($this->getState('note.id') == 0) {
-                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int'));
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int');
             }
 
             $userId = $app->getInput()->get('u_id', 0, 'int');

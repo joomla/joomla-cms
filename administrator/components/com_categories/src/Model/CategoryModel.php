@@ -318,7 +318,7 @@ class CategoryModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -326,7 +326,7 @@ class CategoryModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data', []);
+        $data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data');
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -337,18 +337,12 @@ class CategoryModel extends AdminModel
                 $extension = substr($app->getUserState('com_categories.categories.filter.extension', ''), 4);
                 $filters   = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
-                $data->set(
+                $data->published = $app->getInput()->getInt(
                     'published',
-                    $app->getInput()->getInt(
-                        'published',
-                        ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
-                    )
+                    ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                 );
-                $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set(
-                    'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access   = $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 

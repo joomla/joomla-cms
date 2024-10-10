@@ -98,14 +98,14 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  array  The default data is an empty array.
+     * @return  object  The default data is an empty object.
      *
      * @since   3.9.0
      */
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_privacy.edit.request.data', []);
+        $data = Factory::getApplication()->getUserState('com_privacy.edit.request.data');
 
         if (empty($data)) {
             $data = $this->getItem();

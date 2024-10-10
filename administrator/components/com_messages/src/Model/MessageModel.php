@@ -221,14 +221,14 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_messages.edit.message.data', []);
+        $data = Factory::getApplication()->getUserState('com_messages.edit.message.data');
 
         if (empty($data)) {
             $data = $this->getItem();
