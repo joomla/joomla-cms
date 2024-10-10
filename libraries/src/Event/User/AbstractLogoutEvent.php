@@ -31,6 +31,33 @@ abstract class AbstractLogoutEvent extends UserEvent
     protected $legacyArgumentsOrder = ['subject', 'options'];
 
     /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since   5.2.0
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        if (\count($arguments) === 1) {
+            // @TODO: Remove in Joomla 7, and set 'options' argument as required.
+            $missingKey = empty($arguments['subject']) ? 'subject' : 'options';
+
+            $arguments[key($arguments) === 0 ? 1 : $missingKey] = [];
+
+            @trigger_error(
+                \sprintf('The event %s requires 2 arguments. Use of 1 argument will throw an exception in Joomla 7.', $this->getName()),
+                E_USER_DEPRECATED
+            );
+        }
+
+        parent::__construct($name, $arguments);
+    }
+
+    /**
      * Setter for the subject argument.
      *
      * @param   array  $value  The value to set

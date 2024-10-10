@@ -101,19 +101,17 @@ abstract class StringHelper
                 preg_match_all("#</([a-z][a-z0-9]*)\b(?:[^>]*?)>#iU", $tmp, $result);
                 $closedTags = $result[1];
 
-                $numOpened = \count($openedTags);
-
                 // Not all tags are closed so trim the text and finish.
-                if (\count($closedTags) !== $numOpened) {
+                if (\count($closedTags) !== \count($openedTags)) {
                     // Closing tags need to be in the reverse order of opening tags.
                     $openedTags = array_reverse($openedTags);
 
                     // Close tags
-                    for ($i = 0; $i < $numOpened; $i++) {
-                        if (!\in_array($openedTags[$i], $closedTags)) {
-                            $tmp .= '</' . $openedTags[$i] . '>';
+                    foreach ($openedTags as $openedTag) {
+                        if (!\in_array($openedTag, $closedTags)) {
+                            $tmp .= '</' . $openedTag . '>';
                         } else {
-                            unset($closedTags[array_search($openedTags[$i], $closedTags)]);
+                            unset($closedTags[array_search($openedTag, $closedTags)]);
                         }
                     }
                 }

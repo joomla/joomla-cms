@@ -283,7 +283,9 @@ class CategoryNode implements NodeInterface
     public function __construct($category = null, $constructor = null)
     {
         if ($category) {
-            $this->setProperties($category);
+            foreach ($category as $key => $value) {
+                $this->$key = $value;
+            }
 
             if ($constructor) {
                 $this->_constructor = $constructor;

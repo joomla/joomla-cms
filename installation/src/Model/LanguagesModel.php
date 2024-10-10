@@ -249,7 +249,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $update->loadFromXml($remoteManifest);
 
         // Get the download url from the remote manifest
-        $downloadUrl = $update->get('downloadurl', false);
+        $downloadUrl = $update->downloadurl ?? false;
 
         // Check if the download url exist, otherwise return empty value
         if ($downloadUrl === false) {

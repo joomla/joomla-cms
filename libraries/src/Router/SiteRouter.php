@@ -487,10 +487,11 @@ class SiteRouter extends Router
     {
         $limitstart = $uri->getVar('limitstart');
 
-        if ($limitstart !== null) {
-            $uri->setVar('start', (int) $uri->getVar('limitstart'));
-            $uri->delVar('limitstart');
+        if ($limitstart !== null && $limitstart !== '') {
+            $uri->setVar('start', (int) $limitstart);
         }
+
+        $uri->delVar('limitstart');
     }
 
     /**
