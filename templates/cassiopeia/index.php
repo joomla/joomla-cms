@@ -115,9 +115,8 @@ if ($this->countModules('sidebar-right', true)) {
 
 // Container
 $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
-$navPadding = $this->params->get('removepaddingHorizontalnav', 0);
 
-if ($navPadding) {
+if ($this->params->get('removepaddingHorizontalnav', 0)) {
     $navPadding = ' remove-padding-nav';
 } else {
     $navPadding = '';
