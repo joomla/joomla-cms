@@ -105,7 +105,7 @@ class UrlRule extends FormRule
             return false;
         }
 
-        // For some schemes here must be two slashes.
+        // For some schemes there must be two slashes.
         $scheme = ['http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git'];
 
         if (\in_array($urlScheme, $scheme) && substr($value, \strlen($urlScheme), 3) !== '://') {
