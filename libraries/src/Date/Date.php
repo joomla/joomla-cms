@@ -100,7 +100,7 @@ class Date extends \DateTime
         // Create the base GMT and server time zone objects.
         if (empty(self::$gmt) || empty(self::$stz)) {
             // @TODO: This code block stays here only for B/C, can be removed in 5.0
-            self::$gmt = new \DateTimeZone('GMT');
+            self::$gmt = new \DateTimeZone('UTC');
             self::$stz = new \DateTimeZone(@date_default_timezone_get());
         }
 

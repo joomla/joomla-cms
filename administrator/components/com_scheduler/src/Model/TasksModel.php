@@ -251,7 +251,7 @@ class TasksModel extends ListModel
         $due = $this->getState('filter.due');
 
         if (is_numeric($due) && $due != 0) {
-            $now      = Factory::getDate('now', 'GMT')->toSql();
+            $now      = Factory::getDate('now', 'UTC')->toSql();
             $operator = $due == 1 ? ' <= ' : ' > ';
             $filterCount++;
             $query->where($db->quoteName('a.next_execution') . $operator . ':now')
@@ -268,7 +268,7 @@ class TasksModel extends ListModel
         $locked = $this->getState('filter.locked');
 
         if (is_numeric($locked) && $locked != 0) {
-            $now              = Factory::getDate('now', 'GMT');
+            $now              = Factory::getDate('now', 'UTC');
             $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
             $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
             $timeoutThreshold = (clone $now)->sub($timeout)->toSql();

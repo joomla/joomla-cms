@@ -107,7 +107,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTZ = 'GMT';
+    public const RELTZ = 'UTC';
 
     /**
      * Copyright Notice.
