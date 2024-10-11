@@ -5,6 +5,10 @@
 
 @import "../../../../node_modules/shepherd.js/dist/css/shepherd";
 
+.shepherd-target.shepherd-enabled {
+  z-index: 9998;
+}
+
 .shepherd-element {
   width: max-content;
   max-width: min(600px, 90%);
@@ -19,6 +23,7 @@
 }
 
 .shepherd-content {
+  padding: 0 0 1rem;
   border: 1px solid var(--border-color-translucent);
   border-radius: .3rem;
   box-shadow: var(--modal-joomla-dialog-box-shadow);
@@ -65,7 +70,7 @@
 .shepherd-footer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  padding: 1rem;
+  padding: 1rem 1rem 0;
 }
 
 .shepherd-button-primary {

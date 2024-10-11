@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Finder\Administrator\Model\ItemModel;
 
 /**
  * Index view class for Finder.
@@ -61,9 +62,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->item       = $this->get('Item');
-        $this->terms      = $this->get('Terms');
-        $this->taxonomies = $this->get('Taxonomies');
+        /** @var ItemModel $model */
+        $model = $this->getModel();
+
+        $this->item       = $model->getItem();
+        $this->terms      = $model->getTerms();
+        $this->taxonomies = $model->getTaxonomies();
 
         // Configure the toolbar.
         $this->addToolbar();

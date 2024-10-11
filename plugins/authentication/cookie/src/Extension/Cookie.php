@@ -11,6 +11,10 @@
 namespace Joomla\Plugin\Authentication\Cookie\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Event\Privacy\CollectCapabilitiesEvent;
+use Joomla\CMS\Event\User\AfterLoginEvent;
+use Joomla\CMS\Event\User\AfterLogoutEvent;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -18,6 +22,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,47 +35,62 @@ use Joomla\Database\DatabaseAwareTrait;
  * @note   Code based on http://jaspan.com/improved_persistent_login_cookie_best_practice
  *         and http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/
  */
-final class Cookie extends CMSPlugin
+final class Cookie extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
 
     /**
-     * Reports the privacy related capabilities for this plugin to site administrators.
+     * Returns an array of events this subscriber will listen to.
      *
      * @return  array
      *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onPrivacyCollectAdminCapabilities' => 'onPrivacyCollectAdminCapabilities',
+            'onUserAuthenticate'                => 'onUserAuthenticate',
+            'onUserAfterLogin'                  => 'onUserAfterLogin',
+            'onUserAfterLogout'                 => 'onUserAfterLogout',
+        ];
+    }
+
+    /**
+     * Reports the privacy related capabilities for this plugin to site administrators.
+     *
+     * @return  void
+     *
      * @since   3.9.0
      */
-    public function onPrivacyCollectAdminCapabilities()
+    public function onPrivacyCollectAdminCapabilities(CollectCapabilitiesEvent $event): void
     {
         $this->loadLanguage();
 
-        return [
+        $event->addResult([
             $this->getApplication()->getLanguage()->_('PLG_AUTHENTICATION_COOKIE') => [
                 $this->getApplication()->getLanguage()->_('PLG_AUTHENTICATION_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
             ],
-        ];
+        ]);
     }
 
     /**
      * This method should handle any authentication and report back to the subject
      *
-     * @param   array   $credentials  Array holding the user credentials
-     * @param   array   $options      Array of extra options
-     * @param   object  &$response    Authentication response object
+     * @param   AuthenticationEvent  $event    Authentication event
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.2
      */
-    public function onUserAuthenticate($credentials, $options, &$response)
+    public function onUserAuthenticate(AuthenticationEvent $event): void
     {
         $app = $this->getApplication();
 
         // No remember me for admin
         if ($app->isClient('administrator')) {
-            return false;
+            return;
         }
 
         // Get cookie
@@ -84,7 +104,7 @@ final class Cookie extends CMSPlugin
         }
 
         if (!$cookieValue) {
-            return false;
+            return;
         }
 
         $cookieArray = explode('.', $cookieValue);
@@ -95,9 +115,10 @@ final class Cookie extends CMSPlugin
             $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
             Log::add('Invalid cookie detected.', Log::WARNING, 'error');
 
-            return false;
+            return;
         }
 
+        $response       = $event->getAuthenticationResponse();
         $response->type = 'Cookie';
 
         // Filter series since we're going to use it in the query
@@ -133,7 +154,7 @@ final class Cookie extends CMSPlugin
         } catch (\RuntimeException $e) {
             $response->status = Authentication::STATUS_FAILURE;
 
-            return false;
+            return;
         }
 
         if (\count($results) !== 1) {
@@ -141,7 +162,7 @@ final class Cookie extends CMSPlugin
             $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
             $response->status = Authentication::STATUS_FAILURE;
 
-            return false;
+            return;
         }
 
         // We have a user with one cookie with a valid series and a corresponding record in the database.
@@ -161,7 +182,7 @@ final class Cookie extends CMSPlugin
             } catch (\RuntimeException $e) {
                 // Log an alert for the site admin
                 Log::add(
-                    sprintf('Failed to delete cookie token for user %s with the following error: %s', $results[0]->user_id, $e->getMessage()),
+                    \sprintf('Failed to delete cookie token for user %s with the following error: %s', $results[0]->user_id, $e->getMessage()),
                     Log::WARNING,
                     'security'
                 );
@@ -174,7 +195,7 @@ final class Cookie extends CMSPlugin
             Log::add(Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
             $response->status = Authentication::STATUS_FAILURE;
 
-            return false;
+            return;
         }
 
         // Make sure there really is a user with this name and get the data for the session.
@@ -190,7 +211,7 @@ final class Cookie extends CMSPlugin
         } catch (\RuntimeException $e) {
             $response->status = Authentication::STATUS_FAILURE;
 
-            return false;
+            return;
         }
 
         if ($result) {
@@ -207,6 +228,9 @@ final class Cookie extends CMSPlugin
             // Set response status.
             $response->status        = Authentication::STATUS_SUCCESS;
             $response->error_message = '';
+
+            // Stop event propagation when status is STATUS_SUCCESS
+            $event->stopPropagation();
         } else {
             $response->status        = Authentication::STATUS_FAILURE;
             $response->error_message = $app->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
@@ -218,22 +242,24 @@ final class Cookie extends CMSPlugin
      * We set a new cookie either for a user with no cookies or one
      * where the user used a cookie to authenticate.
      *
-     * @param   array  $options  Array holding options
+     * @param   AfterLoginEvent  $event  Login event
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   3.2
      */
-    public function onUserAfterLogin($options)
+    public function onUserAfterLogin(AfterLoginEvent $event): void
     {
         $app = $this->getApplication();
 
         // No remember me for admin
         if ($app->isClient('administrator')) {
-            return false;
+            return;
         }
 
-        $db = $this->getDatabase();
+        $db      = $this->getDatabase();
+        $options = $event->getOptions();
+
         if (isset($options['responseType']) && $options['responseType'] === 'Cookie') {
             // Logged in using a cookie
             $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
@@ -282,12 +308,12 @@ final class Cookie extends CMSPlugin
 
                     // We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
                     if ($errorCount === 5) {
-                        return false;
+                        return;
                     }
                 }
             } while ($unique === false);
         } else {
-            return false;
+            return;
         }
 
         // Get the parameter values
@@ -345,28 +371,26 @@ final class Cookie extends CMSPlugin
         try {
             $db->setQuery($query)->execute();
         } catch (\RuntimeException $e) {
-            return false;
+            // We aren't concerned with errors from this query, carry on
         }
-
-        return true;
     }
 
     /**
      * This is where we delete any authentication cookie when a user logs out
      *
-     * @param   array  $options  Array holding options (length, timeToExpiration)
+     * @param   AfterLogoutEvent  $event  Logout event
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   3.2
      */
-    public function onUserAfterLogout($options)
+    public function onUserAfterLogout(AfterLogoutEvent $event): void
     {
         $app = $this->getApplication();
 
         // No remember me for admin
         if ($app->isClient('administrator')) {
-            return false;
+            return;
         }
 
         $cookieName  = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
@@ -374,7 +398,7 @@ final class Cookie extends CMSPlugin
 
         // There are no cookies to delete.
         if (!$cookieValue) {
-            return true;
+            return;
         }
 
         $cookieArray = explode('.', $cookieValue);
@@ -398,7 +422,5 @@ final class Cookie extends CMSPlugin
 
         // Destroy the cookie
         $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
-
-        return true;
     }
 }

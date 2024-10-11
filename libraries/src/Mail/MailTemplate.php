@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Mail\BeforeRenderingMailTemplateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -72,7 +73,7 @@ class MailTemplate
     /**
      *
      * @var    string[]
-     * @since  5.2.0
+     * @since  5.1.3
      */
     protected $unsafe_tags = [];
 
@@ -224,7 +225,7 @@ class MailTemplate
      *
      * @return  void
      *
-     * @since   5.2.0
+     * @since   5.1.3
      */
     public function addUnsafeTags($tags)
     {
@@ -290,7 +291,10 @@ class MailTemplate
             $useLayout   = $params->get('disable_htmllayout', $useLayout);
         }
 
-        $app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
+        $app->getDispatcher()->dispatch('onMailBeforeRendering', new BeforeRenderingMailTemplateEvent(
+            'onMailBeforeRendering',
+            ['templateId' => $this->template_id, 'subject' => $this]
+        ));
 
         $subject = $this->replaceTags(Text::_($mail->subject), $this->data);
         $this->mailer->setSubject($subject);
@@ -342,11 +346,11 @@ class MailTemplate
                     $logo   = $params->get('disable_logofile', 1) ? $logo : '' ;
                 }
 
-                // Add the logo to the mail as inline attachement
+                // Add the logo to the mail as inline attachment
                 if ($logo) {
                     $logo = Path::check(JPATH_ROOT . '/' . HTMLHelper::_('cleanImageURL', $logo)->url);
                     if (is_file(urldecode($logo))) {
-                        # Attach the logo as inline attachement
+                        # Attach the logo as inline attachment
                         $this->mailer->addAttachment($logo, 'site-logo', 'base64', mime_content_type($logo), 'inline');
 
                         // We need only the cid for attached logo file
