@@ -20,6 +20,10 @@
         padding: 0;
       }
     }
+
+    legend {
+      color: var(--body-color);
+    }
   }
 
   .login {
