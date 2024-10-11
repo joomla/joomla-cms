@@ -88,10 +88,10 @@ abstract class UserHelper
      * @since  4.0.0
      */
     public const HASH_ALGORITHMS = [
-        self::HASH_ARGON2I     => Argon2iHandler::class,
-        self::HASH_ARGON2ID    => Argon2idHandler::class,
-        self::HASH_BCRYPT      => BCryptHandler::class,
-        self::HASH_MD5         => MD5Handler::class,
+        self::HASH_ARGON2I  => Argon2iHandler::class,
+        self::HASH_ARGON2ID => Argon2idHandler::class,
+        self::HASH_BCRYPT   => BCryptHandler::class,
+        self::HASH_MD5      => MD5Handler::class,
     ];
 
     /**
