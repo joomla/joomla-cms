@@ -57,29 +57,6 @@ class Date extends \DateTime
     public static $format = 'Y-m-d H:i:s';
 
     /**
-     * Placeholder for a \DateTimeZone object with GMT as the time zone.
-     *
-     * @var    object
-     * @since  1.7.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement
-     */
-    protected static $gmt;
-
-    /**
-     * Placeholder for a \DateTimeZone object with the default server
-     * time zone as the time zone.
-     *
-     * @var    object
-     * @since  1.7.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement
-     */
-    protected static $stz;
-
-    /**
      * The \DateTimeZone object for usage in rending dates as strings.
      *
      * @var    \DateTimeZone
