@@ -198,8 +198,8 @@ class SearchModel extends ListModel
                 ->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
 
             // Iterate through each taxonomy group.
-            for ($i = 0, $c = \count($groups); $i < $c; $i++) {
-                $query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $groups[$i]) . ') THEN 1 ELSE 0 END) > 0');
+            foreach ($groups as $group) {
+                $query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $group) . ') THEN 1 ELSE 0 END) > 0');
             }
         }
 

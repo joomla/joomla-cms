@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Extension;
 /**
  * Class for Joomla Update events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class BeforeJoomlaUpdateEvent extends AbstractJoomlaUpdateEvent
 {

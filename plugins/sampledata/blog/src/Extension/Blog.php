@@ -427,12 +427,12 @@ final class Blog extends CMSPlugin
             ];
 
             // Create Transitions.
-            for ($i = 0; $i < \count($fromTo); $i++) {
+            foreach ($fromTo as $i => $item) {
                 $trTable = new \Joomla\Component\Workflow\Administrator\Table\TransitionTable($this->getDatabase());
 
-                $trTable->from_stage_id = $fromTo[$i]['from_stage_id'];
-                $trTable->to_stage_id   = $fromTo[$i]['to_stage_id'];
-                $trTable->options       = $fromTo[$i]['options'];
+                $trTable->from_stage_id = $item['from_stage_id'];
+                $trTable->to_stage_id   = $item['to_stage_id'];
+                $trTable->options       = $item['options'];
 
                 // Set values from language strings.
                 $trTable->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_TITLE');
@@ -1432,6 +1432,8 @@ final class Blog extends CMSPlugin
                 'position' => 'sidebar-right',
                 'module'   => 'mod_articles',
                 'params'   => [
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
                     'count'                        => 10,
                     'category_filtering_type'      => 1,
                     'show_child_category_articles' => 0,
@@ -1445,7 +1447,6 @@ final class Blog extends CMSPlugin
                     'item_title'                   => 0,
                     'item_heading'                 => 'h4',
                     'link_titles'                  => 1,
-                    'card_link'                    => 0,
                     'show_author'                  => 0,
                     'show_category'                => 0,
                     'show_category_link'           => 0,
@@ -1455,6 +1456,7 @@ final class Blog extends CMSPlugin
                     'show_hits'                    => 0,
                     'info_layout'                  => 0,
                     'show_tags'                    => 0,
+                    'trigger_events'               => 0,
                     'show_introtext'               => 0,
                     'introtext_limit'              => 100,
                     'image'                        => 0,
@@ -1498,6 +1500,8 @@ final class Blog extends CMSPlugin
                 'assignment' => 1,
                 'showtitle'  => 0,
                 'params'     => [
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
                     'count'                        => 3,
                     'category_filtering_type'      => 1,
                     'catid'                        => $catIds[2],
@@ -1509,7 +1513,6 @@ final class Blog extends CMSPlugin
                     'item_title'                   => 1,
                     'item_heading'                 => 'h3',
                     'link_titles'                  => 1,
-                    'card_link'                    => 0,
                     'show_date'                    => 0,
                     'show_date_field'              => 'created',
                     'show_date_format'             => $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC5'),
@@ -1519,6 +1522,7 @@ final class Blog extends CMSPlugin
                     'show_author'                  => 0,
                     'info_layout'                  => 1,
                     'show_tags'                    => 0,
+                    'trigger_events'               => 0,
                     'show_introtext'               => 1,
                     'introtext_limit'              => 0,
                     'image'                        => 0,
@@ -1560,6 +1564,8 @@ final class Blog extends CMSPlugin
                 'position' => 'bottom-b',
                 'module'   => 'mod_articles',
                 'params'   => [
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
                     'count'                        => 6,
                     'category_filtering_type'      => 1,
                     'catid'                        => $catIds[0],
@@ -1574,7 +1580,6 @@ final class Blog extends CMSPlugin
                     'item_title'                   => 0,
                     'item_heading'                 => 'h4',
                     'link_titles'                  => 1,
-                    'card_link'                    => 0,
                     'show_author'                  => 0,
                     'show_category'                => 0,
                     'show_category_link'           => 0,
@@ -1584,6 +1589,7 @@ final class Blog extends CMSPlugin
                     'show_hits'                    => 0,
                     'info_layout'                  => 0,
                     'show_tags'                    => 0,
+                    'trigger_events'               => 0,
                     'show_introtext'               => 0,
                     'introtext_limit'              => 100,
                     'image'                        => 0,

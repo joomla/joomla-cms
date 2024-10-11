@@ -174,7 +174,7 @@ class Rules
 
         foreach ($this->data as $name => &$action) {
             if ($action->allow($identity)) {
-                $allowed->set($name, true);
+                $allowed->$name = true;
             }
         }
 

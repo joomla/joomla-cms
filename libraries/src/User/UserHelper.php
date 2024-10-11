@@ -295,8 +295,8 @@ abstract class UserHelper
         $results = $db->loadObjectList();
 
         // Set the titles for the user groups.
-        for ($i = 0, $n = \count($results); $i < $n; $i++) {
-            $user->groups[$results[$i]->id] = $results[$i]->id;
+        foreach ($results as $result) {
+            $user->groups[$result->id] = $result->id;
         }
 
         // Store the user object.
@@ -374,8 +374,8 @@ abstract class UserHelper
         if ($id) {
             $user = User::getInstance($id);
 
-            $user->set('block', '0');
-            $user->set('activation', '');
+            $user->block      = 0;
+            $user->activation = '';
 
             // Time to take care of business.... store the user.
             if (!$user->save()) {
@@ -443,7 +443,7 @@ abstract class UserHelper
         }
 
         // Unsupported algorithm, sorry!
-        throw new \InvalidArgumentException(sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
+        throw new \InvalidArgumentException(\sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
     }
 
     /**
@@ -651,5 +651,7 @@ abstract class UserHelper
         } catch (ExecutionFailureException $e) {
             // No issue, let things go
         }
+
+        return true;
     }
 }
