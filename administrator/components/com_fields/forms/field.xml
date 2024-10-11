@@ -335,6 +335,18 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+				<field
+					name="prepare_content"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="COM_FIELDS_FIELD_PREPARE_CONTENT_LABEL"
+					description="COM_FIELDS_FIELD_PREPARE_CONTENT_DESC"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 			<fieldset name="smartsearchoptions" label="COM_FIELDS_FIELD_SMARTSEARCHOPTIONS_HEADING">
 				<field
