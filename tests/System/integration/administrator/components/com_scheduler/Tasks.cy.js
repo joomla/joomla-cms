@@ -9,8 +9,8 @@ describe('Test in backend that the tasks list', () => {
     cy.get('h1.page-title').should('contain.text', ' Scheduled Tasks');
   });
 
-  it('can display message', () => {
-    cy.get('h1.display-5').should('contain.text', 'No Tasks have been created yet');
+  it('can display a list of tasks', () => {
+    cy.contains('Update Notification');
   });
 
   it('can open the task list', () => {
@@ -89,7 +89,8 @@ describe('Test in backend that the tasks list', () => {
     cy.setFilter('state', 'Trashed');
     cy.searchForItem('Test task');
     cy.checkAllResults();
-    cy.get('#toolbar-delete').click();
+    cy.clickToolbarButton('empty trash');
+    cy.clickDialogConfirm(true);
 
     cy.get('#system-message-container').contains('Task deleted').should('exist');
   });
