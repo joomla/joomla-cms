@@ -74,6 +74,8 @@ final class Compat extends CMSPlugin implements SubscriberInterface
         if ($this->params->get('classes_aliases', '1')) {
             require_once \dirname(__DIR__) . '/classmap/classmap.php';
         }
+
+        \JLoader::registerNamespace('\\Joomla\\CMS', JPATH_PLUGINS . '/behaviour/compat/src/classes');
     }
 
     /**
