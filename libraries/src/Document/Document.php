@@ -144,7 +144,7 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      */
     public $_scripts = [];
@@ -155,7 +155,7 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      */
     public $_script = [];
@@ -173,7 +173,7 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      */
     public $_styleSheets = [];
@@ -184,7 +184,7 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      */
     public $_style = [];
@@ -503,7 +503,7 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      *              Example: $wa->registerAndUseScript(...);
      */
@@ -530,7 +530,7 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      *              Example: $wa->addInlineScript(...);
      */
@@ -602,7 +602,7 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      *              Example: $wa->registerAndUseStyle(...);
      */
@@ -634,7 +634,7 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use WebAssetManager
      *              Example: $wa->addInlineStyle(...);
      */

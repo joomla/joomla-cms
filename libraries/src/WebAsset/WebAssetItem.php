@@ -301,15 +301,17 @@ class WebAssetItem implements WebAssetItemInterface
 
         $file     = $path;
         $external = $this->isPathExternal($path);
+        $folders  = ['script' => 'js', 'stylesheet' => 'css'];
 
         if (!$external) {
             // Get the file path
             $file = HTMLHelper::_(
-                $type,
+                'mediaPath',
+                $folders[$type],
                 $path,
                 [
-                    'pathOnly' => true,
-                    'relative' => !$this->isPathAbsolute($path),
+                    'detectDebug' => $this->getOption('debug') ? 1 : true,
+                    'relative'    => !$this->isPathAbsolute($path),
                 ]
             );
         }
