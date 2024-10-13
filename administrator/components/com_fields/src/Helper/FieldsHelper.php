@@ -248,7 +248,7 @@ class FieldsHelper
                     $value = $eventAfter->getValue();
 
                     if ($field->params->get('prepare_content') === 1) {
-                        $subject       = new \stdClass;
+                        $subject       = new \stdClass();
                         $subject->text = $value;
 
                         $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', ['com_content.fields', $subject]));
