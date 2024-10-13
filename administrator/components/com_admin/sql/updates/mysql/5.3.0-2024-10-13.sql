@@ -1,1 +1,1 @@
-ALTER TABLE `#__fields` MODIFY `fieldparams` MEDIUMTEXT;
+ALTER TABLE `#__fields` MODIFY `fieldparams` MEDIUMTEXT NOT NULL;
