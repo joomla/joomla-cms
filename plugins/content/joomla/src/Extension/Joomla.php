@@ -11,11 +11,9 @@
 namespace Joomla\Plugin\Content\Joomla\Extension;
 
 use Joomla\CMS\Cache\CacheControllerFactory;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
