@@ -27,7 +27,6 @@ use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -249,7 +248,7 @@ class FieldsHelper
                     $value = $eventAfter->getValue();
 
                     if ($field->params->get('prepare_content') === 1) {
-                        $subject = new stdClass;
+                        $subject       = new \stdClass;
                         $subject->text = $value;
 
                         $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', ['com_content.fields', $subject]));
