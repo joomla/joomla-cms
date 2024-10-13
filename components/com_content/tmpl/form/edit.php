@@ -97,7 +97,9 @@ if (!$params->exists('show_publishing_options')) {
                     </div>
                     <?php echo HTMLHelper::_('uitab.endTab'); ?>
                 <?php endif; ?>
-
+				
+				<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+				
                 <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'options', Text::_('JOPTIONS')); ?>
                     <?php echo $this->form->renderField('transition'); ?>
                     <?php echo $this->form->renderField('state'); ?>
