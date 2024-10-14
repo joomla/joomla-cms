@@ -55,6 +55,7 @@ $attr = '';
 $attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $dataAttribute;
+$attr .= $disabled ? ' disabled="disabled"' : '';
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
@@ -98,7 +99,8 @@ if ($showPreview) {
 
     $img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
-    $previewImg = '<div id="' . $id . '_preview_img">' . $img . '</div>';
+    $previewImg = '<div id="' . $id . '_preview_img" style="height:100%"' . ($src ? '' : ' class="hidden"') . '>' . $img . '</div>';
+
     $previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
         . Text::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
@@ -195,7 +197,7 @@ if (count($doc->getScriptOptions('media-picker')) === 0) {
     <?php endif; ?>
     <div class="input-group">
         <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $attr; ?>>
-        <?php if ($disabled != true) : ?>
+        <?php if (!$disabled) : ?>
             <button type="button" class="btn btn-success button-select"><?php echo Text::_('JLIB_FORM_BUTTON_SELECT'); ?></button>
             <button type="button" class="btn btn-danger button-clear"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JLIB_FORM_BUTTON_CLEAR'); ?></span></button>
         <?php endif; ?>

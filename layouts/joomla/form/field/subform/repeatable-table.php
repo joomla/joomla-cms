@@ -22,6 +22,7 @@ extract($displayData);
  * @var   Form    $tmpl             The Empty form for template
  * @var   array   $forms            Array of JForm instances for render the rows
  * @var   bool    $multiple         The multiple state for the form field
+ * @var   bool    $disabled         The disabled state for the form field
  * @var   int     $min              Count of minimum repeating in multiple mode
  * @var   int     $max              Count of maximum repeating in multiple mode
  * @var   string  $name             Name of the input field.
@@ -40,6 +41,11 @@ if ($multiple) {
         ->getDocument()
         ->getWebAssetManager()
         ->useScript('webcomponent.field-subform');
+}
+
+if ($disabled) {
+    // Subform is disabled, hide any buttons
+    $buttons = null;
 }
 
 $class = $class ? ' ' . $class : '';
