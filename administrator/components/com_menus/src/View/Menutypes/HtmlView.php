@@ -62,7 +62,8 @@ class HtmlView extends BaseHtmlView
         /** @var MenutypesModel $model */
         $model = $this->getModel();
 
-        $types = $model->getTypeOptions();
+        $this->state = $model->getState();
+        $types       = $model->getTypeOptions();
 
         $this->addCustomTypes($types);
 
