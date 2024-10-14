@@ -1042,12 +1042,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "ab2481f02341ff10a418f10eaf0d28c1ae933c0e"
+                "reference": "c92b9db3745dafae6412879af57bcc3e8cb6b8ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/ab2481f02341ff10a418f10eaf0d28c1ae933c0e",
-                "reference": "ab2481f02341ff10a418f10eaf0d28c1ae933c0e",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/c92b9db3745dafae6412879af57bcc3e8cb6b8ab",
+                "reference": "c92b9db3745dafae6412879af57bcc3e8cb6b8ab",
                 "shasum": ""
             },
             "require": {
