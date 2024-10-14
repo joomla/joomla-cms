@@ -75,7 +75,9 @@ final class Compat extends CMSPlugin implements SubscriberInterface
             require_once \dirname(__DIR__) . '/classmap/classmap.php';
         }
 
-        \JLoader::registerNamespace('\\Joomla\\CMS', JPATH_PLUGINS . '/behaviour/compat/src/classes');
+        if ($this->params->get('legacy_classes', '1')) {
+            \JLoader::registerNamespace('\\Joomla\\CMS\\Filesystem', JPATH_PLUGINS . '/behaviour/compat/src/classes/Filesystem');
+        }
     }
 
     /**
@@ -109,6 +111,13 @@ final class Compat extends CMSPlugin implements SubscriberInterface
                 ->getWebAssetManager()
                 ->getRegistry()
                 ->addRegistryFile('media/plg_behaviour_compat/removed.asset.json');
+        }
+
+        /**
+         * Include classes which are removed in 7.0
+         */
+        if ($this->params->get('legacy_classes', '1')) {
+            \JLoader::registerNamespace('\\Joomla\\CMS\\Filesystem\\', JPATH_PLUGINS . '/behaviour/compat/classes/Filesystem');
         }
     }
 }
