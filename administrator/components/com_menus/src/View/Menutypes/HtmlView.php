@@ -46,6 +46,13 @@ class HtmlView extends BaseHtmlView
     protected $types;
 
     /**
+     * The model state
+     *
+     * @var object
+     */
+    protected $state;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
