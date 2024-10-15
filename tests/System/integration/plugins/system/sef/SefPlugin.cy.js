@@ -1,5 +1,6 @@
 describe('Test that the sef system plugin', () => {
   afterEach(() => {
+    cy.task('deleteRelativePath', '.htaccess');
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:set sef=true sef_suffix=false sef_rewrite=false`);
     cy.db_updateExtensionParameter('enforcesuffix', '1', 'plg_system_sef');
     cy.db_updateExtensionParameter('indexphp', '1', 'plg_system_sef');
@@ -41,6 +42,7 @@ describe('Test that the sef system plugin', () => {
 
   it('can process if option \'indexphp\' enabled', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:set sef_rewrite=true`);
+    cy.task('copyRelativeFile', { source: 'htaccess.txt', destination: '.htaccess' });
     cy.request({ url: '/index.php/component/users/login', followRedirect: false }).then((response) => {
       expect(response.status).to.eq(301);
       expect(response.redirectedToUrl).to.match(/(?<!index\.php)\/component\/users\/login$/);
@@ -52,6 +54,7 @@ describe('Test that the sef system plugin', () => {
 
   it('can process if option \'indexphp\' disabled', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:set sef_rewrite=true`);
+    cy.task('copyRelativeFile', { source: 'htaccess.txt', destination: '.htaccess' });
     cy.db_updateExtensionParameter('indexphp', '0', 'plg_system_sef');
     cy.request({ url: '/index.php/component/users/login', followRedirect: false }).then((response) => {
       expect(response.status).to.eq(200);

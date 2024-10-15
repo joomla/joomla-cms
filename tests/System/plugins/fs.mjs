@@ -1,5 +1,5 @@
 import {
-  chmodSync, existsSync, writeFileSync, mkdirSync, rmSync,
+  chmodSync, existsSync, writeFileSync, mkdirSync, rmSync, copyFile
 } from 'fs';
 import { dirname, join } from 'path';
 import { umask } from 'node:process';
@@ -56,4 +56,16 @@ function writeRelativeFile(relativePath, content, config, mode = 0o444) {
   return null;
 }
 
-export { writeRelativeFile, deleteRelativePath };
+/**
+ * @TODO
+ */
+function copyRelativeFile(source, destination, config) {
+  const fullSource = join(config.env.cmsPath, source);
+  const fullDestination = join(config.env.cmsPath, destination);
+
+  copyFile(fullSource, fullDestination);
+
+  return null;
+}
+
+export { writeRelativeFile, deleteRelativePath, copyRelativeFile };
