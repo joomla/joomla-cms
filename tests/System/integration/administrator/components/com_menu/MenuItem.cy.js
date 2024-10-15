@@ -23,7 +23,7 @@ describe('Test in backend that the menu list', () => {
   it('can create a system link menu item', () => {
     cy.db_deleteMenuItem({ title: 'can create menu item' });
 
-    cy.visit('administrator/index.php?option=com_menus&task=item.add')
+    cy.visit('administrator/index.php?option=com_menus&task=item.add');
 
     cy.contains('Menus: New Item');
     cy.get('#jform_title').clear().type('can create menu item');
