@@ -364,7 +364,7 @@ class ActionlogsModel extends ListModel
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
-            // ToDo: 6.0
+            // @todo: 6.0
             $this->setError($e->getMessage());
 
             return false;
