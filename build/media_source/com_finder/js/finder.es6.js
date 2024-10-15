@@ -67,11 +67,13 @@
   // The boot sequence
   const onBoot = () => {
     const searchWords = [].slice.call(document.querySelectorAll('.js-finder-search-query'));
+    const options = Joomla.getOptions('finder-search');
 
     searchWords.forEach((searchword) => {
       // Handle the auto suggestion
-      if (Joomla.getOptions('finder-search')) {
+      if (options) {
         searchword.awesomplete = new Awesomplete(searchword);
+        searchword.awesomplete.ul.setAttribute('title', options.listLabel); // Temporary accessibility fix
 
         // If the current value is empty, set the previous value.
         searchword.addEventListener('input', onInputChange);
