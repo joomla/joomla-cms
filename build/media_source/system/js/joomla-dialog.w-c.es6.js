@@ -316,13 +316,13 @@ class JoomlaDialog extends HTMLElement {
    * Internal. Create a loader element. This is only used for AJAX and Iframe content
    * @returns {HTMLElement}
    */
-  renderLoader() {
+  static renderLoader() {
     const loader = document.createElement('joomla-core-loader');
     loader.setAttribute('inline', true);
     loader.setAttribute('size', 60);
     loader.setAttribute('color', 'transparent');
     loader.classList.add('mt-5');
-    
+
     return loader;
   }
 
@@ -383,7 +383,7 @@ class JoomlaDialog extends HTMLElement {
       // Create an IFrame content
       case 'iframe': {
         // Append the loader
-        this.popupTmplB.appendChild(this.renderLoader());
+        this.popupTmplB.appendChild(this.constructor.renderLoader());
 
         const frame = document.createElement('iframe');
         frame.addEventListener('load', onLoad);
@@ -414,7 +414,7 @@ class JoomlaDialog extends HTMLElement {
       // Create an AJAX content
       case 'ajax': {
         // Append the loader
-        this.popupTmplB.appendChild(this.renderLoader());
+        this.popupTmplB.appendChild(this.constructor.renderLoader());
 
         fetch(this.src)
           .then((response) => {
