@@ -252,7 +252,7 @@ class ActionlogsHelper
             $cName  = $prefix . 'Helper';
             /*
              * @todo
-             * We want to have all classes are namespaces! We need to know the component namespace so we could
+             * We want to have all classes as namespaces! We need to know the component namespace so we could
              * check if NAMESPACE/getContentTypeLink is callable. Maybe we need to boot the component????
              *
              * Change can be made with 6.0?? Maybe we need a fallback.
