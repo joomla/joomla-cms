@@ -20,7 +20,7 @@ describe('Test in backend that the menu list', () => {
     cy.contains('Menus: New Item');
   });
 
-  it('can create menu item', () => {
+  it('can create a system link menu item', () => {
     cy.db_deleteMenuItem({ title: 'can create menu item' });
 
     cy.visit('administrator/index.php?option=com_menus&task=item.add')
