@@ -46,6 +46,15 @@ class HtmlView extends BaseHtmlView
     protected $types;
 
     /**
+     * The model state
+     *
+     * @var    object
+     *
+     * @since  DEPLOY_VERSION
+     */
+    protected $state;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -62,7 +71,8 @@ class HtmlView extends BaseHtmlView
         /** @var MenutypesModel $model */
         $model = $this->getModel();
 
-        $types = $model->getTypeOptions();
+        $this->state = $model->getState();
+        $types       = $model->getTypeOptions();
 
         $this->addCustomTypes($types);
 
