@@ -48,7 +48,9 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var object
+     * @var    object
+     *
+     * @since  DEPLOY_VERSION
      */
     protected $state;
 
