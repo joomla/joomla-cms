@@ -30,8 +30,8 @@ describe('Test in backend that the menu list', () => {
     cy.get('button[data-modal-config*="Menu Item Type"]').first().click();
 
     cy.contains('Menu Item Type');
-    cy.get('iframe').iframe().then($body => {
-      cy.wrap($body).find('.accordion-button').contains("System Links").click();
+    cy.get('iframe').iframe().then(($body) => {
+      cy.wrap($body).find('.accordion-button').contains('System Links').click();
       cy.wrap($body).find('a[data-type="url"]').click();
     });
 
