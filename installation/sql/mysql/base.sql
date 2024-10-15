@@ -628,7 +628,7 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (99, 77, 'Frontend Link', '', '', 5, 'status', NULL, NULL, 1, 'mod_frontend', 1, 1, '', 1, '*'),
 (100, 78, 'Messages', '', '', 4, 'status', NULL, NULL, 1, 'mod_messages', 3, 1, '', 1, '*'),
 (101, 79, 'Post Install Messages', '', '', 3, 'status', NULL, NULL, 1, 'mod_post_installation_messages', 3, 1, '', 1, '*'),
-(102, 80, 'User Status', '', '', 6, 'status', NULL, NULL, 1, 'mod_user', 3, 1, '', 1, '*'),
+(102, 80, 'User Status', '', '', 6, 'status', NULL, NULL, 1, 'mod_user', 2, 1, '', 1, '*'),
 (103, 70, 'Site', '', '', 1, 'icon', NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"site_quickicon","header_icon":"icon-desktop","show_users":"1","show_articles":"1","show_categories":"1","show_media":"1","show_menuItems":"1","show_modules":"1","show_plugins":"1","show_templates":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (104, 71, 'System', '', '', 2, 'icon', NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"system_quickicon","header_icon":"icon-wrench","show_global":"1","show_checkin":"1","show_cache":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (105, 82, '3rd Party', '', '', 4, 'icon', NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","header_icon":"icon-boxes","load_plugins":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
