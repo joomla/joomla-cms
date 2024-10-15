@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_actionlogs
+ * @package         Joomla.Administrator
+ * @subpackage      com_actionlogs
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Actionlogs\Administrator\Controller;
@@ -14,13 +14,13 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\ActionLog\AfterLogExportEvent;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,15 +38,15 @@ class ActionlogsController extends AdminController
      * Constructor.
      *
      * @param   array                 $config   An optional associative array of configuration settings.
-     *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                         'view_path' (this list is not meant to be comprehensive).
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
      * @param   ?MVCFactoryInterface  $factory  The factory.
      * @param   CMSApplication        $app      The Application for the dispatcher
      * @param   Input                 $input    Input
      *
+     * @throws  \Exception
      * @since   3.9.0
      *
-     * @throws  \Exception
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
@@ -60,9 +60,9 @@ class ActionlogsController extends AdminController
      *
      * @return  void
      *
+     * @throws  \Exception
      * @since   3.9.0
      *
-     * @throws  \Exception
      */
     public function exportLogs()
     {
@@ -102,7 +102,8 @@ class ActionlogsController extends AdminController
 
             $csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
 
-            $this->app->setHeader('Content-Type', 'application/csv', true)
+            $this->app
+                ->setHeader('Content-Type', 'application/csv', true)
                 ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.csv"', true)
                 ->setHeader('Cache-Control', 'must-revalidate', true)
                 ->sendHeaders();

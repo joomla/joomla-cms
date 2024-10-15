@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_actionlogs
+ * @package         Joomla.Administrator
+ * @subpackage      com_actionlogs
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Actionlogs\Administrator\Model;
@@ -38,20 +38,26 @@ class ActionlogsModel extends ListModel
      *
      * @param   array  $config  An optional associative array of configuration settings.
      *
+     * @throws  \Exception
      * @since   3.9.0
      *
-     * @throws  \Exception
      */
     public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
-                'a.id', 'id',
-                'a.extension', 'extension',
-                'a.user_id', 'user',
-                'a.message', 'message',
-                'a.log_date', 'log_date',
-                'a.ip_address', 'ip_address',
+                'a.id',
+                'id',
+                'a.extension',
+                'extension',
+                'a.user_id',
+                'user',
+                'a.message',
+                'message',
+                'a.log_date',
+                'log_date',
+                'a.ip_address',
+                'ip_address',
                 'dateRange',
             ];
         }
@@ -67,9 +73,9 @@ class ActionlogsModel extends ListModel
      *
      * @return  void
      *
+     * @throws  \Exception
      * @since   3.9.0
      *
-     * @throws  \Exception
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
@@ -81,18 +87,22 @@ class ActionlogsModel extends ListModel
      *
      * @return  QueryInterface
      *
+     * @throws  \Exception
      * @since   3.9.0
      *
-     * @throws  \Exception
      */
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db
+            ->getQuery(true)
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
-            ->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
+            ->join(
+                'LEFT',
+                $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'),
+            );
 
         // Get ordering
         $fullorderCol = $this->state->get('list.fullordering', 'a.id DESC');
@@ -107,8 +117,9 @@ class ActionlogsModel extends ListModel
 
         // Apply filter by user
         if (!empty($user)) {
-            $user = (int) $user;
-            $query->where($db->quoteName('a.user_id') . ' = :userid')
+            $user = (int)$user;
+            $query
+                ->where($db->quoteName('a.user_id') . ' = :userid')
                 ->bind(':userid', $user, ParameterType::INTEGER);
         }
 
@@ -118,7 +129,8 @@ class ActionlogsModel extends ListModel
         // Apply filter by extension
         if (!empty($extension)) {
             $extension .= '%';
-            $query->where($db->quoteName('a.extension') . ' LIKE :extension')
+            $query
+                ->where($db->quoteName('a.extension') . ' LIKE :extension')
                 ->bind(':extension', $extension);
         }
 
@@ -134,7 +146,7 @@ class ActionlogsModel extends ListModel
                 $dStart = $date['dStart']->format('Y-m-d H:i:s');
                 $dNow   = $date['dNow']->format('Y-m-d H:i:s');
                 $query->where(
-                    $db->quoteName('a.log_date') . ' BETWEEN :dstart AND :dnow'
+                    $db->quoteName('a.log_date') . ' BETWEEN :dstart AND :dnow',
                 );
                 $query->bind(':dstart', $dStart);
                 $query->bind(':dnow', $dNow);
@@ -146,16 +158,19 @@ class ActionlogsModel extends ListModel
 
         if (!empty($search)) {
             if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
-                $query->where($db->quoteName('a.id') . ' = :id')
+                $ids = (int)substr($search, 3);
+                $query
+                    ->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } elseif (stripos($search, 'item_id:') === 0) {
-                $ids = (int) substr($search, 8);
-                $query->where($db->quoteName('a.item_id') . ' = :itemid')
+                $ids = (int)substr($search, 8);
+                $query
+                    ->where($db->quoteName('a.item_id') . ' = :itemid')
                     ->bind(':itemid', $ids, ParameterType::INTEGER);
             } else {
                 $search = '%' . $search . '%';
-                $query->where($db->quoteName('a.message') . ' LIKE :message')
+                $query
+                    ->where($db->quoteName('a.message') . ' LIKE :message')
                     ->bind(':message', $search);
             }
         }
@@ -170,9 +185,9 @@ class ActionlogsModel extends ListModel
      *
      * @return  array  The date range to filter on.
      *
+     * @throws  \Exception
      * @since   3.9.0
      *
-     * @throws  \Exception
      */
     private function buildDateRange($range)
     {
@@ -230,13 +245,17 @@ class ActionlogsModel extends ListModel
      */
     public function getLogsForItem($extension, $itemId)
     {
-        $itemId = (int) $itemId;
+        $itemId = (int)$itemId;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true)
+        $query  = $db
+            ->getQuery(true)
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
-            ->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
+            ->join(
+                'INNER',
+                $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'),
+            )
             ->where($db->quoteName('a.extension') . ' = :extension')
             ->where($db->quoteName('a.item_id') . ' = :itemid')
             ->bind(':extension', $extension)
@@ -305,11 +324,15 @@ class ActionlogsModel extends ListModel
     private function getLogDataQuery($pks = null)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db
+            ->getQuery(true)
             ->select('a.*')
             ->select($db->quoteName('u.name'))
             ->from($db->quoteName('#__action_logs', 'a'))
-            ->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
+            ->join(
+                'INNER',
+                $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'),
+            );
 
         if (\is_array($pks) && \count($pks) > 0) {
             $pks = ArrayHelper::toInteger($pks);
@@ -332,7 +355,8 @@ class ActionlogsModel extends ListModel
     {
         $keys  = ArrayHelper::toInteger($pks);
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db
+            ->getQuery(true)
             ->delete($db->quoteName('#__action_logs'))
             ->whereIn($db->quoteName('id'), $keys);
         $db->setQuery($query);
@@ -340,6 +364,7 @@ class ActionlogsModel extends ListModel
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
+            // ToDo: 6.0
             $this->setError($e->getMessage());
 
             return false;
@@ -384,7 +409,7 @@ class ActionlogsModel extends ListModel
     {
         $form      = parent::getFilterForm($data, $loadData);
         $params    = ComponentHelper::getParams('com_actionlogs');
-        $ipLogging = (bool) $params->get('ip_logging', 0);
+        $ipLogging = (bool)$params->get('ip_logging', 0);
 
         // Add ip sort options to sort dropdown
         if ($form && $ipLogging) {

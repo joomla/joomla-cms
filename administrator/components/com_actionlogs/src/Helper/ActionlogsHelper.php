@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_actionlogs
+ * @package         Joomla.Administrator
+ * @subpackage      com_actionlogs
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Actionlogs\Administrator\Helper;
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
@@ -45,9 +46,9 @@ class ActionlogsHelper
      *
      * @return  \Generator
      *
+     * @throws  \InvalidArgumentException
      * @since   3.9.0
      *
-     * @throws  \InvalidArgumentException
      */
     public static function getCsvData($data): \Generator
     {
@@ -56,8 +57,8 @@ class ActionlogsHelper
                 \sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
-                    \is_object($data) ? \get_class($data) : \gettype($data)
-                )
+                    \is_object($data) ? \get_class($data) : \gettype($data),
+                ),
             );
         }
 
@@ -77,7 +78,9 @@ class ActionlogsHelper
                 'extension'  => self::escapeCsvFormula(Text::_($extension)),
                 'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
                 'name'       => self::escapeCsvFormula($log->name),
-                'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address),
+                'ip_address' => self::escapeCsvFormula(
+                    $log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address,
+                ),
             ];
         }
     }
@@ -94,13 +97,13 @@ class ActionlogsHelper
     public static function loadTranslationFiles($extension)
     {
         static $cache = [];
-        $extension    = strtolower($extension);
+        $extension = strtolower($extension);
 
         if (isset($cache[$extension])) {
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $source = '';
 
         switch (substr($extension, 0, 3)) {
@@ -135,11 +138,11 @@ class ActionlogsHelper
         }
 
         $lang->load($extension, JPATH_ADMINISTRATOR)
-            || $lang->load($extension, $source);
+        || $lang->load($extension, $source);
 
         if (!$lang->hasKey(strtoupper($extension))) {
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-                || $lang->load($extension . '.sys', $source);
+            || $lang->load($extension . '.sys', $source);
         }
 
         $cache[$extension] = true;
@@ -152,7 +155,7 @@ class ActionlogsHelper
      *
      * @return  mixed  An object contains content type parameters, or null if not found
      *
-     * @since   3.9.0
+     * @since       3.9.0
      *
      * @deprecated  4.3 will be removed in 6.0
      *              Use the action log config model instead
@@ -179,8 +182,8 @@ class ActionlogsHelper
     {
         static::loadActionLogPluginsLanguage();
         static $links = [];
-        $message      = Text::_($log->message_language_key);
-        $messageData  = json_decode($log->message, true);
+        $message     = Text::_($log->message_language_key);
+        $messageData = json_decode($log->message, true);
 
         // Special handling for translation extension name
         if (isset($messageData['extension_name'])) {
@@ -247,7 +250,13 @@ class ActionlogsHelper
         if (file_exists($file)) {
             $prefix = ucfirst(str_replace('com_', '', $component));
             $cName  = $prefix . 'Helper';
-
+            /*
+             * ToDo:
+             * We want to have all classes are namespaces! We need to know the component namespace so we could
+             * check if NAMESPACE/getContentTypeLink is callable. Maybe we need to boot the component????
+             *
+             * Change can be made with 6.0?? Maybe we need a fallback.
+             */
             \JLoader::register($cName, $file);
 
             if (class_exists($cName) && \is_callable([$cName, 'getContentTypeLink'])) {
@@ -280,11 +289,12 @@ class ActionlogsHelper
         }
         $loaded = true;
 
-        $lang = Factory::getLanguage();
-        $db   = Factory::getDbo();
+        $lang = Factory::getApplication()->getLanguage();
+        $db   = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get all (both enabled and disabled) actionlog plugins
-        $query = $db->getQuery(true)
+        $query = $db
+            ->getQuery(true)
             ->select(
                 $db->quoteName(
                     [
@@ -298,8 +308,8 @@ class ActionlogsHelper
                         'name',
                         'params',
                         'id',
-                    ]
-                )
+                    ],
+                ),
             )
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -330,7 +340,7 @@ class ActionlogsHelper
             }
 
             $lang->load($extension, JPATH_ADMINISTRATOR)
-                || $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
+            || $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
         }
 
         // Load plg_system_actionlogs too

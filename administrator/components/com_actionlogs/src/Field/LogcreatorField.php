@@ -61,7 +61,12 @@ class LogcreatorField extends ListField
                 ->select($db->quoteName('u.id', 'value'))
                 ->select($db->quoteName('u.username', 'text'))
                 ->from($db->quoteName('#__users', 'u'))
-                ->join('INNER', $db->quoteName('#__action_logs', 'c') . ' ON ' . $db->quoteName('c.user_id') . ' = ' . $db->quoteName('u.id'))
+                ->join(
+                    'INNER',
+                    $db->quoteName('#__action_logs', 'c') . ' ON ' . $db->quoteName(
+                        'c.user_id'
+                    ) . ' = ' . $db->quoteName('u.id')
+                )
                 ->group($db->quoteName('u.id'))
                 ->group($db->quoteName('u.username'))
                 ->order($db->quoteName('u.username'));
@@ -70,7 +75,9 @@ class LogcreatorField extends ListField
             $db->setQuery($query);
 
             // Return the result
-            if ($options = $db->loadObjectList()) {
+            $options = $db->loadObjectList();
+
+            if ($options) {
                 static::$options[$hash] = array_merge(static::$options[$hash], $options);
             }
         }
