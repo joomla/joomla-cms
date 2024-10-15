@@ -251,7 +251,7 @@ class ActionlogsHelper
             $prefix = ucfirst(str_replace('com_', '', $component));
             $cName  = $prefix . 'Helper';
             /*
-             * ToDo:
+             * @todo
              * We want to have all classes are namespaces! We need to know the component namespace so we could
              * check if NAMESPACE/getContentTypeLink is callable. Maybe we need to boot the component????
              *
