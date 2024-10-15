@@ -175,15 +175,10 @@ class TextareaField extends FormField
     {
         $data = parent::getLayoutData();
 
-        // Initialize some field attributes.
-        $columns      = $this->columns ? ' cols="' . $this->columns . '"' : '';
-        $rows         = $this->rows ? ' rows="' . $this->rows . '"' : '';
-        $maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
-
         $extraData = [
-            'maxlength'   => $maxlength,
-            'rows'        => $rows,
-            'columns'     => $columns,
+            'maxlength'   => $this->maxlength,
+            'rows'        => $this->rows,
+            'columns'     => $this->columns,
             'charcounter' => $this->charcounter,
         ];
 
