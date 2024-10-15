@@ -97,7 +97,7 @@ class ActionlogsHelper
     public static function loadTranslationFiles($extension)
     {
         static $cache = [];
-        $extension = strtolower($extension);
+        $extension    = strtolower($extension);
 
         if (isset($cache[$extension])) {
             return;
@@ -182,8 +182,8 @@ class ActionlogsHelper
     {
         static::loadActionLogPluginsLanguage();
         static $links = [];
-        $message     = Text::_($log->message_language_key);
-        $messageData = json_decode($log->message, true);
+        $message      = Text::_($log->message_language_key);
+        $messageData  = json_decode($log->message, true);
 
         // Special handling for translation extension name
         if (isset($messageData['extension_name'])) {
