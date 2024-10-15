@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Helper;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Event\CustomFields\AfterPrepareFieldEvent;
 use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
 use Joomla\CMS\Event\CustomFields\GetTypesEvent;
@@ -173,6 +174,7 @@ class FieldsHelper
             /** @var DispatcherInterface $dispatcher */
             $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
             PluginHelper::importPlugin('fields', null, true, $dispatcher);
+            PluginHelper::importPlugin('content', null, true, $dispatcher);
 
             $fieldIds = array_map(
                 function ($f) {
@@ -244,6 +246,15 @@ class FieldsHelper
                     ]);
                     $dispatcher->dispatch('onCustomFieldsAfterPrepareField', $eventAfter);
                     $value = $eventAfter->getValue();
+
+                    if ($field->params->get('prepare_content') === 1) {
+                        $subject       = new \stdClass();
+                        $subject->text = $value;
+
+                        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', ['com_content.fields', $subject]));
+
+                        $value = $subject->text;
+                    }
 
                     // Assign the value
                     $field->value = $value;
