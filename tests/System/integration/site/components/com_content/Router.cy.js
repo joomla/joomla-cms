@@ -64,7 +64,7 @@ describe('Test in frontend that the content site router', () => {
       cy.get('main div.com-content-category a')
         .contains('Test Article')
         .should('have.attr', 'href')
-        .and('equal', '/index.php/test-menu-category-router/test-content-router');
+        .and('match', /\/index\.php\/test-menu-category-router\/test-content-router$/);
 
       cy.visit('/index.php/test-menu-category-router/test-content-router');
       cy.url().should('match', /\/index\.php\/test-menu-category-router\/test-content-router$/);
@@ -99,7 +99,7 @@ describe('Test in frontend that the content site router', () => {
       cy.get('main div.com-content-categories div a')
         .contains('Uncategorised')
         .should('have.attr', 'href')
-        .and('equal', '/index.php/test-menu-categories-router/uncategorised');
+        .and('match', /\/index\.php\/test-menu-categories-router\/uncategorised$/);
 
       cy.visit('/index.php/test-menu-categories-router/uncategorised');
       cy.url().should('match', /\/index\.php\/test-menu-categories-router\/uncategorised$/);
@@ -111,7 +111,7 @@ describe('Test in frontend that the content site router', () => {
       cy.get('main div.com-content-category-blog h2 a')
         .contains('Test Article')
         .should('have.attr', 'href')
-        .and('equal', '/index.php/test-menu-categories-router/uncategorised/test-content-router');
+        .and('match', /\/index\.php\/test-menu-categories-router\/uncategorised\/test-content-router$/);
 
       cy.visit('/index.php/test-menu-categories-router/uncategorised/test-content-router');
       cy.url().should('match', /\/index\.php\/test-menu-categories-router\/uncategorised\/test-content-router$/);

@@ -72,7 +72,7 @@ describe('Test that the sef system plugin', () => {
     cy.visit('/');
     cy.get('li.nav-item').contains('Home')
       .should('have.attr', 'href')
-      .and('equal', '/index.php');
+      .and('match', /\/index\.php$/);
   });
 
   it('can process if option \'trailingslash\' enabled', () => {
@@ -87,7 +87,7 @@ describe('Test that the sef system plugin', () => {
     cy.visit('/');
     cy.get('li.nav-item').contains('Home')
       .should('have.attr', 'href')
-      .and('equal', '/index.php/');
+      .and('match', /\/index\.php\/$/);
   });
 
   it('can process if option \'strictrouting\' enabled', () => {

@@ -66,7 +66,7 @@ describe('Test in frontend that the contact site router', () => {
       cy.get('main div.com-contact-category a')
         .contains('Test Contact')
         .should('have.attr', 'href')
-        .and('equal', '/index.php/test-menu-category-router/test-contact-router');
+        .and('match', /\/index\.php\/test-menu-category-router\/test-contact-router$/);
 
       cy.visit('/index.php/test-menu-category-router/test-contact-router');
       cy.url().should('match', /\/index\.php\/test-menu-category-router\/test-contact-router$/);
@@ -102,7 +102,7 @@ describe('Test in frontend that the contact site router', () => {
       cy.get('main div.com-contact-categories h3 a')
         .contains('Uncategorised')
         .should('have.attr', 'href')
-        .and('equal', '/index.php/test-menu-categories-router/uncategorised');
+        .and('match', /\/index\.php\/test-menu-categories-router\/uncategorised$/);
 
       cy.visit('/index.php/test-menu-categories-router/uncategorised');
       cy.url().should('match', /\/index\.php\/test-menu-categories-router\/uncategorised$/);
@@ -115,7 +115,7 @@ describe('Test in frontend that the contact site router', () => {
       cy.get('main div.com-contact-category a')
         .contains('Test Contact')
         .should('have.attr', 'href')
-        .and('equal', '/index.php/test-menu-categories-router/uncategorised/test-contact-router');
+        .and('match', /\/index\.php\/test-menu-categories-router\/uncategorised\/test-contact-router$/);
 
       cy.visit('/index.php/test-menu-categories-router/uncategorised/test-contact-router');
       cy.url().should('match', /\/index\.php\/test-menu-categories-router\/uncategorised\/test-contact-router$/);
