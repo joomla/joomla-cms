@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
@@ -35,20 +34,7 @@ $langFilter = false;
 
 // Tags filtering based on language filter
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled())) {
-    $tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
-
-    switch ($tagfilter) {
-        case 'current_language':
-            $langFilter = Factory::getApplication()->getLanguage()->getTag();
-            break;
-
-        case 'all':
-            $langFilter = false;
-            break;
-
-        default:
-            $langFilter = $tagfilter;
-    }
+    $langFilter = Factory::getApplication()->getLanguage()->getTag();
 }
 
 // Check for at least one editable article
