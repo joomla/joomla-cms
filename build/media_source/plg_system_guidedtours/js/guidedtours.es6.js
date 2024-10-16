@@ -698,3 +698,62 @@ if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem
 } else {
   emptyStorage();
 }
+
+// bringing calendar to the front when clicked in guided tours
+document.addEventListener('DOMContentLoaded', () => {
+  // Select all field-calendar elements
+  const fieldCalendars = document.querySelectorAll('.field-calendar');
+
+  fieldCalendars.forEach((fieldCalendar) => {
+    // Find the button with the data attribute
+    const button = fieldCalendar.querySelector('button[data-inputfield]');
+    const calendar = fieldCalendar.querySelector('.js-calendar');
+
+    // Ensure both elements exist
+    if (button && calendar) {
+      const changeZindex = () => {
+        if (button.classList.contains('shepherd-enabled')) {
+          calendar.style.zIndex = 9998;
+        } else {
+          calendar.style.zIndex = 1060;
+        }
+      };
+
+      changeZindex();
+
+      // Set up a MutationObserver to watch for changes in the button's class list
+      const observer = new MutationObserver((mutationsList) => {
+        mutationsList.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            changeZindex();
+          }
+        });
+      });
+
+      // Observe changes to the button's attributes
+      observer.observe(button, { attributes: true });
+
+      // Disable Shepherd's keyboard navigation when the calendar is opened
+      button.addEventListener('click', () => {
+        if (calendar.classList.contains('open')) {
+          const tour = Shepherd.activeTour;
+          if (tour) {
+            tour.options.keyboardNavigation = false;
+          }
+          changeZindex();
+        }
+      });
+
+      // Re-enable Shepherd's keyboard navigation when the calendar is closed
+      calendar.addEventListener('click', () => {
+        if (!calendar.classList.contains('open')) {
+          const tour = Shepherd.activeTour;
+          if (tour) {
+            tour.options.keyboardNavigation = true;
+          }
+          changeZindex();
+        }
+      });
+    }
+  });
+});
