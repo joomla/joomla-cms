@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,9 +38,9 @@ class ActionlogsModel extends ListModel
      *
      * @param   array  $config  An optional associative array of configuration settings.
      *
-     * @throws  \Exception
      * @since   3.9.0
      *
+     * @throws  \Exception
      */
     public function __construct($config = [])
     {
@@ -73,9 +73,9 @@ class ActionlogsModel extends ListModel
      *
      * @return  void
      *
-     * @throws  \Exception
      * @since   3.9.0
      *
+     * @throws  \Exception
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
@@ -87,9 +87,9 @@ class ActionlogsModel extends ListModel
      *
      * @return  QueryInterface
      *
-     * @throws  \Exception
      * @since   3.9.0
      *
+     * @throws  \Exception
      */
     protected function getListQuery()
     {
@@ -185,9 +185,9 @@ class ActionlogsModel extends ListModel
      *
      * @return  array  The date range to filter on.
      *
-     * @throws  \Exception
      * @since   3.9.0
      *
+     * @throws  \Exception
      */
     private function buildDateRange($range)
     {

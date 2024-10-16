@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,9 +44,9 @@ class ActionlogsController extends AdminController
      * @param   CMSApplication        $app      The Application for the dispatcher
      * @param   Input                 $input    Input
      *
-     * @throws  \Exception
      * @since   3.9.0
      *
+     * @throws  \Exception
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
@@ -60,9 +60,9 @@ class ActionlogsController extends AdminController
      *
      * @return  void
      *
-     * @throws  \Exception
      * @since   3.9.0
      *
+     * @throws  \Exception
      */
     public function exportLogs()
     {

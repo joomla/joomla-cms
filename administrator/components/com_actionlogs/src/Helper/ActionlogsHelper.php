@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,9 +46,9 @@ class ActionlogsHelper
      *
      * @return  \Generator
      *
-     * @throws  \InvalidArgumentException
      * @since   3.9.0
      *
+     * @throws  \InvalidArgumentException
      */
     public static function getCsvData($data): \Generator
     {
