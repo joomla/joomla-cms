@@ -139,7 +139,9 @@ class HtmlView extends BaseHtmlView
             }
         } else {
             // In article associations modal we need to remove language filter if forcing a language.
-            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+            $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD');
+
+            if ($forcedLanguage) {
                 // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
                 $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
                 $this->filterForm->setField($languageXml, 'filter', true);
@@ -147,11 +149,19 @@ class HtmlView extends BaseHtmlView
                 // Also, unset the active language filter so the search tools is not open by default with this filter.
                 unset($this->activeFilters['language']);
             }
+
+            $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);
         }
 
         // If filter by category is active we need to know the extension name to filter the categories
         $extensionName = $this->escape($this->state->get('filter.extension'));
         $this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('extension', $this->state->get('filter.extension', ''))
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
     }
