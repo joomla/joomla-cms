@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   Copyright 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,8 +108,8 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
         $params              = ComponentHelper::getParams('com_actionlogs');
-        $this->showIpColumn  = (bool)$params->get('ip_logging', 0);
-        $this->dateRelative  = (bool)$params->get('date_relative', 1);
+        $this->showIpColumn  = (bool) $params->get('ip_logging', 0);
+        $this->dateRelative  = (bool) $params->get('date_relative', 1);
 
         // @todo: 6.0
         if (\count($errors = $model->getErrors())) {

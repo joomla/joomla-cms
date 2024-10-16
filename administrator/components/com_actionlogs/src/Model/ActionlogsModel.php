@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   Copyright 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,7 @@ class ActionlogsModel extends ListModel
 
         // Apply filter by user
         if (!empty($user)) {
-            $user = (int)$user;
+            $user = (int) $user;
             $query
                 ->where($db->quoteName('a.user_id') . ' = :userid')
                 ->bind(':userid', $user, ParameterType::INTEGER);
@@ -158,12 +158,12 @@ class ActionlogsModel extends ListModel
 
         if (!empty($search)) {
             if (stripos($search, 'id:') === 0) {
-                $ids = (int)substr($search, 3);
+                $ids = (int) substr($search, 3);
                 $query
                     ->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } elseif (stripos($search, 'item_id:') === 0) {
-                $ids = (int)substr($search, 8);
+                $ids = (int) substr($search, 8);
                 $query
                     ->where($db->quoteName('a.item_id') . ' = :itemid')
                     ->bind(':itemid', $ids, ParameterType::INTEGER);
@@ -245,7 +245,7 @@ class ActionlogsModel extends ListModel
      */
     public function getLogsForItem($extension, $itemId)
     {
-        $itemId = (int)$itemId;
+        $itemId = (int) $itemId;
         $db     = $this->getDatabase();
         $query  = $db
             ->getQuery(true)
@@ -409,7 +409,7 @@ class ActionlogsModel extends ListModel
     {
         $form      = parent::getFilterForm($data, $loadData);
         $params    = ComponentHelper::getParams('com_actionlogs');
-        $ipLogging = (bool)$params->get('ip_logging', 0);
+        $ipLogging = (bool) $params->get('ip_logging', 0);
 
         // Add ip sort options to sort dropdown
         if ($form && $ipLogging) {

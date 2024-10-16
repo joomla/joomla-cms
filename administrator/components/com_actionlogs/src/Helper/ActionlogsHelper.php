@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   Copyright 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,7 +97,8 @@ class ActionlogsHelper
     public static function loadTranslationFiles($extension)
     {
         static $cache = [];
-        $extension    = strtolower($extension);
+
+        $extension = strtolower($extension);
 
         if (isset($cache[$extension])) {
             return;
@@ -182,8 +183,9 @@ class ActionlogsHelper
     {
         static::loadActionLogPluginsLanguage();
         static $links = [];
-        $message      = Text::_($log->message_language_key);
-        $messageData  = json_decode($log->message, true);
+        
+        $message     = Text::_($log->message_language_key);
+        $messageData = json_decode($log->message, true);
 
         // Special handling for translation extension name
         if (isset($messageData['extension_name'])) {
