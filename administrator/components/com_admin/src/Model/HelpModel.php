@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,7 +110,7 @@ class HelpModel extends BaseDatabaseModel
     public function getLangTag()
     {
         if (\is_null($this->lang_tag)) {
-            $this->lang_tag = Factory::getLanguage()->getTag();
+            $this->lang_tag = Factory::getApplication()->getLanguage()->getTag();
 
             if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag)) {
                 // Use English as fallback
@@ -173,7 +173,10 @@ class HelpModel extends BaseDatabaseModel
             // Strip the extension
             $file = preg_replace('#\.xml$|\.html$#', '', $file);
 
-            if ($help_search && StringHelper::strpos(StringHelper::strtolower(strip_tags($buffer)), StringHelper::strtolower($help_search)) === false) {
+            if ($help_search && StringHelper::strpos(
+                    StringHelper::strtolower(strip_tags($buffer)),
+                    StringHelper::strtolower($help_search),
+                ) === false) {
                 continue;
             }
 

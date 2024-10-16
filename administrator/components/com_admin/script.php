@@ -4,11 +4,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+// @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -17,8 +18,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -69,8 +71,8 @@ class JoomlaInstallerScript
     /**
      * Collect errors.
      *
-     * @param  string      $context  A context/place where error happened
-     * @param  \Throwable  $error    The error that occurred
+     * @param   string      $context  A context/place where error happened
+     * @param   \Throwable  $error    The error that occurred
      *
      * @return  void
      *
@@ -169,12 +171,13 @@ class JoomlaInstallerScript
      */
     protected function clearStatsCache()
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the params for the stats plugin
             $params = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select($db->quoteName('params'))
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -196,7 +199,8 @@ class JoomlaInstallerScript
 
         $params = json_encode($params);
 
-        $query = $db->getQuery(true)
+        $query = $db
+            ->getQuery(true)
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = ' . $db->quote($params))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -219,7 +223,7 @@ class JoomlaInstallerScript
      */
     protected function updateDatabase()
     {
-        if (Factory::getDbo()->getServerType() === 'mysql') {
+        if (Factory::getContainer()->get(DatabaseInterface::class)->getServerType() === 'mysql') {
             $this->updateDatabaseMysql();
         }
     }
@@ -231,7 +235,7 @@ class JoomlaInstallerScript
      */
     protected function updateDatabaseMysql()
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $db->setQuery('SHOW ENGINES');
 
@@ -266,7 +270,7 @@ class JoomlaInstallerScript
      * Uninstall extensions and optionally migrate their parameters when
      * updating from a version older than 5.0.1.
      *
-     * @return  void
+     * @return  mixed
      *
      * @since   5.0.0
      */
@@ -288,19 +292,56 @@ class JoomlaInstallerScript
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
              */
-            ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
-            ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
-            ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
-            ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
-            ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
-            ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
+            [
+                'type'         => 'plugin',
+                'element'      => 'demotasks',
+                'folder'       => 'task',
+                'client_id'    => 0,
+                'pre_function' => null,
+            ],
+            [
+                'type'         => 'plugin',
+                'element'      => 'compat',
+                'folder'       => 'system',
+                'client_id'    => 0,
+                'pre_function' => 'migrateCompatPlugin',
+            ],
+            [
+                'type'         => 'plugin',
+                'element'      => 'logrotation',
+                'folder'       => 'system',
+                'client_id'    => 0,
+                'pre_function' => 'migrateLogRotationPlugin',
+            ],
+            [
+                'type'         => 'plugin',
+                'element'      => 'recaptcha',
+                'folder'       => 'captcha',
+                'client_id'    => 0,
+                'pre_function' => null,
+            ],
+            [
+                'type'         => 'plugin',
+                'element'      => 'sessiongc',
+                'folder'       => 'system',
+                'client_id'    => 0,
+                'pre_function' => 'migrateSessionGCPlugin',
+            ],
+            [
+                'type'         => 'plugin',
+                'element'      => 'updatenotification',
+                'folder'       => 'system',
+                'client_id'    => 0,
+                'pre_function' => 'migrateUpdatenotificationPlugin',
+            ],
         ];
 
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         foreach ($extensions as $extension) {
             $row = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select('*')
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote($extension['type']))
@@ -324,7 +365,8 @@ class JoomlaInstallerScript
 
                 // Unlock and unprotect the plugin so we can uninstall it
                 $db->setQuery(
-                    $db->getQuery(true)
+                    $db
+                        ->getQuery(true)
                         ->update($db->quoteName('#__extensions'))
                         ->set($db->quoteName('locked') . ' = 0')
                         ->set($db->quoteName('protected') . ' = 0')
@@ -356,10 +398,11 @@ class JoomlaInstallerScript
      */
     private function migrateCompatPlugin($rowOld)
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $db->setQuery(
-            $db->getQuery(true)
+            $db
+                ->getQuery(true)
                 ->update($db->quoteName('#__extensions'))
                 ->set($db->quoteName('enabled') . ' = :enabled')
                 ->set($db->quoteName('params') . ' = :params')
@@ -395,8 +438,8 @@ class JoomlaInstallerScript
 
         // Get the timeout, as configured in plg_system_logrotation
         $params       = new Registry($data->params);
-        $cachetimeout = (int) $params->get('cachetimeout', 30);
-        $lastrun      = (int) $params->get('lastrun', time());
+        $cachetimeout = (int)$params->get('cachetimeout', 30);
+        $lastrun      = (int)$params->get('lastrun', time());
 
         $task = [
             'title'           => 'Rotate Logs',
@@ -407,8 +450,8 @@ class JoomlaInstallerScript
                 'exec-time'     => gmdate('H:i', $lastrun),
                 'exec-day'      => gmdate('d'),
             ],
-            'state'  => 1,
-            'params' => [
+            'state'           => 1,
+            'params'          => [
                 'logstokeep' => $params->get('logstokeep', 1),
             ],
         ];
@@ -447,8 +490,8 @@ class JoomlaInstallerScript
                 'exec-time'      => gmdate('H:i'),
                 'exec-day'       => gmdate('d'),
             ],
-            'state'  => 1,
-            'params' => [
+            'state'           => 1,
+            'params'          => [
                 'enable_session_gc'          => $params->get('enable_session_gc', 1),
                 'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
             ],
@@ -474,9 +517,9 @@ class JoomlaInstallerScript
         // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
         $component    = ComponentHelper::getComponent('com_installer');
         $paramsc      = $component->getParams();
-        $cachetimeout = (int) $paramsc->get('cachetimeout', 6);
+        $cachetimeout = (int)$paramsc->get('cachetimeout', 6);
         $params       = new Registry($data->params);
-        $lastrun      = (int) $params->get('lastrun', time());
+        $lastrun      = (int)$params->get('lastrun', time());
 
         /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
@@ -492,8 +535,8 @@ class JoomlaInstallerScript
                 'exec-time'      => gmdate('H:i', $lastrun),
                 'exec-day'       => gmdate('d'),
             ],
-            'state'  => 1,
-            'params' => [
+            'state'           => 1,
+            'params'          => [
                 'email'             => $params->get('email', ''),
                 'language_override' => $params->get('language_override', ''),
             ],
@@ -511,8 +554,9 @@ class JoomlaInstallerScript
         $extensions = ExtensionHelper::getCoreExtensions();
 
         // Attempt to refresh manifest caches
-        $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db
+            ->getQuery(true)
             ->select('*')
             ->from('#__extensions');
 
@@ -543,13 +587,15 @@ class JoomlaInstallerScript
             if (!$installer->refreshManifestCache($extension->extension_id)) {
                 $this->collectError(
                     __METHOD__,
-                    new \Exception(\sprintf(
-                        'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
-                        $extension->type,
-                        $extension->element,
-                        $extension->name,
-                        $extension->client_id
-                    ))
+                    new \Exception(
+                        \sprintf(
+                            'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
+                            $extension->type,
+                            $extension->element,
+                            $extension->name,
+                            $extension->client_id
+                        ),
+                    ),
                 );
             }
         }
@@ -558,8 +604,8 @@ class JoomlaInstallerScript
     /**
      * Delete files that should not exist
      *
-     * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
-     * @param bool  $suppressOutput   Set to true to suppress echoing any errors, and just return the $status array
+     * @param   bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
+     * @param   bool  $suppressOutput  Set to true to suppress echoing any errors, and just return the $status array
      *
      * @return  array
      */
@@ -2689,10 +2735,10 @@ class JoomlaInstallerScript
             'com_workflow',
         ];
 
-        foreach ($newComponents as $component) {
-            /** @var \Joomla\CMS\Table\Asset $asset */
-            $asset = Table::getInstance('Asset');
+        /** @var Asset $asset */
+        $asset = new Asset(Factory::getContainer()->get(DatabaseInterface::class));
 
+        foreach ($newComponents as $component) {
             if ($asset->loadByName($component)) {
                 continue;
             }
@@ -2787,12 +2833,13 @@ class JoomlaInstallerScript
      */
     private function migrateDeleteActionlogsConfiguration(): bool
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the ActionLogs system plugin's parameters
             $row = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select([$db->quotename('enabled'), $db->quoteName('params')])
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -2831,8 +2878,8 @@ class JoomlaInstallerScript
                 'exec-time'      => gmdate('H:i', $params->get('lastrun', time())),
                 'exec-day'       => gmdate('d'),
             ],
-            'state'  => 1,
-            'params' => [
+            'state'           => 1,
+            'params'          => [
                 'logDeletePeriod' => $params->get('logDeletePeriod', 0),
             ],
         ];
@@ -2847,6 +2894,7 @@ class JoomlaInstallerScript
 
         return true;
     }
+
     /**
      * Migrate privacyconsents system plugin configuration
      *
@@ -2856,12 +2904,13 @@ class JoomlaInstallerScript
      */
     private function migratePrivacyconsentConfiguration(): bool
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the PrivacyConsent system plugin's parameters
             $row = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select([$db->quotename('enabled'), $db->quoteName('params')])
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -2900,8 +2949,8 @@ class JoomlaInstallerScript
                 'exec-time'     => gmdate('H:i', $params->get('lastrun', time())),
                 'exec-day'      => gmdate('d'),
             ],
-            'state'  => 1,
-            'params' => [
+            'state'           => 1,
+            'params'          => [
                 'consentexpiration' => $params->get('consentexpiration', 360),
                 'remind'            => $params->get('remind', 30),
             ],
@@ -2930,12 +2979,13 @@ class JoomlaInstallerScript
      */
     private function migrateTinymceConfiguration(): bool
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the TinyMCE editor plugin's parameters
             $params = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select($db->quoteName('params'))
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -2976,7 +3026,11 @@ class JoomlaInstallerScript
                     $replace[] = 'jtemplate';
                 }
 
-                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace($search, $replace, $toolbarConfig['menu']);
+                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
+                    $search,
+                    $replace,
+                    $toolbarConfig['menu']
+                );
             }
 
             // There could be no toolbar at all, or only toolbar1, or both toolbar1 and toolbar2
@@ -3000,14 +3054,19 @@ class JoomlaInstallerScript
                         $replace[] = 'jtemplate';
                     }
 
-                    $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace($search, $replace, $toolbarConfig[$toolbarIdx]);
+                    $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace(
+                        $search,
+                        $replace,
+                        $toolbarConfig[$toolbarIdx]
+                    );
                 }
             }
         }
 
         $params = json_encode($params);
 
-        $query = $db->getQuery(true)
+        $query = $db
+            ->getQuery(true)
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = ' . $db->quote($params))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -3047,7 +3106,10 @@ class JoomlaInstallerScript
                 $tourItem->load($item->id);
 
                 // Tour follows Joomla naming convention
-                if (str_starts_with($tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($tourItem->title, '_TITLE')) {
+                if (str_starts_with($tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with(
+                        $tourItem->title,
+                        '_TITLE'
+                    )) {
                     $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
 
                     // Remove the last _TITLE part
@@ -3055,7 +3117,10 @@ class JoomlaInstallerScript
                     if ($pos !== false) {
                         $uidTitle = substr($uidTitle, 0, $pos);
                     }
-                } elseif (preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with($tourItem->title, '_TITLE')) {
+                } elseif (preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with(
+                        $tourItem->title,
+                        '_TITLE'
+                    )) {
                     // Tour follows component naming pattern
                     $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', $tourItem->title);
 
@@ -3101,7 +3166,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/ED256.php' => '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/Ed256.php',
             '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/ED512.php' => '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/Ed512.php',
             // From 5.0.0-alpha3 to 5.0.0-alpha4
-            '/plugins/schemaorg/blogposting/src/Extension/Blogposting.php' => '/plugins/schemaorg/blogposting/src/Extension/BlogPosting.php',
+            '/plugins/schemaorg/blogposting/src/Extension/Blogposting.php'                => '/plugins/schemaorg/blogposting/src/Extension/BlogPosting.php',
         ];
 
         foreach ($files as $old => $expected) {
