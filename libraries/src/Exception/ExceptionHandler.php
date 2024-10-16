@@ -14,6 +14,9 @@ use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\language\Text;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -70,6 +73,7 @@ class ExceptionHandler
     public static function handleException(\Throwable $error)
     {
         static::logException($error);
+        static::identifyCulprit($error);
         static::render($error);
     }
 
@@ -227,6 +231,140 @@ class ExceptionHandler
             );
         } catch (\Throwable $e) {
             // Logging failed, don't make a stink about it though
+        }
+    }
+
+    /**
+     * Tries to identify if the error is caused by a plugin that completely blocks the administrator interface.
+     *
+     * @param   \Throwable  $error  An Exception or Throwable (PHP 7+) object to get error message from.
+     *
+     * @return  void
+     *
+     * @since   4.2
+     */
+    protected static function identifyCulprit(\Throwable $error)
+    {
+        try {
+            $app = Factory::getApplication();
+            if ($app->isClient('administrator') && !Factory::getUser()->guest) {
+
+                // Clear previous detections
+                $app->setUserState('exceptionhandler.culprit_name', null);
+                $app->setUserState('exceptionhandler.restore_link', null);
+
+                $traceFiles = array($error->getFile());
+                foreach($error->getTrace() as $trace) {
+                    $traceFiles[] = $trace['file'];
+                }
+
+                $db = Factory::getDbo();
+                $culprit = null;
+                foreach($traceFiles as $traceFile) {
+                    $traceLoc = explode(DIRECTORY_SEPARATOR, str_replace(JPATH_ROOT.DIRECTORY_SEPARATOR, '', $traceFile));
+                    if (
+                        (count($traceLoc) > 3)
+                        && ($traceLoc[0] == 'plugins')
+                        && ($traceLoc[1] == 'system')
+                    ) {
+                        $query = $db->getQuery(true)
+                            ->select(
+                                $db->quoteName(
+                                    [
+                                        'type',
+                                        'name',
+                                        'element',
+                                        'extension_id',
+                                    ]
+                                )
+                            )
+                            ->from($db->quoteName('#__extensions'))
+                            ->where(
+                                [
+                                    $db->quoteName('type') . ' = ' . $db->quote('plugin'),
+                                    $db->quoteName('folder') . ' = ' . $db->quote('system'),
+                                    $db->quoteName('element') . ' = ' . $db->quote($db->escape($traceLoc[2]))
+                                ]
+                            );
+                        $db->setQuery($query);
+
+                        $plugin = $db->loadObject();
+                        if ($plugin) {
+                            $culprit = $plugin;
+                            break;
+                        }
+                    }
+                }
+
+                if ($culprit) {
+                    // A plugin's directory has been found in the error log.
+                    static::handleCulprit($culprit);
+                }
+            }
+        } catch(\Throwable $e) {
+            // Identifying failed, but we don't want to alter the existing error log.
+        }
+    }
+
+    /**
+     * Handles the culprit plugin.
+     *
+     * @param   \Throwable  $error  An Exception or Throwable (PHP 7+) object to get error message from.
+     *
+     * @return  void
+     *
+     * @since   4.2
+     */
+    protected static function handleCulprit($culprit) {
+        try {
+            $app = Factory::getApplication();
+            if ($app->isClient('administrator') && !Factory::getUser()->guest) {
+                if ($app->input->exists('disable_culprit')
+                    && $app->input->exists('culprit_id')
+                    && ($app->input->get('culprit_id', 0, 'int') == $culprit->extension_id)
+                ) {
+                    Session::checkToken('get') or die();
+
+                    // If the admin confirms to disable the culprit, go ahead.
+                    $db = Factory::getDbo();
+                    $query = $db->getQuery(true)
+                        ->update($db->quoteName('#__extensions'))
+                        ->set($db->quoteName('enabled') . ' = 0')
+                        ->where($db->quoteName('extension_id') . ' = ' . (int) $culprit->extension_id);
+
+                    $db->lockTable('#__extensions');
+
+                    $result = $db->setQuery($query)->execute();
+
+                    $db->unlockTables();
+
+                    $app->enqueueMessage(Text::_('JERROR_PLUGIN_DISABLED'));
+                    
+                    // Where should we return to?
+                    $returnUrl = $app->input->exists('return') ? base64_decode($app->input->getBase64('return')) : 'index.php';
+                    if (!Uri::isInternal($returnUrl)) {
+                        $returnUrl = 'index.php';
+                    }
+
+                    $app->redirect($returnUrl);
+                } else {
+                    // Present an option to the admin to disable the offending plugin.
+                    $uri = (string) Uri::getInstance();
+                    $return = urlencode(base64_encode($uri));
+
+                    $token = urlencode(Session::getFormToken());
+
+                    $restoreLink = 'index.php?disable_culprit=1&culprit_id=' . (int) $culprit->extension_id . '&return=' . $return . '&' . $token .'=1';
+
+                    $app->enqueueMessage(Text::sprintf('JERROR_CRASH_RECOVERY', $culprit->name, $restoreLink ), 'error');
+
+                    // If that fails, we try to render the button through the template.
+                    $app->setUserState('exceptionhandler.culprit_name', $culprit->name);
+                    $app->setUserState('exceptionhandler.restore_link', $restoreLink);
+                }
+            }
+        } catch(\Throwable $e) {
+            // Handling failed, but we don't want to alter the existing error log.
         }
     }
 }
