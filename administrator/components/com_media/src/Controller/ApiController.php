@@ -62,7 +62,7 @@ class ApiController extends BaseController
             // Record the actual task being fired
             $this->doTask = $doTask;
 
-            if (!in_array($this->doTask, $this->taskMap)) {
+            if (!\in_array($this->doTask, $this->taskMap)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 405);
             }
 
@@ -198,7 +198,7 @@ class ApiController extends BaseController
         $override     = $content->get('override', false);
 
         if ($mediaContent) {
-            $this->checkFileSize(strlen($mediaContent));
+            $this->checkFileSize(\strlen($mediaContent));
 
             // A file needs to be created
             $name = $this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
@@ -270,7 +270,7 @@ class ApiController extends BaseController
         $move         = $content->get('move', true);
 
         if ($mediaContent != null) {
-            $this->checkFileSize(strlen($mediaContent));
+            $this->checkFileSize(\strlen($mediaContent));
 
             $this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
         }
@@ -339,7 +339,7 @@ class ApiController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.9
      * @throws  \Exception
      */
     private function checkFileSize(int $fileSize)
@@ -365,7 +365,7 @@ class ApiController extends BaseController
     {
         $parts = explode(':', $this->input->getString('path', ''), 2);
 
-        if (count($parts) < 1) {
+        if (\count($parts) < 1) {
             return null;
         }
 
@@ -383,7 +383,7 @@ class ApiController extends BaseController
     {
         $parts = explode(':', $this->input->getString('path', ''), 2);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return null;
         }
 

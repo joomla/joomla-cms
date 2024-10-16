@@ -11,7 +11,7 @@
 		/>
 		<field
 			name="state"
-			type="redirect_status"
+			type="RedirectStatus"
 			label="JSTATUS"
 			class="js-select-submit-on-change"
 			>

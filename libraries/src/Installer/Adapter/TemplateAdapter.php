@@ -19,9 +19,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -392,7 +393,7 @@ class TemplateAdapter extends InstallerAdapter
         $this->parent->removeFiles($this->getManifest()->languages, $this->extension->client_id);
 
         // Delete the template directory
-        if (Folder::exists($this->parent->getPath('extension_root'))) {
+        if (is_dir(Path::clean($this->parent->getPath('extension_root')))) {
             Folder::delete($this->parent->getPath('extension_root'));
         } else {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), Log::WARNING, 'jerror');
@@ -620,17 +621,17 @@ class TemplateAdapter extends InstallerAdapter
                     continue;
                 }
 
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'template');
-                $extension->set('client_id', $site_info->id);
-                $extension->set('element', $template);
-                $extension->set('folder', '');
-                $extension->set('name', $template);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'template';
+                $extension->client_id      = $site_info->id;
+                $extension->element        = $template;
+                $extension->folder         = '';
+                $extension->name           = $template;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 
@@ -641,17 +642,17 @@ class TemplateAdapter extends InstallerAdapter
                     continue;
                 }
 
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'template');
-                $extension->set('client_id', $admin_info->id);
-                $extension->set('element', $template);
-                $extension->set('folder', '');
-                $extension->set('name', $template);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'template';
+                $extension->client_id      = $admin_info->id;
+                $extension->element        = $template;
+                $extension->folder         = '';
+                $extension->name           = $template;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 

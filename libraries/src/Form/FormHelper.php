@@ -9,12 +9,12 @@
 
 namespace Joomla\CMS\Form;
 
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -244,9 +244,9 @@ class FormHelper
         // If the type is complex, add the base type to the paths.
         if ($pos = strpos($type, '_')) {
             // Add the complex type prefix to the paths.
-            for ($i = 0, $n = \count($paths); $i < $n; $i++) {
+            foreach ($paths as $value) {
                 // Derive the new path.
-                $path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
+                $path = $value . '/' . strtolower(substr($type, 0, $pos));
 
                 // If the path does not exist, add it.
                 if (!\in_array($path, $paths)) {
@@ -360,10 +360,10 @@ class FormHelper
 
         // Add the new paths to the stack if not already there.
         foreach ($new as $path) {
-            $path = \trim($path);
+            $path = trim($path);
 
             if (!\in_array($path, $paths)) {
-                \array_unshift($paths, $path);
+                array_unshift($paths, $path);
             }
         }
 
@@ -525,7 +525,7 @@ class FormHelper
                         $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
                     } else {
                         $groupParts = explode('.', $showOnPartBlocks[0]);
-                        $field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+                        $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
                     }
                 }
             }

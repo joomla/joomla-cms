@@ -111,7 +111,7 @@ final class Highlight extends CMSPlugin
     {
         static $params;
 
-        if (is_null($params)) {
+        if (\is_null($params)) {
             $params = ComponentHelper::getParams('com_finder');
         }
 
@@ -121,7 +121,7 @@ final class Highlight extends CMSPlugin
             && empty($item->mime)
             && $params->get('highlight_terms', 1)
         ) {
-            $item->route .= '&highlight=' . base64_encode(json_encode(array_slice($query->highlight, 0, 10)));
+            $item->route .= '&highlight=' . base64_encode(json_encode(\array_slice($query->highlight, 0, 10)));
         }
     }
 }

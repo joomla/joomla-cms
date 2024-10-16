@@ -123,7 +123,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      */
     public function alterSiteStatus(ExecuteTaskEvent $event): void
     {
-        if (!array_key_exists($event->getRoutineId(), self::TASKS_MAP)) {
+        if (!\array_key_exists($event->getRoutineId(), self::TASKS_MAP)) {
             return;
         }
 
@@ -142,7 +142,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         $newStatus = $config['offline'] ? 'offline' : 'online';
         $exit      = $this->writeConfigFile(new Registry($config));
-        $this->logTask(sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS'), $oldStatus, $newStatus));
+        $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS'), $oldStatus, $newStatus));
 
         $this->endRoutine($event, $exit);
     }
@@ -178,7 +178,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
         }
 
         // Invalidates the cached configuration file
-        if (function_exists('opcache_invalidate')) {
+        if (\function_exists('opcache_invalidate')) {
             opcache_invalidate($file);
         }
 

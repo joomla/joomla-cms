@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
@@ -51,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -65,7 +64,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $canDo;
 
@@ -76,6 +75,15 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     protected $checkTags = false;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Display the view.
@@ -93,8 +101,14 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions($this->state->get('category.component'), $section . 'category', $this->item->id);
         $this->assoc = $this->get('Assoc');
 
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
+        }
+
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -118,7 +132,11 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
 
         parent::display($tpl);
     }
@@ -133,12 +151,13 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $extension = Factory::getApplication()->getInput()->get('extension');
+
         $user      = $this->getCurrentUser();
         $userId    = $user->id;
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
         // Avoid nonsense situation.
         if ($extension == 'com_categories') {
@@ -148,7 +167,7 @@ class HtmlView extends BaseHtmlView
         // The extension can be in the form com_foo.section
         $parts           = explode('.', $extension);
         $component       = $parts[0];
-        $section         = (count($parts) > 1) ? $parts[1] : null;
+        $section         = (\count($parts) > 1) ? $parts[1] : null;
         $componentParams = ComponentHelper::getParams($component);
 
         // Need to load the menu language file as mod_menu hasn't been loaded yet.
@@ -194,13 +213,18 @@ class HtmlView extends BaseHtmlView
             $saveGroup = $toolbar->dropdownButton('save-group');
 
             $saveGroup->configure(
-                function (Toolbar $childBar) {
+                function (Toolbar $childBar) use ($canDo, $component) {
                     $childBar->save('category.save');
                     $childBar->save2new('category.save2new');
+
+                    if ($canDo->get('core.create', 'com_menus.menu') && $component === 'com_content') {
+                        $childBar->save('category.save2menulist', 'JTOOLBAR_SAVE_TO_MENU_AS_LIST');
+                        $childBar->save('category.save2menublog', 'JTOOLBAR_SAVE_TO_MENU_AS_BLOG');
+                    }
                 }
             );
 
-            $toolbar->cancel('category.cancel');
+            $toolbar->cancel('category.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // If not checked out, can save the item.
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
@@ -214,7 +238,7 @@ class HtmlView extends BaseHtmlView
             $saveGroup = $toolbar->dropdownButton('save-group');
 
             $saveGroup->configure(
-                function (Toolbar $childBar) use ($checkedOut, $canDo, $itemEditable) {
+                function (Toolbar $childBar) use ($checkedOut, $canDo, $itemEditable, $component) {
                     // Can't save the record if it's checked out and editable
                     if (!$checkedOut && $itemEditable) {
                         $childBar->save('category.save');
@@ -222,6 +246,11 @@ class HtmlView extends BaseHtmlView
                         if ($canDo->get('core.create')) {
                             $childBar->save2new('category.save2new');
                         }
+                    }
+
+                    if ($canDo->get('core.create', 'com_menus.menu') && $component === 'com_content') {
+                        $childBar->save('category.save2menulist', 'JTOOLBAR_SAVE_TO_MENU_AS_LIST');
+                        $childBar->save('category.save2menublog', 'JTOOLBAR_SAVE_TO_MENU_AS_BLOG');
                     }
 
                     // If an existing item, can save to a copy.
@@ -290,5 +319,62 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->help($ref_key, $componentParams->exists('helpURL'), $url, $component);
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $extension  = Factory::getApplication()->getInput()->get('extension');
+        $user       = $this->getCurrentUser();
+        $userId     = $user->id;
+        $isNew      = ($this->item->id == 0);
+        $toolbar    = $this->getDocument()->getToolbar();
+
+        // Avoid nonsense situation.
+        if ($extension == 'com_categories') {
+            return;
+        }
+
+        // The extension can be in the form com_foo.section
+        $parts     = explode('.', $extension);
+        $component = $parts[0];
+
+        // Need to load the menu language file as mod_menu hasn't been loaded yet.
+        $lang = $this->getLanguage();
+        $lang->load($component, JPATH_BASE)
+            || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+
+        // Build the actions for new and existing records.
+        $canDo = $this->canDo;
+
+        // Load specific css component
+        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        $wa = $this->getDocument()->getWebAssetManager();
+        $wa->getRegistry()->addExtensionRegistryFile($component);
+
+        if ($wa->assetExists('style', $component . '.admin-categories')) {
+            $wa->useStyle($component . '.admin-categories');
+        } else {
+            $wa->registerAndUseStyle($component . '.admin-categories', $component . '/administrator/categories.css');
+        }
+
+        $canCreate = $isNew;
+        $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
+
+        // For new records, check the create permission.
+        if ($canCreate || $canEdit) {
+            $toolbar->apply('category.apply');
+            $toolbar->save('category.save');
+        }
+
+        $toolbar->cancel('category.cancel');
     }
 }

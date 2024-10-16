@@ -19,7 +19,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,8 +37,18 @@ class Captcha implements DispatcherAwareInterface
      *
      * @var    CMSPlugin
      * @since  2.5
+     *
+     * @deprecated  Should use Provider instance
      */
     private $captcha;
+
+    /**
+     * Captcha Provider instance
+     *
+     * @var    CaptchaProviderInterface
+     * @since  5.0.0
+     */
+    private $provider;
 
     /**
      * Captcha Plugin name
@@ -69,13 +79,25 @@ class Captcha implements DispatcherAwareInterface
     {
         $this->name = $captcha;
 
-        if (!empty($options['dispatcher']) && $options['dispatcher'] instanceof DispatcherInterface) {
-            $this->setDispatcher($options['dispatcher']);
-        } else {
-            $this->setDispatcher(Factory::getApplication()->getDispatcher());
-        }
+        /** @var  CaptchaRegistry  $registry */
+        $registry = $options['registry'] ?? Factory::getContainer()->get(CaptchaRegistry::class);
 
-        $this->_load($options);
+        if ($registry->has($captcha)) {
+            $this->provider = $registry->get($captcha);
+        } else {
+            @trigger_error(
+                'Use of legacy Captcha is deprecated. Use onCaptchaSetup event to register your Captcha provider.',
+                E_USER_DEPRECATED
+            );
+
+            if (!empty($options['dispatcher']) && $options['dispatcher'] instanceof DispatcherInterface) {
+                $this->setDispatcher($options['dispatcher']);
+            } else {
+                $this->setDispatcher(Factory::getApplication()->getDispatcher());
+            }
+
+            $this->_load($options);
+        }
     }
 
     /**
@@ -110,9 +132,15 @@ class Captcha implements DispatcherAwareInterface
      *
      * @since   2.5
      * @throws  \RuntimeException
+     *
+     * @deprecated  Without replacement
      */
     public function initialise($id)
     {
+        if ($this->provider) {
+            return true;
+        }
+
         $arg = ['id' => $id];
 
         $this->update('onInit', $arg);
@@ -134,6 +162,13 @@ class Captcha implements DispatcherAwareInterface
      */
     public function display($name, $id, $class = '')
     {
+        if ($this->provider) {
+            return $this->provider->display($name, [
+                'id'    => $id ?: $name,
+                'class' => $class,
+            ]);
+        }
+
         // Check if captcha is already loaded.
         if ($this->captcha === null) {
             return '';
@@ -167,6 +202,10 @@ class Captcha implements DispatcherAwareInterface
      */
     public function checkAnswer($code)
     {
+        if ($this->provider) {
+            return $this->provider->checkAnswer($code);
+        }
+
         // Check if captcha is already loaded
         if ($this->captcha === null) {
             return false;
@@ -190,6 +229,11 @@ class Captcha implements DispatcherAwareInterface
      */
     public function setupField(CaptchaField $field, \SimpleXMLElement $element)
     {
+        if ($this->provider) {
+            $this->provider->setupField($field, $element);
+            return;
+        }
+
         if ($this->captcha === null) {
             return;
         }
@@ -208,11 +252,13 @@ class Captcha implements DispatcherAwareInterface
      * @return  mixed
      *
      * @since   4.0.0
+     *
+     * @deprecated  Without replacement
      */
     private function update($name, &$args)
     {
         if (method_exists($this->captcha, $name)) {
-            return call_user_func_array([$this->captcha, $name], array_values($args));
+            return \call_user_func_array([$this->captcha, $name], array_values($args));
         }
 
         return null;
@@ -227,6 +273,8 @@ class Captcha implements DispatcherAwareInterface
      *
      * @since   2.5
      * @throws  \RuntimeException
+     *
+     * @deprecated  Should use CaptchaRegistry
      */
     private function _load(array $options = [])
     {

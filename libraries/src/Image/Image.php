@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Image;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -123,16 +123,11 @@ class Image
             static::$formats[IMAGETYPE_PNG]  = $info['PNG Support'];
             static::$formats[IMAGETYPE_GIF]  = $info['GIF Read Support'];
             static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
+            static::$formats[IMAGETYPE_AVIF] = $info['AVIF Support'];
         }
 
-        /**
-         * If the source input is a resource, set it as the image handle.
-         * @todo: Remove check for resource when we only support PHP 8
-         */
-        if (
-            $source && (\is_object($source) && get_class($source) == 'GdImage')
-            || (\is_resource($source) && get_resource_type($source) == 'gd')
-        ) {
+        // If the source input is a resource, set it as the image handle.
+        if ($source && (\is_object($source) && \get_class($source) == 'GdImage')) {
             $this->handle = $source;
         } elseif (!empty($source) && \is_string($source)) {
             // If the source input is not empty, assume it is a path and populate the image handle.
@@ -143,7 +138,7 @@ class Image
     /**
      * Get the image resource handle
      *
-     * @return  resource
+     * @return  \GdImage
      *
      * @since   3.8.0
      * @throws  \LogicException if an image has not been loaded into the instance
@@ -361,7 +356,7 @@ class Image
                 // Save thumb file to disk
                 $thumbFileName = $thumbsFolder . '/' . $thumbFileName;
 
-                if ($thumb->toFile($thumbFileName, $imgProperties->type)) {
+                if ($thumb->toFile($thumbFileName, $imgProperties->type, ['quality' => $imgProperties->type !== IMAGETYPE_PNG ? 70 : 8])) {
                     // Return Image object with thumb path to ease further manipulation
                     $thumb->path     = $thumbFileName;
                     $thumbsCreated[] = $thumb;
@@ -542,14 +537,8 @@ class Image
      */
     public function isLoaded()
     {
-        /**
-         * Make sure the resource handle is valid.
-         * @todo: Remove check for resource when we only support PHP 8
-         */
-        if (
-            !((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
-                || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
-        ) {
+        // Make sure the resource handle is valid.
+        if (!(\is_object($this->handle) && \get_class($this->handle) == 'GdImage')) {
             return false;
         }
 
@@ -595,6 +584,18 @@ class Image
 
         // Attempt to load the image based on the MIME-Type
         switch ($properties->mime) {
+            case 'image/avif':
+                // Make sure the image type is supported.
+                if (empty(static::$formats[IMAGETYPE_AVIF])) {
+                    throw new \RuntimeException('Attempting to load an image of unsupported type AVIF.');
+                }
+
+                // Attempt to create the image handle.
+                $handle = imagecreatefromavif($path);
+                $type   = 'AVIF';
+
+                break;
+
             case 'image/gif':
                 // Make sure the image type is supported.
                 if (empty(static::$formats[IMAGETYPE_GIF])) {
@@ -931,6 +932,9 @@ class Image
     public function toFile($path, $type = IMAGETYPE_JPEG, array $options = [])
     {
         switch ($type) {
+            case IMAGETYPE_AVIF:
+                return imageavif($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
+
             case IMAGETYPE_GIF:
                 return imagegif($this->getHandle(), $path);
 

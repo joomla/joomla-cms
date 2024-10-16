@@ -13,8 +13,8 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -87,7 +87,7 @@ class StepModel extends AdminModel
 
         // Make sure we use the correct extension when editing an existing tour
         $key = $table->getKeyName();
-        $pk  = isset($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk  = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
 
         if ($pk > 0) {
             $table->load($pk);
@@ -167,7 +167,7 @@ class StepModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \JForm|boolean  A JForm object on success, false on failure
+     * @return  \JForm|boolean  A Form object on success, false on failure
      *
      * @since   4.3.0
      */
@@ -231,31 +231,34 @@ class StepModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.3.0
      */
     public function getItem($pk = null)
     {
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
         if ($result = parent::getItem($pk)) {
+            $app = Factory::getApplication();
+
+            /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+            $tourModel = $app->bootComponent('com_guidedtours')
+            ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
+
             if (!empty($result->id)) {
+                // Editing an existing step
+                $tour = $tourModel->getItem($result->tour_id);
+
+                GuidedtoursHelper::loadTranslationFiles($tour->uid, true);
+
                 $result->title_translation       = Text::_($result->title);
                 $result->description_translation = Text::_($result->description);
             } else {
-                $app    = Factory::getApplication();
+                // Creating a new step so we get the tour id from the session data
                 $tourId = $app->getUserState('com_guidedtours.tour_id');
-
-                /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
-                $tourModel = $app->bootComponent('com_guidedtours')
-                    ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
-
-                $tour         = $tourModel->getItem($tourId);
-                $tourLanguage = !empty($tour->language) ? $tour->language : '*';
+                $tour   = $tourModel->getItem($tourId);
 
                 // Sets step language to parent tour language
-                $result->language = $tourLanguage;
+                $result->language = !empty($tour->language) ? $tour->language : '*';
 
                 // Set the step's tour id
                 $result->tour_id = $tourId;

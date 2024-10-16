@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metafile client="installation">
+	<name>French (Canada)</name>
+	<version>5.2.0</version>
+	<creationDate>2024-10</creationDate>
+	<author>Joomla! Project - French translation team</author>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>joomla.ini</filename>
+	</files>
+	<metadata>
+		<name>French (fr-CA)</name>
+		<nativeName>French (Canada)</nativeName>
+		<tag>fr-CA</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

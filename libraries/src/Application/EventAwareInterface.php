@@ -23,7 +23,7 @@ use Joomla\Event\Event;
  * @since       4.0.0
  * @deprecated  4.3 will be removed in 6.0
  *              This interface will be removed without replacement as the Joomla 3.x compatibility layer will be removed
- * @todo        Move to combat plugin
+ * @todo        Move to compat plugin
  */
 interface EventAwareInterface extends DispatcherAwareInterface
 {

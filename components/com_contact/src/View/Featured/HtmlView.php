@@ -40,7 +40,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item details
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    array
      *
      * @since  1.6.0
      */
@@ -99,14 +99,13 @@ class HtmlView extends BaseHtmlView
         $pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Prepare the data.
         // Compute the contact slug.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
-            $item         = &$items[$i];
+        foreach ($items as $item) {
             $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
             $temp         = $item->params;
             $item->params = clone $params;

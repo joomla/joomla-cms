@@ -18,8 +18,9 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.combobox');
 
+/** @var \Joomla\Component\Config\Site\View\Modules\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_config.modules');
@@ -85,7 +86,7 @@ if (Multilanguage::isEnabled()) {
 
                     <hr>
 
-                    <?php if (Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
+                    <?php if ($this->getCurrentUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
                     <div class="control-group">
                         <div class="control-label">
                             <?php echo $this->form->getLabel('published'); ?>
@@ -168,7 +169,7 @@ if (Multilanguage::isEnabled()) {
                 <input type="hidden" name="task" value="">
                 <?php echo HTMLHelper::_('form.token'); ?>
             </div>
-            <div class="mb-2">
+            <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="modules.apply">
                 <span class="icon-check" aria-hidden="true"></span>
                 <?php echo Text::_('JAPPLY'); ?>

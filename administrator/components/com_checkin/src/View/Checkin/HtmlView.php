@@ -10,11 +10,9 @@
 
 namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,6 +34,13 @@ class HtmlView extends BaseHtmlView
     protected $items;
 
     /**
+     * Total number of items
+     *
+     * @var    integer
+     */
+    protected $total = 0;
+
+    /**
      * The pagination object
      *
      * @var  \Joomla\CMS\Pagination\Pagination
@@ -45,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -117,13 +122,13 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         ToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'check-square');
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         if (!$this->isEmptyState) {
             $toolbar->checkin('checkin');
         }
 
-        if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_checkin')) {
+        if ($this->getCurrentUser()->authorise('core.admin', 'com_checkin')) {
             $toolbar->divider();
             $toolbar->preferences('com_checkin');
             $toolbar->divider();

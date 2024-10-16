@@ -10,10 +10,17 @@
 
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
+use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
@@ -29,6 +36,8 @@ use Joomla\Event\SubscriberInterface;
  */
 final class GuidedTours extends CMSPlugin implements SubscriberInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * A mapping for the step types
      *
@@ -48,10 +57,12 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      * @since  4.3.0
      */
     protected $stepInteractiveType = [
-        GuidedtoursComponent::STEP_INTERACTIVETYPE_FORM_SUBMIT => 'submit',
-        GuidedtoursComponent::STEP_INTERACTIVETYPE_TEXT        => 'text',
-        GuidedtoursComponent::STEP_INTERACTIVETYPE_OTHER       => 'other',
-        GuidedtoursComponent::STEP_INTERACTIVETYPE_BUTTON      => 'button',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_FORM_SUBMIT    => 'submit',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_TEXT           => 'text',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_OTHER          => 'other',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_BUTTON         => 'button',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_CHECKBOX_RADIO => 'checkbox_radio',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_SELECT         => 'select',
     ];
 
     /**
@@ -66,18 +77,17 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $subject  The object to observe
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
+     * @param   DispatcherInterface  $dispatcher  The object to observe
+     * @param   array                $config      An optional associative array of configuration settings.
+     * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
      *
      * @since   4.3.0
      */
-    public function __construct($subject, array $config = [], bool $enabled = false)
+    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
     {
-        $this->autoloadLanguage = $enabled;
-        self::$enabled          = $enabled;
+        self::$enabled = $enabled;
 
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
     }
 
     /**
@@ -104,17 +114,19 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public function startTour(Event $event)
     {
-        $tourId = (int) $this->getApplication()->getInput()->getInt('id');
+        $tourId  = (int) $this->getApplication()->getInput()->getInt('id');
+        $tourUid = $this->getApplication()->getInput()->getString('uid', '');
+        $tourUid = $tourUid !== '' ? urldecode($tourUid) : '';
 
-        $activeTourId = null;
-        $tour         = null;
+        $tour = null;
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         if ($tourId > 0) {
             $tour = $this->getTour($tourId);
-
-            if (!empty($tour->id)) {
-                $activeTourId = $tour->id;
-            }
+        } elseif ($tourUid !== '') {
+            $tour = $this->getTour($tourUid);
         }
 
         $event->setArgument('result', $tour ?? new \stdClass());
@@ -136,40 +148,127 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $user = $app->getIdentity();
 
         if ($user != null && $user->id > 0) {
+            // Load plugin language files.
+            $this->loadLanguage();
+
             Text::script('JCANCEL');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_HIDE_FOREVER');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_NEXT');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_START');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR_RESPONSE');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_INVALID_RESPONSE');
 
             $doc->addScriptOptions('com_guidedtours.token', Session::getFormToken());
+            $doc->addScriptOptions('com_guidedtours.autotour', '');
 
-            // Load required assets
+            // Load required assets.
             $doc->getWebAssetManager()
                 ->usePreset('plg_system_guidedtours.guidedtours');
+
+            $params = ComponentHelper::getParams('com_guidedtours');
+
+            // Check if the user has opted out of auto-start
+            $userAuthorizedAutostart = $user->getParam('allowTourAutoStart', $params->get('allowTourAutoStart', 1));
+            if (!$userAuthorizedAutostart) {
+                return;
+            }
+
+            // The following code only relates to the auto-start functionality.
+            // First, we get the tours for the context.
+
+            $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
+
+            $toursModel = $factory->createModel(
+                'Tours',
+                'Administrator',
+                ['ignore_request' => true]
+            );
+
+            $toursModel->setState('filter.extension', $app->getInput()->getCmd('option', 'com_cpanel'));
+            $toursModel->setState('filter.published', 1);
+            $toursModel->setState('filter.access', $user->getAuthorisedViewLevels());
+
+            if (Multilanguage::isEnabled()) {
+                $toursModel->setState('filter.language', ['*', $app->getLanguage()->getTag()]);
+            }
+
+            $tours = $toursModel->getItems();
+            foreach ($tours as $tour) {
+                // Look for the first autostart tour, if any.
+                if ($tour->autostart) {
+                    $db         = $this->getDatabase();
+                    $profileKey = 'guidedtour.id.' . $tour->id;
+
+                    // Check if the tour state has already been saved some time before.
+                    $query = $db->getQuery(true)
+                        ->select($db->quoteName('profile_value'))
+                        ->from($db->quoteName('#__user_profiles'))
+                        ->where($db->quoteName('user_id') . ' = :user_id')
+                        ->where($db->quoteName('profile_key') . ' = :profileKey')
+                        ->bind(':user_id', $user->id, ParameterType::INTEGER)
+                        ->bind(':profileKey', $profileKey, ParameterType::STRING);
+
+                    try {
+                        $result = $db->setQuery($query)->loadResult();
+                    } catch (\Exception $e) {
+                        // Do not start the tour.
+                        continue;
+                    }
+
+                    // A result has been found in the user profiles table
+                    if (!\is_null($result)) {
+                        $values = json_decode($result, true);
+
+                        if (empty($values)) {
+                            // Do not start the tour.
+                            continue;
+                        }
+
+                        if ($values['state'] === 'skipped' || $values['state'] === 'completed') {
+                            // Do not start the tour.
+                            continue;
+                        }
+
+                        if ($values['state'] === 'delayed') {
+                            $delay       = $params->get('delayed_time', '60');
+                            $currentTime = Date::getInstance();
+                            $loggedTime  = new Date($values['time']['date']);
+
+                            if ($loggedTime->add(new \DateInterval('PT' . $delay . 'M')) > $currentTime) {
+                                // Do not start the tour.
+                                continue;
+                            }
+                        }
+                    }
+
+                    // We have a tour to auto start. No need to go any further.
+                    $doc->addScriptOptions('com_guidedtours.autotour', $tour->id);
+                    break;
+                }
+            }
         }
     }
 
     /**
      * Get a tour and its steps or null if not found
      *
-     * @param   integer  $tourId  The ID of the tour to load
+     * @param   integer|string  $tourId  The ID or Uid of the tour to load
      *
      * @return null|object
      *
      * @since   4.3.0
      */
-    private function getTour(int $tourId)
+    private function getTour($tourId)
     {
         $app = $this->getApplication();
 
-        $user = $app->getIdentity();
-
         $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
 
+        /** @var TourModel $tourModel */
         $tourModel = $factory->createModel(
             'Tour',
             'Administrator',
@@ -178,14 +277,34 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         $item = $tourModel->getItem($tourId);
 
-        if (empty($item->id) || $item->published < 1 || !in_array($item->access, $user->getAuthorisedViewLevels())) {
+        return $this->processTour($item);
+    }
+
+    /**
+     * Return a tour and its steps or null if not found
+     *
+     * @param   CMSObject  $item  The tour to load
+     *
+     * @return null|object
+     *
+     * @since   5.0.0
+     */
+    private function processTour($item)
+    {
+        $app = $this->getApplication();
+
+        $user    = $app->getIdentity();
+        $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
+
+        if (empty($item->id) || $item->published < 1 || !\in_array($item->access, $user->getAuthorisedViewLevels())) {
             return null;
         }
 
         // We don't want to show all parameters, so take only a subset of the tour attributes
         $tour = new \stdClass();
 
-        $tour->id = $item->id;
+        $tour->id        = $item->id;
+        $tour->autostart = $item->autostart;
 
         $stepsModel = $factory->createModel(
             'Steps',
@@ -207,10 +326,15 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $temp->id          = 0;
         $temp->title       = $this->getApplication()->getLanguage()->_($item->title);
         $temp->description = $this->getApplication()->getLanguage()->_($item->description);
+        $temp->description = $this->fixImagePaths($temp->description);
         $temp->url         = $item->url;
 
-        // Replace 'images/' to '../images/' when using an image from /images in backend.
-        $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
+        // Set the start label for the tour.
+        $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_START');
+        // What's new tours have a different label.
+        if (str_contains($item->uid, 'joomla-whatsnew')) {
+            $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_NEXT');
+        }
 
         $tour->steps[] = $temp;
 
@@ -220,18 +344,43 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $temp->id               = $i + 1;
             $temp->title            = $this->getApplication()->getLanguage()->_($step->title);
             $temp->description      = $this->getApplication()->getLanguage()->_($step->description);
+            $temp->description      = $this->fixImagePaths($temp->description);
             $temp->position         = $step->position;
             $temp->target           = $step->target;
             $temp->type             = $this->stepType[$step->type];
             $temp->interactive_type = $this->stepInteractiveType[$step->interactive_type];
+            $temp->params           = $step->params;
             $temp->url              = $step->url;
-
-            // Replace 'images/' to '../images/' when using an image from /images in backend.
-            $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
+            $temp->tour_id          = $step->tour_id;
+            $temp->step_id          = $step->id;
 
             $tour->steps[] = $temp;
         }
 
         return $tour;
+    }
+
+    /**
+     * Return a modified version of a given string with usable image paths for tours
+     *
+     * @param   string  $description  The string to fix
+     *
+     * @return  string
+     *
+     * @since  5.2.0
+     */
+    private function fixImagePaths($description)
+    {
+        return preg_replace(
+            [
+                '*src="(?!administrator\/)images/*',
+                '*src="media/*',
+            ],
+            [
+                'src="../images/',
+                'src="../media/',
+            ],
+            $description
+        );
     }
 }

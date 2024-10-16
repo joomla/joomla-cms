@@ -12,3 +12,14 @@ import './commands/config.mjs';
 import './commands/db.mjs';
 
 registerCommands();
+
+// Click Joomla Dialog Confirm, isOkay: true = push "ok" button, false = push "cancel" button
+Cypress.Commands.add('clickDialogConfirm', (isOkay) => {
+  let selector = '.joomla-dialog-confirm';
+  if (isOkay) {
+    selector += ' button[data-button-ok]';
+  } else {
+    selector += ' button[data-button-cancel]';
+  }
+  return cy.get(selector, { timeout: 1000 }).click();
+});

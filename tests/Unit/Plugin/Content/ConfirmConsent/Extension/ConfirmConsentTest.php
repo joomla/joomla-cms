@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Plugin\Content\ConfirmConsent\Extension;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\User\User;
 use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Content\ConfirmConsent\Extension\ConfirmConsent;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -39,6 +40,7 @@ class ConfirmConsentTest extends UnitTestCase
     public function testLoadConsentFieldInForm()
     {
         $form = new Form('com_contact.contact');
+        $form->setCurrentUser(new User());
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));

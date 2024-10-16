@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for notifying users of a change
- * in the default .htaccess file regarding setting the Content-Encoding header.
+ * in the default .htaccess file regarding Brotli compression.
  */
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,5 +26,11 @@
  */
 function admin_postinstall_htaccessbrotli_condition()
 {
-    return true;
+    $htaccessContent = '';
+
+    if (is_file(JPATH_ROOT . '/.htaccess') || is_file(JPATH_ROOT . '/htaccess.txt')) {
+        $htaccessContent = file_get_contents(is_file(JPATH_ROOT . '/.htaccess') ? JPATH_ROOT . '/.htaccess' : JPATH_ROOT . '/htaccess.txt');
+    }
+
+    return !str_contains($htaccessContent, 'E=no-brotli:1');
 }

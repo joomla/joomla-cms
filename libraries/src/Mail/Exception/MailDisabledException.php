@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Mail\Exception;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,14 +47,14 @@ final class MailDisabledException extends \RuntimeException
     /**
      * Constructor.
      *
-     * @param   string      $reason    The reason why mail is disabled.
-     * @param   string      $message   The Exception message to throw.
-     * @param   integer     $code      The Exception code.
-     * @param   \Throwable  $previous  The previous exception used for the exception chaining.
+     * @param   string       $reason    The reason why mail is disabled.
+     * @param   string       $message   The Exception message to throw.
+     * @param   integer      $code      The Exception code.
+     * @param   ?\Throwable  $previous  The previous exception used for the exception chaining.
      *
      * @since   4.0.0
      */
-    public function __construct(string $reason, string $message = '', int $code = 0, \Throwable $previous = null)
+    public function __construct(string $reason, string $message = '', int $code = 0, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
 

@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
@@ -28,14 +28,14 @@ if (
         );
 
         exit();
-    } else {
-        header('HTTP/1.1 500 Internal Server Error');
-        echo json_encode(
-            ['error' => 'No configuration file found and no installation code available. Exiting...']
-        );
-
-        exit;
     }
+
+    header('HTTP/1.1 500 Internal Server Error');
+    echo json_encode(
+        ['error' => 'No configuration file found and no installation code available. Exiting...']
+    );
+
+    exit;
 }
 
 // Pre-Load configuration. Don't remove the Output Buffering due to BOM issues, see JCode 26026
@@ -65,7 +65,6 @@ switch ($config->error_reporting) {
         break;
 
     case 'maximum':
-    case 'development': // <= Stays for backward compatibility, @TODO: can be removed in 5.0
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
 
@@ -78,7 +77,7 @@ switch ($config->error_reporting) {
         break;
 }
 
-define('JDEBUG', $config->debug);
+\define('JDEBUG', $config->debug);
 
 // Check deprecation logging
 if (empty($config->log_deprecated)) {

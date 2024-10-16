@@ -14,7 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -73,7 +73,7 @@ abstract class SearchTools
     private static function optionsToRegistry($options)
     {
         // Support options array
-        if (is_array($options)) {
+        if (\is_array($options)) {
             $options = new Registry($options);
         }
 

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Event\MultiFactor;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -49,7 +49,7 @@ class Callback extends AbstractImmutableEvent
     public function setMethod(string $value): string
     {
         if (empty($value)) {
-            throw new \DomainException(sprintf("Argument 'method' of event %s must be a non-empty string.", $this->name));
+            throw new \DomainException(\sprintf("Argument 'method' of event %s must be a non-empty string.", $this->name));
         }
 
         return $value;

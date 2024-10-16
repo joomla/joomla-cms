@@ -9,11 +9,10 @@
 
 namespace Joomla\CMS\Event\Result;
 
-use BadMethodCallException;
 use Joomla\Event\Event as BaseEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -52,12 +51,12 @@ trait ResultAware
     {
         // Ensure this trait is applied to an Event object.
         if (!($this instanceof BaseEvent)) {
-            throw new \LogicException(sprintf('Event class ‘%s‘ must implement %s.', get_class($this), BaseEvent::class));
+            throw new \LogicException(\sprintf('Event class ‘%s‘ must implement %s.', \get_class($this), BaseEvent::class));
         }
 
         // Ensure the Event object fully implements the ResultAwareInterface.
         if (!($this instanceof ResultAwareInterface)) {
-            throw new \LogicException(sprintf('Event class ‘%s‘ must implement %s.', get_class($this), ResultAwareInterface::class));
+            throw new \LogicException(\sprintf('Event class ‘%s‘ must implement %s.', \get_class($this), ResultAwareInterface::class));
         }
 
         // Make sure the data type is correct

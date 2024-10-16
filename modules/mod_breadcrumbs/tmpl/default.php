@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetManager;
 
 ?>
@@ -68,9 +69,10 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 
     // Structured data as JSON
     $data = [
-            '@context'        => 'https://schema.org',
-            '@type'           => 'BreadcrumbList',
-            'itemListElement' => []
+        '@context'        => 'https://schema.org',
+        '@type'           => 'BreadcrumbList',
+        '@id'             => Uri::root() . '#/schema/BreadcrumbList/' . (int) $module->id,
+        'itemListElement' => []
     ];
 
     // Use an independent counter for positions. E.g. if Heading items in pathway.
@@ -115,7 +117,13 @@ use Joomla\CMS\WebAsset\WebAssetManager;
     if ($itemsCounter) {
         /** @var WebAssetManager $wa */
         $wa = $app->getDocument()->getWebAssetManager();
-        $wa->addInline('script', json_encode($data, JSON_UNESCAPED_UNICODE), [], ['type' => 'application/ld+json']);
+        $prettyPrint = JDEBUG ? JSON_PRETTY_PRINT : 0;
+        $wa->addInline(
+            'script',
+            json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint),
+            ['name' => 'inline.mod_breadcrumbs-schemaorg'],
+            ['type' => 'application/ld+json']
+        );
     }
     ?>
 </nav>

@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Event\Result;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -73,8 +73,8 @@ trait ResultTypeObjectAware
             return;
         }
 
-        if (!is_object($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
+        if (!\is_object($data)) {
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts object results.', $this->getName()));
         }
 
         if (empty($this->resultAcceptableClasses)) {
@@ -89,6 +89,6 @@ trait ResultTypeObjectAware
 
         $acceptableTypes = implode(', ', $this->resultAcceptableClasses);
         $messageTemplate = 'Event %s only accepts object results which are instances of one of %s.';
-        throw new \InvalidArgumentException(sprintf($messageTemplate, $this->getName(), $acceptableTypes));
+        throw new \InvalidArgumentException(\sprintf($messageTemplate, $this->getName(), $acceptableTypes));
     }
 }

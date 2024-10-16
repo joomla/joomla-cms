@@ -15,7 +15,7 @@ use Joomla\Event\Event;
 use Psr\Log\LoggerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -94,7 +94,7 @@ trait EventAware
         try {
             $dispatcher = $this->getDispatcher();
         } catch (\UnexpectedValueException $exception) {
-            $this->getLogger()->error(sprintf('Dispatcher not set in %s, cannot trigger events.', \get_class($this)));
+            $this->getLogger()->error(\sprintf('Dispatcher not set in %s, cannot trigger events.', \get_class($this)));
 
             return [];
         }

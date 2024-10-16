@@ -11,19 +11,22 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Checkin\AfterCheckinEvent as GlobalAfterCheckinEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,10 +36,12 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-#[\AllowDynamicProperties]
-abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
+abstract class Table extends \stdClass implements TableInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
 
     /**
      * Include paths for searching for Table classes.
@@ -155,17 +160,15 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * be overridden by child classes to explicitly set the table and key fields
      * for a particular database table.
      *
-     * @param   string               $table       Name of the table to model.
-     * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
-     * @param   DatabaseDriver       $db          DatabaseDriver object.
-     * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
+     * @param   string                $table       Name of the table to model.
+     * @param   mixed                 $key         Name of the primary key field in the table or array of field names that compose the primary key.
+     * @param   DatabaseDriver        $db          DatabaseDriver object.
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct($table, $key, DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct();
-
         // Set internal variables.
         $this->_tbl = $table;
 
@@ -248,7 +251,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             $fields = $this->_db->getTableColumns($name, false);
 
             if (empty($fields)) {
-                throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
+                throw new \UnexpectedValueException(\sprintf('No columns found for %s table', $name));
             }
 
             self::$tableFields[$key] = $fields;
@@ -276,37 +279,60 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      */
     public static function getInstance($type, $prefix = 'JTable', $config = [])
     {
+        /**
+         * For B/C reasons we don't change the $prefix to \\Joomla\\CMS\\Table\\ since extensions which
+         * use JTable as table prefix instead of an own prefix and not adding 'JTable' as prefix will
+         * fail to load the table. We can't detect this situation.
+         * Example:
+         * class JTableMytable {}
+         * JTable::getInstance('Mytable');
+         * This will fail when we change the function default $prefix from JTable to \\Joomla\\CMS\\Table\\
+         *
+         * In case of $prefix is 'JTable' we make an additional check for '\\Joomla\\CMS\\Table\\' $type
+         *
+         */
+
         // Sanitize and prepare the table class name.
         $type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-        $tableClass = $prefix . ucfirst($type);
+
+        $tableClass       = $prefix . ucfirst($type);
+        $tableClassLegacy = $tableClass;
+
+        if ($prefix === 'JTable') {
+            $tableClass = '\\Joomla\\CMS\\Table\\' . ucfirst($type);
+        }
 
         // Only try to load the class if it doesn't already exist.
-        if (!class_exists($tableClass)) {
+        if (!class_exists($tableClass) && !class_exists($tableClassLegacy)) {
             // Search for the class file in the JTable include paths.
             $paths     = self::addIncludePath();
             $pathIndex = 0;
 
-            while (!class_exists($tableClass) && $pathIndex < \count($paths)) {
+            while (!class_exists($tableClass) && !class_exists($tableClassLegacy) && $pathIndex < \count($paths)) {
                 if ($tryThis = Path::find($paths[$pathIndex++], strtolower($type) . '.php')) {
                     // Import the class file.
                     include_once $tryThis;
                 }
             }
+        }
 
-            if (!class_exists($tableClass)) {
-                /*
-                * If unable to find the class file in the Table include paths. Return false.
-                * The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
-                * In 4.0 an Exception (type to be determined) will be thrown.
-                * For more info see https://github.com/joomla/joomla-cms/issues/11570
-                */
+        if (!class_exists($tableClass) && class_exists($tableClassLegacy)) {
+            $tableClass = $tableClassLegacy;
+        }
 
-                return false;
-            }
+        if (!class_exists($tableClass)) {
+            /*
+            * If unable to find the class file in the Table include paths. Return false.
+            * The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
+            * In 6.0 an Exception (type to be determined) will be thrown.
+            * For more info see https://github.com/joomla/joomla-cms/issues/11570
+            */
+
+            return false;
         }
 
         // If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
-        $db = $config['dbo'] ?? Factory::getDbo();
+        $db = $config['dbo'] ?? Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check for a possible service from the container otherwise manually instantiate the class
         if (Factory::getContainer()->has($tableClass)) {
@@ -398,18 +424,17 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * By default, all assets are registered to the ROOT node with ID, which will default to 1 if none exists.
      * An extended class can define a table and ID to lookup.  If the asset does not exist it will be created.
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     Id to look up
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     Id to look up
      *
      * @return  integer
      *
      * @since   1.7.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         // For simple cases, parent to the asset root.
-        /** @var Asset $assets */
-        $assets = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+        $assets = new Asset($this->getDbo(), $this->getDispatcher());
         $rootId = $assets->getRootId();
 
         if (!empty($rootId)) {
@@ -476,10 +501,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             if ($multiple) {
                 // If we want multiple keys, return the raw array.
                 return $this->_tbl_keys;
-            } else {
-                // If we want the standard method, just return the first key.
-                return $this->_tbl_keys[0];
             }
+
+            // If we want the standard method, just return the first key.
+            return $this->_tbl_keys[0];
         }
 
         return '';
@@ -614,7 +639,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Check if the source value is an array or object
         if (!\is_object($src) && !\is_array($src)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Could not bind the data source in %1$s::bind(), the source must be an array or object but a "%2$s" was given.',
                     \get_class($this),
                     \gettype($src)
@@ -743,7 +768,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         foreach ($keys as $field => $value) {
             // Check that $field is in the table.
             if (!\in_array($field, $fields)) {
-                throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', \get_class($this), $field));
+                throw new \UnexpectedValueException(\sprintf('Missing field in database: %s &#160; %s.', \get_class($this), $field));
             }
 
             // Add the search tuple to the query.
@@ -869,9 +894,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             $parentId = $this->_getAssetParentId();
             $name     = $this->_getAssetName();
             $title    = $this->_getAssetTitle();
+            $asset    = new Asset($this->getDbo(), $this->getDispatcher());
 
-            /** @var Asset $asset */
-            $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
             $asset->loadByName($name);
 
             // Re-inject the asset id.
@@ -884,40 +908,40 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
                 $this->setError($error);
 
                 return false;
-            } else {
-                // Specify how a new or moved node asset is inserted into the tree.
-                if (empty($this->asset_id) || $asset->parent_id != $parentId) {
-                    $asset->setLocation($parentId, 'last-child');
-                }
+            }
 
-                // Prepare the asset to be stored.
-                $asset->parent_id = $parentId;
-                $asset->name      = $name;
+            // Specify how a new or moved node asset is inserted into the tree.
+            if (empty($this->asset_id) || $asset->parent_id != $parentId) {
+                $asset->setLocation($parentId, 'last-child');
+            }
 
-                // Respect the table field limits
-                $asset->title = StringHelper::substr($title, 0, 100);
+            // Prepare the asset to be stored.
+            $asset->parent_id = $parentId;
+            $asset->name      = $name;
 
-                if ($this->_rules instanceof Rules) {
-                    $asset->rules = (string) $this->_rules;
-                }
+            // Respect the table field limits
+            $asset->title = StringHelper::substr($title, 0, 100);
 
-                if (!$asset->check() || !$asset->store()) {
-                    $this->setError($asset->getError());
+            if ($this->_rules instanceof Rules) {
+                $asset->rules = (string) $this->_rules;
+            }
 
-                    return false;
-                } else {
-                    // Create an asset_id or heal one that is corrupted.
-                    if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
-                        // Update the asset_id field in this table.
-                        $this->asset_id = (int) $asset->id;
+            if (!$asset->check() || !$asset->store()) {
+                $this->setError($asset->getError());
 
-                        $query = $this->_db->getQuery(true)
-                            ->update($this->_db->quoteName($this->_tbl))
-                            ->set('asset_id = ' . (int) $this->asset_id);
-                        $this->appendPrimaryKeys($query);
-                        $this->_db->setQuery($query)->execute();
-                    }
-                }
+                return false;
+            }
+
+            // Create an asset_id or heal one that is corrupted.
+            if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
+                // Update the asset_id field in this table.
+                $this->asset_id = (int) $asset->id;
+
+                $query = $this->_db->getQuery(true)
+                    ->update($this->_db->quoteName($this->_tbl))
+                    ->set('asset_id = ' . (int) $this->asset_id);
+                $this->appendPrimaryKeys($query);
+                $this->_db->setQuery($query)->execute();
             }
         }
 
@@ -1029,9 +1053,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         if ($this->_trackAssets) {
             // Get the asset name
             $name  = $this->_getAssetName();
-
-            /** @var Asset $asset */
-            $asset = self::getInstance('Asset');
+            $asset = new Asset($this->getDbo(), $this->getDispatcher());
 
             if ($asset->loadByName($name)) {
                 if (!$asset->delete()) {
@@ -1228,8 +1250,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
-
-        Factory::getApplication()->triggerEvent('onAfterCheckin', [$this->_tbl]);
+        $this->getDispatcher()->dispatch('onAfterCheckin', new GlobalAfterCheckinEvent('onAfterCheckin', [
+            'subject' => $this->_tbl,
+        ]));
 
         return true;
     }
@@ -1357,7 +1380,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Handle the non-static case.
         if (isset($this) && ($this instanceof Table) && \is_null($against)) {
             $checkedOutField = $this->getColumnAlias('checked_out');
-            $against         = $this->get($checkedOutField);
+            $against         = $this->$checkedOutField;
         }
 
         // The item is not checked out or is checked out by the same user.
@@ -1399,7 +1422,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
         }
 
         // Get the largest ordering value for a given where clause.
@@ -1454,7 +1477,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
         }
 
         $quotedOrderingField = $this->_db->quoteName($this->getColumnAlias('ordering'));
@@ -1533,7 +1556,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
         }
 
         $orderingField       = $this->getColumnAlias('ordering');
@@ -1797,11 +1820,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     public function getColumnAlias($column)
     {
         // Get the column data if set
-        if (isset($this->_columnAlias[$column])) {
-            $return = $this->_columnAlias[$column];
-        } else {
-            $return = $column;
-        }
+        $return = $this->_columnAlias[$column] ?? $column;
 
         // Sanitize the name
         $return = preg_replace('#[^A-Z0-9_]#i', '', $return);

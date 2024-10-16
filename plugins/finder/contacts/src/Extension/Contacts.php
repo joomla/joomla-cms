@@ -11,14 +11,15 @@
 namespace Joomla\Plugin\Finder\Contacts\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Event\Finder as FinderEvent;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,7 +31,7 @@ use Joomla\Registry\Registry;
  *
  * @since  2.5
  */
-final class Contacts extends Adapter
+final class Contacts extends Adapter implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -91,23 +92,39 @@ final class Contacts extends Adapter
     protected $autoloadLanguage = true;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return array_merge(parent::getSubscribedEvents(), [
+            'onFinderCategoryChangeState' => 'onFinderCategoryChangeState',
+            'onFinderAfterDelete'         => 'onFinderAfterDelete',
+            'onFinderAfterSave'           => 'onFinderAfterSave',
+            'onFinderBeforeSave'          => 'onFinderBeforeSave',
+            'onFinderChangeState'         => 'onFinderChangeState',
+        ]);
+    }
+
+    /**
      * Method to update the item link information when the item category is
      * changed. This is fired when the item category is published or unpublished
      * from the list view.
      *
-     * @param   string   $extension  The extension whose category has been updated.
-     * @param   array    $pks        A list of primary key ids of the content that has changed state.
-     * @param   integer  $value      The value of the state that the content has been changed to.
+     * @param   FinderEvent\AfterCategoryChangeStateEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onFinderCategoryChangeState($extension, $pks, $value)
+    public function onFinderCategoryChangeState(FinderEvent\AfterCategoryChangeStateEvent $event): void
     {
         // Make sure we're handling com_contact categories
-        if ($extension === 'com_contact') {
-            $this->categoryStateChange($pks, $value);
+        if ($event->getExtension() === 'com_contact') {
+            $this->categoryStateChange($event->getPks(), $event->getValue());
         }
     }
 
@@ -116,16 +133,18 @@ final class Contacts extends Adapter
      *
      * This event will fire when contacts are deleted and when an indexed item is deleted.
      *
-     * @param   string  $context  The context of the action being performed.
-     * @param   Table   $table    A Table object containing the record to be deleted
+     * @param   FinderEvent\AfterDeleteEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderAfterDelete($context, $table): void
+    public function onFinderAfterDelete(FinderEvent\AfterDeleteEvent $event): void
     {
+        $context = $event->getContext();
+        $table   = $event->getItem();
+
         if ($context === 'com_contact.contact') {
             $id = $table->id;
         } elseif ($context === 'com_finder.index') {
@@ -141,17 +160,19 @@ final class Contacts extends Adapter
     /**
      * Method to determine if the access level of an item changed.
      *
-     * @param   string   $context  The context of the content passed to the plugin.
-     * @param   Table    $row      A Table object
-     * @param   boolean  $isNew    If the content has just been created
+     * @param   FinderEvent\AfterSaveEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderAfterSave($context, $row, $isNew): void
+    public function onFinderAfterSave(FinderEvent\AfterSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         // We only want to handle contacts here
         if ($context === 'com_contact.contact') {
             // Check if the access levels are different
@@ -178,17 +199,19 @@ final class Contacts extends Adapter
      * This event is fired before the data is actually saved so we are going
      * to queue the item to be indexed later.
      *
-     * @param   string   $context  The context of the content passed to the plugin.
-     * @param   Table    $row      A Table object
-     * @param   boolean  $isNew    If the content is just about to be created
+     * @param   FinderEvent\BeforeSaveEvent   $event  The event instance.
      *
-     * @return  boolean  True on success.
+     * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderBeforeSave($context, $row, $isNew)
+    public function onFinderBeforeSave(FinderEvent\BeforeSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         // We only want to handle contacts here
         if ($context === 'com_contact.contact') {
             // Query the database for the old access level if the item isn't new
@@ -204,8 +227,6 @@ final class Contacts extends Adapter
                 $this->checkCategoryAccess($row);
             }
         }
-
-        return true;
     }
 
     /**
@@ -213,16 +234,18 @@ final class Contacts extends Adapter
      * from outside the edit screen. This is fired when the item is published,
      * unpublished, archived, or unarchived from the list view.
      *
-     * @param   string   $context  The context for the content passed to the plugin.
-     * @param   array    $pks      A list of primary key ids of the content that has changed state.
-     * @param   integer  $value    The value of the state that the content has been changed to.
+     * @param   FinderEvent\AfterChangeStateEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onFinderChangeState($context, $pks, $value)
+    public function onFinderChangeState(FinderEvent\AfterChangeStateEvent $event): void
     {
+        $context = $event->getContext();
+        $pks     = $event->getPks();
+        $value   = $event->getValue();
+
         // We only want to handle contacts here
         if ($context === 'com_contact.contact') {
             $this->itemStateChange($pks, $value);
@@ -268,6 +291,12 @@ final class Contacts extends Adapter
         // Adjust the title if necessary.
         if (!empty($title) && $this->params->get('use_menu_title', true)) {
             $item->title = $title;
+        }
+
+        // Add the image.
+        if ($item->image) {
+            $item->imageUrl = $item->image;
+            $item->imageAlt = $item->title ?? '';
         }
 
         /*
@@ -333,35 +362,45 @@ final class Contacts extends Adapter
         // Handle the contact user name.
         $item->addInstruction(Indexer::META_CONTEXT, 'user');
 
+        // Get taxonomies to display
+        $taxonomies = $this->params->get('taxonomies', ['type', 'category', 'language', 'region', 'country']);
+
         // Add the type taxonomy data.
-        $item->addTaxonomy('Type', 'Contact');
+        if (\in_array('type', $taxonomies)) {
+            $item->addTaxonomy('Type', 'Contact');
+        }
 
         // Add the category taxonomy data.
         $categories = $this->getApplication()->bootComponent('com_contact')->getCategory(['published' => false, 'access' => false]);
         $category   = $categories->get($item->catid);
 
-        // Category does not exist, stop here
         if (!$category) {
             return;
         }
 
-        $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+        // Add the category taxonomy data.
+        if (\in_array('category', $taxonomies)) {
+            $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+        }
 
         // Add the language taxonomy data.
-        $item->addTaxonomy('Language', $item->language);
+        if (\in_array('language', $taxonomies)) {
+            $item->addTaxonomy('Language', $item->language);
+        }
 
         // Add the region taxonomy data.
-        if (!empty($item->region) && $this->params->get('tax_add_region', true)) {
+        if (\in_array('region', $taxonomies) && !empty($item->region) && $this->params->get('tax_add_region', true)) {
             $item->addTaxonomy('Region', $item->region);
         }
 
         // Add the country taxonomy data.
-        if (!empty($item->country) && $this->params->get('tax_add_country', true)) {
+        if (\in_array('country', $taxonomies) && !empty($item->country) && $this->params->get('tax_add_country', true)) {
             $item->addTaxonomy('Country', $item->country);
         }
 
         // Get content extras.
         Helper::getContentExtras($item);
+        Helper::addCustomFields($item, 'com_contact.contact');
 
         // Index the item.
         $this->indexer->index($item);
@@ -382,9 +421,9 @@ final class Contacts extends Adapter
     /**
      * Method to get the SQL query used to retrieve the list of content items.
      *
-     * @param   mixed  $query  A DatabaseQuery object or null.
+     * @param   mixed  $query  An object implementing QueryInterface or null.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   2.5
      */
@@ -393,7 +432,7 @@ final class Contacts extends Adapter
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
             ->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
             ->select('a.created_by_alias, a.modified, a.modified_by')
             ->select('a.metakey, a.metadesc, a.metadata, a.language')
@@ -401,7 +440,7 @@ final class Contacts extends Adapter
             ->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
             ->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip')
             ->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile')
-            ->select('a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid')
+            ->select('a.image, a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid')
             ->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 
         // Handle the alias CASE WHEN portion of the query

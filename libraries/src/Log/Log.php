@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -329,7 +329,7 @@ class Log
                     $class = $this->loggerRegistry->getLoggerClass($this->configurations[$signature]['logger']);
                 } else {
                     @trigger_error(
-                        sprintf(
+                        \sprintf(
                             'Attempting to automatically resolve loggers to the %s namespace is deprecated as of 4.0 and will be removed in 5.0.'
                             . ' Use the logger registry instead.',
                             __NAMESPACE__
