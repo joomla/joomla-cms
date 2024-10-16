@@ -307,7 +307,7 @@ class TemplateModel extends FormModel
      * @param   array    $value  The file name.
      * @param   integer  $exid   The template extension id.
      *
-     * @return  bool|\RuntimeException  Update successfull or exception object
+     * @return  bool|\RuntimeException  Update successful or exception object
      *
      * @since   4.0.0
      */
