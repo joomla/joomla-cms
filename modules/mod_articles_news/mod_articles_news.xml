@@ -161,6 +161,19 @@
 				</field>
 
 				<field
+					name="readmore_title"
+					type="list"
+					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+					default=""
+					showon="readmore:1"
+					validate="options"
+					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="count"
 					type="number"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
