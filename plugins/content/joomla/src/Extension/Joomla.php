@@ -135,7 +135,7 @@ final class Joomla extends CMSPlugin
         $user = $this->getApplication()->getIdentity();
         $this->loadLanguage();
 
-        // Messaging for new items
+        // Emailing for new items
         foreach ($users as $user_id) {
             if ($user_id != $user->id) {
                 $receiver     = $this->getUserFactory()->loadUserById($user_id);
