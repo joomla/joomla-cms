@@ -115,13 +115,13 @@ abstract class PluginHelper
         // Find the correct plugin(s) to return.
         if (!$plugin) {
             return self::getPlugins($type);
-        } else {
-            foreach ($plugins as $p) {
-                // Is this plugin in the right group?
-                if ($p->type === $type && $p->name === $plugin) {
-                    $result = $p;
-                    break;
-                }
+        }
+
+        foreach ($plugins as $p) {
+            // Is this plugin in the right group?
+            if ($p->type === $type && $p->name === $plugin) {
+                $result = $p;
+                break;
             }
         }
 
