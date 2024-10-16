@@ -129,8 +129,7 @@ abstract class PluginHelper
     }
 
     /**
-     * Get the plugin data of a specific type if no specific plugin is specified
-     * otherwise only the specific plugin data is returned.
+     * Get a list of plugins with the respective data in a plugin group
      *
      * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
      *
