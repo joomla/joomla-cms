@@ -651,5 +651,7 @@ abstract class UserHelper
         } catch (ExecutionFailureException $e) {
             // No issue, let things go
         }
+
+        return true;
     }
 }
