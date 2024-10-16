@@ -3,6 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+'use strict';
+
 import punycode from 'punycode';
 
 class JFormValidator {
@@ -323,3 +325,10 @@ const initialize = () => {
 };
 
 document.addEventListener('DOMContentLoaded', initialize);
+
+/**
+ * Expose the classes to the global scope
+ * These will be removed in Joomla! 6.0
+ */
+window.JFormValidator = JFormValidator;
+window.punycode = punycode;

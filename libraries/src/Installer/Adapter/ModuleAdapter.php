@@ -10,13 +10,13 @@
 namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -130,33 +130,33 @@ class ModuleAdapter extends InstallerAdapter
 
         foreach ($site_list as $module) {
             if (file_exists(JPATH_SITE . "/modules/$module/$module.xml")) {
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'module');
-                $extension->set('client_id', $site_info->id);
-                $extension->set('element', $module);
-                $extension->set('folder', '');
-                $extension->set('name', $module);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = clone $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'module';
+                $extension->client_id      = $site_info->id;
+                $extension->element        = $module;
+                $extension->folder         = '';
+                $extension->name           = $module;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = clone $extension;
             }
         }
 
         foreach ($admin_list as $module) {
             if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml")) {
-                $manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
-                $extension        = Table::getInstance('extension');
-                $extension->set('type', 'module');
-                $extension->set('client_id', $admin_info->id);
-                $extension->set('element', $module);
-                $extension->set('folder', '');
-                $extension->set('name', $module);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
-                $results[] = clone $extension;
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'module';
+                $extension->client_id      = $admin_info->id;
+                $extension->element        = $module;
+                $extension->folder         = '';
+                $extension->name           = $module;
+                $extension->state          = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params         = '{}';
+                $results[]                 = clone $extension;
             }
         }
 

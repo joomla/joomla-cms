@@ -261,6 +261,8 @@ class Date extends \DateTime
             case 6:
                 return $abbr ? Text::_('SAT') : Text::_('SATURDAY');
         }
+
+        return '';
     }
 
     /**
@@ -386,6 +388,8 @@ class Date extends \DateTime
             case 12:
                 return $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER');
         }
+
+        return '';
     }
 
     /**
@@ -424,15 +428,15 @@ class Date extends \DateTime
     /**
      * Gets the date as an SQL datetime string.
      *
-     * @param   boolean         $local  True to return the date string in the local time zone, false to return it in GMT.
-     * @param   DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
+     * @param   boolean          $local  True to return the date string in the local time zone, false to return it in GMT.
+     * @param   ?DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
      *
      * @return  string     The date string in SQL datetime format.
      *
      * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
      * @since   2.5.0
      */
-    public function toSql($local = false, DatabaseDriver $db = null)
+    public function toSql($local = false, ?DatabaseDriver $db = null)
     {
         if ($db === null) {
             $db = Factory::getDbo();

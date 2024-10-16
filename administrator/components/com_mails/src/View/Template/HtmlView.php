@@ -17,6 +17,8 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
+use Joomla\Component\Mails\Administrator\Model\TemplateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -75,24 +77,24 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state  = $this->get('State');
-        $this->item   = $this->get('Item');
-        $this->master = $this->get('Master');
-        $this->form   = $this->get('Form');
+        /** @var TemplateModel $model */
+        $model = $this->getModel();
+
+        $this->state  = $model->getState();
+        $this->item   = $model->getItem();
+        $this->master = $model->getMaster();
+        $this->form   = $model->getForm();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        list($component, $template_id) = explode('.', $this->item->template_id, 2);
+        list($extension, $template_id) = explode('.', $this->item->template_id, 2);
         $fields                        = ['subject', 'body', 'htmlbody'];
         $this->templateData            = [];
-        $language                      = $this->getLanguage();
-        $language->load($component, JPATH_SITE, $this->item->language, true);
-        $language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);
-        $language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
-        $language->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, $this->item->language, true);
+
+        MailsHelper::loadTranslationFiles($extension, $this->item->language);
 
         $this->master->subject = Text::_($this->master->subject);
         $this->master->body    = Text::_($this->master->body);
@@ -131,24 +133,18 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             Text::_('COM_MAILS_PAGE_EDIT_MAIL'),
             'pencil-2 article-add'
         );
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
-
-        $saveGroup->configure(
-            function (Toolbar $childBar) {
-                $childBar->apply('template.apply');
-                $childBar->save('template.save');
-            }
-        );
-
+        $toolbar->apply('template.apply');
+        $toolbar->divider();
+        $toolbar->save('template.save');
+        $toolbar->divider();
         $toolbar->cancel('template.cancel', 'JTOOLBAR_CLOSE');
-
         $toolbar->divider();
         $toolbar->help('Mail_Template:_Edit');
     }

@@ -144,7 +144,7 @@ final class Joomla extends CMSPlugin
                 $message = [
                     'user_id_to' => $user_id,
                     'subject'    => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-                    'message'    => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->name, $article->title),
+                    'message'    => \sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->name, $article->title),
                 ];
                 $model_message = $this->getApplication()->bootComponent('com_messages')->getMVCFactory()
                     ->createModel('Message', 'Administrator');
@@ -180,6 +180,8 @@ final class Joomla extends CMSPlugin
             case 'com_workflow.stage':
                 return $this->stageNotUsed($data->id);
         }
+
+        return true;
     }
 
     /**

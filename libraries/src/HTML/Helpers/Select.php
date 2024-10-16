@@ -321,7 +321,7 @@ abstract class Select
         $data = [];
 
         for ($i = $start; $i <= $end; $i += $inc) {
-            $data[$i] = $format ? sprintf($format, $i) : $i;
+            $data[$i] = $format ? \sprintf($format, $i) : $i;
         }
 
         // Tell genericlist() to use array keys
@@ -350,10 +350,10 @@ abstract class Select
      *                             option.label: The property in each option array to use as the
      *                             selection label attribute. If a "label" option is provided, defaults to
      *                             "label", if no label is given, defaults to null (none).
-     *                             option.text: The property that will hold the the displayed text.
+     *                             option.text: The property that will hold the displayed text.
      *                             Defaults to "text". If set to null, the option array is assumed to be a
      *                             list of displayable scalars.
-     * @param   string   $optText  The property that will hold the the displayed text. This
+     * @param   string   $optText  The property that will hold the displayed text. This
      *                             parameter is ignored if an options array is passed.
      * @param   boolean  $disable  Not used.
      *
@@ -445,7 +445,7 @@ abstract class Select
      *                                Defaults to "disable".
      *                               -option.key: The property that will hold the selection value.
      *                                Defaults to "value".
-     *                               -option.text: The property that will hold the the displayed text.
+     *                               -option.text: The property that will hold the displayed text.
      *                               Defaults to "text". If set to null, the option array is assumed to be a
      *                               list of displayable scalars.
      * @param   string   $optText    The name of the object variable for the option text.
