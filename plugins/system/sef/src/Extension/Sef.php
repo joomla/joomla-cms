@@ -202,8 +202,8 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             $this->checkBuffer($buffer);
         }
 
-        // Check for all unknown protocols (a protocol must contain at least one alphanumeric character followed by a ":").
-        $protocols  = '[a-zA-Z0-9\-]+:';
+        // Check for all unknown protocols (a protocol must implement the URI schema defined in RFC 3986).
+        $protocols  = '[a-zA-Z][a-zA-Z0-9\-+.]*:';
         $attributes = ['href=', 'src=', 'poster='];
 
         foreach ($attributes as $attribute) {
