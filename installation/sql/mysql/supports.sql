@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   `checked_out_time` datetime,
   `ordering` int NOT NULL DEFAULT 0,
   `params` text NOT NULL,
-  `fieldparams` text NOT NULL,
+  `fieldparams` mediumtext NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
   `created_time` datetime NOT NULL,
   `created_user_id` int unsigned NOT NULL DEFAULT 0,
