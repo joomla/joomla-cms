@@ -12,13 +12,6 @@ const { renderSync } = require('sass-embedded');
 const { minifyJsCode } = require('./minify.es6.js');
 const { getPackagesUnderScope } = require('../init/common/resolve-package.es6.js');
 
-function esmOrIife(file) {
-  if (file.endsWith('core.es6.js') || file.endsWith('validate.es6.js')) {
-    return 'iife';
-  }
-  return 'es';
-}
-
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;
   const scssFile = file.replace(`${sep}js${sep}`, `${sep}scss${sep}`).replace(/\.w-c\.es6\.js$/, '.scss');
@@ -133,7 +126,7 @@ module.exports.handleESMFile = async (file) => {
   });
 
   bundle.write({
-    format: esmOrIife(file),
+    format: file.endsWith('core.es6.js') ? 'iife' : 'es',
     sourcemap: false,
     file: resolve(`${newPath}.js`),
   })
