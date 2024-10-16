@@ -3106,10 +3106,12 @@ class JoomlaInstallerScript
                 $tourItem->load($item->id);
 
                 // Tour follows Joomla naming convention
-                if (str_starts_with($tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with(
+                if (
+                    str_starts_with($tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with(
                         $tourItem->title,
                         '_TITLE'
-                    )) {
+                    )
+                ) {
                     $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
 
                     // Remove the last _TITLE part
@@ -3117,10 +3119,12 @@ class JoomlaInstallerScript
                     if ($pos !== false) {
                         $uidTitle = substr($uidTitle, 0, $pos);
                     }
-                } elseif (preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with(
+                } elseif (
+                    preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with(
                         $tourItem->title,
                         '_TITLE'
-                    )) {
+                    )
+                ) {
                     // Tour follows component naming pattern
                     $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', $tourItem->title);
 

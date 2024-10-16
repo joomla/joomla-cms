@@ -173,10 +173,12 @@ class HelpModel extends BaseDatabaseModel
             // Strip the extension
             $file = preg_replace('#\.xml$|\.html$#', '', $file);
 
-            if ($help_search && StringHelper::strpos(
+            if (
+                $help_search && StringHelper::strpos(
                     StringHelper::strtolower(strip_tags($buffer)),
                     StringHelper::strtolower($help_search),
-                ) === false) {
+                ) === false
+            ) {
                 continue;
             }
 
