@@ -102,6 +102,10 @@ abstract class PluginHelper
      * @return  mixed  An array of plugin data objects, or a plugin data object.
      *
      * @since   1.5
+     *
+     * @deprecated  __DEPLOY_VERSION__ starting with 7.0 this will only return a single plugin object
+     *              or null instead of an empty array or an array of plugin objects. For a plugin group
+     *              use PluginHelper::getPlugins() instead.
      */
     public static function getPlugin($type, $plugin = null)
     {
@@ -110,12 +114,7 @@ abstract class PluginHelper
 
         // Find the correct plugin(s) to return.
         if (!$plugin) {
-            foreach ($plugins as $p) {
-                // Is this the right plugin?
-                if ($p->type === $type) {
-                    $result[] = $p;
-                }
-            }
+            return self::getPlugins($type);
         } else {
             foreach ($plugins as $p) {
                 // Is this plugin in the right group?
@@ -123,6 +122,31 @@ abstract class PluginHelper
                     $result = $p;
                     break;
                 }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get the plugin data of a specific type if no specific plugin is specified
+     * otherwise only the specific plugin data is returned.
+     *
+     * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
+     *
+     * @return  object[]  An array of plugin data objects.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getPlugins($type)
+    {
+        $result  = [];
+        $plugins = static::load();
+
+        foreach ($plugins as $p) {
+            // Is this the right plugin?
+            if ($p->type === $type) {
+                $result[] = $p;
             }
         }
 
