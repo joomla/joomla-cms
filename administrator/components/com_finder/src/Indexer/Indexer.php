@@ -988,6 +988,21 @@ class Indexer
 
         // Check if we are setting the tables to the Memory engine.
         if ($memory === true && $state !== true) {
+            // On MySQL Galera replication clusters MEMORY tables are not supported, but MySQL returns an error
+            // only at the first write. If the table is empty the first write never happens and no error is returned
+            // at the ALTER TABLE instruction, but it will fail at the first write (i.e. editing an article).
+            // Proceed with the conversion to MEMORY only if the tables are not empty.
+            $db->setQuery('SELECT EXISTS (SELECT 1 FROM ' . $db->quoteName('#__finder_tokens') . ')');
+            if ($db->loadResult() === 0) {
+                return true;
+            }
+
+            $db->setQuery('SELECT EXISTS (SELECT 1 FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ')');
+            if ($db->loadResult() === 0) {
+                return true;
+            }
+
+            // Tables are not empty - proceed with the conversion to MEMORY and detect if it is actually supported
             try {
                 // Set the tokens table to Memory.
                 $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
