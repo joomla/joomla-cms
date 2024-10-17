@@ -179,6 +179,24 @@ class HtmlView extends CategoryView
             }
         }
 
+        $this->category->text = $this->category->description;
+        $app->triggerEvent('onContentPrepare', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+        $this->category->description = $this->category->text;
+
+        $this->category->event = new \stdClass();
+
+        $results                                  = $app->triggerEvent('onContentAfterTitle', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+        $this->category->event->afterDisplayTitle = trim(implode("\n", $results));
+
+        $results                                     = $app->triggerEvent('onContentBeforeDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+        $this->category->event->beforeDisplayContent = trim(implode("\n", $results));
+
+        $results                                    = $app->triggerEvent('onContentAfterDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
+        $this->category->event->afterDisplayContent = trim(implode("\n", $results));
+
+        $results                                  = $app->triggerEvent('onContentAfterItems', [$this->category->extension . '.categories', &$this, &$this->params]);
+        $this->category->event->afterDisplayItems = trim(implode("\n", $results));
+
         parent::display($tpl);
     }
 
