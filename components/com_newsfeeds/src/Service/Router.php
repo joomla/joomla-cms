@@ -18,6 +18,7 @@ use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
 use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
+use Joomla\CMS\Component\Router\Rules\PreprocessRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
@@ -95,6 +96,9 @@ class Router extends RouterView
 
         parent::__construct($app, $menu);
 
+        $preprocess = new PreprocessRules($newsfeed, '#__newsfeeds', 'id', 'catid');
+        $preprocess->setDatabase($this->db);
+        $this->attachRule($preprocess);
         $this->attachRule(new MenuRules($this));
         $this->attachRule(new StandardRules($this));
         $this->attachRule(new NomenuRules($this));
@@ -151,19 +155,7 @@ class Router extends RouterView
      */
     public function getNewsfeedSegment($id, $query)
     {
-        if (!strpos($id, ':')) {
-            $id      = (int) $id;
-            $dbquery = $this->db->getQuery(true);
-            $dbquery->select($this->db->quoteName('alias'))
-                ->from($this->db->quoteName('#__newsfeeds'))
-                ->where($this->db->quoteName('id') . ' = :id')
-                ->bind(':id', $id, ParameterType::INTEGER);
-            $this->db->setQuery($dbquery);
-
-            $id .= ':' . $this->db->loadResult();
-        }
-
-        if ($this->noIDs) {
+        if ($this->noIDs && strpos($id, ':')) {
             list($void, $segment) = explode(':', $id, 2);
 
             return [$void => $segment];
