@@ -34,13 +34,13 @@ if ($clientId == 1) {
 <div class="p-3">
     <?php if ($clientId != 1) : ?>
         <div class="row">
-                <?php if (Multilanguage::isEnabled()) : ?>
+            <?php if (Multilanguage::isEnabled()) : ?>
                 <div class="form-group col-md-6">
                     <div class="controls">
                         <?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
                     </div>
                 </div>
-                <?php endif; ?>
+            <?php endif; ?>
             <div class="form-group col-md-6">
                 <div class="controls">
                     <?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
