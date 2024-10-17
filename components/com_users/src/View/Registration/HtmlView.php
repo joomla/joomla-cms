@@ -114,7 +114,7 @@ class HtmlView extends BaseHtmlView
 
         $captchaSet = $this->params->get('captcha', Factory::getApplication()->get('captcha', '0'));
 
-        foreach (PluginHelper::getPlugin('captcha') as $plugin) {
+        foreach (PluginHelper::getPlugins('captcha') as $plugin) {
             if ($captchaSet === $plugin->name) {
                 $this->captchaEnabled = true;
                 break;
