@@ -107,7 +107,7 @@ class Rules
             foreach ($actions as $action => $identities) {
                 $this->mergeAction($action, $identities);
             }
-        } elseif ($actions instanceof Rules) {
+        } elseif ($actions instanceof self) {
             $data = $actions->getData();
 
             foreach ($data as $name => $identities) {

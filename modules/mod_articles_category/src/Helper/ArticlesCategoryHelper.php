@@ -295,7 +295,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
             switch ($article_grouping) {
                 case 'year':
                 case 'month_year':
-                    $items = ArticlesCategoryHelper::groupByDate(
+                    $items = self::groupByDate(
                         $items,
                         $article_grouping_direction,
                         $article_grouping,
@@ -305,10 +305,10 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
                     break;
                 case 'author':
                 case 'category_title':
-                    $items = ArticlesCategoryHelper::groupBy($items, $article_grouping, $article_grouping_direction);
+                    $items = self::groupBy($items, $article_grouping, $article_grouping_direction);
                     break;
                 case 'tags':
-                    $items = ArticlesCategoryHelper::groupByTags($items, $article_grouping_direction);
+                    $items = self::groupByTags($items, $article_grouping_direction);
                     break;
             }
         }
