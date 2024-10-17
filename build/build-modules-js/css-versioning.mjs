@@ -1,9 +1,9 @@
-const { createHash } = require('node:crypto');
-const { readdir, readFile, writeFile } = require('node:fs/promises');
-const { existsSync, readFileSync } = require('node:fs');
-const { dirname, extname, resolve } = require('node:path');
-const { transform, composeVisitors } = require('lightningcss');
-const { Timer } = require('./utils/timer.es6.js');
+import { createHash } from 'node:crypto';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, extname, resolve } from 'node:path';
+import { transform, composeVisitors } from 'lightningcss';
+import { Timer } from './utils/timer.mjs';
 
 const RootPath = process.cwd();
 const skipExternal = true;
@@ -76,7 +76,7 @@ const fixVersion = async (file) => {
  *
  * @returns {Promise<void>}
  */
-module.exports.cssVersioning = async () => {
+export const cssVersioning = async () => {
   const bench = new Timer('Versioning');
 
   const cssFiles = (await readdir(`${RootPath}/media`, { withFileTypes: true, recursive: true }))
