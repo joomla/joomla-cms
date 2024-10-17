@@ -12,11 +12,13 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -48,6 +50,42 @@ class TourModel extends AdminModel
      * @since 4.3.0
      */
     public $typeAlias = 'com_guidedtours.tour';
+
+    /**
+     * Method to validate the form data.
+     *
+     * @param   Form    $form   The form to validate against.
+     * @param   array   $data   The data to validate.
+     * @param   string  $group  The name of the field group to validate.
+     *
+     * @return  array|boolean  Array of filtered data if valid, false otherwise.
+     *
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
+     * @since   __DEPLOY_VERSION__
+     */
+    public function validate($form, $data, $group = null)
+    {
+        // Quick validation check.
+        if (str_starts_with($data['url'], '/')) {
+            $this->setError(Text::_('COM_GUIDEDTOURS_TOUR_URL_NO_SLASH'));
+            return false;
+        }
+
+        try {
+            $http     = HttpFactory::getHttp();
+            $response = $http->get(Uri::root() . $data['url']);
+        } catch (\RuntimeException $e) {
+            $response = null;
+        }
+
+        if ($response === null || $response->code !== 200) {
+            $this->setError(Text::_('COM_GUIDEDTOURS_TOUR_URL_INVALID'));
+            return false;
+        }
+
+        return parent::validate($form, $data, $group);
+    }
 
     /**
      * Method to save the form data.
