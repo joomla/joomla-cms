@@ -15,7 +15,7 @@
 		<folder plugin="tinymce">services</folder>
 		<folder>src</folder>
 	</files>
-	<media destination="editors" folder="media">
+	<media destination="plg_editors_tinymce" folder="media">
 		<folder>tinymce</folder>
 	</media>
 	<languages>
