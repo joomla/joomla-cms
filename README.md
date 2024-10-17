@@ -14,7 +14,7 @@ Overview
 ---------------------
 * This is the source of Joomla! 5.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 5.2 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.2_version_history).
+* Joomla! 5.3 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.3_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/5.2-dev).
 
 What is Joomla?

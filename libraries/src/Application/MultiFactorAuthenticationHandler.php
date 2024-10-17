@@ -419,7 +419,7 @@ trait MultiFactorAuthenticationHandler
                     Factory::getApplication()->bootComponent('com_users')->getMVCFactory()->createTable('Mfa', 'Administrator')->save(
                         [
                             'user_id'    => $user->id,
-                            'title'      => sprintf("%s %s", Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
+                            'title'      => \sprintf("%s %s", Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
                             'method'     => 'yubikey',
                             'default'    => 0,
                             'created_on' => Date::getInstance()->toSql(),
