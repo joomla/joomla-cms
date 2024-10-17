@@ -617,7 +617,8 @@ class SysinfoModel extends BaseDatabaseModel
         $this->addDirectory('configuration.php', JPATH_CONFIGURATION . '/configuration.php');
 
         // Is there a cache path in configuration.php?
-        if ($cache_path = trim($registry->get('cache_path', ''))) {
+        $cache_path = trim($registry->get('cache_path', ''));
+        if ($cache_path) {
             // Frontend and backend use same directory for caching.
             $this->addDirectory($cache_path, $cache_path, 'COM_ADMIN_CACHE_DIRECTORY');
         } else {
