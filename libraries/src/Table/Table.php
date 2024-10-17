@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Event\Checkin\AfterCheckinEvent as GlobalAfterCheckinEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -222,7 +222,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
 
         $this->setDispatcher($dispatcher);
 
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableObjectCreate',
             [
                 'subject' => $this,
@@ -593,7 +593,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function reset()
     {
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeReset',
             [
                 'subject' => $this,
@@ -612,7 +612,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Reset table errors
         $this->_errors = [];
 
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterReset',
             [
                 'subject' => $this,
@@ -652,7 +652,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $ignore = explode(' ', $ignore);
         }
 
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeBind',
             [
                 'subject' => $this,
@@ -686,7 +686,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             }
         }
 
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterBind',
             [
                 'subject' => $this,
@@ -716,7 +716,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     public function load($keys = null, $reset = true)
     {
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeLoad',
             [
                 'subject' => $this,
@@ -788,7 +788,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Post-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterLoad',
             [
                 'subject' => $this,
@@ -813,7 +813,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     public function check()
     {
         // Post-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableCheck',
             [
                 'subject' => $this,
@@ -843,7 +843,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $k = $this->_tbl_keys;
 
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeStore',
             [
                 'subject'     => $this,
@@ -946,7 +946,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Post-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterStore',
             [
                 'subject' => $this,
@@ -1040,7 +1040,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeDelete',
             [
                 'subject' => $this,
@@ -1075,7 +1075,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $this->_db->execute();
 
         // Post-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterDelete',
             [
                 'subject' => $this,
@@ -1105,7 +1105,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     public function checkOut($userId, $pk = null)
     {
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeCheckout',
             [
                 'subject' => $this,
@@ -1159,7 +1159,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $this->$checkedOutTimeField  = $time;
 
         // Post-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterCheckout',
             [
                 'subject' => $this,
@@ -1187,7 +1187,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     public function checkIn($pk = null)
     {
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeCheckin',
             [
                 'subject' => $this,
@@ -1242,7 +1242,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $this->$checkedOutTimeField = $this->_supportNullValue ? null : '';
 
         // Post-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterCheckin',
             [
                 'subject' => $this,
@@ -1304,7 +1304,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     public function hit($pk = null)
     {
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeHit',
             [
                 'subject' => $this,
@@ -1351,7 +1351,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $this->hits++;
 
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterHit',
             [
                 'subject' => $this,
@@ -1513,7 +1513,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeReorder',
             [
                 'subject' => $this,
@@ -1527,7 +1527,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $this->_db->execute();
 
         // Post-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterReorder',
             [
                 'subject' => $this,
@@ -1590,7 +1590,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeMove',
             [
                 'subject' => $this,
@@ -1637,7 +1637,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // Post-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterMove',
             [
                 'subject' => $this,
@@ -1671,7 +1671,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $state  = (int) $state;
 
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforePublish',
             [
                 'subject' => $this,
@@ -1776,7 +1776,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $this->setError('');
 
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterPublish',
             [
                 'subject' => $this,

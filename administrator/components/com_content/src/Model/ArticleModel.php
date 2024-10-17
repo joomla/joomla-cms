@@ -11,7 +11,7 @@
 namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -843,7 +843,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         // Trigger the before change state event.
         $eventResult = Factory::getApplication()->getDispatcher()->dispatch(
             $this->event_before_change_featured,
-            AbstractEvent::create(
+            EventFactory::create(
                 $this->event_before_change_featured,
                 [
                     'eventClass' => FeatureEvent::class,
@@ -948,7 +948,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         // Trigger the change state event.
         Factory::getApplication()->getDispatcher()->dispatch(
             $this->event_after_change_featured,
-            AbstractEvent::create(
+            EventFactory::create(
                 $this->event_after_change_featured,
                 [
                     'eventClass' => FeatureEvent::class,

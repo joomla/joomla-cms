@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Table;
 
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -208,7 +208,7 @@ class TaskTable extends Table implements CurrentUserInterface
     public function unlock(array $pks = [], ?int $userId = null): bool
     {
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTaskBeforeUnlock',
             [
                 'subject' => $this,
@@ -282,7 +282,7 @@ class TaskTable extends Table implements CurrentUserInterface
         }
 
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTaskAfterUnlock',
             [
                 'subject' => $this,
