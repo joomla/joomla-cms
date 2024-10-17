@@ -135,10 +135,6 @@ function clean_checkout(string $dir)
     // fig/link-util
     system('rm -rf libraries/vendor/fig/link-util/test');
 
-    // google/recaptcha
-    system('rm -rf libraries/vendor/google/recaptcha/examples');
-    system('rm -rf libraries/vendor/google/recaptcha/tests');
-
     // jakeasmith/http_build_url
     system('rm -rf libraries/vendor/jakeasmith/http_build_url/tests');
 
