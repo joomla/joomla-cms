@@ -315,7 +315,8 @@ class JFormValidator {
       } else if (tagName !== 'button' && !(tagName === 'input' && element.getAttribute('type') === 'button')) {
         // Attach validate method only to fields
         if (tagName !== 'fieldset') {
-          element.addEventListener('blur', ({ target }) => this.validate(target));
+          // Delay blur event to allow focus of other fields first
+          element.addEventListener('blur', ({ target }) => setTimeout(() => { this.validate(target); }, 100));
           element.addEventListener('focus', ({ target }) => this.removeMarking(target));
           if (element.classList.contains('validate-email') && this.inputEmail) {
             element.setAttribute('type', 'email');
