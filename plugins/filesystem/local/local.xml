@@ -30,7 +30,7 @@
 					multiple="true"
 					layout="joomla.form.field.subform.repeatable-table"
 					buttons="add,remove,move"
-					default='[{"directory":"images"}]'
+					default='[{"directory":"images"},{"directory":"files"}]'
 				>
 					<form>
 						<field

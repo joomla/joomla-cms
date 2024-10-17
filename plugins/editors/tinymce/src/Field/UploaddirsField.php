@@ -51,7 +51,7 @@ class UploaddirsField extends FolderlistField
         $return = parent::setup($element, $value, $group);
 
         // Get the path in which to search for file options.
-        $this->directory   = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path');
+        $this->directory   = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images');
         $this->recursive   = true;
         $this->hideDefault = true;
 
