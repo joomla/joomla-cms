@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   2009 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -173,12 +173,7 @@ class HelpModel extends BaseDatabaseModel
             // Strip the extension
             $file = preg_replace('#\.xml$|\.html$#', '', $file);
 
-            if (
-                $help_search && StringHelper::strpos(
-                    StringHelper::strtolower(strip_tags($buffer)),
-                    StringHelper::strtolower($help_search),
-                ) === false
-            ) {
+            if ($help_search && StringHelper::strpos(StringHelper::strtolower(strip_tags($buffer)), StringHelper::strtolower($help_search)) === false) {
                 continue;
             }
 

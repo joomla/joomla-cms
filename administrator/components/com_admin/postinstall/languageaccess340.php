@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   2015 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for the checks if the installation is

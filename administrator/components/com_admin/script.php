@@ -4,12 +4,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   2011 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
-
-// @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -71,8 +70,8 @@ class JoomlaInstallerScript
     /**
      * Collect errors.
      *
-     * @param   string      $context  A context/place where error happened
-     * @param   \Throwable  $error    The error that occurred
+     * @param  string      $context  A context/place where error happened
+     * @param  \Throwable  $error    The error that occurred
      *
      * @return  void
      *
@@ -292,48 +291,12 @@ class JoomlaInstallerScript
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
              */
-            [
-                'type'         => 'plugin',
-                'element'      => 'demotasks',
-                'folder'       => 'task',
-                'client_id'    => 0,
-                'pre_function' => null,
-            ],
-            [
-                'type'         => 'plugin',
-                'element'      => 'compat',
-                'folder'       => 'system',
-                'client_id'    => 0,
-                'pre_function' => 'migrateCompatPlugin',
-            ],
-            [
-                'type'         => 'plugin',
-                'element'      => 'logrotation',
-                'folder'       => 'system',
-                'client_id'    => 0,
-                'pre_function' => 'migrateLogRotationPlugin',
-            ],
-            [
-                'type'         => 'plugin',
-                'element'      => 'recaptcha',
-                'folder'       => 'captcha',
-                'client_id'    => 0,
-                'pre_function' => null,
-            ],
-            [
-                'type'         => 'plugin',
-                'element'      => 'sessiongc',
-                'folder'       => 'system',
-                'client_id'    => 0,
-                'pre_function' => 'migrateSessionGCPlugin',
-            ],
-            [
-                'type'         => 'plugin',
-                'element'      => 'updatenotification',
-                'folder'       => 'system',
-                'client_id'    => 0,
-                'pre_function' => 'migrateUpdatenotificationPlugin',
-            ],
+            ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
+            ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
+            ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
+            ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
+            ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
+            ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
         $db = Factory::getContainer()->get(DatabaseInterface::class);
@@ -438,8 +401,8 @@ class JoomlaInstallerScript
 
         // Get the timeout, as configured in plg_system_logrotation
         $params       = new Registry($data->params);
-        $cachetimeout = (int)$params->get('cachetimeout', 30);
-        $lastrun      = (int)$params->get('lastrun', time());
+        $cachetimeout = (int) $params->get('cachetimeout', 30);
+        $lastrun      = (int) $params->get('lastrun', time());
 
         $task = [
             'title'           => 'Rotate Logs',
@@ -450,8 +413,8 @@ class JoomlaInstallerScript
                 'exec-time'     => gmdate('H:i', $lastrun),
                 'exec-day'      => gmdate('d'),
             ],
-            'state'           => 1,
-            'params'          => [
+            'state'  => 1,
+            'params' => [
                 'logstokeep' => $params->get('logstokeep', 1),
             ],
         ];
@@ -490,8 +453,8 @@ class JoomlaInstallerScript
                 'exec-time'      => gmdate('H:i'),
                 'exec-day'       => gmdate('d'),
             ],
-            'state'           => 1,
-            'params'          => [
+            'state'  => 1,
+            'params' => [
                 'enable_session_gc'          => $params->get('enable_session_gc', 1),
                 'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
             ],
@@ -517,9 +480,9 @@ class JoomlaInstallerScript
         // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
         $component    = ComponentHelper::getComponent('com_installer');
         $paramsc      = $component->getParams();
-        $cachetimeout = (int)$paramsc->get('cachetimeout', 6);
+        $cachetimeout = (int) $paramsc->get('cachetimeout', 6);
         $params       = new Registry($data->params);
-        $lastrun      = (int)$params->get('lastrun', time());
+        $lastrun      = (int) $params->get('lastrun', time());
 
         /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
@@ -535,8 +498,8 @@ class JoomlaInstallerScript
                 'exec-time'      => gmdate('H:i', $lastrun),
                 'exec-day'       => gmdate('d'),
             ],
-            'state'           => 1,
-            'params'          => [
+            'state'  => 1,
+            'params' => [
                 'email'             => $params->get('email', ''),
                 'language_override' => $params->get('language_override', ''),
             ],
@@ -587,15 +550,13 @@ class JoomlaInstallerScript
             if (!$installer->refreshManifestCache($extension->extension_id)) {
                 $this->collectError(
                     __METHOD__,
-                    new \Exception(
-                        \sprintf(
-                            'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
-                            $extension->type,
-                            $extension->element,
-                            $extension->name,
-                            $extension->client_id
-                        ),
-                    ),
+                    new \Exception(\sprintf(
+                        'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
+                        $extension->type,
+                        $extension->element,
+                        $extension->name,
+                        $extension->client_id
+                    ))
                 );
             }
         }
@@ -604,8 +565,8 @@ class JoomlaInstallerScript
     /**
      * Delete files that should not exist
      *
-     * @param   bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
-     * @param   bool  $suppressOutput  Set to true to suppress echoing any errors, and just return the $status array
+     * @param bool  $dryRun           If set to true, will not actually delete files, but just report their status for use in CLI
+     * @param bool  $suppressOutput   Set to true to suppress echoing any errors, and just return the $status array
      *
      * @return  array
      */
@@ -2878,8 +2839,8 @@ class JoomlaInstallerScript
                 'exec-time'      => gmdate('H:i', $params->get('lastrun', time())),
                 'exec-day'       => gmdate('d'),
             ],
-            'state'           => 1,
-            'params'          => [
+            'state'  => 1,
+            'params' => [
                 'logDeletePeriod' => $params->get('logDeletePeriod', 0),
             ],
         ];
@@ -2949,8 +2910,8 @@ class JoomlaInstallerScript
                 'exec-time'     => gmdate('H:i', $params->get('lastrun', time())),
                 'exec-day'      => gmdate('d'),
             ],
-            'state'           => 1,
-            'params'          => [
+            'state'  => 1,
+            'params' => [
                 'consentexpiration' => $params->get('consentexpiration', 360),
                 'remind'            => $params->get('remind', 30),
             ],
@@ -3026,11 +2987,7 @@ class JoomlaInstallerScript
                     $replace[] = 'jtemplate';
                 }
 
-                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
-                    $search,
-                    $replace,
-                    $toolbarConfig['menu']
-                );
+                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace($search, $replace, $toolbarConfig['menu']);
             }
 
             // There could be no toolbar at all, or only toolbar1, or both toolbar1 and toolbar2
@@ -3054,11 +3011,7 @@ class JoomlaInstallerScript
                         $replace[] = 'jtemplate';
                     }
 
-                    $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace(
-                        $search,
-                        $replace,
-                        $toolbarConfig[$toolbarIdx]
-                    );
+                    $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace($search, $replace, $toolbarConfig[$toolbarIdx]);
                 }
             }
         }
@@ -3106,12 +3059,7 @@ class JoomlaInstallerScript
                 $tourItem->load($item->id);
 
                 // Tour follows Joomla naming convention
-                if (
-                    str_starts_with($tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with(
-                        $tourItem->title,
-                        '_TITLE'
-                    )
-                ) {
+                if (str_starts_with($tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($tourItem->title, '_TITLE')) {
                     $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
 
                     // Remove the last _TITLE part
@@ -3119,12 +3067,7 @@ class JoomlaInstallerScript
                     if ($pos !== false) {
                         $uidTitle = substr($uidTitle, 0, $pos);
                     }
-                } elseif (
-                    preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with(
-                        $tourItem->title,
-                        '_TITLE'
-                    )
-                ) {
+                } elseif (preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with($tourItem->title, '_TITLE')) {
                     // Tour follows component naming pattern
                     $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', $tourItem->title);
 
@@ -3170,7 +3113,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/ED256.php' => '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/Ed256.php',
             '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/ED512.php' => '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/Ed512.php',
             // From 5.0.0-alpha3 to 5.0.0-alpha4
-            '/plugins/schemaorg/blogposting/src/Extension/Blogposting.php'                => '/plugins/schemaorg/blogposting/src/Extension/BlogPosting.php',
+            '/plugins/schemaorg/blogposting/src/Extension/Blogposting.php' => '/plugins/schemaorg/blogposting/src/Extension/BlogPosting.php',
         ];
 
         foreach ($files as $old => $expected) {
@@ -3205,11 +3148,12 @@ class JoomlaInstallerScript
                         File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
                         File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
                     }
-                } else {
-                    // On Unix with both files: Delete the incorrectly cased file.
-                    if (is_file(JPATH_ROOT . $old)) {
-                        File::delete(JPATH_ROOT . $old);
-                    }
+                    continue;
+                }
+
+                // On Unix with both files: Delete the incorrectly cased file.
+                if (is_file(JPATH_ROOT . $old)) {
+                    File::delete(JPATH_ROOT . $old);
                 }
             }
         }
