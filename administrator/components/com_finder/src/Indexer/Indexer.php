@@ -844,7 +844,7 @@ class Indexer
                         $string = substr($buffer, 0, $ls);
 
                         // Adjust the buffer based on the last space for the next iteration and trim.
-                        $buffer = StringHelper::trim(substr($buffer, $ls));
+                        $buffer = trim(substr($buffer, $ls));
                     } else {
                         // No space character was found.
                         $string = $buffer;
