@@ -121,8 +121,11 @@ class HtmlView extends BaseHtmlView
             return;
         }
 
+        $input          = Factory::getApplication()->getInput();
+        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
+
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -130,6 +133,13 @@ class HtmlView extends BaseHtmlView
             // Only allow to select categories with All language or with the forced language.
             $this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('forcedLanguage', $forcedLanguage)
+            ->addControlField('menutype', $input->get('menutype', ''))
+            ->addControlField('fieldtype', '', ['id' => 'fieldtype']);
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();

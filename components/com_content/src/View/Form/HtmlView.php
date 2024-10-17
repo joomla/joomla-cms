@@ -194,6 +194,11 @@ class HtmlView extends BaseHtmlView
             $this->showSaveAsCopy = true;
         }
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', $this->return_page ?? '');
+
         $this->_prepareDocument();
 
         parent::display($tpl);
