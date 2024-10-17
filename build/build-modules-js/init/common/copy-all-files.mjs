@@ -1,5 +1,6 @@
-const { copy } = require('fs-extra');
-const { join } = require('path');
+import { join } from 'node:path';
+
+import { copy } from 'fs-extra';
 
 const RootPath = process.cwd();
 
@@ -12,7 +13,7 @@ const RootPath = process.cwd();
  *
  * @returns { void }
  */
-module.exports.copyAllFiles = async (dirName, name, type) => {
+export const copyAllFiles = async (dirName, name, type) => {
   const folderName = dirName === '/' ? '/' : `/${dirName}`;
   await copy(
     join(RootPath, `node_modules/${name}/${folderName}`),

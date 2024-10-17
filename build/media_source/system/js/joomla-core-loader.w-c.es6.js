@@ -46,7 +46,31 @@ class JoomlaCoreLoader extends HTMLElement {
 
     const template = document.createElement('template');
     template.innerHTML = `
-    <style>{{CSS_CONTENTS_PLACEHOLDER}}</style>
+     <style>
+      :host {
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      :host(.fullscreen) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        svg {
+          width: 345px;
+          height: 345px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .joomla-spinner {
+          animation: none !important;
+        }
+      }
+    </style>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" width="${this.size}" height="${this.size}">
       <style>@keyframes joomla-spinner{0%,28%,to{opacity:.30}20%{opacity:1}}.joomla-spinner{animation:joomla-spinner 1.6s infinite cubic-bezier(0,.15,1,.75)}
       </style>

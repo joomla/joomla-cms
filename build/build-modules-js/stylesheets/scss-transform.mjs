@@ -1,12 +1,15 @@
-const Fs = require('fs').promises;
-const FsExtra = require('fs-extra');
-const { dirname, sep } = require('path');
-const LightningCSS = require('lightningcss');
-const Sass = require('sass-embedded');
+import Fs from 'node:fs/promises';
+import { dirname, sep } from 'node:path';
 
-module.exports.compile = async (file) => {
-  const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
-    .replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
+import FsExtra from 'fs-extra';
+import LightningCSS from 'lightningcss';
+import Sass from 'sass-embedded';
+
+export const compile = async (file) => {
+  const cssFile = file
+    .replace(`${sep}scss${sep}`, `${sep}css${sep}`)
+    .replace('.scss', '.css')
+    .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
   let compiled;
   try {

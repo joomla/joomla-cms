@@ -1,9 +1,16 @@
+import { dirname, join } from 'node:path';
+import { createRequire } from 'node:module';
+import { existsSync } from 'node:fs';
+
+import pkg from 'fs-extra';
+
+import { tinyMCE } from './exemptions/tinymce.mjs';
+import { resolvePackageFile } from './common/resolve-package.cjs';
+
+const require = createRequire(import.meta.url);
 const {
-  existsSync, copy, writeFile, mkdir, mkdirs, ensureDir,
-} = require('fs-extra');
-const { dirname, join } = require('path');
-const { tinyMCE } = require('./exemptions/tinymce.es6.js');
-const { resolvePackageFile } = require('./common/resolve-package.es6.js');
+  copy, mkdirs, mkdir, ensureDir, writeFile,
+} = pkg;
 
 const RootPath = process.cwd();
 
@@ -54,16 +61,13 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
     ['js', 'css', 'filesExtra'].forEach((type) => {
       if (!vendor[type]) return;
 
-      promises.push(
-        copyFilesTo(vendor[type], modulePathRoot, join(mediaVendorPath, vendorName), type),
-      );
+      promises.push(copyFilesTo(vendor[type], modulePathRoot, join(mediaVendorPath, vendorName), type));
     });
   }
 
   // Copy the license if existsSync
   if (options.settings.vendors[packageName].licenseFilename
-  && await existsSync(`${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`)
-  ) {
+    && (await existsSync(`${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`))) {
     const dest = join(mediaVendorPath, vendorName);
     await copy(
       `${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`,
@@ -113,7 +117,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
  *
  * @returns {Promise}
  */
-module.exports.localisePackages = async (options) => {
+export const localisePackages = async (options) => {
   const mediaVendorPath = join(RootPath, 'media/vendor');
   const registry = {
     $schema: 'https://developer.joomla.org/schemas/json-schema/web_assets.json',
@@ -125,7 +129,7 @@ module.exports.localisePackages = async (options) => {
   };
   const promises = [];
 
-  if (!await existsSync(mediaVendorPath)) {
+  if (!(await existsSync(mediaVendorPath))) {
     await mkdir(mediaVendorPath, { recursive: true, mode: 0o755 });
   }
 
@@ -140,9 +144,5 @@ module.exports.localisePackages = async (options) => {
   await Promise.all(promises);
 
   // Write assets registry
-  await writeFile(
-    join(mediaVendorPath, 'joomla.asset.json'),
-    JSON.stringify(registry, null, 2),
-    { encoding: 'utf8', mode: 0o644 },
-  );
+  await writeFile(join(mediaVendorPath, 'joomla.asset.json'), JSON.stringify(registry, null, 2), { encoding: 'utf8', mode: 0o644 });
 };
