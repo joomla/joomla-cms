@@ -241,6 +241,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             'EXIT_CODE'      => $task->getContent()['status'] ?? Status::NO_EXIT,
             'EXEC_DATE_TIME' => $lockOrExecTime,
             'TASK_OUTPUT'    => $task->getContent()['output_body'] ?? '',
+            'TASK_EXCEPTION' => ($task->getContent()['exception']?->getMessage() ?? '')
+                . "\n\n" // This might result in one or two empty strings with new Lines. Not too visible in email or HTML, so not really worth the effort to add a lot of extra code to optimize this.
+                . Path::removeRoot($task->getContent()['exception']?->getTraceAsString() ?? ''),
         ];
     }
 
