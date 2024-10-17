@@ -111,8 +111,9 @@ class HtmlView extends BaseHtmlView
         $this->showIpColumn  = (bool) $params->get('ip_logging', 0);
         $this->dateRelative  = (bool) $params->get('date_relative', 1);
 
-        // @todo: 6.0
-        if (\count($errors = $model->getErrors())) {
+        // @todo: 6.0 - Update Error handling
+        $errors = $model->getErrors();
+        if (\count($errors)) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
