@@ -995,6 +995,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   `registerDate` datetime NOT NULL,
   `lastvisitDate` datetime,
   `activation` varchar(100) NOT NULL DEFAULT '',
+  `resetToken` varchar(100) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `lastResetTime` datetime COMMENT 'Date of last password reset',
   `resetCount` int NOT NULL DEFAULT 0 COMMENT 'Count of password resets since lastResetTime',
