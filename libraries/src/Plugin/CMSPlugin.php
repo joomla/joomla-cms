@@ -63,7 +63,10 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     protected $_type = null;
 
     /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
+     * If true, language files of the plugin will be loaded automatically.
+     *
+     * NOTE: Enabling this feature have a negative effect on performance,
+     * therefore it is recommended to load a language manually, in the respective event.
      *
      * @var    boolean
      * @since  3.1
@@ -129,11 +132,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             $this->_type = $config['type'];
         }
 
-        // Load the language files if needed.
-        if ($this->autoloadLanguage) {
-            $this->loadLanguage();
-        }
-
         if (property_exists($this, 'app')) {
             @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
             $reflection  = new \ReflectionClass($this);
@@ -171,11 +169,26 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
     {
         if (empty($extension)) {
-            $extension = 'Plg_' . $this->_type . '_' . $this->_name;
+            $extension = 'plg_' . $this->_type . '_' . $this->_name;
         }
 
         $extension = strtolower($extension);
-        $lang      = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getLanguage();
+        $app       = $this->getApplication() ?: Factory::getApplication();
+        $lang      = $app->getLanguage();
+
+        if (!$lang) {
+            // @TODO: Throw an exception in Joomla 6
+            @trigger_error(
+                sprintf(
+                    'Trying to load language before Application is initialised is discouraged. This will throw an exception in 6.0. Plugin "%s/%s"',
+                    $this->_type,
+                    $this->_name
+                ),
+                E_USER_DEPRECATED
+            );
+
+            return false;
+        }
 
         // If language already loaded, don't load it again.
         if ($lang->getPaths($extension)) {
@@ -184,6 +197,34 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         return $lang->load($extension, $basePath)
             || $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name);
+    }
+
+    /**
+     * Method to handle language autoload feature.
+     * Called by PluginHelper::import() while loading the plugin.
+     *
+     * @return void
+     *
+     * @internal  The method does not expect to be called outside the PluginHelper::import()
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    final public function autoloadLanguage(): void
+    {
+        if (!$this->autoloadLanguage) {
+            return;
+        }
+
+        $app = $this->getApplication() ?: Factory::getApplication();
+
+        // Check whether language already initialised in the Application, otherwise wait for it
+        if (!$app->getLanguage()) {
+            $app->getDispatcher()->addListener('onAfterInitialise', function () {
+                $this->loadLanguage();
+            });
+        } else {
+            $this->loadLanguage();
+        }
     }
 
     /**
