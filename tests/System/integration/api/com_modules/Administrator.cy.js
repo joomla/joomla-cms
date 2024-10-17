@@ -3,9 +3,11 @@ describe('Test that modules administrator API endpoint', () => {
 
   it('can deliver a list of administrator modules', () => {
     cy.api_get('/modules/administrator')
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
-        .its('module')
-        .should('include', 'mod_sampledata'));
+      .then((response) => {
+        // Search for the module 'mod_sampledata' in any entry.
+        const modules = response.body.data.map((item) => item.attributes.module);
+        expect(modules).to.satisfy((modulesArray) => modulesArray.some((module) => module.includes('mod_sampledata')));
+      });
   });
 
   it('can deliver a single administrator module', () => {
