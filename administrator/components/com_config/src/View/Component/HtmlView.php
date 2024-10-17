@@ -112,9 +112,20 @@ class HtmlView extends BaseHtmlView
         $this->fieldsets   = $this->form ? $this->form->getFieldsets() : null;
         $this->formControl = $this->form ? $this->form->getFormControl() : null;
 
-        // Don't show permissions fieldset if not authorised.
-        if (!$user->authorise('core.admin', $this->component->option) && isset($this->fieldsets['permissions'])) {
-            unset($this->fieldsets['permissions']);
+        // Remove unauthorised preference tabs.
+        foreach ($this->fieldsets as $key => $value) {
+            if ($key === 'permissions') {
+                if (
+                    (!$user->authorise('core.admin', $this->component->option) || !$user->authorise('core.options.permission', $this->component->option))
+                    && isset($this->fieldsets['permissions'])
+                ) {
+                    unset($this->fieldsets['permissions']);
+                }
+            } else {
+                if (!$user->authorise("core.options.$key", $this->component->option) && isset($this->fieldsets[$key])) {
+                    unset($this->fieldsets[$key]);
+                }
+            }
         }
 
         $this->components = ConfigHelper::getComponentsWithConfig();
