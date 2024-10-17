@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
@@ -100,7 +101,7 @@ class ActionlogsHelper
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $source = '';
 
         switch (substr($extension, 0, 3)) {
@@ -248,6 +249,13 @@ class ActionlogsHelper
             $prefix = ucfirst(str_replace('com_', '', $component));
             $cName  = $prefix . 'Helper';
 
+            /*
+             * @todo: 6.0
+             * We want to have all classes as namespaces! We need to know the component namespace so we could
+             * check if NAMESPACE/getContentTypeLink is callable. Maybe we need to boot the component????
+             *
+             * Change can be made with 6.0?? Maybe we need a fallback.
+             */
             \JLoader::register($cName, $file);
 
             if (class_exists($cName) && \is_callable([$cName, 'getContentTypeLink'])) {
@@ -280,8 +288,8 @@ class ActionlogsHelper
         }
         $loaded = true;
 
-        $lang = Factory::getLanguage();
-        $db   = Factory::getDbo();
+        $lang = Factory::getApplication()->getLanguage();
+        $db   = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get all (both enabled and disabled) actionlog plugins
         $query = $db->getQuery(true)

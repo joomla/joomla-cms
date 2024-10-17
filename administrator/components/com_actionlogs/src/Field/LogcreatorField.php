@@ -70,7 +70,8 @@ class LogcreatorField extends ListField
             $db->setQuery($query);
 
             // Return the result
-            if ($options = $db->loadObjectList()) {
+            $options = $db->loadObjectList();
+            if ($options) {
                 static::$options[$hash] = array_merge(static::$options[$hash], $options);
             }
         }

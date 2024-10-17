@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    array
+     * @var    object
      * @since  3.9.0
      */
     protected $state;
@@ -111,7 +111,9 @@ class HtmlView extends BaseHtmlView
         $this->showIpColumn  = (bool) $params->get('ip_logging', 0);
         $this->dateRelative  = (bool) $params->get('date_relative', 1);
 
-        if (\count($errors = $model->getErrors())) {
+        // @todo: 6.0 - Update Error handling
+        $errors = $model->getErrors();
+        if (\count($errors)) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -135,18 +137,22 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'icon-list-2');
         $toolbar = $this->getDocument()->getToolbar();
 
-        $toolbar->standardButton('download', 'COM_ACTIONLOGS_EXPORT_CSV', 'actionlogs.exportSelectedLogs')
+        $toolbar
+            ->standardButton('download', 'COM_ACTIONLOGS_EXPORT_CSV', 'actionlogs.exportSelectedLogs')
             ->icon('icon-download')
             ->listCheck(true);
 
-        $toolbar->standardButton('download', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', 'actionlogs.exportLogs')
+        $toolbar
+            ->standardButton('download', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', 'actionlogs.exportLogs')
             ->icon('icon-download')
             ->listCheck(false);
 
-        $toolbar->delete('actionlogs.delete')
+        $toolbar
+            ->delete('actionlogs.delete')
             ->message('JGLOBAL_CONFIRM_DELETE');
 
-        $toolbar->confirmButton('delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge')
+        $toolbar
+            ->confirmButton('delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge')
             ->message('COM_ACTIONLOGS_PURGE_CONFIRM')
             ->listCheck(false);
 
