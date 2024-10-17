@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Filesystem\Path;
@@ -343,7 +344,45 @@ class PluginModel extends AdminModel
         // Setup type.
         $data['type'] = 'plugin';
 
-        return parent::save($data);
+        // Make sure onExtensionBeforeSave(), if it exists, gets executed.
+        // Note it is the responsibility of the plugin to only respond to relevent event triggers.
+        // E.G. for system plugins onExtensionBeforeSave() and onExtensionAfterSave() get executed everywhere they exist.
+        $pluginBeingSaved = PluginHelper::importPlugin($data['folder'], $data['element']);
+
+        if ($result = parent::save($data)) {
+
+            if (empty($pluginBeingSaved)) {
+
+                if (!empty($data['enabled'])) {
+                    // Plugin was previously disabled
+                    PluginHelper::reload();
+                    $plugin = Factory::getApplication()->bootPlugin($data['element'], $data['folder']);
+
+                    $onAfterSaveEventHandler = 'onExtensionAfterSave';
+                    
+                    if (method_exists($plugin, 'getSubscribedEvents')) {
+                        $subscribedEvents = $plugin::getSubscribedEvents();
+                        
+                        if (!empty($subscribedEvents[$onAfterSaveEventHandler])) {
+                            $onAfterSaveEventHandler = $subscribedEvents[$onAfterSaveEventHandler];
+                        }
+                    }
+
+                    // Execute onExtensionAfterSave(), if it exists, for this plugin ONLY.
+                    if (method_exists($plugin, $onAfterSaveEventHandler))
+                    {
+                        $table = null;
+                        $isNew = false;
+                        $plugin->$onAfterSaveEventHandler('com_plugins.plugin', $table, $isNew, $data);
+                    }
+                }
+            }
+            else {
+                // Nothing to do as onExtensionAfterSave(), if it exists, has already been executed
+            }
+        }
+
+        return $result;
     }
 
     /**
