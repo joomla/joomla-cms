@@ -66,7 +66,7 @@ $this->getDocument()->getWebAssetManager()
         <?php echo HTMLHelper::_('form.token') ?>
 
         <div id="users-mfa-captive-form-method-fields" class="container">
-            <?php if ($this->renderOptions['field_type'] == 'custom') : ?>
+            <?php if ($this->renderOptions['field_type'] === 'custom') : ?>
                 <?php echo $this->renderOptions['html']; ?>
             <?php endif; ?>
             <div class="row mb-3 <?php echo $this->renderOptions['input_type'] === 'hidden' ? 'd-none' : '' ?>">

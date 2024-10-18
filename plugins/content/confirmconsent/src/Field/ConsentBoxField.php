@@ -104,7 +104,7 @@ class ConsentBoxField extends CheckboxesField
      */
     public function __get($name)
     {
-        if ($name == 'articleid') {
+        if ($name === 'articleid') {
             return $this->$name;
         }
 
@@ -154,7 +154,7 @@ class ConsentBoxField extends CheckboxesField
         $data = $this->getLayoutData();
 
         // Forcing the Alias field to display the tip below
-        $position = $this->element['name'] == 'alias' ? ' data-bs-placement="bottom" ' : '';
+        $position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
         // When we have an article let's add the modal and make the title clickable
         $hasLink = ($data['privacyType'] === 'article' && $data['articleid'])

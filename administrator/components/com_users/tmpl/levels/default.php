@@ -28,7 +28,7 @@ $wa->useScript('table.columns')
 $user       = $this->getCurrentUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$saveOrder  = $listOrder == 'a.ordering';
+$saveOrder  = $listOrder === 'a.ordering';
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_users&task=levels.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -77,7 +77,7 @@ if ($saveOrder && !empty($this->items)) {
                               endif; ?>>
                         <?php $count = count($this->items); ?>
                         <?php foreach ($this->items as $i => $item) :
-                            $ordering  = ($listOrder == 'a.ordering');
+                            $ordering  = ($listOrder === 'a.ordering');
                             $canCreate = $user->authorise('core.create', 'com_users');
                             $canEdit   = $user->authorise('core.edit', 'com_users');
                             $canChange = $user->authorise('core.edit.state', 'com_users');

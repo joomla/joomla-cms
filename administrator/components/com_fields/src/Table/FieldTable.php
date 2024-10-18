@@ -81,7 +81,7 @@ class FieldTable extends Table implements CurrentUserInterface
 
         if (isset($src['fieldparams']) && \is_array($src['fieldparams'])) {
             // Make sure $registry->options contains no duplicates when the field type is subform
-            if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options'])) {
+            if (isset($src['type']) && $src['type'] === 'subform' && isset($src['fieldparams']['options'])) {
                 // Fast lookup map to check which custom field ids we have already seen
                 $seen_customfields = [];
 
@@ -133,7 +133,7 @@ class FieldTable extends Table implements CurrentUserInterface
     public function check()
     {
         // Check for valid name
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
             return false;
@@ -145,7 +145,7 @@ class FieldTable extends Table implements CurrentUserInterface
 
         $this->name = ApplicationHelper::stringURLSafe($this->name, $this->language);
 
-        if (trim(str_replace('-', '', $this->name)) == '') {
+        if (trim(str_replace('-', '', $this->name)) === '') {
             $this->name = StringHelper::increment($this->name, 'dash');
         }
 

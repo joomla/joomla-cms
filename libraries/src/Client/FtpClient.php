@@ -1523,7 +1523,7 @@ class FtpClient
                     continue;
                 }
 
-                if (\count($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
+                if (\count($tmp_array) && $tmp_array['name'] !== '.' && $tmp_array['name'] !== '..') {
                     $dir_list[] = $tmp_array;
                 }
             }
@@ -1558,7 +1558,7 @@ class FtpClient
                     continue;
                 }
 
-                if (\count($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
+                if (\count($tmp_array) && $tmp_array['name'] !== '.' && $tmp_array['name'] !== '..') {
                     $dir_list[] = $tmp_array;
                 }
             }

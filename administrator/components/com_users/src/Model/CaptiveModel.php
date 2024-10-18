@@ -107,7 +107,7 @@ class CaptiveModel extends BaseDatabaseModel
             $methodNames = array_filter(
                 $methodNames,
                 function ($method) {
-                    return $method != 'backupcodes';
+                    return $method !== 'backupcodes';
                 }
             );
         }
@@ -192,7 +192,7 @@ class CaptiveModel extends BaseDatabaseModel
 
         $methodNames = $this->getActiveMethodNames();
 
-        if (!\in_array($record->method, $methodNames) && ($record->method != 'backupcodes')) {
+        if (!\in_array($record->method, $methodNames) && ($record->method !== 'backupcodes')) {
             return null;
         }
 
@@ -288,7 +288,7 @@ class CaptiveModel extends BaseDatabaseModel
             }
         }
 
-        if ($name == 'backupcodes') {
+        if ($name === 'backupcodes') {
             return Text::_('COM_USERS_USER_BACKUPCODES');
         }
 
@@ -318,7 +318,7 @@ class CaptiveModel extends BaseDatabaseModel
             }
         }
 
-        if ($name == 'backupcodes') {
+        if ($name === 'backupcodes') {
             return 'media/com_users/images/emergency.svg';
         }
 

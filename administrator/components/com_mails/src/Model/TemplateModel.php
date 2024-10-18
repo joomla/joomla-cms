@@ -84,14 +84,14 @@ class TemplateModel extends AdminModel
 
         $params = ComponentHelper::getParams('com_mails');
 
-        if ($params->get('mail_style', 'plaintext') == 'plaintext') {
+        if ($params->get('mail_style', 'plaintext') === 'plaintext') {
             $form->removeField('htmlbody');
             $form->removeField('disable_htmllayout', 'params');
             $form->removeField('htmllayout', 'params');
             $form->removeField('disable_logofile', 'params');
         }
 
-        if ($params->get('mail_style', 'plaintext') == 'html') {
+        if ($params->get('mail_style', 'plaintext') === 'html') {
             $form->removeField('body');
         }
 

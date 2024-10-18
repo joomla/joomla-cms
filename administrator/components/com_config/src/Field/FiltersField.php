@@ -106,15 +106,15 @@ class FiltersField extends FormField
                 . ' data-id="' . ($group->value) . '" '
                 . ' class="novalidate form-select"'
                 . '>';
-            $html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
+            $html[] = '					<option value="BL"' . ($group_filter['filter_type'] === 'BL' ? ' selected="selected"' : '') . '>'
                 . Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_FORBIDDEN_LIST') . '</option>';
-            $html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
+            $html[] = '					<option value="CBL"' . ($group_filter['filter_type'] === 'CBL' ? ' selected="selected"' : '') . '>'
                 . Text::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_FORBIDDEN_LIST') . '</option>';
-            $html[] = '					<option value="WL"' . ($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '') . '>'
+            $html[] = '					<option value="WL"' . ($group_filter['filter_type'] === 'WL' ? ' selected="selected"' : '') . '>'
                 . Text::_('COM_CONFIG_FIELD_FILTERS_ALLOWED_LIST') . '</option>';
-            $html[] = '					<option value="NH"' . ($group_filter['filter_type'] == 'NH' ? ' selected="selected"' : '') . '>'
+            $html[] = '					<option value="NH"' . ($group_filter['filter_type'] === 'NH' ? ' selected="selected"' : '') . '>'
                 . Text::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
-            $html[] = '					<option value="NONE"' . ($group_filter['filter_type'] == 'NONE' ? ' selected="selected"' : '') . '>'
+            $html[] = '					<option value="NONE"' . ($group_filter['filter_type'] === 'NONE' ? ' selected="selected"' : '') . '>'
                 . Text::_('COM_CONFIG_FIELD_FILTERS_NO_FILTER') . '</option>';
             $html[] = '				</select>';
             $html[] = '		</td>';

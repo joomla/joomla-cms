@@ -360,7 +360,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
             return;
         }
 
-        if (($this->deleteFlags[$pk]['numRecords'] <= 2) && ($this->deleteFlags[$pk]['method'] != 'backupcodes')) {
+        if (($this->deleteFlags[$pk]['numRecords'] <= 2) && ($this->deleteFlags[$pk]['method'] !== 'backupcodes')) {
             /**
              * This was the second to last MFA record in the database (the last one is the `backupcodes`). Therefore, we
              * need to delete the remaining entry and go away. We don't trigger this if the Method we are deleting was

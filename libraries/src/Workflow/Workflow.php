@@ -186,9 +186,9 @@ class Workflow
 
             $workflow_id = $cat->params->get('workflow_id');
 
-            if ($workflow_id == 'inherit') {
+            if ($workflow_id === 'inherit') {
                 $workflow_id = 0;
-            } elseif ($workflow_id == 'use_default') {
+            } elseif ($workflow_id === 'use_default') {
                 $workflow_id = 0;
 
                 break;

@@ -234,7 +234,7 @@ class DatabaseModel extends BaseInstallationModel
 
         // Remove *_errors value.
         foreach ($options as $i => $option) {
-            if (isset($i['1']) && $i['1'] == '*') {
+            if (isset($i['1']) && $i['1'] === '*') {
                 unset($options[$i]);
 
                 break;
@@ -422,7 +422,7 @@ class DatabaseModel extends BaseInstallationModel
             $query = trim($query);
 
             // If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
-            if (!empty($query) && ($query[0] != '#') && ($query[0] != '-')) {
+            if (!empty($query) && ($query[0] !== '#') && ($query[0] !== '-')) {
                 // Execute the query.
                 $db->setQuery($query);
 
@@ -471,15 +471,15 @@ class DatabaseModel extends BaseInstallationModel
 
         // Parse the schema file to break up queries.
         for ($i = 0; $i < \strlen($query) - 1; $i++) {
-            if ($query[$i] == ';' && !$in_string) {
+            if ($query[$i] === ';' && !$in_string) {
                 $queries[] = substr($query, 0, $i);
                 $query     = substr($query, $i + 1);
                 $i         = 0;
             }
 
-            if ($in_string && ($query[$i] == $in_string) && $buffer[1] != "\\") {
+            if ($in_string && ($query[$i] == $in_string) && $buffer[1] !== "\\") {
                 $in_string = false;
-            } elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset($buffer[0]) || $buffer[0] != "\\")) {
+            } elseif (!$in_string && ($query[$i] === '"' || $query[$i] === "'") && (!isset($buffer[0]) || $buffer[0] !== "\\")) {
                 $in_string = $query[$i];
             }
 

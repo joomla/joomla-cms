@@ -134,7 +134,7 @@ class FieldsHelper
             $item = (object) $item;
         }
 
-        if (Multilanguage::isEnabled() && isset($item->language) && $item->language != '*') {
+        if (Multilanguage::isEnabled() && isset($item->language) && $item->language !== '*') {
             self::$fieldsCache->setState('filter.language', ['*', $item->language]);
         }
 
@@ -286,7 +286,7 @@ class FieldsHelper
             $value = LayoutHelper::render($layoutFile, $displayData, null, ['component' => $parts[0], 'client' => 0]);
         }
 
-        if ($value == '') {
+        if ($value === '') {
             // Trying to render the layout on Fields itself
             $value = LayoutHelper::render($layoutFile, $displayData, null, ['component' => 'com_fields','client' => 0]);
         }
@@ -352,7 +352,7 @@ class FieldsHelper
          * If there is a catid field we need to reload the page when the catid
          * is changed
          */
-        if ($form->getField('catid') && $parts[0] != 'com_fields') {
+        if ($form->getField('catid') && $parts[0] !== 'com_fields') {
             /*
              * Setting some parameters for the category field
              */

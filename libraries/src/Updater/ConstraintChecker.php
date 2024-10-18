@@ -60,7 +60,7 @@ class ConstraintChecker
         if (!isset($channel)) {
             $params = ComponentHelper::getParams('com_joomlaupdate');
 
-            $channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
+            $channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') === 'next' ? 1 : 0)) . '.x';
         }
 
         $this->channel = $channel;

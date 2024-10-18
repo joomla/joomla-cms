@@ -73,7 +73,7 @@ class ActionlogsController extends AdminController
 
         $pks = [];
 
-        if ($task == 'exportSelectedLogs') {
+        if ($task === 'exportSelectedLogs') {
             // Get selected logs
             $pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
         }

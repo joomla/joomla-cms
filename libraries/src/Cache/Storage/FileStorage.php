@@ -252,7 +252,7 @@ class FileStorage extends CacheStorage
         $return = true;
         $folder = $group;
 
-        if (trim($folder) == '') {
+        if (trim($folder) === '') {
             $mode = 'notgroup';
         }
 
@@ -603,7 +603,7 @@ class FileStorage extends CacheStorage
         }
 
         while (($file = readdir($handle)) !== false) {
-            if (($file != '.') && ($file != '..') && (!\in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
+            if (($file !== '.') && ($file !== '..') && (!\in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
                 $dir   = $path . '/' . $file;
                 $isDir = is_dir($dir);
 
@@ -681,7 +681,7 @@ class FileStorage extends CacheStorage
 
         while (($file = readdir($handle)) !== false) {
             if (
-                ($file != '.') && ($file != '..')
+                ($file !== '.') && ($file !== '..')
                 && (!\in_array($file, $exclude))
                 && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file))
             ) {

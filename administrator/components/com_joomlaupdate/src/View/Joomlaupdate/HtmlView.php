@@ -197,7 +197,7 @@ class HtmlView extends BaseHtmlView
         $hasDownload = isset($this->updateInfo['object']->downloadurl->_data);
 
         // Fresh update, show it
-        if ($this->getLayout() == 'complete') {
+        if ($this->getLayout() === 'complete') {
             // Complete message, nothing to do here
         } elseif ($this->selfUpdateAvailable) {
             // There is an update for the updater itself. So we have to update it first
@@ -217,7 +217,7 @@ class HtmlView extends BaseHtmlView
 
                 $this->setLayout('noupdate');
             }
-        } elseif ($this->getLayout() != 'update' && ($isCritical || $this->shouldDisplayPreUpdateCheck())) {
+        } elseif ($this->getLayout() !== 'update' && ($isCritical || $this->shouldDisplayPreUpdateCheck())) {
             // Here we have now two options: preupdatecheck or update
             $this->setLayout('preupdatecheck');
         } else {

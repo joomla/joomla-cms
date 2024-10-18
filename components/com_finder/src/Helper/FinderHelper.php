@@ -42,7 +42,7 @@ class FinderHelper
             return;
         }
 
-        if (trim($searchquery->input) == '' && !$searchquery->empty) {
+        if (trim($searchquery->input) === '' && !$searchquery->empty) {
             return;
         }
 

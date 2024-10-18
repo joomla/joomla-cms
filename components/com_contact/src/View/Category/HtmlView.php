@@ -108,7 +108,7 @@ class HtmlView extends CategoryView
         $menu = $this->menu;
 
         if (
-            $menu && $menu->component == 'com_contact' && isset($menu->query['view'])
+            $menu && $menu->component === 'com_contact' && isset($menu->query['view'])
             && \in_array($menu->query['view'], ['categories', 'category'])
         ) {
             $id = $menu->query['id'];

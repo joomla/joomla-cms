@@ -97,7 +97,7 @@ class Helper
             $defaultLanguage->language = '*';
         }
 
-        if (!$multilingual || $lang == '*') {
+        if (!$multilingual || $lang === '*') {
             $language = $defaultLanguage;
         } else {
             $language = Language::getInstance($lang);
@@ -203,7 +203,7 @@ class Helper
             }
         }
 
-        if (!$multilingual || $lang == '*') {
+        if (!$multilingual || $lang === '*') {
             $language = $defaultStemmer;
         } else {
             $language = Language::getInstance($lang);
@@ -293,7 +293,7 @@ class Helper
             }
         }
 
-        if (!$multilingual || $lang == '*') {
+        if (!$multilingual || $lang === '*') {
             $lang = $default;
         }
 

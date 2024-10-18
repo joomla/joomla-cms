@@ -35,8 +35,8 @@ $component = $this->state->get('filter.component');
 $section   = $this->state->get('filter.section');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.ordering');
-$saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
+$ordering  = ($listOrder === 'a.ordering');
+$saveOrder = ($listOrder === 'a.ordering' && strtolower($listDirn) === 'asc');
 
 // The category object of the component
 $category = Categories::getInstance(str_replace('com_', '', $component) . '.' . $section);
@@ -113,7 +113,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                             ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
                                endif; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
-                                <?php $ordering   = ($listOrder == 'a.ordering'); ?>
+                                <?php $ordering   = ($listOrder === 'a.ordering'); ?>
                                 <?php $canEdit    = $user->authorise('core.edit', $component . '.field.' . $item->id); ?>
                                 <?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out); ?>
                                 <?php $canEditOwn = $user->authorise('core.edit.own', $component . '.field.' . $item->id) && $item->created_user_id == $userId; ?>

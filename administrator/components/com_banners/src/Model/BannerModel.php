@@ -441,7 +441,7 @@ class BannerModel extends AdminModel
         }
 
         // Alter the name for save as copy
-        if ($input->get('task') == 'save2copy') {
+        if ($input->get('task') === 'save2copy') {
             /** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
             $origTable = clone $this->getTable();
             $origTable->load($input->getInt('id'));
@@ -459,7 +459,7 @@ class BannerModel extends AdminModel
             $data['state'] = 0;
         }
 
-        if ($input->get('task') == 'save2copy' || $input->get('task') == 'copy') {
+        if ($input->get('task') === 'save2copy' || $input->get('task') === 'copy') {
             $data['clicks']  = 0;
             $data['impmade'] = 0;
         }

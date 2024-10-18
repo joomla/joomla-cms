@@ -26,9 +26,9 @@ $groupHeading = 'h4';
 if ((bool) $module->showtitle) {
     $modTitle = $params->get('header_tag');
 
-    if ($modTitle == 'h1') {
+    if ($modTitle === 'h1') {
         $groupHeading = 'h2';
-    } elseif ($modTitle == 'h2') {
+    } elseif ($modTitle === 'h2') {
         $groupHeading = 'h3';
     }
 }

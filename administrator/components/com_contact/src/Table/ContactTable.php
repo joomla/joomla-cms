@@ -164,7 +164,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         }
 
         // Check for valid name
-        if (trim($this->name) == '') {
+        if (trim($this->name) === '') {
             $this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -252,7 +252,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-        if (trim(str_replace('-', '', $this->alias)) == '') {
+        if (trim(str_replace('-', '', $this->alias)) === '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         }
 

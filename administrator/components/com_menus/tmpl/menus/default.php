@@ -40,7 +40,7 @@ foreach ($this->items as $item) {
     }
 }
 
-$saveOrder = $listOrder == 'a.ordering';
+$saveOrder = $listOrder === 'a.ordering';
 
 if ($saveOrder) {
     $saveOrderingUrl = 'index.php?option=com_menus&task=menus.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -116,7 +116,7 @@ $popupOptionsAdd = [
                             ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
                                endif; ?>>
                         <?php foreach ($this->items as $i => $item) :
-                            $ordering       = ($listOrder == 'a.ordering');
+                            $ordering       = ($listOrder === 'a.ordering');
                             $canEdit        = $user->authorise('core.edit', 'com_menus.menu.' . (int) $item->id);
                             $canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
                             $canChange      = $user->authorise('core.edit.state', 'com_menus.menu.' . (int) $item->id);

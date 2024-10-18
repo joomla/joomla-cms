@@ -131,7 +131,7 @@ class ManageModel extends InstallerModel
         foreach ($eid as $i => $id) {
             $table->load($id);
 
-            if ($table->type == 'template') {
+            if ($table->type === 'template') {
                 $style = new StyleTable($this->getDatabase());
 
                 if ($style->load(['template' => $table->element, 'client_id' => $table->client_id, 'home' => 1])) {

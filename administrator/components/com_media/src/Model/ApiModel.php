@@ -66,15 +66,15 @@ class ApiModel extends BaseDatabaseModel
         $file = $this->getAdapter($adapter)->getFile($path);
 
         // Check if it is a media file
-        if ($file->type == 'file' && !$this->isMediaFile($file->path)) {
+        if ($file->type === 'file' && !$this->isMediaFile($file->path)) {
             throw new InvalidPathException();
         }
 
-        if (isset($options['url']) && $options['url'] && $file->type == 'file') {
+        if (isset($options['url']) && $options['url'] && $file->type === 'file') {
             $file->url = $this->getUrl($adapter, $file->path);
         }
 
-        if (isset($options['content']) && $options['content'] && $file->type == 'file') {
+        if (isset($options['content']) && $options['content'] && $file->type === 'file') {
             $resource = $this->getAdapter($adapter)->getResource($file->path);
 
             if ($resource) {
@@ -119,18 +119,18 @@ class ApiModel extends BaseDatabaseModel
         // Add adapter prefix to all the files to be returned
         foreach ($files as $key => $file) {
             // Check if the file is valid
-            if ($file->type == 'file' && !$this->isMediaFile($file->path)) {
+            if ($file->type === 'file' && !$this->isMediaFile($file->path)) {
                 // Remove the file from the data
                 unset($files[$key]);
                 continue;
             }
 
             // Check if we need more information
-            if (isset($options['url']) && $options['url'] && $file->type == 'file') {
+            if (isset($options['url']) && $options['url'] && $file->type === 'file') {
                 $file->url = $this->getUrl($adapter, $file->path);
             }
 
-            if (isset($options['content']) && $options['content'] && $file->type == 'file') {
+            if (isset($options['content']) && $options['content'] && $file->type === 'file') {
                 $resource = $this->getAdapter($adapter)->getResource($file->path);
 
                 if ($resource) {
@@ -324,7 +324,7 @@ class ApiModel extends BaseDatabaseModel
         $file = $this->getFile($adapter, $path);
 
         // Check if it is a media file
-        if ($file->type == 'file' && !$this->isMediaFile($file->path)) {
+        if ($file->type === 'file' && !$this->isMediaFile($file->path)) {
             throw new InvalidPathException();
         }
 

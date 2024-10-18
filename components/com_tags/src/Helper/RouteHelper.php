@@ -212,7 +212,7 @@ class RouteHelper extends CMSRouteHelper
                                     self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
                                 }
                             }
-                        } elseif ($view == 'tags') {
+                        } elseif ($view === 'tags') {
                             self::$lookup[$lang]['tags'][] = $item->id;
                         }
                     }

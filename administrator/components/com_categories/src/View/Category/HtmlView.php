@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
         // Avoid nonsense situation.
-        if ($extension == 'com_categories') {
+        if ($extension === 'com_categories') {
             return;
         }
 
@@ -352,7 +352,7 @@ class HtmlView extends BaseHtmlView
         $toolbar    = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
-        if ($extension == 'com_categories') {
+        if ($extension === 'com_categories') {
             return;
         }
 

@@ -139,7 +139,7 @@ class FieldModel extends AdminModel
         // Alter the title for save as copy
         $input = Factory::getApplication()->getInput();
 
-        if ($input->get('task') == 'save2copy') {
+        if ($input->get('task') === 'save2copy') {
             $origTable = clone $this->getTable();
             $origTable->load($input->getInt('id'));
 
@@ -1039,7 +1039,7 @@ class FieldModel extends AdminModel
             }
 
             // Remove placeholder field on list fields
-            if ($dataObject->type == 'list') {
+            if ($dataObject->type === 'list') {
                 $form->removeField('hint', 'params');
             }
         }

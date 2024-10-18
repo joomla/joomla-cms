@@ -27,7 +27,7 @@ if (!empty($this->returnURL)) {
     $cancelURL = $this->escape(base64_decode($this->returnURL));
 }
 
-if ($this->record->method != 'backupcodes') {
+if ($this->record->method !== 'backupcodes') {
     throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 

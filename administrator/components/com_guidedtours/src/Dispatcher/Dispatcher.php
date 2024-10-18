@@ -34,7 +34,7 @@ class Dispatcher extends ComponentDispatcher
     protected function checkAccess()
     {
         $command = $this->input->getCmd('task', 'display');
-        if ($this->app->isClient('administrator') && $command == 'ajax.fetchUserState') {
+        if ($this->app->isClient('administrator') && $command === 'ajax.fetchUserState') {
             return;
         }
 

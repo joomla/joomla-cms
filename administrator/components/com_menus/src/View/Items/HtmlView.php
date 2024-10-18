@@ -240,7 +240,7 @@ class HtmlView extends BaseHtmlView
             }
 
             $item->item_type = $value;
-            $item->protected = $item->menutype == 'main';
+            $item->protected = $item->menutype === 'main';
         }
 
         // Levels filter.
@@ -326,7 +326,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->addNew('item.add');
         }
 
-        $protected = $this->state->get('filter.menutype') == 'main';
+        $protected = $this->state->get('filter.menutype') === 'main';
 
         if (
             ($canDo->get('core.edit.state') || $this->getCurrentUser()->authorise('core.admin')) && !$protected

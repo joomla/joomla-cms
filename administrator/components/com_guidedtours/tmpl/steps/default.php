@@ -30,7 +30,7 @@ $user      = $this->getCurrentUser();
 $userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 'a.ordering';
+$saveOrder = $listOrder === 'a.ordering';
 $section   = null;
 $mode      = false;
 $tourId    = $this->state->get('filter.tour_id');

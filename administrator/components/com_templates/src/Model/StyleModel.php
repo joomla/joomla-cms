@@ -476,7 +476,7 @@ class StyleModel extends AdminModel
             $isNew = false;
         }
 
-        if ($app->getInput()->get('task') == 'save2copy') {
+        if ($app->getInput()->get('task') === 'save2copy') {
             $data['title']    = $this->generateNewTitle(null, null, $data['title']);
             $data['home']     = 0;
             $data['assigned'] = '';

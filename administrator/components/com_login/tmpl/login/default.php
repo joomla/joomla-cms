@@ -30,7 +30,7 @@ $modules = ModuleHelper::getModules('login');
 foreach ($modules as $module) {
 // Render the login modules
 
-    if ($module->module != 'mod_login') {
+    if ($module->module !== 'mod_login') {
         echo ModuleHelper::renderModule($module, ['id' => 'section-box']);
     }
 }

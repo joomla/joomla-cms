@@ -410,21 +410,21 @@ class Patcher
                 $destin[] = '';
                 $src_left--;
                 $dst_left--;
-            } elseif ($line[0] == '-') {
+            } elseif ($line[0] === '-') {
                 if ($src_left == 0) {
                     throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_REMOVE_LINE', key($lines)));
                 }
 
                 $source[] = substr($line, 1);
                 $src_left--;
-            } elseif ($line[0] == '+') {
+            } elseif ($line[0] === '+') {
                 if ($dst_left == 0) {
                     throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_ADD_LINE', key($lines)));
                 }
 
                 $destin[] = substr($line, 1);
                 $dst_left--;
-            } elseif ($line != '\\ No newline at end of file') {
+            } elseif ($line !== '\\ No newline at end of file') {
                 $line     = substr($line, 1);
                 $source[] = $line;
                 $destin[] = $line;

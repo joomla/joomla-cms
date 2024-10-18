@@ -99,13 +99,13 @@ class BannerTable extends Table implements VersionableTableInterface
         $this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
         // Set alias
-        if (trim($this->alias) == '') {
+        if (trim($this->alias) === '') {
             $this->alias = $this->name;
         }
 
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-        if (trim(str_replace('-', '', $this->alias)) == '') {
+        if (trim(str_replace('-', '', $this->alias)) === '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         }
 

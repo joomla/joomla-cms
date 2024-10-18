@@ -97,7 +97,7 @@ class ApplicationController extends BaseController
         $saveFormat = $this->app->getDocument()->getType();
 
         // Handle service requests
-        if ($saveFormat == 'json') {
+        if ($saveFormat === 'json') {
             $form   = $model->getForm();
             $return = $model->validate($form, $data);
 

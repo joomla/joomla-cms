@@ -357,7 +357,7 @@ final class Fields extends CMSPlugin
         $context = $parts[0] . '.' . $parts[1];
 
         // Convert tags
-        if ($context == 'com_tags.tag' && !empty($item->type_alias)) {
+        if ($context === 'com_tags.tag' && !empty($item->type_alias)) {
             // Set the context
             $context = $item->type_alias;
 
@@ -439,7 +439,7 @@ final class Fields extends CMSPlugin
         $context = $parts[0] . '.' . $parts[1];
 
         // Convert tags
-        if ($context == 'com_tags.tag' && !empty($item->type_alias)) {
+        if ($context === 'com_tags.tag' && !empty($item->type_alias)) {
             // Set the context
             $context = $item->type_alias;
 
