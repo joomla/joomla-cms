@@ -136,6 +136,11 @@ class HtmlView extends BaseHtmlView
 
         PluginHelper::importPlugin('content');
 
+        $this->event = new \stdClass();
+
+        $results                        = Factory::getApplication()->triggerEvent('onContentAfterItems', ['com_content.archive', &$this, &$this->params]);
+        $this->event->afterDisplayItems = trim(implode("\n", $results));
+
         foreach ($items as $item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
