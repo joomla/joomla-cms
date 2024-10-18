@@ -11,14 +11,14 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\CoreUpdateChannelCommand;
+use Joomla\CMS\Console\ExtensionDisableCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
+use Joomla\CMS\Console\ExtensionEnableCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
-use Joomla\CMS\Console\ExtensionPublishCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
-use Joomla\CMS\Console\ExtensionUnpublishCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\MaintenanceDatabaseCommand;
@@ -149,17 +149,17 @@ class Console implements ServiceProviderInterface
         );
 
         $container->share(
-            ExtensionPublishCommand::class,
+            ExtensionEnableCommand::class,
             function (Container $container) {
-                return new ExtensionPublishCommand($container->get(DatabaseInterface::class));
+                return new ExtensionEnableCommand($container->get(DatabaseInterface::class));
             },
             true
         );
 
         $container->share(
-            ExtensionUnpublishCommand::class,
+            ExtensionDisableCommand::class,
             function (Container $container) {
-                return new ExtensionUnpublishCommand($container->get(DatabaseInterface::class));
+                return new ExtensionDisableCommand($container->get(DatabaseInterface::class));
             },
             true
         );

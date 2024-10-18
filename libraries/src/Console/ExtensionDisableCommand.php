@@ -28,7 +28,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ExtensionUnpublishCommand extends AbstractCommand
+class ExtensionDisableCommand extends AbstractCommand
 {
     use DatabaseAwareTrait;
 
@@ -38,7 +38,7 @@ class ExtensionUnpublishCommand extends AbstractCommand
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    protected static $defaultName = 'extension:unpublish';
+    protected static $defaultName = 'extension:disable';
 
     /**
      * @var InputInterface
@@ -56,43 +56,43 @@ class ExtensionUnpublishCommand extends AbstractCommand
      * Exit Code for extensions already enabled\disabled
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_NOCHANGE = 3;
+    public const DISABLE_NOCHANGE = 3;
 
     /**
      * Exit Code for extensions enable\disable failure
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_FAILED = 1;
+    public const DISABLE_FAILED = 1;
 
     /**
      * Exit Code for disable parent template with child failure
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_WITHCHILD_NOT_PERMITTED = 5;
+    public const DISABLE_WITHCHILD_NOT_PERMITTED = 5;
 
     /**
      * Exit Code for disable home template failure
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_HOME_NOT_PERMITTED = 6;
+    public const DISABLE_HOME_NOT_PERMITTED = 6;
 
     /**
      * Exit Code for extensions protected enable\disable failure
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_PROTECTED = 4;
+    public const DISABLE_PROTECTED = 4;
 
     /**
      * Exit Code for extensions not found
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_NOT_FOUND = 2;
+    public const DISABLE_NOT_FOUND = 2;
 
     /**
      * Exit Code for extensions enable\disable success
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_SUCCESSFUL = 0;
+    public const DISABLE_SUCCESSFUL = 0;
 
     /**
      * Command constructor.
@@ -172,7 +172,7 @@ class ExtensionUnpublishCommand extends AbstractCommand
         if ((int) $extensionId === 0 || !$table->load($extensionId)) {
             $this->ioStyle->error("Extension with ID of $extensionId not found.");
 
-            return self::PUBLISH_NOT_FOUND;
+            return self::DISABLE_NOT_FOUND;
         }
 
         if ($table->type == 'template') {
@@ -180,13 +180,13 @@ class ExtensionUnpublishCommand extends AbstractCommand
 
             if ($style->load(['template' => $table->element, 'client_id' => $table->client_id, 'home' => 1])) {
                 $this->ioStyle->note("Template with ID of $extensionId $table->element is home.");
-                return self::PUBLISH_HOME_NOT_PERMITTED;
+                return self::DISABLE_HOME_NOT_PERMITTED;
             }
 
             // Parent template cannot be disabled if there are children
             if ($style->load(['parent' => $table->element, 'client_id' => $table->client_id])) {
                 $this->ioStyle->note("Template with ID of $extensionId $table->element have child.");
-                return self::PUBLISH_WITHCHILD_NOT_PERMITTED;
+                return self::DISABLE_WITHCHILD_NOT_PERMITTED;
             }
         }
 
@@ -194,23 +194,23 @@ class ExtensionUnpublishCommand extends AbstractCommand
 
         if ($table->protected == 1) {
             $this->ioStyle->error("$type with ID of $extensionId $table->name is protectd.");
-            return self::PUBLISH_PROTECTED;
+            return self::DISABLE_PROTECTED;
         }
 
         if ($table->enabled === 0) {
             $this->ioStyle->warning("$type with ID of $extensionId $table->name already is disabled.");
-            return self::PUBLISH_NOCHANGE;
+            return self::DISABLE_NOCHANGE;
         }
 
         $table->enabled = 0;
 
         if (!$table->store()) {
             $this->ioStyle->error("$type with ID of $extensionId $table->name not disabled.");
-            return self::PUBLISH_FAILED;
+            return self::DISABLE_FAILED;
         }
 
         $this->ioStyle->success("$type with ID of $extensionId $table->name disabled.");
 
-        return self::PUBLISH_SUCCESSFUL;
+        return self::DISABLE_SUCCESSFUL;
     }
 }

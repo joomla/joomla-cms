@@ -16,14 +16,14 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\CoreUpdateChannelCommand;
+use Joomla\CMS\Console\ExtensionDisableCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
+use Joomla\CMS\Console\ExtensionEnableCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
-use Joomla\CMS\Console\ExtensionPublishCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
-use Joomla\CMS\Console\ExtensionUnpublishCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
@@ -157,8 +157,8 @@ class Application implements ServiceProviderInterface
                         GetConfigurationCommand::getDefaultName()         => GetConfigurationCommand::class,
                         ExtensionsListCommand::getDefaultName()           => ExtensionsListCommand::class,
                         CheckJoomlaUpdatesCommand::getDefaultName()       => CheckJoomlaUpdatesCommand::class,
-                        ExtensionPublishCommand::getDefaultName()         => ExtensionPublishCommand::class,
-                        ExtensionUnpublishCommand::getDefaultName()       => ExtensionUnpublishCommand::class,
+                        ExtensionEnableCommand::getDefaultName()          => ExtensionEnableCommand::class,
+                        ExtensionDisableCommand::getDefaultName()         => ExtensionDisableCommand::class,
                         ExtensionRemoveCommand::getDefaultName()          => ExtensionRemoveCommand::class,
                         ExtensionInstallCommand::getDefaultName()         => ExtensionInstallCommand::class,
                         ExtensionDiscoverCommand::getDefaultName()        => ExtensionDiscoverCommand::class,

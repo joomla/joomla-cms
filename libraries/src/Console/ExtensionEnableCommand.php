@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ExtensionPublishCommand extends AbstractCommand
+class ExtensionEnableCommand extends AbstractCommand
 {
     use DatabaseAwareTrait;
 
@@ -37,7 +37,7 @@ class ExtensionPublishCommand extends AbstractCommand
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    protected static $defaultName = 'extension:publish';
+    protected static $defaultName = 'extension:enable';
 
     /**
      * @var InputInterface
@@ -55,43 +55,43 @@ class ExtensionPublishCommand extends AbstractCommand
      * Exit Code for extensions already enabled\disabled
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_NOCHANGE = 3;
+    public const ENABLE_NOCHANGE = 3;
 
     /**
      * Exit Code for extensions enable\disable failure
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_FAILED = 1;
+    public const ENABLE_FAILED = 1;
 
     /**
      * Exit Code for disable parent template with child failure
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_WITHCHILD_NOT_PERMITTED = 5;
+    public const ENABLE_WITHCHILD_NOT_PERMITTED = 5;
 
     /**
      * Exit Code for disable home template failure
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_HOME_NOT_PERMITTED = 6;
+    public const ENABLE_HOME_NOT_PERMITTED = 6;
 
     /**
      * Exit Code for extensions protected enable\disable failure
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_PROTECTED = 4;
+    public const ENABLE_PROTECTED = 4;
 
     /**
      * Exit Code for extensions not found
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_NOT_FOUND = 2;
+    public const ENABLE_NOT_FOUND = 2;
 
     /**
      * Exit Code for extensions enable\disable success
      * @since __DEPLOY_VERSION__
      */
-    public const PUBLISH_SUCCESSFUL = 0;
+    public const ENABLE_SUCCESSFUL = 0;
 
     /**
      * Command constructor.
@@ -133,11 +133,10 @@ class ExtensionPublishCommand extends AbstractCommand
      */
     protected function configure(): void
     {
-        //$this->setName('extension:command');
         $this->addArgument(
             'extensionId',
             InputArgument::REQUIRED,
-            'ID of extension to be published (run extension:list command to check)'
+            'ID of extension to be enabled (run extension:list command to check)'
         );
 
 
@@ -175,25 +174,25 @@ class ExtensionPublishCommand extends AbstractCommand
         if ((int) $extensionId === 0 || !$table->load($extensionId)) {
             $this->ioStyle->error("Extension with ID of $extensionId not found.");
 
-            return self::PUBLISH_NOT_FOUND;
+            return self::ENABLE_NOT_FOUND;
         }
 
         $type = ucfirst($table->type);
 
         if ($table->enabled === 1) {
             $this->ioStyle->warning("$type with ID of $extensionId $table->name already is enabled.");
-            return self::PUBLISH_NOCHANGE;
+            return self::ENABLE_NOCHANGE;
         }
 
         $table->enabled = 1;
 
         if (!$table->store()) {
             $this->ioStyle->error("$type with ID of $extensionId $table->name not enabled.");
-            return self::PUBLISH_FAILED;
+            return self::ENABLE_FAILED;
         }
 
         $this->ioStyle->success("$type with ID of $extensionId $table->name enabled.");
 
-        return self::PUBLISH_SUCCESSFUL;
+        return self::ENABLE_SUCCESSFUL;
     }
 }
