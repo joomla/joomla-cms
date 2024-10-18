@@ -110,7 +110,7 @@ class HelpModel extends BaseDatabaseModel
     public function getLangTag()
     {
         if (\is_null($this->lang_tag)) {
-            $this->lang_tag = Factory::getLanguage()->getTag();
+            $this->lang_tag = Factory::getApplication()->getLanguage()->getTag();
 
             if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag)) {
                 // Use English as fallback

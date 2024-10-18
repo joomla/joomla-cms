@@ -17,8 +17,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -169,12 +170,13 @@ class JoomlaInstallerScript
      */
     protected function clearStatsCache()
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the params for the stats plugin
             $params = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select($db->quoteName('params'))
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -196,7 +198,8 @@ class JoomlaInstallerScript
 
         $params = json_encode($params);
 
-        $query = $db->getQuery(true)
+        $query = $db
+            ->getQuery(true)
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = ' . $db->quote($params))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -219,7 +222,7 @@ class JoomlaInstallerScript
      */
     protected function updateDatabase()
     {
-        if (Factory::getDbo()->getServerType() === 'mysql') {
+        if (Factory::getContainer()->get(DatabaseInterface::class)->getServerType() === 'mysql') {
             $this->updateDatabaseMysql();
         }
     }
@@ -231,7 +234,7 @@ class JoomlaInstallerScript
      */
     protected function updateDatabaseMysql()
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $db->setQuery('SHOW ENGINES');
 
@@ -266,7 +269,7 @@ class JoomlaInstallerScript
      * Uninstall extensions and optionally migrate their parameters when
      * updating from a version older than 5.0.1.
      *
-     * @return  void
+     * @return  mixed
      *
      * @since   5.0.0
      */
@@ -296,11 +299,12 @@ class JoomlaInstallerScript
             ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         foreach ($extensions as $extension) {
             $row = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select('*')
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote($extension['type']))
@@ -324,7 +328,8 @@ class JoomlaInstallerScript
 
                 // Unlock and unprotect the plugin so we can uninstall it
                 $db->setQuery(
-                    $db->getQuery(true)
+                    $db
+                        ->getQuery(true)
                         ->update($db->quoteName('#__extensions'))
                         ->set($db->quoteName('locked') . ' = 0')
                         ->set($db->quoteName('protected') . ' = 0')
@@ -356,10 +361,11 @@ class JoomlaInstallerScript
      */
     private function migrateCompatPlugin($rowOld)
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $db->setQuery(
-            $db->getQuery(true)
+            $db
+                ->getQuery(true)
                 ->update($db->quoteName('#__extensions'))
                 ->set($db->quoteName('enabled') . ' = :enabled')
                 ->set($db->quoteName('params') . ' = :params')
@@ -511,8 +517,9 @@ class JoomlaInstallerScript
         $extensions = ExtensionHelper::getCoreExtensions();
 
         // Attempt to refresh manifest caches
-        $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db
+            ->getQuery(true)
             ->select('*')
             ->from('#__extensions');
 
@@ -558,7 +565,7 @@ class JoomlaInstallerScript
     /**
      * Delete files that should not exist
      *
-     * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
+     * @param bool  $dryRun           If set to true, will not actually delete files, but just report their status for use in CLI
      * @param bool  $suppressOutput   Set to true to suppress echoing any errors, and just return the $status array
      *
      * @return  array
@@ -2689,10 +2696,10 @@ class JoomlaInstallerScript
             'com_workflow',
         ];
 
-        foreach ($newComponents as $component) {
-            /** @var \Joomla\CMS\Table\Asset $asset */
-            $asset = Table::getInstance('Asset');
+        /** @var Asset $asset */
+        $asset = new Asset(Factory::getContainer()->get(DatabaseInterface::class));
 
+        foreach ($newComponents as $component) {
             if ($asset->loadByName($component)) {
                 continue;
             }
@@ -2787,12 +2794,13 @@ class JoomlaInstallerScript
      */
     private function migrateDeleteActionlogsConfiguration(): bool
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the ActionLogs system plugin's parameters
             $row = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select([$db->quotename('enabled'), $db->quoteName('params')])
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -2847,6 +2855,7 @@ class JoomlaInstallerScript
 
         return true;
     }
+
     /**
      * Migrate privacyconsents system plugin configuration
      *
@@ -2856,12 +2865,13 @@ class JoomlaInstallerScript
      */
     private function migratePrivacyconsentConfiguration(): bool
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the PrivacyConsent system plugin's parameters
             $row = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select([$db->quotename('enabled'), $db->quoteName('params')])
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -2930,12 +2940,13 @@ class JoomlaInstallerScript
      */
     private function migrateTinymceConfiguration(): bool
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the TinyMCE editor plugin's parameters
             $params = $db->setQuery(
-                $db->getQuery(true)
+                $db
+                    ->getQuery(true)
                     ->select($db->quoteName('params'))
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -3007,7 +3018,8 @@ class JoomlaInstallerScript
 
         $params = json_encode($params);
 
-        $query = $db->getQuery(true)
+        $query = $db
+            ->getQuery(true)
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = ' . $db->quote($params))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -3136,11 +3148,12 @@ class JoomlaInstallerScript
                         File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
                         File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
                     }
-                } else {
-                    // On Unix with both files: Delete the incorrectly cased file.
-                    if (is_file(JPATH_ROOT . $old)) {
-                        File::delete(JPATH_ROOT . $old);
-                    }
+                    continue;
+                }
+
+                // On Unix with both files: Delete the incorrectly cased file.
+                if (is_file(JPATH_ROOT . $old)) {
+                    File::delete(JPATH_ROOT . $old);
                 }
             }
         }

@@ -12,6 +12,7 @@
  */
 
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,8 +30,9 @@ use Joomla\CMS\Factory;
  */
 function admin_postinstall_languageaccess340_condition()
 {
-    $db    = Factory::getDbo();
-    $query = $db->getQuery(true)
+    $db    = Factory::getContainer()->get(DatabaseInterface::class);
+    $query = $db
+        ->getQuery(true)
         ->select($db->quoteName('access'))
         ->from($db->quoteName('#__languages'))
         ->where($db->quoteName('access') . ' = ' . $db->quote('0'));
