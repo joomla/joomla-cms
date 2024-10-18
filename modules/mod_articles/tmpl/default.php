@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\String\StringHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
@@ -34,17 +33,15 @@ if ((bool) $module->showtitle) {
     }
 }
 
-$layoutSuffix = $params->get('title_only', 1) ? '_titles' : '_items';
+$layoutSuffix = $params->get('title_only', 0) ? '_titles' : '_items';
 
 ?>
-
-
 <?php if ($grouped) : ?>
     <?php foreach ($list as $groupName => $items) : ?>
-    <div class="mod-articles-group">
-        <<?php echo $groupHeading; ?>><?php echo Text::_($groupName); ?></<?php echo $groupHeading; ?>>
-        <?php require ModuleHelper::getLayoutPath('mod_articles', $params->get('layout', 'default') . $layoutSuffix); ?>
-    </div>
+        <div class="mod-articles-group">
+            <<?php echo $groupHeading; ?>><?php echo Text::_($groupName); ?></<?php echo $groupHeading; ?>>
+            <?php require ModuleHelper::getLayoutPath('mod_articles', $params->get('layout', 'default') . $layoutSuffix); ?>
+        </div>
     <?php endforeach; ?>
 <?php else : ?>
     <?php $items = $list; ?>
