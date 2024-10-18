@@ -1,12 +1,12 @@
-const {
-  stat, copy, existsSync, emptyDirSync,
-} = require('fs-extra');
-const {
-  readFile, writeFile, readdir,
-} = require('fs').promises;
-const { join, extname } = require('path');
-const recursive = require('recursive-readdir');
+import {
+  stat, readFile, writeFile, readdir,
+} from 'node:fs/promises';
+import { join, extname } from 'node:path';
 
+import pkg from 'fs-extra';
+import recursive from 'recursive-readdir';
+
+const { copy, existsSync, emptyDirSync } = pkg;
 const RootPath = process.cwd();
 const knownDirs = [
   'templates/site/cassiopeia',
@@ -32,7 +32,7 @@ const updateSettings = async (options) => {
  *
  * @returns {Promise}
  */
-module.exports.recreateMediaFolder = async (options) => {
+export const recreateMediaFolder = async (options) => {
   await updateSettings(options);
   const installedVendors = Object.keys(options.settings.vendors).map((vendor) => {
     if (vendor === 'choices.js') {

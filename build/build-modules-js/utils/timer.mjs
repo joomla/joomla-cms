@@ -4,7 +4,7 @@
  * @param name
  * @returns {{stop: stop}}
  */
-class Timer {
+export class Timer {
   constructor(name) {
     this.start = new Date();
     this.name = name;
@@ -17,5 +17,3 @@ class Timer {
     console.log('Timer:', this.name, 'finished in', time, 'ms');
   }
 }
-
-module.exports.Timer = Timer;
