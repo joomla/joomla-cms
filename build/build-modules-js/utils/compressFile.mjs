@@ -1,6 +1,6 @@
-const { readFile, writeFile } = require('fs').promises;
-const { promisify } = require('util');
-const { constants, gzip, brotliCompress } = require('zlib');
+import { readFile, writeFile } from 'node:fs/promises';
+import { promisify } from 'node:util';
+import { constants, gzip, brotliCompress } from 'node:zlib';
 
 const gzipOpts = {
   level: constants.Z_BEST_COMPRESSION,
@@ -19,7 +19,7 @@ const gzipEncode = (data) => gzipPromise(data, gzipOpts);
 const brotliPromise = promisify(brotliCompress);
 const brotliEncode = (data) => brotliPromise(data, brotliOpts);
 
-const compressFile = async (file, enableBrotli) => {
+export const compressFile = async (file, enableBrotli) => {
   if (file.endsWith('.min.js') || file.endsWith('.min.css')) {
     try {
       const data = await readFile(file);
@@ -35,5 +35,3 @@ const compressFile = async (file, enableBrotli) => {
     }
   }
 };
-
-module.exports.compressFile = compressFile;

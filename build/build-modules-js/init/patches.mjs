@@ -1,5 +1,5 @@
-const { readFile, writeFile } = require('fs-extra');
-const { join } = require('path');
+import { join } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
 
 const RootPath = process.cwd();
 
@@ -10,7 +10,7 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-module.exports.patchPackages = async (options) => {
+export const patchPackages = async (options) => {
   const mediaVendorPath = join(RootPath, 'media/vendor');
 
   // Joomla's hack to expose the chosen base classes so we can extend it ourselves
@@ -18,9 +18,12 @@ module.exports.patchPackages = async (options) => {
   let dest = join(mediaVendorPath, 'chosen');
   const chosenPath = `${dest}/${options.settings.vendors['chosen-js'].js['chosen.jquery.js']}`;
   let ChosenJs = await readFile(chosenPath, { encoding: 'utf8' });
-  ChosenJs = ChosenJs.replace('}).call(this);', `  document.AbstractChosen = AbstractChosen;
+  ChosenJs = ChosenJs.replace(
+    '}).call(this);',
+    `  document.AbstractChosen = AbstractChosen;
   document.Chosen = Chosen;
-}).call(this);`);
+}).call(this);`,
+  );
   await writeFile(chosenPath, ChosenJs, { encoding: 'utf8', mode: 0o644 });
 
   // Append initialising code to the end of the Short-and-Sweet javascript
