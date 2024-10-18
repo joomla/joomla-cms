@@ -18,7 +18,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -34,6 +33,7 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
@@ -1215,7 +1215,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );
-        $mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
+        $mailer->addRecipient($user->email, $user->name);
+
 
         try {
             $mailSent = $mailer->send();
@@ -1230,9 +1231,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             // If JMail send the mail using PHP Mail as fallback.
             if ($mail->Mailer !== $app->get('mailer')) {
-                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $app->get('mailfrom'), $methodName), 'warning');
+                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $user->email, $methodName), 'warning');
             } else {
-                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
+                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $user->email, $methodName), 'message');
             }
 
             return true;

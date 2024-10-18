@@ -251,7 +251,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $fields = $this->_db->getTableColumns($name, false);
 
             if (empty($fields)) {
-                throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
+                throw new \UnexpectedValueException(\sprintf('No columns found for %s table', $name));
             }
 
             self::$tableFields[$key] = $fields;
@@ -639,7 +639,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Check if the source value is an array or object
         if (!\is_object($src) && !\is_array($src)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Could not bind the data source in %1$s::bind(), the source must be an array or object but a "%2$s" was given.',
                     \get_class($this),
                     \gettype($src)
@@ -768,7 +768,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         foreach ($keys as $field => $value) {
             // Check that $field is in the table.
             if (!\in_array($field, $fields)) {
-                throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', \get_class($this), $field));
+                throw new \UnexpectedValueException(\sprintf('Missing field in database: %s &#160; %s.', \get_class($this), $field));
             }
 
             // Add the search tuple to the query.
@@ -1422,7 +1422,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
         }
 
         // Get the largest ordering value for a given where clause.
@@ -1477,7 +1477,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
         }
 
         $quotedOrderingField = $this->_db->quoteName($this->getColumnAlias('ordering'));
@@ -1556,7 +1556,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
         }
 
         $orderingField       = $this->getColumnAlias('ordering');

@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="site" method="upgrade">
+	<name>MOD_ARTICLES</name>
+	<author>Joomla! Project</author>
+	<creationDate>2024-07</creationDate>
+	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>5.2.0</version>
+	<description>MOD_ARTICLES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Articles</namespace>
+	<files>
+		<folder module="mod_articles">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/mod_articles.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles.sys.ini</language>
+	</languages>
+	<help key="Site_Modules:_Articles" />
+	<config>
+		<fields name="params">
+			<fieldset name="basic"
+					addfieldprefix="Joomla\Component\Content\Administrator\Field" >
+				<field
+					name="mode"
+					type="list"
+					label="MOD_ARTICLES_FIELD_MODE_LABEL"
+					description="MOD_ARTICLES_FIELD_MODE_DESC"
+					default="normal"
+					validate="options"
+					>
+					<option value="normal">MOD_ARTICLES_OPTION_NORMAL_VALUE</option>
+					<option value="dynamic">MOD_ARTICLES_OPTION_DYNAMIC_VALUE</option>
+				</field>
+
+				<field
+					name="show_on_article_page"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_SHOWONARTICLEPAGE_LABEL"
+					description="MOD_ARTICLES_FIELD_SHOWONARTICLEPAGE_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					showon="mode:dynamic"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="count"
+					type="number"
+					label="MOD_ARTICLES_FIELD_COUNT_LABEL"
+					description="MOD_ARTICLES_FIELD_COUNT_DESC"
+					default="5"
+					filter="integer"
+					min="0"
+					validate="number"
+				/>
+
+				<field
+					name="category_filtering_type"
+					type="list"
+					label="MOD_ARTICLES_FIELD_CATFILTERINGTYPE_LABEL"
+					description="MOD_ARTICLES_FIELD_CATFILTERINGTYPE_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">MOD_ARTICLES_OPTION_EXCLUSIVE_VALUE</option>
+					<option value="1">MOD_ARTICLES_OPTION_INCLUSIVE_VALUE</option>
+				</field>
+
+				<field
+					name="catid"
+					type="category"
+					label="JCATEGORY"
+					extension="com_content"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
+					class="multipleCategories"
+				/>
+
+				<field
+					name="show_child_category_articles"
+					type="list"
+					label="MOD_ARTICLES_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
+					description="MOD_ARTICLES_FIELD_SHOWCHILDCATEGORYARTICLES_DESC"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">MOD_ARTICLES_OPTION_EXCLUDE_VALUE</option>
+					<option value="1">MOD_ARTICLES_OPTION_INCLUDE_VALUE</option>
+				</field>
+
+				<field
+					name="levels"
+					type="number"
+					label="MOD_ARTICLES_FIELD_CATDEPTH_LABEL"
+					default="1"
+					filter="integer"
+					showon="show_child_category_articles:1"
+				/>
+
+				<field
+					name="exclude_current"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_EXCLUDE_CURRENT_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="ex_or_include_articles"
+					type="list"
+					label="MOD_ARTICLES_FIELD_EX_OR_INCLUDE_LABEL"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">MOD_ARTICLES_OPTION_EXCLUDE_VALUE</option>
+					<option value="1">MOD_ARTICLES_OPTION_INCLUDE_VALUE</option>
+				</field>
+
+				<field
+					name="excluded_articles"
+					type="subform"
+					label="MOD_ARTICLES_FIELD_EXCLUDEDARTICLES_LABEL"
+					multiple="true"
+					buttons="add,remove"
+					showon="ex_or_include_articles:0"
+					>
+					<form>
+						<field
+							name="id"
+							type="modal_article"
+							label="MOD_ARTICLES_FIELD_SELECT_ARTICLE_LABEL"
+							select="true"
+							new="false"
+							edit="false"
+							clear="true"
+						/>
+					</form>
+				</field>
+
+				<field
+					name="included_articles"
+					type="subform"
+					label="MOD_ARTICLES_FIELD_INCLUDEDARTICLES_LABEL"
+					multiple="true"
+					buttons="add,remove"
+					showon="ex_or_include_articles:1"
+					>
+					<form>
+						<field
+							name="id"
+							type="modal_article"
+							label="MOD_ARTICLES_FIELD_SELECT_ARTICLE_LABEL"
+							select="true"
+							new="false"
+							edit="false"
+							clear="true"
+						/>
+					</form>
+				</field>
+			</fieldset>
+
+			<fieldset name="display"
+				label="MOD_ARTICLES_FIELD_GROUP_DISPLAY_LABEL"
+				>
+				<field
+					name="title_only"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_TITLEONLY_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="articles_layout"
+					type="list"
+					label="MOD_ARTICLES_FIELD_LAYOUT_LABEL"
+					description="MOD_ARTICLES_FIELD_LAYOUT_DESC"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">MOD_ARTICLES_FIELD_LAYOUT_VERT</option>
+					<option value="1">MOD_ARTICLES_FIELD_LAYOUT_HOR</option>
+				</field>
+
+				<field
+					name="layout_columns"
+					type="list"
+					label="MOD_ARTICLES_FIELD_LAYOUT_COL_LABEL"
+					default="3"
+					filter="integer"
+					showon="title_only:0[AND]articles_layout:1"
+					validate="options"
+					>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+				</field>
+
+				<field
+					name="item_title"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_TITLE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="item_heading"
+					type="list"
+					label="MOD_ARTICLES_FIELD_TITLE_HEADING"
+					default="h4"
+					showon="title_only:0[AND]item_title:1"
+					validate="options"
+					>
+					<option value="h1">JH1</option>
+					<option value="h2">JH2</option>
+					<option value="h3">JH3</option>
+					<option value="h4">JH4</option>
+					<option value="h5">JH5</option>
+					<option value="div">MOD_ARTICLES_FIELD_TITLE_HEADING_NONE</option>
+				</field>
+
+				<field
+					name="link_titles"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_ARTICLES_FIELD_LINKTITLES_LABEL"
+					default="1"
+					showon="title_only:0[AND]item_title:1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="show_author"
+					type="radio"
+					label="JAUTHOR"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_category"
+					type="radio"
+					label="JCATEGORY"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_category_link"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_SHOWCATEGORYLINK_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0[AND]show_category:1"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_date"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="JDATE"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_date_field"
+					type="list"
+					label="MOD_ARTICLES_FIELD_DATEFIELD_LABEL"
+					default="created"
+					showon="title_only:0[AND]show_date:1"
+					validate="options"
+					>
+					<option value="created">MOD_ARTICLES_OPTION_CREATED_VALUE</option>
+					<option value="modified">MOD_ARTICLES_OPTION_MODIFIED_VALUE</option>
+					<option value="publish_up">MOD_ARTICLES_OPTION_STARTPUBLISHING_VALUE</option>
+				</field>
+
+				<field
+					name="show_date_format"
+					type="text"
+					label="MOD_ARTICLES_FIELD_DATEFIELDFORMAT_LABEL"
+					description="MOD_ARTICLES_FIELD_DATEFIELDFORMAT_DESC"
+					default="Y-m-d H:i:s"
+					showon="title_only:0[AND]show_date:1"
+				/>
+
+				<field
+					name="show_hits"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_SHOWHITS_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="info_layout"
+					type="list"
+					label="MOD_ARTICLES_FIELD_INFOLAYOUT_LABEL"
+					description="MOD_ARTICLES_FIELD_INFOLAYOUT_DESC"
+					default="0"
+					filter="integer"
+					showon="show_date:1[OR]show_category:1[OR]show_hits:1[OR]show_author:1[AND]title_only:0"
+					>
+					<option value="0">MOD_ARTICLES_FIELD_LAYOUT_MULTILINE</option>
+					<option value="1">MOD_ARTICLES_FIELD_LAYOUT_SINGLELINE</option>
+				</field>
+
+				<field
+					name="show_tags"
+					type="radio"
+					label="JTAG"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="trigger_events"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_TRIGGER_EVENTS_LABEL"
+					description="MOD_ARTICLES_FIELD_TRIGGER_EVENTS_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="show_introtext"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_SHOWINTROTEXT_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="introtext_limit"
+					type="number"
+					label="MOD_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
+					description="MOD_ARTICLES_FIELD_INTROTEXTLIMIT_DESC"
+					default="100"
+					filter="integer"
+					showon="title_only:0[AND]show_introtext:1"
+				/>
+
+				<field
+					name="image"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_IMAGES_LABEL"
+					description="MOD_ARTICLES_FIELD_IMAGES_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0[AND]introtext_limit:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="img_intro_full"
+					type="list"
+					label="MOD_ARTICLES_FIELD_IMAGES_ARTICLE_LABEL"
+					default="none"
+					validate="options"
+					showon="title_only:0"
+					>
+					<option value="intro">MOD_ARTICLES_OPTION_INTROIMAGE</option>
+					<option value="full">MOD_ARTICLES_OPTION_FULLIMAGE</option>
+					<option value="none">JNO</option>
+				</field>
+
+				<field
+					name="show_readmore"
+					type="radio"
+					label="JGLOBAL_SHOW_READMORE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_readmore_title"
+					type="radio"
+					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					showon="title_only:0[AND]show_readmore:1"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="readmore_limit"
+					type="number"
+					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
+					default="15"
+					filter="integer"
+					showon="title_only:0[AND]show_readmore:1[AND]show_readmore_title:1"
+				/>
+			</fieldset>
+
+			<fieldset name="filtering"
+				label="MOD_ARTICLES_FIELD_GROUP_FILTERING_LABEL"
+				>
+				<field
+					name="show_featured"
+					type="list"
+					label="MOD_ARTICLES_FIELD_SHOWFEATURED_LABEL"
+					default="show"
+					validate="options"
+					>
+					<option value="show">JSHOW</option>
+					<option value="hide">JHIDE</option>
+					<option value="only">MOD_ARTICLES_OPTION_ONLYFEATURED_VALUE</option>
+				</field>
+
+				<field
+					name="filteringspacer1"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="show_archived"
+					type="list"
+					label="MOD_ARTICLES_FIELD_ONLYARCHIVED_LABEL"
+					default="hide"
+					validate="options"
+					>
+					<option value="show">MOD_ARTICLES_OPTION_ONLYARCHIVEDSHOW_VALUE</option>
+					<option value="hide">MOD_ARTICLES_OPTION_ONLYARCHIVEDHIDE_VALUE</option>
+				</field>
+
+				<field
+					name="filteringspacer2"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="filter_tag"
+					type="tag"
+					label="JTAG"
+					mode="nested"
+					multiple="true"
+					filter="intarray"
+					class="multipleTags"
+				/>
+
+				<field
+					name="filteringspacer3"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="author_filtering_type"
+					type="list"
+					label="MOD_ARTICLES_FIELD_AUTHORFILTERING_LABEL"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">MOD_ARTICLES_OPTION_EXCLUSIVE_VALUE</option>
+					<option value="1">MOD_ARTICLES_OPTION_INCLUSIVE_VALUE</option>
+					<option value="2">MOD_ARTICLES_OPTION_ONLYCURRENTUSER_VALUE</option>
+				</field>
+
+				<field
+					name="created_by"
+					type="author"
+					label="MOD_ARTICLES_FIELD_AUTHOR_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
+					class="multipleAuthors"
+					showon="author_filtering_type!:2"
+				/>
+
+				<field
+					name="filteringspacer4"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="author_alias_filtering_type"
+					type="list"
+					label="MOD_ARTICLES_FIELD_AUTHORALIASFILTERING_LABEL"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">MOD_ARTICLES_OPTION_EXCLUSIVE_VALUE</option>
+					<option value="1">MOD_ARTICLES_OPTION_INCLUSIVE_VALUE</option>
+				</field>
+
+				<field
+					name="created_by_alias"
+					type="sql"
+					label="MOD_ARTICLES_FIELD_AUTHORALIAS_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
+					key_field="created_by_alias"
+					value_field="created_by_alias"
+					class="multipleAuthorAliases"
+				/>
+
+				<field
+					name="filteringspacer5"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="date_filtering"
+					type="list"
+					label="MOD_ARTICLES_FIELD_DATEFILTERING_LABEL"
+					default="off"
+					validate="options"
+					>
+					<option value="off">MOD_ARTICLES_OPTION_OFF_VALUE</option>
+					<option value="range">MOD_ARTICLES_OPTION_DATERANGE_VALUE</option>
+					<option value="relative">MOD_ARTICLES_OPTION_RELATIVEDAY_VALUE</option>
+				</field>
+
+				<field
+					name="date_field"
+					type="list"
+					label="MOD_ARTICLES_FIELD_DATERANGEFIELD_LABEL"
+					default="a.created"
+					showon="date_filtering!:off"
+					validate="options"
+					>
+					<option value="a.created">MOD_ARTICLES_OPTION_CREATED_VALUE</option>
+					<option value="a.modified">MOD_ARTICLES_OPTION_MODIFIED_VALUE</option>
+					<option value="a.publish_up">MOD_ARTICLES_OPTION_STARTPUBLISHING_VALUE</option>
+				</field>
+
+				<field
+					name="start_date_range"
+					type="calendar"
+					label="MOD_ARTICLES_FIELD_STARTDATE_LABEL"
+					translateformat="true"
+					showtime="true"
+					filter="user_utc"
+					showon="date_filtering:range"
+				/>
+
+				<field
+					name="end_date_range"
+					type="calendar"
+					label="MOD_ARTICLES_FIELD_ENDDATE_LABEL"
+					translateformat="true"
+					showtime="true"
+					filter="user_utc"
+					showon="date_filtering:range"
+				/>
+
+				<field
+					name="relative_date"
+					type="number"
+					label="MOD_ARTICLES_FIELD_RELATIVEDATE_LABEL"
+					default="30"
+					filter="integer"
+					showon="date_filtering:relative"
+				/>
+			</fieldset>
+
+			<fieldset name="ordering"
+				label="MOD_ARTICLES_FIELD_GROUP_ORDERING_LABEL"
+				>
+				<field
+					name="article_ordering"
+					type="list"
+					label="MOD_ARTICLES_FIELD_ARTICLEORDERING_LABEL"
+					default="a.title"
+					validate="options"
+					>
+					<option value="a.ordering">MOD_ARTICLES_OPTION_ORDERING_VALUE</option>
+					<option value="fp.ordering">MOD_ARTICLES_OPTION_ORDERINGFEATURED_VALUE</option>
+					<option value="a.hits" requires="hits">MOD_ARTICLES_OPTION_HITS_VALUE</option>
+					<option value="a.title">JGLOBAL_TITLE</option>
+					<option value="a.id">MOD_ARTICLES_OPTION_ID_VALUE</option>
+					<option value="a.alias">JFIELD_ALIAS_LABEL</option>
+					<option value="a.created">MOD_ARTICLES_OPTION_CREATED_VALUE</option>
+					<option value="modified">MOD_ARTICLES_OPTION_MODIFIED_VALUE</option>
+					<option value="publish_up">MOD_ARTICLES_OPTION_STARTPUBLISHING_VALUE</option>
+					<option value="a.publish_down">MOD_ARTICLES_OPTION_FINISHPUBLISHING_VALUE</option>
+					<option value="random">MOD_ARTICLES_OPTION_RANDOM_VALUE</option>
+					<option value="rating_count" requires="vote">MOD_ARTICLES_OPTION_VOTE_VALUE</option>
+					<option value="rating" requires="vote">MOD_ARTICLES_OPTION_RATING_VALUE</option>
+				</field>
+
+				<field
+					name="article_ordering_direction"
+					type="list"
+					label="MOD_ARTICLES_FIELD_ARTICLEORDERINGDIR_LABEL"
+					default="ASC"
+					validate="options"
+					>
+					<option value="DESC">MOD_ARTICLES_OPTION_DESCENDING_VALUE</option>
+					<option value="ASC">MOD_ARTICLES_OPTION_ASCENDING_VALUE</option>
+				</field>
+			</fieldset>
+
+			<fieldset name="grouping"
+				label="MOD_ARTICLES_FIELD_GROUP_GROUPING_LABEL"
+				>
+				<field
+					name="article_grouping"
+					type="list"
+					label="MOD_ARTICLES_FIELD_ARTICLEGROUPING_LABEL"
+					default="none"
+					validate="options"
+					>
+					<option value="none">JNONE</option>
+					<option value="year">MOD_ARTICLES_OPTION_YEAR_VALUE</option>
+					<option value="month_year">MOD_ARTICLES_OPTION_MONTHYEAR_VALUE</option>
+					<option value="author">JAUTHOR</option>
+					<option value="category_title">JCATEGORY</option>
+					<option value="tags">JTAG</option>
+				</field>
+
+				<field
+					name="date_grouping_field"
+					type="list"
+					label="MOD_ARTICLES_FIELD_DATEGROUPINGFIELD_LABEL"
+					description="MOD_ARTICLES_FIELD_DATEGROUPINGFIELD_DESC"
+					default="created"
+					showon="article_grouping:year,month_year"
+					validate="options"
+					>
+					<option value="created">MOD_ARTICLES_OPTION_CREATED_VALUE</option>
+					<option value="modified">MOD_ARTICLES_OPTION_MODIFIED_VALUE</option>
+					<option value="publish_up">MOD_ARTICLES_OPTION_STARTPUBLISHING_VALUE</option>
+				</field>
+
+				<field
+					name="month_year_format"
+					type="text"
+					label="MOD_ARTICLES_FIELD_MONTHYEARFORMAT_LABEL"
+					description="MOD_ARTICLES_FIELD_MONTHYEARFORMAT_DESC"
+					default="F Y"
+					showon="article_grouping:year,month_year"
+				/>
+
+				<field
+					name="article_grouping_direction"
+					type="list"
+					label="MOD_ARTICLES_FIELD_ARTICLEGROUPINGDIR_LABEL"
+					default="ksort"
+					showon="article_grouping!:none"
+					validate="options"
+					>
+					<option value="krsort">MOD_ARTICLES_OPTION_DESCENDING_VALUE</option>
+					<option value="ksort">MOD_ARTICLES_OPTION_ASCENDING_VALUE</option>
+				</field>
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="form-select"
+					validate="moduleLayout"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+					validate="CssIdentifier"
+				/>
+
+				<field
+					name="owncache"
+					type="list"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					default="1"
+					filter="integer"
+					validate="options"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_time"
+					type="number"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					default="900"
+					filter="integer"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

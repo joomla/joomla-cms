@@ -21,6 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -97,9 +98,12 @@ class HtmlView extends BaseHtmlView
             return;
         }
 
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var ArticleModel $model */
+        $model = $this->getModel();
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
         $this->canDo = ContentHelper::getActions('com_content', 'article', $this->item->id);
 
         if ($this->getLayout() === 'modalreturn') {
@@ -109,12 +113,15 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        $input          = Factory::getApplication()->getInput();
+        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
+
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -125,6 +132,12 @@ class HtmlView extends BaseHtmlView
             // Only allow to select tags with All language or with the forced language.
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', $input->getBase64('return', ''))
+            ->addControlField('forcedLanguage', $forcedLanguage);
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();

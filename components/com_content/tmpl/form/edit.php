@@ -151,9 +151,7 @@ if (!$params->exists('show_publishing_options')) {
 
             <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
-            <input type="hidden" name="task" value="">
-            <input type="hidden" name="return" value="<?php echo $this->return_page; ?>">
-            <?php echo HTMLHelper::_('form.token'); ?>
+            <?php echo $this->form->renderControlFields(); ?>
         </fieldset>
         <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="article.apply">
