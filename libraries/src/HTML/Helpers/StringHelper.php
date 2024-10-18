@@ -239,6 +239,8 @@ abstract class StringHelper
             // Set new $maxlength that adjusts for the HTML tags
             $maxLength += $diffLength;
         }
+
+        return '';
     }
 
     /**

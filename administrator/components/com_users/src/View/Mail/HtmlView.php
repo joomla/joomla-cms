@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Users\Administrator\Model\MailModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -50,8 +51,11 @@ class HtmlView extends BaseHtmlView
             Factory::getApplication()->redirect(Route::_('index.php', false));
         }
 
+        /** @var MailModel $model */
+        $model = $this->getModel();
+
         // Get data from the model
-        $this->form = $this->get('Form');
+        $this->form = $model->getForm();
 
         $this->addToolbar();
         parent::display($tpl);

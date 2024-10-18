@@ -138,9 +138,21 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @return  mixed  The return value of the method
      *
      * @since   3.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0.
+     *              Retrieve the model with $model = $this->getModel(); and call the methods
+     *              to the model directly, e.g. $model->getItems() instead of $this->get('Items').
      */
     public function get($property, $default = null)
     {
+        trigger_deprecation(
+            'joomla/mvc/view',
+            '5.3',
+            'The %s() method is deprecated and will be removed in 7.0. use $model = $this->getModel();
+            $this->items = $model->getItems(); instead',
+            __METHOD__
+        );
+
         // If $model is null we use the default model
         if ($default === null) {
             $model = $this->_defaultModel;
@@ -160,7 +172,11 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
         }
 
-        return $this->legacyGet($property, $default);
+        if (isset($this->$property)) {
+            return $this->$property;
+        }
+
+        return $default;
     }
 
     /**

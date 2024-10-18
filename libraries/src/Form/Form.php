@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Form;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\CurrentUserInterface;
@@ -81,6 +82,16 @@ class Form implements CurrentUserInterface
      * @since  1.7.0
      */
     protected $xml;
+
+    /**
+     * List of control fields.
+     * Hidden "non-model" fields that need for Controller, like "task", "return", token hash, etc.
+     * Array containing name => [value => value, attributes => []] for each field.
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $controlFields = [];
 
     /**
      * Form instances.
@@ -1865,5 +1876,87 @@ class Form implements CurrentUserInterface
     public function getFieldXml($name, $group = null)
     {
         return $this->findField($name, $group);
+    }
+
+
+    /**
+     * Add control field
+     *
+     * @param string    $name        The name of the input
+     * @param string    $value       The value of the input
+     * @param string[]  $attributes  Optional attributes of the input, in format [name => value]
+     *
+     * @return static
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function addControlField(string $name, string $value = '', array $attributes = []): static
+    {
+        $this->controlFields[$name] = [
+            'value'      => $value,
+            'attributes' => $attributes,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Remove control field
+     *
+     * @param string $name  The name of the input
+     *
+     * @return static
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function removeControlField(string $name): static
+    {
+        unset($this->controlFields[$name]);
+
+        return $this;
+    }
+
+    /**
+     * Return array of control fields
+     *
+     * @return array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getControlFields(): array
+    {
+        return $this->controlFields;
+    }
+
+    /**
+     * Render control fields
+     *
+     * @return string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function renderControlFields(): string
+    {
+        $html = [];
+
+        foreach ($this->controlFields as $n => $v) {
+            // Check for attributes
+            $attrStr = '';
+
+            if ($v['attributes']) {
+                $attr = [];
+                foreach ($v['attributes'] as $attrName => $attrValue) {
+                    $attr[] = htmlspecialchars($attrName) . '="' . htmlspecialchars($attrValue) . '"';
+                }
+                $attrStr = implode(' ', $attr);
+            }
+
+            $html[] = '<input type="hidden" name="' . htmlspecialchars($n) . '" value="' . htmlspecialchars($v['value']) . '" ' . $attrStr . '>';
+        }
+
+        // The Token should be added in any case
+        $html[] = HTMLHelper::_('form.token');
+
+        return implode("\n", $html);
     }
 }
