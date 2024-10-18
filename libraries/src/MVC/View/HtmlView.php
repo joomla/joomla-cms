@@ -10,7 +10,7 @@
 namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -191,7 +191,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
         $app->getDispatcher()->dispatch(
             'onBeforeDisplay',
-            AbstractEvent::create(
+            EventFactory::create(
                 'onBeforeDisplay',
                 [
                     'eventClass' => DisplayEvent::class,
@@ -205,7 +205,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
         $eventResult = $app->getDispatcher()->dispatch(
             'onAfterDisplay',
-            AbstractEvent::create(
+            EventFactory::create(
                 'onAfterDisplay',
                 [
                     'eventClass' => DisplayEvent::class,

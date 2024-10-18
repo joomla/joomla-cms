@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
@@ -379,7 +379,7 @@ class Workflow
 
         $eventResult = $this->app->getDispatcher()->dispatch(
             'onWorkflowBeforeTransition',
-            AbstractEvent::create(
+            EventFactory::create(
                 'onWorkflowBeforeTransition',
                 [
                     'eventClass'     => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
@@ -401,7 +401,7 @@ class Workflow
         if ($success) {
             $this->app->getDispatcher()->dispatch(
                 'onWorkflowAfterTransition',
-                AbstractEvent::create(
+                EventFactory::create(
                     'onWorkflowAfterTransition',
                     [
                         'eventClass' => WorkflowTransitionEvent::class,
