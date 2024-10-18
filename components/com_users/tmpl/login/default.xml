@@ -76,6 +76,18 @@
 				/>
 
 				<field
+					name="login_label"
+					type="radio"
+					label="JFIELD_DISPLAY_LABELS"
+					default="0"
+					layout="joomla.form.field.radio.switcher"
+					filter="integer"
+					>
+					<option value="0">JFIELD_DISPLAY_LABELS_ICONS</option>
+					<option value="1">JFIELD_DISPLAY_LABELS_TEXT</option>
+				</field>
+
+				<field
 					name="login_image"
 					type="media"
 					schemes="http,https,ftp,ftps,data,file"
