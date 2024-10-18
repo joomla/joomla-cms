@@ -29,7 +29,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ExtensionPublishCommand extends AbstractCommand
+class ExtensionUnpublishCommand extends AbstractCommand
 {
     use DatabaseAwareTrait;
 
@@ -39,7 +39,7 @@ class ExtensionPublishCommand extends AbstractCommand
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    protected static $defaultName = 'extension:publish';
+    protected static $defaultName = 'extension:unpublish';
 
     /**
      * @var InputInterface
@@ -135,20 +135,18 @@ class ExtensionPublishCommand extends AbstractCommand
      */
     protected function configure(): void
     {
-        //$this->setName('extension:command');
         $this->addArgument(
             'extensionId',
             InputArgument::REQUIRED,
             'ID of extension to be published (run extension:list command to check)'
         );
 
-
-        $help = "<info>%command.name%</info> is used to enable an extension.
-		\nThe command requires one argument, the ID of the extension to enable.
+        $help = "<info>%command.name%</info> is used to disable an extension.
+		\nThe command requires one argument, the ID of the extension to disable.
 		\nYou may find this ID by running the <info>extension:list</info> command.
 		\nUsage: <info>php %command.full_name% <extension_id></info>";
 
-        $this->setDescription('Enable an extension');
+        $this->setDescription('Disable an extension');
         $this->setHelp($help);
     }
 
@@ -165,11 +163,9 @@ class ExtensionPublishCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
-        $commandSelected = $input->getFirstArgument();
 
         $extensionId = $this->cliInput->getArgument('extensionId');
-
-        $this->ioStyle->title('Enable Extension');
+        $this->ioStyle->title('Disable Extension');
 
         // Get a table object for the extension type
         $table = new Extension($this->getDatabase());
@@ -180,21 +176,41 @@ class ExtensionPublishCommand extends AbstractCommand
             return self::PUBLISH_NOT_FOUND;
         }
 
+        if ($table->type == 'template') {
+            $style = new StyleTable($this->getDatabase());
+
+            if ($style->load(['template' => $table->element, 'client_id' => $table->client_id, 'home' => 1])) {
+                $this->ioStyle->note("Template with ID of $extensionId $table->element is home.");
+                return self::PUBLISH_HOME_NOT_PERMITTED;
+            }
+
+            // Parent template cannot be disabled if there are children
+            if ($style->load(['parent' => $table->element, 'client_id' => $table->client_id])) {
+                $this->ioStyle->note("Template with ID of $extensionId $table->element have child.");
+                return self::PUBLISH_WITHCHILD_NOT_PERMITTED;
+            }
+        }
+
         $type = ucfirst($table->type);
 
-        if ($table->enabled === 1) {
-            $this->ioStyle->warning("$type with ID of $extensionId $table->name already is enabled.");
+        if ($table->protected == 1) {
+            $this->ioStyle->error("$type with ID of $extensionId $table->name is protectd.");
+            return self::PUBLISH_PROTECTED;
+        }
+
+        if ($table->enabled === 0) {
+            $this->ioStyle->warning("$type with ID of $extensionId $table->name already is disabled.");
             return self::PUBLISH_NOCHANGE;
         }
 
-        $table->enabled = 1;
+        $table->enabled = 0;
 
         if (!$table->store()) {
-            $this->ioStyle->error("$type with ID of $extensionId $table->name not enabled.");
+            $this->ioStyle->error("$type with ID of $extensionId $table->name not disabled.");
             return self::PUBLISH_FAILED;
         }
 
-        $this->ioStyle->success("$type with ID of $extensionId $table->name enabled.");
+        $this->ioStyle->success("$type with ID of $extensionId $table->name disabled.");
 
         return self::PUBLISH_SUCCESSFUL;
     }

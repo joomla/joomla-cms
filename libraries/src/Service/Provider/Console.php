@@ -17,6 +17,7 @@ use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionPublishCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
+use Joomla\CMS\Console\ExtensionUnpublishCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
@@ -151,6 +152,14 @@ class Console implements ServiceProviderInterface
             ExtensionPublishCommand::class,
             function (Container $container) {
                 return new ExtensionPublishCommand($container->get(DatabaseInterface::class));
+            },
+            true
+        );
+
+        $container->share(
+            ExtensionUnpublishCommand::class,
+            function (Container $container) {
+                return new ExtensionUnpublishCommand($container->get(DatabaseInterface::class));
             },
             true
         );
