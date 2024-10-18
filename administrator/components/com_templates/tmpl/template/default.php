@@ -41,7 +41,7 @@ if (!$this->getCurrentUser()->authorise('core.admin')) {
 }
 
 if ($this->type == 'image') {
-    $wa->usePreset('cropperjs');
+    $wa->useScript('cropperjs');
 }
 
 if ($this->type == 'font') {
