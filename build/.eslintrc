@@ -27,7 +27,18 @@
     // Disable no-params-reassign for properties
     "no-param-reassign": ["error", { "props": false }],
     // Allow usage of dev-dependencies in js files in build directory
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["build/**/*.js"]}],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies":
+        [
+          "build/**/*.js",
+          "build/**/*.mjs",
+          "cypress.config.dist.mjs",
+          "**/**/cypress.config.mjs"
+        ]
+      }
+    ],
     // Allow strict mode (we are not dealing with modules)
     "strict": [0],
     // Disable alert rule till we have a CE in place
@@ -46,6 +57,7 @@
     ],
     // Allow extensions on imports
     "import/extensions": 0,
+    "import/prefer-default-export": 0,
     "func-names": [
       "error",
       "as-needed"

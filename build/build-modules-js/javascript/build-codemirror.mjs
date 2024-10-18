@@ -3,25 +3,31 @@
  */
 /* eslint-disable import/no-extraneous-dependencies, global-require, import/no-dynamic-require */
 
-const { readFileSync, writeFile } = require('fs-extra');
-const cliProgress = require('cli-progress');
-const rollup = require('rollup');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const replace = require('@rollup/plugin-replace');
-const { transform } = require('esbuild');
-const { resolvePackageFile, getPackagesUnderScope } = require('../init/common/resolve-package.es6.js');
+import { readFileSync } from 'node:fs';
+import { writeFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+
+import cliProgress from 'cli-progress';
+import { rollup } from 'rollup';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import { transform } from 'esbuild';
+
+const require = createRequire(import.meta.url);
+
+const {
+  resolvePackageFile,
+  getPackagesUnderScope,
+} = require('../init/common/resolve-package.cjs');
 
 // Build the module
 const buildModule = async (module, externalModules, destFile) => {
-  const build = await rollup.rollup({
+  const build = await rollup({
     input: module,
     external: externalModules || [],
     plugins: [
       nodeResolve(),
-      replace({
-        preventAssignment: true,
-        'process.env.NODE_ENV': '"production"',
-      }),
+      replace({ preventAssignment: true, 'process.env.NODE_ENV': '"production"' }),
     ],
   });
 
@@ -76,14 +82,10 @@ const updateAssetRegistry = async (modules, externalModules) => {
   });
 
   // Write assets registry
-  await writeFile(
-    destPath,
-    JSON.stringify(registry, null, 2),
-    { encoding: 'utf8', mode: 0o644 },
-  );
+  await writeFile(destPath, JSON.stringify(registry, null, 2), { encoding: 'utf8', mode: 0o644 });
 };
 
-module.exports.compileCodemirror = async () => {
+export const compileCodemirror = async () => {
   // eslint-disable-next-line no-console
   console.log('Building Codemirror Components...');
 
