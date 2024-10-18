@@ -1,7 +1,7 @@
 describe('Test in backend that the privacy consent component', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => {
-    cy.task('queryDB', 'DELETE FROM  #__privacy_consents');
+    cy.task('queryDB', 'DELETE FROM #__privacy_consents');
     cy.task('queryDB', "DELETE FROM #__users WHERE name LIKE '%test user%'").then(() => {
       cy.task('queryDB', 'DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)');
     });
