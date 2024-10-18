@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Console command for enable\disable extensions
+ * Console command to enable extensions
  *
  * @since  __DEPLOY_VERSION__
  */
