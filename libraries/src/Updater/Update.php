@@ -32,6 +32,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 class Update
 {
     use LegacyErrorHandlingTrait;
