@@ -624,7 +624,8 @@
       "importmap": true,
       "dependencies": [
         "wcpolyfill",
-        "core"
+        "core",
+        "webcomponent.core-loader"
       ]
     },
     {
