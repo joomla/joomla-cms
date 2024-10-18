@@ -280,12 +280,12 @@ trait MultiFactorAuthenticationHandler
         $task         = strtolower($this->input->getCmd('task', ''));
 
         // Allow the frontend user to log out (in case they forgot their MFA code or something)
-        if (!$isAdmin && ($option == 'com_users') && \in_array($task, ['user.logout', 'user.menulogout'])) {
+        if (!$isAdmin && ($option === 'com_users') && \in_array($task, ['user.logout', 'user.menulogout'])) {
             return false;
         }
 
         // Allow the backend user to log out (in case they forgot their MFA code or something)
-        if ($isAdmin && ($option == 'com_login') && ($task == 'logout')) {
+        if ($isAdmin && ($option === 'com_login') && ($task === 'logout')) {
             return false;
         }
 

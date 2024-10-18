@@ -234,7 +234,7 @@ class TagModel extends AdminModel
             }
 
             // Alter the title for save as copy
-            if ($input->get('task') == 'save2copy') {
+            if ($input->get('task') === 'save2copy') {
                 $origTable = $this->getTable();
                 $origTable->load($input->getInt('id'));
 

@@ -49,12 +49,12 @@ class DisplayController extends BaseController
         $id     = $this->input->getInt('id');
 
         // For JSON requests
-        if ($this->app->getDocument()->getType() == 'json') {
+        if ($this->app->getDocument()->getType() === 'json') {
             return parent::display();
         }
 
         // Check for edit form.
-        if ($view == 'style' && $layout == 'edit' && !$this->checkEditId('com_templates.edit.style', $id)) {
+        if ($view === 'style' && $layout === 'edit' && !$this->checkEditId('com_templates.edit.style', $id)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');

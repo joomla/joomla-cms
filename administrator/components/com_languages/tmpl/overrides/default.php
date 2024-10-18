@@ -23,12 +23,12 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$client    = $this->state->get('filter.client') == 'site' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
+$client    = $this->state->get('filter.client') === 'site' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$oppositeClient   = $this->state->get('filter.client') == 'administrator' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
+$oppositeClient   = $this->state->get('filter.client') === 'administrator' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $oppositeFilename = constant('JPATH_' . strtoupper($this->state->get('filter.client') === 'site' ? 'administrator' : 'site'))
     . '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
 $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);

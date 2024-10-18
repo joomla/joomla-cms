@@ -117,7 +117,7 @@ $errorCode = $this->error->getCode();
     . ($task ? ' task-' . $task : ' no-task')
     . ($itemid ? ' itemid-' . $itemid : '')
     . ' ' . $pageclass;
-    echo ($this->direction == 'rtl' ? ' rtl' : '');
+    echo ($this->direction === 'rtl' ? ' rtl' : '');
 ?>">
     <header class="header container-header full-width">
         <?php if ($this->params->get('brand', 1)) : ?>

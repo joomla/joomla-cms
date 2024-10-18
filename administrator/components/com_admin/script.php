@@ -244,7 +244,7 @@ class JoomlaInstallerScript
         }
 
         foreach ($results as $result) {
-            if ($result->Support != 'DEFAULT') {
+            if ($result->Support !== 'DEFAULT') {
                 continue;
             }
 

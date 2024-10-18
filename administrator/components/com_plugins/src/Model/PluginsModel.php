@@ -126,7 +126,7 @@ class PluginsModel extends ListModel
 
         $db = $this->getDatabase();
 
-        if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0)) {
+        if ($ordering === 'name' || (!empty($search) && stripos($search, 'id:') !== 0)) {
             $db->setQuery($query);
             $result = $db->loadObjectList();
             $this->translate($result);
@@ -142,7 +142,7 @@ class PluginsModel extends ListModel
             }
 
             $orderingDirection = strtolower($this->getState('list.direction'));
-            $direction         = ($orderingDirection == 'desc') ? -1 : 1;
+            $direction         = ($orderingDirection === 'desc') ? -1 : 1;
             $result            = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
             $total                                      = \count($result);

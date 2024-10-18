@@ -371,7 +371,7 @@ class CategoriesModel extends ListModel
         $listOrdering = $this->getState('list.ordering', 'a.lft');
         $listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
-        if ($listOrdering == 'a.access') {
+        if ($listOrdering === 'a.access') {
             $query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
         } else {
             $query->order($db->escape($listOrdering) . ' ' . $listDirn);

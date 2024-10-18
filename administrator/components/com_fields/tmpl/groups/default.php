@@ -39,8 +39,8 @@ if ($parts) {
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.ordering');
-$saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
+$ordering  = ($listOrder === 'a.ordering');
+$saveOrder = ($listOrder === 'a.ordering' && strtolower($listDirn) === 'asc');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_fields&task=groups.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -105,7 +105,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                             ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
                                endif; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
-                                <?php $ordering   = ($listOrder == 'a.ordering'); ?>
+                                <?php $ordering   = ($listOrder === 'a.ordering'); ?>
                                 <?php $canEdit    = $user->authorise('core.edit', $component . '.fieldgroup.' . $item->id); ?>
                                 <?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out); ?>
                                 <?php $canEditOwn = $user->authorise('core.edit.own', $component . '.fieldgroup.' . $item->id) && $item->created_by == $userId; ?>

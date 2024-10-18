@@ -154,7 +154,7 @@ class HtmlView extends BaseHtmlView
         $this->setLayout('default');
 
         // If we have no record selected or explicitly asked to run the 'select' task use the correct layout
-        if (\is_null($this->record) || ($model->getState('task') == 'select')) {
+        if (\is_null($this->record) || ($model->getState('task') === 'select')) {
             $this->setLayout('select');
         }
 

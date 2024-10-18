@@ -81,7 +81,7 @@ final class SQL extends FieldsListPlugin implements SubscriberInterface
         $item    = $event->getItem();
 
         // Only work on new SQL fields
-        if ($context != 'com_fields.field' || !isset($item->type) || $item->type != 'sql') {
+        if ($context !== 'com_fields.field' || !isset($item->type) || $item->type !== 'sql') {
             return;
         }
 

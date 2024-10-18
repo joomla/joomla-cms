@@ -708,7 +708,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $check = $input->post->get('jform', [], 'array');
 
             foreach ($data['urls'] as $i => $url) {
-                if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
+                if ($url != false && ($i === 'urla' || $i === 'urlb' || $i === 'urlc')) {
                     if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1) {
                         $data['urls'][$i] = $check['urls'][$i];
                     } else {
@@ -725,7 +725,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Alter the title for save as copy
-        if ($input->get('task') == 'save2copy') {
+        if ($input->get('task') === 'save2copy') {
             $origTable = $this->getTable();
 
             if ($app->isClient('site')) {

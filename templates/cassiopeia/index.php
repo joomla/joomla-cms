@@ -140,7 +140,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     . ($itemid ? ' itemid-' . $itemid : '')
     . ($pageclass ? ' ' . $pageclass : '')
     . $hasClass
-    . ($this->direction == 'rtl' ? ' rtl' : '');
+    . ($this->direction === 'rtl' ? ' rtl' : '');
 ?>">
     <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
 

@@ -27,7 +27,7 @@ $wa->useScript('table.columns')
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$saveOrder = $listOrder == 'w.ordering';
+$saveOrder = $listOrder === 'w.ordering';
 
 $orderingColumn = 'created';
 $saveOrderingUrl = '';

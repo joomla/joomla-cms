@@ -45,7 +45,7 @@ class FilePathRule extends FormRule
         $value = trim($value);
 
         // If the field is empty and not required, the field is valid.
-        $required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+        $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
         if (!$required && empty($value)) {
             return true;

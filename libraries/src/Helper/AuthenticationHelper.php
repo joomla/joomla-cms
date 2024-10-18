@@ -131,7 +131,7 @@ abstract class AuthenticationHelper
 
                 // Unset anything that doesn't conform to a button definition
                 foreach (array_keys($button) as $key) {
-                    if (substr($key, 0, 5) == 'data-') {
+                    if (substr($key, 0, 5) === 'data-') {
                         continue;
                     }
 

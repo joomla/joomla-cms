@@ -170,7 +170,7 @@ class Indexer
             $data->options = ComponentHelper::getParams('com_finder');
             $db            = Factory::getDbo();
 
-            if ($db->getServerType() == 'mysql') {
+            if ($db->getServerType() === 'mysql') {
                 /**
                  * Try to calculate the heapsize for the memory table for indexing. If this fails,
                  * we fall back on a reasonable small size. We want to prevent the system to fail
@@ -546,7 +546,7 @@ class Indexer
             ->innerJoin($db->quoteName('#__finder_terms', 't'), 't.term = ta.term AND t.language = ta.language')
             ->where('ta.term_id = 0');
 
-        if ($serverType == 'mysql') {
+        if ($serverType === 'mysql') {
             $query->set($db->quoteName('ta.term_id') . ' = ' . $db->quoteName('t.term_id'));
         } else {
             $query->set($db->quoteName('term_id') . ' = ' . $db->quoteName('t.term_id'));
@@ -567,7 +567,7 @@ class Indexer
             ->update($db->quoteName('#__finder_terms', 't'))
             ->innerJoin($db->quoteName('#__finder_tokens_aggregate', 'ta'), 'ta.term_id = t.term_id');
 
-        if ($serverType == 'mysql') {
+        if ($serverType === 'mysql') {
             $query->set($db->quoteName('t.links') . ' = t.links + 1');
         } else {
             $query->set($db->quoteName('links') . ' = t.links + 1');
@@ -762,7 +762,7 @@ class Indexer
         ];
 
         foreach ($tables as $table) {
-            if ($serverType == 'mysql') {
+            if ($serverType === 'mysql') {
                 $db->setQuery('OPTIMIZE TABLE ' . $db->quoteName($table));
                 $db->execute();
             } else {
@@ -975,7 +975,7 @@ class Indexer
             return true;
         }
 
-        if (strtolower($this->db->getServerType()) != 'mysql') {
+        if (strtolower($this->db->getServerType()) !== 'mysql') {
             $supported = false;
 
             return true;

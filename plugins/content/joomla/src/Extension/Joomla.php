@@ -289,7 +289,7 @@ final class Joomla extends CMSPlugin
             ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
 
         // Add article data
-        if ($view == 'article' && $id > 0) {
+        if ($view === 'article' && $id > 0) {
             $additionalSchemas = $cache->get(function ($id) use ($component, $baseId) {
                 $model = $component->createModel('Article', 'Site');
 
@@ -310,7 +310,7 @@ final class Joomla extends CMSPlugin
         } elseif (\in_array($view, ['category', 'featured', 'archive'])) {
             $additionalSchemas = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
                 $menu     = $app->getMenu()->getActive();
-                $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
+                $schemaId = $baseId . 'com_content/' . $view . ($view === 'category' ? '/' . $id : '');
 
                 $additionalSchemas = [];
 
@@ -514,7 +514,7 @@ final class Joomla extends CMSPlugin
             ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
 
         // Add contact data
-        if ($view == 'contact' && $id > 0) {
+        if ($view === 'contact' && $id > 0) {
             $additionalSchema = $cache->get(function ($id) use ($component, $baseId) {
                 $model = $component->createModel('Contact', 'Site');
 

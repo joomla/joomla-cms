@@ -202,13 +202,13 @@ class User extends Table
         $filterInput = InputFilter::getInstance();
 
         // Validate user information
-        if ($filterInput->clean($this->name, 'TRIM') == '') {
+        if ($filterInput->clean($this->name, 'TRIM') === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
 
             return false;
         }
 
-        if ($filterInput->clean($this->username, 'TRIM') == '') {
+        if ($filterInput->clean($this->username, 'TRIM') === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
 
             return false;
@@ -224,7 +224,7 @@ class User extends Table
         }
 
         if (
-            ($filterInput->clean($this->email, 'TRIM') == '') || !MailHelper::isEmailAddress($this->email)
+            ($filterInput->clean($this->email, 'TRIM') === '') || !MailHelper::isEmailAddress($this->email)
             || StringHelper::strlen($this->email) > 100
         ) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));

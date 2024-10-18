@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        if ($this->getLayout() == 'pagebreak') {
+        if ($this->getLayout() === 'pagebreak') {
             parent::display($tpl);
 
             return;
@@ -145,9 +145,9 @@ class HtmlView extends BaseHtmlView
         // the menu item params take priority
         if (
             $active
-            && $active->component == 'com_content'
+            && $active->component === 'com_content'
             && isset($active->query['view'], $active->query['id'])
-            && $active->query['view'] == 'article'
+            && $active->query['view'] === 'article'
             && $active->query['id'] == $item->id
         ) {
             $this->menuItemMatchArticle = true;
@@ -290,7 +290,7 @@ class HtmlView extends BaseHtmlView
 
             // Get ID of the category from active menu item
             if (
-                $menu && $menu->component == 'com_content' && isset($menu->query['view'])
+                $menu && $menu->component === 'com_content' && isset($menu->query['view'])
                 && \in_array($menu->query['view'], ['categories', 'category'])
             ) {
                 $id = $menu->query['id'];

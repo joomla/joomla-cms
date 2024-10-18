@@ -427,11 +427,11 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (base64_decode(urldecode($file)) == '/index.php') {
+        if (base64_decode(urldecode($file)) === '/index.php') {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
-        } elseif (base64_decode(urldecode($file)) == '/joomla.asset.json') {
+        } elseif (base64_decode(urldecode($file)) === '/joomla.asset.json') {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_DELETE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -480,7 +480,7 @@ class TemplateController extends BaseController
             return;
         }
 
-        if ($type == 'null') {
+        if ($type === 'null') {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -669,11 +669,11 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (base64_decode(urldecode($file)) == '/index.php') {
+        if (base64_decode(urldecode($file)) === '/index.php') {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
-        } elseif (base64_decode(urldecode($file)) == '/joomla.asset.json') {
+        } elseif (base64_decode(urldecode($file)) === '/joomla.asset.json') {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_ASSET_FILE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));

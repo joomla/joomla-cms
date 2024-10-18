@@ -98,7 +98,7 @@ class PositionsModel extends ListModel
             $limit           = $this->getState('list.limit');
             $client          = ApplicationHelper::getClientInfo($clientId);
 
-            if ($type != 'template') {
+            if ($type !== 'template') {
                 $clientId = (int) $clientId;
 
                 // Get the database object and a new query object.
@@ -157,7 +157,7 @@ class PositionsModel extends ListModel
                                 }
                             }
 
-                            if ($type == 'user' || ($state != '' && $state != $template->enabled)) {
+                            if ($type === 'user' || ($state != '' && $state != $template->enabled)) {
                                 unset($positions[$value]);
                             } elseif (preg_match(\chr(1) . $search . \chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element)) {
                                 if (!isset($positions[$value])) {
@@ -178,14 +178,14 @@ class PositionsModel extends ListModel
                 $this->setState('list.start', $limitstart);
             }
 
-            if ($ordering == 'value') {
-                if ($direction == 'asc') {
+            if ($ordering === 'value') {
+                if ($direction === 'asc') {
                     ksort($positions);
                 } else {
                     krsort($positions);
                 }
             } else {
-                if ($direction == 'asc') {
+                if ($direction === 'asc') {
                     asort($positions);
                 } else {
                     arsort($positions);

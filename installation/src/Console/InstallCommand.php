@@ -235,13 +235,13 @@ class InstallCommand extends AbstractCommand
                     $f    = rtrim(substr($cond['field'], 6), ']');
                     $temp = false;
 
-                    if ($cond['sign'] == '=' && \in_array($cfg[$f], $cond['values'])) {
+                    if ($cond['sign'] === '=' && \in_array($cfg[$f], $cond['values'])) {
                         $temp = true;
-                    } elseif ($cond['sign'] == '!=' && !\in_array($cfg[$f], $cond['values'])) {
+                    } elseif ($cond['sign'] === '!=' && !\in_array($cfg[$f], $cond['values'])) {
                         $temp = true;
                     }
 
-                    if ($cond['op'] == '' || $cond['op'] == 'OR') {
+                    if ($cond['op'] === '' || $cond['op'] === 'OR') {
                         $show |= $temp;
                     } else {
                         $show &= $temp;
@@ -300,7 +300,7 @@ class InstallCommand extends AbstractCommand
 
             $default = $field->getAttribute('default');
 
-            if ($field->fieldname == 'db_prefix') {
+            if ($field->fieldname === 'db_prefix') {
                 // Create the random prefix.
                 $prefix  = '';
                 $size    = 5;
@@ -355,7 +355,7 @@ class InstallCommand extends AbstractCommand
         $answer      = null;
 
         foreach ($_SERVER['argv'] as $arg) {
-            if ($arg == '--' . $option || strpos($arg, $option . '=')) {
+            if ($arg === '--' . $option || strpos($arg, $option . '=')) {
                 $givenOption = true;
             }
         }
@@ -395,7 +395,7 @@ class InstallCommand extends AbstractCommand
                 $answer = false;
             }
 
-            if (($option == 'db-pass' || $option == 'public_folder') && $valid && $answer == null) {
+            if (($option === 'db-pass' || $option === 'public_folder') && $valid && $answer == null) {
                 return '';
             }
         }

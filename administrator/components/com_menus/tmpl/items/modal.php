@@ -147,9 +147,9 @@ if (!empty($editor)) {
                             <?php echo $this->escape($item->menutype_title); ?>
                         </td>
                         <td class="text-center d-none d-md-table-cell">
-                            <?php if ($item->type == 'component') : ?>
-                                <?php if ($item->language == '*' || $item->home == '0') : ?>
-                                    <?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && false && !$item->protected, 'cb', null, 'home', 'circle'); ?>
+                            <?php if ($item->type === 'component') : ?>
+                                <?php if ($item->language === '*' || $item->home == '0') : ?>
+                                    <?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language !== '*' || !$item->home) && false && !$item->protected, 'cb', null, 'home', 'circle'); ?>
                                 <?php else : ?>
                                     <?php if ($item->language_image) : ?>
                                         <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, ['title' => $item->language_title], true); ?>
@@ -166,7 +166,7 @@ if (!empty($editor)) {
                             <td class="small d-none d-md-table-cell">
                                 <?php if ($item->language == '') : ?>
                                     <?php echo Text::_('COM_MENUS_HOME'); ?>
-                                <?php elseif ($item->language == '*') : ?>
+                                <?php elseif ($item->language === '*') : ?>
                                     <?php echo Text::alt('JALL', 'language'); ?>
                                 <?php else : ?>
                                     <?php echo LayoutHelper::render('joomla.content.language', $item); ?>

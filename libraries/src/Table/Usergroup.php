@@ -57,7 +57,7 @@ class Usergroup extends Table
         }
 
         // Validate the title.
-        if ((trim($this->title)) == '') {
+        if ((trim($this->title)) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 
             return false;

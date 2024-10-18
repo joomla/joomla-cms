@@ -724,14 +724,14 @@ class ItemModel extends AdminModel
         $result->params = $registry->toArray();
 
         // Merge the request arguments in to the params for a component.
-        if ($table->type == 'component') {
+        if ($table->type === 'component') {
             // Note that all request arguments become reserved parameter names.
             $result->request = $args;
             $result->params  = array_merge($result->params, $args);
 
             // Special case for the Login menu item.
             // Display the login or logout redirect URL fields if not empty
-            if ($table->link == 'index.php?option=com_users&view=login') {
+            if ($table->link === 'index.php?option=com_users&view=login') {
                 if (!empty($result->params['login_redirect_url'])) {
                     $result->params['loginredirectchoice'] = '0';
                 }
@@ -742,12 +742,12 @@ class ItemModel extends AdminModel
             }
         }
 
-        if ($table->type == 'alias') {
+        if ($table->type === 'alias') {
             // Note that all request arguments become reserved parameter names.
             $result->params = array_merge($result->params, $args);
         }
 
-        if ($table->type == 'url') {
+        if ($table->type === 'url') {
             // Note that all request arguments become reserved parameter names.
             $result->params = array_merge($result->params, $args);
         }
@@ -1068,7 +1068,7 @@ class ItemModel extends AdminModel
         $clientInfo = ApplicationHelper::getClientInfo($clientId);
 
         // Initialise form with component view params if available.
-        if ($type == 'component') {
+        if ($type === 'component') {
             $link = $link ? htmlspecialchars_decode($link) : '';
 
             // Parse the link arguments.
@@ -1178,7 +1178,7 @@ class ItemModel extends AdminModel
 
             $this->helpKey   = $helpKey ?: $this->helpKey;
             $this->helpURL   = $helpURL ?: $this->helpURL;
-            $this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local'));
+            $this->helpLocal = (($helpLoc === 'true') || ($helpLoc === '1') || ($helpLoc === 'local'));
         }
 
         if (!$form->loadFile($typeFile, true, false)) {
@@ -1468,7 +1468,7 @@ class ItemModel extends AdminModel
             }
 
             // Detecting all item menus
-            $all_language = $table->language == '*';
+            $all_language = $table->language === '*';
 
             if ($all_language && !empty($associations)) {
                 Factory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
@@ -1636,14 +1636,14 @@ class ItemModel extends AdminModel
                     if ($table->home == $value) {
                         unset($pks[$i]);
                         Factory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_ALREADY_HOME'), 'notice');
-                    } elseif ($table->menutype == 'main') {
+                    } elseif ($table->menutype === 'main') {
                         // Prune items that you can't change.
                         unset($pks[$i]);
                         Factory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_MENUTYPE_HOME'), 'error');
                     } else {
                         $table->home = $value;
 
-                        if ($table->language == '*') {
+                        if ($table->language === '*') {
                             $table->published = 1;
                         }
 
@@ -1696,7 +1696,7 @@ class ItemModel extends AdminModel
         // Default menu item existence checks.
         if ($value != 1) {
             foreach ($pks as $i => $pk) {
-                if ($table->load($pk) && $table->home && $table->language == '*') {
+                if ($table->load($pk) && $table->home && $table->language === '*') {
                     // Prune items that you can't change.
                     Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'), 'error');
                     unset($pks[$i]);

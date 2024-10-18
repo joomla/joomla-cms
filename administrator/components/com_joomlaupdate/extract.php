@@ -1083,7 +1083,7 @@ class ZIPExtraction
         }
 
         // Find hard-coded banned files
-        if ((basename($this->fileHeader->file) == ".") || (basename($this->fileHeader->file) == "..")) {
+        if ((basename($this->fileHeader->file) === '.') || (basename($this->fileHeader->file) === '..')) {
             $isBannedFile = true;
         }
 
@@ -1128,10 +1128,10 @@ class ZIPExtraction
         }
 
         // Get the translated path name
-        if ($this->fileHeader->type == 'file') {
+        if ($this->fileHeader->type === 'file') {
             $this->fileHeader->realFile = $this->fileHeader->file;
             $this->setLastExtractedFilename($this->fileHeader->file);
-        } elseif ($this->fileHeader->type == 'dir') {
+        } elseif ($this->fileHeader->type === 'dir') {
             $this->fileHeader->timestamp = 0;
 
             $dir = $this->fileHeader->file;
@@ -1316,7 +1316,7 @@ class ZIPExtraction
      */
     private function isIgnoredDirectory(string $shortFilename): bool
     {
-        $check = substr($shortFilename, -1) == '/' ? rtrim($shortFilename, '/') : \dirname($shortFilename);
+        $check = substr($shortFilename, -1) === '/' ? rtrim($shortFilename, '/') : \dirname($shortFilename);
 
         return \in_array($check, $this->ignoreDirectories);
     }
@@ -1375,7 +1375,7 @@ class ZIPExtraction
         }
 
         // Remove any trailing slash
-        if (substr($filename, -1) == '/') {
+        if (substr($filename, -1) === '/') {
             $filename = substr($filename, 0, -1);
         }
 
@@ -1816,7 +1816,7 @@ function getConfiguration(): ?array
     $userPassword = $_REQUEST['password'] ?? '';
     $userPassword = !\is_string($userPassword) ? '' : trim($userPassword);
 
-    if (empty($password) || !\is_string($password) || (trim($password) == '') || (\strlen(trim($password)) < 32)) {
+    if (empty($password) || !\is_string($password) || (trim($password) === '') || (\strlen(trim($password)) < 32)) {
         return null;
     }
 

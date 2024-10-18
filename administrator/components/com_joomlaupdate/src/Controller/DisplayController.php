@@ -50,7 +50,7 @@ class DisplayController extends BaseController
         // Get and render the view.
         if ($view = $this->getView($vName, $vFormat)) {
             // Only super user can access file upload
-            if ($view == 'upload' && !$this->app->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) {
+            if ($view === 'upload' && !$this->app->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) {
                 $this->app->redirect(Route::_('index.php?option=com_joomlaupdate', true));
             }
 

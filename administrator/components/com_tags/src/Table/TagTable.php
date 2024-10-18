@@ -85,7 +85,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
         }
 
         // Check for valid name.
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             throw new \UnexpectedValueException('The title is empty');
         }
 
@@ -95,7 +95,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
 
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-        if (trim(str_replace('-', '', $this->alias)) == '') {
+        if (trim(str_replace('-', '', $this->alias)) === '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         }
 

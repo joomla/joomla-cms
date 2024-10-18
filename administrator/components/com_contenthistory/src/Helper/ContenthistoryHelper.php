@@ -165,7 +165,7 @@ class ContenthistoryHelper
             $result = JPATH_ROOT . '/' . $options->formFile;
         } else {
             $aliasArray = explode('.', $typesTable->type_alias);
-            $component  = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
+            $component  = ($aliasArray[1] === 'category') ? 'com_categories' : $aliasArray[0];
             $path       = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
             array_shift($aliasArray);
             $file   = File::makeSafe(implode('.', $aliasArray) . '.xml');
@@ -247,7 +247,7 @@ class ContenthistoryHelper
         $aliasArray = explode('.', $typeAlias);
 
         if (\is_array($aliasArray) && \count($aliasArray) == 2) {
-            $component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
+            $component = ($aliasArray[1] === 'category') ? 'com_categories' : $aliasArray[0];
             $lang      = Factory::getLanguage();
 
             /**

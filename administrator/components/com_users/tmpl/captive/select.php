@@ -33,7 +33,7 @@ $shownMethods = [];
 
     <div class="com-users-select-methods p-2">
         <?php foreach ($this->records as $record) :
-            if (!array_key_exists($record->method, $this->mfaMethods) && ($record->method != 'backupcodes')) {
+            if (!array_key_exists($record->method, $this->mfaMethods) && ($record->method !== 'backupcodes')) {
                 continue;
             }
 

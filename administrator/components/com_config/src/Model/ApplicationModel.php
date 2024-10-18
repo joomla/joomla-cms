@@ -446,7 +446,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // Purge the database session table if we are changing to the database handler.
-        if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database') {
+        if ($prev['session_handler'] !== 'database' && $data['session_handler'] === 'database') {
             $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__session'))
@@ -572,7 +572,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // Give a warning if the cache-folder can not be opened
-        if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false) {
+        if ($data['caching'] > 0 && $data['cache_handler'] === 'file' && @opendir($path) == false) {
             $error = true;
 
             // If a custom path is in use, try using the system default instead of disabling cache

@@ -31,8 +31,8 @@ $app       = Factory::getApplication();
 $userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.lft');
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$ordering  = ($listOrder === 'a.lft');
+$saveOrder = ($listOrder === 'a.lft' && strtolower($listDirn) === 'asc');
 $menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items)) {
@@ -187,13 +187,13 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     <div>
                                         <?php echo $prefix; ?>
                                         <span class="small">
-                                            <?php if ($item->type != 'url') : ?>
+                                            <?php if ($item->type !== 'url') : ?>
                                                 <?php if (empty($item->note)) : ?>
                                                     <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
                                                 <?php else : ?>
                                                     <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
                                                 <?php endif; ?>
-                                            <?php elseif ($item->type == 'url' && $item->note) : ?>
+                                            <?php elseif ($item->type === 'url' && $item->note) : ?>
                                                 <?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
                                             <?php endif; ?>
                                         </span>
@@ -218,9 +218,9 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                 </td>
                                 <?php if ($this->state->get('filter.client_id') == 0) : ?>
                                     <td class="text-center d-none d-md-table-cell">
-                                        <?php if ($item->type == 'component') : ?>
-                                            <?php if ($item->language == '*' || $item->home == '0') : ?>
-                                                <?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected, 'cb', null, 'icon-home', 'icon-circle'); ?>
+                                        <?php if ($item->type === 'component') : ?>
+                                            <?php if ($item->language === '*' || $item->home == '0') : ?>
+                                                <?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language !== '*' || !$item->home) && $canChange && !$item->protected, 'cb', null, 'icon-home', 'icon-circle'); ?>
                                             <?php elseif ($canChange) : ?>
                                                 <a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
                                                     <?php if ($item->language_image) : ?>

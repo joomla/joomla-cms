@@ -115,7 +115,7 @@ class InstallerModel extends ListModel
 
             // Process ordering.
             // Sort array object by selected ordering and selected direction. Sort is case insensitive and using locale sorting.
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, false, true);
 
             // Process pagination.
             $total                                      = \count($result);
@@ -151,7 +151,7 @@ class InstallerModel extends ListModel
         foreach ($items as &$item) {
             if (\strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache)) {
                 foreach ($data as $key => $value) {
-                    if ($key == 'type') {
+                    if ($key === 'type') {
                         // Ignore the type field
                         continue;
                     }

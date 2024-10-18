@@ -90,7 +90,7 @@ abstract class Folder
 
                 switch (filetype($sfid)) {
                     case 'dir':
-                        if ($file != '.' && $file != '..') {
+                        if ($file !== '.' && $file !== '..') {
                             $ret = self::copy($sfid, $dfid, null, $force);
 
                             if ($ret !== true) {
@@ -121,7 +121,7 @@ abstract class Folder
 
                 switch (filetype($sfid)) {
                     case 'dir':
-                        if ($file != '.' && $file != '..') {
+                        if ($file !== '.' && $file !== '..') {
                             $ret = self::copy($sfid, $dfid, null, $force, $useStreams);
 
                             if ($ret !== true) {
@@ -583,7 +583,7 @@ abstract class Folder
 
         while (($file = readdir($handle)) !== false) {
             if (
-                $file != '.' && $file != '..' && !\in_array($file, $exclude)
+                $file !== '.' && $file !== '..' && !\in_array($file, $exclude)
                 && (empty($excludeFilterString) || !preg_match($excludeFilterString, $file))
             ) {
                 // Compute the fullpath

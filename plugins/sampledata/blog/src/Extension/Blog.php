@@ -465,7 +465,7 @@ final class Blog extends CMSPlugin
             $categoryAlias = ApplicationHelper::stringURLSafe($categoryTitle);
 
             // Set unicodeslugs if alias is empty
-            if (trim(str_replace('-', '', $categoryAlias) == '')) {
+            if (trim(str_replace('-', '', $categoryAlias) === '')) {
                 $unicode       = $this->getApplication()->set('unicodeslugs', 1);
                 $categoryAlias = ApplicationHelper::stringURLSafe($categoryTitle);
                 $this->getApplication()->set('unicodeslugs', $unicode);
@@ -686,7 +686,7 @@ final class Blog extends CMSPlugin
             $article['alias']            = ApplicationHelper::stringURLSafe($article['title']);
 
             // Set unicodeslugs if alias is empty
-            if (trim(str_replace('-', '', $alias) == '')) {
+            if (trim(str_replace('-', '', $alias) === '')) {
                 $unicode          = $this->getApplication()->set('unicodeslugs', 1);
                 $article['alias'] = ApplicationHelper::stringURLSafe($article['title']);
                 $this->getApplication()->set('unicodeslugs', $unicode);
@@ -1902,7 +1902,7 @@ final class Blog extends CMSPlugin
             $menuItem['alias']           = ApplicationHelper::stringURLSafe($menuItem['title']);
 
             // Set unicodeslugs if alias is empty
-            if (trim(str_replace('-', '', $menuItem['alias']) == '')) {
+            if (trim(str_replace('-', '', $menuItem['alias']) === '')) {
                 $unicode           = $this->getApplication()->set('unicodeslugs', 1);
                 $menuItem['alias'] = ApplicationHelper::stringURLSafe($menuItem['title']);
                 $this->getApplication()->set('unicodeslugs', $unicode);

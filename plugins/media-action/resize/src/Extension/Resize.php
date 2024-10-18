@@ -54,7 +54,7 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
         $context = $event->getContext();
         $item    = $event->getItem();
 
-        if ($context != 'com_media.file') {
+        if ($context !== 'com_media.file') {
             return;
         }
 

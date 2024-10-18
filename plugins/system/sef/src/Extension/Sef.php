@@ -116,7 +116,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         }
 
         // Enforce SEF URLs
-        if ($this->params->get('strictrouting') && $app->getInput()->getMethod() == 'GET') {
+        if ($this->params->get('strictrouting') && $app->getInput()->getMethod() === 'GET') {
             $this->enforceSEF();
         }
     }

@@ -133,7 +133,7 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
                     }
 
                     foreach ($emailParts as $key => $emailPart) {
-                        if (!isset($domainParts[$key]) || $domainParts[$key] == $emailPart || $domainParts[$key] == '*') {
+                        if (!isset($domainParts[$key]) || $domainParts[$key] == $emailPart || $domainParts[$key] === '*') {
                             $status++;
                         }
                     }

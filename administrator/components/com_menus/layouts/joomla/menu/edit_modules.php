@@ -18,7 +18,7 @@ $form      = $displayData->getForm();
 $input     = $app->getInput();
 $component = $input->getCmd('option', 'com_content');
 
-if ($component == 'com_categories') {
+if ($component === 'com_categories') {
     $extension = $input->getCmd('extension', 'com_content');
     $parts     = explode('.', $extension);
     $component = $parts[0];

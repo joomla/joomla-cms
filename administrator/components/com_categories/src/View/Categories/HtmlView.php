@@ -184,7 +184,7 @@ class HtmlView extends BaseHtmlView
         $toolbar    = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
-        if ($component == 'com_categories') {
+        if ($component === 'com_categories') {
             return;
         }
 

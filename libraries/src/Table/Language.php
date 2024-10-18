@@ -54,7 +54,7 @@ class Language extends Table
             return false;
         }
 
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
 
             return false;

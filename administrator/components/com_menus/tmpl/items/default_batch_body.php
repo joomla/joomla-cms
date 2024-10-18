@@ -34,7 +34,7 @@ if ($clientId == 1) {
 }
 ?>
 <div class="p-3">
-    <?php if (strlen($menuType) && $menuType != '*') : ?>
+    <?php if (strlen($menuType) && $menuType !== '*') : ?>
         <?php if ($clientId != 1) : ?>
     <div class="row">
             <?php if (Multilanguage::isEnabled()) : ?>
@@ -88,7 +88,7 @@ if ($clientId == 1) {
     </div>
     <?php endif; ?>
 </div>
-<?php if ((strlen($menuType) && $menuType != '*' && $clientId == 0) || ($published >= 0 && $clientId == 1)) : ?>
+<?php if ((strlen($menuType) && $menuType !== '*' && $clientId == 0) || ($published >= 0 && $clientId == 1)) : ?>
 <div class="btn-toolbar p-3">
     <joomla-toolbar-button task="item.batch" class="ms-auto">
         <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>

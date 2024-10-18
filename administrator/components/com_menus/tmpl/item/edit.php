@@ -79,31 +79,31 @@ if ($clientId === 1) {
                 <?php
                 echo $this->form->renderField('type');
 
-                if ($this->item->type == 'alias') {
+                if ($this->item->type === 'alias') {
                     echo $this->form->renderField('aliasoptions', 'params');
                 }
 
-                if ($this->item->type == 'separator') {
+                if ($this->item->type === 'separator') {
                     echo $this->form->renderField('text_separator', 'params');
                 }
 
                 echo $this->form->renderFieldset('request');
 
-                if ($this->item->type == 'url') {
+                if ($this->item->type === 'url') {
                     $this->form->setFieldAttribute('link', 'readonly', 'false');
                     $this->form->setFieldAttribute('link', 'required', 'true');
                 }
 
                 echo $this->form->renderField('link');
 
-                if ($this->item->type == 'alias') {
+                if ($this->item->type === 'alias') {
                     echo $this->form->renderField('alias_redirect', 'params');
                 }
 
                 echo $this->form->renderField('browserNav');
                 echo $this->form->renderField('template_style_id');
 
-                if (!$isModal && $this->item->type == 'container') {
+                if (!$isModal && $this->item->type === 'container') {
                     echo $this->loadTemplate('container');
                 }
                 ?>
@@ -126,7 +126,7 @@ if ($clientId === 1) {
                         'note',
                     ];
 
-                    if ($this->item->type != 'component') {
+                    if ($this->item->type !== 'component') {
                         $this->fields = array_diff($this->fields, ['home']);
                         $this->form->setFieldAttribute('publish_up', 'showon', '');
                         $this->form->setFieldAttribute('publish_down', 'showon', '');

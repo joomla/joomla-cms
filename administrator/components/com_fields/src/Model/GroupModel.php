@@ -62,7 +62,7 @@ class GroupModel extends AdminModel
         $input = Factory::getApplication()->getInput();
 
         // Save new group as unpublished
-        if ($input->get('task') == 'save2copy') {
+        if ($input->get('task') === 'save2copy') {
             $data['state'] = 0;
         }
 

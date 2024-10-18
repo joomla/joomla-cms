@@ -63,7 +63,7 @@ class MapTable extends Nested
         }
 
         // Check for a title.
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
 
             return false;
@@ -71,7 +71,7 @@ class MapTable extends Nested
 
         $this->alias = ApplicationHelper::stringURLSafe($this->title, $this->language);
 
-        if (trim($this->alias) == '') {
+        if (trim($this->alias) === '') {
             $this->alias = md5(serialize($this->getProperties()));
         }
 

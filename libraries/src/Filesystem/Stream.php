@@ -351,7 +351,7 @@ class Stream
         }
 
         // If we wrote, chmod the file after it's closed
-        if ($this->openmode[0] == 'w') {
+        if ($this->openmode[0] === 'w') {
             $this->chmod();
         }
 

@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
         $this->pagination = $model->getPagination();
         $this->state      = $model->getState();
 
-        if ($this->getLayout() == 'default') {
+        if ($this->getLayout() === 'default') {
             $this->filterForm    = $model->getFilterForm();
             $this->activeFilters = $model->getActiveFilters();
         }

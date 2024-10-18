@@ -469,7 +469,7 @@ final class MultiLanguage extends CMSPlugin
         }
 
         // Store language filter plugin parameters.
-        if ($pluginName == 'plg_system_languagefilter') {
+        if ($pluginName === 'plg_system_languagefilter') {
             $params = '{'
                 . '"detect_browser":"0",'
                 . '"automatic_change":"1",'
@@ -919,7 +919,7 @@ final class MultiLanguage extends CMSPlugin
         $app = Factory::getApplication();
 
         // Set unicodeslugs if alias is empty
-        if (trim(str_replace('-', '', $alias) == '')) {
+        if (trim(str_replace('-', '', $alias) === '')) {
             $unicode = $app->set('unicodeslugs', 1);
             $alias   = ApplicationHelper::stringURLSafe($title);
             $app->set('unicodeslugs', $unicode);
@@ -991,7 +991,7 @@ final class MultiLanguage extends CMSPlugin
         $alias       = ApplicationHelper::stringURLSafe($title);
 
         // Set unicodeslugs if alias is empty
-        if (trim(str_replace('-', '', $alias) == '')) {
+        if (trim(str_replace('-', '', $alias) === '')) {
             $unicode = $this->getApplication()->set('unicodeslugs', 1);
             $alias   = ApplicationHelper::stringURLSafe($title);
             $this->getApplication()->set('unicodeslugs', $unicode);

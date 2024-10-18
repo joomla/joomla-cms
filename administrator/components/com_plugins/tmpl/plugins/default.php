@@ -26,7 +26,7 @@ $wa->useScript('table.columns')
 $user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 'ordering';
+$saveOrder = $listOrder === 'ordering';
 
 if ($saveOrder) {
     $saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -80,7 +80,7 @@ if ($saveOrder) {
                     ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
-                    $ordering   = ($listOrder == 'ordering');
+                    $ordering   = ($listOrder === 'ordering');
                     $canEdit    = $user->authorise('core.edit', 'com_plugins');
                     $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                     $canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;

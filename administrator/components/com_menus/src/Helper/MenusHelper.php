@@ -83,7 +83,7 @@ class MenusHelper extends ContentHelper
 
         // Only take the option, view and layout parts.
         foreach ($request as $name => $value) {
-            if ((!\in_array($name, self::$_filter)) && (!($name == 'task' && !\array_key_exists('view', $request)))) {
+            if ((!\in_array($name, self::$_filter)) && (!($name === 'task' && !\array_key_exists('view', $request)))) {
                 // Remove the variables we want to ignore.
                 unset($request[$name]);
             }
@@ -361,7 +361,7 @@ class MenusHelper extends ContentHelper
 
             foreach ($menuItems as $menuitem) {
                 // Resolve the alias item to get the original item
-                if ($menuitem->type == 'alias') {
+                if ($menuitem->type === 'alias') {
                     static::resolveAlias($menuitem);
                 }
 
@@ -465,11 +465,11 @@ class MenusHelper extends ContentHelper
             $item->alias = ApplicationHelper::stringURLSafe($item->alias);
             Factory::getApplication()->set('unicodeslugs', $unicode);
 
-            if ($item->type == 'separator') {
+            if ($item->type === 'separator') {
                 // Do not reuse a separator
                 $item->title = $item->title ?: '-';
                 $item->alias = microtime(true);
-            } elseif ($item->type == 'heading' || $item->type == 'container') {
+            } elseif ($item->type === 'heading' || $item->type === 'container') {
                 // Try to match an existing record to have minimum collision for a heading
                 $keys  = [
                     'menutype'  => $menutype,
@@ -479,7 +479,7 @@ class MenusHelper extends ContentHelper
                     'client_id' => 1,
                 ];
                 $table->load($keys);
-            } elseif ($item->type == 'url' || $item->type == 'component') {
+            } elseif ($item->type === 'url' || $item->type === 'component') {
                 if (substr($item->link, 0, 8) === 'special:') {
                     $special = substr($item->link, 8);
 
@@ -502,7 +502,7 @@ class MenusHelper extends ContentHelper
             }
 
             // Translate "hideitems" param value from "element" into "menu-item-id"
-            if ($item->type == 'container' && \count($hideitems = (array) $item->getParams()->get('hideitems'))) {
+            if ($item->type === 'container' && \count($hideitems = (array) $item->getParams()->get('hideitems'))) {
                 foreach ($hideitems as &$hel) {
                     if (!is_numeric($hel)) {
                         $hel = array_search($hel, $components);
@@ -577,7 +577,7 @@ class MenusHelper extends ContentHelper
             static::getPresets();
         }
 
-        if ($name == 'joomla') {
+        if ($name === 'joomla') {
             $replace = false;
         }
 
@@ -693,7 +693,7 @@ class MenusHelper extends ContentHelper
     {
         $obj = $item;
 
-        while ($obj->type == 'alias') {
+        while ($obj->type === 'alias') {
             $aliasTo = (int) $obj->getParams()->get('aliasoptions');
 
             $db    = Factory::getDbo();
@@ -744,7 +744,7 @@ class MenusHelper extends ContentHelper
     public static function preprocess($item)
     {
         // Resolve the alias item to get the original item
-        if ($item->type == 'alias') {
+        if ($item->type === 'alias') {
             static::resolveAlias($item);
         }
 
@@ -769,7 +769,7 @@ class MenusHelper extends ContentHelper
     protected static function loadXml($elements, $parent, $replace = [])
     {
         foreach ($elements as $element) {
-            if ($element->getName() != 'menuitem') {
+            if ($element->getName() !== 'menuitem') {
                 continue;
             }
 
@@ -782,7 +782,7 @@ class MenusHelper extends ContentHelper
              * The repeated elements are place inside this xml node but they will be populated in the same level in the rendered menu
              */
             if ($select && $from) {
-                $hidden = $element['hidden'] == 'true';
+                $hidden = $element['hidden'] === 'true';
                 $where  = (string) $element['sql_where'];
                 $order  = (string) $element['sql_order'];
                 $group  = (string) $element['sql_group'];
@@ -876,11 +876,11 @@ class MenusHelper extends ContentHelper
         $params = new Registry(trim($node->params));
         $params->set('menu-permission', (string) $node['permission']);
 
-        if ($item->type == 'separator' && trim($item->title, '- ')) {
+        if ($item->type === 'separator' && trim($item->title, '- ')) {
             $params->set('text_separator', 1);
         }
 
-        if ($item->type == 'heading' || $item->type == 'container') {
+        if ($item->type === 'heading' || $item->type === 'container') {
             $item->link = '#';
         }
 

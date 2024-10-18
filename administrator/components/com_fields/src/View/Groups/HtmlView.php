@@ -135,7 +135,7 @@ class HtmlView extends BaseHtmlView
         $canDo     = ContentHelper::getActions($component, 'fieldgroup', $groupId);
 
         // Avoid nonsense situation.
-        if ($component == 'com_fields') {
+        if ($component === 'com_fields') {
             return;
         }
 

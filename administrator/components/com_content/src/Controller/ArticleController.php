@@ -50,7 +50,7 @@ class ArticleController extends FormController
 
         // An article edit form can come from the articles or featured view.
         // Adjust the redirect view on the value of 'return' in the request.
-        if ($this->input->get('return') == 'featured') {
+        if ($this->input->get('return') === 'featured') {
             $this->view_list = 'featured';
             $this->view_item = 'article&return=featured';
         }

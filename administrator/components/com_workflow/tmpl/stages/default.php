@@ -31,7 +31,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrderingUrl = '';
 
-$saveOrder = ($listOrder == 's.ordering');
+$saveOrder = ($listOrder === 's.ordering');
 
 if ($saveOrder) {
     $saveOrderingUrl = 'index.php?option=com_workflow&task=stages.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';

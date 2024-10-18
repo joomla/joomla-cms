@@ -484,7 +484,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
                     if (empty($value) || \count($value) <= 1) {
                         $value = null;
                     }
-                } elseif ($key == 'genericField') {
+                } elseif ($key === 'genericField') {
                     foreach ($value as $field) {
                         $result[$field['genericTitle']] = $field['genericValue'];
                     }

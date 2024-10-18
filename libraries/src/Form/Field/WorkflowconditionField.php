@@ -102,7 +102,7 @@ class WorkflowconditionField extends ListField
         }
 
         foreach ($conditions as $value => $option) {
-            $text = trim((string) $option) != '' ? trim((string) $option) : $value;
+            $text = trim((string) $option) !== '' ? trim((string) $option) : $value;
 
             $selected = ((int) $this->value === $value);
 

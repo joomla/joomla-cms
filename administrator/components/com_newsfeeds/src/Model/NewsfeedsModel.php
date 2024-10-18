@@ -305,7 +305,7 @@ class NewsfeedsModel extends ListModel
         $orderCol  = $this->state->get('list.ordering', 'a.name');
         $orderDirn = $this->state->get('list.direction', 'ASC');
 
-        if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
+        if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {
             $ordering = [
                 $db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
                 $db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),

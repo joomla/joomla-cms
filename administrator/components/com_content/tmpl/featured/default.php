@@ -37,7 +37,7 @@ $user      = $this->getCurrentUser();
 $userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 'fp.ordering';
+$saveOrder = $listOrder === 'fp.ordering';
 
 if (strpos($listOrder, 'publish_up') !== false) {
     $orderingColumn = 'publish_up';
@@ -157,7 +157,7 @@ $assoc = Associations::isEnabled();
                         <?php $count = count($this->items); ?>
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
-                            $ordering         = ($listOrder == 'fp.ordering');
+                            $ordering         = ($listOrder === 'fp.ordering');
                             $assetId          = 'com_content.article.' . $item->id;
                             $canCreate        = $user->authorise('core.create', 'com_content.category.' . $item->catid);
                             $canEdit          = $user->authorise('core.edit', 'com_content.article.' . $item->id);

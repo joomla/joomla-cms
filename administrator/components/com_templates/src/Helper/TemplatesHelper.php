@@ -66,7 +66,7 @@ class TemplatesHelper
             ->order($db->quoteName('client_id') . ' ASC')
             ->order($db->quoteName('name') . ' ASC');
 
-        if ($clientId != '*') {
+        if ($clientId !== '*') {
             $clientId = (int) $clientId;
             $query->where($db->quoteName('client_id') . ' = :clientid')
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
@@ -94,7 +94,7 @@ class TemplatesHelper
         if (is_file($filePath)) {
             $xml = Installer::parseXMLInstallFile($filePath);
 
-            if ($xml['type'] != 'template') {
+            if ($xml['type'] !== 'template') {
                 return false;
             }
 
@@ -133,7 +133,7 @@ class TemplatesHelper
 
             // Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
 
-            if ($xml->getName() != 'extension' && $xml->getName() != 'metafile') {
+            if ($xml->getName() !== 'extension' && $xml->getName() !== 'metafile') {
                 unset($xml);
 
                 return false;

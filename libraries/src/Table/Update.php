@@ -65,7 +65,7 @@ class Update extends Table
         }
 
         // Check for valid name
-        if (trim($this->name) == '' || trim($this->element) == '') {
+        if (trim($this->name) === '' || trim($this->element) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
             return false;

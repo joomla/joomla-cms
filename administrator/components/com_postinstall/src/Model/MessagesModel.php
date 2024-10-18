@@ -608,7 +608,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // If the type is anything other than message you need an action key
-        if (($options['type'] != 'message') && empty($options['action_key'])) {
+        if (($options['type'] !== 'message') && empty($options['action_key'])) {
             throw new \Exception('Post-installation message definitions need an action key when they are of type "' . $options['type'] . '"', 500);
         }
 
@@ -618,7 +618,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // The action file and method are only required for the "action" type
-        if ($options['type'] == 'action') {
+        if ($options['type'] === 'action') {
             if (empty($options['action_file'])) {
                 throw new \Exception('Post-installation message definitions need an action file when they are of type "action"', 500);
             }
@@ -635,14 +635,14 @@ class MessagesModel extends BaseDatabaseModel
             }
         }
 
-        if ($options['type'] == 'link') {
+        if ($options['type'] === 'link') {
             if (empty($options['link'])) {
                 throw new \Exception('Post-installation message definitions need an action (URL) when they are of type "link"', 500);
             }
         }
 
         // The condition file and method are only required when the type is not "message"
-        if ($options['type'] != 'message') {
+        if ($options['type'] !== 'message') {
             if (empty($options['condition_file'])) {
                 throw new \Exception('Post-installation message definitions need a condition file when they are of type "' . $options['type'] . '"', 500);
             }

@@ -302,7 +302,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 
                 $result = $db->loadResult();
 
-                if ($result != '*') {
+                if ($result !== '*') {
                     $form->setFieldAttribute('language', 'readonly', 'true');
                     $form->setFieldAttribute('language', 'default', $result);
                 }

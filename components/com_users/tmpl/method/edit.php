@@ -122,7 +122,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
         </div>
         <?php endif; ?>
 
-        <?php if ($this->renderOptions['field_type'] == 'custom') : ?>
+        <?php if ($this->renderOptions['field_type'] === 'custom') : ?>
             <?php echo $this->renderOptions['html']; ?>
         <?php endif; ?>
         <div class="row mb-3 <?php echo $this->renderOptions['input_type'] === 'hidden' ? 'd-none' : '' ?>">

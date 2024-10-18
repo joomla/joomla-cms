@@ -161,9 +161,9 @@ class ModuleModel extends AdminModel
                 $table->load($pk);
 
                 // Set the new position
-                if ($value == 'noposition') {
+                if ($value === 'noposition') {
                     $position = '';
-                } elseif ($value == 'nochange') {
+                } elseif ($value === 'nochange') {
                     $position = $table->position;
                 } else {
                     $position = $value;
@@ -263,9 +263,9 @@ class ModuleModel extends AdminModel
                 $table->load($pk);
 
                 // Set the new position
-                if ($value == 'noposition') {
+                if ($value === 'noposition') {
                     $position = '';
-                } elseif ($value == 'nochange') {
+                } elseif ($value === 'nochange') {
                     $position = $table->position;
                 } else {
                     $position = $value;
@@ -912,7 +912,7 @@ class ModuleModel extends AdminModel
         }
 
         // Alter the title and published state for Save as Copy
-        if ($input->get('task') == 'save2copy') {
+        if ($input->get('task') === 'save2copy') {
             $orig_table = clone $this->getTable();
             $orig_table->load((int) $input->getInt('id'));
             $data['published'] = 0;

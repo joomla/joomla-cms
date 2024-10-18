@@ -132,7 +132,7 @@ class ItemsModel extends ListModel
             $app->setUserState($this->context . '.menutype', '');
             $this->setState('menutypetitle', '');
             $this->setState('menutypeid', '');
-        } elseif ($menuType == 'main') {
+        } elseif ($menuType === 'main') {
             // Special menu types, if selected explicitly, will be allowed as a filter
             // Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
             $app->getInput()->set('client_id', 1);
@@ -494,7 +494,7 @@ class ItemsModel extends ListModel
     {
         $name = $form->getName();
 
-        if ($name == 'com_menus.items.filter') {
+        if ($name === 'com_menus.items.filter') {
             $clientId = $this->getState('filter.client_id');
             $form->setFieldAttribute('menutype', 'clientid', $clientId);
         } elseif (false !== strpos($name, 'com_menus.items.modal.')) {

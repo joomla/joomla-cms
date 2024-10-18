@@ -97,7 +97,7 @@ class StepModel extends AdminModel
             }
         }
 
-        if ($input->get('task') == 'save2copy') {
+        if ($input->get('task') === 'save2copy') {
             $origTable = clone $this->getTable();
             $origTable->load($input->getInt('id'));
 

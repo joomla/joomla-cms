@@ -73,7 +73,7 @@ final class PrivacyConsent extends CMSPlugin
         $form->loadFile('privacyconsent');
 
         $privacyType = $this->params->get('privacy_type', 'article');
-        $privacyId   = ($privacyType == 'menu_item') ? $this->getPrivacyItemId() : $this->getPrivacyArticleId();
+        $privacyId   = ($privacyType === 'menu_item') ? $this->getPrivacyItemId() : $this->getPrivacyArticleId();
         $privacynote = $this->params->get('privacy_note');
 
         // Push the privacy article ID into the privacy field.
@@ -119,7 +119,7 @@ final class PrivacyConsent extends CMSPlugin
         $form   = $input->post->get('jform', [], 'array');
 
         if (
-            $option == 'com_users' && \in_array($task, ['registration.register', 'profile.save'])
+            $option === 'com_users' && \in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
             throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
@@ -161,7 +161,7 @@ final class PrivacyConsent extends CMSPlugin
         $form   = $input->post->get('jform', [], 'array');
 
         if (
-            $option == 'com_users'
+            $option === 'com_users'
             && \in_array($task, ['registration.register', 'profile.save'])
             && !empty($form['privacyconsent']['privacy'])
         ) {
@@ -288,9 +288,9 @@ final class PrivacyConsent extends CMSPlugin
                 || substr($task, 0, 9) === 'callback.';
 
             if (
-                ($option == 'com_users' && $isAllowedUserTask)
-                || ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
-                || ($option == 'com_users' && $view == 'profile' && $layout == 'edit')
+                ($option === 'com_users' && $isAllowedUserTask)
+                || ($option === 'com_content' && $view === 'article' && $id == $privacyArticleId)
+                || ($option === 'com_users' && $view === 'profile' && $layout === 'edit')
             ) {
                 return;
             }

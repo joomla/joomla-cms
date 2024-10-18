@@ -347,7 +347,7 @@ class ContactsModel extends ListModel
         $orderCol  = $this->state->get('list.ordering', 'a.name');
         $orderDirn = $this->state->get('list.direction', 'asc');
 
-        if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
+        if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {
             $orderCol = $db->quoteName('c.title') . ' ' . $orderDirn . ', ' . $db->quoteName('a.ordering');
         }
 

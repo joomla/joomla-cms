@@ -106,7 +106,7 @@ if ($this->params->get('show_url', 1)) {
     <?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
         <ul class="result__taxonomy">
             <?php foreach ($taxonomies as $type => $taxonomy) : ?>
-                <?php if ($type == 'Language' && (!Multilanguage::isEnabled() || (isset($taxonomy[0]) && $taxonomy[0]->title == '*'))) : ?>
+                <?php if ($type === 'Language' && (!Multilanguage::isEnabled() || (isset($taxonomy[0]) && $taxonomy[0]->title === '*'))) : ?>
                     <?php continue; ?>
                 <?php endif; ?>
                 <?php $branch = Taxonomy::getBranch($type); ?>

@@ -80,7 +80,7 @@ class ItemController extends FormController
 
             if (!empty($item->menutype)) {
                 // Protected menutype, do not allow edit
-                if ($item->menutype == 'main') {
+                if ($item->menutype === 'main') {
                     return false;
                 }
 
@@ -289,7 +289,7 @@ class ItemController extends FormController
         $data[$key] = $recordId;
 
         // The save2copy task needs to be handled slightly differently.
-        if ($task == 'save2copy') {
+        if ($task === 'save2copy') {
             // Check-in the original row.
             if ($model->checkin($data['id']) === false) {
                 // Check-in failed, go back to the item and display a notice.
@@ -327,7 +327,7 @@ class ItemController extends FormController
             throw new \Exception($model->getError(), 500);
         }
 
-        if ($data['type'] == 'url') {
+        if ($data['type'] === 'url') {
             $data['link'] = str_replace(['"', '>', '<'], '', $data['link']);
 
             if (strstr($data['link'], ':')) {
@@ -357,7 +357,7 @@ class ItemController extends FormController
         $request = $form->getGroup('request', true);
 
         // Check for the special 'request' entry.
-        if ($data['type'] == 'component' && !empty($request)) {
+        if ($data['type'] === 'component' && !empty($request)) {
             $removeArgs = [];
 
             if (!isset($data['request']) || !\is_array($data['request'])) {
@@ -367,7 +367,7 @@ class ItemController extends FormController
             foreach ($request as $field) {
                 $fieldName = $field->getAttribute('name');
 
-                if (!isset($data['request'][$fieldName]) || $data['request'][$fieldName] == '') {
+                if (!isset($data['request'][$fieldName]) || $data['request'][$fieldName] === '') {
                     $removeArgs[$fieldName] = '';
                 }
             }
@@ -521,7 +521,7 @@ class ItemController extends FormController
 
         $app->setUserState('com_menus.edit.item.type', $title);
 
-        if ($title == 'component') {
+        if ($title === 'component') {
             if (isset($type->request)) {
                 // Clean component name
                 $type->request->option = InputFilter::getInstance()->clean($type->request->option, 'CMD');
@@ -531,7 +531,7 @@ class ItemController extends FormController
 
                 $app->setUserState('com_menus.edit.item.link', 'index.php?' . Uri::buildQuery((array) $type->request));
             }
-        } elseif ($title == 'alias') {
+        } elseif ($title === 'alias') {
             // If the type is alias you just need the item id from the menu item referenced.
             $app->setUserState('com_menus.edit.item.link', 'index.php?Itemid=');
         }
@@ -540,7 +540,7 @@ class ItemController extends FormController
 
         $data['type'] = $title;
 
-        if ($this->input->get('fieldtype') == 'type') {
+        if ($this->input->get('fieldtype') === 'type') {
             $data['link'] = $app->getUserState('com_menus.edit.item.link');
         }
 

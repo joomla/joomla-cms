@@ -137,7 +137,7 @@ class TextView extends AbstractView implements CurrentUserInterface
 
         foreach ($sectionData as $name => $value) {
             if (\is_array($value)) {
-                if ($name == 'Directive') {
+                if ($name === 'Directive') {
                     continue;
                 }
 

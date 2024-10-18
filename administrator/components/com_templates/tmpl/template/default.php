@@ -40,11 +40,11 @@ if (!$this->getCurrentUser()->authorise('core.admin')) {
     Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
 }
 
-if ($this->type == 'image') {
+if ($this->type === 'image') {
     $wa->usePreset('cropperjs');
 }
 
-if ($this->type == 'font') {
+if ($this->type === 'font') {
     $wa->addInlineStyle("
 		@font-face {
 			font-family: previewFont;
@@ -61,12 +61,12 @@ if ($this->type == 'font') {
     <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
     <div class="row mt-2">
         <div class="col-md-8" id="conditional-section">
-            <?php if ($this->type != 'home') : ?>
+            <?php if ($this->type !== 'home') : ?>
                 <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . str_replace('//', '/', base64_decode($this->file)) : '/' . ((int) $this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . str_replace('//', '/', base64_decode($this->file))), $this->template->element); ?></p>
                 <p class="lead path hidden"><?php echo $this->source->filename; ?></p>
             <?php endif; ?>
         </div>
-        <?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
+        <?php if ($this->type === 'file' && !empty($this->source->coreFile)) : ?>
             <div class="col-md-4 text-end">
                 <div id="toggle-buttons">
                     <?php echo $this->form->renderField('show_core'); ?>
@@ -102,7 +102,7 @@ if ($this->type == 'font') {
         </div>
         <div class="col-md-9">
             <fieldset class="options-form">
-                <?php if ($this->type == 'home') : ?>
+                <?php if ($this->type === 'home') : ?>
                     <legend><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></legend>
                     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                         <input type="hidden" name="task" value="">
@@ -114,7 +114,7 @@ if ($this->type == 'font') {
                             </a>
                         </p>
                     </form>
-                <?php elseif ($this->type == 'file') : ?>
+                <?php elseif ($this->type === 'file') : ?>
                     <div class="row">
                         <div class="col-md-12" id="override-pane">
                             <?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
@@ -169,7 +169,7 @@ if ($this->type == 'font') {
                             </div>
                         <?php endif; ?>
                     </div>
-                <?php elseif ($this->type == 'archive') : ?>
+                <?php elseif ($this->type === 'archive') : ?>
                     <legend><?php echo Text::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
                     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                         <ul class="nav flex-column well">
@@ -187,7 +187,7 @@ if ($this->type == 'font') {
                         <input type="hidden" name="task" value="">
                         <?php echo HTMLHelper::_('form.token'); ?>
                     </form>
-                <?php elseif ($this->type == 'image') : ?>
+                <?php elseif ($this->type === 'image') : ?>
                     <legend><?php echo $this->escape(basename($this->image['address'])); ?></legend>
                     <img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" style="max-width: 100%">
                     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
@@ -202,7 +202,7 @@ if ($this->type == 'font') {
                             <?php echo HTMLHelper::_('form.token'); ?>
                         </fieldset>
                     </form>
-                <?php elseif ($this->type == 'font') : ?>
+                <?php elseif ($this->type === 'font') : ?>
                     <div class="font-preview">
                         <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                             <fieldset class="adminform">
@@ -399,7 +399,7 @@ if ($this->type == 'font') {
         <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $copyModalData); ?>
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>
-    <?php if ($this->type != 'home') : ?>
+    <?php if ($this->type !== 'home') : ?>
         <?php // Rename Modal
         $renameModalData = [
             'selector' => 'renameModal',
@@ -415,7 +415,7 @@ if ($this->type == 'font') {
             <?php echo HTMLHelper::_('form.token'); ?>
         </form>
     <?php endif; ?>
-    <?php if ($this->type != 'home') : ?>
+    <?php if ($this->type !== 'home') : ?>
         <?php // Delete Modal
         $deleteModalData = [
             'selector' => 'deleteModal',
@@ -458,7 +458,7 @@ if ($this->type == 'font') {
     ];
     ?>
     <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $folderModalData); ?>
-    <?php if ($this->type == 'image') : ?>
+    <?php if ($this->type === 'image') : ?>
         <?php // Resize Modal
         $resizeModalData = [
             'selector' => 'resizeModal',

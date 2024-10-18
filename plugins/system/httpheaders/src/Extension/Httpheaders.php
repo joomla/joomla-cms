@@ -281,7 +281,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
 
         foreach ($cspValues as $cspValue) {
             // Handle the client settings foreach header
-            if (!$this->getApplication()->isClient($cspValue->client) && $cspValue->client != 'both') {
+            if (!$this->getApplication()->isClient($cspValue->client) && $cspValue->client !== 'both') {
                 continue;
             }
 
@@ -446,7 +446,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             $header          = $headerAndClient[0];
             $client          = $headerAndClient[1] ?? 'both';
 
-            if (!$this->getApplication()->isClient($client) && $client != 'both') {
+            if (!$this->getApplication()->isClient($client) && $client !== 'both') {
                 continue;
             }
 

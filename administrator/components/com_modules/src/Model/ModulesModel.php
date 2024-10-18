@@ -173,7 +173,7 @@ class ModulesModel extends ListModel
             $this->translate($result);
 
             // Sort the array of translated objects.
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, true, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
 
             // Process pagination.
             $total                                      = \count($result);

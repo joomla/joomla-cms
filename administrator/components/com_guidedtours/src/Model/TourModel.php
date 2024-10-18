@@ -67,7 +67,7 @@ class TourModel extends AdminModel
             $data['description'] = strip_tags($data['description']);
         }
 
-        if ($input->get('task') == 'save2copy') {
+        if ($input->get('task') === 'save2copy') {
             $origTable = clone $this->getTable();
             $origTable->load($input->getInt('id'));
 

@@ -437,7 +437,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             /** @var MfaTable $record */
             $record = reset($userMfaRecords);
 
-            if ($record->method == 'backupcodes') {
+            if ($record->method === 'backupcodes') {
                 return;
             }
         }
@@ -446,7 +446,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         $emailRecords = array_filter(
             $userMfaRecords,
             function (MfaTable $record) {
-                return $record->method == 'email';
+                return $record->method === 'email';
             }
         );
 

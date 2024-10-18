@@ -51,7 +51,7 @@ class DisplayController extends BaseController
         $id     = $this->input->getString('template_id');
 
         // Check for edit form.
-        if ($view == 'template' && $layout == 'edit' && !$this->checkEditId('com_mails.edit.template', $id)) {
+        if ($view === 'template' && $layout === 'edit' && !$this->checkEditId('com_mails.edit.template', $id)) {
             // Somehow the person just went to the form - we don't allow that.
             $this->setMessage(Text::sprintf('COM_MAILS_ERROR_UNHELD_ID', $id), 'error');
             $this->setRedirect(Route::_('index.php?option=com_mails&view=templates', false));
