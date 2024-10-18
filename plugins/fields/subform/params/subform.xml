@@ -31,7 +31,7 @@
 				type="subform"
 				label="PLG_FIELDS_SUBFORM_PARAMS_OPTIONS_LABEL"
 				icon="list"
-				layout="joomla.form.field.subform.repeatable-table"
+				layout="joomla.form.field.subform.repeatable-grid"
 				min="1"
 				multiple="true"
 				>
@@ -73,8 +73,9 @@
 					showon="repeat:1"
 					>
 					<option value="">JDEFAULT</option>
-					<option value="joomla.form.field.subform.repeatable-table">PLG_FIELDS_SUBFORM_PARAMS_EDIT_LAYOUT_OPTION_REPEATABLE_TABLE_LABEL</option>
 					<option value="joomla.form.field.subform.repeatable">PLG_FIELDS_SUBFORM_PARAMS_EDIT_LAYOUT_OPTION_REPEATABLE_FORM_LABEL</option>
+					<option value="joomla.form.field.subform.repeatable-grid">PLG_FIELDS_SUBFORM_PARAMS_EDIT_LAYOUT_OPTION_REPEATABLE_GRID_LABEL</option>
+					<option value="joomla.form.field.subform.repeatable-table">PLG_FIELDS_SUBFORM_PARAMS_EDIT_LAYOUT_OPTION_REPEATABLE_TABLE_LABEL</option>
 				</field>
 			</fieldset>
 		</fieldset>
