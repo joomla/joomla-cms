@@ -10,7 +10,7 @@
   window.JoomlainitReCaptchaInvisible = () => {
     const optionKeys = ['sitekey', 'badge', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
 
-    document.getElementsByClassName('g-recaptcha').forEach((element) => {
+    document.querySelectorAll('.g-recaptcha').forEach((element) => {
       let options = {};
 
       if (element.dataset) {
