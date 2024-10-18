@@ -10,13 +10,11 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Table\Extension;
-use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
