@@ -24,6 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\ArticleModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -107,13 +108,15 @@ class HtmlView extends BaseHtmlView
         $app  = Factory::getApplication();
         $user = $this->getCurrentUser();
 
-        $this->item  = $this->get('Item');
+        /** @var ArticleModel $model */
+        $model       = $this->getModel();
+        $this->item  = $model->getItem();
         $this->print = $app->getInput()->getBool('print', false);
-        $this->state = $this->get('State');
+        $this->state = $model->getState();
         $this->user  = $user;
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
