@@ -9,8 +9,8 @@
 
 namespace Joomla\CMS\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
@@ -367,14 +367,9 @@ class TagsHelper extends CMSHelper
 
         $query->whereIn($db->quoteName('t.access'), $groups);
 
-        // Optionally filter on language
-        $language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
-
-        if ($language !== 'all') {
-            if ($language === 'current_language') {
-                $language = $this->getCurrentLanguage();
-            }
-
+        // Filter on language
+        if (Multilanguage::isEnabled()) {
+            $language = $this->getCurrentLanguage();
             $query->whereIn($db->quoteName('language'), [$language, '*'], ParameterType::STRING);
         }
 
@@ -428,14 +423,9 @@ class TagsHelper extends CMSHelper
 
         $query->whereIn($db->quoteName('t.access'), $groups);
 
-        // Optionally filter on language
-        $language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
-
-        if ($language !== 'all') {
-            if ($language === 'current_language') {
-                $language = $this->getCurrentLanguage();
-            }
-
+        // Filter on language
+        if (Multilanguage::isEnabled()) {
+            $language = $this->getCurrentLanguage();
             $query->whereIn($db->quoteName('language'), [$language, '*'], ParameterType::STRING);
         }
 
@@ -656,9 +646,7 @@ class TagsHelper extends CMSHelper
 
         // Optionally filter on language
         if ($languageFilter !== 'all') {
-            if ($languageFilter === 'current_language') {
-                $languageFilter = $this->getCurrentLanguage();
-            }
+            $languageFilter = $this->getCurrentLanguage();
 
             $query->whereIn($db->quoteName('c.core_language'), [$languageFilter, '*'], ParameterType::STRING);
         }

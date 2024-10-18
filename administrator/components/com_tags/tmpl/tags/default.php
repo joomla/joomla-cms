@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -32,6 +33,7 @@ $userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$assoc     = Associations::isEnabled();
 $extension = $this->escape($this->state->get('filter.extension'));
 $parts     = explode('.', $extension);
 $component = $parts[0];
@@ -115,6 +117,11 @@ if ($saveOrder && !empty($this->items)) {
                         <th scope="col" class="w-10 d-none d-md-table-cell">
                             <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
                         </th>
+                        <?php if ($assoc) : ?>
+                            <th scope="col" class="w-10">
+                                <?php echo HTMLHelper::_('searchtools.sort', 'COM_TAGS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+                            </th>
+                        <?php endif; ?>
                         <?php if (Multilanguage::isEnabled()) : ?>
                             <th scope="col" class="w-10 d-none d-md-table-cell">
                                 <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -231,6 +238,13 @@ if ($saveOrder && !empty($this->items)) {
                         <td class="small d-none d-md-table-cell">
                             <?php echo $this->escape($item->access_title); ?>
                         </td>
+                        <?php if ($assoc) : ?>
+                            <td class="d-none d-md-table-cell">
+                                <?php if ($item->association) : ?>
+                                    <?php echo HTMLHelper::_('tagsadministrator.association', $item->id); ?>
+                                <?php endif; ?>
+                            </td>
+                        <?php endif; ?>
                         <?php if (Multilanguage::isEnabled()) : ?>
                             <td class="small d-none d-md-table-cell">
                                 <?php echo LayoutHelper::render('joomla.content.language', $item); ?>
