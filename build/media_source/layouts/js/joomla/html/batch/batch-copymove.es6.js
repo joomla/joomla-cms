@@ -9,6 +9,7 @@
     const batchMenu = document.getElementById('batch-menu-id');
     const batchPosition = document.getElementById('batch-position-id');
     const batchGroup = document.getElementById('batch-group-id');
+    const batchTagCopyMoveId = document.getElementById('batch-tag-copy-move-id');
     const batchCopyMove = document.getElementById('batch-copy-move');
     let batchSelector;
 
@@ -37,11 +38,12 @@
       batchSelector = batchGroup;
     }
 
-    if (batchCopyMove) {
-      batchCopyMove.classList.add('hidden');
+    if (batchTagCopyMoveId) {
+      batchSelector = batchTagCopyMoveId;
     }
 
     if (batchCopyMove) {
+      batchCopyMove.classList.add('hidden');
       batchSelector.addEventListener('change', onChange);
     }
 
