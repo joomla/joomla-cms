@@ -202,12 +202,34 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $id = (int) $this->getApplication()->getInput()->getInt('id', 0);
+        // Check whether we have passed a taskId via URL parameter
+        $taskId    = $this->getApplication()->getInput()->getInt('id', 0);
+        $scheduler = new Scheduler();
 
-        $task = $this->runScheduler($id);
+        if ($taskId) {
+            $records[] = $scheduler->fetchTaskRecord($taskId);
+        } else {
+            $filters    = $scheduler::TASK_QUEUE_FILTERS;
+            $listConfig = $scheduler::TASK_QUEUE_LIST_CONFIG;
 
-        if (!empty($task) && !empty($task->getContent()['exception'])) {
-            throw $task->getContent()['exception'];
+            // Make sure we only get one task at the time
+            $listConfig['limit'] = 1;
+
+            // Get tasks to run
+            $records = $scheduler->fetchTaskRecords($filters, $listConfig);
+        }
+
+        if (\count($records) === 0) {
+            // No tasks to run
+            return;
+        }
+
+        foreach ($records as $record) {
+            $task = $this->runScheduler($record->id);
+
+            if (!empty($task) && !empty($task->getContent()['exception'])) {
+                throw $task->getContent()['exception'];
+            }
         }
     }
 
