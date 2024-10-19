@@ -98,7 +98,7 @@ $this->getDocument()->getWebAssetManager()
                                     echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
                                     <label for="<?php echo $id . $link->value; ?>" class="">
                                         <?php echo $link->text; ?>
-                                        <?php if (Multilanguage::isEnabled() && $link->language != '' && $link->language !== '*') : ?>
+                                        <?php if (Multilanguage::isEnabled() && $link->language !== '' && $link->language !== '*') : ?>
                                             <?php if ($link->language_image) : ?>
                                                 <?php echo HTMLHelper::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, ['title' => $link->language_title], true); ?>
                                             <?php else : ?>
