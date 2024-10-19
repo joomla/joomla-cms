@@ -159,7 +159,7 @@ class PositionsModel extends ListModel
 
                             if ($type === 'user' || ($state != '' && $state != $template->enabled)) {
                                 unset($positions[$value]);
-                            } elseif (preg_match(\chr(1) . $search . \chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element)) {
+                            } elseif (preg_match(\chr(1) . $search . \chr(1) . 'i', $value) && ($filter_template === '' || $filter_template == $template->element)) {
                                 if (!isset($positions[$value])) {
                                     $positions[$value] = [];
                                 }
