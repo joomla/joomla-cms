@@ -349,6 +349,31 @@ abstract class HTMLHelper
     }
 
     /**
+     * Look for path relatively to media folder.
+     *
+     * @param   string   $folder   Folder name to search in (i.e. images, css, js).
+     * @param   string   $file     Path to file to check.
+     * @param   array    $options  Array with additional options:
+     *                             relative: Flag if the path to the file is relative to the /media folder (and searches in template);
+     *                             detectBrowser: Flag if the browser should be detected to include specific browser file;
+     *                             detectDebug: Flag if debug mode is enabled to include uncompressed files (for css, js)
+     *                               (boolean) - will enable debugging depends on site configuration, (1) - force debug On, (-1) - force debug Off;
+     *
+     * @return string
+     * @since  __DEPLOY_VERSION__
+     */
+    final public static function mediaPath(string $folder, string $file, array $options = []): string
+    {
+        $relative      = $options['relative'] ?? false;
+        $detectBrowser = $options['detectBrowser'] ?? false;
+        $detectDebug   = $options['detectDebug'] ?? true;
+
+        $includes      = static::includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug);
+
+        return $includes[0] ?? '';
+    }
+
+    /**
      * Compute the files to be included
      *
      * @param   string   $folder         Folder name to search in (i.e. images, css, js).
@@ -356,6 +381,7 @@ abstract class HTMLHelper
      * @param   boolean  $relative       Flag if the path to the file is relative to the /media folder (and searches in template).
      * @param   boolean  $detectBrowser  Flag if the browser should be detected to include specific browser files.
      * @param   boolean  $detectDebug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+     *                                   (boolean) - will enable debugging depends on site configuration, (1) - force debug On, (-1) - force debug Off;
      *
      * @return  array    files to be included.
      *
@@ -364,12 +390,17 @@ abstract class HTMLHelper
      */
     protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
     {
-        // Set debug flag
-        $debugMode = false;
-
         // Detect debug mode
-        if ($detectDebug && JDEBUG) {
-            $debugMode = true;
+        switch (true) {
+            case \is_bool($detectDebug):
+                $debugMode = $detectDebug && JDEBUG;
+                break;
+            case $detectDebug === 1:
+                $debugMode = true;
+                break;
+            case $detectDebug === -1:
+            default:
+                $debugMode = false;
         }
 
         // If http is present in filename
@@ -757,9 +788,14 @@ abstract class HTMLHelper
      *
      * @see   Browser
      * @since 1.5
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Use WebAssetManager::useStyle() or WebAssetManager::registerAndUseStyle() instead.
      */
     public static function stylesheet($file, $options = [], $attribs = [])
     {
+        @trigger_error('Method HTMLHelper::stylesheet() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
+
         $options['relative']      = $options['relative'] ?? false;
         $options['pathOnly']      = $options['pathOnly'] ?? false;
         $options['detectBrowser'] = $options['detectBrowser'] ?? false;
@@ -804,9 +840,14 @@ abstract class HTMLHelper
      *
      * @see   HTMLHelper::stylesheet()
      * @since 1.5
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Use WebAssetManager::useScript() or WebAssetManager::registerAndUseScript() instead.
      */
     public static function script($file, $options = [], $attribs = [])
     {
+        @trigger_error('Method HTMLHelper::script() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
+
         $options['relative']      = $options['relative'] ?? false;
         $options['pathOnly']      = $options['pathOnly'] ?? false;
         $options['detectBrowser'] = $options['detectBrowser'] ?? false;
