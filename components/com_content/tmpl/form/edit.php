@@ -115,8 +115,6 @@ if (!$params->exists('show_publishing_options')) {
                     <?php endif; ?>
                     <?php if (is_null($this->item->id)) : ?>
                         <div class="control-group">
-                            <div class="control-label">
-                            </div>
                             <div class="controls">
                                 <?php echo Text::_('COM_CONTENT_ORDERING'); ?>
                             </div>
