@@ -12,6 +12,7 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Filesystem\Folder;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -88,53 +89,127 @@ class ExtensionInstallCommand extends AbstractCommand
      */
     protected function configure(): void
     {
-        $this->addOption('path', null, InputOption::VALUE_REQUIRED, 'The path to the extension');
-        $this->addOption('url', null, InputOption::VALUE_REQUIRED, 'The url to the extension');
+        $this->addOption('path', null, InputOption::VALUE_REQUIRED, 'The path to the extension package or folder');
+        $this->addOption('package', 'p', InputOption::VALUE_REQUIRED, 'The path to the update package');
+        $this->addOption('folder', 'f', InputOption::VALUE_REQUIRED, 'The path to the folder with the update');
+        $this->addOption('url', 'u', InputOption::VALUE_REQUIRED, 'The url to the extension');
 
-        $help = "<info>%command.name%</info> is used to install extensions
+        $help = "<info>%command.name%</info> is used to install or update extensions
 		\nYou must provide one of the following options to the command:
-		\n  --path: The path on your local filesystem to the install package
+		\n  --path: The path on your local filesystem to the install package or folder with files (extracted)
+        \n  --package: The path on your local filesystem to the install package
+        \n  --folder: The path on your local filesystem to the install files (extracted)
 		\n  --url: The URL from where the install package should be downloaded
 		\nUsage:
 		\n  <info>php %command.full_name% --path=<path_to_file></info>
 		\n  <info>php %command.full_name% --url=<url_to_file></info>";
 
-        $this->setDescription('Install an extension from a URL or from a path');
+        $this->setDescription('Install or update an extension from a URL or from a path');
         $this->setHelp($help);
     }
 
     /**
-     * Used for installing extension from a path
+     * Used for installing extension package from a zipped file
      *
      * @param   string  $path  Path to the extension zip file
      *
      * @return boolean
      *
+     * @since __DEPLOY_VERSION__
+     *
+     */
+    public function processPackageInstallation($path): bool
+    {
+        if (!file_exists($path)) {
+            $this->ioStyle->warning('The file path specified does not exist.');
+            return false;
+        }
+
+        if (!is_file($path)) {
+            $this->ioStyle->warning('The file path specified is not a file');
+            return false;
+        }
+        $this->ioStyle->title('Update/Install Extension From Package');
+
+        $package  = InstallerHelper::unpack($path, true);
+
+        if ($package['type'] === false) {
+            $this->ioStyle->error('Unable to unpack file');
+            return false;
+        }
+
+        $resultdir = $package['extractdir'];
+
+        if ($resultdir && is_dir($resultdir)) {
+            $jInstaller = Installer::getInstance();
+            $result     = $jInstaller->install($resultdir);
+
+            //InstallHelper::cleanupInstall is intented to delete the uploaded package as well.
+            //this command did not download the package so let's not delete it.
+            Folder::delete($resultdir);
+        }
+
+        return $result;
+    }
+
+
+
+    /**
+     * Used for installing extension from a path
+     *
+     * @param   string  $path  Path to folder with extension files
+     * @return boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function processFolderInstallation($path): bool
+    {
+        if (!file_exists($path)) {
+            $this->ioStyle->warning('The  path specified does not exist.');
+            return false;
+        }
+
+        if (!is_dir($path)) {
+            $this->ioStyle->warning('The  path specified is not a folder');
+            return false;
+        }
+        $this->ioStyle->title('Update/Install Extension From Folder');
+
+        $jInstaller = Installer::getInstance();
+        $result     = $jInstaller->install($path);
+
+        return $result;
+    }
+
+    /**
+     * Used for installing extension from a path either zip file
+     * or folder with extension files (since __DEPLAY_VERSION__)
+     *
+     * @param   string  $path  Path to the extension zip file or folder
+     *
+     * @return boolean
+     *
      * @since 4.0.0
      *
-     * @throws \Exception
      */
     public function processPathInstallation($path): bool
     {
         if (!file_exists($path)) {
-            $this->ioStyle->warning('The file path specified does not exist.');
-
+            $this->ioStyle->warning('The  path specified does not exist.');
             return false;
         }
 
-        $tmpPath  = $this->getApplication()->get('tmp_path');
-        $tmpPath .= '/' . basename($path);
-        $package  = InstallerHelper::unpack($path, true);
-
-        if ($package['type'] === false) {
-            return false;
+        if (is_dir($path)) {
+            return $this->processFolderInstallation($path);
         }
 
-        $jInstaller = Installer::getInstance();
-        $result     = $jInstaller->install($package['extractdir']);
-        InstallerHelper::cleanupInstall($tmpPath, $package['extractdir']);
+        if (is_file($path)) {
+            return $this->processPackageInstallation($path);
+        }
 
-        return $result;
+        $this->ioStyle->warning('The  path specified neither file or folder');
+
+        return false;
     }
 
 
@@ -184,6 +259,34 @@ class ExtensionInstallCommand extends AbstractCommand
     {
         $this->configureIO($input, $output);
         $this->ioStyle->title('Install Extension');
+
+        if ($package = $this->cliInput->getOption('package')) {
+            $result = $this->processPackageInstallation($package);
+
+            if (!$result) {
+                $this->ioStyle->error('Unable to install extension');
+
+                return self::INSTALLATION_FAILED;
+            }
+
+            $this->ioStyle->success('Extension installed successfully.');
+            return self::INSTALLATION_SUCCESSFUL;
+        }
+
+
+        if ($path = $this->cliInput->getOption('folder')) {
+            $result = $this->processFolderInstallation($path);
+
+            if (!$result) {
+                $this->ioStyle->error('Unable to install extension');
+
+                return self::INSTALLATION_FAILED;
+            }
+
+            $this->ioStyle->success('Extension installed successfully.');
+            return self::INSTALLATION_SUCCESSFUL;
+        }
+
 
         if ($path = $this->cliInput->getOption('path')) {
             $result = $this->processPathInstallation($path);
