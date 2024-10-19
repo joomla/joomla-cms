@@ -164,7 +164,7 @@ if (!empty($editor)) {
                         </td>
                         <?php if ($multilang) : ?>
                             <td class="small d-none d-md-table-cell">
-                                <?php if ($item->language == '') : ?>
+                                <?php if ($item->language === '') : ?>
                                     <?php echo Text::_('COM_MENUS_HOME'); ?>
                                 <?php elseif ($item->language === '*') : ?>
                                     <?php echo Text::alt('JALL', 'language'); ?>
