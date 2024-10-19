@@ -106,13 +106,13 @@ if (!$params->exists('show_publishing_options')) {
                     <?php if ($this->item->params->get('access-change')) : ?>
                         <?php echo $this->form->renderField('featured'); ?>
                     <?php endif; ?>
-                    
-                    <?php echo $this->form->renderField('tags'); ?>
+                    <?php echo $this->form->renderField('access'); ?>
+                    <?php echo $this->form->renderField('language'); ?>
+					<?php echo $this->form->renderField('tags'); ?>
                     <?php echo $this->form->renderField('note'); ?>
                     <?php if ($params->get('save_history', 0)) : ?>
                         <?php echo $this->form->renderField('version_note'); ?>
                     <?php endif; ?>
-                    <?php echo $this->form->renderField('access'); ?>
                     <?php if (is_null($this->item->id)) : ?>
                         <div class="control-group">
                             <div class="control-label">
@@ -122,20 +122,23 @@ if (!$params->exists('show_publishing_options')) {
                             </div>
                         </div>
                     <?php endif; ?>
-                    <?php echo $this->form->renderField('language'); ?>
                 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
                 <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
                     <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
-                        <?php echo $this->form->renderField('created_by_alias'); ?>
                         <?php if (!is_null($this->item->id)) : ?>
                             <?php echo $this->form->renderField('publish_up'); ?>
                             <?php echo $this->form->renderField('publish_down'); ?>
                             <?php echo $this->form->renderField('featured_up'); ?>
                             <?php echo $this->form->renderField('featured_down'); ?>
                         <?php endif; ?>
-                        <?php echo $this->form->renderField('metadesc'); ?>
-                        <?php echo $this->form->renderField('metakey'); ?>
+                        <?php echo $this->form->renderField('created_by_alias'); ?>
+
+                        <fieldset id="fieldset-metadata" class="options-form">
+                            <legend><?php echo Text::_('COM_CONTENT_METADATA'); ?></legend>
+                            <?php echo $this->form->renderField('metadesc'); ?>
+                            <?php echo $this->form->renderField('metakey'); ?>
+                        </fieldset>
                     <?php echo HTMLHelper::_('uitab.endTab'); ?>
                 <?php endif; ?>
 
