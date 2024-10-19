@@ -139,8 +139,8 @@ class RouteHelper
         }
 
         // Prepare the reverse lookup array.
-        if (!isset(static::$lookup[$language])) {
-            static::$lookup[$language] = [];
+        if (!isset(static::$lookup[$this->extension][$language])) {
+            static::$lookup[$this->extension][$language] = [];
 
             $component = ComponentHelper::getComponent($this->extension);
 
@@ -158,8 +158,8 @@ class RouteHelper
                 if (isset($item->query['view'])) {
                     $view = $item->query['view'];
 
-                    if (!isset(static::$lookup[$language][$view])) {
-                        static::$lookup[$language][$view] = [];
+                    if (!isset(static::$lookup[$this->extension][$language][$view])) {
+                        static::$lookup[$this->extension][$language][$view] = [];
                     }
 
                     if (isset($item->query['id'])) {
@@ -172,8 +172,8 @@ class RouteHelper
                          * $language != * can override existing entries
                          * $language == * cannot override existing entries
                          */
-                        if ($item->language !== '*' || !isset(static::$lookup[$language][$view][$item->query['id']])) {
-                            static::$lookup[$language][$view][$item->query['id']] = $item->id;
+                        if ($item->language !== '*' || !isset(static::$lookup[$this->extension][$language][$view][$item->query['id']])) {
+                            static::$lookup[$this->extension][$language][$view][$item->query['id']] = $item->id;
                         }
                     }
                 }
@@ -182,10 +182,10 @@ class RouteHelper
 
         if ($needles) {
             foreach ($needles as $view => $ids) {
-                if (isset(static::$lookup[$language][$view])) {
+                if (isset(static::$lookup[$this->extension][$language][$view])) {
                     foreach ($ids as $id) {
-                        if (isset(static::$lookup[$language][$view][(int) $id])) {
-                            return static::$lookup[$language][$view][(int) $id];
+                        if (isset(static::$lookup[$this->extension][$language][$view][(int) $id])) {
+                            return static::$lookup[$this->extension][$language][$view][(int) $id];
                         }
                     }
                 }
