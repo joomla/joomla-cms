@@ -108,7 +108,7 @@ if (!$params->exists('show_publishing_options')) {
                     <?php endif; ?>
                     <?php echo $this->form->renderField('access'); ?>
                     <?php echo $this->form->renderField('language'); ?>
-					<?php echo $this->form->renderField('tags'); ?>
+                    <?php echo $this->form->renderField('tags'); ?>
                     <?php echo $this->form->renderField('note'); ?>
                     <?php if ($params->get('save_history', 0)) : ?>
                         <?php echo $this->form->renderField('version_note'); ?>
