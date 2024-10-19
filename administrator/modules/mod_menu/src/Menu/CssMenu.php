@@ -495,12 +495,12 @@ class CssMenu
         $identifier = $node->class;
 
         // Top level is special
-        if (trim($identifier) == '') {
+        if (trim($identifier) === '') {
             return null;
         }
 
         // We were passed a class name
-        if (substr($identifier, 0, 6) == 'class:') {
+        if (substr($identifier, 0, 6) === 'class:') {
             $class = substr($identifier, 6);
         } else {
             // We were passed background icon url. Build the CSS class for the icon

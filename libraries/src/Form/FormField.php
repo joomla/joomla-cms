@@ -1015,7 +1015,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         if (empty($options['hiddenLabel'])) {
             if ($this->getAttribute('hiddenLabel')) {
-                $options['hiddenLabel'] = $this->getAttribute('hiddenLabel') == 'true';
+                $options['hiddenLabel'] = $this->getAttribute('hiddenLabel') === 'true';
             } else {
                 $options['hiddenLabel'] = $this->hiddenLabel;
             }
@@ -1023,14 +1023,14 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         if (empty($options['hiddenDescription'])) {
             if ($this->getAttribute('hiddenDescription')) {
-                $options['hiddenDescription'] = $this->getAttribute('hiddenDescription') == 'true';
+                $options['hiddenDescription'] = $this->getAttribute('hiddenDescription') === 'true';
             } else {
                 $options['hiddenDescription'] = $this->hiddenDescription;
             }
         }
 
         $options['inlineHelp'] = isset($this->form, $this->form->getXml()->config->inlinehelp['button'])
-            ? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
+            ? ((string) $this->form->getXml()->config->inlinehelp['button'] === 'show' ?: false)
             : false;
 
         // Check if the field has showon in nested option

@@ -78,7 +78,7 @@ class MediaActionPlugin extends CMSPlugin
     public function onContentPrepareForm(Form $form, $data)
     {
         // Check if it is the right form
-        if ($form->getName() != 'com_media.file') {
+        if ($form->getName() !== 'com_media.file') {
             return;
         }
 

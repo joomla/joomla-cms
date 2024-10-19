@@ -75,7 +75,7 @@ class Encrypt
      */
     public function decrypt(string $data, bool $legacy = false): string
     {
-        if (substr($data, 0, 12) != '###AES128###') {
+        if (substr($data, 0, 12) !== '###AES128###') {
             return $data;
         }
 

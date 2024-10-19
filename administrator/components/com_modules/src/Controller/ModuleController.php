@@ -228,7 +228,7 @@ class ModuleController extends FormController
     {
         $this->checkToken();
 
-        if ($this->app->getDocument()->getType() == 'json') {
+        if ($this->app->getDocument()->getType() === 'json') {
             $model      = $this->getModel();
             $data       = $this->input->post->get('jform', [], 'array');
             $item       = $model->getItem($this->input->get('id'));

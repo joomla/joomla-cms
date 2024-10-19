@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $app     = Factory::getApplication();
         $toolbar = $this->getDocument()->getToolbar();
 
-        if ($this->getLayout() == 'edit') {
+        if ($this->getLayout() === 'edit') {
             $app->getInput()->set('hidemainmenu', true);
             ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-open-text new-privatemessage');
             $toolbar->standardButton('save', 'COM_MESSAGES_TOOLBAR_SEND', 'message.save')

@@ -86,7 +86,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
      */
     public static function onPrepareForm(Form $form, $data)
     {
-        if ($form->getName() != 'com_categories.categorycom_content') {
+        if ($form->getName() !== 'com_categories.categorycom_content') {
             return;
         }
 

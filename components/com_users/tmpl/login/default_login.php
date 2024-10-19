@@ -69,7 +69,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 
             <?php foreach ($this->extraButtons as $button) :
                 $dataAttributeKeys = array_filter(array_keys($button), function ($key) {
-                    return substr($key, 0, 5) == 'data-';
+                    return substr($key, 0, 5) === 'data-';
                 });
                 ?>
                 <div class="com-users-login__submit control-group">

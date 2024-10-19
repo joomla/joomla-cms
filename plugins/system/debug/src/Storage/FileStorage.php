@@ -81,7 +81,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         $files = [];
 
         foreach (new \DirectoryIterator($this->dirname) as $file) {
-            if ($file->getExtension() == 'php') {
+            if ($file->getExtension() === 'php') {
                 $files[] = [
                     'time' => $file->getMTime(),
                     'id'   => $file->getBasename('.php'),

@@ -203,7 +203,7 @@ class Adapter
             $fileName = $file->getFilename();
 
             // Only load for php files.
-            if (!$file->isFile() || $file->getExtension() != 'php') {
+            if (!$file->isFile() || $file->getExtension() !== 'php') {
                 continue;
             }
 

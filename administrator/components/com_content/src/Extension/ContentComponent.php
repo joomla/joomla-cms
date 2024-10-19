@@ -159,7 +159,7 @@ class ContentComponent extends MVCComponent implements
             }
         }
 
-        if ($section != 'article') {
+        if ($section !== 'article') {
             // We don't know other sections
             return null;
         }

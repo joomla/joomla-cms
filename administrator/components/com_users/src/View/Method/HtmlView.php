@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
         $toolbar             = $this->getDocument()->getToolbar();
 
         // Backup codes are a special case, rendered with a special layout
-        if ($this->record->method == 'backupcodes') {
+        if ($this->record->method === 'backupcodes') {
             $this->setLayout('backupcodes');
 
             $backupCodes = $this->record->options;

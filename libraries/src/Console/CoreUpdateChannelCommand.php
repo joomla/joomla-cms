@@ -121,7 +121,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
 
         $params->set('updatesource', $channel);
 
-        if ($channel == 'custom') {
+        if ($channel === 'custom') {
             $url = $input->getOption('url');
 
             if (!$url) {
@@ -144,7 +144,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
         $updatemodel = $app->bootComponent('com_joomlaupdate')->getMVCFactory($app)->createModel('Update', 'Administrator');
         $updatemodel->applyUpdateSite();
 
-        if ($channel == 'custom') {
+        if ($channel === 'custom') {
             $symfonyStyle->success('The update channel for this site has been set to the custom url "' . $params->get('customurl') . '".');
         } else {
             $symfonyStyle->success('The update channel for this site has been set to "' . $params->get('updatesource', 'default') . '".');

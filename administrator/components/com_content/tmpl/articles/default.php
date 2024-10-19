@@ -37,7 +37,7 @@ $user      = $this->getCurrentUser();
 $userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 'a.ordering';
+$saveOrder = $listOrder === 'a.ordering';
 
 if (strpos($listOrder, 'publish_up') !== false) {
     $orderingColumn = 'publish_up';

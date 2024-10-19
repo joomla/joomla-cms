@@ -122,7 +122,7 @@ class ListField extends FormField
             }
 
             $value = (string) $option['value'];
-            $text  = trim((string) $option) != '' ? trim((string) $option) : $value;
+            $text  = trim((string) $option) !== '' ? trim((string) $option) : $value;
 
             $disabled = (string) $option['disabled'];
             $disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');

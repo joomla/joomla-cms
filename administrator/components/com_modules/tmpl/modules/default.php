@@ -29,7 +29,7 @@ $clientId  = (int) $this->state->get('client_id', 0);
 $user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = ($listOrder == 'a.ordering');
+$saveOrder = ($listOrder === 'a.ordering');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -92,7 +92,7 @@ if ($saveOrder && !empty($this->items)) {
                     ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
-                    $ordering   = ($listOrder == 'a.ordering');
+                    $ordering   = ($listOrder === 'a.ordering');
                     $canCreate  = $user->authorise('core.create', 'com_modules');
                     $canEdit    = $user->authorise('core.edit', 'com_modules.module.' . $item->id);
                     $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
@@ -176,9 +176,9 @@ if ($saveOrder && !empty($this->items)) {
                         </td>
                         <?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
                             <td class="small d-none d-md-table-cell">
-                                <?php if ($item->language == '') :?>
+                                <?php if ($item->language === '') :?>
                                     <?php echo Text::_('JUNDEFINED'); ?>
-                                <?php elseif ($item->language == '*') :?>
+                                <?php elseif ($item->language === '*') :?>
                                     <?php echo Text::alt('JALL', 'language'); ?>
                                 <?php else :?>
                                     <?php echo $this->escape($item->language); ?>

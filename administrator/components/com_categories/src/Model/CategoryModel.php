@@ -533,7 +533,7 @@ class CategoryModel extends AdminModel
         }
 
         // Alter the title for save as copy
-        if ($input->get('task') == 'save2copy') {
+        if ($input->get('task') === 'save2copy') {
             $origTable = clone $this->getTable();
             $origTable->load($input->getInt('id'));
 
@@ -602,7 +602,7 @@ class CategoryModel extends AdminModel
             }
 
             // Detecting all item menus
-            $allLanguage = $table->language == '*';
+            $allLanguage = $table->language === '*';
 
             if ($allLanguage && !empty($associations)) {
                 Factory::getApplication()->enqueueMessage(Text::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
@@ -715,7 +715,7 @@ class CategoryModel extends AdminModel
 
         $this->setState($this->getName() . '.id', $table->id);
 
-        if (Factory::getApplication()->getInput()->get('task') == 'editAssociations') {
+        if (Factory::getApplication()->getInput()->get('task') === 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
 

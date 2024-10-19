@@ -117,10 +117,10 @@ class ModalSelectField extends FormField
         }
 
         // Prepare enabled actions
-        $this->__set('select', (string) $this->element['select'] != 'false');
-        $this->__set('new', (string) $this->element['new'] == 'true');
-        $this->__set('edit', (string) $this->element['edit'] == 'true');
-        $this->__set('clear', (string) $this->element['clear'] != 'false');
+        $this->__set('select', (string) $this->element['select'] !== 'false');
+        $this->__set('new', (string) $this->element['new'] === 'true');
+        $this->__set('edit', (string) $this->element['edit'] === 'true');
+        $this->__set('clear', (string) $this->element['clear'] !== 'false');
 
         // Prepare Urls and titles
         foreach (

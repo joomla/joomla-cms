@@ -1025,7 +1025,7 @@ class TemplateModel extends FormModel
         $explodeArray = explode('.', $fileName);
         $ext          = end($explodeArray);
 
-        if ($ext == 'less') {
+        if ($ext === 'less') {
             $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_COMPILE_LESS', $fileName));
         }
 
@@ -1088,7 +1088,7 @@ class TemplateModel extends FormModel
                         $path = $folder . '/' . $view . '/tmpl';
 
                         // The new scheme, the views are directly in the component/tmpl folder
-                        if (!is_dir($path) && substr($folder, -4) == 'tmpl') {
+                        if (!is_dir($path) && substr($folder, -4) === 'tmpl') {
                             $path = $folder . '/' . $view;
                         }
 
@@ -1171,7 +1171,7 @@ class TemplateModel extends FormModel
 
                 $url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
 
-                if ($explodeArray[$size - 2] == 'layouts') {
+                if ($explodeArray[$size - 2] === 'layouts') {
                     $htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $url);
                 } else {
                     $htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $url);

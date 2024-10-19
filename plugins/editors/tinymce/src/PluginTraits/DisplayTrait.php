@@ -164,7 +164,7 @@ trait DisplayTrait
 
                 // if we have a name and path, add it to the list
                 if ($external['name'] != '' && $path != '') {
-                    $externalPlugins[$external['name']] = substr($path, 0, 1) == '/' ? Uri::root() . substr($path, 1) : $path;
+                    $externalPlugins[$external['name']] = substr($path, 0, 1) === '/' ? Uri::root() . substr($path, 1) : $path;
                 }
             }
         }

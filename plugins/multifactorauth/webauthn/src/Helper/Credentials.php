@@ -237,7 +237,7 @@ abstract class Credentials
     private static function getAvatar(User $user, int $size = 64)
     {
         $scheme    = Uri::getInstance()->getScheme();
-        $subdomain = ($scheme == 'https') ? 'secure' : 'www';
+        $subdomain = ($scheme === 'https') ? 'secure' : 'www';
 
         return \sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
     }

@@ -374,7 +374,7 @@ class InstalledModel extends ListModel
         if ($cid) {
             $client = $this->getClient();
 
-            if ($client->name == 'administrator') {
+            if ($client->name === 'administrator') {
                 Factory::getApplication()->setUserState('application.lang', $cid);
             }
         } else {

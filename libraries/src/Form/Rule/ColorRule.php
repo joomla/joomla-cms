@@ -50,7 +50,7 @@ class ColorRule extends FormRule
             return true;
         }
 
-        if ($value[0] != '#') {
+        if ($value[0] !== '#') {
             return false;
         }
 

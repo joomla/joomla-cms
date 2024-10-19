@@ -237,7 +237,7 @@ class FieldsModel extends ListModel
                             $categories[] = (int) $parent->id;
 
                             // Traverse the tree up to get all the fields which are attached to a parent
-                            while ($parent->getParent() && $parent->getParent()->id != 'root') {
+                            while ($parent->getParent() && $parent->getParent()->id !== 'root') {
                                 $parent       = $parent->getParent();
                                 $categories[] = (int) $parent->id;
                             }
@@ -282,8 +282,8 @@ class FieldsModel extends ListModel
 
         // Include group state only when not on on back end list
         $includeGroupState = !$app->isClient('administrator') ||
-            $app->getInput()->get('option') != 'com_fields' ||
-            $app->getInput()->get('view') != 'fields';
+            $app->getInput()->get('option') !== 'com_fields' ||
+            $app->getInput()->get('view') !== 'fields';
 
         if (is_numeric($state)) {
             $state = (int) $state;

@@ -120,7 +120,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                         <?php break; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                <span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
+                <span class="fa fa-<?php echo $labelClass === 'danger' ? 'times' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
             </button>
             <button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-recommended-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-recommended-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-recommended-content" aria-selected="false">
                 <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
@@ -131,7 +131,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                         <?php break; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                <span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
+                <span class="fa fa-<?php echo $labelClass === 'warning' ? 'exclamation-triangle' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
             </button>
             <button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
                 <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>

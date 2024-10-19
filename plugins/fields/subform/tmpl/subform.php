@@ -53,7 +53,7 @@ foreach ($field->subform_rows as $subform_row) {
 }
 ?>
 
-<?php if (trim($result) != '') : ?>
+<?php if (trim($result) !== '') : ?>
     <ul class="fields-container">
         <?php echo $result; ?>
     </ul>

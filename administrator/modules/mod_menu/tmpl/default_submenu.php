@@ -28,7 +28,7 @@ $currentParams = $current->getParams();
 // Build the CSS class suffix
 if (!$this->enabled) {
     $class .= ' disabled';
-} elseif ($current->type == 'separator') {
+} elseif ($current->type === 'separator') {
     $class = $current->title ? 'menuitem-group' : 'divider';
 } elseif ($current->hasChildren()) {
     $class .= ' parent';
@@ -43,7 +43,7 @@ if ($current->level == 1) {
 }
 
 // Set the correct aria role and print the item
-if ($current->type == 'separator') {
+if ($current->type === 'separator') {
     echo '<li class="' . $class . '" role="presentation">';
 } else {
     echo '<li class="' . $class . '">';
@@ -90,10 +90,10 @@ if ($iconClass === '' && $itemIconClass) {
 }
 
 if ($iconImage) {
-    if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home') {
+    if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home') {
         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
-    } elseif (substr($iconImage, 0, 6) == 'image:') {
+    } elseif (substr($iconImage, 0, 6) === 'image:') {
         $iconImage = '&nbsp;<span class="badge">' . substr($iconImage, 6) . '</span>';
     } else {
         $iconImage = '';

@@ -85,7 +85,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         }
 
         // Check for valid name.
-        if (trim($this->name) == '') {
+        if (trim($this->name) === '') {
             $this->setError(Text::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -97,7 +97,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-        if (trim(str_replace('-', '', $this->alias)) == '') {
+        if (trim(str_replace('-', '', $this->alias)) === '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         }
 

@@ -86,7 +86,7 @@ $input = Factory::getApplication()->getInput();
                     <?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize($cMax . 'MB')); ?>
                     <span class="mt-2"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></span>
                 </form>
-                <?php if ($this->type != 'home') : ?>
+                <?php if ($this->type !== 'home') : ?>
                     <hr class="mb-4">
                     <form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data" class="mb-4">
                         <div class="form-group">

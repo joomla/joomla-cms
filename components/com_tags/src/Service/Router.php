@@ -186,8 +186,8 @@ class Router extends RouterBase
 
         $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
 
-        if ($menuItem && $menuItem->query['option'] == 'com_tags') {
-            if ($menuItem->query['view'] == 'tags') {
+        if ($menuItem && $menuItem->query['option'] === 'com_tags') {
+            if ($menuItem->query['view'] === 'tags') {
                 if (isset($query['id'])) {
                     $ids = $query['id'];
 
@@ -205,7 +205,7 @@ class Router extends RouterBase
                         unset($query['parent_id']);
                     }
                 }
-            } elseif ($menuItem->query['view'] == 'tag') {
+            } elseif ($menuItem->query['view'] === 'tag') {
                 $ids     = $query['id'];
                 $int_ids = ArrayHelper::toInteger($ids);
                 $mIds    = (array) $menuItem->query['id'];
@@ -265,7 +265,7 @@ class Router extends RouterBase
         $item = $this->menu->getActive();
 
         // We don't have a menu item
-        if (!$item || $item->query['option'] != 'com_tags') {
+        if (!$item || $item->query['option'] !== 'com_tags') {
             if (!isset($segments[0])) {
                 return $vars;
             }
@@ -275,7 +275,7 @@ class Router extends RouterBase
 
         $ids = [];
 
-        if ($item && $item->query['view'] == 'tag') {
+        if ($item && $item->query['view'] === 'tag') {
             $ids = $item->query['id'];
         }
 
@@ -311,7 +311,7 @@ class Router extends RouterBase
                 $this->lookup[$item->language] = ['tags' => [], 'tag' => []];
             }
 
-            if ($item->query['view'] == 'tag') {
+            if ($item->query['view'] === 'tag') {
                 $id = $item->query['id'];
                 sort($id);
                 $this->lookup[$item->language]['tag'][implode(',', $id)] = $item->id;
@@ -321,7 +321,7 @@ class Router extends RouterBase
                 }
             }
 
-            if ($item->query['view'] == 'tags') {
+            if ($item->query['view'] === 'tags') {
                 $id                                         = (int) ($item->query['parent_id'] ?? 0);
                 $this->lookup[$item->language]['tags'][$id] = $item->id;
             }

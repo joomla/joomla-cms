@@ -154,9 +154,9 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         // If the current view is the active item and a contact view for this contact, then the menu item params take priority
         if (
             $active
-            && $active->component == 'com_contact'
+            && $active->component === 'com_contact'
             && isset($active->query['view'], $active->query['id'])
-            && $active->query['view'] == 'contact'
+            && $active->query['view'] === 'contact'
             && $active->query['id'] == $item->id
         ) {
             $this->menuItemMatchContact = true;
@@ -426,7 +426,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 
             // Get ID of the category from active menu item
             if (
-                $menu && $menu->component == 'com_contact' && isset($menu->query['view'])
+                $menu && $menu->component === 'com_contact' && isset($menu->query['view'])
                 && \in_array($menu->query['view'], ['categories', 'category'])
             ) {
                 $id = $menu->query['id'];

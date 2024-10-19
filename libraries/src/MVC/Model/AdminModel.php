@@ -1419,7 +1419,7 @@ abstract class AdminModel extends FormModel
             }
         }
 
-        if ($app->getInput()->get('task') == 'editAssociations') {
+        if ($app->getInput()->get('task') === 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
 

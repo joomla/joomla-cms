@@ -111,7 +111,7 @@ class PluginsHelper
         if (is_file($filePath)) {
             $xml = Installer::parseXMLInstallFile($filePath);
 
-            if ($xml['type'] != 'template') {
+            if ($xml['type'] !== 'template') {
                 return false;
             }
 

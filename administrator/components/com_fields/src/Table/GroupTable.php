@@ -100,7 +100,7 @@ class GroupTable extends Table implements CurrentUserInterface
     public function check()
     {
         // Check for a title.
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
 
             return false;

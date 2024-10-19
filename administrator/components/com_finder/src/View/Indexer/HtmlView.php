@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        if ($this->getLayout() == 'debug') {
+        if ($this->getLayout() === 'debug') {
             /** @var IndexerModel $model */
             $model      = $this->getModel();
             $this->form = $model->getForm();

@@ -205,7 +205,7 @@ class MenutypesModel extends BaseDatabaseModel
         $menu = $menu[0];
 
         // If we have no options to parse, just add the base component to the list of options.
-        if (!empty($menu['options']) && $menu['options'] == 'none') {
+        if (!empty($menu['options']) && $menu['options'] === 'none') {
             // Create the menu option for the component.
             $o              = new CMSObject();
             $o->title       = (string) $menu['name'];
@@ -231,7 +231,7 @@ class MenutypesModel extends BaseDatabaseModel
 
         // Process each child as an option.
         foreach ($children as $child) {
-            if ($child->getName() == 'option') {
+            if ($child->getName() === 'option') {
                 // Create the menu option for the component.
                 $o              = new CMSObject();
                 $o->title       = (string) $child['name'];
@@ -239,7 +239,7 @@ class MenutypesModel extends BaseDatabaseModel
                 $o->request     = ['option' => $component, (string) $optionsNode['var'] => (string) $child['value']];
 
                 $options[] = $o;
-            } elseif ($child->getName() == 'default') {
+            } elseif ($child->getName() === 'default') {
                 // Create the menu option for the component.
                 $o              = new CMSObject();
                 $o->title       = (string) $child['name'];
@@ -291,7 +291,7 @@ class MenutypesModel extends BaseDatabaseModel
                             $menu = $menu[0];
 
                             // If the view is hidden from the menu, discard it and move on to the next view.
-                            if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
+                            if (!empty($menu['hidden']) && $menu['hidden'] === 'true') {
                                 unset($xml);
                                 continue;
                             }
@@ -305,7 +305,7 @@ class MenutypesModel extends BaseDatabaseModel
                                 if ($children = $optionsNode->children()) {
                                     // Process each child as an option.
                                     foreach ($children as $child) {
-                                        if ($child->getName() == 'option') {
+                                        if ($child->getName() === 'option') {
                                             // Create the menu option for the component.
                                             $o              = new CMSObject();
                                             $o->title       = (string) $child['name'];
@@ -313,7 +313,7 @@ class MenutypesModel extends BaseDatabaseModel
                                             $o->request     = ['option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']];
 
                                             $options[] = $o;
-                                        } elseif ($child->getName() == 'default') {
+                                        } elseif ($child->getName() === 'default') {
                                             // Create the menu option for the component.
                                             $o              = new CMSObject();
                                             $o->title       = (string) $child['name'];
@@ -363,7 +363,7 @@ class MenutypesModel extends BaseDatabaseModel
         }
 
         // Check for a valid XML root tag.
-        if ($manifest->getName() != 'extension') {
+        if ($manifest->getName() !== 'extension') {
             return false;
         }
 
@@ -515,7 +515,7 @@ class MenutypesModel extends BaseDatabaseModel
                 $o->request     = ['option' => $component, 'view' => $view];
 
                 // Only add the layout request argument if not the default layout.
-                if ($layout != 'default') {
+                if ($layout !== 'default') {
                     // If the template is set, add in format template:layout so we save the template name
                     $o->request['layout'] = isset($templateName[$file]) ? $templateName[$file] . ':' . $layout : $layout;
                 }
@@ -529,7 +529,7 @@ class MenutypesModel extends BaseDatabaseModel
                             $menu = $menu[0];
 
                             // If the view is hidden from the menu, discard it and move on to the next view.
-                            if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
+                            if (!empty($menu['hidden']) && $menu['hidden'] === 'true') {
                                 unset($xml);
                                 unset($o);
                                 continue;

@@ -56,7 +56,7 @@ class OpensearchView extends AbstractView
         $baseUrl        = Uri::getInstance()->toString(['host', 'port', 'scheme']);
         $active         = $app->getMenu()->getActive();
 
-        if ($active->component == 'com_finder') {
+        if ($active->component === 'com_finder') {
             $searchUri .= '&Itemid=' . $active->id;
             $suggestionsUri .= '&Itemid=' . $active->id;
         }

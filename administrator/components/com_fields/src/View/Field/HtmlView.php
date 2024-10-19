@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
         // Avoid nonsense situation.
-        if ($component == 'com_fields') {
+        if ($component === 'com_fields') {
             return;
         }
 

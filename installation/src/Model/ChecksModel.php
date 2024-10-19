@@ -95,7 +95,7 @@ class ChecksModel extends BaseInstallationModel
             // Check for default MB language.
             $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
-            $option->state  = (strtolower(\ini_get('mbstring.language')) == 'neutral');
+            $option->state  = (strtolower(\ini_get('mbstring.language')) === 'neutral');
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_MBLANG_NOTDEFAULT');
             $options[]      = $option;
         }

@@ -165,7 +165,7 @@ class HtmlView extends BaseHtmlView
             $temp = new Registry($itemElement->params);
 
             // If the current view is the active item and a tag view for at least this tag, then the menu item params take priority
-            if ($query['option'] == 'com_tags' && $query['view'] == 'tag' && \in_array($itemElement->id, $query['id'])) {
+            if ($query['option'] === 'com_tags' && $query['view'] === 'tag' && \in_array($itemElement->id, $query['id'])) {
                 // Merge so that the menu item params take priority
                 $itemElement->params = $temp;
                 $itemElement->params->merge($this->params);

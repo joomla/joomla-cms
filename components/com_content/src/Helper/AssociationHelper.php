@@ -45,7 +45,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
         $component = $jinput->getCmd('option');
         $id        = empty($id) ? $jinput->getInt('id') : $id;
 
-        if ($layout === null && $jinput->get('view') == $view && $component == 'com_content') {
+        if ($layout === null && $jinput->get('view') == $view && $component === 'com_content') {
             $layout = $jinput->get('layout', '', 'string');
         }
 

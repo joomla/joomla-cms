@@ -28,7 +28,7 @@ $user      = $this->getCurrentUser();
 $userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 'a.ordering';
+$saveOrder = $listOrder === 'a.ordering';
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_banners&task=banners.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -95,7 +95,7 @@ if ($saveOrder && !empty($this->items)) {
                             ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
                                endif; ?>>
                             <?php foreach ($this->items as $i => $item) :
-                                $ordering  = ($listOrder == 'ordering');
+                                $ordering  = ($listOrder === 'ordering');
                                 $item->cat_link = Route::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
                                 $canCreate  = $user->authorise('core.create', 'com_banners.category.' . $item->catid);
                                 $canEdit    = $user->authorise('core.edit', 'com_banners.category.' . $item->catid);
