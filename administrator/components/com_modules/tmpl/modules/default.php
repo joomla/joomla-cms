@@ -176,7 +176,7 @@ if ($saveOrder && !empty($this->items)) {
                         </td>
                         <?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
                             <td class="small d-none d-md-table-cell">
-                                <?php if ($item->language == '') :?>
+                                <?php if ($item->language === '') :?>
                                     <?php echo Text::_('JUNDEFINED'); ?>
                                 <?php elseif ($item->language === '*') :?>
                                     <?php echo Text::alt('JALL', 'language'); ?>
