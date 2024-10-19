@@ -622,7 +622,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             try {
                 $tzDefault = Factory::getApplication()->get('offset');
             } catch (\Exception $e) {
-                $tzDefault = 'GMT';
+                $tzDefault = 'UTC';
             }
 
             $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId ?? 0);
