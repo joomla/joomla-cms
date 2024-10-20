@@ -64,6 +64,12 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
     <?php echo $dataAttribute; ?>>
     <legend class="visually-hidden"><?php echo $label; ?></legend>
 
+    <?php
+    // Submit an empty value when nothing is checked,
+    // because browser does not submit anything when <input type="checkbox"> is unchecked.
+    ?>
+    <input type="hidden" name="<?php echo preg_replace('#\[\]$#', '', $name); ?>" value="">
+
     <?php foreach ($options as $i => $option) : ?>
         <?php
             // Initialize some option attributes.

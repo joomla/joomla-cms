@@ -81,6 +81,12 @@ if ($readonly) {
     }
 } else // Create a regular list passing the arguments in an array.
 {
+    if ($multiple) {
+        // Submit an empty value when nothing is selected,
+        // because browser does not submit anything when <select multiple> is empty.
+        $html[] = '<input type="hidden" name="' . preg_replace('#\[\]$#', '', $name) . '" value="">';
+    }
+
     $listoptions = [];
     $listoptions['option.key'] = 'value';
     $listoptions['option.text'] = 'text';
