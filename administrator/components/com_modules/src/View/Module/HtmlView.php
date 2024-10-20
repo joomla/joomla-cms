@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Modules\Administrator\Model\ModuleModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -77,7 +78,10 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
+        /** @var ModuleModel $model */
+        $model = $this->getModel();
+
+        $this->state = $model->getState();
 
         // Have to stop it earlier, because on cancel task for a new module we do not have an ID, and Model doing redirect on getItem()
         if ($this->getLayout() === 'modalreturn' && !$this->state->get('module.id')) {
@@ -86,8 +90,8 @@ class HtmlView extends BaseHtmlView
             return;
         }
 
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
         $this->canDo = ContentHelper::getActions('com_modules', 'module', $this->item->id);
 
         if ($this->getLayout() === 'modalreturn') {
@@ -97,7 +101,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -176,7 +180,9 @@ class HtmlView extends BaseHtmlView
         // Get the help information for the menu item.
         $lang = $this->getLanguage();
 
-        $help = $this->get('Help');
+        /** @var ModuleModel $model */
+        $model = $this->getModel();
+        $help  = $model->getHelp();
 
         if ($lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);

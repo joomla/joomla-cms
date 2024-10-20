@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\FeaturedModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -55,7 +56,10 @@ class FeedView extends AbstractView
         // Get some data from the model
         $app->getInput()->set('limit', $app->get('feed_limit'));
         $categories = Categories::getInstance('Content');
-        $rows       = $this->get('Items');
+
+        /** @var FeaturedModel $model */
+        $model = $this->getModel();
+        $rows  = $model->getItems();
 
         foreach ($rows as $row) {
             // Strip html from feed item title

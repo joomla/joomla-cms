@@ -1,11 +1,12 @@
-const {
+import {
   lstat, readdir, readFile, writeFile,
-} = require('fs-extra');
-const {
+} from 'node:fs/promises';
+import {
   basename, dirname, resolve, sep,
-} = require('path');
-const { createHashFromFile } = require('./utils/hashfromfile.es6.js');
-const { Timer } = require('./utils/timer.es6.js');
+} from 'node:path';
+
+import { createHashFromFile } from './utils/hashfromfile.mjs';
+import { Timer } from './utils/timer.mjs';
 
 const RootPath = process.cwd();
 const exclusion = [
@@ -110,7 +111,7 @@ const fixVersion = async (directory) => {
  *
  * @returns {Promise<void>}
  */
-module.exports.versioning = async () => {
+export const versioning = async () => {
   const bench = new Timer('Versioning');
   const tasks = [];
   let mediaDirectories = await readdir(resolve(RootPath, 'media'));
