@@ -58,7 +58,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
         $item = $event->getItem();
 
         // If the item does not have a text property there is nothing to do
-        if (!property_exists($item, 'text')) {
+        if (!isset($item->text)) {
             return;
         }
 
@@ -94,14 +94,14 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
     private function cloak($text)
     {
         /*
-         * Check for presence of {emailcloak=off} which is explicits disables this
-         * bot for the item.
+         * Check for presence of {emailcloak=off} which explicitly disables the
+         * plugin for the item.
          */
         if (StringHelper::strpos($text, '{emailcloak=off}') !== false) {
             return StringHelper::str_ireplace('{emailcloak=off}', '', $text);
         }
 
-        // Simple performance check to determine whether bot should process further.
+        // Simple performance check to determine whether the plugin should process further.
         if (StringHelper::strpos($text, '@') === false) {
             return '';
         }

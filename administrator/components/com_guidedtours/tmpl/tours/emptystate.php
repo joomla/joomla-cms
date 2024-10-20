@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_GUIDEDTOURS_TOURS_LIST',
     'formURL'    => 'index.php?option=com_guidedtours&view=tours',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Guided_Tours',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Guided_Tours',
     'icon'       => 'icon-map-signs',
 ];
 

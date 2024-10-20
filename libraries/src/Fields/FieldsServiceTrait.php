@@ -18,7 +18,7 @@ use Joomla\CMS\Form\Form;
 /**
  * Trait for component fields service.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 trait FieldsServiceTrait
 {

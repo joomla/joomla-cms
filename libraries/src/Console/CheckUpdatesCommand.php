@@ -49,6 +49,8 @@ class CheckUpdatesCommand extends AbstractCommand
         $symfonyStyle = new SymfonyStyle($input, $output);
         $symfonyStyle->title('Fetching Extension Updates');
 
+        $this->getApplication()->getLanguage()->load('lib_joomla');
+
         // Find updates.
         /** @var UpdateModel $model */
         $model = $this->getApplication()->bootComponent('com_installer')
@@ -81,7 +83,7 @@ class CheckUpdatesCommand extends AbstractCommand
      *
      * @return array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     protected function getExtensionInfo($extensions): array
     {

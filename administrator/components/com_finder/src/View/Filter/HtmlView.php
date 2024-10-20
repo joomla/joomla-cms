@@ -15,9 +15,9 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Finder\Administrator\Model\FilterModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The active item
      *
-     * @var    CMSObject|boolean
+     * @var    \stdClass
      *
      * @since  3.6.2
      */
@@ -76,6 +76,15 @@ class HtmlView extends BaseHtmlView
     protected $total;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Method to display the view.
      *
      * @param   string  $tpl  A template file to load. [optional]
@@ -86,15 +95,18 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var FilterModel $model */
+        $model = $this->getModel();
+
         // Load the view data.
-        $this->filter = $this->get('Filter');
-        $this->item   = $this->get('Item');
-        $this->form   = $this->get('Form');
-        $this->state  = $this->get('State');
-        $this->total  = $this->get('Total');
+        $this->filter = $model->getFilter();
+        $this->item   = $model->getItem();
+        $this->form   = $model->getForm();
+        $this->state  = $model->getState();
+        $this->total  = $model->getTotal();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -118,7 +130,7 @@ class HtmlView extends BaseHtmlView
         $isNew      = ($this->item->filter_id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
         $canDo      = ContentHelper::getActions('com_finder');
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Configure the toolbar.
         ToolbarHelper::title(

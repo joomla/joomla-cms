@@ -22,7 +22,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  WebAsset
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class WebAssetRegistryTest extends UnitTestCase
 {
@@ -31,7 +31,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testAddGet(): void
     {
@@ -51,7 +51,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testExists(): void
     {
@@ -69,7 +69,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testRemove(): void
     {
@@ -91,7 +91,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testEvents(): void
     {
@@ -153,7 +153,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testCreateAsset(): void
     {
@@ -183,7 +183,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testParseRegistryFiles(): void
     {

@@ -33,7 +33,7 @@ class SyndicateHelper
      *
      * @return  string|null  The link as a string, if found
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getSyndicateLink(Registry $params, HtmlDocument $document)
     {
@@ -58,7 +58,7 @@ class SyndicateHelper
      *
      * @since   1.5
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getSyndicateLink
      *             Example: Factory::getApplication()->bootModule('mod_syndicate', 'site')
      *                            ->getHelper('SyndicateHelper')

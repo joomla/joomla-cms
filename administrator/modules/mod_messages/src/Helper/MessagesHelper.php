@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 /**
  * Helper for mod_messages
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class MessagesHelper
 {
@@ -32,7 +32,7 @@ class MessagesHelper
      *
      * @return  integer
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getUnreadMessagesCount(Registry $params, AdministratorApplication $app)
     {

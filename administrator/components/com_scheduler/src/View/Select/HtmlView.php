@@ -15,8 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Scheduler\Administrator\Model\SelectModel;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -86,11 +86,14 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null): void
     {
-        $this->state     = $this->get('State');
-        $this->items     = $this->get('Items');
+        /** @var SelectModel $model */
+        $model = $this->getModel();
+
+        $this->state     = $model->getState();
+        $this->items     = $model->getItems();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -108,7 +111,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 

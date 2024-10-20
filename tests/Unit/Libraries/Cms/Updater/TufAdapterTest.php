@@ -20,14 +20,14 @@ use Tuf\Exception\MetadataException;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Updater
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class TufAdapterTest extends UnitTestCase
 {
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testProcessTufTargetThrowsExceptionIfHashesAreMissing()
     {
@@ -45,7 +45,7 @@ class TufAdapterTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testProcesstuftargetAssignsCustomTargetKeys()
     {
@@ -68,7 +68,7 @@ class TufAdapterTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testProcesstuftargetAssignsClientId()
     {
@@ -88,7 +88,7 @@ class TufAdapterTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testProcesstuftargetAssignsInfoUrl()
     {
@@ -112,7 +112,7 @@ class TufAdapterTest extends UnitTestCase
     /**
      * Internal helper method to get access to protected methods
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @param $object
      * @param $method
@@ -136,7 +136,7 @@ class TufAdapterTest extends UnitTestCase
      *
      * @return array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected function getMockTarget(array $overrides)
     {

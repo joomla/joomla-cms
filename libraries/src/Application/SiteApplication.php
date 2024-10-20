@@ -20,7 +20,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouter;
@@ -84,7 +83,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name
         $this->name = 'site';
@@ -113,7 +112,7 @@ final class SiteApplication extends CMSApplication
         $user  = Factory::getUser();
 
         if (!$menus->authorise($itemid)) {
-            if ($user->get('id') == 0) {
+            if ($user->id == 0) {
                 // Set the data
                 $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
 
@@ -360,21 +359,6 @@ final class SiteApplication extends CMSApplication
         }
 
         return $params[$hash];
-    }
-
-    /**
-     * Return a reference to the Pathway object.
-     *
-     * @param   string  $name     The name of the application.
-     * @param   array   $options  An optional associative array of configuration settings.
-     *
-     * @return  Pathway  A Pathway object
-     *
-     * @since   3.2
-     */
-    public function getPathway($name = 'site', $options = [])
-    {
-        return parent::getPathway($name, $options);
     }
 
     /**

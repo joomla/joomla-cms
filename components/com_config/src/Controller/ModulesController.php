@@ -44,7 +44,7 @@ class ModulesController extends BaseController
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -161,7 +161,7 @@ class ModulesController extends BaseController
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     private function getReturnUrl(): string
     {

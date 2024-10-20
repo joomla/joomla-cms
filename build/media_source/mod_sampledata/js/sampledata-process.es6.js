@@ -9,7 +9,6 @@ const SampleData = {
 const sampledataAjax = (type, steps, step) => {
   // Get variables
   const baseUrl = `index.php?option=com_ajax&format=json&group=sampledata&${Joomla.getOptions('csrf.token')}=1`;
-  const options = Joomla.getOptions('sample-data');
 
   // Create list
   const list = document.createElement('div');
@@ -20,16 +19,15 @@ const sampledataAjax = (type, steps, step) => {
   // Create paragraph
   const para = document.createElement('p');
   para.classList.add('loader-image');
-  para.classList.add('text-center');
 
   // Create image
-  const img = document.createElement('img');
-  img.setAttribute('src', options.icon);
-  img.setAttribute('width', 30);
-  img.setAttribute('height', 30);
+  const loaderEl = document.createElement('joomla-core-loader');
+  loaderEl.setAttribute('inline', true);
+  loaderEl.setAttribute('size', 60);
+  loaderEl.setAttribute('color', 'transparent');
 
   // Append everything
-  para.appendChild(img);
+  para.appendChild(loaderEl);
   list.appendChild(para);
   document.querySelector(`.sampledata-progress-${type}`).appendChild(list);
 

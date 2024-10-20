@@ -21,7 +21,7 @@ use Joomla\Http\TransportInterface;
  *
  * @since  3.0.0
  */
-class HttpFactory implements HttpFactoryInterface
+class HttpFactory
 {
     /**
      * Method to create a JHttp instance.

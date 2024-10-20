@@ -20,7 +20,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
 /**
  * Class for PageCache events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class SetCachingEvent extends PageCacheEvent implements ResultAwareInterface
 {

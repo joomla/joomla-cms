@@ -21,7 +21,11 @@
   }
 
   .card-header {
-    --card-bg: hsla(0, 0%, 100%, .7);
+    --card-bg: #{$card-bg};
+
+    a {
+      font-weight: normal;
+    }
 
     .btn {
       margin-top: .25em;
@@ -32,6 +36,7 @@
   .card-body {
     padding: 0;
     overflow: hidden;
+    background-color: $card-body-bg;
     border-bottom-right-radius: $border-radius;
     border-bottom-left-radius: $border-radius;
   }
@@ -42,15 +47,7 @@
 
     > * {
       padding: 0;
-      color: var(--template-bg-dark-70);
-    }
-
-    @if $enable-dark-mode {
-      @include color-mode(dark) {
-        > * {
-          color: var(--body-color);
-        }
-      }
+      color: $module-actions-color;
     }
   }
 
@@ -76,7 +73,7 @@
     &:active {
       color: #fff;
       text-decoration: none;
-      background: var(--template-bg-dark);
+      background: var(--cpanel-addmodule-hover);
     }
 
     > span {
@@ -93,17 +90,33 @@
 
 .cpanel-modules {
   .list-group {
-    border-top: 1px solid $list-group-border-color;
+    border-top: 1px solid $atum-list-group-border-color;
   }
 
   .list-group-item {
+    --list-group-bg: #{$atum-list-group-bg};
+
+    a:not(.btn) {
+      color: rgb(var(--link-color-rgb, $table-link-color));
+    }
+
+    a:not(.btn):hover {
+      color: rgb(var(--link-color-rgb-hvr));
+    }
+
     a {
-      font-weight: 500;
+      font-weight: normal;
       text-decoration: underline;
     }
 
     .btn {
       text-decoration: none;
+    }
+
+    .btn.btn-info {
+      color: $atum-btn-info;
+      background: $atum-btn-info-bg;
+      border: $atum-btn-info-border;
     }
 
     .list-group-item a > span {
@@ -115,7 +128,7 @@
         padding: .5rem;
         color: rgba(255, 255, 255, .9);
         background: var(--#{$prefix}link-color);
-        box-shadow: $atum-box-shadow;
+        box-shadow: var(--atum-box-shadow);
 
         &:hover {
           background: var(--#{$prefix}link-hover-color);
@@ -147,6 +160,12 @@
   .mod-custom {
     padding: 1rem;
   }
+
+  .btn:first-child:focus-visible {
+    color: var(--btn-active-color);
+    background-color: var(--btn-active-bg);
+    border-color: var(--btn-active-border-color);
+  }
 }
 
 .sample-data {
@@ -169,4 +188,37 @@
   border-inline-start: 4px solid hsl(var(--hue),50%,93%);
   padding-inline-start: 1rem;
   margin-inline-start: 8px;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .com_cpanel {
+      .card {
+        border: 1px solid rgba(255, 255, 255, .1);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+
+        .list-group-item:last-child {
+          border-bottom-right-radius: var(--border-radius);
+          border-bottom-left-radius: var(--border-radius);
+        }
+
+        .list-group-item {
+          &:hover {
+            background: rgba(0,0,0,.1);
+          }
+        }
+      }
+
+      .cpanel-add-module {
+        &:hover,
+        &:focus,
+        &:active {
+          background: var(--btn-primary-bg-hvr);
+        }
+      }
+    }
+    .sample-data__desc {
+      border-inline-start: 4px solid rgba(255, 255, 255, .1);
+    }
+  }
 }

@@ -38,7 +38,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *
      * @since   3.0.1
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         $this->input = Factory::getApplication()->getInput();
 
@@ -80,7 +80,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         $user = $this->app->getIdentity();
 
         if (
-            $user->get('id')
+            $user->id
             || ($this->input->getMethod() === 'POST'
             && (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive'))
         ) {
@@ -111,7 +111,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
         }
 
-        if ($vName === 'article') {
+        if ($vName === 'article' && \in_array($this->input->getMethod(), ['GET', 'POST'])) {
             // Get/Create the model
             if ($model = $this->getModel($vName)) {
                 if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1) {

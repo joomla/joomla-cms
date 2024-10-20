@@ -19,7 +19,7 @@
   // Additional global variables your script accesses during execution
   "globals": {
     "Joomla": true,
-    "MediaManager" : true,
+    "MediaManager": true,
     "bootstrap": true
   },
   // Rule overrides
@@ -27,7 +27,18 @@
     // Disable no-params-reassign for properties
     "no-param-reassign": ["error", { "props": false }],
     // Allow usage of dev-dependencies in js files in build directory
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["build/**/*.js"]}],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies":
+        [
+          "build/**/*.js",
+          "build/**/*.mjs",
+          "cypress.config.dist.mjs",
+          "**/**/cypress.config.mjs"
+        ]
+      }
+    ],
     // Allow strict mode (we are not dealing with modules)
     "strict": [0],
     // Disable alert rule till we have a CE in place
@@ -46,30 +57,31 @@
     ],
     // Allow extensions on imports
     "import/extensions": 0,
+    "import/prefer-default-export": 0,
     "func-names": [
       "error",
       "as-needed"
     ]
   },
   "overrides": [
-	{
-	  "files": ["tests/**/*.js"],
-	  "rules": {
-		"no-undef": ["off"],
-		"import/no-extraneous-dependencies": ["off"]
-	  }
-	},
-	{
-	  "files": ["tests/System/support/index.js"],
-	  "rules": {
-		"no-console": ["off"]
-	  }
-	},
-	{
-	  "files": ["tests/System/support/commands/db.js","tests/System/plugins/index.js"],
-	  "rules": {
-		"no-useless-escape": ["off"]
-	  }
-	}
+    {
+      "files": ["tests/**/*.js", "tests/**/*.mjs"],
+      "rules": {
+        "no-undef": ["off"],
+        "import/no-extraneous-dependencies": ["off"]
+      }
+    },
+    {
+      "files": ["tests/System/support/index.js"],
+      "rules": {
+        "no-console": ["off"]
+      }
+    },
+    {
+      "files": ["tests/System/support/commands/db.mjs"],
+      "rules": {
+        "no-useless-escape": ["off"]
+      }
+    }
   ]
 }

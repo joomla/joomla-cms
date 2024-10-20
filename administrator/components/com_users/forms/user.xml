@@ -152,6 +152,31 @@
 			</field>
 
 			<field
+				name="colorScheme"
+				type="list"
+				label="COM_USERS_USER_COLORSCHEME_LABEL"
+				default=""
+				validate="options"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+				<option value="os">COM_USERS_USER_COLORSCHEME_OPTION_FOLLOW_OS</option>
+				<option value="light">COM_USERS_USER_COLORSCHEME_OPTION_LIGHT</option>
+				<option value="dark">COM_USERS_USER_COLORSCHEME_OPTION_DARK</option>
+			</field>
+
+			<field
+				name="allowTourAutoStart"
+				type="list"
+				label="COM_USERS_USER_ALLOWTOURAUTOSTART_LABEL"
+				default=""
+				validate="options"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
 				name="admin_language"
 				type="language"
 				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"

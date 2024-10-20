@@ -18,7 +18,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The custom module service provider.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -28,7 +28,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function register(Container $container)
     {

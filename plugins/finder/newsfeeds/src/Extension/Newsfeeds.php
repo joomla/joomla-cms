@@ -11,14 +11,15 @@
 namespace Joomla\Plugin\Finder\Newsfeeds\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Event\Finder as FinderEvent;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,7 +31,7 @@ use Joomla\Registry\Registry;
  *
  * @since  2.5
  */
-final class Newsfeeds extends Adapter
+final class Newsfeeds extends Adapter implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -91,39 +92,57 @@ final class Newsfeeds extends Adapter
     protected $autoloadLanguage = true;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return array_merge(parent::getSubscribedEvents(), [
+            'onFinderCategoryChangeState' => 'onFinderCategoryChangeState',
+            'onFinderChangeState'         => 'onFinderChangeState',
+            'onFinderAfterDelete'         => 'onFinderAfterDelete',
+            'onFinderBeforeSave'          => 'onFinderBeforeSave',
+            'onFinderAfterSave'           => 'onFinderAfterSave',
+        ]);
+    }
+
+    /**
      * Method to update the item link information when the item category is
      * changed. This is fired when the item category is published or unpublished
      * from the list view.
      *
-     * @param   string   $extension  The extension whose category has been updated.
-     * @param   array    $pks        An array of primary key ids of the content that has changed state.
-     * @param   integer  $value      The value of the state that the content has been changed to.
+     * @param   FinderEvent\AfterCategoryChangeStateEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onFinderCategoryChangeState($extension, $pks, $value)
+    public function onFinderCategoryChangeState(FinderEvent\AfterCategoryChangeStateEvent $event): void
     {
         // Make sure we're handling com_newsfeeds categories.
-        if ($extension === 'com_newsfeeds') {
-            $this->categoryStateChange($pks, $value);
+        if ($event->getExtension() === 'com_newsfeeds') {
+            $this->categoryStateChange($event->getPks(), $event->getValue());
         }
     }
 
     /**
      * Method to remove the link information for items that have been deleted.
      *
-     * @param   string  $context  The context of the action being performed.
-     * @param   Table   $table    A Table object containing the record to be deleted.
+     * @param   FinderEvent\AfterDeleteEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderAfterDelete($context, $table): void
+    public function onFinderAfterDelete(FinderEvent\AfterDeleteEvent $event): void
     {
+        $context = $event->getContext();
+        $table   = $event->getItem();
+
         if ($context === 'com_newsfeeds.newsfeed') {
             $id = $table->id;
         } elseif ($context === 'com_finder.index') {
@@ -142,17 +161,19 @@ final class Newsfeeds extends Adapter
      * It also makes adjustments if the access level of a newsfeed item or
      * the category to which it belongs has changed.
      *
-     * @param   string   $context  The context of the content passed to the plugin.
-     * @param   Table    $row      A Table object.
-     * @param   boolean  $isNew    True if the content has just been created.
+     * @param   FinderEvent\AfterSaveEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderAfterSave($context, $row, $isNew): void
+    public function onFinderAfterSave(FinderEvent\AfterSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         // We only want to handle newsfeeds here.
         if ($context === 'com_newsfeeds.newsfeed') {
             // Check if the access levels are different.
@@ -178,17 +199,19 @@ final class Newsfeeds extends Adapter
      * Smart Search before content save method.
      * This event is fired before the data is actually saved.
      *
-     * @param   string   $context  The context of the content passed to the plugin.
-     * @param   Table    $row      A Table object.
-     * @param   boolean  $isNew    True if the content is just about to be created.
+     * @param   FinderEvent\BeforeSaveEvent   $event  The event instance.
      *
-     * @return  boolean  True on success.
+     * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderBeforeSave($context, $row, $isNew)
+    public function onFinderBeforeSave(FinderEvent\BeforeSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         // We only want to handle newsfeeds here.
         if ($context === 'com_newsfeeds.newsfeed') {
             // Query the database for the old access level if the item isn't new.
@@ -204,8 +227,6 @@ final class Newsfeeds extends Adapter
                 $this->checkCategoryAccess($row);
             }
         }
-
-        return true;
     }
 
     /**
@@ -213,16 +234,18 @@ final class Newsfeeds extends Adapter
      * from outside the edit screen. This is fired when the item is published,
      * unpublished, archived, or unarchived from the list view.
      *
-     * @param   string   $context  The context for the content passed to the plugin.
-     * @param   array    $pks      An array of primary key ids of the content that has changed state.
-     * @param   integer  $value    The value of the state that the content has been changed to.
+     * @param   FinderEvent\AfterChangeStateEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onFinderChangeState($context, $pks, $value)
+    public function onFinderChangeState(FinderEvent\AfterChangeStateEvent $event): void
     {
+        $context = $event->getContext();
+        $pks     = $event->getPks();
+        $value   = $event->getValue();
+
         // We only want to handle newsfeeds here.
         if ($context === 'com_newsfeeds.newsfeed') {
             $this->itemStateChange($pks, $value);
@@ -331,7 +354,7 @@ final class Newsfeeds extends Adapter
      *
      * @param   mixed  $query  A DatabaseQuery object or null.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   2.5
      */
@@ -340,7 +363,7 @@ final class Newsfeeds extends Adapter
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
             ->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link')
             ->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access')
             ->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')

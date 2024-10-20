@@ -467,24 +467,8 @@ JLoader::registerAlias('JExtensionHelper', '\\Joomla\\CMS\\Extension\\ExtensionH
 
 JLoader::registerAlias('JHtml', '\\Joomla\\CMS\\HTML\\HTMLHelper', '6.0');
 
-JLoader::registerAlias('\\Joomla\\Application\\Cli\\CliInput', '\\Joomla\\CMS\\Application\\CLI\\CliInput', '6.0');
-JLoader::registerAlias('\\Joomla\\Application\\Cli\\CliOutput', '\\Joomla\\CMS\\Application\\CLI\\CliOutput', '6.0');
-JLoader::registerAlias('\\Joomla\\Application\\Cli\\ColorStyle', '\\Joomla\\CMS\\Application\\CLI\\ColorStyle', '6.0');
-JLoader::registerAlias('\\Joomla\\Application\\Cli\\Output\\Stdout', '\\Joomla\\CMS\\Application\\CLI\\Output\\Stdout', '6.0');
-JLoader::registerAlias('\\Joomla\\Application\\Cli\\Output\\Xml', '\\Joomla\\CMS\\Application\\CLI\\Output\\Xml', '6.0');
-JLoader::registerAlias(
-    '\\Joomla\\Application\\Cli\\Output\\Processor\\ColorProcessor',
-    '\\Joomla\\CMS\\Application\\CLI\\Output\\Processor\\ColorProcessor',
-    '6.0'
-);
-JLoader::registerAlias(
-    '\\Joomla\\Application\\Cli\\Output\\Processor\\ProcessorInterface',
-    '\\Joomla\\CMS\\Application\\CLI\\Output\\Processor\\ProcessorInterface',
-    '6.0'
-);
-
 JLoader::registerAlias('JFile', '\\Joomla\\CMS\\Filesystem\\File', '6.0');
-JLoader::registerAlias('JFolder', '\\Joomla\\CMS\\Filesystem\\Folder', '6.0');
+JLoader::registerAlias('JFolder', '\\Joomla\\Filesystem\\Folder', '6.0');
 JLoader::registerAlias('JFilesystemHelper', '\\Joomla\\CMS\\Filesystem\\FilesystemHelper', '6.0');
 JLoader::registerAlias('JFilesystemPatcher', '\\Joomla\\CMS\\Filesystem\\Patcher', '6.0');
 JLoader::registerAlias('JPath', '\\Joomla\\CMS\\Filesystem\\Path', '6.0');

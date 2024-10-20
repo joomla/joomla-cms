@@ -41,7 +41,7 @@ class TagsSimilarHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getItems(&$params)
     {
@@ -232,7 +232,7 @@ class TagsSimilarHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getItems
      *             Example: Factory::getApplication()->bootModule('mod_tags_similar', 'site')
      *                          ->getHelper('TagsSimilarHelper')

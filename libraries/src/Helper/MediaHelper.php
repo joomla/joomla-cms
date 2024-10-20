@@ -12,10 +12,10 @@ namespace Joomla\CMS\Helper;
 use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -240,6 +240,9 @@ class MediaHelper
             $executables = array_diff($executables, $allowedExecutables);
         }
 
+        // Ensure lowercase extension
+        $filetypes = array_map('strtolower', $filetypes);
+
         $check = array_intersect($filetypes, $executables);
 
         if (!empty($check)) {
@@ -250,7 +253,7 @@ class MediaHelper
 
         $filetype = array_pop($filetypes);
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
         if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored))) {
@@ -274,7 +277,7 @@ class MediaHelper
                 // If tmp_name is empty, then the file was bigger than the PHP limit
                 if (!empty($file['tmp_name'])) {
                     // Get the mime type this is an image file
-                    $mime = static::getMimeType($file['tmp_name'], true);
+                    $mime = static::getMimeType($file['tmp_name'], static::isImage($file['tmp_name']));
 
                     // Did we get anything useful?
                     if ($mime != false) {

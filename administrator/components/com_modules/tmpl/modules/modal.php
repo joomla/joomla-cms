@@ -24,7 +24,7 @@ if (Factory::getApplication()->isClient('site')) {
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_modules.admin-modules-modal')->useScript('modal-content-select');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -81,9 +81,9 @@ if (!empty($editor)) {
                 <?php
                 $iconStates = [
                     -2 => 'icon-trash',
-                    0  => 'icon-times',
-                    1  => 'icon-check',
-                    2  => 'icon-folder',
+                    0  => 'icon-unpublish',
+                    1  => 'icon-publish',
+                    2  => 'icon-archive',
                 ];
                 foreach ($this->items as $i => $item) :
                     $attrs = 'data-content-select data-content-type="com_modules.module"'

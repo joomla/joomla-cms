@@ -29,7 +29,7 @@ abstract class ActionLogPlugin extends CMSPlugin
      * @var    \Joomla\CMS\Application\CMSApplication
      * @since  3.9.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 use $this->getApplication() instead
+     * @deprecated  5.1.0 will be removed in 7.0 use $this->getApplication() instead
      */
     protected $app;
 
@@ -39,7 +39,7 @@ abstract class ActionLogPlugin extends CMSPlugin
      * @var    \Joomla\Database\DatabaseDriver
      * @since  3.9.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 use $this->getDatabase() instead
+     * @deprecated  5.1.0 will be removed in 7.0 use $this->getDatabase() instead
      */
     protected $db;
 

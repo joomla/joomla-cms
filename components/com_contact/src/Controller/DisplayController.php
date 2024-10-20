@@ -37,7 +37,7 @@ class DisplayController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Contact frontpage Editor contacts proxying.
         $input = Factory::getApplication()->getInput();
@@ -70,7 +70,7 @@ class DisplayController extends BaseController
         $vName = $this->input->get('view', 'categories');
         $this->input->set('view', $vName);
 
-        if ($this->app->getIdentity()->get('id')) {
+        if ($this->app->getIdentity()->id) {
             $cachable = false;
         }
 

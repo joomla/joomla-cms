@@ -22,7 +22,7 @@ use Tuf\Exception\RepoFileNotFound;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Tuf
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class HttpLoaderTest extends UnitTestCase
 {
@@ -33,7 +33,7 @@ class HttpLoaderTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testLoaderQueriesCorrectUrl()
     {
@@ -50,7 +50,7 @@ class HttpLoaderTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testLoaderForwardsReturnedBodyFromHttpClient()
     {
@@ -70,7 +70,7 @@ class HttpLoaderTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testLoaderThrowsExceptionForNon200Response()
     {
@@ -91,7 +91,7 @@ class HttpLoaderTest extends UnitTestCase
      * @param Stream  $responseBody
      * @param string  $expectedFile
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|(\stdClass&\PHPUnit\Framework\MockObject\MockObject)
      */

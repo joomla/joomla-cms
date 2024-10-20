@@ -33,7 +33,7 @@ class LatestActionsHelper
      *
      * @return  mixed  An array of action logs, or false on error.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @throws  \Exception
      */
@@ -68,7 +68,7 @@ class LatestActionsHelper
      *
      * @return  string    The alternate title for the module.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getModuleTitle($params)
     {
@@ -84,7 +84,7 @@ class LatestActionsHelper
      *
      * @since   3.9.1
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getModuleTitle
      *             Example: Factory::getApplication()->bootModule('mod_latestactions', 'administrator')
      *                          ->getHelper('LatestActionsHelper')
@@ -106,7 +106,7 @@ class LatestActionsHelper
      *
      * @throws  \Exception
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getActions
      *             Example: Factory::getApplication()->bootModule('mod_latestactions', 'administrator')
      *                          ->getHelper('LatestActionsHelper')

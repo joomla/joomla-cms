@@ -826,11 +826,11 @@ class Browser
      */
     public function getHTTPProtocol()
     {
-        if (isset($_SERVER['SERVER_PROTOCOL'])) {
-            if (($pos = strrpos($_SERVER['SERVER_PROTOCOL'], '/'))) {
-                return substr($_SERVER['SERVER_PROTOCOL'], $pos + 1);
-            }
+        if (isset($_SERVER['SERVER_PROTOCOL']) && ($pos = strrpos($_SERVER['SERVER_PROTOCOL'], '/'))) {
+            return substr($_SERVER['SERVER_PROTOCOL'], $pos + 1);
         }
+
+        return '';
     }
 
     /**

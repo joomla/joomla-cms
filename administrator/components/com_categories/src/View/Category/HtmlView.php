@@ -21,6 +21,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -77,6 +78,15 @@ class HtmlView extends BaseHtmlView
     protected $checkTags = false;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display the view.
      *
      * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -85,12 +95,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var CategoryModel $model */
+        $model = $this->getModel();
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
         $section     = $this->state->get('category.section') ? $this->state->get('category.section') . '.' : '';
         $this->canDo = ContentHelper::getActions($this->state->get('category.component'), $section . 'category', $this->item->id);
-        $this->assoc = $this->get('Assoc');
+        $this->assoc = $model->getAssoc();
 
         if ($this->getLayout() === 'modalreturn') {
             parent::display($tpl);
@@ -99,7 +112,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -108,10 +121,13 @@ class HtmlView extends BaseHtmlView
             $this->checkTags = true;
         }
 
-        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        $input          = Factory::getApplication()->getInput();
+        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
+
+        $input->set('hidemainmenu', true);
 
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -122,6 +138,12 @@ class HtmlView extends BaseHtmlView
             // Only allow to select tags with All language or with the forced language.
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', $input->getBase64('return', ''))
+            ->addControlField('forcedLanguage', $forcedLanguage);
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
@@ -142,9 +164,10 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $extension = Factory::getApplication()->getInput()->get('extension');
+
         $user      = $this->getCurrentUser();
         $userId    = $user->id;
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
@@ -203,9 +226,14 @@ class HtmlView extends BaseHtmlView
             $saveGroup = $toolbar->dropdownButton('save-group');
 
             $saveGroup->configure(
-                function (Toolbar $childBar) {
+                function (Toolbar $childBar) use ($canDo, $component) {
                     $childBar->save('category.save');
                     $childBar->save2new('category.save2new');
+
+                    if ($canDo->get('core.create', 'com_menus.menu') && $component === 'com_content') {
+                        $childBar->save('category.save2menulist', 'JTOOLBAR_SAVE_TO_MENU_AS_LIST');
+                        $childBar->save('category.save2menublog', 'JTOOLBAR_SAVE_TO_MENU_AS_BLOG');
+                    }
                 }
             );
 
@@ -223,7 +251,7 @@ class HtmlView extends BaseHtmlView
             $saveGroup = $toolbar->dropdownButton('save-group');
 
             $saveGroup->configure(
-                function (Toolbar $childBar) use ($checkedOut, $canDo, $itemEditable) {
+                function (Toolbar $childBar) use ($checkedOut, $canDo, $itemEditable, $component) {
                     // Can't save the record if it's checked out and editable
                     if (!$checkedOut && $itemEditable) {
                         $childBar->save('category.save');
@@ -231,6 +259,11 @@ class HtmlView extends BaseHtmlView
                         if ($canDo->get('core.create')) {
                             $childBar->save2new('category.save2new');
                         }
+                    }
+
+                    if ($canDo->get('core.create', 'com_menus.menu') && $component === 'com_content') {
+                        $childBar->save('category.save2menulist', 'JTOOLBAR_SAVE_TO_MENU_AS_LIST');
+                        $childBar->save('category.save2menublog', 'JTOOLBAR_SAVE_TO_MENU_AS_BLOG');
                     }
 
                     // If an existing item, can save to a copy.
@@ -316,7 +349,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
         if ($extension == 'com_categories') {

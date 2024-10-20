@@ -307,10 +307,10 @@ class Task implements LoggerAwareInterface
         $db    = $this->db;
         $query = $db->getQuery(true);
         $id    = $this->get('id');
-        $now   = Factory::getDate('now', 'GMT');
+        $now   = Factory::getDate('now', 'UTC');
 
         $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-        $timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
+        $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
         $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
         $now              = $now->toSql();
 
@@ -498,7 +498,7 @@ class Task implements LoggerAwareInterface
      *
      * @since 4.1.0
      */
-    protected function set(string $path, $value, string $separator = null)
+    protected function set(string $path, $value, ?string $separator = null)
     {
         return $this->taskRegistry->set($path, $value, $separator);
     }

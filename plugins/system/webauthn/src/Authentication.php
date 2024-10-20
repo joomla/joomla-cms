@@ -87,17 +87,17 @@ final class Authentication
     /**
      * Public constructor.
      *
-     * @param   ApplicationInterface|null                 $app       The app we are running in
-     * @param   SessionInterface|null                     $session   The app session object
-     * @param   PublicKeyCredentialSourceRepository|null  $credRepo  Credentials repo
-     * @param   MetadataStatementRepository|null          $mdsRepo   Authenticator metadata repo
+     * @param   ?ApplicationInterface                 $app       The app we are running in
+     * @param   ?SessionInterface                     $session   The app session object
+     * @param   ?PublicKeyCredentialSourceRepository  $credRepo  Credentials repo
+     * @param   ?MetadataStatementRepository          $mdsRepo   Authenticator metadata repo
      *
      * @since   4.2.0
      */
     public function __construct(
-        ApplicationInterface $app = null,
-        SessionInterface $session = null,
-        PublicKeyCredentialSourceRepository $credRepo = null,
+        ?ApplicationInterface $app = null,
+        ?SessionInterface $session = null,
+        ?PublicKeyCredentialSourceRepository $credRepo = null,
         ?MetadataStatementRepository $mdsRepo = null
     ) {
         $this->app                   = $app;
@@ -212,7 +212,7 @@ final class Authentication
      *
      * @param   User  $user  The Joomla user to get the PK request options for
      *
-     * @return  PublicKeyCredentialRequestOptions
+     * @return  ?PublicKeyCredentialRequestOptions
      *
      * @throws  \Exception
      * @since   4.2.0
@@ -289,7 +289,7 @@ final class Authentication
      *
      * @param   string  $data  The data
      *
-     * @return  PublicKeyCredentialSource|null
+     * @return  PublicKeyCredentialSource
      *
      * @throws  \Exception
      * @since   4.2.0
@@ -323,7 +323,7 @@ final class Authentication
         $myUserId     = $myUser->id;
 
         if (($myUser->guest) || ($myUserId != $storedUserId)) {
-            $message = sprintf('Invalid user! We asked the authenticator to attest user ID %d, the current user ID is %d', $storedUserId, $myUserId);
+            $message = \sprintf('Invalid user! We asked the authenticator to attest user ID %d, the current user ID is %d', $storedUserId, $myUserId);
             Log::add($message, Log::NOTICE, 'webauthn.system');
 
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
@@ -452,7 +452,7 @@ final class Authentication
         $scheme    = Uri::getInstance()->getScheme();
         $subdomain = ($scheme == 'https') ? 'secure' : 'www';
 
-        return sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
+        return \sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
     }
 
     /**

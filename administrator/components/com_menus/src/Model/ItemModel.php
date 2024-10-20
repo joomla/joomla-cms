@@ -297,7 +297,7 @@ class ItemModel extends AdminModel
             }
 
             // Get the new item ID
-            $newId = $table->get('id');
+            $newId = $table->id;
 
             // Add the new ID to the array
             $newIds[$pk] = $newId;
@@ -974,7 +974,7 @@ class ItemModel extends AdminModel
         if ($pk) {
             $table = $this->getTable();
             $table->load($pk);
-            $forcedClientId = $table->get('client_id', $forcedClientId);
+            $forcedClientId = isset($table->client_id) ? $table->client_id : $forcedClientId;
         }
 
         if (isset($forcedClientId) && $forcedClientId != $clientId) {
@@ -998,7 +998,7 @@ class ItemModel extends AdminModel
 
         $this->setState('item.type', $type);
 
-        $link = $app->isClient('api') ? $app->getInput()->get('link') :
+        $link = $app->isClient('api') ? $app->getInput()->get('link', null, 'string') :
             $app->getUserState('com_menus.edit.item.link');
 
         if ($link) {
@@ -1128,7 +1128,7 @@ class ItemModel extends AdminModel
                     ];
                     $metaPath = Path::find($metadataFolders, 'metadata.xml');
 
-                    if (is_file($path = Path::clean($metaPath))) {
+                    if ($metaPath !== false && is_file($path = Path::clean($metaPath))) {
                         $formFile = $path;
                     }
                 } elseif ($base) {
@@ -1454,7 +1454,7 @@ class ItemModel extends AdminModel
         $this->setState('item.menutype', $table->menutype);
 
         // Load associated menu items, for now not supported for admin menu… may be later
-        if ($table->get('client_id') == 0 && Associations::isEnabled()) {
+        if ($table->client_id == 0 && Associations::isEnabled()) {
             // Adding self to the association
             $associations = $data['associations'] ?? [];
 

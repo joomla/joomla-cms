@@ -30,7 +30,7 @@ class SampledataHelper
      *
      * @return  mixed  An array of sampledata, or false on error.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public function getSampledataList()
     {
@@ -57,7 +57,7 @@ class SampledataHelper
      *
      * @since  3.8.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getSampledataList
      *             Example: Factory::getApplication()->bootModule('mod_sampledata', 'administrator')
      *                            ->getHelper('SampledataHelper')

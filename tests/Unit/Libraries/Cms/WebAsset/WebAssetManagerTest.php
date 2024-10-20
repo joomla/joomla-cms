@@ -22,7 +22,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  WebAsset
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class WebAssetManagerTest extends UnitTestCase
 {
@@ -31,7 +31,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @var    WebAssetRegistry
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected $registry;
 
@@ -40,7 +40,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function setUp(): void
     {
@@ -53,7 +53,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function tearDown(): void
     {
@@ -65,7 +65,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testUseAsset(): void
     {
@@ -85,7 +85,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testUseAssetUnknownAsset(): void
     {
@@ -99,7 +99,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testIsAssetActiveUnknownAsset(): void
     {
@@ -113,7 +113,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testUseAssetWALocked(): void
     {
@@ -129,7 +129,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testDisableAsset(): void
     {
@@ -148,7 +148,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testDisableAssetUnknownAsset(): void
     {
@@ -162,7 +162,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testDisableAssetWALocked(): void
     {
@@ -178,7 +178,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testGetAssets(): void
     {
@@ -209,7 +209,7 @@ class WebAssetManagerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testGetAssetsUnknownDep(): void
     {

@@ -14,10 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
+use Joomla\Component\Tags\Site\Model\TagModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Tag data for the current tag or tags (on success, false on failure)
      *
-     * @var    CMSObject[]|boolean
+     * @var    array
      *
      * @since  3.1
      */
@@ -134,19 +134,22 @@ class HtmlView extends BaseHtmlView
     {
         $app    = Factory::getApplication();
 
+        /** @var TagModel $model */
+        $model = $this->getModel();
+
         // Get some data from the models
-        $this->state      = $this->get('State');
-        $this->items      = $this->get('Items');
-        $this->item       = $this->get('Item');
+        $this->state      = $model->getState();
+        $this->items      = $model->getItems();
+        $this->item       = $model->getItem();
         $this->children   = $this->get('Children');
         $this->parent     = $this->get('Parent');
-        $this->pagination = $this->get('Pagination');
+        $this->pagination = $model->getPagination();
         $this->user       = $this->getCurrentUser();
 
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
 
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

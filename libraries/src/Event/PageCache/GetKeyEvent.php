@@ -20,7 +20,7 @@ use Joomla\CMS\Event\Result\ResultTypeStringAware;
 /**
  * Class for PageCache events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class GetKeyEvent extends PageCacheEvent implements ResultAwareInterface
 {

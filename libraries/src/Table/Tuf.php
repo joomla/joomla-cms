@@ -16,7 +16,7 @@ namespace Joomla\CMS\Table;
 /**
  * TUF map table
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class Tuf extends Table
 {
@@ -25,7 +25,7 @@ class Tuf extends Table
      *
      * @param   \Joomla\Database\DatabaseDriver  $db  A database connector object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function __construct($db)
     {

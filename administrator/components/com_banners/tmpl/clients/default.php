@@ -32,7 +32,7 @@ $purchaseTypes = [
 ];
 
 $user       = $this->getCurrentUser();
-$userId     = $user->get('id');
+$userId     = $user->id;
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $params     = $this->state->get('params') ?? new Registry();
@@ -107,7 +107,7 @@ $params     = $this->state->get('params') ?? new Registry();
                             <?php foreach ($this->items as $i => $item) :
                                 $canCreate  = $user->authorise('core.create', 'com_banners');
                                 $canEdit    = $user->authorise('core.edit', 'com_banners');
-                                $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                                $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                                 $canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
                                 ?>
                                 <tr class="row<?php echo $i % 2; ?>">
@@ -152,7 +152,7 @@ $params     = $this->state->get('params') ?? new Registry();
                                         </div>
                                     </td>
                                     <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                        <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>"
+                                        <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-primary' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>"
                                         aria-describedby="tip-archived<?php echo $i; ?>">
                                             <?php echo $item->count_archived; ?>
                                         </a>
