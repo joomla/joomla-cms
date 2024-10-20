@@ -314,9 +314,8 @@ class CssMenu
              */
             $item->element = !empty($uri->getVar('option')) ? $uri->getVar('option') : '';
 
-
             // Exclude item if is not enabled
-            if (!ComponentHelper::isEnabled($item->element)) {
+            if ($item->element !== '' && !ComponentHelper::isEnabled($item->element)) {
                 $parent->removeChild($item);
                 continue;
             }
