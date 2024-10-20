@@ -439,6 +439,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-07-19.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-08-22.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-09-17.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2024-10-13.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-11.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-17.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-07-12.sql',
