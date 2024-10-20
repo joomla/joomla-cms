@@ -517,7 +517,7 @@ class CssMenu
     }
 
     /**
-     * Create unique identifier
+     * Increase the counter and return the new value
      *
      * @return  string
      *
