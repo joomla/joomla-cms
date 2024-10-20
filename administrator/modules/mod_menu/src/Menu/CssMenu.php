@@ -293,7 +293,7 @@ class CssMenu
                 continue;
             }
 
-            $itemLink = !empty($item->link) ? $item->link : ''; 
+            $itemLink = !empty($item->link) ? $item->link : '';
             if (substr($itemLink, 0, 8) === 'special:') {
                 $special = substr($itemLink, 8);
 
