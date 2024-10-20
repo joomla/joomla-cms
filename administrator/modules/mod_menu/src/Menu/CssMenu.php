@@ -295,7 +295,7 @@ class CssMenu
 
             $itemLink = !empty($item->link) ? $item->link : ''; 
             if (substr($itemLink, 0, 8) === 'special:') {
-                $special = substr($item->link, 8);
+                $special = substr($itemLink, 8);
 
                 if ($special === 'language-forum') {
                     $item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
