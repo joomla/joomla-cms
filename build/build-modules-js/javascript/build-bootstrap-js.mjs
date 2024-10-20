@@ -1,23 +1,36 @@
-const {
+import {
   readdir, readFile, writeFile, unlink,
-} = require('fs').promises;
-const { resolve } = require('path');
-const { transform } = require('esbuild');
-const rimraf = require('rimraf');
-const rollup = require('rollup');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const replace = require('@rollup/plugin-replace');
-const { babel } = require('@rollup/plugin-babel');
-const bsVersion = require('../../../package.json').dependencies.bootstrap.replace(/^\^|~/, '');
+} from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { transform } from 'esbuild';
+import rimraf from 'rimraf';
+import { rollup } from 'rollup';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import { babel } from '@rollup/plugin-babel';
+import { createRequire } from 'node:module';
 
+const require = createRequire(import.meta.url);
+const opts = require('../../../package.json');
+
+const bsVersion = opts.dependencies.bootstrap.replace(/^\^|~/, '');
 const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
 const outputFolder = 'media/vendor/bootstrap/js';
 
 const createMinified = async (file) => {
-  const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const mini = await transform(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`), { minify: true });
-  await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`), { encoding: 'utf8', mode: 0o644 });
+  const initial = await readFile(resolve(outputFolder, file), {
+    encoding: 'utf8',
+  });
+  const mini = await transform(
+    initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`),
+    { minify: true },
+  );
+  await writeFile(
+    resolve(outputFolder, file),
+    initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`),
+    { encoding: 'utf8', mode: 0o644 },
+  );
   await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8', mode: 0o644 });
 };
 
@@ -28,13 +41,13 @@ const build = async () => {
   const domImports = await readdir(resolve('node_modules/bootstrap', 'js/src/dom'));
   const utilImports = await readdir(resolve('node_modules/bootstrap', 'js/src/util'));
 
-  const bundle = await rollup.rollup({
+  const bundle = await rollup({
     input: resolve(inputFolder, 'index.es6.js'),
     plugins: [
       nodeResolve(),
       replace({
         preventAssignment: true,
-        'process.env.NODE_ENV': '\'production\'',
+        'process.env.NODE_ENV': "'production'",
       }),
       babel({
         exclude: 'node_modules/core-js/**',
@@ -45,10 +58,7 @@ const build = async () => {
             '@babel/preset-env',
             {
               targets: {
-                browsers: [
-                  '> 1%',
-                  'not op_mini all',
-                ],
+                browsers: ['> 1%', 'not op_mini all'],
               },
             },
           ],
@@ -87,7 +97,7 @@ const build = async () => {
   await bundle.close();
 };
 
-module.exports.bootstrapJs = async () => {
+export const bootstrapJs = async () => {
   rimraf.sync(resolve(outputFolder));
 
   try {

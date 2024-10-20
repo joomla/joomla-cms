@@ -1,13 +1,15 @@
-const { transform } = require('esbuild');
-const { readFile, writeFile } = require('fs-extra');
-const { basename } = require('path');
+import { basename } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
+
+import { transform } from 'esbuild';
+
 /**
  * Minify a js file using esbuild
  *
  * @param file
  * @returns {Promise<void>}
  */
-const minifyFile = async (file) => {
+export const minifyFile = async (file) => {
   const fileContent = await readFile(file, { encoding: 'utf8' });
   const content = await transform(fileContent, { minify: true });
   await writeFile(file.replace('.js', '.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
@@ -21,7 +23,4 @@ const minifyFile = async (file) => {
  * @param code
  * @returns {Promise<void>}
  */
-const minifyCode = async (code) => transform(code, { minify: true });
-
-module.exports.minifyJs = minifyFile;
-module.exports.minifyJsCode = minifyCode;
+export const minifyCode = async (code) => transform(code, { minify: true });

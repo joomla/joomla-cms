@@ -1,7 +1,8 @@
-const { lstat, readFile, writeFile } = require('fs-extra');
-const { sep, basename } = require('path');
-const recursive = require('recursive-readdir');
-const { transform } = require('esbuild');
+import { sep, basename } from 'node:path';
+import { lstat, readFile, writeFile } from 'node:fs/promises';
+
+import recursive from 'recursive-readdir';
+import { transform } from 'esbuild';
 
 const RootPath = process.cwd();
 
@@ -19,10 +20,7 @@ const folders = [
 
 let allFiles = [];
 
-const noMinified = [
-  'accessibility.min.js',
-  'short-and-sweet.min.js',
-];
+const noMinified = ['accessibility.min.js', 'short-and-sweet.min.js'];
 
 const alreadyMinified = [
   'media/vendor/webcomponentsjs/js/webcomponents-bundle.js',
@@ -65,8 +63,8 @@ const minifyJS = async (file) => {
   }
 
   const content = await readFile(file, { encoding: 'utf8' });
-
   const isMinified = alreadyMinified.includes(file.replace(`${RootPath}${sep}`, ''));
+
   if (isMinified || needsDotJS) {
     minified = content;
   } else {
@@ -75,11 +73,7 @@ const minifyJS = async (file) => {
 
   const newFile = needsDotJS ? file.replace('.min.js', '.js') : file.replace('.js', '.min.js');
   // Write the file
-  await writeFile(
-    newFile,
-    minified,
-    { encoding: 'utf8', mode: 0o644 },
-  );
+  await writeFile(newFile, minified, { encoding: 'utf8', mode: 0o644 });
 };
 
 /**
@@ -87,7 +81,7 @@ const minifyJS = async (file) => {
  *
  * @returns {Promise}
  */
-module.exports.minifyVendor = async () => {
+export const minifyVendor = async () => {
   const folderPromises = [];
   const filesPromises = [];
 
