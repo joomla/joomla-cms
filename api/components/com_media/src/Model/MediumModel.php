@@ -232,7 +232,8 @@ class MediumModel extends BaseModel
             );
         }
 
-        return $resultPath;
+        // Return resulting path with the requested adapter in it
+        return $adapterName . ':/' . $resultPath;
     }
 
     /**

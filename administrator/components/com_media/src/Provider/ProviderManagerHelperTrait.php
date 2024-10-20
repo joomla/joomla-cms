@@ -148,7 +148,7 @@ trait ProviderManagerHelperTrait
             return $this->defaultAdapterName;
         }
 
-        $defaultAdapter = $this->getAdapter('local-' . ComponentHelper::getParams('com_media')->get('file_path', 'images'));
+        $defaultAdapter = $this->getAdapter('local-' . ComponentHelper::getParams('com_media')->get('file_path', 'files'));
 
         if (
             !$defaultAdapter
