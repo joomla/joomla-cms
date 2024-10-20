@@ -21,6 +21,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
+use Joomla\Component\Contact\Site\Model\ContactModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -136,11 +137,13 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
      */
     public function display($tpl = null)
     {
+        /** @var ContactModel $model */
+        $model      = $this->getModel();
         $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
-        $state      = $this->get('State');
-        $item       = $this->get('Item');
-        $this->form = $this->get('Form');
+        $state      = $model->getState();
+        $item       = $model->getItem();
+        $this->form = $model->getForm();
         $params     = $state->get('params');
         $contacts   = [];
 
@@ -193,7 +196,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
