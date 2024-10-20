@@ -1,12 +1,14 @@
-const rtlcss = require('rtlcss');
-const { writeFile } = require('fs').promises;
-const { ensureDir } = require('fs-extra');
-const { dirname, sep } = require('path');
-const LightningCSS = require('lightningcss');
-const Sass = require('sass-embedded');
+import { writeFile } from 'node:fs/promises';
+import { dirname, sep } from 'node:path';
 
-module.exports.handleScssFile = async (file) => {
-  const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
+import rtlcss from 'rtlcss';
+import { ensureDir } from 'fs-extra';
+import { transform as transformCss, Features } from 'lightningcss';
+import * as Sass from 'sass-embedded';
+
+export const handleScssFile = async (file) => {
+  const cssFile = file
+    .replace(`${sep}scss${sep}`, `${sep}css${sep}`)
     .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)
     .replace('.scss', '.css');
 
@@ -19,7 +21,7 @@ module.exports.handleScssFile = async (file) => {
     process.exitCode = 1;
   }
 
-  let contents = LightningCSS.transform({
+  let contents = transformCss({
     code: Buffer.from(compiled.css.toString()),
     minify: false,
   }).code;
@@ -37,19 +39,15 @@ ${contents}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 
-  const cssMin = LightningCSS.transform({
+  const cssMin = transformCss({
     code: Buffer.from(contents),
     minify: true,
-    exclude: LightningCSS.Features.VendorPrefixes,
+    exclude: Features.VendorPrefixes,
   });
 
   // Ensure the folder exists or create it
   await ensureDir(dirname(cssFile.replace('.css', '.min.css')), {});
-  await writeFile(
-    cssFile.replace('.css', '.min.css'),
-    `@charset "UTF-8";${cssMin.code}`,
-    { encoding: 'utf8', mode: 0o644 },
-  );
+  await writeFile(cssFile.replace('.css', '.min.css'), `@charset "UTF-8";${cssMin.code}`, { encoding: 'utf8', mode: 0o644 });
 
   // eslint-disable-next-line no-console
   console.log(`✅ SCSS File compiled: ${cssFile}`);

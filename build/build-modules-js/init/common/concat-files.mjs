@@ -1,4 +1,4 @@
-const { readFile, writeFile, existsSync } = require('fs-extra');
+import { readFile, writeFile, existsSync } from 'fs-extra';
 
 const RootPath = process.cwd();
 
@@ -10,7 +10,7 @@ const RootPath = process.cwd();
  *
  * @returns {void}
  */
-module.exports.concatFiles = async (files, output) => {
+export const concatFiles = async (files, output) => {
   const promises = [];
 
   // eslint-disable-next-line no-restricted-syntax

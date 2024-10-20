@@ -16,7 +16,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\Helpers\StringHelper as SpecialStringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -217,25 +216,45 @@ class ArticlesHelper implements DatabaseAwareInterface
         $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
         $filterInclude          = true;
         $articlesList           = [];
+        $currentArticleId       = $input->get('id', 0, 'UINT');
+
+        $isArticleAndShouldExcluded = $params->get('exclude_current', 1) === 1
+            && $input->get('option') === 'com_content'
+            && $input->get('view') === 'article';
 
         $articlesListToProcess = $params->get('included_articles', '');
 
         if ($ex_or_include_articles === 0) {
             $filterInclude = false;
 
-            if (
-                $params->get('exclude_current', 1) === 1
-                && $input->get('option') === 'com_content'
-                && $input->get('view') === 'article'
-            ) {
-                $articlesList[] = $input->get('id', 0, 'UINT');
+            if ($isArticleAndShouldExcluded) {
+                $articlesList[] = $currentArticleId;
             }
 
             $articlesListToProcess = $params->get('excluded_articles', '');
         }
 
         foreach (ArrayHelper::fromObject($articlesListToProcess) as $article) {
+            if (
+                $ex_or_include_articles === 1
+                && $isArticleAndShouldExcluded
+                && (int) $article['id'] === $currentArticleId
+            ) {
+                continue;
+            }
+
             $articlesList[] = (int) $article['id'];
+        }
+
+        // Edge case when the user select include mode but didn't add an article,
+        // we might have to exclude the current article
+        if (
+            $ex_or_include_articles === 1
+            && $isArticleAndShouldExcluded
+            && empty($articlesList)
+        ) {
+            $filterInclude  = false;
+            $articlesList[] = $currentArticleId;
         }
 
         if (!empty($articlesList)) {
@@ -368,7 +387,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                 }
 
                 if ($introtext_limit != 0) {
-                    $item->displayIntrotext = SpecialStringHelper::truncate($item->introtext, $introtext_limit, true, false);
+                    $item->displayIntrotext = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
                 }
             }
 
