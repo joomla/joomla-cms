@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
@@ -32,6 +33,7 @@ use Joomla\Database\ParameterType;
 class BannerModel extends AdminModel
 {
     use VersionableModelTrait;
+    use LegacyErrorHandlingTrait;
 
     /**
      * The prefix to use with controller messages.
@@ -115,6 +117,7 @@ class BannerModel extends AdminModel
 
         foreach ($pks as $pk) {
             if (!$user->authorise('core.edit', $contexts[$pk])) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
                 return false;
@@ -125,6 +128,7 @@ class BannerModel extends AdminModel
             $table->cid = (int) $value;
 
             if (!$table->store()) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError($table->getError());
 
                 return false;
@@ -302,6 +306,7 @@ class BannerModel extends AdminModel
 
         // Attempt to change the state of the records.
         if (!$table->stick($pks, $value, $this->getCurrentUser()->id)) {
+            // @todo: 6.0 - Update Error handling
             $this->setError($table->getError());
 
             return false;
@@ -431,6 +436,7 @@ class BannerModel extends AdminModel
 
             // Create new category.
             if (!$categoryModel->save($category)) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError($categoryModel->getError());
 
                 return false;
@@ -447,13 +453,11 @@ class BannerModel extends AdminModel
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                [$name, $alias]     = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
                 $data['name']       = $name;
                 $data['alias']      = $alias;
-            } else {
-                if ($data['alias'] == $origTable->alias) {
-                    $data['alias'] = '';
-                }
+            } elseif ($data['alias'] == $origTable->alias) {
+                $data['alias'] = '';
             }
 
             $data['state'] = 0;

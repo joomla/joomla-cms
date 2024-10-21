@@ -124,7 +124,8 @@ class TracksModel extends ListModel
 
         // Filter by type.
 
-        if ($type = (int) $this->getState('filter.type')) {
+        $type = (int) $this->getState('filter.type');
+        if ($type) {
             $query->where($db->quoteName('a.track_type') . ' = :type')
                 ->bind(':type', $type, ParameterType::INTEGER);
         }
@@ -148,25 +149,29 @@ class TracksModel extends ListModel
         }
 
         // Filter by begin date.
-        if ($begin = $this->getState('filter.begin')) {
+        $begin = $this->getState('filter.begin');
+        if ($begin) {
             $query->where($db->quoteName('a.track_date') . ' >= :begin')
                 ->bind(':begin', $begin);
         }
 
         // Filter by end date.
-        if ($end = $this->getState('filter.end')) {
+        $end = $this->getState('filter.end');
+        if ($end) {
             $query->where($db->quoteName('a.track_date') . ' <= :end')
                 ->bind(':end', $end);
         }
 
         // Filter on the level.
-        if ($level = (int) $this->getState('filter.level')) {
+        $level = (int) $this->getState('filter.level');
+        if ($level) {
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
 
         // Filter by search in banner name or client name.
-        if ($search = $this->getState('filter.search')) {
+        $search = $this->getState('filter.search');
+        if ($search) {
             $search = '%' . StringHelper::strtolower($search) . '%';
             $query->where('(LOWER(' . $db->quoteName('b.name') . ') LIKE :search1 OR LOWER(' . $db->quoteName('cl.name') . ') LIKE :search2)')
                 ->bind([':search1', ':search2'], $search);
@@ -204,19 +209,22 @@ class TracksModel extends ListModel
                 ->delete($db->quoteName('#__banner_tracks'));
 
             // Filter by type
-            if ($type = (int) $this->getState('filter.type')) {
+            $type = (int) $this->getState('filter.type');
+            if ($type) {
                 $query->where($db->quoteName('track_type') . ' = :type')
                     ->bind(':type', $type, ParameterType::INTEGER);
             }
 
             // Filter by begin date
-            if ($begin = $this->getState('filter.begin')) {
+            $begin = $this->getState('filter.begin');
+            if ($begin) {
                 $query->where($db->quoteName('track_date') . ' >= :begin')
                     ->bind(':begin', $begin);
             }
 
             // Filter by end date
-            if ($end = $this->getState('filter.end')) {
+            $end = $this->getState('filter.end');
+            if ($end) {
                 $query->where($db->quoteName('track_date') . ' <= :end')
                     ->bind(':end', $end);
             }
@@ -226,7 +234,8 @@ class TracksModel extends ListModel
                 ->from($db->quoteName('#__banners'));
 
             // Filter by client
-            if ($clientId = (int) $this->getState('filter.client_id')) {
+            $clientId = (int) $this->getState('filter.client_id');
+            if ($clientId) {
                 $subQuery->where($db->quoteName('cid') . ' = :clientId');
                 $query->bind(':clientId', $clientId, ParameterType::INTEGER);
             }
@@ -240,11 +249,13 @@ class TracksModel extends ListModel
             $query->where($db->quoteName('banner_id') . ' IN (' . $subQuery . ')');
 
             $db->setQuery($query);
+            // @todo: 6.0 - Update Error handling
             $this->setError((string) $query);
 
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError($e->getMessage());
 
                 return false;
@@ -352,6 +363,7 @@ class TracksModel extends ListModel
             try {
                 $name = $db->loadResult();
             } catch (\RuntimeException $e) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError($e->getMessage());
 
                 return false;
@@ -386,6 +398,7 @@ class TracksModel extends ListModel
             try {
                 $name = $db->loadResult();
             } catch (\RuntimeException $e) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError($e->getMessage());
 
                 return false;
@@ -463,23 +476,29 @@ class TracksModel extends ListModel
                 $delete = Folder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
 
                 if (!empty($delete)) {
-                    if (!File::delete($delete)) {
-                        // File::delete throws an error
-                        $this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
+                    foreach ($delete as $file) {
+                        if (!File::delete($file)) {
+                            // File::delete throws an error
+                            // @todo: 6.0 - Update Error handling
+                            $this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
 
-                        return false;
+                            return false;
+                        }
                     }
                 }
 
                 $archive = new Archive();
 
-                if (!$packager = $archive->getAdapter('zip')) {
+                $packager = $archive->getAdapter('zip');
+                if (!$packager) {
+                    // @todo: 6.0 - Update Error handling
                     $this->setError(Text::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 
                     return false;
                 }
 
                 if (!$packager->create($ziproot, $files)) {
+                    // @todo: 6.0 - Update Error handling
                     $this->setError(Text::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
 
                     return false;

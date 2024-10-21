@@ -99,6 +99,7 @@ class BannersController extends AdminController
 
             // Change the state of the records.
             if (!$model->stick($ids, $value)) {
+                // @todo: 6.0 - Update Error handling
                 $this->app->enqueueMessage($model->getError(), 'warning');
             } else {
                 if ($value == 1) {

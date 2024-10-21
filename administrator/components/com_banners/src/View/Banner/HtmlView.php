@@ -76,7 +76,8 @@ class HtmlView extends BaseHtmlView
         $this->state = $model->getState();
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        $errors = $model->getErrors();
+        if (\count($errors)) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -85,7 +85,9 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions('com_banners');
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        // @todo: 6.0 - Update Error handling
+        $errors = $model->getErrors();
+        if (\count($errors)) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

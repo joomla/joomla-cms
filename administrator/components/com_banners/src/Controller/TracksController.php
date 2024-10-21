@@ -78,6 +78,7 @@ class TracksController extends BaseController
 
         // Remove the items.
         if (!$model->delete()) {
+            // @todo: 6.0 - Update Error handling
             $this->app->enqueueMessage($model->getError(), 'warning');
         } elseif ($count > 0) {
             $this->setMessage(Text::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
