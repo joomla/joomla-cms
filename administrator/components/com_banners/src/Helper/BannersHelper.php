@@ -15,7 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\Component\Banners\Administrator\Table\ClientTable;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,7 +39,7 @@ class BannersHelper extends ContentHelper
      */
     public static function updateReset()
     {
-        $db      = Factory::getDbo();
+        $db      = Factory::getContainer()->get(DatabaseInterface::class);
         $nowDate = Factory::getDate()->toSql();
         $app     = Factory::getApplication();
         $user    = $app->getIdentity();
@@ -78,7 +79,7 @@ class BannersHelper extends ContentHelper
 
             if ($purchaseType < 0 && $row->cid) {
                 /** @var \Joomla\Component\Banners\Administrator\Table\ClientTable $client */
-                $client = Table::getInstance('ClientTable', '\\Joomla\\Component\\Banners\\Administrator\\Table\\');
+                $client = new ClientTable(Factory::getContainer()->get(DatabaseInterface::class));
                 $client->load($row->cid);
                 $purchaseType = $client->purchase_type;
             }
@@ -147,7 +148,7 @@ class BannersHelper extends ContentHelper
     {
         $options = [];
 
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [

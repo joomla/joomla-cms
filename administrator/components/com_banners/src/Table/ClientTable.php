@@ -77,6 +77,7 @@ class ClientTable extends Table implements VersionableTableInterface
         try {
             parent::check();
         } catch (\Exception $e) {
+            // @todo: 6.0 - Update Error handling
             $this->setError($e->getMessage());
 
             return false;
@@ -84,6 +85,7 @@ class ClientTable extends Table implements VersionableTableInterface
 
         // Check for valid name
         if (trim($this->name) === '') {
+            // @todo: 6.0 - Update Error handling
             $this->setError(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -91,6 +93,7 @@ class ClientTable extends Table implements VersionableTableInterface
 
         // Check for valid contact
         if (trim($this->contact) === '') {
+            // @todo: 6.0 - Update Error handling
             $this->setError(Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
 
             return false;

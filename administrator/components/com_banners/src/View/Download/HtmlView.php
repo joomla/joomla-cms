@@ -52,7 +52,9 @@ class HtmlView extends BaseHtmlView
         $this->form = $model->getForm();
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        // @todo: 6.0 - Update Error handling
+        $errors = $model->getErrors();
+        if (\count($errors)) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
