@@ -18,6 +18,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -255,7 +256,7 @@ class AssociationsHelper extends ContentHelper
                 $additional  = '';
 
                 if (isset($items[$langCode]['catid'])) {
-                    $db = Factory::getDbo();
+                    $db = Factory::getContainer()->get(DatabaseInterface::class);
 
                     // Get the category name
                     $query = $db->getQuery(true)
@@ -269,7 +270,7 @@ class AssociationsHelper extends ContentHelper
 
                     $additional = '<strong>' . Text::sprintf('JCATEGORY_SPRINTF', $categoryTitle) . '</strong> <br>';
                 } elseif (isset($items[$langCode]['menutype'])) {
-                    $db = Factory::getDbo();
+                    $db = Factory::getContainer()->get(DatabaseInterface::class);
 
                     // Get the menutype name
                     $query = $db->getQuery(true)
@@ -390,7 +391,7 @@ class AssociationsHelper extends ContentHelper
 
         // Get the translated titles.
         $languagePath = JPATH_ADMINISTRATOR . '/components/' . $extensionName;
-        $lang         = Factory::getLanguage();
+        $lang         = Factory::getApplication()->getLanguage();
 
         $lang->load($extensionName . '.sys', JPATH_ADMINISTRATOR);
         $lang->load($extensionName . '.sys', $languagePath);
@@ -446,7 +447,7 @@ class AssociationsHelper extends ContentHelper
      */
     private static function getEnabledExtensions()
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select('*')
@@ -495,7 +496,7 @@ class AssociationsHelper extends ContentHelper
             return $helper->allowEdit($typeName, $itemId);
         }
 
-        return Factory::getUser()->authorise('core.edit', $extensionName);
+        return Factory::getApplication()->getIdentity()->authorise('core.edit', $extensionName);
     }
 
     /**
@@ -521,7 +522,7 @@ class AssociationsHelper extends ContentHelper
             return $helper->allowAdd($typeName);
         }
 
-        return Factory::getUser()->authorise('core.create', $extensionName);
+        return Factory::getApplication()->getIdentity()->authorise('core.create', $extensionName);
     }
 
     /**
@@ -591,7 +592,7 @@ class AssociationsHelper extends ContentHelper
 
         $checkedOutFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
 
-        $userId = Factory::getUser()->id;
+        $userId = Factory::getApplication()->getIdentity()->id;
 
         return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
     }
@@ -652,7 +653,7 @@ class AssociationsHelper extends ContentHelper
      */
     public static function getLanguagefilterPluginId()
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))

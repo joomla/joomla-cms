@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
         } elseif ($this->state->get('itemtype') != '' && $this->state->get('language') != '') {
             $type = null;
 
-            list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
+            [$extensionName, $typeName] = explode('.', $this->state->get('itemtype'), 2);
 
             $extension = AssociationsHelper::getSupportedExtension($extensionName);
 
@@ -209,7 +209,8 @@ class HtmlView extends BaseHtmlView
 
                     if ($this->getLayout() == 'modal') {
                         // We need to change the category filter to only show categories tagged to All or to the forced language.
-                        if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+                        $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD');
+                        if ($forcedLanguage) {
                             $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
                         }
                     }
@@ -229,7 +230,9 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        // @todo: 6.0 - Update Error handling
+        $errors = $model->getErrors();
+        if (\count($errors)) {
             throw new \Exception(implode("\n", $errors), 500);
         }
 
