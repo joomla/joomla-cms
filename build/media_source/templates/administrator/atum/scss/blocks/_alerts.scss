@@ -15,53 +15,34 @@
 }
 
 .alert {
-  margin: 1rem 0;
-  border: 1px solid;
-  border-radius: $border-radius-sm;
-
   &.alert-info {
-    color: var(--state-info-text);
-    background-color: var(--state-info-bg);
-    border: var(--state-info-border);
-    a {
-      color: var(--state-info-text);
-    }
+    --alert-color: var(--state-info-text);
+    --alert-bg: var(--state-info-bg);
+    --alert-border: var(--state-info-border);
   }
 
   &.alert-warning {
-    color: var(--state-warning-text);
-    background-color: var(--state-warning-bg);
-    border: var(--state-warning-border);
-    a {
-      color: var(--state-warning-text);
-    }
+    --alert-color: var(--state-warning-text);
+    --alert-bg: var(--state-warning-bg);
+    --alert-border: var(--state-warning-border);
   }
 
   &.alert-success {
-    color: var(--state-success-text);
-    background-color: var(--state-success-bg);
-    border: var(--state-success-border);
-    a {
-      color: var(--state-success-text);
-    }
+    --alert-color: var(--state-success-text);
+    --alert-bg: var(--state-success-bg);
+    --alert-border: var(--state-success-border);
   }
 
   &.alert-error {
-    color: var(--state-error-text);
-    background-color: var(--state-error-bg);
-    border: var(--state-error-border);
-    a {
-      color: var(--state-error-text);
-    }
+    --alert-color: var(--state-error-text);
+    --alert-bg: var(--state-error-bg);
+    --alert-border: var(--state-error-border);
   }
 
   &.alert-danger {
-    color: var(--state-danger-text);
-    background-color: var(--state-danger-bg);
-    border-color: var(--state-danger-border);
-    a {
-      color: var(--state-danger-text);
-    }
+    --alert-color: var(--state-danger-text);
+    --alert-bg: var(--state-danger-bg);
+    --alert-border: var(--state-danger-border);
   }
 }
 
