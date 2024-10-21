@@ -6,7 +6,6 @@ plugins/content/finder/*  @hackwar
 plugins/finder/*  @hackwar
 
 # Release Tools
-build.xml  @fancyFranci
 build/build.php  @rdeutz
 build/bump.php  @rdeutz
 build/deleted_file_check.php  @rdeutz
@@ -17,12 +16,12 @@ libraries/src/Installer/*  @rdeutz
 libraries/src/Updater/*  @rdeutz
 
 # Automated Testing
-tests/*  @hackwar @fancyFranci
-tests/Unit/*  @rdeutz @fancyFranci
-.appveyor.yml  @rdeutz @hackwar @fancyFranci
-.drone.yml  @rdeutz @hackwar @fancyFranci
-phpunit.xml.dist  @rdeutz @hackwar @fancyFranci
-phpunit-pgsql.xml.dist  @rdeutz @hackwar @fancyFranci
+tests/*  @hackwar
+tests/Unit/*  @rdeutz
+.appveyor.yml  @rdeutz @hackwar
+.drone.yml  @rdeutz @hackwar
+phpunit.xml.dist  @rdeutz @hackwar
+phpunit-pgsql.xml.dist  @rdeutz @hackwar
 
 # Workflow
 administrator/components/com_workflow/*	@bembelimen @hleithner
