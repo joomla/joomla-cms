@@ -9,9 +9,11 @@
 
 namespace Joomla\CMS\Console;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -130,7 +132,8 @@ class ExtensionInstallCommand extends AbstractCommand
             return false;
         }
 
-        $jInstaller = Installer::getInstance();
+        $jInstaller = new Installer();
+        $jInstaller->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
         $result     = $jInstaller->install($package['extractdir']);
         InstallerHelper::cleanupInstall($tmpPath, $package['extractdir']);
 
@@ -163,6 +166,7 @@ class ExtensionInstallCommand extends AbstractCommand
         }
 
         $jInstaller = new Installer();
+        $jInstaller->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
         $result     = $jInstaller->install($package['extractdir']);
         InstallerHelper::cleanupInstall($path, $package['extractdir']);
 
