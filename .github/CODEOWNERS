@@ -16,12 +16,12 @@ libraries/src/Installer/*  @rdeutz
 libraries/src/Updater/*  @rdeutz
 
 # Automated Testing
-tests/*  @hackwar
-tests/Unit/*  @rdeutz
-.appveyor.yml  @rdeutz @hackwar
-.drone.yml  @rdeutz @hackwar
-phpunit.xml.dist  @rdeutz @hackwar
-phpunit-pgsql.xml.dist  @rdeutz @hackwar
+tests/*  @hackwar @laoneo
+tests/Unit/*  @rdeutz @laoneo
+.appveyor.yml  @rdeutz @hackwar @laoneo
+.drone.yml  @rdeutz @hackwar @laoneo
+phpunit.xml.dist  @rdeutz @hackwar @laoneo
+phpunit-pgsql.xml.dist  @rdeutz @hackwar @laoneo
 
 # Workflow
 administrator/components/com_workflow/*	@bembelimen @hleithner
