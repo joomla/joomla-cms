@@ -264,7 +264,7 @@ class BannerModel extends AdminModel
                 $filters     = (array) $app->getUserState('com_banners.banners.filter');
                 $filterCatId = $filters['category_id'] ?? null;
 
-                $data->set('catid', $app->getInput()->getInt('catid', $filterCatId));
+                $data->catid = $app->getInput()->getInt('catid', $filterCatId);
             }
         }
 
