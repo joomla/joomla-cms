@@ -313,6 +313,20 @@ class JoomlaDialog extends HTMLElement {
   }
 
   /**
+   * Internal. Create a loader element. This is only used for AJAX and Iframe content
+   * @returns {HTMLElement}
+   */
+  static renderLoader() {
+    const loader = document.createElement('joomla-core-loader');
+    loader.setAttribute('inline', true);
+    loader.setAttribute('size', 60);
+    loader.setAttribute('color', 'transparent');
+    loader.classList.add('mt-5');
+
+    return loader;
+  }
+
+  /**
    * Internal. Render the body content, based on popupType.
    * @returns {JoomlaDialog}
    */
@@ -321,8 +335,7 @@ class JoomlaDialog extends HTMLElement {
 
     // Callback for loaded content event listener
     const onLoad = () => {
-      this.classList.add('loaded');
-      this.classList.remove('loading');
+      this.popupTmplB.removeChild(this.querySelector('joomla-core-loader'));
       this.popupContentElement.removeEventListener('load', onLoad);
       this.dispatchEvent(new CustomEvent('joomla-dialog:load'));
 
@@ -334,8 +347,6 @@ class JoomlaDialog extends HTMLElement {
         }));
       }
     };
-
-    this.classList.add('loading');
 
     switch (this.popupType) {
       // Create an Inline content
@@ -371,6 +382,9 @@ class JoomlaDialog extends HTMLElement {
 
       // Create an IFrame content
       case 'iframe': {
+        // Append the loader
+        this.popupTmplB.appendChild(this.constructor.renderLoader());
+
         const frame = document.createElement('iframe');
         frame.addEventListener('load', onLoad);
         frame.src = this.src;
@@ -399,6 +413,9 @@ class JoomlaDialog extends HTMLElement {
 
       // Create an AJAX content
       case 'ajax': {
+        // Append the loader
+        this.popupTmplB.appendChild(this.constructor.renderLoader());
+
         fetch(this.src)
           .then((response) => {
             if (response.status !== 200) {
