@@ -14,8 +14,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Categories\Administrator\Table\CategoryTable;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -84,7 +85,8 @@ class AssociationsModel extends ListModel
         $forcedItemType = $app->getInput()->get('forcedItemType', '', 'string');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->getInput()->get('layout')) {
+        $layout = $app->getInput()->get('layout');
+        if ($layout) {
             $this->context .= '.' . $layout;
         }
 
@@ -154,7 +156,7 @@ class AssociationsModel extends ListModel
     {
         $type         = null;
 
-        list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
+        [$extensionName, $typeName] = explode('.', $this->state->get('itemtype'), 2);
 
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
         $types     = $extension->get('types');
@@ -369,7 +371,8 @@ class AssociationsModel extends ListModel
         }
 
         // Filter on the language.
-        if ($language = $this->getState('language')) {
+        $language = $this->getState('language');
+        if ($language) {
             $query->where($db->quoteName($fields['language']) . ' = :language')
                 ->bind(':language', $language);
         }
@@ -388,8 +391,9 @@ class AssociationsModel extends ListModel
         // Filter on the category.
         $baselevel = 1;
 
-        if ($categoryId = $this->getState('filter.category_id')) {
-            $categoryTable = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+        $categoryId = $this->getState('filter.category_id');
+        if ($categoryId) {
+            $categoryTable = new CategoryTable(Factory::getContainer()->get(DatabaseInterface::class));
             $categoryTable->load($categoryId);
             $baselevel = (int) $categoryTable->level;
 
@@ -402,27 +406,31 @@ class AssociationsModel extends ListModel
         }
 
         // Filter on the level.
-        if ($level = $this->getState('filter.level')) {
+        $level = $this->getState('filter.level');
+        if ($level) {
             $queryLevel = ((int) $level + (int) $baselevel - 1);
             $query->where($db->quoteName('a.level') . ' <= :alevel')
                 ->bind(':alevel', $queryLevel, ParameterType::INTEGER);
         }
 
         // Filter by menu type.
-        if ($menutype = $this->getState('filter.menutype')) {
+        $menutype = $this->getState('filter.menutype');
+        if ($menutype) {
             $query->where($db->quoteName($fields['menutype']) . ' = :menutype2')
                 ->bind(':menutype2', $menutype);
         }
 
         // Filter by access level.
-        if ($access = $this->getState('filter.access')) {
+        $access = $this->getState('filter.access');
+        if ($access) {
             $access = (int) $access;
             $query->where($db->quoteName($fields['access']) . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
         }
 
         // Filter by search in name.
-        if ($search = $this->getState('filter.search')) {
+        $search = $this->getState('filter.search');
+        if ($search) {
             if (stripos($search, 'id:') === 0) {
                 $search = (int) substr($search, 3);
                 $query->where($db->quoteName($fields['id']) . ' = :searchid')
