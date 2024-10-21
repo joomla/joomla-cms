@@ -45,7 +45,7 @@ class BannerTable extends Table implements VersionableTableInterface
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    protected $created;
+    public $created;
 
     /**
      * Constructor
