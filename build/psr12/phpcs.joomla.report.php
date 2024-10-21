@@ -146,7 +146,6 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
             case 'Squiz.Classes.ValidClassName.NotCamelCaps':
                 if (
                     strpos($file, 'localise') !== false
-                    || strpos($file, 'recaptcha_invisible') !== false
                 ) {
                     $this->preProcessing[] = [
                         'file' => $file,
