@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\View\Users;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -81,18 +80,6 @@ class HtmlView extends BaseHtmlView
     protected $canDo;
 
     /**
-     * An instance of DatabaseDriver.
-     *
-     * @var    DatabaseDriver
-     * @since  3.6.3
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Will be removed without replacement use database from the container instead
-     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
-     */
-    protected $db;
-
-    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -110,7 +97,6 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
         $this->canDo         = ContentHelper::getActions('com_users');
-        $this->db            = Factory::getDbo();
 
         // Check for errors.
         if (\count($errors = $model->getErrors())) {
