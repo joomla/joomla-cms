@@ -266,8 +266,8 @@ class ArticlesModel extends ListModel
             )
             ->from($db->quoteName('#__content', 'a'))
             ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
-            ->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
-            ->join('LEFT', $db->quoteName('#__users', 'uam'), $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
+            ->join('LEFT', $db->quoteName('#__users', 'ua') . ' FORCE INDEX(PRIMARY)', $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
+            ->join('LEFT', $db->quoteName('#__users', 'uam') . ' FORCE INDEX(PRIMARY)', $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
             ->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'));
 
         $params      = $this->getState('params');
