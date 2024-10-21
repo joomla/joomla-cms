@@ -352,7 +352,7 @@ abstract class InstallerHelper
         foreach ($hashes as $hash) {
             if ($updateObject->get($hash, false)) {
                 $hashPackage = hash_file($hash, $packagefile);
-                $hashRemote  = $updateObject->$hash->_data;
+                $hashRemote  = trim($updateObject->$hash->_data);
                 $hashOnFile  = true;
 
                 if ($hashPackage !== strtolower($hashRemote)) {
