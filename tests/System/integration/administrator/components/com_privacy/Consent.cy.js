@@ -1,10 +1,12 @@
 describe('Test in backend that the privacy consent component', () => {
-  beforeEach(() => cy.doAdministratorLogin());
-  afterEach(() => {
+  beforeEach(() => {
     cy.task('queryDB', 'DELETE FROM #__privacy_consents');
-    cy.task('queryDB', "DELETE FROM #__users WHERE name = 'test user'");
-    cy.get('.js-stools-btn-clear').click({ force: true });
+    cy.task('queryDB', "DELETE FROM #__users WHERE name LIKE '%test user%'").then(() => {
+      cy.task('queryDB', 'DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)');
+    });
+    cy.doAdministratorLogin();
   });
+  afterEach(() => cy.get('.js-stools-btn-clear').click({ force: true }));
 
   it('can view privacy consents', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
