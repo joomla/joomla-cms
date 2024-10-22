@@ -564,7 +564,7 @@ class ConfigurationModel extends BaseInstallationModel
             // Synch the sequence if pgsql
             if (($db->getServerType() === 'postgresql') && (!$result)) {
                 $query = $db->getQuery(true)
-                    ->select('MAX(id) +1 as id')
+                    ->select('MAX(' . $db->quoteName('id') . ') + 1 AS ' . $db->quoteName('id'))
                     ->from($db->quoteName('#__users'));
                 $db->setQuery($query);
                 $result = $db->loadResult();
