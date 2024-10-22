@@ -26,9 +26,9 @@
           const output = document.getElementById('indexer-output');
           try {
             const parsed = JSON.parse(response);
-            output.innerHTML = parsed.rendered;
+            output.textContent = parsed.rendered;
           } catch (e) {
-            output.innerHTML = response;
+            output.textContent = response;
           }
         },
         onError: (xhr) => {
