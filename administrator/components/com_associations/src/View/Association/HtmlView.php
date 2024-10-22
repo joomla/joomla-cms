@@ -297,7 +297,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Reference and target edit links.
-        $this->editUri = 'index.php?' . http_build_query($options);
+        $this->editUri = 'index.php?' . http_build_query($options, '', '&');
 
         // Get target language.
         $this->targetId         = '0';
