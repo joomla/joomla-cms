@@ -569,7 +569,7 @@ class ConfigurationModel extends BaseInstallationModel
                 $db->setQuery($query);
                 $result = $db->loadResult();
 
-                $db->setQuery("SELECT setval('#__users_id_seq', " .  $result . ", false)")
+                $db->setQuery('SELECT setval(' . $db->quote('#__users_id_seq') . ', ' .  $result . ', false)')
                     ->execute();
             }
         } catch (\RuntimeException $e) {
