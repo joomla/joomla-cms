@@ -642,6 +642,15 @@ class Language extends BaseLanguage
             // Try first without a language-prefixed filename.
             $filenames[] = "$path/$extension.ini";
             $filenames[] = "$path/$lang.$extension.ini";
+
+            // Get fallback Tag from language metadata
+            $fallbackLang = $this->getFallbackTag();
+
+            if (!empty($fallbackLang)) {
+                $path        = LanguageHelper::getLanguagePath($basePath, $fallbackLang);
+                $filenames[] = "$path/$extension.ini";
+                $filenames[] = "$path/$fallbackLang.$extension.ini";
+            }
         }
 
         foreach ($filenames as $filename) {
@@ -863,5 +872,22 @@ class Language extends BaseLanguage
         }
 
         return isset($this->strings[strtoupper($string)]);
+    }
+
+    /**
+     * Get the language fallback tag for this language
+     * to be used for extensions which do not have a language file for this language
+     *
+     * @return  string  The language fallback tag for the language
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getFallbackTag()
+    {
+        if (\array_key_exists('fallbackTag', $this->metadata)) {
+            return $this->metadata['fallbackTag'];
+        }
+
+        return '';
     }
 }
