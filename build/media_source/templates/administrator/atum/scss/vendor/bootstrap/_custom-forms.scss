@@ -22,7 +22,7 @@
 
       &:checked {
         color: var(--template-text-light);
-        background-color: var(--template-bg-dark) !important;
+        background-color: var(--template-contrast) !important;
       }
     }
   }
