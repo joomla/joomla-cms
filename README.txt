@@ -1,8 +1,5 @@
 Joomla! CMS™
 
-The Joomla! 5.2 branch is under heavy development and not all links in this document are available yet
-------------------------------------------------------------------------------------------------------
-
 1- Overview
 	* This is a Joomla! 5.x installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
