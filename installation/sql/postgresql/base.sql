@@ -1018,6 +1018,7 @@ CREATE TABLE IF NOT EXISTS "#__users" (
   "registerDate" timestamp without time zone NOT NULL,
   "lastvisitDate" timestamp without time zone,
   "activation" varchar(100) DEFAULT '' NOT NULL,
+  "resetToken" varchar(100) DEFAULT '' NOT NULL,
   "params" text NOT NULL,
   "lastResetTime" timestamp without time zone,
   "resetCount" bigint DEFAULT 0 NOT NULL,
