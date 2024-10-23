@@ -290,8 +290,8 @@
 					filter="integer"
 					showon="title_only:0[AND]show_category:1"
 					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
