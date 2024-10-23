@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -21,7 +19,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  1.7.0
  */
-class IntegerField extends ListField
+class IntegerField extends NumberField
 {
     /**
      * The form field type.
@@ -32,52 +30,30 @@ class IntegerField extends ListField
     protected $type = 'Integer';
 
     /**
-     * Method to get the field options.
+     * Method to attach a Form object to the field.
      *
-     * @return  object[]  The field option objects.
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
      *
-     * @since   1.7.0
+     * @return  boolean  True on success.
+     *
+     * @see     FormField::setup()
+     * @since   5.2
      */
-    protected function getOptions()
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
-        $options = [];
+        $return = parent::setup($element, $value, $group);
 
-        // Initialize some field attributes.
-        $first = (int) $this->element['first'];
-        $last  = (int) $this->element['last'];
-        $step  = (int) $this->element['step'];
-
-        // Sanity checks.
-        if ($step == 0) {
-            // Step of 0 will create an endless loop.
-            return $options;
+        if ($return) {
+            // It is better not to force any default limits if none is specified
+            $this->max  = isset($this->element['last']) ? (float) $this->element['last'] : null;
+            $this->min  = isset($this->element['first']) ? (float) $this->element['first'] : null;
+            $this->step = isset($this->element['step']) && (int) $this->element['step'] > 0 ? (int) $this->element['step'] : 1;
         }
 
-        if ($first < $last && $step < 0) {
-            // A negative step will never reach the last number.
-            return $options;
-        }
-
-        if ($first > $last && $step > 0) {
-            // A position step will never reach the last number.
-            return $options;
-        }
-
-        if ($step < 0) {
-            // Build the options array backwards.
-            for ($i = $first; $i >= $last; $i += $step) {
-                $options[] = HTMLHelper::_('select.option', $i);
-            }
-        } else {
-            // Build the options array.
-            for ($i = $first; $i <= $last; $i += $step) {
-                $options[] = HTMLHelper::_('select.option', $i);
-            }
-        }
-
-        // Merge any additional options in the XML definition.
-        $options = array_merge(parent::getOptions(), $options);
-
-        return $options;
+        return $return;
     }
 }
