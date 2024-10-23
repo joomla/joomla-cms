@@ -16,7 +16,6 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
-use Joomla\CMS\Authentication\Password\PHPassHandler;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -54,19 +53,6 @@ abstract class UserHelper
     public const HASH_ARGON2I = 'argon2i';
 
     /**
-     * B/C constant `PASSWORD_ARGON2I` for PHP < 7.4 (using integer)
-     *
-     * Note: PHP's native `PASSWORD_ARGON2I` constant is not used as PHP may be compiled without this constant
-     *
-     * @var    integer
-     * @since  4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Use UserHelper::HASH_ARGON2I instead
-     */
-    public const HASH_ARGON2I_BC = 2;
-
-    /**
      * Constant defining the Argon2id password algorithm for use with password hashes
      *
      * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
@@ -77,36 +63,12 @@ abstract class UserHelper
     public const HASH_ARGON2ID = 'argon2id';
 
     /**
-     * B/C constant `PASSWORD_ARGON2ID` for PHP < 7.4 (using integer)
-     *
-     * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
-     *
-     * @var    integer
-     * @since  4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Use UserHelper::HASH_ARGON2ID instead
-     */
-    public const HASH_ARGON2ID_BC = 3;
-
-    /**
      * Constant defining the BCrypt password algorithm for use with password hashes
      *
      * @var    string
      * @since  4.0.0
      */
     public const HASH_BCRYPT = '2y';
-
-    /**
-     * B/C constant `PASSWORD_BCRYPT` for PHP < 7.4 (using integer)
-     *
-     * @var    integer
-     * @since  4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Use UserHelper::HASH_BCRYPT instead
-     */
-    public const HASH_BCRYPT_BC = 1;
 
     /**
      * Constant defining the MD5 password algorithm for use with password hashes
@@ -120,31 +82,16 @@ abstract class UserHelper
     public const HASH_MD5 = 'md5';
 
     /**
-     * Constant defining the PHPass password algorithm for use with password hashes
-     *
-     * @var    string
-     * @since  4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Support for PHPass hashed passwords will be removed use any of the other hashing methods
-     */
-    public const HASH_PHPASS = 'phpass';
-
-    /**
      * Mapping array for the algorithm handler
      *
      * @var array
      * @since  4.0.0
      */
     public const HASH_ALGORITHMS = [
-        self::HASH_ARGON2I     => Argon2iHandler::class,
-        self::HASH_ARGON2I_BC  => Argon2iHandler::class,
-        self::HASH_ARGON2ID    => Argon2idHandler::class,
-        self::HASH_ARGON2ID_BC => Argon2idHandler::class,
-        self::HASH_BCRYPT      => BCryptHandler::class,
-        self::HASH_BCRYPT_BC   => BCryptHandler::class,
-        self::HASH_MD5         => MD5Handler::class,
-        self::HASH_PHPASS      => PHPassHandler::class,
+        self::HASH_ARGON2I  => Argon2iHandler::class,
+        self::HASH_ARGON2ID => Argon2idHandler::class,
+        self::HASH_BCRYPT   => BCryptHandler::class,
+        self::HASH_MD5      => MD5Handler::class,
     ];
 
     /**
@@ -465,10 +412,7 @@ abstract class UserHelper
         $container         = Factory::getContainer();
 
         // Cheaply try to determine the algorithm in use otherwise fall back to the chained handler
-        if (strpos($hash, '$P$') === 0) {
-            /** @var PHPassHandler $handler */
-            $handler = $container->get(PHPassHandler::class);
-        } elseif (strpos($hash, '$argon2id') === 0) {
+        if (strpos($hash, '$argon2id') === 0) {
             // Check for Argon2id hashes
             /** @var Argon2idHandler $handler */
             $handler = $container->get(Argon2idHandler::class);

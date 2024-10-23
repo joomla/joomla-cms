@@ -17,7 +17,6 @@ use Joomla\CMS\Authentication\Password\Argon2iHandler;
 use Joomla\CMS\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\MD5Handler;
-use Joomla\CMS\Authentication\Password\PHPassHandler;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -80,7 +79,6 @@ class Authentication implements ServiceProviderInterface
                         $handler->addHandler($container->get(Argon2idHandler::class));
                     }
 
-                    $handler->addHandler($container->get(PHPassHandler::class));
                     $handler->addHandler($container->get(MD5Handler::class));
 
                     return $handler;
@@ -114,24 +112,6 @@ class Authentication implements ServiceProviderInterface
                     );
 
                     return new MD5Handler();
-                },
-                true
-            );
-
-        $container->alias('password.handler.phpass', PHPassHandler::class)
-            ->share(
-                PHPassHandler::class,
-                function (Container $container) {
-                    @trigger_error(
-                        \sprintf(
-                            'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
-                            PHPassHandler::class,
-                            'password.handler.default'
-                        ),
-                        E_USER_DEPRECATED
-                    );
-
-                    return new PHPassHandler();
                 },
                 true
             );
