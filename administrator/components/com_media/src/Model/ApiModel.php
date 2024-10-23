@@ -451,8 +451,15 @@ class ApiModel extends BaseDatabaseModel
 
         // Initialize the allowed extensions
         if ($this->allowedExtensions === null) {
-            // Get options from the input or fallback to images only
-            $mediaTypes = explode(',', Factory::getApplication()->getInput()->getString('mediatypes', '0'));
+            // Get options from the input or fallback to all supported formats
+            $mediaTypes = array_filter(
+                explode(
+                    ',',
+                    Factory::getApplication()
+                        ->getInput()
+                        ->getString('mediatypes', '0,1,2,3')
+                )
+            );
             $types      = [];
             $extensions = [];
 
