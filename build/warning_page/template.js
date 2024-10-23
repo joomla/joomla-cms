@@ -28,7 +28,7 @@ var errorLocale = window.errorLocale || null;
 
         if (header && desc1 && helpLink) {
           header.innerHTML = errorLocale[ref].header;
-          desc1.innerHTML = errorLocale[ref].text1;
+          desc1.innerText = errorLocale[ref].text1;
           helpLink.innerText = errorLocale[ref]['help-url-text'];
         }
 
