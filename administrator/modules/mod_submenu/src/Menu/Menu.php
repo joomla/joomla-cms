@@ -102,7 +102,7 @@ abstract class Menu
             if ($itemParams->get('menu-permission')) {
                 $parts  = explode(';', $itemParams->get('menu-permission'));
                 $action = $parts[0];
-                $asset  = (\count($parts) > 1) ? $parts[1] : null;
+                $asset  = $parts[1] ?? null;
 
                 if (!$user->authorise($action, $asset)) {
                     $parent->removeChild($item);
