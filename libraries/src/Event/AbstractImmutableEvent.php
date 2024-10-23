@@ -9,12 +9,17 @@
 
 namespace Joomla\CMS\Event;
 
+use Joomla\Event\AbstractEvent;
+use BadMethodCallException;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This class implements the immutable base Event object used system-wide to offer orthogonality.
+ * Note that it's implementation is very similar to \Joomla\Event\EventImmutable but it also contains the same custom
+ * setter logic for constructors as in \Joomla\CMS\Event\AbstractEvent
  *
  * @see    \Joomla\CMS\Event\AbstractEvent
  * @since  4.0.0
@@ -48,7 +53,33 @@ class AbstractImmutableEvent extends AbstractEvent
 
         $this->constructed = true;
 
-        parent::__construct($name, $arguments);
+        parent::__construct($name);
+
+        // Same setter logic as in \Joomla\CMS\Event\AbstractEvent::setArgument
+        foreach ($arguments as $argumentName => $value) {
+            // Look for the method for the value pre-processing/validation
+            $ucfirst     = ucfirst($name);
+            $methodName1 = 'onSet' . $ucfirst;
+            $methodName2 = 'set' . $ucfirst;
+
+            if (method_exists($this, $methodName1)) {
+                $value = $this->{$methodName1}($value);
+            } elseif (method_exists($this, $methodName2)) {
+                @trigger_error(
+                    sprintf(
+                        'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
+                        $methodName2,
+                        $methodName1,
+                        \get_class($this)
+                    ),
+                    E_USER_DEPRECATED
+                );
+
+                $value = $this->{$methodName2}($value);
+            }
+
+            $this->arguments[$argumentName] = $value;
+        }
     }
 
     /**
@@ -62,11 +93,11 @@ class AbstractImmutableEvent extends AbstractEvent
      * @since   4.0.0
      * @throws  \BadMethodCallException
      */
-    public function offsetSet($name, $value)
+    public function offsetSet($name, mixed $value): void
     {
         // B/C check for plugins which use $event['result'] = $result;
         if ($name === 'result') {
-            parent::offsetSet($name, $value);
+            $this->arguments[$name] = $value;
 
             @trigger_error(
                 'Setting a result in an immutable event is deprecated, and will not work in Joomla 6. Event ' . $this->getName(),
@@ -95,7 +126,7 @@ class AbstractImmutableEvent extends AbstractEvent
      * @since   4.0.0
      * @throws  \BadMethodCallException
      */
-    public function offsetUnset($name)
+    public function offsetUnset($name): void
     {
         throw new \BadMethodCallException(
             \sprintf(
