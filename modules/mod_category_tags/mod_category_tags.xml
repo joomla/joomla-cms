@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" method="upgrade">
+	<name>mod_category_tags</name>
+	<author>Joomla! Project</author>
+	<creationDate>2024-09-29</creationDate>
+	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>MOD_CATEGORY_TAGS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\CategoryTags</namespace>
+	<files>
+		<filename module="mod_category_tags">mod_category_tags.php</filename>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="Itemid"
+					type="sql"
+					label="MOD_CATEGORY_TAGS_ITEMMENUID_LABEL"
+					sql_select="id, CONCAT(REPEAT('- ', level - 1), title) AS title"
+					sql_from="#__menu"
+					sql_where="link LIKE '%%option=com_content&amp;%%' AND link LIKE '%%view=category&amp;%%'"
+					sql_order="lft"
+					key_field="id"
+					value_field="title"
+					required="false"
+					default=""
+					>
+					<option	value="">JOPTION_DO_NOT_USE</option>
+				</field>
+
+				<field
+					name="catid"
+					type="category"
+					label="JCATEGORY"
+					layout="joomla.form.field.list-fancy-select" 
+					extension="com_content"
+					multiple="false"
+					filter="intarray"
+					class="multipleCategories"
+					showon="Itemid:"
+					>
+				        <option value="">JALL</option>
+				</field>
+
+				<field
+					name="parentTag"
+					type="tag"
+					label="MOD_CATEGORY_TAGS_PARENT_TAG_LABEL"
+					description="MOD_CATEGORY_TAGS_PARENT_TAG_DESC"
+					multiple="true"
+					filter="intarray"
+					mode="nested"
+				/>
+
+				<field
+					name="maximum"
+					type="number"
+					label="MOD_CATEGORY_TAGS_MAX_LABEL"
+					default="5"
+					min="0"
+					filter="integer"
+					validate="number"
+				/>
+
+				<field
+					name="timeframe"
+					type="list"
+					label="MOD_CATEGORY_TAGS_FIELD_TIMEFRAME_LABEL"
+					default="alltime"
+					validate="options"
+					>
+					<option value="alltime">MOD_CATEGORY_TAGS_FIELD_ALL_TIME</option>
+					<option value="hour">MOD_CATEGORY_TAGS_FIELD_LAST_HOUR</option>
+					<option value="day">MOD_CATEGORY_TAGS_FIELD_LAST_DAY</option>
+					<option value="week">MOD_CATEGORY_TAGS_FIELD_LAST_WEEK</option>
+					<option value="month">MOD_CATEGORY_TAGS_FIELD_LAST_MONTH</option>
+					<option value="year">MOD_CATEGORY_TAGS_FIELD_LAST_YEAR</option>
+				</field>
+
+				<field
+					name="order_value"
+					type="list"
+					label="MOD_CATEGORY_TAGS_FIELD_ORDER_VALUE_LABEL"
+					default="count"
+					validate="options"
+					>
+					<option value="title">MOD_CATEGORY_TAGS_FIELD_ORDER_VALUE_TITLE</option>
+					<option value="count">MOD_CATEGORY_TAGS_FIELD_ORDER_VALUE_COUNT</option>
+					<option value="rand()">MOD_CATEGORY_TAGS_FIELD_ORDER_VALUE_RANDOM</option>
+				</field>
+
+				<field
+					name="order_direction"
+					type="list"
+					label="JGLOBAL_ORDER_DIRECTION_LABEL"
+					default="1"
+					filter="integer"
+					validate="options"
+					>
+					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
+					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
+				</field>
+
+				<field
+					name="tree_display"
+					type="radio"
+					label="MOD_CATEGORY_TAGS_FIELD_DISPLAY_TREE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean"
+					>
+					<option value="0">JLIST</option>
+					<option value="1">JTREE</option>
+				</field>
+
+				<field
+					name="title_display"
+					type="radio"
+					label="MOD_CATEGORY_TAGS_FIELD_DISPLAY_TITLE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="image_display"
+					type="radio"
+					label="MOD_CATEGORY_TAGS_FIELD_DISPLAY_IMAGE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="count_display"
+					type="radio"
+					label="MOD_CATEGORY_TAGS_FIELD_DISPLAY_COUNT_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="categories_titles"
+					type="radio"
+					label="MOD_CATEGORY_TAGS_CATEGORIES_TITLE_LABEL" 
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean" 
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="no_results_display"
+					type="radio"
+					label="MOD_CATEGORY_TAGS_FIELD_NO_RESULTS_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="no_results_text"
+					type="text"
+					label="MOD_CATEGORY_TAGS_FIELD_NO_RESULTS_TEXT"
+					default="MOD_CATEGORY_TAGS_NO_ITEMS_FOUND"
+					translate_default="true"
+					showon="no_results_display:1"
+				/>
+			</fieldset>
+
+			<fieldset
+				name="cloud"
+				label="MOD_CATEGORY_TAGS_FIELDSET_CLOUD_LABEL"
+				>
+				<field
+					name="minsize"
+					type="number"
+					label="MOD_CATEGORY_TAGS_FIELD_MINSIZE_LABEL"
+					description="MOD_CATEGORY_TAGS_FIELD_MINSIZE_DESC"
+					default="1"
+					filter="float"
+				/>
+
+				<field
+					name="maxsize"
+					type="number"
+					label="MOD_CATEGORY_TAGS_FIELD_MAXSIZE_LABEL"
+					description="MOD_CATEGORY_TAGS_FIELD_MAXSIZE_DESC"
+					default="2"
+					filter="float"
+				/>
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="form-select"
+					default="_:default"
+					validate="moduleLayout"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+					validate="CssIdentifier"
+				/>
+
+				<field
+					name="owncache"
+					type="list"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					default="1"
+					filter="integer"
+					validate="options"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_time"
+					type="number"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					default="900"
+					filter="integer"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
