@@ -137,14 +137,17 @@ class HtmlView extends BaseHtmlView
         if ($isNew && $canDo->get('core.create')) {
             $toolbar->apply('module.apply');
 
-            $saveGroup = $toolbar->dropdownButton('save-group');
+            // Hide the Save and Close button for com_content Import Module Modal flow.
+            if (!Factory::getApplication()->input->cookie->get('com_modules_importOnSave')) {
+              $saveGroup = $toolbar->dropdownButton('save-group');
 
-            $saveGroup->configure(
-                function (Toolbar $childBar) {
-                    $childBar->save('module.save');
-                    $childBar->save2new('module.save2new');
-                }
-            );
+              $saveGroup->configure(
+                  function (Toolbar $childBar) {
+                      $childBar->save('module.save');
+                      $childBar->save2new('module.save2new');
+                  }
+              );
+            }
 
             $toolbar->cancel('module.cancel', 'JTOOLBAR_CANCEL');
         } else {
