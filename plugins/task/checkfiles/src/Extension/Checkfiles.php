@@ -47,6 +47,9 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
         ],
     ];
 
+    private const IMAGE_QUALITY_MAX = 100;
+    private const IMAGE_COMPRESSION_MAX_PNG = 9;
+
     /**
      * @inheritDoc
      *
@@ -94,6 +97,24 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * Normalize the image "compression" to "quality" for the given image type.
+     * We need this because the "quality" parameter is inverted for PNG images
+     * and we use the "compression" parameter in the task form.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private function normalizeCompressionToQuality(string|int $compression, int $type)
+    {
+        $compression = (int) $compression;
+        $quality = self::IMAGE_QUALITY_MAX - $compression;
+
+        if ($type == IMAGETYPE_PNG) {
+            return floor($compression / 100 * self::IMAGE_COMPRESSION_MAX_PNG);
+        }
+        return $quality;
+    }
+
+    /**
      * @param   ExecuteTaskEvent  $event  The onExecuteTask event
      *
      * @return integer  The exit code
@@ -108,6 +129,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
         $path      = Path::check($this->rootDirectory . $params->path);
         $dimension = $params->dimension;
         $limit     = $params->limit;
+        $quality   = $params->quality;
         $numImages = max(1, (int) $params->numImages ?? 1);
 
         if (!is_dir($path)) {
@@ -126,6 +148,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
 
             $height = $properties->height;
             $width  = $properties->width;
+            $quality = $this->normalizeCompressionToQuality($quality, $properties->type);
 
             $newHeight = $dimension === 'height' ? $limit : $height * $limit / $width;
             $newWidth  = $dimension === 'width' ? $limit : $width * $limit / $height;
@@ -149,7 +172,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
                 return TaskStatus::KNOCKOUT;
             }
 
-            if (!$image->toFile($imageFilename, $properties->type)) {
+            if (!$image->toFile($imageFilename, $properties->type, ['quality' => $quality])) {
                 $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_IMAGE_SAVE_FAIL'), 'error');
 
                 return TaskStatus::KNOCKOUT;
