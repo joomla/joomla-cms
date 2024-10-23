@@ -20,12 +20,10 @@
   transition: opacity .15s linear;
 
   .btn-primary {
-    color: var(--states-btn-primary-color);
-    background: var(--states-btn-primary-bg);
-    border-color: var(--states-btn-primary-bg-hover);
-    &:hover {
-      background: var(--states-btn-primary-bg-hover);
-    }
+    --btn-color: var(--states-btn-primary-color);
+    --btn-bg: var(--states-btn-primary-bg);
+    --btn-border-color: var(--states-btn-primary-bg-hover);
+    --btn-primary-bg-hvr: var(--states-btn-primary-bg-hover);
   }
 
   &[type="success"],
@@ -36,7 +34,6 @@
     --alert-heading-bg: var(--state-success-bg-hvr);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
     a {
-      color: var(--state-success-text);
       text-decoration: underline;
     }
   }
@@ -49,7 +46,6 @@
     --alert-heading-bg: var(--state-info-bg-hvr);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
     a {
-      color: var(--state-info-text);
       text-decoration: underline;
     }
   }
@@ -65,7 +61,6 @@
     --alert-heading-bg: var(--state-warning-heading-bg); // TODO Change to --state-warning-heading-bg in another PR
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
     a {
-      color: var(--state-warning-text);
       text-decoration: underline;
     }
   }
@@ -78,7 +73,6 @@
     --alert-heading-bg: var(--state-danger-bg-hvr);
     --alert-link-color: var(--state-success-link-color, var(--states-link-color));
     a {
-      color: var(--state-danger-text);
       text-decoration: underline;
     }
   }
@@ -89,7 +83,7 @@
     justify-content: center;
     padding: .8rem;
     line-height: normal;
-    color: #fff;
+    color: var(--alert-heading-color, $white);
     background: var(--alert-heading-bg);
     align-content: center;
 
