@@ -230,6 +230,9 @@ $params = $this->params;
     </div>
     <?php endforeach; ?>
 </div>
+
+<?php echo $this->event->afterDisplayItems; ?>
+
 <div class="com-content-archive__navigation w-100">
     <?php if ($this->params->def('show_pagination_results', 1)) : ?>
         <p class="com-content-archive__counter counter float-end pt-3 pe-2">

@@ -19,18 +19,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 $app = Factory::getApplication();
 
 /** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
-$this->category->text = $this->category->description;
-$app->triggerEvent('onContentPrepare', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
-$this->category->description = $this->category->text;
-
-$results = $app->triggerEvent('onContentAfterTitle', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
-$afterDisplayTitle = trim(implode("\n", $results));
-
-$results = $app->triggerEvent('onContentBeforeDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
-$beforeDisplayContent = trim(implode("\n", $results));
-
-$results = $app->triggerEvent('onContentAfterDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
-$afterDisplayContent = trim(implode("\n", $results));
+$afterDisplayTitle = $this->category->event->afterDisplayTitle;
+$beforeDisplayContent = $this->category->event->beforeDisplayContent;
+$afterDisplayContent = $this->category->event->afterDisplayContent;
+$afterDisplayItems = $this->category->event->afterDisplayItems;
 
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
@@ -118,6 +110,8 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
             <?php echo $this->loadTemplate('links'); ?>
         </div>
     <?php endif; ?>
+
+    <?php echo $afterDisplayItems; ?>
 
     <?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
         <div class="com-content-category-blog__children cat-children">

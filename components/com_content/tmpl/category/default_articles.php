@@ -324,6 +324,8 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
         <?php echo HTMLHelper::_('contenticon.create', $this->category, $this->category->params); ?>
     <?php endif; ?>
 
+    <?php echo $this->category->event->afterDisplayItems; ?>
+
     <?php // Add pagination links ?>
     <?php if (!empty($this->items)) : ?>
         <?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>

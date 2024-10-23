@@ -143,6 +143,11 @@ class HtmlView extends BaseHtmlView
 
         PluginHelper::importPlugin('content');
 
+        $this->event = new \stdClass();
+
+        $results                        = Factory::getApplication()->triggerEvent('onContentAfterItems', ['com_content.featured', &$this, &$this->params]);
+        $this->event->afterDisplayItems = trim(implode("\n", $results));
+
         // Compute the article slugs and prepare introtext (runs content plugins).
         foreach ($items as &$item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
