@@ -102,6 +102,7 @@ class CMSObjectTest extends UnitTestCase
                 '_privateproperty1' => 'valuep1',
                 'property1'         => 'value1',
                 'property2'         => 5,
+                'useExceptions'     => false,
             ],
             $object->getProperties(false),
             'Should get all properties, including private ones'
