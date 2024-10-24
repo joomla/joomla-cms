@@ -10,7 +10,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
@@ -23,9 +25,19 @@ $wa->useScript('keepalive')
     ->useScript('form.validate');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = ['jmetadata'];
+$this->ignore_fieldsets = ['item_associations', 'jmetadata'];
 $this->useCoreUI = true;
 
+$input  = Factory::getApplication()->getInput();
+$params = clone $this->state->get('params');
+$assoc  = Associations::isEnabled();
+
+if (!$assoc) {
+    $this->ignore_fieldsets[] = 'frontendassociations';
+}
+
+// In case of modal
+$isModal = $input->get('layout') === 'modal';
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_TAGS_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
@@ -71,6 +83,19 @@ $this->useCoreUI = true;
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+        <?php if (!$isModal && $assoc) : ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+            <fieldset id="fieldset-associations" class="options-form">
+                <legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+                <div>
+                    <?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+                </div>
+            </fieldset>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
+        <?php elseif ($isModal && $assoc) : ?>
+            <div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
+        <?php endif; ?>
 
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>

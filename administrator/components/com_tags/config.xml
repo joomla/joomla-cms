@@ -205,16 +205,6 @@
 		/>
 
 		<field
-			name="tag_list_language_filter"
-			type="contentlanguage"
-			label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
-			default="all"
-			>
-			<option value="all">JALL</option>
-			<option value="current_language">JCURRENT</option>
-		</field>
-
-		<field
 			name="record_hits"
 			type="radio"
 			label="JGLOBAL_RECORD_HITS_LABEL"

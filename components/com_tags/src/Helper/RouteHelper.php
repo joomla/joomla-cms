@@ -12,6 +12,7 @@ namespace Joomla\Component\Tags\Site\Helper;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Menu\AbstractMenu;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -99,15 +100,15 @@ class RouteHelper extends CMSRouteHelper
     /**
      * Tries to load the router for the component and calls it. Otherwise calls getRoute.
      *
-     * @param   string   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
-     * @param   string   $language  The language of the tag
+     * @param   string|string[]   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
+     * @param   string            $language  The language of the tag
      *
      * @return  string  URL link to pass to the router
      *
      * @since   4.2.0
      * @throws  \Exception
      */
-    public static function getComponentTagRoute(string $id, string $language = '*'): string
+    public static function getComponentTagRoute($id, string $language = '*'): string
     {
         // We actually would want to allow arrays of tags here, but can't due to B/C
         if (!\is_array($id)) {
@@ -128,6 +129,10 @@ class RouteHelper extends CMSRouteHelper
 
         foreach ($id as $i => $value) {
             $link .= '&id[' . $i . ']=' . $value;
+        }
+
+        if ($language && $language !== '*' && Multilanguage::isEnabled()) {
+            $link .= '&lang=' . $language;
         }
 
         return $link;

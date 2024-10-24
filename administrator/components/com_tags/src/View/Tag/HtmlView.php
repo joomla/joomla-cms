@@ -53,13 +53,6 @@ class HtmlView extends BaseHtmlView
     protected $state;
 
     /**
-     * Flag if an association exists
-     *
-     * @var  boolean
-     */
-    protected $assoc;
-
-    /**
      * The actions the user is authorised to perform
      *
      * @var    \Joomla\Registry\Registry
