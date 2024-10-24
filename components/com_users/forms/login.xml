@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-	<fieldset name="credentials" label="COM_USERS_LOGIN_DEFAULT_LABEL">
+	<fieldset name="credentials-username" label="COM_USERS_LOGIN_DEFAULT_LABEL">
 		<field
 			name="username"
 			type="text"
@@ -12,8 +12,11 @@
 			validate="username"
 			autofocus="true"
 			autocomplete="username"
+			hint="COM_USERS_LOGIN_USERNAME_LABEL"
 		/>
-
+	</fieldset>
+	
+	<fieldset name="credentials-password" label="COM_USERS_LOGIN_DEFAULT_LABEL">
 		<field
 			name="password"
 			type="password"
@@ -22,6 +25,7 @@
 			filter="raw"
 			size="25"
 			autocomplete="current-password"
+			hint="JGLOBAL_PASSWORD"
 		/>
 	</fieldset>
 

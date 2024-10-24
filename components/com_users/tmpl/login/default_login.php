@@ -54,7 +54,19 @@ $usersConfig = ComponentHelper::getParams('com_users');
     <form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well" id="com-users-login__form">
 
         <fieldset>
-            <?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
+            <?php if ($this->params->get('login_label') == 1) : ?>
+                <?php echo $this->form->renderFieldset('credentials-username', ['class' => 'com-users-login__input']); ?>
+                <?php echo $this->form->renderFieldset('credentials-password', ['class' => 'com-users-login__input']); ?>
+            <?php elseif ($this->params->get('login_label') == 0) : ?>
+                <label for="login-input-username" class="form-username"><?php echo Text::_('COM_USERS_LOGIN_USERNAME_LABEL_REQUIRED'); ?></label>
+                <div class="input-group">
+                    <input id="login-input-username" type="text" name="username" class="form-control" autocomplete="username" required="required" placeholder="<?php echo Text::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?>">
+                    <span class="input-group-text" title="<?php echo Text::_('COM_USERS_LOGIN_USERNAME_LABEL'); ?>">
+                        <span class="icon-user icon-fw" aria-hidden="true"></span>
+                    </span>
+                </div>
+                <?php echo $this->form->renderFieldset('credentials-password', ['class' => 'com-users-login__input']); ?>
+            <?php endif; ?>
 
             <?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
                 <div class="com-users-login__remember">
@@ -114,14 +126,14 @@ $usersConfig = ComponentHelper::getParams('com_users');
         </fieldset>
     </form>
     <div class="com-users-login__options list-group">
-        <a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
+        <a class="com-users-login__reset list-unstyled" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
             <?php echo Text::_('COM_USERS_LOGIN_RESET'); ?>
         </a>
-        <a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
+        <a class="com-users-login__remind list-unstyled" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
             <?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?>
         </a>
         <?php if ($usersConfig->get('allowUserRegistration')) : ?>
-            <a class="com-users-login__register list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
+            <a class="com-users-login__register list-unstyled" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
                 <?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?>
             </a>
         <?php endif; ?>
