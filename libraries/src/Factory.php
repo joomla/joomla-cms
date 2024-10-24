@@ -523,11 +523,11 @@ abstract class Factory
 
                 if (!class_exists($classname)) {
                     // The class does not exist, default to Date
-                    $classname = 'Joomla\\CMS\\Date\\Date';
+                    $classname = Date::class;
                 }
             } else {
                 // No tag, so default to Date
-                $classname = 'Joomla\\CMS\\Date\\Date';
+                $classname = Date::class;
             }
         }
 

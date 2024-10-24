@@ -307,7 +307,7 @@ class RedisStorage extends CacheStorage
      */
     public static function isSupported()
     {
-        return class_exists('\\Redis');
+        return class_exists(\Redis::class);
     }
 
     /**

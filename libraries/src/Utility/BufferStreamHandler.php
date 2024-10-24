@@ -73,7 +73,7 @@ class BufferStreamHandler
     public static function stream_register()
     {
         if (!self::$registered) {
-            stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler');
+            stream_wrapper_register('buffer', BufferStreamHandler::class);
 
             self::$registered = true;
         }

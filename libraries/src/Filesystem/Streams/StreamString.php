@@ -301,4 +301,4 @@ class StreamString
     }
 }
 
-stream_wrapper_register('string', '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString') or die('StreamString Wrapper Registration Failed');
+stream_wrapper_register('string', StreamString::class) or die('StreamString Wrapper Registration Failed');
