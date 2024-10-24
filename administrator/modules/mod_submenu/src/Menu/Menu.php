@@ -100,7 +100,9 @@ abstract class Menu
 
             // Exclude item with menu item option set to exclude from menu modules
             if ($itemParams->get('menu-permission')) {
-                @list($action, $asset) = explode(';', $itemParams->get('menu-permission'));
+                $parts  = explode(';', $itemParams->get('menu-permission'));
+                $action = $parts[0];
+                $asset  = $parts[1] ?? null;
 
                 if (!$user->authorise($action, $asset)) {
                     $parent->removeChild($item);
