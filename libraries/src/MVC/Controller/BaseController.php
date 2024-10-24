@@ -23,6 +23,7 @@ use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
@@ -650,9 +651,14 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         $document   = $this->app->getDocument();
         $viewType   = $document->getType();
         $viewName   = $this->input->get('view', $this->default_view);
-        $viewLayout = $this->input->get('layout', 'default', 'string');
 
-        $view = $this->getView($viewName, $viewType, '', ['base_path' => $this->basePath, 'layout' => $viewLayout]);
+        $view = $this->getView($viewName, $viewType, '', []);
+
+        if ($view instanceof HtmlView) {
+            $viewLayout = $this->input->get('layout', 'default', 'string');
+
+            $view->setLayout($viewLayout);
+        }
 
         // Set models for the View
         $this->prepareViewModel($view);

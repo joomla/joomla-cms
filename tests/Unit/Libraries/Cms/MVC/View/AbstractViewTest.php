@@ -38,7 +38,15 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testGetInjectedName()
     {
-        $view = new class (['name' => 'unit test']) extends AbstractView {
+        $view = new class () extends AbstractView
+        {
+            public function __construct($config = [])
+            {
+                $this->_name = 'unit test';
+
+                parent::__construct($config);
+            }
+
             public function display($tpl = null)
             {
             }
@@ -74,7 +82,15 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testInjectedOption()
     {
-        $view = new class (['option' => 'unit test']) extends AbstractView {
+        $view = new class () extends AbstractView
+        {
+            public function __construct($config = [])
+            {
+                $this->option = 'unit test';
+
+                parent::__construct($config);
+            }
+
             public function getOption()
             {
                 return $this->option;
@@ -139,14 +155,16 @@ class AbstractViewTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function testGetData()
+    public function testLegacyGetData()
     {
-        $view = new class () extends AbstractView {
+        $view = new class extends AbstractView
+        {
+            protected $unit = 'test';
+
             public function display($tpl = null)
             {
             }
         };
-        $view->set('unit', 'test');
 
         $this->assertEquals('test', $view->get('unit'));
     }
@@ -237,7 +255,7 @@ class AbstractViewTest extends UnitTestCase
         $view = new class () extends AbstractView {
             public function dispatchEvent(EventInterface $event)
             {
-                parent::dispatchEvent($event);
+                return parent::dispatchEvent($event);
             }
 
             public function display($tpl = null)

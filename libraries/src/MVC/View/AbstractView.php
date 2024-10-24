@@ -9,8 +9,10 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentAwareInterface;
+use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
@@ -37,23 +39,12 @@ use Joomla\Event\EventInterface;
 abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
+    use DocumentAwareTrait;
     use LanguageAwareTrait;
     use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait {
         get as private legacyGet;
     }
-
-
-    /**
-     * The active document object
-     *
-     * @var    Document
-     * @since  3.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0
-     *             Use $this->getDocument() instead
-     */
-    public $document;
 
     /**
      * The URL option for the component. It is usually passed by controller while it creates the view
@@ -91,31 +82,11 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * Constructor
      *
      * @param   array  $config  A named configuration array for object construction.
-     *                          name: the name (optional) of the view (defaults to the view class name suffix).
-     *                          charset: the character set to use for display
-     *                          escape: the name (optional) of the function to use for escaping strings
-     *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
-     *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
-     *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
-     *                          layout: the layout (optional) to use to display the view
      *
      * @since   3.0
      */
     public function __construct($config = [])
     {
-        // Set the view name
-        if (empty($this->_name)) {
-            if (\array_key_exists('name', $config)) {
-                $this->_name = $config['name'];
-            } else {
-                $this->_name = $this->getName();
-            }
-        }
-
-        // Set the component name if passed
-        if (!empty($config['option'])) {
-            $this->option = $config['option'];
-        }
     }
 
     /**
@@ -263,34 +234,90 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     }
 
     /**
-     * Get the Document.
+     * Method to get the component name
      *
-     * @return  Document
+     * @return  string  The name of the component
      *
-     * @since   4.4.0
-     * @throws  \UnexpectedValueException May be thrown if the document has not been set.
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
      */
-    protected function getDocument(): Document
+    public function getComponentName()
     {
-        if ($this->document) {
-            return $this->document;
+        if (empty($this->option)) {
+            $this->option = ApplicationHelper::getComponentName();
         }
 
-        throw new \UnexpectedValueException('Document not set in ' . __CLASS__);
+        return $this->option;
     }
 
     /**
-     * Set the document to use.
+     * Magic method to access properties of the application.
      *
-     * @param   Document  $document  The document to use
+     * @param   string  $name  The name of the property.
+     *
+     * @return  mixed   A value if the property name is valid, null otherwise.
+     *
+     * @since       4.0.0
+     * @deprecated  6.0  This is a B/C proxy for deprecated read accesses
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'document':
+                @trigger_error(
+                    'Accessing the document property of the view is deprecated, use the getDocument() method instead.',
+                    E_USER_DEPRECATED
+                );
+
+                return $this->getDocument();
+
+            default:
+                $trace = debug_backtrace();
+                trigger_error(
+                    sprintf(
+                        'Undefined property via __get(): %1$s in %2$s on line %3$s',
+                        $name,
+                        $trace[0]['file'],
+                        $trace[0]['line']
+                    ),
+                    E_USER_NOTICE
+                );
+        }
+    }
+
+    /**
+     * Magic method to access properties of the application.
+     *
+     * @param   string  $name  The name of the property.
      *
      * @return  void
      *
-     * @since   4.4.0
+     * @since       4.0.0
+     * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
      */
-    public function setDocument(Document $document): void
+    public function __set($name, $value)
     {
-        $this->document = $document;
+        switch ($name) {
+            case 'document':
+                @trigger_error(
+                    'Setting the document property of the view is deprecated, use the setDocument() method instead.',
+                    E_USER_DEPRECATED
+                );
+
+                $this->setDocument($value);
+                break;
+
+            default:
+                $this->$name = $value;
+                trigger_error(
+                    sprintf(
+                        'Setting an undefined class property via __set() is deprecated. ' .
+                        'Ensure that : %1$s is defined in the class from 6.0',
+                        $name,
+                    ),
+                    E_USER_DEPRECATED
+                );
+        }
     }
 
     /**
@@ -323,7 +350,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      *
      * @param   EventInterface  $event  The event
      *
-     * @return  void
+     * @return  EventInterface  The event returned from the dispatch call
      *
      * @since   4.1.0
      *
@@ -331,7 +358,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      */
     protected function dispatchEvent(EventInterface $event)
     {
-        $this->getDispatcher()->dispatch($event->getName(), $event);
+        return $this->getDispatcher()->dispatch($event->getName(), $event);
 
         @trigger_error(
             \sprintf(
