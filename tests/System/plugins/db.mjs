@@ -40,8 +40,8 @@ function queryTestDB(joomlaQuery, config) {
       let hostOrUnixPath = config.env.db_host;
 
       /* Verify if the connection is a Unix socket by checking for the "unix:/" prefix.
-       * PostgreSQL does not support this prefix, so it must be removed.
-       * We standardise the use of this prefix across all databases and the PHP driver by handling it here.
+       * PostgreSQL JS driver does not support this prefix, so it must be removed.
+       * We standardise the use of this prefix with the PHP driver by handling it here.
        */
       if (hostOrUnixPath.startsWith('unix:/')) {
         // e.g. 'unix:/var/run/postgresql' -> '/var/run/postgresql'
@@ -94,9 +94,10 @@ function queryTestDB(joomlaQuery, config) {
   return new Promise((resolve, reject) => {
     // Create the connection and connect
     let connectionConfig;
-    // Check if db_host is a Unix socket by verifying the "unix:/" prefix.
-    // MariaDB and MySQL does not handle this prefix, it needs to be stripped.
-    // This approach maintains compatibility with PHP drivers and simplifies the overall configuration.
+      /* Verify if the connection is a Unix socket by checking for the "unix:/" prefix.
+       * MariaDB and MySQL JS drivers do not support this prefix, so it must be removed.
+       * We standardise the use of this prefix with the PHP driver by handling it here.
+       */
     if (config.env.db_host.startsWith('unix:/')) {
       // If the host is a Unix socket, extract the socket path
       connectionConfig = {
