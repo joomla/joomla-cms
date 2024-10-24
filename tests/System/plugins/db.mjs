@@ -39,9 +39,10 @@ function queryTestDB(joomlaQuery, config) {
     if (postgresConnectionPool === null) {
       let hostOrUnixPath = config.env.db_host;
 
-      // Check if db_host is a Unix socket by verifying the "unix:/" prefix.
-      // PostgreSQL does not handle this prefix, it needs to be stripped.
-      // This approach maintains compatibility with PHP driver and simplifies the overall configuration.
+      /* Verify if the connection is a Unix socket by checking for the "unix:/" prefix.
+       * PostgreSQL does not support this prefix, so it must be removed.
+       * We standardise the use of this prefix across all databases and the PHP driver by handling it here.
+       */
       if (hostOrUnixPath.startsWith('unix:/')) {
         // e.g. 'unix:/var/run/postgresql' -> '/var/run/postgresql'
         hostOrUnixPath = hostOrUnixPath.replace('unix:', '');
