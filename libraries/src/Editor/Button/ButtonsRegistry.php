@@ -99,7 +99,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
         $dispatcher->dispatch($event->getName(), $event);
 
         // Load legacy buttons for backward compatibility
-        $plugins  = PluginHelper::getPlugin('editors-xtd');
+        $plugins  = PluginHelper::getPlugins('editors-xtd');
         $editorId = $options['editorId'] ?? '';
         $asset    = (int) ($options['asset'] ?? 0);
         $author   = (int) ($options['author'] ?? 0);
