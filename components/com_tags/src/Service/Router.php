@@ -76,7 +76,12 @@ class Router extends RouterBase
         parent::__construct($app, $menu);
 
         $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
-        $this->sefparams = new Registry($sefPlugin->params);
+
+        if ($sefPlugin) {
+            $this->sefparams = new Registry($sefPlugin->params);
+        } else {
+            $this->sefparams = new Registry();
+        }
 
         $this->buildLookup();
     }
