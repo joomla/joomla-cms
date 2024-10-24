@@ -10,7 +10,10 @@
 
 namespace Joomla\Plugin\System\Jooa11y\Extension;
 
+use Joomla\CMS\Event\PageCache\SetCachingEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -35,7 +38,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onBeforeCompileHead' => 'initJooa11y'];
+        if (Factory::getApplication()->isClient('site')) {
+            return ['onAfterRoute' => ['initJooa11y', Priority::HIGH]];
+        }
+
+        return [];
     }
 
     /**
@@ -49,9 +56,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     {
         static $result;
 
-        if (\is_bool($result)) {
+        if ($result !== null) {
             return $result;
         }
+
+        $result = true;
 
         // If the user is not allowed to view the output then end here.
         $filterGroups = (array) $this->params->get('filter_groups', []);
@@ -63,16 +72,14 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
             if (!array_intersect($filterGroups, $userGroups)) {
                 $result = false;
-                return $result;
             }
         }
 
-        $result = true;
         return $result;
     }
 
     /**
-     * Add the checker.
+     * Init the checker.
      *
      * @return  void
      *
@@ -80,10 +87,6 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      */
     public function initJooa11y()
     {
-        if (!$this->getApplication()->isClient('site')) {
-            return;
-        }
-
         // Check if we are in a preview modal or the plugin has enforced loading
         $showJooa11y = $this->getApplication()
             ->getInput()
@@ -94,6 +97,27 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Disable page cache
+        $this->getDispatcher()->addListener(
+            'onPageCacheSetCaching',
+            static function (SetCachingEvent $event) {
+                $event->addResult(false);
+            }
+        );
+
+        // Register own event to add the checker later, once a document is created
+        $this->getDispatcher()->addListener('onBeforeCompileHead', [$this, 'addJooa11y']);
+    }
+
+    /**
+     * Add the checker.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addJooa11y()
+    {
         // Load translations
         $this->loadLanguage();
 
@@ -152,6 +176,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         }
 
         // Get the document object
+        /** @var \Joomla\CMS\Document\HtmlDocument $document */
         $document = $this->getApplication()->getDocument();
 
         // Get plugin options from xml
