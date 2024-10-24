@@ -293,7 +293,7 @@ class CssMenu
                 continue;
             }
 
-            if (substr($item->link, 0, 8) === 'special:') {
+            if (!empty($item->link) && substr($item->link, 0, 8) === 'special:') {
                 $special = substr($item->link, 8);
 
                 if ($special === 'language-forum') {
@@ -311,12 +311,10 @@ class CssMenu
              * processing. It is needed for links from menu items of third party extensions link to Joomla! core
              * components like com_categories, com_fields...
              */
-            if ($option = $uri->getVar('option')) {
-                $item->element = $option;
-            }
+            $item->element = !empty($uri->getVar('option')) ? $uri->getVar('option') : '';
 
             // Exclude item if is not enabled
-            if ($item->element && !ComponentHelper::isEnabled($item->element)) {
+            if ($item->element !== '' && !ComponentHelper::isEnabled($item->element)) {
                 $parent->removeChild($item);
                 continue;
             }
@@ -460,7 +458,7 @@ class CssMenu
             }
 
             // Ok we passed everything, load language at last only
-            if ($item->element) {
+            if (!empty($item->element)) {
                 $language->load($item->element . '.sys', JPATH_ADMINISTRATOR) ||
                 $language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element);
             }
@@ -492,7 +490,7 @@ class CssMenu
      */
     public function getIconClass($node)
     {
-        $identifier = $node->class;
+        $identifier = !empty($node->class) ? $node->class : '';
 
         // Top level is special
         if (trim($identifier) == '') {
@@ -518,7 +516,7 @@ class CssMenu
     }
 
     /**
-     * Create unique identifier
+     * Increase the counter and return the new value
      *
      * @return  string
      *
