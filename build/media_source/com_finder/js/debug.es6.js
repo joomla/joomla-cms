@@ -26,9 +26,9 @@
           const output = document.getElementById('indexer-output');
           try {
             const parsed = JSON.parse(response);
-            output.innerHTML = parsed.rendered;
+            output.innerHTML = Joomla.sanitizeHtml(parsed.rendered);
           } catch (e) {
-            output.innerHTML = response;
+            output.innerHTML = Joomla.sanitizeHtml(response);
           }
         },
         onError: (xhr) => {
