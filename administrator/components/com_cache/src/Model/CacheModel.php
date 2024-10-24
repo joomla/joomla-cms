@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Cache\Administrator\Model;
 
-use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Event\Cache\AfterPurgeEvent;
@@ -126,7 +126,8 @@ class CacheModel extends ListModel
 
                 if ($data && \count($data) > 0) {
                     // Process filter by search term.
-                    if ($search = $this->getState('filter.search')) {
+                    $search = $this->getState('filter.search');
+                    if ($search) {
                         foreach ($data as $key => $cacheItem) {
                             if (stripos($cacheItem->group, $search) === false) {
                                 unset($data[$key]);
@@ -152,9 +153,11 @@ class CacheModel extends ListModel
                     $this->_data = [];
                 }
             } catch (CacheConnectingException $exception) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
                 $this->_data = [];
             } catch (UnsupportedCacheException $exception) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
                 $this->_data = [];
             }
@@ -179,7 +182,7 @@ class CacheModel extends ListModel
             'cachebase'    => $app->get('cache_path', JPATH_CACHE),
         ];
 
-        return Cache::getInstance('', $options);
+        return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('', $options);
     }
 
     /**
@@ -261,7 +264,9 @@ class CacheModel extends ListModel
     public function purge()
     {
         try {
-            Factory::getCache('')->gc();
+            // @todo: Check should $this->getCache()->gc() do the same?
+            Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+                ->createCacheController('callback', ['defaultgroup' => ''])->gc();
         } catch (CacheConnectingException $exception) {
             return false;
         } catch (UnsupportedCacheException $exception) {
