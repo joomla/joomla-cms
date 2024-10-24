@@ -2,9 +2,6 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-'use strict';
-
 import punycode from 'punycode';
 
 class JFormValidator {
@@ -317,14 +314,7 @@ class JFormValidator {
   }
 }
 
-const initialize = () => {
-  document.formvalidator = new JFormValidator();
-
-  // Cleanup
-  document.removeEventListener('DOMContentLoaded', initialize);
-};
-
-document.addEventListener('DOMContentLoaded', initialize);
+document.formvalidator = new JFormValidator();
 
 /**
  * Expose the classes to the global scope
