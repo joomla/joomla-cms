@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="min"
+				type="number"
+				label="PLG_FIELDS_NUMBER_PARAMS_FIRST_LABEL"
+				filter="float"
+			/>
+
+			<field
+				name="max"
+				type="number"
+				label="PLG_FIELDS_NUMBER_PARAMS_LAST_LABEL"
+				filter="float"
+			/>
+
+			<field
+				name="step"
+				type="number"
+				label="PLG_FIELDS_NUMBER_PARAMS_STEP_LABEL"
+				filter="float"
+			/>
+		</fieldset>
+	</fields>
+</form>

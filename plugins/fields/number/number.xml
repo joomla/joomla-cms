@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="fields" method="upgrade">
+	<name>plg_fields_number</name>
+	<author>Joomla! Project</author>
+	<creationDate>2024-08</creationDate>
+	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>5.3.0</version>
+	<description>PLG_FIELDS_NUMBER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Number</namespace>
+	<files>
+		<folder>params</folder>
+		<folder plugin="number">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_fields_number.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_number.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="min"
+					type="number"
+					label="PLG_FIELDS_NUMBER_PARAMS_FIRST_LABEL"
+					default="1.0"
+					filter="float"
+				/>
+				<field
+					name="max"
+					type="number"
+					label="PLG_FIELDS_NUMBER_PARAMS_LAST_LABEL"
+					default="100.0"
+					filter="float"
+				/>
+				<field
+					name="step"
+					type="number"
+					label="PLG_FIELDS_NUMBER_PARAMS_STEP_LABEL"
+					default="1.0"
+					filter="float"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
