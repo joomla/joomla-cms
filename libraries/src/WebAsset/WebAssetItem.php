@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  4.0.0
  */
-class WebAssetItem implements WebAssetItemInterface
+class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenciesInterface
 {
     /**
      * Asset name
@@ -68,6 +68,22 @@ class WebAssetItem implements WebAssetItemInterface
     protected $dependencies = [];
 
     /**
+     * Unparsed cross dependencies
+     *
+     * @var    array[]
+     * @since  __DEPLOY_VERSION__
+     */
+    private $rawCrossDependencies = [];
+
+    /**
+     * Asset cross dependencies
+     *
+     * @var    array[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $crossDependencies = [];
+
+    /**
      * Asset version
      *
      * @var    string
@@ -78,11 +94,12 @@ class WebAssetItem implements WebAssetItemInterface
     /**
      * Class constructor
      *
-     * @param   string   $name          The asset name
-     * @param   ?string  $uri           The URI for the asset
-     * @param   array    $options       Additional options for the asset
-     * @param   array    $attributes    Attributes for the asset
-     * @param   array    $dependencies  Asset dependencies
+     * @param   string   $name               The asset name
+     * @param   ?string  $uri                The URI for the asset
+     * @param   array    $options            Additional options for the asset
+     * @param   array    $attributes         Attributes for the asset
+     * @param   array    $dependencies       Asset dependencies, from assets of the same type
+     * @param   array    $crossDependencies  Asset dependencies, from assets of another type
      *
      * @since   4.0.0
      */
@@ -91,7 +108,8 @@ class WebAssetItem implements WebAssetItemInterface
         ?string $uri = null,
         array $options = [],
         array $attributes = [],
-        array $dependencies = []
+        array $dependencies = [],
+        array $crossDependencies = []
     ) {
         $this->name    = $name;
         $this->uri     = $uri;
@@ -113,6 +131,13 @@ class WebAssetItem implements WebAssetItemInterface
             unset($options['dependencies']);
         } else {
             $this->dependencies = $dependencies;
+        }
+
+        if (\array_key_exists('crossDependencies', $options)) {
+            $this->rawCrossDependencies = (array) $options['crossDependencies'];
+            unset($options['crossDependencies']);
+        } else {
+            $this->rawCrossDependencies = $crossDependencies;
         }
 
         $this->options = $options;
@@ -152,6 +177,46 @@ class WebAssetItem implements WebAssetItemInterface
     public function getDependencies(): array
     {
         return $this->dependencies;
+    }
+
+    /**
+     * Return associative list of cross dependencies.
+     * Example: ['script' => ['script1', 'script2'], 'style' => ['style1', 'style2']]
+     *
+     * @return  array[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getCrossDependencies(): array
+    {
+        if ($this->rawCrossDependencies && !$this->crossDependencies) {
+            // Cross Dependencies as an associative array
+            if (!\is_int(key($this->rawCrossDependencies))) {
+                $this->crossDependencies = $this->rawCrossDependencies;
+            } else {
+                // Parse Cross Dependencies which comes in ["name#type"] format
+                foreach ($this->rawCrossDependencies as $crossDependency) {
+                    $pos     = strrpos($crossDependency, '#');
+                    $depType = $pos ? substr($crossDependency, $pos + 1) : '';
+                    $depName = $pos ? substr($crossDependency, 0, $pos) : '';
+
+                    if (!$depType || !$depName) {
+                        throw new \UnexpectedValueException(
+                            sprintf('Incomplete definition for cross dependency, for asset "%s"', $this->getName())
+                        );
+                    }
+
+                    if (empty($this->crossDependencies[$depType])) {
+                        $this->crossDependencies[$depType] = [];
+                    }
+
+                    $this->crossDependencies[$depType][] = $depName;
+                }
+            }
+            $this->rawCrossDependencies = [];
+        }
+
+        return $this->crossDependencies;
     }
 
     /**

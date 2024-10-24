@@ -49,7 +49,7 @@ $wa->getRegistry()->addExtensionRegistryFile('com_finder');
  * This segment of code sets up the autocompleter.
  */
 if ($params->get('show_autosuggest', 1)) {
-    $wa->usePreset('awesomplete');
+    $wa->useScript('awesomplete');
     $app->getDocument()->addScriptOptions('finder-search', ['url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false)]);
 
     Text::script('JLIB_JS_AJAX_ERROR_OTHER');
