@@ -104,7 +104,7 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if (!\count($this->data) && $this->state->get('filter.search') === '') {
+        if (!\count($this->data) && ($this->state->get('filter.search') === null || $this->state->get('filter.search') === '')) {
             $this->setLayout('emptystate');
         }
 
