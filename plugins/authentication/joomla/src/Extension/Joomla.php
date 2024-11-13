@@ -53,7 +53,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
      *
      * @since   1.5
      */
-    public function onUserAuthenticate(AuthenticationEvent $event)
+    public function onUserAuthenticate(AuthenticationEvent $event): void
     {
         $credentials = $event->getCredentials();
         $response    = $event->getAuthenticationResponse();

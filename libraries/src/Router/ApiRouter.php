@@ -93,7 +93,7 @@ class ApiRouter extends Router
         $validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "TRACE", "PATCH"];
 
         if (!\in_array($method, $validMethods)) {
-            throw new \InvalidArgumentException(sprintf('%s is not a valid HTTP method.', $method));
+            throw new \InvalidArgumentException(\sprintf('%s is not a valid HTTP method.', $method));
         }
 
         // Get the path from the route and remove and leading or trailing slash.
@@ -121,7 +121,7 @@ class ApiRouter extends Router
             }
         }
 
-        throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $routePath));
+        throw new RouteNotFoundException(\sprintf('Unable to handle request for route `%s`.', $routePath));
     }
 
     /**

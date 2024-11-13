@@ -154,7 +154,7 @@ class FieldTable extends Table implements CurrentUserInterface
         // Verify that the name is unique
         $table = new self($this->_db, $this->getDispatcher());
 
-        if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['name' => $this->name, 'context' => $this->context]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
             return false;

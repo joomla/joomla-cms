@@ -248,7 +248,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->registerAsset($type, ...$arguments);
         }
 
-        throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, \get_class($this)));
+        throw new \BadMethodCallException(\sprintf('Undefined method %s in class %s', $method, \get_class($this)));
     }
 
     /**
@@ -383,7 +383,7 @@ class WebAssetManager implements WebAssetManagerInterface
             // Make sure dependency exists
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
-                    sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
+                    \sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
                 );
             }
 
@@ -426,7 +426,7 @@ class WebAssetManager implements WebAssetManagerInterface
             // Make sure dependency exists
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
-                    sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
+                    \sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
                 );
             }
 
@@ -525,7 +525,7 @@ class WebAssetManager implements WebAssetManagerInterface
             $this->registry->add($type, $assetInstance);
         } else {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s(): Argument #2 ($asset) must be a string or an instance of %s, %s given.',
                     __METHOD__,
                     WebAssetItemInterface::class,
@@ -696,7 +696,7 @@ class WebAssetManager implements WebAssetManagerInterface
             $assetInstance->setOption('content', $content);
         } else {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s(): Argument #2 ($content) must be a string or an instance of %s, %s given.',
                     __METHOD__,
                     WebAssetItemInterface::class,
@@ -1004,7 +1004,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
-                    sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $depName, $asset->getName(), $depType)
+                    \sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $depName, $asset->getName(), $depType)
                 );
             }
 

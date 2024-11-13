@@ -45,7 +45,7 @@ trait CacheControllerFactoryAwareTrait
         }
 
         @trigger_error(
-            sprintf('A cache controller is needed in %s. An UnexpectedValueException will be thrown in 5.0.', __CLASS__),
+            \sprintf('A cache controller is needed in %s. An UnexpectedValueException will be thrown in 5.0.', __CLASS__),
             E_USER_DEPRECATED
         );
 

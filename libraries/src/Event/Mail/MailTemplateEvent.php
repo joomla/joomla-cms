@@ -20,7 +20,7 @@ use Joomla\CMS\Mail\MailTemplate;
 /**
  * Base class for MailTemplate events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 abstract class MailTemplateEvent extends AbstractImmutableEvent
 {
@@ -31,8 +31,8 @@ abstract class MailTemplateEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @since  5.2.0
+     * @deprecated 5.2.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = [];
 
@@ -44,7 +44,7 @@ abstract class MailTemplateEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -71,7 +71,7 @@ abstract class MailTemplateEvent extends AbstractImmutableEvent
      *
      * @return  MailTemplate
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function onSetSubject(MailTemplate $value): MailTemplate
     {
@@ -85,7 +85,7 @@ abstract class MailTemplateEvent extends AbstractImmutableEvent
      *
      * @return  MailTemplate
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function onGetSubject(MailTemplate $value): MailTemplate
     {
@@ -99,7 +99,7 @@ abstract class MailTemplateEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function onSetTemplateId(string $value): string
     {
@@ -113,7 +113,7 @@ abstract class MailTemplateEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function onGetTemplateId(string $value): string
     {
@@ -125,7 +125,7 @@ abstract class MailTemplateEvent extends AbstractImmutableEvent
      *
      * @return  MailTemplate
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public function getTemplate(): MailTemplate
     {
@@ -137,7 +137,7 @@ abstract class MailTemplateEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public function getTemplateId(): string
     {

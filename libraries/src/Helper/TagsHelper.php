@@ -109,7 +109,7 @@ class TagsHelper extends CMSHelper
 
         // Insert the new tag maps
         if (strpos(implode(',', $tags), '#') !== false) {
-            $tags = self::createTagsFromField($tags);
+            $tags = $this->createTagsFromField($tags);
         }
 
         // Prevent saving duplicate tags
@@ -821,6 +821,8 @@ class TagsHelper extends CMSHelper
      * @return  boolean
      *
      * @since   3.1
+     *
+     * @deprecated  5.3 will be removed in 7.0
      */
     public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {

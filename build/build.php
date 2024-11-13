@@ -148,6 +148,9 @@ function clean_checkout(string $dir)
     system('rm -rf libraries/vendor/joomla/*/Tests');
     system('rm -rf libraries/vendor/joomla/*/ruleset.xml');
 
+    // maximebf/debugbar
+    system('rm -f libraries/vendor/maximebf/debugbar/chromedriver');
+
     // testing sampledata
     system('rm -rf plugins/sampledata/testing');
     system('rm -rf images/sampledata/parks');

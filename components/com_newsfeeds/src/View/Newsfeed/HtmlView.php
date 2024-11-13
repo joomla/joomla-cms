@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
+use Joomla\Component\Newsfeeds\Site\Model\NewsfeedModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -101,13 +102,14 @@ class HtmlView extends BaseHtmlView
         // Get view related request variables.
         $print = $app->getInput()->getBool('print');
 
-        // Get model data.
-        $state = $this->get('State');
-        $item  = $this->get('Item');
+        /** @var NewsfeedModel $model */
+        $model = $this->getModel();
+        $state = $model->getState();
+        $item  = $model->getItem();
 
         // Check for errors.
         // @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

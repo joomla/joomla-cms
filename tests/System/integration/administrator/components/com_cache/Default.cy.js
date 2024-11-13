@@ -4,7 +4,7 @@ describe('Test in backend that the cache', () => {
     cy.visit('/administrator/index.php?option=com_cache&view=cache');
   });
 
-  it('have a title', () => {
+  it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'Maintenance: Clear Cache');
   });
 
@@ -12,7 +12,7 @@ describe('Test in backend that the cache', () => {
     cy.get('div.alert.alert-info').should('contain.text', 'Select the Clear Expired Cache button');
   });
 
-  it('can display a list of chached items', () => {
+  it('can display a list of cached items', () => {
     cy.get('tr.row0').should('contain.text', '_media_version');
   });
 

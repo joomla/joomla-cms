@@ -52,7 +52,7 @@ class JoomlaSerializer extends AbstractSerializer
     public function getAttributes($post, ?array $fields = null)
     {
         if (!\is_array($post) && !\is_object($post)) {
-            $message = sprintf(
+            $message = \sprintf(
                 'Invalid argument for %s. Expected array or object. Got %s',
                 static::class,
                 \gettype($post)

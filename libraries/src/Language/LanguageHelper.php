@@ -131,6 +131,8 @@ class LanguageHelper
                 }
             }
         }
+
+        return null;
     }
 
     /**

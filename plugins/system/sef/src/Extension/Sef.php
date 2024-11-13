@@ -364,7 +364,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     {
         $path = $uri->getPath();
 
-        if ($path != '/' && str_ends_with($path, '/')) {
+        if ($path != Uri::base(true) . '/' && str_ends_with($path, '/')) {
             $uri->setPath(substr($path, 0, -1));
         }
     }

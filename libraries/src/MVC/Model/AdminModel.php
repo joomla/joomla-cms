@@ -693,6 +693,8 @@ abstract class AdminModel extends FormModel
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
      * @since   3.1
+     *
+     * @deprecated  5.3 will be removed in 7.0
      */
     protected function batchTag($value, $pks, $contexts)
     {
@@ -1106,8 +1108,6 @@ abstract class AdminModel extends FormModel
 
                     // Prune items that you can't change.
                     unset($pks[$i]);
-
-                    return false;
                 }
 
                 /**

@@ -14,6 +14,7 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\WebAsset\WebAssetRegistry;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -43,6 +44,7 @@ return new class () implements ServiceProviderInterface {
                 );
 
                 $plugin->setApplication($app);
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 $wa = $container->get(WebAssetRegistry::class);
 

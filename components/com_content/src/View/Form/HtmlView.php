@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Site\Model\FormModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -113,11 +114,12 @@ class HtmlView extends BaseHtmlView
         $app  = Factory::getApplication();
         $user = $app->getIdentity();
 
-        // Get model data.
-        $this->state       = $this->get('State');
-        $this->item        = $this->get('Item');
-        $this->form        = $this->get('Form');
-        $this->return_page = $this->get('ReturnPage');
+        /** @var FormModel $model */
+        $model             = $this->getModel();
+        $this->state       = $model->getState();
+        $this->item        = $model->getItem();
+        $this->form        = $model->getForm();
+        $this->return_page = $model->getReturnPage();
 
         if (empty($this->item->id)) {
             $catid = $this->state->params->get('catid');
@@ -153,7 +155,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -191,6 +193,11 @@ class HtmlView extends BaseHtmlView
         ) {
             $this->showSaveAsCopy = true;
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', $this->return_page ?? '');
 
         $this->_prepareDocument();
 

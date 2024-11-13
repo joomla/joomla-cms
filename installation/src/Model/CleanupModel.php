@@ -10,8 +10,8 @@
 
 namespace Joomla\CMS\Installation\Model;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

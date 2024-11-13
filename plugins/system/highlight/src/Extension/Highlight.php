@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\Highlight\Extension;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -121,7 +122,9 @@ final class Highlight extends CMSPlugin
             && empty($item->mime)
             && $params->get('highlight_terms', 1)
         ) {
-            $item->route .= '&highlight=' . base64_encode(json_encode(\array_slice($query->highlight, 0, 10)));
+            $uri = new Uri($item->route);
+            $uri->setVar('highlight', base64_encode(json_encode(\array_slice($query->highlight, 0, 10))));
+            $item->route = $uri->toString();
         }
     }
 }

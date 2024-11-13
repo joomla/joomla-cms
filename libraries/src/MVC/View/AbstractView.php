@@ -138,9 +138,21 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @return  mixed  The return value of the method
      *
      * @since   3.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0.
+     *              Retrieve the model with $model = $this->getModel(); and call the methods
+     *              to the model directly, e.g. $model->getItems() instead of $this->get('Items').
      */
     public function get($property, $default = null)
     {
+        trigger_deprecation(
+            'joomla/mvc/view',
+            '5.3',
+            'The %s() method is deprecated and will be removed in 7.0. use $model = $this->getModel();
+            $this->items = $model->getItems(); instead',
+            __METHOD__
+        );
+
         // If $model is null we use the default model
         if ($default === null) {
             $model = $this->_defaultModel;
@@ -160,7 +172,11 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
         }
 
-        return $this->legacyGet($property, $default);
+        if (isset($this->$property)) {
+            return $this->$property;
+        }
+
+        return $default;
     }
 
     /**
@@ -239,7 +255,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(sprintf($this->getLanguage()->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
+                throw new \Exception(\sprintf($this->getLanguage()->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
             }
         }
 
@@ -292,7 +308,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 
@@ -318,7 +334,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
         $this->getDispatcher()->dispatch($event->getName(), $event);
 
         @trigger_error(
-            sprintf(
+            \sprintf(
                 'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
                 __METHOD__
             ),

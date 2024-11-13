@@ -170,7 +170,7 @@ class MethodsModel extends BaseDatabaseModel
             }
         }
 
-        return sprintf($containerString, $jDate->format($formatString, true));
+        return \sprintf($containerString, $jDate->format($formatString, true));
     }
 
     /**

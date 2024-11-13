@@ -14,7 +14,7 @@ namespace Joomla\CMS\Event\Mail;
  * Example:
  *   new BeforeRenderingMailTemplateEvent('onEventName', ['templateId' => 'com_example.template', 'subject' => $mailTemplateInstance]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class BeforeRenderingMailTemplateEvent extends MailTemplateEvent
 {
@@ -23,8 +23,8 @@ class BeforeRenderingMailTemplateEvent extends MailTemplateEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @since  5.2.0
+     * @deprecated 5.2.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['templateId', 'subject'];
 }

@@ -445,7 +445,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     {
         try {
             Log::add(
-                sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
+                \sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
                 Log::WARNING,
                 'deprecated'
             );
@@ -905,7 +905,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $user = Factory::getUser();
 
             if ($response->type === 'Cookie') {
-                $user->set('cookieLogin', true);
+                $user->cookieLogin = true;
             }
 
             if (\in_array(false, $results, true) == false) {
@@ -1217,7 +1217,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->getFormToken($forceNew);
+        return $session::getFormToken($forceNew);
     }
 
     /**
@@ -1236,7 +1236,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->checkToken($method);
+        return $session::checkToken($method);
     }
 
     /**

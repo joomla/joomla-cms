@@ -96,11 +96,11 @@ class HtmlView extends BaseHtmlView
 
         // Variables only required for the edit layout
         if ($this->getLayout() === 'edit') {
-            $this->form = $this->get('Form');
+            $this->form = $model->getForm();
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

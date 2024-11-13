@@ -52,7 +52,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
     public function addLog($messages, $messageLanguageKey, $context, $userId = 0)
     {
         if (!is_numeric($userId)) {
-            @trigger_error(sprintf('User ID must be an integer in %s.', __METHOD__), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('User ID must be an integer in %s.', __METHOD__), E_USER_DEPRECATED);
         }
 
         $user   = $userId ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();

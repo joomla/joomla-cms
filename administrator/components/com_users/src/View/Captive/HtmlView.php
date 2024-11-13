@@ -118,8 +118,8 @@ class HtmlView extends BaseHtmlView
 
         // Load data from the model
         $this->isAdmin    = $app->isClient('administrator');
-        $this->records    = $this->get('records');
-        $this->record     = $this->get('record');
+        $this->records    = $model->getRecords();
+        $this->record     = $model->getRecord();
         $this->mfaMethods = MfaHelper::getMfaMethods();
 
         if (!empty($this->records)) {
@@ -182,7 +182,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Which title should I use for the page?
-        $this->title = $this->get('PageTitle');
+        $this->title = $model->getPageTitle();
 
         // Back-end: always show a title in the 'title' module position, not in the page body
         if ($this->isAdmin) {

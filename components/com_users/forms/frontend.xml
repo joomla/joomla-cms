@@ -44,6 +44,18 @@
 				<option value="light">COM_USERS_USER_COLORSCHEME_OPTION_LIGHT</option>
 				<option value="dark">COM_USERS_USER_COLORSCHEME_OPTION_DARK</option>
 			</field>
+
+			<field
+				name="allowTourAutoStart"
+				type="list"
+				label="COM_USERS_USER_ALLOWTOURAUTOSTART_LABEL"
+				default=""
+				validate="options"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 		</fieldset>
 	</fields>
 </form>

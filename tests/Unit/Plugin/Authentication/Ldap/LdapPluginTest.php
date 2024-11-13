@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Plugin\Authentication\Ldap;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Language\Language;
 use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
@@ -50,9 +51,9 @@ class LdapPluginTest extends UnitTestCase
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
 
         $response = new AuthenticationResponse();
-        $result   = $plugin->onUserAuthenticate([], [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => [], 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertFalse($result);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
 
@@ -75,9 +76,9 @@ class LdapPluginTest extends UnitTestCase
         $plugin->setApplication($app);
 
         $response = new AuthenticationResponse();
-        $result   = $plugin->onUserAuthenticate(['password' => ''], [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => ['password' => ''], 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
-        $this->assertFalse($result);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
 
@@ -99,8 +100,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -116,8 +119,10 @@ class LdapPluginTest extends UnitTestCase
     {
         $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
@@ -140,8 +145,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -164,8 +171,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -188,8 +197,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -205,8 +216,10 @@ class LdapPluginTest extends UnitTestCase
     {
         $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
@@ -229,8 +242,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -246,8 +261,10 @@ class LdapPluginTest extends UnitTestCase
     {
         $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'users_dn' => 'test', 'host' => 'test']]);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
@@ -270,8 +287,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
@@ -294,8 +313,10 @@ class LdapPluginTest extends UnitTestCase
         $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
         $plugin->setApplication($app);
 
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+        $response    = new AuthenticationResponse();
+        $credentials = ['username' => 'unit', 'password' => 'test'];
+        $event       = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
 
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }

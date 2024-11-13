@@ -62,7 +62,7 @@ class Mail extends PHPMailer implements MailerInterface
 
         // Configure a callback function to handle errors when $this->debug() is called
         $this->Debugoutput = function ($message, $level) {
-            Log::add(sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
+            Log::add(\sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
         };
 
         // If debug mode is enabled then set SMTPDebug to the maximum level
@@ -211,7 +211,7 @@ class Mail extends PHPMailer implements MailerInterface
             // If it is neither, we log a message and throw an exception
             Log::add(Text::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
 
-            throw new \UnexpectedValueException(sprintf('Invalid email sender: %s', $from));
+            throw new \UnexpectedValueException(\sprintf('Invalid email sender: %s', $from));
         }
 
         if ($result === false) {

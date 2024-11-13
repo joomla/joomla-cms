@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Finder\Administrator\Model\IndexerModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -47,7 +48,9 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         if ($this->getLayout() == 'debug') {
-            $this->form = $this->get('Form');
+            /** @var IndexerModel $model */
+            $model      = $this->getModel();
+            $this->form = $model->getForm();
             $this->addToolbar();
         }
 

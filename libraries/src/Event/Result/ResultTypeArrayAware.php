@@ -64,7 +64,7 @@ trait ResultTypeArrayAware
         }
 
         if (!\is_array($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Array results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Array results.', $this->getName()));
         }
     }
 }

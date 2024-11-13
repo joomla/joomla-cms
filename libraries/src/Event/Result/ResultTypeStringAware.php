@@ -64,7 +64,7 @@ trait ResultTypeStringAware
         }
 
         if (!\is_string($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts String results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts String results.', $this->getName()));
         }
     }
 }

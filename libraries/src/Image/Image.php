@@ -650,9 +650,8 @@ class Image
 
         /**
          * Check if handle has been created successfully
-         * @todo: Remove check for resource when we only support PHP 8
          */
-        if (!(\is_object($handle) || \is_resource($handle))) {
+        if (!\is_object($handle)) {
             throw new \RuntimeException('Unable to process ' . $type . ' image.');
         }
 

@@ -1,5 +1,7 @@
-import { chmodSync, existsSync, writeFileSync, mkdirSync, rmSync } from "fs";
-import { dirname, join } from "path";
+import {
+  chmodSync, existsSync, writeFileSync, mkdirSync, rmSync, copyFileSync,
+} from 'node:fs';
+import { dirname, join } from 'node:path';
 import { umask } from 'node:process';
 
 /**
@@ -54,4 +56,24 @@ function writeRelativeFile(relativePath, content, config, mode = 0o444) {
   return null;
 }
 
-export { writeRelativeFile, deleteRelativePath };
+/**
+ * Copies a file to a specified path relative to the CMS root folder.
+ *
+ * If the file already exists, it will be overwritten.
+ *
+ * @param {string} source - The relative file path of the existing file
+ * @param {string} destination - The relative file path of the new file
+ * @param {object} config - The Cypress configuration object
+ *
+ * @returns null
+ */
+function copyRelativeFile(source, destination, config) {
+  const fullSource = join(config.env.cmsPath, source);
+  const fullDestination = join(config.env.cmsPath, destination);
+
+  copyFileSync(fullSource, fullDestination);
+
+  return null;
+}
+
+export { writeRelativeFile, deleteRelativePath, copyRelativeFile };

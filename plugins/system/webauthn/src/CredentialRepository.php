@@ -430,7 +430,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
     public function getHandleFromUserId(int $id): string
     {
         $key  = $this->getEncryptionKey();
-        $data = sprintf('%010u', $id);
+        $data = \sprintf('%010u', $id);
 
         return hash_hmac('sha256', $data, $key, false);
     }
@@ -510,7 +510,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             }
 
             foreach ($ids as $userId) {
-                $data       = sprintf('%010u', $userId);
+                $data       = \sprintf('%010u', $userId);
                 $thisHandle = hash_hmac('sha256', $data, $key, false);
 
                 if ($thisHandle == $userHandle) {

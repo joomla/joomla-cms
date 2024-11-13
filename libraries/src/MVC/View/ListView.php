@@ -13,6 +13,7 @@ use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\Model\ListModelInterface;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
@@ -35,7 +36,7 @@ class ListView extends HtmlView
      *
      * @var  array
      */
-    protected $items;
+    protected $items = [];
 
     /**
      * The pagination object
@@ -172,14 +173,16 @@ class ListView extends HtmlView
         // Prepare view data
         $this->initializeView();
 
-        $errors = $this->get('Errors');
+        $model = $this->getModel();
+
+        $errors = $model->getErrors();
 
         // Check for errors.
         if (!empty($errors)) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!\count($this->items) && \is_callable([$model, 'IsEmptyState']) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
@@ -212,11 +215,13 @@ class ListView extends HtmlView
             $this->sidebar = HTMLHelper::_('sidebar.render');
         }
 
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $model = $this->getModel();
+
+        $this->items         = \is_callable($model, 'getItems') ? $model->getItems() : [];
+        $this->pagination    = \is_callable($model, 'getPagination') ? $model->getPagination() : null;
+        $this->state         = \is_callable($model, 'getState') ? $model->getState() : null;
+        $this->filterForm    = \is_callable($model, 'getFilterForm') ? $model->getFilterForm() : null;
+        $this->activeFilters = \is_callable($model, 'getActiveFilters') ? $model->getActiveFilters() : null;
     }
 
     /**

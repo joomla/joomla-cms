@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
@@ -320,7 +321,7 @@ class CalendarField extends FormField
                 $date  = \DateTimeImmutable::createFromFormat('U', strtotime($value));
                 $value = $date->format($this->filterFormat);
             } else {
-                $value = strftime($this->format, strtotime($value));
+                $value = date(HTMLHelper::strftimeFormatToDateFormat($this->format), strtotime($value));
             }
 
             date_default_timezone_set($tz);
@@ -393,7 +394,7 @@ class CalendarField extends FormField
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
         }
 
         if ((int) $value <= 0) {

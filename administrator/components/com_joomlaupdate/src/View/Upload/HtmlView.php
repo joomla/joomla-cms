@@ -14,6 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\WarningsModel;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -72,16 +74,21 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var UpdateModel $model */
+        $model = $this->getModel();
+
         // Load com_installer's language
         $language = $this->getLanguage();
         $language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
         $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
-        $this->updateInfo          = $this->get('UpdateInformation');
-        $this->selfUpdateAvailable = $this->get('CheckForSelfUpdate');
+        $this->updateInfo          = $model->getUpdateInformation();
+        $this->selfUpdateAvailable = $model->getCheckForSelfUpdate();
 
         if ($this->getLayout() !== 'captive') {
-            $this->warnings = $this->get('Items', 'warnings');
+            /** @var WarningsModel $warningsModel */
+            $warningsModel  = $this->getModel('warnings');
+            $this->warnings = $warningsModel->getItems();
         }
 
         $params               = ComponentHelper::getParams('com_joomlaupdate');

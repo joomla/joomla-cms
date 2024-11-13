@@ -105,7 +105,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error(sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -114,10 +114,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
 
         // Set the default view search path
         if (\array_key_exists('table_path', $config)) {
-            $this->addTablePath($config['table_path']);
+            static::addTablePath($config['table_path']);
         } elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR')) {
-            $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-            $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
+            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
         }
 
         // Set the clean cache event
@@ -348,7 +348,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
                 E_USER_DEPRECATED
             );
 
@@ -374,7 +374,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $this->getDispatcher()->dispatch($event->getName(), $event);
 
         @trigger_error(
-            sprintf(
+            \sprintf(
                 'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
                 __METHOD__
             ),

@@ -178,7 +178,7 @@ abstract class CliApplication extends AbstractApplication implements CMSApplicat
             default:
                 $trace = debug_backtrace();
                 trigger_error(
-                    sprintf(
+                    \sprintf(
                         'Undefined property via __get(): %1$s in %2$s on line %3$s',
                         $name,
                         $trace[0]['file'],
@@ -235,7 +235,7 @@ abstract class CliApplication extends AbstractApplication implements CMSApplicat
         // Only create the object if it doesn't exist.
         if (empty(static::$instance)) {
             if (!class_exists($name)) {
-                throw new \RuntimeException(sprintf('Unable to load application: %s', $name), 500);
+                throw new \RuntimeException(\sprintf('Unable to load application: %s', $name), 500);
             }
 
             static::$instance = new $name();

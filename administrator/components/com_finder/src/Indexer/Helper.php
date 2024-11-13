@@ -250,7 +250,7 @@ class Helper
         $query->clear()
             ->insert($db->quoteName('#__finder_types'))
             ->columns([$db->quoteName('title'), $db->quoteName('mime')])
-            ->values($db->quote($title) . ', ' . $db->quote($mime));
+            ->values($db->quote($title) . ', ' . $db->quote($mime ?? ''));
         $db->setQuery($query);
         $db->execute();
 

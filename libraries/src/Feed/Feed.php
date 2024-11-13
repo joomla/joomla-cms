@@ -87,7 +87,7 @@ class Feed implements \ArrayAccess, \Countable
         // Validate that any authors that are set are instances of JFeedPerson or null.
         if (($name === 'author') && (!($value instanceof FeedPerson) || ($value === null))) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
                     \get_class($this),
                     \is_object($value) ? \get_class($value) : \gettype($value)
@@ -98,7 +98,7 @@ class Feed implements \ArrayAccess, \Countable
         // Disallow setting categories or contributors directly.
         if (\in_array($name, ['categories', 'contributors'])) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Cannot directly set %1$s property "%2$s".',
                     \get_class($this),
                     $name
@@ -239,7 +239,7 @@ class Feed implements \ArrayAccess, \Countable
     {
         if (!($value instanceof FeedEntry)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%1$s entries must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
                     \get_class($this),
                     \is_object($value) ? \get_class($value) : \gettype($value)

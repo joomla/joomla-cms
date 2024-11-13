@@ -131,19 +131,12 @@ $strings = [
     'JCLOSE', 'JCLEAR', 'JLIB_HTML_BEHAVIOR_TODAY',
     // Miscellaneous
     'JLIB_HTML_BEHAVIOR_WK',
+    // AM/PM
+    'JLIB_HTML_BEHAVIOR_AM', 'JLIB_HTML_BEHAVIOR_PM',
 ];
 
 foreach ($strings as $c) {
     Text::script($c);
-}
-
-// These are new strings. Make sure they exist. Can be generalised at later time: eg in 4.1 version.
-if ($lang->hasKey('JLIB_HTML_BEHAVIOR_AM')) {
-    Text::script('JLIB_HTML_BEHAVIOR_AM');
-}
-
-if ($lang->hasKey('JLIB_HTML_BEHAVIOR_PM')) {
-    Text::script('JLIB_HTML_BEHAVIOR_PM');
 }
 
 // Redefine locale/helper assets to use correct path, and load calendar assets

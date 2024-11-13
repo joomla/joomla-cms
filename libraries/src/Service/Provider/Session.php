@@ -258,7 +258,7 @@ class Session implements ServiceProviderInterface
                      */
                     if (!Factory::$application) {
                         throw new DependencyResolutionException(
-                            sprintf(
+                            \sprintf(
                                 'Creating the "session.metadata_manager" service requires %s::$application be initialised.',
                                 Factory::class
                             )

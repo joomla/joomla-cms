@@ -154,7 +154,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 
             if (!$stream) {
                 // Error but nothing from php? Create our own
-                throw new \Exception(sprintf('Could not connect to resource: %s', $uri));
+                throw new \Exception(\sprintf('Could not connect to resource: %s', $uri));
             }
         } catch (\Exception $e) {
             throw new \RuntimeException($e->getMessage());

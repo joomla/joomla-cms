@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Config\Site\Model\ModulesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -71,9 +72,10 @@ class HtmlView extends BaseHtmlView
         // Need to add module name to the state of model
         $model->getState()->set('module.name', $moduleData['module']);
 
-        /** @var Form form */
-        $this->form      = $this->get('form');
-        $this->positions = $this->get('positions');
+        /** @var ModulesModel $model */
+        $model           = $this->getModel();
+        $this->form      = $model->getForm();
+        $this->positions = $model->getPositions();
         $this->item      = $moduleData;
 
         if ($this->form) {

@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Users\Site\Model\RegistrationModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -92,14 +93,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        // Get the view data.
-        $this->form   = $this->get('Form');
-        $this->data   = $this->get('Data');
-        $this->state  = $this->get('State');
+        /** @var RegistrationModel $model */
+        $model        = $this->getModel();
+        $this->form   = $model->getForm();
+        $this->data   = $model->getData();
+        $this->state  = $model->getState();
         $this->params = $this->state->get('params');
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

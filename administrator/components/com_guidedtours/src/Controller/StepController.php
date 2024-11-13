@@ -23,4 +23,21 @@ use Joomla\CMS\MVC\Controller\FormController;
  */
 class StepController extends FormController
 {
+    /**
+     * Gets the URL arguments to append to a list redirect.
+     *
+     * @return  string  The arguments to append to the redirect URL.
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function getRedirectToListAppend()
+    {
+        $append = parent::getRedirectToListAppend();
+        $tourId = $this->app->getUserState('com_guidedtours.tour_id');
+        if (!empty($tourId)) {
+            $append .= '&tour_id=' . $tourId;
+        }
+
+        return $append;
+    }
 }

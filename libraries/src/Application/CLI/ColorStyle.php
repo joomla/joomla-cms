@@ -108,7 +108,7 @@ final class ColorStyle
         if ($fg) {
             if (\array_key_exists($fg, static::$knownColors) == false) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Invalid foreground color "%1$s" [%2$s]',
                         $fg,
                         implode(', ', $this->getKnownColors())
@@ -122,7 +122,7 @@ final class ColorStyle
         if ($bg) {
             if (\array_key_exists($bg, static::$knownColors) == false) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Invalid background color "%1$s" [%2$s]',
                         $bg,
                         implode(', ', $this->getKnownColors())
@@ -136,7 +136,7 @@ final class ColorStyle
         foreach ($options as $option) {
             if (\array_key_exists($option, static::$knownOptions) == false) {
                 throw new \InvalidArgumentException(
-                    sprintf(
+                    \sprintf(
                         'Invalid option "%1$s" [%2$s]',
                         $option,
                         implode(', ', $this->getKnownOptions())

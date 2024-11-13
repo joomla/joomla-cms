@@ -65,6 +65,8 @@ if ($workflow_enabled) :
 
     $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
     $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
+
+    $this->filterForm->addControlField('transition_id', '');
 endif;
 
 $assoc = Associations::isEnabled();
@@ -389,13 +391,7 @@ $assoc = Associations::isEnabled();
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <?php if ($workflow_enabled) : ?>
-                <input type="hidden" name="transition_id" value="">
-                <?php endif; ?>
-
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

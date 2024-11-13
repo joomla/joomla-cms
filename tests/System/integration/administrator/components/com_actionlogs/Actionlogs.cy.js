@@ -5,7 +5,7 @@ describe('Test in backend that the action logs', () => {
     cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
   });
 
-  it('have a title', () => {
+  it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'User Actions Log');
   });
 
@@ -19,11 +19,11 @@ describe('Test in backend that the action logs', () => {
     cy.doAdministratorLogout();
     cy.doAdministratorLogin();
     cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
-    cy.contains('User ci-admin logged in to admin');
+    cy.contains(`User ${Cypress.env('username')} logged in to admin`);
     cy.task('queryDB', 'TRUNCATE #__action_logs');
   });
 
-  it('have an export button', () => {
+  it('has an export button', () => {
     cy.get('#toolbar-download1').click();
     cy.get('#system-message-container').contains('There are no User Action logs to export').should('exist');
   });

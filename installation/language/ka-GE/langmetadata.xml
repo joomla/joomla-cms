@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
 	<name>Georgian (Georgia)</name>
-	<version>5.1.3</version>
-	<creationDate>2024-07</creationDate>
+	<version>5.2.2</version>
+	<creationDate>2024-11</creationDate>
 	<author>Georgian Translation Team</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -11,7 +11,7 @@
 	</files>
 	<metadata>
 		<name>Georgian (ka-GE)</name>
-		<nativeName>Georgian (Georgia)</nativeName>
+		<nativeName>ქართული (საქართველო)</nativeName>
 		<tag>ka-GE</tag>
 		<rtl>0</rtl>
 	</metadata>

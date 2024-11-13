@@ -98,7 +98,7 @@ class Factory implements FactoryInterface
             $class = '\\JDocumentRenderer' . $type;
 
             if (!class_exists($class)) {
-                throw new \RuntimeException(sprintf('Unable to load renderer class %s', $type), 500);
+                throw new \RuntimeException(\sprintf('Unable to load renderer class %s', $type), 500);
             }
         }
 

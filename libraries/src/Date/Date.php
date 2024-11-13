@@ -261,6 +261,8 @@ class Date extends \DateTime
             case 6:
                 return $abbr ? Text::_('SAT') : Text::_('SATURDAY');
         }
+
+        return '';
     }
 
     /**
@@ -386,6 +388,8 @@ class Date extends \DateTime
             case 12:
                 return $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER');
         }
+
+        return '';
     }
 
     /**
