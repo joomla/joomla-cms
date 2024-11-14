@@ -12,8 +12,6 @@ namespace Joomla\CMS\MVC\View;
 use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\MVC\Model\ListModelInterface;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
@@ -71,7 +69,7 @@ class ListView extends HtmlView
      *
      * @var  array
      */
-    public $activeFilters;
+    public $activeFilters = [];
 
     /**
      * The sidebar markup
@@ -107,6 +105,15 @@ class ListView extends HtmlView
      * @var boolean
      */
     protected $supportsBatch = true;
+
+    /**
+     * Holds the extension for categories, if available
+     *
+     * @var string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $categorySection;
 
     /**
      * The help link for the view
@@ -148,6 +155,10 @@ class ListView extends HtmlView
 
         if (isset($config['supports_batch'])) {
             $this->supportsBatch = $config['supports_batch'];
+        }
+
+        if (isset($config['category'])) {
+            $this->categorySection = $config['category'];
         }
 
         if (isset($config['help_link'])) {
@@ -217,11 +228,11 @@ class ListView extends HtmlView
 
         $model = $this->getModel();
 
-        $this->items         = \is_callable($model, 'getItems') ? $model->getItems() : [];
-        $this->pagination    = \is_callable($model, 'getPagination') ? $model->getPagination() : null;
-        $this->state         = \is_callable($model, 'getState') ? $model->getState() : null;
-        $this->filterForm    = \is_callable($model, 'getFilterForm') ? $model->getFilterForm() : null;
-        $this->activeFilters = \is_callable($model, 'getActiveFilters') ? $model->getActiveFilters() : null;
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
     }
 
     /**
@@ -236,7 +247,9 @@ class ListView extends HtmlView
         $canDo = $this->canDo;
         $user  = $this->getCurrentUser();
 
-        // Get the toolbar object instance
+        /**
+         * @var Toolbar $toolbar
+         */
         $toolbar = $this->getDocument()->getToolbar();
 
         $viewName         = $this->getName();
@@ -244,7 +257,8 @@ class ListView extends HtmlView
 
         ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
 
-        if ($canDo->get('core.create')) {
+        // @todo here we should add category support with some parameters
+        if ($canDo->get('core.create') || (isset($this->categorySection) && \count($user->getAuthorisedCategories($this->categorySection, 'core.create')) > 0)) {
             $toolbar->addNew($singularViewName . '.add');
         }
 
