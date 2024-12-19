@@ -75,7 +75,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
         $this->setDescription('Manage the update channel for Joomla core updates');
         $this->setHelp($help);
 
-        $this->addArgument('channel', InputArgument::OPTIONAL, 'Name of the update channel [default, next, testing, custom]');
+        $this->addArgument('channel', InputArgument::OPTIONAL, 'Name of the update channel [default, next, custom]');
         $this->addOption('url', null, InputOption::VALUE_OPTIONAL, 'URL to update source. Only for custom update channel');
     }
 
@@ -100,7 +100,6 @@ class CoreUpdateChannelCommand extends AbstractCommand
             switch ($params->get('updatesource', 'default')) {
                 case 'default':
                 case 'next':
-                case 'testing':
                     $symfonyStyle->writeln('You are on the "' . $params->get('updatesource', 'default') . '" update channel.');
                     break;
                 case 'custom':
@@ -114,8 +113,8 @@ class CoreUpdateChannelCommand extends AbstractCommand
             return Command::SUCCESS;
         }
 
-        if (!\in_array($channel, ['default', 'next', 'testing', 'custom'])) {
-            $symfonyStyle->error('The given update channel is invalid. Please only choose from [default, next, testing, custom].');
+        if (!\in_array($channel, ['default', 'next', 'custom'])) {
+            $symfonyStyle->error('The given update channel is invalid. Please only choose from [default, next, custom].');
 
             return Command::FAILURE;
         }

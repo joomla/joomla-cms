@@ -47,7 +47,7 @@ class StepTable extends Table implements CurrentUserInterface
      *
      * @since  4.3.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__guidedtour_steps', 'id', $db, $dispatcher);
     }

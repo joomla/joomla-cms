@@ -141,42 +141,13 @@ class ArticlesModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
-        $this->setState('filter.featured', $featured);
-
-        $published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-        $this->setState('filter.published', $published);
-
-        $level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-        $this->setState('filter.level', $level);
-
-        $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-        $this->setState('filter.language', $language);
-
-        $formSubmitted = $input->post->get('form_submitted');
-
-        // Gets the value of a user state variable and sets it in the session
-        $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-        $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+        // Required content filters for the administrator menu
         $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+        $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
+        $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-
-        if ($formSubmitted) {
-            $access = $input->post->get('access');
-            $this->setState('filter.access', $access);
-
-            $authorId = $input->post->get('author_id');
-            $this->setState('filter.author_id', $authorId);
-
-            $categoryId = $input->post->get('category_id');
-            $this->setState('filter.category_id', $categoryId);
-
-            $tag = $input->post->get('tag');
-            $this->setState('filter.tag', $tag);
-        }
+        $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+        $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -461,6 +432,11 @@ class ArticlesModel extends ListModel
             } elseif (stripos($search, 'content:') === 0) {
                 $search = '%' . substr($search, 8) . '%';
                 $query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
+                    ->bind([':search1', ':search2'], $search);
+            } elseif (stripos($search, 'checkedout:') === 0) {
+                $search = '%' . substr($search, 11) . '%';
+                $query->where('(' . $db->quoteName('uc.name') . ' LIKE :search1 OR ' . $db->quoteName('uc.username') . ' LIKE :search2)'
+                    . ' AND ' . $db->quoteName('a.checked_out') . ' IS NOT NULL')
                     ->bind([':search1', ':search2'], $search);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';

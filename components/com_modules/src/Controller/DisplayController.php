@@ -28,16 +28,16 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 class DisplayController extends BaseController
 {
     /**
-     * @param   array                     $config   An optional associative array of configuration settings.
-     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                              'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface|null  $factory  The factory.
-     * @param   CMSApplication|null       $app      The Application for the dispatcher
-     * @param   Input|null                $input    The Input object for the request
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    The Input object for the request
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         $this->input = Factory::getApplication()->getInput();
 

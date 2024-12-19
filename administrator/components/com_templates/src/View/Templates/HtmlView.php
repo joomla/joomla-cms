@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -136,7 +135,7 @@ class HtmlView extends BaseHtmlView
     {
         $canDo    = ContentHelper::getActions('com_templates');
         $clientId = (int) $this->get('State')->get('client_id');
-        $toolbar  = Toolbar::getInstance();
+        $toolbar  = $this->getDocument()->getToolbar();
 
         // Add a shortcut to the styles list view.
         $toolbar->linkButton('', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
+	<config>
+		<inlinehelp button="show"/>
+	</config>
 	<fieldset>
 		<field
 			name="id"
@@ -89,7 +92,7 @@
 			name="default_value"
 			type="textarea"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
-			filter="raw"
+			filter="safehtml"
 		/>
 
 		<field

@@ -75,6 +75,7 @@ class SuggestionsModel extends ListModel
         $db          = $this->getDatabase();
         $termIdQuery = $db->getQuery(true);
         $termQuery   = $db->getQuery(true);
+        $aQuery      = $db->getQuery(true);
 
         // Limit term count to a reasonable number of results to reduce main query join size
         $termIdQuery->select('ti.term_id')
@@ -93,9 +94,9 @@ class SuggestionsModel extends ListModel
         }
 
         // Select required fields
-        $termQuery->select('DISTINCT(t.term)')
+        $termQuery->select('t.term, t.links, t.weight')
             ->from($db->quoteName('#__finder_terms', 't'))
-            ->whereIn('t.term_id', $termIds)
+            ->where('t.term_id in (' . implode(',', $termIds) . ')')
             ->order('t.links DESC')
             ->order('t.weight DESC');
 
@@ -108,8 +109,8 @@ class SuggestionsModel extends ListModel
             ->where('l.access IN (' . implode(',', $groups) . ')')
             ->where('l.state = 1')
             ->where('l.published = 1');
-
-        return $termQuery;
+        $aQuery->select('DISTINCT o.term')->from('(' . $termQuery . ') AS o');
+        return $aQuery;
     }
 
     /**

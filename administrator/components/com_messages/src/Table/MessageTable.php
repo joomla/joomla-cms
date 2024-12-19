@@ -35,7 +35,7 @@ class MessageTable extends Table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__messages', 'message_id', $db, $dispatcher);
 

@@ -490,7 +490,10 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by start and end dates.
-        if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
+        if (
+            !(is_numeric($condition) && $condition == ContentComponent::CONDITION_UNPUBLISHED)
+            && !(\is_array($condition) && \in_array(ContentComponent::CONDITION_UNPUBLISHED, $condition))
+        ) {
             $query->where(
                 [
                     '(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)',

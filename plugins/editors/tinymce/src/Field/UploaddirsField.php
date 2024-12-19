@@ -24,6 +24,9 @@ use Joomla\CMS\HTML\HTMLHelper;
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  * @since       3.7.0
+ *
+ * @deprecated  5.2.0 will be removed in 7.0
+ *               Use Joomla\CMS\Form\Field\FolderlistField.
  */
 class UploaddirsField extends FolderlistField
 {
@@ -51,6 +54,11 @@ class UploaddirsField extends FolderlistField
         $this->directory   = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path');
         $this->recursive   = true;
         $this->hideDefault = true;
+
+        @trigger_error(
+            __CLASS__ . ' is deprecated, use Joomla\CMS\Form\Field\FolderlistField instead. Will be removed in 7.0.',
+            \E_USER_DEPRECATED
+        );
 
         return $return;
     }

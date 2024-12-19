@@ -31,13 +31,13 @@ class InstallerModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -70,7 +70,7 @@ class InstallerModel extends ListModel
         $listDirn  = $this->getState('list.direction', 'asc');
 
         // Replace slashes so preg_match will work
-        $search = $this->getState('filter.search');
+        $search = $this->getState('filter.search', '');
         $search = str_replace('/', ' ', $search);
         $db     = $this->getDatabase();
 

@@ -63,7 +63,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
      *
      * @since   1.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_contact.contact';
 

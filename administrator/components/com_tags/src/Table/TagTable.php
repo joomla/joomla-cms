@@ -59,7 +59,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
      *
      * @since   3.1.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_tags.tag';
 

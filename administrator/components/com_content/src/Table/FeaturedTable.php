@@ -33,7 +33,7 @@ class FeaturedTable extends Table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__content_frontpage', 'content_id', $db, $dispatcher);
     }

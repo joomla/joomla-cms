@@ -41,7 +41,7 @@ class Update extends Table
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__updates', 'update_id', $db, $dispatcher);
     }

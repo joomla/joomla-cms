@@ -39,12 +39,3 @@
     --btn-border-radius: var(--border-radius-sm);
   }
 }
-
-@include media-breakpoint-down(lg) {
-  .btn {
-    margin-bottom: .25rem;
-  }
-  .input-group .btn {
-    margin-bottom: 0;
-  }
-}

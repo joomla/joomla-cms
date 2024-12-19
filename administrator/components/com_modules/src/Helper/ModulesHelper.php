@@ -170,13 +170,13 @@ abstract class ModulesHelper
         $modules = $db->loadObjectList();
         $lang    = Factory::getLanguage();
 
-        foreach ($modules as $i => $module) {
+        foreach ($modules as $module) {
             $extension = $module->value;
             $path      = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
             $source    = $path . "/modules/$extension";
             $lang->load("$extension.sys", $path)
             || $lang->load("$extension.sys", $source);
-            $modules[$i]->text = Text::_($module->text);
+            $module->text = Text::_($module->text);
         }
 
         $modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);

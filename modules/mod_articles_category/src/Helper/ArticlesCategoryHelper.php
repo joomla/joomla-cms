@@ -352,6 +352,8 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     {
         $introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
         $introtext = strip_tags($introtext, '<a><em><strong><joomla-hidden-mail>');
+        // Remove empty links
+        $introtext = preg_replace('/<a[^>]*><\\/a>/', '', $introtext);
 
         return trim($introtext);
     }

@@ -212,8 +212,10 @@ class HtmlView extends BaseHtmlView
         $item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 
         // Increment the hit counter of the newsfeed.
-        $model = $this->getModel();
-        $model->hit();
+        if (\in_array($app->getInput()->getMethod(), ['GET', 'POST'])) {
+            $model = $this->getModel();
+            $model->hit();
+        }
 
         $this->_prepareDocument();
 

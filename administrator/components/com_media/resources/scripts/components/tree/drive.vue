@@ -77,6 +77,17 @@ export default {
     /* Handle the on drive click event */
     onDriveClick() {
       this.navigateTo(this.drive.root);
+
+      window.parent.document.dispatchEvent(
+        new CustomEvent('onMediaFileSelected', {
+          bubbles: true,
+          cancelable: false,
+          detail: {
+            type: 'dir',
+            path: this.drive.root,
+          },
+        }),
+      );
     },
     moveFocusToChildElement(nextRoot) {
       this.$refs[nextRoot].setFocusToFirstChild();

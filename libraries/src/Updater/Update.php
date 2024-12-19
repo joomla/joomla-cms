@@ -32,6 +32,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 class Update
 {
     use LegacyErrorHandlingTrait;
@@ -663,7 +664,7 @@ class Update
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             Log::add(
-                sprintf(
+                \sprintf(
                     'XML error: %s at line %d',
                     xml_error_string(xml_get_error_code($this->xmlParser)),
                     xml_get_current_line_number($this->xmlParser)

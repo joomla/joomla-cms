@@ -250,10 +250,10 @@ final class Token extends CMSPlugin
     /**
      * Save the Joomla token in the user profile field
      *
-     * @param   mixed   $data    The incoming form data
-     * @param   bool    $isNew   Is this a new user?
-     * @param   bool    $result  Has Joomla successfully saved the user?
-     * @param   string  $error   Error string
+     * @param   mixed    $data    The incoming form data
+     * @param   bool     $isNew   Is this a new user?
+     * @param   bool     $result  Has Joomla successfully saved the user?
+     * @param   ?string  $error   Error string
      *
      * @return  void
      * @since   4.0.0

@@ -53,7 +53,7 @@ class ActionlogsHelper
     {
         if (!is_iterable($data)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
                     \is_object($data) ? \get_class($data) : \gettype($data)
@@ -274,6 +274,12 @@ class ActionlogsHelper
      */
     public static function loadActionLogPluginsLanguage()
     {
+        static $loaded;
+        if ($loaded) {
+            return;
+        }
+        $loaded = true;
+
         $lang = Factory::getLanguage();
         $db   = Factory::getDbo();
 

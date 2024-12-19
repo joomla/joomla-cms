@@ -48,13 +48,13 @@ trait HTMLRegistryAwareTrait
     /**
      * Set the registry to use.
      *
-     * @param   Registry  $registry  The registry
+     * @param   ?Registry  $registry  The registry
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function setRegistry(Registry $registry = null)
+    public function setRegistry(?Registry $registry = null)
     {
         $this->registry = $registry;
     }

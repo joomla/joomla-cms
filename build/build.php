@@ -41,6 +41,7 @@ function usage(string $command)
     echo PHP_TAB . PHP_TAB . '--include-bzip2:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--exclude-zstd:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Include the generation of .tar.zst packages' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--disable-patch-packages:' . PHP_TAB . 'Disable the generation of patch packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--debug-build:' . PHP_TAB . 'Include development packages and build folder' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
     echo PHP_EOL;
 }
@@ -73,6 +74,7 @@ function clean_checkout(string $dir)
     system('find . -name psalm.xml.dist | xargs rm -rf -');
     system('find . -name phpcs.xml | xargs rm -rf -');
     system('find . -name phpcs.xml.dist | xargs rm -rf -');
+    system('find . -name phpstan.neon | xargs rm -rf -');
     system('find . -name phpunit.xml | xargs rm -rf -');
     system('find . -name phpunit.*.xml | xargs rm -rf -');
     system('find . -name phpunit.xml.dist | xargs rm -rf -');
@@ -146,6 +148,9 @@ function clean_checkout(string $dir)
     system('rm -rf libraries/vendor/joomla/*/tests');
     system('rm -rf libraries/vendor/joomla/*/Tests');
     system('rm -rf libraries/vendor/joomla/*/ruleset.xml');
+
+    // maximebf/debugbar
+    system('rm -f libraries/vendor/maximebf/debugbar/chromedriver');
 
     // testing sampledata
     system('rm -rf plugins/sampledata/testing');
@@ -232,9 +237,10 @@ $tmp      = $here . '/tmp';
 $fullpath = $tmp . '/' . $time;
 
 // Parse input options
-$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'include-bzip2', 'exclude-zstd', 'disable-patch-packages']);
+$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'include-bzip2', 'exclude-zstd', 'debug-build', 'disable-patch-packages']);
 
 $remote             = $options['remote'] ?? false;
+$debugBuild         = isset($options['debug-build']);
 $excludeZip         = isset($options['exclude-zip']);
 $excludeGzip        = isset($options['exclude-gzip']);
 $excludeBzip2       = !isset($options['include-bzip2']);
@@ -261,6 +267,11 @@ if (!$remote) {
     $includeExtraTextfiles = true;
 }
 
+$composerOptions = ' ';
+if (!$debugBuild) {
+    $composerOptions .= '--no-dev';
+}
+
 echo "Start build for remote $remote.\n";
 echo "Delete old release folder.\n";
 system('rm -rf ' . $tmp);
@@ -273,7 +284,7 @@ system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
 system('cp build/fido.jwt ' . $fullpath . '/plugins/system/webauthn/fido.jwt');
 // Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
 chdir($fullpath);
-system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
+system('composer install --no-autoloader --ignore-platform-reqs' . $composerOptions, $composerReturnCode);
 
 if ($composerReturnCode !== 0) {
     echo "`composer install` did not complete as expected.\n";
@@ -314,16 +325,22 @@ if ($verReturnCode !== 0) {
 }
 
 // Clean the checkout of extra resources
-clean_checkout($fullpath);
+if (!$debugBuild) {
+    clean_checkout($fullpath);
+}
 
 // Regenerate the Composer autoloader without deleted files
-system('composer dump-autoload --no-dev --optimize --no-scripts');
+system('composer dump-autoload --optimize --no-scripts' . $composerOptions);
 
 // Clean the Composer manifests now
-clean_composer($fullpath);
+if (!$debugBuild) {
+    clean_composer($fullpath);
+}
 
 // And cleanup the Node installation
-system('rm -rf node_modules');
+if (!$debugBuild) {
+    system('rm -rf node_modules');
+}
 
 echo "Workspace built.\n";
 
@@ -403,10 +420,11 @@ $doNotPackage = [
     'composer.json',
     'composer.lock',
     'crowdin.yml',
-    'cypress.config.dist.js',
+    'cypress.config.dist.mjs',
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',
+    'phpstan.neon',
     'phpunit.xml.dist',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
@@ -444,11 +462,17 @@ $checksums = [];
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', Version::DEV_STATUS);
 
+if ($debugBuild) {
+    $packageStability .= '-Debug';
+}
+
 // Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
 echo "Delete folders not included in packages.\n";
 
-foreach ($doNotPackage as $removeFile) {
-    system('rm -rf ' . $time . '/' . $removeFile);
+if (!$debugBuild) {
+    foreach ($doNotPackage as $removeFile) {
+        system('rm -rf ' . $time . '/' . $removeFile);
+    }
 }
 
 // Count down starting with the latest release and add diff files to this array
@@ -493,7 +517,8 @@ for ($num = $release - 1; $num >= 0; $num--) {
             $dirtyHackForMediaCheck = \in_array('administrator/components/com_media/resources', $fullPath);
         }
 
-        if ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder) {
+
+        if (!$debugBuild && ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)) {
             continue;
         }
 
@@ -614,45 +639,47 @@ if (!$excludeZstd) {
 }
 
 // Create full update file without the default logs directory, installation folder, or sample images.
-echo "Build full update package.\n";
-system('rm -r administrator/logs');
-system('rm -r installation');
-system('rm -r images/banners');
-system('rm -r images/headers');
-system('rm -r images/sampledata');
-system('rm images/joomla_black.png');
-system('rm images/powered_by.png');
+if (!$debugBuild) {
+    echo "Build full update package.\n";
+    system('rm -r administrator/logs');
+    system('rm -r installation');
+    system('rm -r images/banners');
+    system('rm -r images/headers');
+    system('rm -r images/sampledata');
+    system('rm images/joomla_black.png');
+    system('rm images/powered_by.png');
 
-if (!$excludeZip) {
-    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
-    echo "Building " . $packageName . "... ";
-    system('zip -r ../packages/' . $packageName . ' * > /dev/null');
-    echo "done.\n";
-    $checksums[$packageName] = [];
-}
+    if (!$excludeZip) {
+        $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
+        echo "Building " . $packageName . "... ";
+        system('zip -r ../packages/' . $packageName . ' * > /dev/null');
+        echo "done.\n";
+        $checksums[$packageName] = [];
+    }
 
-if (!$excludeGzip) {
-    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz';
-    echo "Building " . $packageName . "... ";
-    system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
-    echo "done.\n";
-    $checksums[$packageName] = [];
-}
+    if (!$excludeGzip) {
+        $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz';
+        echo "Building " . $packageName . "... ";
+        system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
+        echo "done.\n";
+        $checksums[$packageName] = [];
+    }
 
-if (!$excludeBzip2) {
-    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
-    echo "Building " . $packageName . "... ";
-    system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
-    echo "done.\n";
-    $checksums[$packageName] = [];
-}
+    if (!$excludeBzip2) {
+        $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
+        echo "Building " . $packageName . "... ";
+        system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
+        echo "done.\n";
+        $checksums[$packageName] = [];
+    }
 
-if (!$excludeZstd) {
-    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.zst';
-    echo "Building " . $packageName . "... ";
-    system('tar "-I zstd --ultra -22" --create --file ../packages/' . $packageName . ' * > /dev/null');
-    echo "done.\n";
-    $checksums[$packageName] = [];
+    if (!$excludeZstd) {
+        $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.zst';
+        echo "Building " . $packageName . "... ";
+        system('tar "-I zstd --ultra -22" --create --file ../packages/' . $packageName . ' * > /dev/null');
+        echo "done.\n";
+        $checksums[$packageName] = [];
+    }
 }
 
 chdir('..');

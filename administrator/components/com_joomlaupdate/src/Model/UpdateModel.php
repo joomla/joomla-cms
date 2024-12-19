@@ -12,9 +12,10 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Extension\AfterJoomlaUpdateEvent;
+use Joomla\CMS\Event\Extension\BeforeJoomlaUpdateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File as FileCMS;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
@@ -30,6 +31,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -62,7 +64,7 @@ class UpdateModel extends BaseDatabaseModel
      * @since   4.4.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -508,7 +510,11 @@ class UpdateModel extends BaseDatabaseModel
 
         // Make sure the target does not exist.
         if (is_file($target)) {
-            File::delete($target);
+            try {
+                File::delete($target);
+            } catch (FilesystemException $exception) {
+                return false;
+            }
         }
 
         // Download the package
@@ -526,9 +532,9 @@ class UpdateModel extends BaseDatabaseModel
         $body = $result->body;
 
         // Write the file to disk
-        $result = File::write($target, $body);
-
-        if (!$result) {
+        try {
+            File::write($target, $body);
+        } catch (FilesystemException $exception) {
             return false;
         }
 
@@ -576,7 +582,7 @@ class UpdateModel extends BaseDatabaseModel
         $app      = Factory::getApplication();
 
         // Trigger event before joomla update.
-        $app->triggerEvent('onJoomlaBeforeUpdate');
+        $app->getDispatcher()->dispatch('onJoomlaBeforeUpdate', new BeforeJoomlaUpdateEvent('onJoomlaBeforeUpdate'));
 
         // Get the absolute path to site's root.
         $siteroot = JPATH_SITE;
@@ -611,14 +617,18 @@ ENDDATA;
         $configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
 
         if (is_file($configpath)) {
-            File::delete($configpath);
+            try {
+                File::delete($configpath);
+            } catch (FilesystemException $exception) {
+                return false;
+            }
         }
 
         // Write new file. First try with File.
-        $result = File::write($configpath, $data);
-
-        // In case File failed but direct access could help.
-        if (!$result) {
+        try {
+            $result = File::write($configpath, $data);
+        } catch (FilesystemException $exception) {
+            // In case File failed but direct access could help.
             $fp = @fopen($configpath, 'wt');
 
             if ($fp !== false) {
@@ -745,7 +755,7 @@ ENDDATA;
             $row->load($id);
 
             // Update name.
-            $row->set('name', 'files_joomla');
+            $row->name = 'files_joomla';
 
             // Update manifest.
             $row->manifest_cache = $installer->generateManifestCache();
@@ -761,18 +771,18 @@ ENDDATA;
             }
         } else {
             // Add an entry to the extension table with a whole heap of defaults.
-            $row->set('name', 'files_joomla');
-            $row->set('type', 'file');
-            $row->set('element', 'joomla');
+            $row->name    = 'files_joomla';
+            $row->type    = 'file';
+            $row->element = 'joomla';
 
             // There is no folder for files so leave it blank.
-            $row->set('folder', '');
-            $row->set('enabled', 1);
-            $row->set('protected', 0);
-            $row->set('access', 0);
-            $row->set('client_id', 0);
-            $row->set('params', '');
-            $row->set('manifest_cache', $installer->generateManifestCache());
+            $row->folder         = '';
+            $row->enabled        = 1;
+            $row->protected      = 0;
+            $row->access         = 0;
+            $row->client_id      = 0;
+            $row->params         = '';
+            $row->manifest_cache = $installer->generateManifestCache();
 
             if (!$row->store()) {
                 $this->collectError('Write the manifest_cache', new \Exception('Writing the manifest_cache finished with "false" result.'));
@@ -783,7 +793,7 @@ ENDDATA;
             }
 
             // Set the insert id.
-            $row->set('extension_id', $db->insertid());
+            $row->extension_id = $db->insertid();
 
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
@@ -881,26 +891,26 @@ ENDDATA;
 
         $app = Factory::getApplication();
 
-        // Trigger event after joomla update.
-        $app->triggerEvent('onJoomlaAfterUpdate');
-
         // Remove the update package.
         $tempdir = $app->get('tmp_path');
 
         $file = $app->getUserState('com_joomlaupdate.file', null);
 
-        if (is_file($tempdir . '/' . $file)) {
-            File::delete($tempdir . '/' . $file);
-        }
+        try {
+            if (is_file($tempdir . '/' . $file)) {
+                File::delete($tempdir . '/' . $file);
+            }
 
-        // Remove the update.php file used in Joomla 4.0.3 and later.
-        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
-            File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
-        }
+            // Remove the update.php file used in Joomla 4.0.3 and later.
+            if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
+                File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
+            }
 
-        // Remove joomla.xml from the site's root.
-        if (is_file(JPATH_ROOT . '/joomla.xml')) {
-            File::delete(JPATH_ROOT . '/joomla.xml');
+            // Remove joomla.xml from the site's root.
+            if (is_file(JPATH_ROOT . '/joomla.xml')) {
+                File::delete(JPATH_ROOT . '/joomla.xml');
+            }
+        } catch (FilesystemException $exception) {
         }
 
         // Unset the update filename from the session.
@@ -909,7 +919,9 @@ ENDDATA;
         $oldVersion = $app->getUserState('com_joomlaupdate.oldversion');
 
         // Trigger event after joomla update.
-        $app->triggerEvent('onJoomlaAfterUpdate', [$oldVersion]);
+        $app->getDispatcher()->dispatch('onJoomlaAfterUpdate', new AfterJoomlaUpdateEvent('onJoomlaAfterUpdate', [
+            'oldVersion' => $oldVersion ?: '',
+        ]));
         $app->setUserState('com_joomlaupdate.oldversion', null);
 
         try {
@@ -983,10 +995,10 @@ ENDDATA;
         $tmp_src  = $userfile['tmp_name'];
 
         // Move uploaded file.
-        $result = FileCMS::upload($tmp_src, $tmp_dest, false, true);
-
-        if (!$result) {
-            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+        try {
+            File::upload($tmp_src, $tmp_dest, false);
+        } catch (FilesystemException $exception) {
+            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500, $exception);
         }
 
         Factory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
@@ -1061,7 +1073,10 @@ ENDDATA;
 
         foreach ($files as $file) {
             if ($file !== null && is_file($file)) {
-                File::delete($file);
+                try {
+                    File::delete($file);
+                } catch (FilesystemException $exception) {
+                }
             }
         }
     }
@@ -1301,10 +1316,9 @@ ENDDATA;
         if (!empty($disabledFunctions)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
             $disabledFunctions         = explode(',', trim($disabledFunctions));
-            $numberOfDisabledFunctions = \count($disabledFunctions);
 
-            for ($i = 0; $i < $numberOfDisabledFunctions; $i++) {
-                $disabledFunctions[$i] = trim($disabledFunctions[$i]);
+            foreach ($disabledFunctions as &$disabledFunction) {
+                $disabledFunction = trim($disabledFunction);
             }
 
             $result = !\in_array('parse_ini_string', $disabledFunctions);
@@ -1776,7 +1790,7 @@ ENDDATA;
 
         // Log it
         Log::add(
-            sprintf(
+            \sprintf(
                 'An error has occurred while running "%s". Code: %s. Message: %s.',
                 $context,
                 $error->getCode(),
@@ -1788,7 +1802,7 @@ ENDDATA;
 
         if (JDEBUG) {
             $trace = $error->getFile() . ':' . $error->getLine() . PHP_EOL . $error->getTraceAsString();
-            Log::add(sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
+            Log::add(\sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
         }
     }
 
@@ -2026,5 +2040,74 @@ ENDDATA;
         if (version_compare($versionPackage, $currentVersion, 'lt')) {
             throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE', $packageName, $versionPackage, $currentVersion), 500);
         }
+    }
+
+    /**
+     * Reset update source from "next" to "default"
+     *
+     * @return  boolean  True if update source is reset, false if reset failed with error,
+     *                   null if no reset was necessary.
+     *
+     * @since   5.1.2
+     */
+    public function resetUpdateSource()
+    {
+        // Get current update source
+        $params = ComponentHelper::getParams('com_joomlaupdate');
+
+        // Do nothing if not "next"
+        if ($params->get('updatesource', 'default') !== 'next') {
+            return null;
+        }
+
+        $params->set('updatesource', 'default');
+
+        $params = $params->toString();
+        $db     = $this->getDatabase();
+        $query  = $db->getQuery(true)
+            ->update($db->quoteName('#__extensions'))
+            ->set($db->quoteName('params') . ' = :params')
+            ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'))
+            ->bind(':params', $params);
+
+        try {
+            $db->setQuery($query);
+            $db->execute();
+        } catch (\Exception $e) {
+            Log::add(
+                \sprintf(
+                    'An error has occurred while running "resetUpdateSource". Code: %s. Message: %s.',
+                    $e->getCode(),
+                    $e->getMessage()
+                ),
+                Log::WARNING,
+                'Update'
+            );
+
+            Log::add(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                ),
+                Log::WARNING,
+                'Update'
+            );
+
+            return false;
+        }
+
+        Log::add(
+            Text::sprintf(
+                'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK',
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+            ),
+            Log::INFO,
+            'Update'
+        );
+
+        return true;
     }
 }

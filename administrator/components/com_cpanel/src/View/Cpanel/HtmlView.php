@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Filter\OutputFilter;
 
@@ -61,7 +60,7 @@ class HtmlView extends BaseHtmlView
     {
         $app       = Factory::getApplication();
         $dashboard = $app->getInput()->getCmd('dashboard', '');
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         $position = OutputFilter::stringURLSafe($dashboard);
 

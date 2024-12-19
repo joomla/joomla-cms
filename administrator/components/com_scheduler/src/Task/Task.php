@@ -310,7 +310,7 @@ class Task implements LoggerAwareInterface
         $now   = Factory::getDate('now', 'GMT');
 
         $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-        $timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
+        $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
         $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
         $now              = $now->toSql();
 
@@ -498,7 +498,7 @@ class Task implements LoggerAwareInterface
      *
      * @since 4.1.0
      */
-    protected function set(string $path, $value, string $separator = null)
+    protected function set(string $path, $value, ?string $separator = null)
     {
         return $this->taskRegistry->set($path, $value, $separator);
     }

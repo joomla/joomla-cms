@@ -50,6 +50,7 @@ describe('Test in frontend that the users profile view edit layout', () => {
         cy.get('.controls > .btn-primary').should('be.visible').click({ force: true });
 
         cy.get('#system-message-container').contains('Profile saved.');
+        cy.get('.profile .btn-primary').should('be.visible').click({ force: true });
         cy.get('#jform_name').should('have.value', 'automated test user edited');
         cy.get('#jform_email1').should('have.value', 'testedited@example.com');
       });

@@ -178,10 +178,10 @@ class InstallerHelper
     /**
      * Get a list of filter options for the application statuses.
      *
-     * @param   string   $element   element of an extension
-     * @param   string   $type      type of an extension
-     * @param   integer  $clientId  client_id of an extension
-     * @param   string   $folder    folder of an extension
+     * @param   string    $element   element of an extension
+     * @param   string    $type      type of an extension
+     * @param   integer   $clientId  client_id of an extension
+     * @param   ?string   $folder    folder of an extension
      *
      * @return  \SimpleXMLElement
      *

@@ -45,7 +45,7 @@ class UrlRule extends FormRule
      * @link    https://www.w3.org/Addressing/URL/url-spec.txt
      * @see     \Joomla\String\StringHelper
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
@@ -105,7 +105,7 @@ class UrlRule extends FormRule
             return false;
         }
 
-        // For some schemes here must be two slashes.
+        // For some schemes there must be two slashes.
         $scheme = ['http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git'];
 
         if (\in_array($urlScheme, $scheme) && substr($value, \strlen($urlScheme), 3) !== '://') {

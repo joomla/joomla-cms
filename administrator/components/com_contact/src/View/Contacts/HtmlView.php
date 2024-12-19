@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -140,7 +139,7 @@ class HtmlView extends BaseHtmlView
         $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address-book contact');
 
@@ -191,7 +190,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('contacts.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('contacts.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

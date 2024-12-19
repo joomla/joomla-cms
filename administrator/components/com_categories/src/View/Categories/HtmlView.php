@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Filesystem\Path;
 
@@ -168,7 +167,7 @@ class HtmlView extends BaseHtmlView
         $section    = $this->state->get('filter.section');
         $canDo      = ContentHelper::getActions($component, 'category', $categoryId);
         $user       = $this->getCurrentUser();
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
         if ($component == 'com_categories') {
@@ -256,7 +255,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component)) {
-            $toolbar->delete('categories.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('categories.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

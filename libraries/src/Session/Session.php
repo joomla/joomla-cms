@@ -31,16 +31,16 @@ class Session extends BaseSession
     /**
      * Constructor
      *
-     * @param   StorageInterface     $store       A StorageInterface implementation.
-     * @param   DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
-     * @param   array                $options     Optional parameters. Supported keys include:
-     *                                            - name: The session name
-     *                                            - id: The session ID
-     *                                            - expire: The session lifetime in seconds
+     * @param   ?StorageInterface     $store       A StorageInterface implementation.
+     * @param   ?DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
+     * @param   array                 $options     Optional parameters. Supported keys include:
+     *                                             - name: The session name
+     *                                             - id: The session ID
+     *                                             - expire: The session lifetime in seconds
      *
      * @since   1.0
      */
-    public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = [])
+    public function __construct(?StorageInterface $store = null, ?DispatcherInterface $dispatcher = null, array $options = [])
     {
         // Extra hash the name of the session for b/c with Joomla 3.x or the session is never found.
         if (isset($options['name'])) {

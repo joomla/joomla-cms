@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -118,7 +117,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_GUIDEDTOURS_TOURS_LIST'), 'map-signs');
 
@@ -160,7 +159,7 @@ class HtmlView extends BaseHtmlView
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
             $toolbar->delete('tours.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+                ->text('JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

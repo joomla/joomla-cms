@@ -62,7 +62,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_newsfeeds.newsfeed';
         parent::__construct('#__newsfeeds', 'id', $db, $dispatcher);

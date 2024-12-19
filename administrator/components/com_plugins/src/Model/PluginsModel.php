@@ -39,7 +39,7 @@ class PluginsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -135,7 +135,7 @@ class PluginsModel extends ListModel
                 $escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
                 foreach ($result as $i => $item) {
-                    if (!preg_match("/$escapedSearchString/i", $item->name)) {
+                    if (!preg_match("/$escapedSearchString/iu", $item->name)) {
                         unset($result[$i]);
                     }
                 }

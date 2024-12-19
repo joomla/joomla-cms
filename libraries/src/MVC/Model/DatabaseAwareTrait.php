@@ -72,7 +72,7 @@ trait DatabaseAwareTrait
      *              Use the trait from the database package
      *              Example: \Joomla\Database\DatabaseAwareTrait::setDatabase()
      */
-    public function setDbo(DatabaseInterface $db = null)
+    public function setDbo(?DatabaseInterface $db = null)
     {
         $this->_db = $db;
     }

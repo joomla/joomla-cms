@@ -345,7 +345,7 @@ class LocalAdapter implements AdapterInterface
         }
 
         if (!$success) {
-            throw new \Exception('Delete not possible!');
+            throw new \Exception(Text::_('COM_MEDIA_DELETE_NOT_POSSIBLE'));
         }
     }
 
@@ -517,11 +517,11 @@ class LocalAdapter implements AdapterInterface
         }
 
         if (file_exists($destinationPath) && !$force) {
-            throw new \Exception('Copy file is not possible as destination file already exists');
+            throw new \Exception(Text::_('COM_MEDIA_COPY_FILE_NOT_POSSIBLE_FILE_ALREADY_EXISTS'));
         }
 
         if (!File::copy($sourcePath, $destinationPath)) {
-            throw new \Exception('Copy file is not possible');
+            throw new \Exception(Text::_('COM_MEDIA_COPY_FILE_NOT_POSSIBLE'));
         }
     }
 
@@ -540,15 +540,15 @@ class LocalAdapter implements AdapterInterface
     private function copyFolder(string $sourcePath, string $destinationPath, bool $force = false)
     {
         if (file_exists($destinationPath) && !$force) {
-            throw new \Exception('Copy folder is not possible as destination folder already exists');
+            throw new \Exception(Text::_('COM_MEDIA_COPY_FOLDER_ALREADY_EXISTS'));
         }
 
         if (is_file($destinationPath) && !File::delete($destinationPath)) {
-            throw new \Exception('Copy folder is not possible as destination folder is a file and can not be deleted');
+            throw new \Exception(Text::_('COM_MEDIA_COPY_FOLDER_DESTINATION_CAN_NOT_DELETE'));
         }
 
         if (!Folder::copy($sourcePath, $destinationPath, '', $force)) {
-            throw new \Exception('Copy folder is not possible');
+            throw new \Exception(Text::_('COM_MEDIA_COPY_FOLDER_NOT_POSSIBLE'));
         }
     }
 
@@ -622,15 +622,15 @@ class LocalAdapter implements AdapterInterface
         }
 
         if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION))) {
-            throw new \Exception('Move file is not possible as the extension is invalid');
+            throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_EXTENSION_INVALID'));
         }
 
         if (file_exists($destinationPath) && !$force) {
-            throw new \Exception('Move file is not possible as destination file already exists');
+            throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_ALREADY_EXISTS'));
         }
 
         if (!File::move($sourcePath, $destinationPath)) {
-            throw new \Exception('Move file is not possible');
+            throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_NOT_POSSIBLE'));
         }
     }
 
@@ -649,18 +649,18 @@ class LocalAdapter implements AdapterInterface
     private function moveFolder(string $sourcePath, string $destinationPath, bool $force = false)
     {
         if (file_exists($destinationPath) && !$force) {
-            throw new \Exception('Move folder is not possible as destination folder already exists');
+            throw new \Exception(Text::_('COM_MEDIA_MOVE_FOLDER_ALREADY_EXISTS'));
         }
 
         if (is_file($destinationPath) && !File::delete($destinationPath)) {
-            throw new \Exception('Move folder is not possible as destination folder is a file and can not be deleted');
+            throw new \Exception(Text::_('COM_MEDIA_MOVE_FOLDER_NOT_POSSIBLE'));
         }
 
         if (is_dir($destinationPath)) {
             // We need to bypass exception thrown in JFolder when destination exists
             // So we only copy it in forced condition, then delete the source to simulate a move
             if (!Folder::copy($sourcePath, $destinationPath, '', true)) {
-                throw new \Exception('Move folder to an existing destination failed');
+                throw new \Exception(Text::_('COM_MEDIA_MOVE_FOLDER_EXISTING_DESTINATION_FAILED'));
             }
 
             // Delete the source

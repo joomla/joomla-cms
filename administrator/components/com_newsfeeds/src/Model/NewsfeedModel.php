@@ -271,7 +271,7 @@ class NewsfeedModel extends AdminModel
         }
 
         if (!empty($item->id)) {
-            $item->tags = new  TagsHelper();
+            $item->tags = new TagsHelper();
             $item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 
             // @todo: We probably don't need this in any client - but needs careful validation
@@ -305,6 +305,7 @@ class NewsfeedModel extends AdminModel
         if (empty($table->id)) {
             // Set the values
             $table->created = $date->toSql();
+            $table->version = 1;
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
@@ -321,10 +322,8 @@ class NewsfeedModel extends AdminModel
             // Set the values
             $table->modified    = $date->toSql();
             $table->modified_by = $user->id;
+            $table->version++;
         }
-
-        // Increment the content version number.
-        $table->version++;
     }
 
     /**

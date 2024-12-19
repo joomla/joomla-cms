@@ -1,6 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const { umask } = require('node:process');
+import {
+  chmodSync, existsSync, writeFileSync, mkdirSync, rmSync, copyFileSync,
+} from 'fs';
+import { dirname, join } from 'path';
+import { umask } from 'node:process';
 
 /**
  * Synchronously deletes a file or folder, relative to cmsPath.
@@ -13,8 +15,8 @@ const { umask } = require('node:process');
  * @returns null
  */
 function deleteRelativePath(relativePath, config) {
-  const fullPath = path.join(config.env.cmsPath, relativePath);
-  fs.rmSync(fullPath, { recursive: true, force: true });
+  const fullPath = join(config.env.cmsPath, relativePath);
+  rmSync(fullPath, { recursive: true, force: true });
 
   return null;
 }
@@ -34,24 +36,44 @@ function deleteRelativePath(relativePath, config) {
  * @returns null
  */
 function writeRelativeFile(relativePath, content, config, mode = 0o444) {
-  const fullPath = path.join(config.env.cmsPath, relativePath);
+  const fullPath = join(config.env.cmsPath, relativePath);
   // Prologue: Reset process file mode creation mask to ensure the umask value is not subtracted
   const oldmask = umask(0);
   // Create missing parent directories with 'rwxrwxrwx'
-  fs.mkdirSync(path.dirname(fullPath), { recursive: true, mode: 0o777 });
+  mkdirSync(dirname(fullPath), { recursive: true, mode: 0o777 });
   // Check if the file exists
-  if (fs.existsSync(fullPath)) {
+  if (existsSync(fullPath)) {
     // Set 'rw-rw-rw-' to be able to overwrite the file
-    fs.chmodSync(fullPath, 0o666);
+    chmodSync(fullPath, 0o666);
   }
   // Write or overwrite the file on relative path with given content
-  fs.writeFileSync(fullPath, content);
+  writeFileSync(fullPath, content);
   // Finally set given file mode or default 'r--r--r--'
-  fs.chmodSync(fullPath, mode);
+  chmodSync(fullPath, mode);
   // Epilogue: Restore process file mode creation mask
   umask(oldmask);
 
   return null;
 }
 
-module.exports = { writeRelativeFile, deleteRelativePath };
+/**
+ * Copies a file to a specified path relative to the CMS root folder.
+ *
+ * If the file already exists, it will be overwritten.
+ *
+ * @param {string} source - The relative file path of the existing file
+ * @param {string} destination - The relative file path of the new file
+ * @param {object} config - The Cypress configuration object
+ *
+ * @returns null
+ */
+function copyRelativeFile(source, destination, config) {
+  const fullSource = join(config.env.cmsPath, source);
+  const fullDestination = join(config.env.cmsPath, destination);
+
+  copyFileSync(fullSource, fullDestination);
+
+  return null;
+}
+
+export { writeRelativeFile, deleteRelativePath, copyRelativeFile };

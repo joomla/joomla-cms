@@ -96,7 +96,7 @@ PHP;
     {
         $destinationPath     = rtrim($destinationPath, '/\\') . '/';
         $fullDestinationPath = $destinationPath;
-        $definePublic        = '\'' . $destinationPath . '\'';
+        $definePublic        = '\'' . rtrim($destinationPath, '/') . '\'';
         $root                = JPATH_ROOT . '/';
         $defineRoot          = '\'' . JPATH_ROOT . '\'';
 

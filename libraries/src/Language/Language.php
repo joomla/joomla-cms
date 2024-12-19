@@ -739,7 +739,7 @@ class Language extends BaseLanguage
         // Make sure our file actually exists
         if (!is_file($filename)) {
             throw new \InvalidArgumentException(
-                sprintf('Unable to locate file "%s" for debugging', $filename)
+                \sprintf('Unable to locate file "%s" for debugging', $filename)
             );
         }
 

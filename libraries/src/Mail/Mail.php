@@ -62,7 +62,7 @@ class Mail extends PHPMailer implements MailerInterface
 
         // Configure a callback function to handle errors when $this->debug() is called
         $this->Debugoutput = function ($message, $level) {
-            Log::add(sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
+            Log::add(\sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
         };
 
         // If debug mode is enabled then set SMTPDebug to the maximum level
@@ -211,7 +211,7 @@ class Mail extends PHPMailer implements MailerInterface
             // If it is neither, we log a message and throw an exception
             Log::add(Text::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
 
-            throw new \UnexpectedValueException(sprintf('Invalid email sender: %s', $from));
+            throw new \UnexpectedValueException(\sprintf('Invalid email sender: %s', $from));
         }
 
         if ($result === false) {
@@ -401,20 +401,12 @@ class Mail extends PHPMailer implements MailerInterface
             $result = true;
 
             if (\is_array($path)) {
-                if (!empty($name) && \count($path) != \count($name)) {
+                if (!empty($name) && \is_array($name) && \count($path) != \count($name)) {
                     throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
                 }
 
                 foreach ($path as $key => $file) {
-                    if (!empty($name)) {
-                        $result = parent::addAttachment($file, $name[$key], $encoding, $type);
-                    } else {
-                        if (!empty($name)) {
-                            $result = parent::addAttachment($file, $name[$key], $encoding, $type, $disposition);
-                        } else {
-                            $result = parent::addAttachment($file, $name, $encoding, $type, $disposition);
-                        }
-                    }
+                    $result = parent::addAttachment($file, isset($name[$key]) ? $name[$key] : '', $encoding, $type, $disposition);
                 }
 
                 // Check for boolean false return if exception handling is disabled
@@ -422,7 +414,7 @@ class Mail extends PHPMailer implements MailerInterface
                     return false;
                 }
             } else {
-                $result = parent::addAttachment($path, $name, $encoding, $type);
+                $result = parent::addAttachment($path, $name, $encoding, $type, $disposition);
             }
 
             // Check for boolean false return if exception handling is disabled

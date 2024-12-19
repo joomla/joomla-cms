@@ -79,6 +79,15 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     protected $mfaConfigurationUI;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -149,7 +158,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $canDo     = ContentHelper::getActions('com_users');
         $isNew     = ($this->item->id == 0);
         $isProfile = $this->item->id == $user->id;
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             Text::_(

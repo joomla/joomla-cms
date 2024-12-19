@@ -411,7 +411,14 @@ class MenutypesModel extends BaseDatabaseModel
                 $request['sub']        = (string) $attributes->sub;
             }
 
-            $o->request = array_filter($request, 'strlen');
+            $o->request = array_filter($request, function ($value) {
+                if (\is_array($value)) {
+                    return !empty($value);
+                }
+
+                return \strlen($value);
+            });
+
             $options[]  = new CMSObject($o);
 
             // Do not repeat the default view link (index.php?option=com_abc).

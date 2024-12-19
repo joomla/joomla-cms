@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Cache\Administrator\Model\CacheModel;
 
@@ -105,7 +104,7 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if (!\count($this->data) && $this->state->get('filter.search') === '') {
+        if (!\count($this->data) && ($this->state->get('filter.search') === null || $this->state->get('filter.search') === '')) {
             $this->setLayout('emptystate');
         }
 
@@ -126,7 +125,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'bolt clear');
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         if (\count($this->data)) {
             $toolbar->delete('delete')

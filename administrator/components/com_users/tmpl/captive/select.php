@@ -31,7 +31,7 @@ $shownMethods = [];
         </p>
     </div>
 
-    <div class="com-users-select-methods p-2">
+    <div class="com-users-methods-list-method com-users-methods-list-method-name-backupcodes com-users-methods-list-method-active">
         <?php foreach ($this->records as $record) :
             if (!array_key_exists($record->method, $this->mfaMethods) && ($record->method != 'backupcodes')) {
                 continue;
@@ -48,11 +48,13 @@ $shownMethods = [];
 
             $methodName = $this->getModel()->translateMethodName($record->method);
             ?>
-            <a class="com-users-method p-2 border-top border-dark bg-light d-flex flex-row flex-wrap justify-content-start align-items-center text-decoration-none gap-2 text-body"
+            <a class="com-users-method list-group-item-action p-2 border-top border-dark d-flex flex-row flex-wrap justify-content-start align-items-center text-decoration-none gap-2"
                href="<?php echo Route::_('index.php?option=com_users&view=captive&record_id=' . $record->id)?>">
+                <div class="com-users-methods-list-method-image">
                 <img src="<?php echo Uri::root() . $this->getModel()->getMethodImage($record->method) ?>"
                      alt="<?php echo $this->escape(strip_tags($record->title)) ?>"
-                     class="com-users-method-image img-fluid" />
+                     class="img-fluid" />
+                </div>
                 <?php if (!$this->allowEntryBatching || !$allowEntryBatching) : ?>
                     <span class="com-users-method-title flex-grow-1 fs-5 fw-bold">
                     <?php if ($record->method === 'backupcodes') : ?>

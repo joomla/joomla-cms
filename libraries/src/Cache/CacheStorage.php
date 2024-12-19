@@ -162,20 +162,20 @@ class CacheStorage
             $path = Path::find(self::addIncludePath(), strtolower($handler) . '.php');
 
             if ($path === false) {
-                throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
+                throw new UnsupportedCacheException(\sprintf('Unable to load Cache Storage: %s', $handler));
             }
 
             \JLoader::register($class, $path);
 
             // The class should now be loaded
             if (!class_exists($class)) {
-                throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
+                throw new UnsupportedCacheException(\sprintf('Unable to load Cache Storage: %s', $handler));
             }
         }
 
         // Validate the cache storage is supported on this platform
         if (!$class::isSupported()) {
-            throw new UnsupportedCacheException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
+            throw new UnsupportedCacheException(\sprintf('The %s Cache Storage is not supported on this platform.', $handler));
         }
 
         return new $class($options);

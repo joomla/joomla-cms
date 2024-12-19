@@ -12,13 +12,14 @@ namespace Joomla\CMS\Console;
 use Joomla\Application\Cli\CliInput;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -272,6 +273,24 @@ class UpdateCoreCommand extends AbstractCommand
             $result = $updatemodel->finaliseUpgrade();
 
             if ($result) {
+                $updateSourceChanged = $updatemodel->resetUpdateSource();
+
+                if ($updateSourceChanged) {
+                    $message = Text::sprintf(
+                        'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK',
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                    );
+                    $this->ioStyle->info($message);
+                } elseif ($updateSourceChanged !== null) {
+                    $message = Text::sprintf(
+                        'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                    );
+                    $this->ioStyle->warning($message);
+                }
+
                 $this->progressBar->clear();
                 $this->ioStyle->writeln("Cleaning up ...");
                 $this->progressBar->display();
@@ -280,13 +299,20 @@ class UpdateCoreCommand extends AbstractCommand
                 // Remove the administrator/cache/autoload_psr4.php file
                 $autoloadFile = JPATH_CACHE . '/autoload_psr4.php';
 
-                if (file_exists($autoloadFile)) {
-                    File::delete($autoloadFile);
-                }
+                try {
+                    if (file_exists($autoloadFile)) {
+                        File::delete($autoloadFile);
+                    }
 
-                // Remove the xml
-                if (file_exists(JPATH_BASE . '/joomla.xml')) {
-                    File::delete(JPATH_BASE . '/joomla.xml');
+                    // Remove the xml
+                    if (file_exists(JPATH_BASE . '/joomla.xml')) {
+                        File::delete(JPATH_BASE . '/joomla.xml');
+                    }
+                } catch (FilesystemException $exception) {
+                    $this->progressBar->clear();
+                    $this->ioStyle->error($exception->getMessage());
+                    $this->progressBar->display();
+                    $this->progressBar->advance();
                 }
 
                 InstallerHelper::cleanupInstall($package['file'], $package['extractdir']);

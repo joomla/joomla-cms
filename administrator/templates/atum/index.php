@@ -95,9 +95,9 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->addInlineStyle(':root[data-color-scheme="dark"] {
 		--link-color: ' . $linkColorDark . ';
 		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
-        --link-color-rgb-hvr: ' . $linkColorDarkHvr . ';
+		--link-color-rgb-hvr: ' . $linkColorDarkHvr . ';
 		--template-special-color: #6fbfdb;
-	}}');
+	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);

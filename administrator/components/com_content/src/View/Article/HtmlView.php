@@ -70,6 +70,15 @@ class HtmlView extends BaseHtmlView
     protected $eName;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -142,7 +151,7 @@ class HtmlView extends BaseHtmlView
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Built the actions for new and existing records.
         $canDo = $this->canDo;
@@ -252,7 +261,7 @@ class HtmlView extends BaseHtmlView
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Build the actions for new and existing records.
         $canDo = $this->canDo;

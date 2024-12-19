@@ -45,6 +45,11 @@ class FeedView extends AbstractView
         $feedEmail = $app->get('feed_email', 'none');
         $siteEmail = $app->get('mailfrom');
 
+        // If the feed has been disabled, we want to bail out here
+        if ($params->get('show_feed_link', 1) == 0) {
+            throw new \Exception(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+        }
+
         $this->getDocument()->link = Route::_('index.php?option=com_content&view=featured');
 
         // Get some data from the model

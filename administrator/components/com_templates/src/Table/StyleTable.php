@@ -36,7 +36,7 @@ class StyleTable extends Table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__template_styles', 'id', $db, $dispatcher);
     }

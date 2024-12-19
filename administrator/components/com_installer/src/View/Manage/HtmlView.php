@@ -14,7 +14,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -48,6 +47,20 @@ class HtmlView extends InstallerViewDefault
      * @var    Form
      */
     protected $form;
+
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
 
     /**
      * Display the view.
@@ -84,7 +97,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $canDo   = ContentHelper::getActions('com_installer');
 
         $dropdown = $toolbar->dropdownButton('status-group')

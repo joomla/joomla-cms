@@ -1,8 +1,13 @@
-const mysql = require('mysql');
-const postgres = require('postgres');
+import mysql from 'mysql';
+import pkg from 'pg';
+
+const { Pool } = pkg; // Using Pool from pg for PostgreSQL connections
 
 // Items cache which are added by an insert statement
 let insertedItems = [];
+
+// Use of the PostgreSQL connection pool to limit the number of sessions
+let postgresConnectionPool = null;
 
 /**
  * Does run the given query against the database from the configuration. It caches all inserted items.
@@ -29,17 +34,30 @@ function queryTestDB(joomlaQuery, config) {
     insertedItems.push(insertItem);
   }
 
-  // Check if the DB is from postgres
+  // Do we use PostgreSQL?
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
-    const connection = postgres({
-      host: config.env.db_host,
-      port: config.env.db_port,
-      database: config.env.db_name,
-      username: config.env.db_user,
-      password: config.env.db_password,
-      idle_timeout: 1,
-      max_lifetime: 1,
-    });
+    if (postgresConnectionPool === null) {
+      let hostOrUnixPath = config.env.db_host;
+
+      /* Verify if the connection is a Unix socket by checking for the "unix:/" prefix.
+       * PostgreSQL JS driver does not support this prefix, so it must be removed.
+       * We standardise the use of this prefix with the PHP driver by handling it here.
+       */
+      if (hostOrUnixPath.startsWith('unix:/')) {
+        // e.g. 'unix:/var/run/postgresql' -> '/var/run/postgresql'
+        hostOrUnixPath = hostOrUnixPath.replace('unix:', '');
+      }
+
+      // Initialisation on the first call
+      postgresConnectionPool = new Pool({
+        host: hostOrUnixPath,
+        port: config.env.db_port,
+        database: config.env.db_name,
+        user: config.env.db_user,
+        password: config.env.db_password,
+        max: 10, // Use only this (unchanged default) maximum number of connections in the pool
+      });
+    }
 
     // Postgres delivers the data direct as result of the insert query
     if (insertItem) {
@@ -49,36 +67,59 @@ function queryTestDB(joomlaQuery, config) {
     // Postgres needs double quotes
     query = query.replaceAll('`', '"');
 
-    return connection.unsafe(query).then((result) => {
+    return postgresConnectionPool.query(query).then((result) => {
       // Select query should always return an array
-      if (query.indexOf('SELECT') === 0 && !Array.isArray(result)) {
-        return [result];
+      if (query.startsWith('SELECT') && !Array.isArray(result.rows)) {
+        return [result.rows];
       }
 
-      if (!insertItem || result.length === 0) {
-        return result;
+      if (!insertItem || result.rows.length === 0) {
+        return result.rows;
       }
 
       // Push the id to the cache when it is an insert operation
-      if (insertItem && result.length && result[0].id) {
-        insertItem.rows.push(result[0].id);
+      if (insertItem && result.rows.length && result.rows[0].id) {
+        insertItem.rows.push(result.rows[0].id);
       }
 
-      // Normalize the object
-      return { insertId: result[0].id };
-    });
+      // Normalize the object and return from PostgreSQL
+      return { insertId: result.rows[0].id };
+    })
+      .catch((error) => {
+        throw new Error(`Postgres query failed: ${error.message}`);
+      });
   }
 
-  // Return a promise which runs the query
+  // Return a promise which runs the query for MariaDB / MySQL
   return new Promise((resolve, reject) => {
     // Create the connection and connect
-    const connection = mysql.createConnection({
-      host: config.env.db_host,
-      port: config.env.db_port,
-      user: config.env.db_user,
-      password: config.env.db_password,
-      database: config.env.db_name,
-    });
+    let connectionConfig;
+    /* Verify if the connection is a Unix socket by checking for the "unix:/" prefix.
+     * MariaDB and MySQL JS drivers do not support this prefix, so it must be removed.
+     * We standardise the use of this prefix with the PHP driver by handling it here.
+     */
+    if (config.env.db_host.startsWith('unix:/')) {
+      // If the host is a Unix socket, extract the socket path
+      connectionConfig = {
+        // e.g. 'unix:/var/run/mysqld/mysqld.sock' -> '/var/run/mysqld/mysqld.sock'
+        socketPath: config.env.db_host.replace('unix:', ''),
+        user: config.env.db_user,
+        password: config.env.db_password,
+        database: config.env.db_name,
+      };
+    } else {
+      // Otherwise, use regular TCP host connection settings
+      connectionConfig = {
+        host: config.env.db_host,
+        port: config.env.db_port,
+        user: config.env.db_user,
+        password: config.env.db_password,
+        database: config.env.db_name,
+      };
+    }
+
+    // Create the MySQL/MariaDB connection
+    const connection = mysql.createConnection(connectionConfig);
 
     // Perform the query
     connection.query(query, (error, results) => {
@@ -94,7 +135,7 @@ function queryTestDB(joomlaQuery, config) {
         insertItem.rows.push(results.insertId);
       }
 
-      // Resolve the result
+      // Resolve the result from MariaDB / MySQL
       return resolve(results);
     });
   });
@@ -144,4 +185,4 @@ function deleteInsertedItems(config) {
   return Promise.all(promises);
 }
 
-module.exports = { queryTestDB, deleteInsertedItems };
+export { queryTestDB, deleteInsertedItems };

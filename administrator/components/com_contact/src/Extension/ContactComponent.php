@@ -134,13 +134,13 @@ class ContactComponent extends MVCComponent implements
     /**
      * Returns the table for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getTableNameForSection(string $section = null)
+    protected function getTableNameForSection(?string $section = null)
     {
         return ($section === 'category' ? 'categories' : 'contact_details');
     }
@@ -148,13 +148,13 @@ class ContactComponent extends MVCComponent implements
     /**
      * Returns the state column for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getStateColumnForSection(string $section = null)
+    protected function getStateColumnForSection(?string $section = null)
     {
         return 'published';
     }

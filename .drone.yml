@@ -31,12 +31,12 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
-  - name: phan
-    image: joomlaprojects/docker-images:php8.1-ast
+  - name: phpstan
+    image: joomlaprojects/docker-images:php8.2
     depends_on: [ phpcs ]
     failure: ignore
     commands:
-      - ./libraries/vendor/bin/phan
+      - ./libraries/vendor/bin/phpstan
 
   - name: npm
     image: node:20-bullseye-slim
@@ -135,7 +135,7 @@ steps:
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.js cypress.config.js
+      - mv cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -162,6 +162,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpnext-system-mysql
     depends_on:
@@ -177,6 +181,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmin-system-postgres
     depends_on:
@@ -189,6 +197,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-postgres
     depends_on:
@@ -216,6 +228,10 @@ steps:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
@@ -368,6 +384,8 @@ steps:
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
       - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - mv build/tmp/packages/* transfer/
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -400,7 +418,7 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) FAILED to build."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -414,6 +432,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 8f1bbc362aaadc6b7506490a1ff865bc9ccc0aada27104646963e9b44ee22bef
+hmac: 10ae86041b814459e0a4618a7fa2356480177af7966412cc050e9902e9384cbe
 
 ...

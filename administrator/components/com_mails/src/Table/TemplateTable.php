@@ -41,7 +41,7 @@ class TemplateTable extends Table
      *
      * @since   4.0.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__mail_templates', ['template_id', 'language'], $db, $dispatcher);
     }

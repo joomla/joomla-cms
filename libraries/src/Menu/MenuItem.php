@@ -81,7 +81,7 @@ class MenuItem implements NodeInterface
      * @var    string
      * @since  3.7.0
      */
-    public $link;
+    public $link = '';
 
     /**
      * The type of link

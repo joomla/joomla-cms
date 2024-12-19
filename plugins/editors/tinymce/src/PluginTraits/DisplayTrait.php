@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -324,8 +325,21 @@ trait DisplayTrait
 
         if ($dragdrop && $user->authorise('core.create', 'com_media')) {
             $wa->useScript('plg_editors_tinymce.jdragndrop');
-            $plugins[] = 'jdragndrop';
-            $uploadUrl = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
+            $plugins[]  = 'jdragndrop';
+            $uploadUrl  = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
+            $uploadPath = $levelParams->get('path', '');
+
+            // Make sure the path is full, and contain the media adapter in it.
+            $mediaHelper = new class () {
+                use ProviderManagerHelperTrait;
+
+                public function prepareTinyMCEUploadPath(string $path): string
+                {
+                    $result = $this->resolveAdapterAndPath($path);
+
+                    return implode(':', $result);
+                }
+            };
 
             Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
             Text::script('ERROR');
@@ -333,13 +347,10 @@ trait DisplayTrait
             Text::script('PLG_TINY_DND_ALTTEXT');
             Text::script('PLG_TINY_DND_LAZYLOADED');
             Text::script('PLG_TINY_DND_EMPTY_ALT');
+            Text::script('PLG_TINY_DND_FILE_EXISTS_ERROR');
 
-            $scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
-            $scriptOptions['csrfToken']          = $csrf;
+            $scriptOptions['parentUploadFolder'] = $mediaHelper->prepareTinyMCEUploadPath($uploadPath);
             $scriptOptions['uploadUri']          = $uploadUrl;
-
-            // @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
-            $scriptOptions['comMediaAdapter']    = 'local-images:';
         }
 
         // Convert pt to px in dropdown

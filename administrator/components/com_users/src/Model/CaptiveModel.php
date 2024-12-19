@@ -53,14 +53,14 @@ class CaptiveModel extends BaseDatabaseModel
      * Similar code paths are followed by any canonical code which tries to load modules. So even if your template does
      * not use jdoc tags this code will still work as expected.
      *
-     * @param   CMSApplication|null  $app  The CMS application to manipulate
+     * @param   ?CMSApplication  $app  The CMS application to manipulate
      *
      * @return  void
      * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function suppressAllModules(CMSApplication $app = null): void
+    public function suppressAllModules(?CMSApplication $app = null): void
     {
         if (\is_null($app)) {
             $app = Factory::getApplication();
@@ -72,15 +72,15 @@ class CaptiveModel extends BaseDatabaseModel
     /**
      * Get the MFA records for the user which correspond to active plugins
      *
-     * @param   User|null  $user                The user for which to fetch records. Skip to use the current user.
-     * @param   bool       $includeBackupCodes  Should I include the backup codes record?
+     * @param   ?User  $user                The user for which to fetch records. Skip to use the current user.
+     * @param   bool   $includeBackupCodes  Should I include the backup codes record?
      *
      * @return  array
      * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function getRecords(User $user = null, bool $includeBackupCodes = false): array
+    public function getRecords(?User $user = null, bool $includeBackupCodes = false): array
     {
         if (\is_null($user)) {
             $user = $this->getCurrentUser();
@@ -202,7 +202,7 @@ class CaptiveModel extends BaseDatabaseModel
     /**
      * Load the Captive login page render options for a specific MFA record
      *
-     * @param   MfaTable  $record  The MFA record to process
+     * @param   ?MfaTable  $record  The MFA record to process
      *
      * @return  CaptiveRenderOptions  The rendering options
      * @since 4.2.0

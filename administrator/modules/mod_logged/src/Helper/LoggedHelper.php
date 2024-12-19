@@ -57,18 +57,18 @@ abstract class LoggedHelper
             throw $e;
         }
 
-        foreach ($results as $k => $result) {
-            $results[$k]->logoutLink = '';
+        foreach ($results as $result) {
+            $result->logoutLink = '';
 
             if ($user->authorise('core.manage', 'com_users')) {
-                $results[$k]->editLink   = Route::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
-                $results[$k]->logoutLink = Route::_(
+                $result->editLink   = Route::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
+                $result->logoutLink = Route::_(
                     'index.php?option=com_login&task=logout&uid=' . $result->id . '&' . Session::getFormToken() . '=1'
                 );
             }
 
             if ($params->get('name', 1) == 0) {
-                $results[$k]->name = $results[$k]->username;
+                $result->name = $result->username;
             }
         }
 

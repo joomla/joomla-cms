@@ -16,6 +16,7 @@ use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +27,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.5
  */
-final class Image extends CMSPlugin
+final class Image extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Returns an array of events this subscriber will listen to.
@@ -46,7 +47,7 @@ final class Image extends CMSPlugin
      *
      * @since   5.1.0
      */
-    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event)
+    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event): void
     {
         $disabled = $event->getDisabledButtons();
 

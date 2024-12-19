@@ -24,6 +24,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -40,13 +41,13 @@ class UpdateModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -75,11 +76,6 @@ class UpdateModel extends ListModel
      */
     protected function populateState($ordering = 'u.name', $direction = 'asc')
     {
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
-        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
-        $this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
-
         $app = Factory::getApplication();
         $this->setState('message', $app->getUserState('com_installer.message'));
         $this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -363,10 +359,24 @@ class UpdateModel extends ListModel
                 $update->set('extra_query', $updateSiteInstance->extra_query);
             }
 
-            $this->preparePreUpdate($update, $instance);
+            try {
+                $this->preparePreUpdate($update, $instance);
 
-            // Install sets state and enqueues messages
-            $res = $this->install($update);
+                // Install sets state and enqueues messages
+                $res = $this->install($update);
+            } catch (\Throwable $t) {
+                $res = false;
+
+                Factory::getApplication()->enqueueMessage(
+                    Text::sprintf(
+                        'COM_INSTALLER_UPDATE_ERROR',
+                        $instance->name,
+                        $t->getMessage(),
+                        (JDEBUG ? str_replace(JPATH_ROOT, 'JROOT', Path::clean($t->getFile())) . ':' . $t->getLine() : '')
+                    ),
+                    'error'
+                );
+            }
 
             if ($res) {
                 $instance->delete($uid);

@@ -146,22 +146,6 @@ class RequestsModel extends ListModel
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
-        // Load the filter state.
-        $this->setState(
-            'filter.search',
-            $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search')
-        );
-
-        $this->setState(
-            'filter.status',
-            $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'int')
-        );
-
-        $this->setState(
-            'filter.request_type',
-            $this->getUserStateFromRequest($this->context . '.filter.request_type', 'filter_request_type', '', 'string')
-        );
-
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));
 

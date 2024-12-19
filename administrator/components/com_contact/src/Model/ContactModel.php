@@ -363,6 +363,7 @@ class ContactModel extends AdminModel
         if (empty($table->id)) {
             // Set the values
             $table->created = $date;
+            $table->version = 1;
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
@@ -379,10 +380,8 @@ class ContactModel extends AdminModel
             // Set the values
             $table->modified    = $date;
             $table->modified_by = $this->getCurrentUser()->id;
+            $table->version++;
         }
-
-        // Increment the content version number.
-        $table->version++;
     }
 
     /**

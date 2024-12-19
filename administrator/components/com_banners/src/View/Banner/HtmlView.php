@@ -101,7 +101,7 @@ class HtmlView extends BaseHtmlView
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_banners', 'category', $this->item->catid);

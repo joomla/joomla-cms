@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
-	<name>Croatian (Croatia)</name>
-	<version>5.1.2</version>
-	<creationDate>2024-05</creationDate>
+	<name>Hrvatski (Hrvatska)</name>
+	<version>5.2.3</version>
+	<creationDate>2024-11</creationDate>
 	<author>Joomla! Hrvatska team</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -10,8 +10,8 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Croatian (Croatia)</name>
-		<nativeName>Croatian (Croatia)</nativeName>
+		<name>Croatian (hr-HR)</name>
+		<nativeName>Hrvatski (Hrvatska)</nativeName>
 		<tag>hr-HR</tag>
 		<rtl>0</rtl>
 	</metadata>

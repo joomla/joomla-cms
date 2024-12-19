@@ -250,14 +250,14 @@ class Router extends RouterView
             $dbquery = $this->db->getQuery(true);
             $dbquery->select($this->db->quoteName('id'))
                 ->from($this->db->quoteName('#__content'))
-                ->where(
-                    [
-                        $this->db->quoteName('alias') . ' = :alias',
-                        $this->db->quoteName('catid') . ' = :catid',
-                    ]
-                )
-                ->bind(':alias', $segment)
-                ->bind(':catid', $query['id'], ParameterType::INTEGER);
+                ->where($this->db->quoteName('alias') . ' = :segment')
+                ->bind(':segment', $segment);
+
+            if (isset($query['id']) && $query['id']) {
+                $dbquery->where($this->db->quoteName('catid') . ' = :id')
+                    ->bind(':id', $query['id'], ParameterType::INTEGER);
+            }
+
             $this->db->setQuery($dbquery);
 
             return (int) $this->db->loadResult();

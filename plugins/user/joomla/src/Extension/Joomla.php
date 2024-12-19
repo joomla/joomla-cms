@@ -215,6 +215,7 @@ final class Joomla extends CMSPlugin
 
         $mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
         $mailer->addTemplateData($data);
+        $mailer->addUnsafeTags(['username', 'password', 'name', 'email']);
         $mailer->addRecipient($user['email'], $user['name']);
 
         try {

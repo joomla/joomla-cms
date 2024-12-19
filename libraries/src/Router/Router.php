@@ -286,7 +286,7 @@ class Router
     public function attachBuildRule(callable $callback, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('build' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         $this->rules['build' . $stage][] = $callback;
@@ -308,7 +308,7 @@ class Router
     public function attachParseRule(callable $callback, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('parse' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         $this->rules['parse' . $stage][] = $callback;
@@ -332,11 +332,11 @@ class Router
     public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
     {
         if (!\in_array($type, ['parse', 'build'])) {
-            throw new \InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
         }
 
         if (!\array_key_exists($type . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         foreach ($this->rules[$type . $stage] as $id => $r) {
@@ -377,7 +377,7 @@ class Router
     protected function processParseRules(&$uri, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('parse' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         foreach ($this->rules['parse' . $stage] as $rule) {
@@ -400,7 +400,7 @@ class Router
     protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('build' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         foreach ($this->rules['build' . $stage] as $rule) {

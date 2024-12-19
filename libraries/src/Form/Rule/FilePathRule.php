@@ -40,7 +40,7 @@ class FilePathRule extends FormRule
      *
      * @since   3.9.21
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $value = trim($value);
 

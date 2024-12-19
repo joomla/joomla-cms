@@ -115,22 +115,22 @@ class XmlView extends BaseHtmlView
     {
         $node = $xml->addChild('menuitem');
 
-        $node['type'] = $item->type;
-
         if ($item->title) {
             $node['title'] = htmlentities($item->title, ENT_XML1);
+        }
+
+        $node['type'] = $item->type;
+
+        if ($item->element) {
+            $node['element'] = $item->element;
         }
 
         if ($item->link) {
             $node['link'] = $item->link;
         }
 
-        if ($item->element) {
-            $node['element'] = $item->element;
-        }
-
-        if (isset($item->class) && $item->class) {
-            $node['class'] = htmlentities($item->class, ENT_XML1);
+        if (isset($item->class) && trim($item->class)) {
+            $node['class'] = htmlentities(trim($item->class), ENT_XML1);
         }
 
         if ($item->access) {
@@ -139,6 +139,34 @@ class XmlView extends BaseHtmlView
 
         if ($item->browserNav) {
             $node['target'] = '_blank';
+        }
+
+        if ($item->getParams()->get('ajax-badge')) {
+            $node['ajax-badge'] = $item->getParams()->get('ajax-badge');
+        }
+
+        if ($item->icon) {
+            $node['icon'] = $item->icon;
+        }
+
+        if ($item->getParams()->get('menu-quicktask')) {
+            $node['quicktask']       = $item->getParams()->get('menu-quicktask');
+
+            if ($item->getParams()->get('menu-quicktask-title')) {
+                $node['quicktask-title'] = $item->getParams()->get('menu-quicktask-title');
+            }
+
+            if ($item->getParams()->get('menu-quicktask-icon')) {
+                $node['quicktask-icon'] = $item->getParams()->get('menu-quicktask-icon');
+            }
+
+            if ($item->getParams()->get('menu-quicktask-permission')) {
+                $node['quicktask-permission'] = $item->getParams()->get('menu-quicktask-permission');
+            }
+        }
+
+        if ($item->getParams()->get('dashboard')) {
+            $node['dashboard'] = $item->getParams()->get('dashboard');
         }
 
         if ($item->getParams() && $hideitems = $item->getParams()->get('hideitems')) {

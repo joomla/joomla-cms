@@ -1,14 +1,11 @@
 Joomla! CMS™
 ====================
 
-The Joomla! 5.2 branch is under heavy development and not all links in this document are available yet
-------------------------------------------------------------------------------------------------------
-
 Build Status
 
 | Drone-CI                                                                                                                                 | AppVeyor                                                                                                                                                           | PHP                                                                           | Node                                                                                 | npm                                                                             |
 |------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=5.2-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/5.2-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V18.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v9.6.7-green)](https://nodejs.org/en/) |
+| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=5.2-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/5.2-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
 
 Overview
 ---------------------

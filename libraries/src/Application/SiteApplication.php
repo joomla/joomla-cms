@@ -84,7 +84,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name
         $this->name = 'site';
@@ -254,7 +254,19 @@ final class SiteApplication extends CMSApplication
              * $this->input->getCmd('option'); or $this->input->getCmd('view');
              * ex: due of the sef urls
              */
-            $this->checkUserRequireReset('com_users', 'profile', 'edit', 'com_users/profile.save,com_users/profile.apply,com_users/user.logout');
+            $this->checkUserRequiresReset('com_users', 'profile', 'edit', [
+                ['option' => 'com_users', 'task' => 'profile.save'],
+                ['option' => 'com_users', 'task' => 'profile.apply'],
+                ['option' => 'com_users', 'task' => 'user.logout'],
+                ['option' => 'com_users', 'task' => 'user.menulogout'],
+                ['option' => 'com_users', 'task' => 'captive.validate'],
+                ['option' => 'com_users', 'view' => 'captive'],
+                ['option' => 'com_users', 'view' => 'methods'],
+                ['option' => 'com_users', 'view' => 'method'],
+                ['option' => 'com_users', 'task' => 'method.add'],
+                ['option' => 'com_users', 'task' => 'method.save'],
+                ['option' => 'com_users', 'view' => 'profile', 'layout' => 'edit'],
+            ]);
         }
 
         // Dispatch the application
@@ -680,7 +692,26 @@ final class SiteApplication extends CMSApplication
         // Set the access control action to check.
         $options['action'] = 'core.login.site';
 
-        return parent::login($credentials, $options);
+        $result = parent::login($credentials, $options);
+
+        if (!($result instanceof \Exception) && $result) {
+            // Check if the user is required to reset their password
+            $this->checkUserRequiresReset('com_users', 'profile', 'edit', [
+                ['option' => 'com_users', 'task' => 'profile.save'],
+                ['option' => 'com_users', 'task' => 'profile.apply'],
+                ['option' => 'com_users', 'task' => 'user.logout'],
+                ['option' => 'com_users', 'task' => 'user.menulogout'],
+                ['option' => 'com_users', 'task' => 'captive.validate'],
+                ['option' => 'com_users', 'view' => 'captive'],
+                ['option' => 'com_users', 'view' => 'methods'],
+                ['option' => 'com_users', 'view' => 'method'],
+                ['option' => 'com_users', 'task' => 'method.add'],
+                ['option' => 'com_users', 'task' => 'method.save'],
+                ['option' => 'com_users', 'view' => 'profile', 'layout' => 'edit'],
+            ]);
+        }
+
+        return $result;
     }
 
     /**

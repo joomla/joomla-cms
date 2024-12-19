@@ -152,7 +152,6 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
         switch ($config->get('updatesource', 'default')) {
             case 'default':
             case 'next':
-            case 'testing':
                 $symfonyStyle->writeln('You are on the ' . $config->get('updatesource', 'default') . ' update channel.');
                 break;
             case 'custom':

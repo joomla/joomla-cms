@@ -88,9 +88,6 @@ class CacheModel extends ListModel
      */
     protected function populateState($ordering = 'group', $direction = 'asc')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-
         parent::populateState($ordering, $direction);
     }
 

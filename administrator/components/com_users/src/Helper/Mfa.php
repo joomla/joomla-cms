@@ -77,7 +77,7 @@ abstract class Mfa
         /** @var CMSApplication $app */
         $app = Factory::getApplication();
 
-        if (!$app->getInput()->getCmd('option', '') === 'com_users') {
+        if ($app->getInput()->getCmd('option', '') !== 'com_users') {
             $app->getLanguage()->load('com_users');
             $app->getDocument()
                 ->getWebAssetManager()

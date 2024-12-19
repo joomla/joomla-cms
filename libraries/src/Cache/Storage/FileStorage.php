@@ -260,9 +260,9 @@ class FileStorage extends CacheStorage
             case 'notgroup':
                 $folders = $this->_folders($this->_root);
 
-                for ($i = 0, $n = \count($folders); $i < $n; $i++) {
-                    if ($folders[$i] != $folder) {
-                        $return |= $this->_deleteFolder($this->_root . '/' . $folders[$i]);
+                foreach ($folders as $value) {
+                    if ($value != $folder) {
+                        $return |= $this->_deleteFolder($this->_root . '/' . $value);
                     }
                 }
 

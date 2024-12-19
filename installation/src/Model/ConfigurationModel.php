@@ -560,6 +560,18 @@ class ConfigurationModel extends BaseInstallationModel
 
         try {
             $db->execute();
+
+            // Synch the sequence if pgsql
+            if (($db->getServerType() === 'postgresql') && (!$result)) {
+                $query = $db->getQuery(true)
+                    ->select('MAX(' . $db->quoteName('id') . ') + 1 AS ' . $db->quoteName('id'))
+                    ->from($db->quoteName('#__users'));
+                $db->setQuery($query);
+                $result = $db->loadResult();
+
+                $db->setQuery('SELECT setval(' . $db->quote('#__users_id_seq') . ', ' .  $result . ', false)')
+                    ->execute();
+            }
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

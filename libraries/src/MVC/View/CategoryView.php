@@ -36,6 +36,15 @@ class CategoryView extends HtmlView
     protected $state;
 
     /**
+     * The page parameters
+     *
+     * @var    \Joomla\Registry\Registry
+     *
+     * @since  5.2.0
+     */
+    public $params;
+
+    /**
      * Category items data
      *
      * @var    array

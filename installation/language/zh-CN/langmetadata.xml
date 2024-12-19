@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
 	<name>Chinese Simplified (China)</name>
-	<version>5.1.2</version>
-	<creationDate>2024-05</creationDate>
-	<author>Joomla!中文官网 www.joomlachina.org.cn 周永建</author>
+	<version>5.2.3</version>
+	<creationDate>2024-11</creationDate>
+	<author>Joomla中文网</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Chinese Simplified (zh-CN)</name>
-		<nativeName>Chinese Simplified (China)</nativeName>
+		<name>简体中文(zh-CN)</name>
+		<nativeName>简体中文 (中国)</nativeName>
 		<tag>zh-CN</tag>
 		<rtl>0</rtl>
 	</metadata>

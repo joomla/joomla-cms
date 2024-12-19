@@ -134,7 +134,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @since   1.6
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 

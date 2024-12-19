@@ -185,7 +185,7 @@ trait AdditionalLoginButtons
         }
 
         if (!$wa->assetExists('script', 'plg_system_webauthn.login')) {
-            $wa->registerScript('plg_system_webauthn.login', 'plg_system_webauthn/login.js', [], ['defer' => true], ['core']);
+            $wa->registerScript('plg_system_webauthn.login', 'plg_system_webauthn/login.js', [], ['defer' => true], ['core', 'messages']);
         }
 
         $wa->useStyle('plg_system_webauthn.button')

@@ -101,11 +101,11 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      *                                              settings. Recognized key values include 'name',
      *                                              'group', 'params', 'language (this list is not meant
      *                                              to be comprehensive).
-     * @param   Authentication|null  $authHelper    The WebAuthn helper object
+     * @param   ?Authentication      $authHelper    The WebAuthn helper object
      *
      * @since  4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [], Authentication $authHelper = null)
+    public function __construct(DispatcherInterface $dispatcher, array $config = [], ?Authentication $authHelper = null)
     {
         parent::__construct($dispatcher, $config);
 

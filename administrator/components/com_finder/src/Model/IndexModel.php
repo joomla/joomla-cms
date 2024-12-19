@@ -62,7 +62,7 @@ class IndexModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -394,13 +394,6 @@ class IndexModel extends ListModel
      */
     protected function populateState($ordering = 'l.title', $direction = 'asc')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
-        $this->setState('filter.content_map', $this->getUserStateFromRequest($this->context . '.filter.content_map', 'filter_content_map', '', 'cmd'));
-        $this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', ''));
-
         // Load the parameters.
         $params = ComponentHelper::getParams('com_finder');
         $this->setState('params', $params);

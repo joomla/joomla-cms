@@ -49,7 +49,7 @@ class BannerTable extends Table implements VersionableTableInterface
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_banners.banner';
 
@@ -143,7 +143,7 @@ class BannerTable extends Table implements VersionableTableInterface
             $this->ordering = 0;
         } elseif (empty($this->ordering)) {
             // Set ordering to last if ordering was 0
-            $this->ordering = self::getNextOrder($this->_db->quoteName('catid') . ' = ' . ((int) $this->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
+            $this->ordering = $this->getNextOrder($this->_db->quoteName('catid') . ' = ' . ((int) $this->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
         }
 
         // Set modified to created if not set

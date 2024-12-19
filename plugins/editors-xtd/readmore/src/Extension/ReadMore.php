@@ -45,7 +45,7 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.0.0
      */
-    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event)
+    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event): void
     {
         $subject  = $event->getButtonsRegistry();
         $disabled = $event->getDisabledButtons();
@@ -53,8 +53,6 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
         if (\in_array($this->_name, $disabled)) {
             return;
         }
-
-        $this->loadLanguage();
 
         $button = $this->onDisplay($event->getEditorId());
         $subject->add($button);
@@ -65,23 +63,29 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  Button  $button  A two element array of (imageName, textToInsert)
+     * @return  Button  The button options as Button object
      *
      * @since   1.5
      *
-     * @deprecated  6.0 Use onEditorButtonsSetup event
+     * @deprecated  5.0 Use onEditorButtonsSetup event
      */
     public function onDisplay($name)
     {
+        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        $wa = $this->getApplication()->getDocument()->getWebAssetManager();
+
         // Register the asset "editor-button.<button name>", will be loaded by the button layout
-        $this->getApplication()->getDocument()->getWebAssetManager()
-            ->registerScript(
+        if (!$wa->assetExists('script', 'editor-button.' . $this->_name)) {
+            $wa->registerScript(
                 'editor-button.' . $this->_name,
                 'com_content/admin-article-readmore.min.js',
                 [],
                 ['type' => 'module'],
                 ['editors', 'joomla.dialog']
             );
+        }
+
+        $this->loadLanguage();
 
         Text::script('PLG_READMORE_ALREADY_EXISTS');
 

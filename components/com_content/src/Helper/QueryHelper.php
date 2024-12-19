@@ -61,15 +61,15 @@ class QueryHelper
     /**
      * Translate an order code to a field for article ordering.
      *
-     * @param   string             $orderby    The ordering code.
-     * @param   string             $orderDate  The ordering code for the date.
-     * @param   DatabaseInterface  $db         The database
+     * @param   string              $orderby    The ordering code.
+     * @param   string              $orderDate  The ordering code for the date.
+     * @param   ?DatabaseInterface  $db         The database
      *
      * @return  string  The SQL field(s) to order by.
      *
      * @since   1.5
      */
-    public static function orderbySecondary($orderby, $orderDate = 'created', DatabaseInterface $db = null)
+    public static function orderbySecondary($orderby, $orderDate = 'created', ?DatabaseInterface $db = null)
     {
         $db = $db ?: Factory::getDbo();
 
@@ -163,14 +163,14 @@ class QueryHelper
     /**
      * Translate an order code to a field for date ordering.
      *
-     * @param   string             $orderDate  The ordering code.
-     * @param   DatabaseInterface  $db         The database
+     * @param   string              $orderDate  The ordering code.
+     * @param   ?DatabaseInterface  $db         The database
      *
      * @return  string  The SQL field(s) to order by.
      *
      * @since   1.6
      */
-    public static function getQueryDate($orderDate, DatabaseInterface $db = null)
+    public static function getQueryDate($orderDate, ?DatabaseInterface $db = null)
     {
         $db = $db ?: Factory::getDbo();
 

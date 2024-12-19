@@ -64,7 +64,7 @@ trait ResultTypeFloatAware
         }
 
         if (!\is_float($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Float results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Float results.', $this->getName()));
         }
     }
 }

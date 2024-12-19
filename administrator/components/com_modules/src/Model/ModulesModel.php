@@ -92,21 +92,10 @@ class ModulesModel extends ListModel
         // Make context client aware
         $this->context .= '.' . $app->getInput()->get->getInt('client_id', 0);
 
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
-        $this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
-        $this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
-        $this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
-
         // If in modal layout on the frontend, state and language are always forced.
         if ($app->isClient('site') && $layout === 'modal') {
             $this->setState('filter.language', 'current');
             $this->setState('filter.state', 1);
-        } else {
-            // If in backend (modal or not) we get the same fields from the user request.
-            $this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
-            $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
         }
 
         // Special case for the client id.
@@ -324,7 +313,7 @@ class ModulesModel extends ListModel
         }
 
         // Filter by published state.
-        $state = $this->getState('filter.state');
+        $state = $this->getState('filter.state', '');
 
         if (is_numeric($state)) {
             $state = (int) $state;

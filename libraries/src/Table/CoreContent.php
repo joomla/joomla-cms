@@ -57,7 +57,7 @@ class CoreContent extends Table implements CurrentUserInterface
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__ucm_content', 'core_content_id', $db, $dispatcher);
 

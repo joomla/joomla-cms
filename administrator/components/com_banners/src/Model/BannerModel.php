@@ -347,6 +347,7 @@ class BannerModel extends AdminModel
             // Set the values
             $table->created    = $date->toSql();
             $table->created_by = $user->id;
+            $table->version    = 1;
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
@@ -364,10 +365,8 @@ class BannerModel extends AdminModel
             // Set the values
             $table->modified    = $date->toSql();
             $table->modified_by = $user->id;
+            $table->version++;
         }
-
-        // Increment the content version number.
-        $table->version++;
     }
 
     /**

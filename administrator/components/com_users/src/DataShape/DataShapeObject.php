@@ -27,7 +27,7 @@ abstract class DataShapeObject implements \ArrayAccess
     public function __construct(array $array = [])
     {
         if (!\is_array($array) && !($array instanceof self)) {
-            throw new \InvalidArgumentException(sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
+            throw new \InvalidArgumentException(\sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
         }
 
         foreach (($array instanceof self) ? $array->asArray() : $array as $k => $v) {
@@ -59,7 +59,7 @@ abstract class DataShapeObject implements \ArrayAccess
     public function merge($newValues): self
     {
         if (!\is_array($newValues) && !($newValues instanceof self)) {
-            throw new \InvalidArgumentException(sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
+            throw new \InvalidArgumentException(\sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
         }
 
         foreach (($newValues instanceof self) ? $newValues->asArray() : $newValues as $k => $v) {
@@ -94,7 +94,7 @@ abstract class DataShapeObject implements \ArrayAccess
             return $this->{$name};
         }
 
-        throw new \InvalidArgumentException(sprintf('Property %s not found in %s', $name, __CLASS__));
+        throw new \InvalidArgumentException(\sprintf('Property %s not found in %s', $name, __CLASS__));
     }
 
     /**
@@ -118,7 +118,7 @@ abstract class DataShapeObject implements \ArrayAccess
             $this->{$name} = $value;
         }
 
-        throw new \InvalidArgumentException(sprintf('Property %s not found in %s', $name, __CLASS__));
+        throw new \InvalidArgumentException(\sprintf('Property %s not found in %s', $name, __CLASS__));
     }
 
     /**
@@ -186,6 +186,6 @@ abstract class DataShapeObject implements \ArrayAccess
      */
     public function offsetUnset($offset): void
     {
-        throw new \LogicException(sprintf('You cannot unset members of %s', __CLASS__));
+        throw new \LogicException(\sprintf('You cannot unset members of %s', __CLASS__));
     }
 }

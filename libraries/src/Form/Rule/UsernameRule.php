@@ -44,7 +44,7 @@ class UsernameRule extends FormRule implements DatabaseAwareInterface
      *
      * @since   1.7.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // Get the database object and a new query object.
         $db    = $this->getDatabase();

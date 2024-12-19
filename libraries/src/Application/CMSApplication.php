@@ -180,7 +180,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         $container = $container ?: new Container();
         $this->setContainer($container);
@@ -365,8 +365,46 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  void
      *
      * @throws  \Exception
+     * @deprecated  __DEPLOY_VERSION__  will be removed in 7.0
+     *              Use $this->checkUserRequiresReset() instead.
      */
     protected function checkUserRequireReset($option, $view, $layout, $tasks)
+    {
+        $name = $this->getName();
+        $urls = [];
+
+        if ($this->get($name . '_reset_password_override', 0)) {
+            $tasks = $this->get($name . '_reset_password_tasks', '');
+        }
+
+        // Check task
+        if (!empty($tasks)) {
+            $tasks = explode(',', $tasks);
+
+            foreach ($tasks as $task) {
+                [$option, $t] = explode('/', $task);
+                $urls[]       = ['option' => $option, 'task' => $t];
+            }
+        }
+
+        $this->checkUserRequiresReset($option, $view, $layout, $urls);
+    }
+
+    /**
+     * Check if the user is required to reset their password.
+     *
+     * If the user is required to reset their password will be redirected to the page that manage the password reset.
+     *
+     * @param   string  $option  The option that manage the password reset
+     * @param   string  $view    The view that manage the password reset
+     * @param   string  $layout  The layout of the view that manage the password reset
+     * @param   array   $urls    Multi-dimensional array of permitted urls. Ex: [['option' => 'com_users', 'view' => 'profile'],...]
+     *
+     * @return  void
+     *
+     * @throws  \Exception
+     */
+    protected function checkUserRequiresReset($option, $view, $layout, $urls = [])
     {
         if ($this->getIdentity()->requireReset) {
             $redirect = false;
@@ -383,22 +421,33 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $option = $this->get($name . '_reset_password_option', '');
                 $view   = $this->get($name . '_reset_password_view', '');
                 $layout = $this->get($name . '_reset_password_layout', '');
-                $tasks  = $this->get($name . '_reset_password_tasks', '');
+                $urls   = $this->get($name . '_reset_password_urls', $urls);
             }
 
-            $task = $this->input->getCmd('task', '');
+            // If the current URL matches an entry in $urls, we do not redirect
+            if (\count($urls)) {
+                $found = false;
 
-            // Check task or option/view/layout
-            if (!empty($task)) {
-                $tasks = explode(',', $tasks);
+                foreach ($urls as $url) {
+                    $found2 = false;
 
-                // Check full task version "option/task"
-                if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false) {
-                    // Check short task version, must be on the same option of the view
-                    if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false) {
-                        // Not permitted task
-                        $redirect = true;
+                    foreach ($url as $key => $value) {
+                        if ($this->input->getCmd($key) !== $value) {
+                            $found2 = false;
+                            break;
+                        }
+
+                        $found2 = true;
                     }
+
+                    if ($found2) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    $redirect = true;
                 }
             } else {
                 if (
@@ -445,7 +494,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     {
         try {
             Log::add(
-                sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
+                \sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
                 Log::WARNING,
                 'deprecated'
             );
@@ -485,7 +534,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *              Use the application service from the DI container instead
      *              Example: Factory::getContainer()->get($name);
      */
-    public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
+    public static function getInstance($name = null, $prefix = '\JApplication', ?Container $container = null)
     {
         if (empty(static::$instances[$name])) {
             // Create a CmsApplication object.
@@ -1217,7 +1266,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->getFormToken($forceNew);
+        return $session::getFormToken($forceNew);
     }
 
     /**
@@ -1236,7 +1285,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->checkToken($method);
+        return $session::checkToken($method);
     }
 
     /**

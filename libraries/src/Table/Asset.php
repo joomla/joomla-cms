@@ -64,7 +64,7 @@ class Asset extends Nested
      *
      * @since   1.7.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__assets', 'id', $db, $dispatcher);
     }
@@ -175,7 +175,7 @@ class Asset extends Nested
         // Make a shortcut to database object.
 
         // Assemble the query to find all children of this node.
-        $this->_db->setQuery(sprintf($this->_cache['rebuild.sql'], (int) $parentId));
+        $this->_db->setQuery(\sprintf($this->_cache['rebuild.sql'], (int) $parentId));
 
         $children = $this->_db->loadObjectList();
 

@@ -17,7 +17,7 @@ It is simplified to offer an initial understanding. Detailed explanations follow
 
 ![System Tests Architecture](images/system-tests.svg)
 
-On the left, **Cypress** is running as a [Node.js](https://nodejs.org/) application. The file **`cypress.config.js`** is used to configure settings and preferences for running the System Tests in your environment.
+On the left, **Cypress** is running as a [Node.js](https://nodejs.org/) application. The file **`cypress.config.mjs`** is used to configure settings and preferences for running the System Tests in your environment.
 
 In the middle, the **Cypress Test Runner** controls a **Browser** with the **Joomla** application running HTML, CSS, and JavaScript. Also running in the browser context are the **Database Commands**, the **API commands** and the npm packages **[joomala-cypress](https://github.com/joomla-projects/joomla-cypress/)** and
 **[smtp-tester](https://www.npmjs.com/package/smtp-tester)**.
@@ -52,17 +52,17 @@ npm ci
 ```
 3. Create the Cypress configuration file from the distribution template.
 ```
-cp cypress.config.dist.js cypress.config.js
+cp cypress.config.dist.mjs cypress.config.mjs
 ```
-4. Adjust the parameter `baseUrl` in the `cypress.config.js` file, it should point to the Joomla base URL.
-5. Adapt the env variables in the file `cypress.config.js`, they should point to the site, user data and database environment. Ensure that the `smtp_port` is not in use on your system.
+4. Adjust the parameter `baseUrl` in the `cypress.config.mjs` file, it should point to the Joomla base URL.
+5. Adapt the env variables in the file `cypress.config.mjs`, they should point to the site, user data and database environment. Ensure that the `smtp_port` is not in use on your system.
 
 
 ## Running System Tests
 
 After installation, you can start the Joomla System Tests with headless Cypress. The test suite starts with Joomla Web-Installer as the first test step.
 ```
-npx cypress run
+npm run cypress:run
 ```
 :point_right: In case of errors, see [Troubleshooting](#Troubleshooting) at the end.
 
@@ -71,8 +71,8 @@ You can execute single test specs, e.g. to run the installation step only.
 npx cypress run --spec tests/System/integration/install/Installation.cy.js
 ```
 
-You can run multiple test specs separated by commas and use patterns. For example, to execute all the tests from the
-administrator, site, api and plugins specs without the installation step:
+You can run multiple test specs separated by commas and use patterns.
+For example, to run all tests without the installation step:
 ```
 npx cypress run --spec 'tests/System/integration/{administrator,site,api,plugins}/**/*.cy.js'
 ```
@@ -83,13 +83,13 @@ npx cypress run --spec 'tests/System/integration/{administrator,site,api,plugins
 > The Cypress GUI also displays the Cypress log output, providing real-time feedback on the test execution process.
 > To open the Cypress GUI, run the following command.
 > ```
-> npx cypress open
+> npm run cypress:open
 > ```
 
 If you are running System Tests, you will see `console.log()` outputs from Cypress Tasks in the Node.js environment. If you would like to see `console.log()` output from the browser in headless mode as well, you can use the Electron web browser and set the following environment variable:
 ```
 export ELECTRON_ENABLE_LOGGING=1
-npx cypress run --browser electron
+npm run cypress:run --browser electron
 ```
 
 
@@ -107,7 +107,7 @@ which are numbered and described below.
 interacting with the file system.
 5. Joomla on the Web Server interacts with the **Database** as it normally would, without running any tests.
 6. System Tests has Cypress custom **Database Commands** (described later) to interact with the database.
-7. The file `cypress.config.js` is read by **Cypress** and used to configure settings and preferences for running the System Tests in your environment.
+7. The file `cypress.config.mjs` is read by **Cypress** and used to configure settings and preferences for running the System Tests in your environment.
 8. The Joomla installation is initiated by the test spec [Installation.cy.js](integration/install/Installation.cy.js),
 which is the first test executed in the overall test suite.
 This test spec deletes the Joomla configuration file, and since the `configuration.php` file no longer exists,
@@ -122,12 +122,8 @@ SMTP configuration.
 
 The used npm package "Helpers for using Cypress with Joomla for testing" **[joomala-cypress](https://github.com/joomla-projects/joomla-cypress/)** helps in writing the Cypress tests for Joomla in extending the Cypress API with custom commands.
 
-> [!IMPORTANT]
-> Some `joomala-cypress` commands are overwritten by the System Tests,
-> see [tests/System/support/commands.js](/tests/System/support/commands.js).
-
 The **[smtp-tester](https://www.npmjs.com/package/smtp-tester)** npm package creates an SMTP server that listens
-on the `smtp_port` specified in `cypress.config.js` during test runtime.
+on the `smtp_port` specified in `cypress.config.mjs` during test runtime.
 This server accepts connections, receives emails, and provides the capability to check the received emails during the test.
 
 > [!IMPORTANT]
@@ -167,6 +163,7 @@ The Joomla System Tests come with some convenient [Cypress Tasks](https://docs.c
 - **cleanupDB** – Deletes the inserted items from the database
 - **writeRelativeFile** – Writes a file relative to the CMS root folder
 - **deleteRelativePath** – Deletes a file or folder relative to the CMS root folder
+- **copyRelativeFile** – Copies a file relative to the CMS root folder
 - **startMailServer** – Starts the smtp-tester SMTP server
 - **getMails** – Get received mails from smtp-tester
 - **clearEmails** – Clear all smtp-tester received mails
@@ -200,7 +197,7 @@ The Database Commands create items in the database like articles or users. They 
 cy.db_createArticle({ title: 'automated test article' }).then((id) => { ... })`
 ```
 
-The following commands are available and are served by the file [tests/System/support/commands/db.js](/tests/System/support/commands/db.js):
+The following commands are available and are served by the file [tests/System/support/commands/db.mjs](/tests/System/support/commands/db.mjs):
 
 - **db_createArticle** – Creates an article and returns the id
 - **db_createBanner** – Creates a banner and returns the id
@@ -233,7 +230,7 @@ cy.api_get('/content/articles').then((response) => { ... })`
 ```
 The response is an object from the [Cypress request command](https://docs.cypress.io/api/commands/request).
 The following commands are available and are served by the file
-[tests/System/support/commands/api.js](/tests/System/support/commands/api.js):
+[tests/System/support/commands/api.mjs](/tests/System/support/commands/api.mjs):
 
 - **api_get** – HTTP GET request for given path
 - **api_post** – HTTP POST request for given path and body
@@ -288,12 +285,12 @@ If the Web Server and Cypress are run by different users, this can lead to file 
 :point_right: You have to give the user running Cypress the permission to write `configuration.php`
 e.g. with the command `sudo` on macOS, Linux or Windows WSL 2:
 ```
-sudo npx cypress run
+sudo npm run cypress:run
 ```
 
 If the `root` user does not have a Cypress installation, you can use the Cypress installation cache of the current user:
 ```
-sudo CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npx cypress run
+CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress sudo npm run cypress:run
 ```
 
 
@@ -301,15 +298,17 @@ sudo CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npx cypress run
 
 If the used SMTP server port is already in use you will see an error like:
 ```
-    Your configFile threw an error from: cypress.config.js
+    Your configFile threw an error from: cypress.config.mjs
 
     We stopped running your tests because your config file crashed.
 
     Error: listen EADDRINUSE: address already in use :::1025
 ```
 
-:point_right: Configure a different, unused port in the `cypress.config.js` file as `smtp_port`.
+:point_right: Configure a different, unused port in the `cypress.config.mjs` file as `smtp_port`.
 
+:point_right: If you use `npx` instead of `npm`, you may see `Your configFile threw an error from: cypress.config.js`,
+but you still need to configure `cypress.config.mjs` file.
 
 ### Timeout Error on Slow Machines
 
@@ -319,10 +318,10 @@ If you encounter the following error while running the System Tests on slow mach
      AssertionError: Timed out retrying after 4000ms: Expected to find element
 ```
 
-:point_right: You can increase the default 4 second waiting time in the cypress.config.js file:
+:point_right: You can increase the default 4 second waiting time in the cypress.config.mjs file:
 
 ```JavaScript
-    module.exports = {
+    export default defineConfig({
       defaultCommandTimeout: 20000, // sets the waiting time to 20 seconds
       ...
     }

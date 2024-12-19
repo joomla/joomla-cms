@@ -258,7 +258,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         // Log the time it took to load this update site's information
         $endTime    = microtime(true);
-        $timeToLoad = sprintf('%0.2f', $endTime - $startTime);
+        $timeToLoad = \sprintf('%0.2f', $endTime - $startTime);
         Log::add(
             "Loading information from update site #{$this->updateSiteId} with name " .
             "\"$this->updateSiteName\" and URL $url took $timeToLoad seconds",
