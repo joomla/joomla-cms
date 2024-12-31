@@ -31,8 +31,10 @@ class RandomImageHelper
      * @param   array                      $images   list of images
      *
      * @return  mixed
+     *
+     * @since   5.3.0
      */
-    public static function getRandomImage(&$params, $images)
+    public function getImage(&$params, $images)
     {
         $width  = $params->get('width', 100);
         $height = $params->get('height', null);
@@ -79,8 +81,10 @@ class RandomImageHelper
      * @param   string                     $folder   folder to get the images from
      *
      * @return  array
+     *
+     * @since   5.3.0
      */
-    public static function getImages(&$params, $folder)
+    public function getImagesFromFolder(&$params, $folder)
     {
         $type   = $params->get('type', 'jpg');
         $files  = [];
@@ -122,15 +126,17 @@ class RandomImageHelper
      * @param   \Joomla\Registry\Registry  &$params  module params objects
      *
      * @return  mixed
+     *
+     * @since   5.3.0
      */
-    public static function getFolder(&$params)
+    public function getFolderPath(&$params)
     {
         $folder   = $params->get('folder');
-        $LiveSite = Uri::base();
+        $liveSite = Uri::base();
 
         // If folder includes livesite info, remove
-        if (StringHelper::strpos($folder, $LiveSite) === 0) {
-            $folder = str_replace($LiveSite, '', $folder);
+        if (StringHelper::strpos($folder, $liveSite) === 0) {
+            $folder = str_replace($liveSite, '', $folder);
         }
 
         // If folder includes absolute path, remove
@@ -139,5 +145,61 @@ class RandomImageHelper
         }
 
         return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $folder);
+    }
+
+    /**
+     * Retrieves a random image
+     *
+     * @param   \Joomla\Registry\Registry  &$params  module parameters object
+     * @param   array                      $images   list of images
+     *
+     * @return  mixed
+     *
+     * @deprecated 5.3.0 will be removed in 7.0
+     *             Use the non-static method getImage
+     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
+     *                            ->getHelper('RandomImageHelper')
+     *                            ->getImage($params, $images)
+     */
+    public static function getRandomImage(&$params, $images)
+    {
+        return (new self())->getImage($params, $images);
+    }
+
+    /**
+     * Retrieves images from a specific folder
+     *
+     * @param   \Joomla\Registry\Registry  &$params  module params
+     * @param   string                     $folder   folder to get the images from
+     *
+     * @return  array
+     *
+     * @deprecated 5.3.0 will be removed in 7.0
+     *             Use the non-static method getImagesFromFolder
+     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
+     *                            ->getHelper('RandomImageHelper')
+     *                            ->getImagesFromFolder($params, $folder)
+     */
+    public static function getImages(&$params, $folder)
+    {
+        return (new self())->getImagesFromFolder($params, $folder);
+    }
+
+    /**
+     * Get sanitized folder
+     *
+     * @param   \Joomla\Registry\Registry  &$params  module params objects
+     *
+     * @return  mixed
+     *
+     * @deprecated 5.3.0 will be removed in 7.0
+     *             Use the non-static method getFolderPath
+     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
+     *                            ->getHelper('RandomImageHelper')
+     *                            ->getFolderPath($params)
+     */
+    public static function getFolder(&$params)
+    {
+        return (new self())->getFolderPath($params);
     }
 }
