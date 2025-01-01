@@ -21,7 +21,7 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 /**
  * Dispatcher class for mod_random_image
  *
- * @since  5.3.0
+ * @since  __DEPLOY_VERSION__
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
@@ -32,7 +32,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  array
      *
-     * @since   5.3.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getLayoutData()
     {

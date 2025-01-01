@@ -19,7 +19,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The random image module service provider.
  *
- * @since  5.3.0
+ * @since  __DEPLOY_VERSION__
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -29,7 +29,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   5.3.0
+     * @since   __DEPLOY_VERSION__
      */
     public function register(Container $container)
     {

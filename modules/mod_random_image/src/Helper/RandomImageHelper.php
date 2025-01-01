@@ -33,7 +33,7 @@ class RandomImageHelper
      *
      * @return  mixed
      *
-     * @since   5.3.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getImage(Registry &$params, array $images)
     {
@@ -83,7 +83,7 @@ class RandomImageHelper
      *
      * @return  array
      *
-     * @since   5.3.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getImagesFromFolder(Registry &$params, string $folder)
     {
@@ -128,7 +128,7 @@ class RandomImageHelper
      *
      * @return  mixed
      *
-     * @since   5.3.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getFolderPath(Registry &$params)
     {
@@ -156,7 +156,7 @@ class RandomImageHelper
      *
      * @return  mixed
      *
-     * @deprecated 5.3.0 will be removed in 7.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getImage
      *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
      *                            ->getHelper('RandomImageHelper')
@@ -175,7 +175,7 @@ class RandomImageHelper
      *
      * @return  array
      *
-     * @deprecated 5.3.0 will be removed in 7.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getImagesFromFolder
      *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
      *                            ->getHelper('RandomImageHelper')
@@ -193,7 +193,7 @@ class RandomImageHelper
      *
      * @return  mixed
      *
-     * @deprecated 5.3.0 will be removed in 7.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getFolderPath
      *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
      *                            ->getHelper('RandomImageHelper')
