@@ -11,6 +11,7 @@
 namespace Joomla\Module\RandomImage\Site\Helper;
 
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,14 +28,14 @@ class RandomImageHelper
     /**
      * Retrieves a random image
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters object
-     * @param   array                      $images   list of images
+     * @param   Registry  &$params  module parameters object
+     * @param   array     $images   list of images
      *
      * @return  mixed
      *
      * @since   5.3.0
      */
-    public function getImage(&$params, $images)
+    public function getImage(Registry &$params, array $images)
     {
         $width  = $params->get('width', 100);
         $height = $params->get('height', null);
@@ -77,14 +78,14 @@ class RandomImageHelper
     /**
      * Retrieves images from a specific folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params
-     * @param   string                     $folder   folder to get the images from
+     * @param   Registry  &$params  module params
+     * @param   string    $folder   folder to get the images from
      *
      * @return  array
      *
      * @since   5.3.0
      */
-    public function getImagesFromFolder(&$params, $folder)
+    public function getImagesFromFolder(Registry &$params, string $folder)
     {
         $type   = $params->get('type', 'jpg');
         $files  = [];
@@ -123,13 +124,13 @@ class RandomImageHelper
     /**
      * Get sanitized folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params objects
+     * @param   Registry  &$params  module params objects
      *
      * @return  mixed
      *
      * @since   5.3.0
      */
-    public function getFolderPath(&$params)
+    public function getFolderPath(Registry &$params)
     {
         $folder   = $params->get('folder');
         $liveSite = Uri::base();
@@ -150,8 +151,8 @@ class RandomImageHelper
     /**
      * Retrieves a random image
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters object
-     * @param   array                      $images   list of images
+     * @param   Registry  &$params  module parameters object
+     * @param   array     $images   list of images
      *
      * @return  mixed
      *
@@ -169,8 +170,8 @@ class RandomImageHelper
     /**
      * Retrieves images from a specific folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params
-     * @param   string                     $folder   folder to get the images from
+     * @param   Registry  &$params  module params
+     * @param   string    $folder   folder to get the images from
      *
      * @return  array
      *
@@ -188,7 +189,7 @@ class RandomImageHelper
     /**
      * Get sanitized folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params objects
+     * @param   Registry  &$params  module params objects
      *
      * @return  mixed
      *
