@@ -16,6 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,40 +31,15 @@ use Joomla\Utilities\ArrayHelper;
 class FinderHelper
 {
     /**
-     * Method to get hidden input fields for a get form so that control variables
-     * are not lost upon form submission.
-     *
-     * @param   string   $route      The route to the page. [optional]
-     * @param   integer  $paramItem  The menu item ID. (@since 3.1) [optional]
-     *
-     * @return  string  A string of hidden input form fields
-     *
-     * @since   2.5
-     */
-    public static function getGetFields($route = null, $paramItem = 0)
-    {
-        $fields = [];
-        $uri    = Uri::getInstance(Route::_($route));
-        $uri->delVar('q');
-
-        // Create hidden input elements for each part of the URI.
-        foreach ($uri->getQuery(true) as $n => $v) {
-            $fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '">';
-        }
-
-        return implode('', $fields);
-    }
-
-    /**
      * Get Smart Search query object.
      *
-     * @param   \Joomla\Registry\Registry  $params  Module parameters.
+     * @param   Registry  $params  Module parameters.
      *
      * @return  Query object
      *
-     * @since   2.5
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getQuery($params)
+    public function getSearchQuery(Registry $params)
     {
         $request = Factory::getApplication()->getInput()->request;
         $filter  = InputFilter::getInstance();
@@ -80,5 +56,71 @@ class FinderHelper
 
         // Instantiate a query object.
         return new Query($options, Factory::getContainer()->get(DatabaseInterface::class));
+    }
+
+    /**
+     * Method to get hidden input fields for a get form so that control variables
+     * are not lost upon form submission.
+     *
+     * @param   string   $route      The route to the page. [optional]
+     *
+     * @return  string  A string of hidden input form fields
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getFields(string $route = null)
+    {
+        $fields = [];
+        $uri    = Uri::getInstance(Route::_($route));
+        $uri->delVar('q');
+
+        // Create hidden input elements for each part of the URI.
+        foreach ($uri->getQuery(true) as $n => $v) {
+            $fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '">';
+        }
+
+        return implode('', $fields);
+    }
+
+    /**
+     * Method to get hidden input fields for a get form so that control variables
+     * are not lost upon form submission.
+     *
+     * @param   string   $route      The route to the page. [optional]
+     * @param   integer  $paramItem  The menu item ID. (@since 3.1) [optional]
+     *
+     * @return  string  A string of hidden input form fields
+     *
+     * @since   2.5
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use the non-static method getFields
+     *             Example: Factory::getApplication()->bootModule('mod_finder', 'site')
+     *                          ->getHelper('FinderHelper')
+     *                          ->getFields($route, $paramItem)
+     */
+    public static function getGetFields($route = null, $paramItem = 0)
+    {
+        return (new self())->getFields($route);
+    }
+
+    /**
+     * Get Smart Search query object.
+     *
+     * @param   \Joomla\Registry\Registry  $params  Module parameters.
+     *
+     * @return  Query object
+     *
+     * @since   2.5
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use the non-static method getSearchQuery
+     *             Example: Factory::getApplication()->bootModule('mod_finder', 'site')
+     *                          ->getHelper('FinderHelper')
+     *                          ->getSearchQuery($params)
+     */
+    public static function getQuery($params)
+    {
+        return (new self())->getSearchQuery($params);
     }
 }
