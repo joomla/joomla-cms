@@ -68,7 +68,7 @@ class FinderHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getFields(string $route = null)
+    public function getFields($route = null)
     {
         $fields = [];
         $uri    = Uri::getInstance(Route::_($route));
