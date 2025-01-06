@@ -75,6 +75,8 @@ class LoginHelper
      *
      * @param   Registry  $params  module parameters
      *
+     * @since   __DEPLOY_VERSION__
+     *
      * @return  string
      */
     public function getRegistrationUrlString(Registry $params)
@@ -105,6 +107,12 @@ class LoginHelper
      * @param   string    $type    return type
      *
      * @return  string
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use the non-static method getReturnUrlString
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
+     *                          ->getHelper('LoginHelper')
+     *                          ->getReturnUrlString($params, $type)
      */
     public static function getReturnUrl($params, $type)
     {
