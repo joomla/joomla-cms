@@ -13,6 +13,7 @@ namespace Joomla\Module\Login\Site\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,14 +27,30 @@ use Joomla\CMS\Uri\Uri;
 class LoginHelper
 {
     /**
+     * Returns the current users type
+     *
+     * @return string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getModuleType()
+    {
+        $user = Factory::getApplication()->getIdentity();
+
+        return (!$user->guest) ? 'logout' : 'login';
+    }
+
+    /**
      * Retrieve the URL where the user should be returned after logging in
      *
-     * @param   \Joomla\Registry\Registry  $params  module parameters
-     * @param   string                     $type    return type
+     * @param   Registry  $params  module parameters
+     * @param   string    $type    return type
+     *
+     * @since   __DEPLOY_VERSION__
      *
      * @return  string
      */
-    public static function getReturnUrl($params, $type)
+    public function getReturnUrlString(Registry $params, $type)
     {
         $item = Factory::getApplication()->getMenu()->getItem($params->get($type));
 
@@ -54,25 +71,13 @@ class LoginHelper
     }
 
     /**
-     * Returns the current users type
-     *
-     * @return string
-     */
-    public static function getType()
-    {
-        $user = Factory::getUser();
-
-        return (!$user->guest) ? 'logout' : 'login';
-    }
-
-    /**
      * Retrieve the URL for the registration page
      *
-     * @param   \Joomla\Registry\Registry  $params  module parameters
+     * @param   Registry  $params  module parameters
      *
      * @return  string
      */
-    public static function getRegistrationUrl($params)
+    public function getRegistrationUrlString(Registry $params)
     {
         $regLink       = 'index.php?option=com_users&view=registration';
         $regLinkMenuId = $params->get('customRegLinkMenu');
@@ -91,5 +96,52 @@ class LoginHelper
         }
 
         return $regLink;
+    }
+
+    /**
+     * Retrieve the URL where the user should be returned after logging in
+     *
+     * @param   Registry  $params  module parameters
+     * @param   string    $type    return type
+     *
+     * @return  string
+     */
+    public static function getReturnUrl($params, $type)
+    {
+        return (new self())->getReturnUrlString($params, $type);
+    }
+
+    /**
+     * Returns the current users type
+     *
+     * @return     string
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use the non-static method getModuleType
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
+     *                          ->getHelper('LoginHelper')
+     *                          ->getModuleType()
+     */
+    public static function getType()
+    {
+        return (new self())->getModuleType();
+    }
+
+    /**
+     * Retrieve the URL for the registration page
+     *
+     * @param      Registry  $params  module parameters
+     *
+     * @return     string
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use the non-static method getRegistrationUrlString
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
+     *                          ->getHelper('LoginHelper')
+     *                          ->getRegistrationUrlString($params)
+     */
+    public static function getRegistrationUrl($params)
+    {
+        return (new self())->getRegistrationUrlString($params);
     }
 }
