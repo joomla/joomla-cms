@@ -11,6 +11,7 @@
 namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,11 +30,11 @@ class PrivacyDashboardHelper
      *
      * @return  array  Array containing site privacy requests
      *
-     * @since   3.9.0
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getData()
+    public function getPrivacyRequests()
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -53,5 +54,23 @@ class PrivacyDashboardHelper
         } catch (ExecutionFailureException $e) {
             return [];
         }
+    }
+
+    /**
+     * Method to retrieve information about the site privacy requests
+     *
+     * @return  array  Array containing site privacy requests
+     *
+     * @since   3.9.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use the non-static method getPrivacyRequests
+     *             Example: Factory::getApplication()->bootModule('mod_privacy_dashboard', 'administrator')
+     *                          ->getHelper('PrivacyDashboardHelper')
+     *                          ->getPrivacyRequests()
+     */
+    public static function getData()
+    {
+        return (new self())->getPrivacyRequests();
     }
 }
