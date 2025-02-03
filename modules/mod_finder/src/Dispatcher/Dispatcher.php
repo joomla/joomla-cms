@@ -74,7 +74,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         LanguageHelper::loadPluginLanguage();
 
         // Get Smart Search query object.
-        $data['query'] = $data['app']->bootModule('mod_finder', 'site')->getHelper('FinderHelper')->getSearchQuery($data['params']);
+        $data['query'] = $data['app']->bootModule('mod_finder', 'site')->getHelper('FinderHelper')->getSearchQuery($data['params'], $data['app']);
 
         return $data;
     }

@@ -10,12 +10,14 @@
 
 namespace Joomla\Module\Finder\Site\Helper;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
-use Joomla\Database\DatabaseInterface;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -28,20 +30,23 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5
  */
-class FinderHelper
+class FinderHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Get Smart Search query object.
      *
-     * @param   Registry  $params  Module parameters.
+     * @param   Registry                 $params    Module parameters.
+     * @param   CMSApplicationInterface  $app       The application
      *
      * @return  Query object
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getSearchQuery(Registry $params)
+    public function getSearchQuery(Registry $params, CMSApplicationInterface $app)
     {
-        $request = Factory::getApplication()->getInput()->request;
+        $request = $app->getInput()->request;
         $filter  = InputFilter::getInstance();
 
         // Get the static taxonomy filters.
@@ -55,7 +60,7 @@ class FinderHelper
         $options['filters'] = ArrayHelper::toInteger($options['filters']);
 
         // Instantiate a query object.
-        return new Query($options, Factory::getContainer()->get(DatabaseInterface::class));
+        return new Query($options, $this->getDatabase());
     }
 
     /**
@@ -68,7 +73,7 @@ class FinderHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getFields($route = null)
+    public function getHiddenFields($route = null)
     {
         $fields = [];
         $uri    = Uri::getInstance(Route::_($route));
@@ -97,11 +102,11 @@ class FinderHelper
      *             Use the non-static method getFields
      *             Example: Factory::getApplication()->bootModule('mod_finder', 'site')
      *                          ->getHelper('FinderHelper')
-     *                          ->getFields($route, $paramItem)
+     *                          ->getHiddenFields($route, $paramItem)
      */
     public static function getGetFields($route = null, $paramItem = 0)
     {
-        return (new self())->getFields($route);
+        return (new self())->getHiddenFields($route);
     }
 
     /**
@@ -117,10 +122,10 @@ class FinderHelper
      *             Use the non-static method getSearchQuery
      *             Example: Factory::getApplication()->bootModule('mod_finder', 'site')
      *                          ->getHelper('FinderHelper')
-     *                          ->getSearchQuery($params)
+     *                          ->getSearchQuery($params, Factory::getApplication())
      */
     public static function getQuery($params)
     {
-        return (new self())->getSearchQuery($params);
+        return (new self())->getSearchQuery($params, Factory::getApplication());
     }
 }

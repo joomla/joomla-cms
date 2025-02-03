@@ -73,5 +73,5 @@ $finderHelper = $app->bootModule('mod_finder', 'site')->getHelper('FinderHelper'
             <?php echo HTMLHelper::_('filter.select', $query, $params); ?>
         </div>
     <?php endif; ?>
-    <?php echo $finderHelper->getFields($route); ?>
+    <?php echo $finderHelper->getHiddenFields($route); ?>
 </form>
