@@ -11,7 +11,6 @@
 namespace Joomla\Module\Login\Site\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;
@@ -45,11 +44,11 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         // HTML IDs
         $formId               = 'login-form-' . $data['module']->id;
-        $type                 = $helper->getModuleType();
-        $data['return']       = $helper->getReturnUrlString($data['params'], $type);
-        $data['registerLink'] = $helper->getRegistrationUrlString($data['params']);
+        $type                 = $helper->getModuleType($data['app']);
+        $data['return']       = $helper->getReturnUrlString($data['params'], $type, $data['app']);
+        $data['registerLink'] = $helper->getRegistrationUrlString($data['params'], $data['app']);
         $data['extraButtons'] = AuthenticationHelper::getLoginButtons($formId);
-        $data['user']         = Factory::getApplication()->getIdentity();
+        $data['user']         = $data['app']->getIdentity();
         $layout               = $data['params']->get('layout', 'default');
 
         // Logged users must load the logout sublayout

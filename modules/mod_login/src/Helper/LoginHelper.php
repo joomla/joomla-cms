@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Login\Site\Helper;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
@@ -29,13 +30,15 @@ class LoginHelper
     /**
      * Returns the current users type
      *
+     * @param   CMSApplicationInterface  $app  The application
+     *
      * @return string
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getModuleType()
+    public function getModuleType(CMSApplicationInterface $app)
     {
-        $user = Factory::getApplication()->getIdentity();
+        $user = $app->getIdentity();
 
         return (!$user->guest) ? 'logout' : 'login';
     }
@@ -45,14 +48,15 @@ class LoginHelper
      *
      * @param   Registry  $params  module parameters
      * @param   string    $type    return type
+     * @param   CMSApplicationInterface  $app  The application
      *
      * @since   __DEPLOY_VERSION__
      *
      * @return  string
      */
-    public function getReturnUrlString(Registry $params, $type)
+    public function getReturnUrlString(Registry $params, $type, CMSApplicationInterface $app)
     {
-        $item = Factory::getApplication()->getMenu()->getItem($params->get($type));
+        $item = $app->getMenu()->getItem($params->get($type));
 
         // Stay on the same page
         $url = Uri::getInstance()->toString();
@@ -79,14 +83,14 @@ class LoginHelper
      *
      * @return  string
      */
-    public function getRegistrationUrlString(Registry $params)
+    public function getRegistrationUrlString(Registry $params, CMSApplicationInterface $app)
     {
         $regLink       = 'index.php?option=com_users&view=registration';
         $regLinkMenuId = $params->get('customRegLinkMenu');
 
         // If there is a custom menu item set for registration => override default
         if ($regLinkMenuId) {
-            $item = Factory::getApplication()->getMenu()->getItem($regLinkMenuId);
+            $item = $app->getMenu()->getItem($regLinkMenuId);
 
             if ($item) {
                 $regLink = 'index.php?Itemid=' . $regLinkMenuId;
@@ -112,11 +116,11 @@ class LoginHelper
      *             Use the non-static method getReturnUrlString
      *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
      *                          ->getHelper('LoginHelper')
-     *                          ->getReturnUrlString($params, $type)
+     *                          ->getReturnUrlString($params, $type, Factory::getApplication())
      */
     public static function getReturnUrl($params, $type)
     {
-        return (new self())->getReturnUrlString($params, $type);
+        return (new self())->getReturnUrlString($params, $type, Factory::getApplication());
     }
 
     /**
@@ -146,10 +150,10 @@ class LoginHelper
      *             Use the non-static method getRegistrationUrlString
      *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
      *                          ->getHelper('LoginHelper')
-     *                          ->getRegistrationUrlString($params)
+     *                          ->getRegistrationUrlString($params, Factory::getApplication())
      */
     public static function getRegistrationUrl($params)
     {
-        return (new self())->getRegistrationUrlString($params);
+        return (new self())->getRegistrationUrlString($params, Factory::getApplication());
     }
 }
