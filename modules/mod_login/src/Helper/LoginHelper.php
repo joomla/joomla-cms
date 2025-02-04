@@ -132,11 +132,11 @@ class LoginHelper
      *             Use the non-static method getModuleType
      *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
      *                          ->getHelper('LoginHelper')
-     *                          ->getModuleType()
+     *                          ->getModuleType(Factory::getApplication())
      */
     public static function getType()
     {
-        return (new self())->getModuleType();
+        return (new self())->getModuleType(Factory::getApplication());
     }
 
     /**
