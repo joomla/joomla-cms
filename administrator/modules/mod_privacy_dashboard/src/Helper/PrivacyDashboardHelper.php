@@ -11,7 +11,8 @@
 namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
 
 use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseInterface;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,8 +24,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
  *
  * @since  3.9.0
  */
-class PrivacyDashboardHelper
+class PrivacyDashboardHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Method to retrieve information about the site privacy requests
      *
@@ -34,7 +37,7 @@ class PrivacyDashboardHelper
      */
     public function getPrivacyRequests()
     {
-        $db    = Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
                 [
