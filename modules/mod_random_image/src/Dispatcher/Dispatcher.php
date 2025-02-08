@@ -40,7 +40,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         $helper         = $this->getHelperFactory()->getHelper('RandomImageHelper');
         $data['link']   = $data['params']->get('link');
-        $folder         = $helper->getFolderPath($data['params']);
+        $folder         = $helper->getSanitizedFolder($data['params']);
         $data['images'] = $helper->getImagesFromFolder($data['params'], $folder);
         $data['image']  = $helper->getImage($data['params'], $data['images']);
 

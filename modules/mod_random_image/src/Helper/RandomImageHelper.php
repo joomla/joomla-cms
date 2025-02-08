@@ -130,7 +130,7 @@ class RandomImageHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getFolderPath(Registry &$params)
+    public function getSanitizedFolder(Registry &$params)
     {
         $folder   = $params->get('folder');
         $liveSite = Uri::base();
@@ -194,13 +194,13 @@ class RandomImageHelper
      * @return  mixed
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
-     *             Use the non-static method getFolderPath
+     *             Use the non-static method getSanitizedFolder
      *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
      *                            ->getHelper('RandomImageHelper')
-     *                            ->getFolderPath($params)
+     *                            ->getSanitizedFolder($params)
      */
     public static function getFolder(&$params)
     {
-        return (new self())->getFolderPath($params);
+        return (new self())->getSanitizedFolder($params);
     }
 }
