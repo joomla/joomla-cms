@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
 
+use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -73,6 +74,8 @@ class PrivacyDashboardHelper implements DatabaseAwareInterface
      */
     public static function getData()
     {
-        return (new self())->getPrivacyRequests();
+        return Factory::getApplication()->bootModule('mod_privacy_dashboard', 'administrator')
+                                  ->getHelper('PrivacyDashboardHelper')
+                                  ->getPrivacyRequests();
     }
 }
