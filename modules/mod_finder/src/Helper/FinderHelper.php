@@ -126,6 +126,10 @@ class FinderHelper implements DatabaseAwareInterface
      */
     public static function getQuery($params)
     {
-        return (new self())->getSearchQuery($params, Factory::getApplication());
+        $app = Factory::getApplication();
+
+        return $app->bootModule('mod_finder', 'site')
+                                  ->getHelper('FinderHelper')
+                                  ->getSearchQuery($params, $app);
     }
 }
