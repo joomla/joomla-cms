@@ -35,7 +35,7 @@ class RandomImageHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getImage(Registry &$params, array $images)
+    public function getImage(Registry &$params, array $images): mixed
     {
         $width  = $params->get('width', 100);
         $height = $params->get('height', null);
@@ -85,7 +85,7 @@ class RandomImageHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getImagesFromFolder(Registry &$params, string $folder)
+    public function getImagesFromFolder(Registry &$params, string $folder): array
     {
         $type   = $params->get('type', 'jpg');
         $files  = [];
@@ -130,7 +130,7 @@ class RandomImageHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getSanitizedFolder(Registry &$params)
+    public function getSanitizedFolder(Registry &$params): mixed
     {
         $folder   = $params->get('folder');
         $liveSite = Uri::base();
