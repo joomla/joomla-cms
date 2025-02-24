@@ -11,12 +11,11 @@
 namespace Joomla\Plugin\Behaviour\Compat6\Extension;
 
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Plugin\Behaviour\Compat\HTMLHelper\Bootstrap;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -101,8 +100,13 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event)
     {
-        if (!HTMLHelper::isRegistered('bootstrap.framework')) {
-            HTMLHelper::register('bootstrap.framework', 'Joomla\Plugin\Behaviour\Compat\Extension\Compat::framework');
+        /**
+         * Load the deprecated HTMLHelper classes/functions
+         * likely be removed in Joomla 7.0
+         */
+        if ($this->params->get('html_helpers', '1')) {
+            // Restore HTMLHelper::Bootstrap('framework')
+            new Bootstrap();
         }
 
         /**
@@ -116,30 +120,5 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
                 ->getRegistry()
                 ->addRegistryFile('media/plg_behaviour_compat6/removed.asset.json');
         }
-    }
-
-    /**
-     * Method to load the ALL the Bootstrap Components
-     *
-     * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
-     *
-     * @param   mixed  $debug  Is debugging mode on? [optional]
-     *
-     * @return  void
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement
-     *              Load the different scripts with their individual method calls
-     */
-    public static function framework($debug = null): void
-    {
-        $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-
-        array_map(
-            function ($script) use ($wa) {
-                $wa->useScript('bootstrap.' . $script);
-            },
-            ['alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'offcanvas', 'popover', 'scrollspy', 'tab', 'toast']
-        );
     }
 }
