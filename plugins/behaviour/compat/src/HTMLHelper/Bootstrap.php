@@ -10,7 +10,7 @@ namespace Joomla\Plugin\Behaviour\Compat\HTMLHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-Class Bootstrap
+class Bootstrap
 {
     public function __construct()
     {
