@@ -126,6 +126,10 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
      * @param   mixed  $debug  Is debugging mode on? [optional]
      *
      * @return  void
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
+     *              Load the different scripts with their individual method calls
      */
     public static function framework($debug = null): void
     {
