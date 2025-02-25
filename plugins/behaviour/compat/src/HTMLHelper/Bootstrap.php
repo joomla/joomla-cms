@@ -10,7 +10,6 @@ namespace Joomla\Plugin\Behaviour\Compat\HTMLHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\Helpers\Bootstrap as OriginalBootstrap;
 
-
 class Bootstrap extends OriginalBootstrap
 {
     /**
