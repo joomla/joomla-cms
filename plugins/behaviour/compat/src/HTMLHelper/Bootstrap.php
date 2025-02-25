@@ -8,17 +8,11 @@
 namespace Joomla\Plugin\Behaviour\Compat\HTMLHelper;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\HTML\Helpers\Bootstrap as OriginalBootstrap;
 
-class Bootstrap
+
+class Bootstrap extends OriginalBootstrap
 {
-    public function __construct()
-    {
-        if (!HTMLHelper::isRegistered('bootstrap.framework')) {
-            HTMLHelper::register('bootstrap.framework', 'Joomla\Plugin\Behaviour\Compat\HTMLHelper\Bootstrap::framework');
-        }
-    }
-
     /**
      * Method to load the ALL the Bootstrap Components
      *
