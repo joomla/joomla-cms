@@ -55,7 +55,6 @@
     "@codemirror/view": "^6.36.4",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@popperjs/core": "^2.11.8",
-    "@webcomponents/webcomponentsjs": "^2.8.0",
     "accessibility": "^3.0.17",
     "awesomplete": "^1.1.7",
     "bootstrap": "5.3.3",
