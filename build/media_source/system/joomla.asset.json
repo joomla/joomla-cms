@@ -322,6 +322,7 @@
         "defer": true
       },
       "dependencies": [
+        "core",
         "choicesjs"
       ]
     },
@@ -355,7 +356,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.media-select",
@@ -377,7 +381,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.field-media",
@@ -398,7 +405,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.field-module-order",
@@ -424,7 +434,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.field-permissions",
@@ -445,7 +458,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.field-send-test-mail",
@@ -471,7 +487,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.field-simple-color",
@@ -492,7 +511,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.field-subform",
@@ -513,7 +535,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.field-user",
@@ -535,7 +560,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.core-loader",
@@ -556,7 +584,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.hidden-mail",
@@ -577,7 +608,10 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "core"
+      ]
     },
     {
       "name": "webcomponent.toolbar-button",

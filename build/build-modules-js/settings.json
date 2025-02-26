@@ -490,7 +490,10 @@
             "attributes": {
               "nomodule": true,
               "defer": true
-            }
+            },
+            "dependencies": [
+              "core"
+            ]
           },
           {
             "name": "webcomponent.joomla-alert",
@@ -498,7 +501,10 @@
             "uri": "joomla-alert.min.js",
             "attributes": {
               "type": "module"
-            }
+            },
+            "dependencies": [
+              "core"
+            ]
           },
           {
             "name": "webcomponent.joomla-tab",
@@ -512,7 +518,10 @@
             "attributes": {
               "nomodule": true,
               "defer": true
-            }
+            },
+            "dependencies": [
+              "core"
+            ]
           },
           {
             "name": "webcomponent.joomla-tab",
@@ -520,7 +529,10 @@
             "uri": "joomla-tab.min.js",
             "attributes": {
               "type": "module"
-            }
+            },
+            "dependencies": [
+              "core"
+            ]
           }
         ],
         "dependencies": [],
