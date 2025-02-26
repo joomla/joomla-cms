@@ -322,7 +322,6 @@
         "defer": true
       },
       "dependencies": [
-        "wcpolyfill",
         "choicesjs"
       ]
     },
@@ -356,10 +355,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.media-select",
@@ -381,10 +377,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.field-media",
@@ -405,10 +398,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.field-module-order",
@@ -434,10 +424,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.field-permissions",
@@ -458,10 +445,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.field-send-test-mail",
@@ -487,10 +471,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.field-simple-color",
@@ -511,10 +492,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.field-subform",
@@ -535,10 +513,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.field-user",
@@ -560,10 +535,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.core-loader",
@@ -584,10 +556,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.hidden-mail",
@@ -608,10 +577,7 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ]
+      }
     },
     {
       "name": "webcomponent.toolbar-button",
@@ -631,7 +597,6 @@
       "uri": "system/joomla-dialog.min.js",
       "importmap": true,
       "dependencies": [
-        "wcpolyfill",
         "core"
       ]
     },

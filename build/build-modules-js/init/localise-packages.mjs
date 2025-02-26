@@ -125,7 +125,13 @@ export const localisePackages = async (options) => {
     version: options.version,
     description: options.description,
     license: options.license,
-    assets: [],
+    assets: [
+      {
+        name: 'wcpolyfill',
+        type: 'script',
+        uri: '',
+      },
+    ],
   };
   const promises = [];
 
