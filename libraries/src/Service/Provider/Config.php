@@ -49,9 +49,25 @@ class Config implements ServiceProviderInterface
                         throw new \RuntimeException('Configuration class does not exist.');
                     }
 
-                    return new Registry(new \JConfig());
+                    $config = new Registry(new \JConfig());
+                    $envMap = $container->get('config.env.map');
+
+                    // Load environment variables
+                    foreach (array_intersect_key($_ENV, $envMap) as $envName => $envValue) {
+                        $config->set($envMap[$envName], $envValue);
+                    }
+
+                    return $config;
                 },
                 true
+            )
+            ->share(
+                'config.env.map',
+                function (Container $container) {
+                    return [
+                        'JOOMLA_DEBUG' => 'debug',
+                    ];
+                }
             );
     }
 }
