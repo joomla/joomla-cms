@@ -41,6 +41,12 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
+// Load .env variables
+if (is_file(JPATH_ROOT . '/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(JPATH_ROOT);
+    $dotenv->safeLoad();
+}
+
 /**
  * Register the global exception handler. And set error level to server default error level.
  * The error level may be changed later in boot up process, after application config will be loaded.
