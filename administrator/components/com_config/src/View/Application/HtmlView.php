@@ -129,8 +129,6 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-
-
         // Get the params for com_users.
         $this->usersParams = ComponentHelper::getParams('com_users');
 
