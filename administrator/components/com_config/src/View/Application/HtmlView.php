@@ -110,7 +110,26 @@ class HtmlView extends BaseHtmlView
         // Bind data
         if ($this->form && $this->data) {
             $this->form->bind($this->data);
+
+            // Check for parameters provided by $_ENV
+            $fromEnv = [];
+            $envMap  = [
+                'JOOMLA_DEBUG' => 'debug',
+            ];
+
+            foreach ($envMap as $envName => $fieldName) {
+                if (!array_key_exists($envName, $_ENV)) continue;
+
+                $fromEnv[] = Text::_($this->form->getFieldAttribute($fieldName, 'label'));
+            }
+
+            if ($fromEnv) {
+                Factory::getApplication()
+                    ->enqueueMessage(\sprintf('Changes for following parameters will not have an effect, they provided by Environment variables: %s', implode(', ', $fromEnv)));
+            }
         }
+
+
 
         // Get the params for com_users.
         $this->usersParams = ComponentHelper::getParams('com_users');
