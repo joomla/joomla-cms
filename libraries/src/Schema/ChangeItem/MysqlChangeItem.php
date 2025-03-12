@@ -354,7 +354,7 @@ class MysqlChangeItem extends ChangeItem
         // Skip types that do not support default values
         $type = strtolower($type);
 
-        if (substr($type, -4) === 'text' || substr($type, -4) === 'blob') {
+        if (str_ends_with($type, 'text') || str_ends_with($type, 'blob')) {
             return false;
         }
 

@@ -19,13 +19,13 @@ use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
 use Joomla\Filter\OutputFilter;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
@@ -94,7 +94,7 @@ abstract class WebApplication extends AbstractWebApplication
      * Class constructor.
      *
      * @param   ?Input              $input     An optional argument to provide dependency injection for the application's
-     *                                         input object.  If the argument is a JInput object that object will become
+     *                                         input object.  If the argument is a Input object that object will become
      *                                         the application's input object, otherwise a default input object is created.
      * @param   ?Registry           $config    An optional argument to provide dependency injection for the application's
      *                                         config object.  If the argument is a Registry object that object will become
@@ -111,7 +111,7 @@ abstract class WebApplication extends AbstractWebApplication
      */
     public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?ResponseInterface $response = null)
     {
-        // Ensure we have a CMS Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
+        // Ensure we have a Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
         $input = $input ?: new Input();
 
         parent::__construct($input, $config, $client, $response);
@@ -408,7 +408,7 @@ abstract class WebApplication extends AbstractWebApplication
             $uri = Uri::getInstance($this->get('uri.request'));
 
             // If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-            if (strpos(PHP_SAPI, 'cgi') !== false && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
+            if (str_contains(PHP_SAPI, 'cgi') && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
                 // We aren't expecting PATH_INFO within PHP_SELF so this should work.
                 $path = \dirname($_SERVER['PHP_SELF']);
             } else {
@@ -420,7 +420,7 @@ abstract class WebApplication extends AbstractWebApplication
         $host = $uri->toString(['scheme', 'user', 'pass', 'host', 'port']);
 
         // Check if the path includes "index.php".
-        if (strpos($path, 'index.php') !== false) {
+        if (str_contains($path, 'index.php')) {
             // Remove the index.php portion of the path.
             $path = substr_replace($path, '', strpos($path, 'index.php'), 9);
         }
@@ -441,7 +441,7 @@ abstract class WebApplication extends AbstractWebApplication
         $mediaURI = trim($this->get('media_uri', ''));
 
         if ($mediaURI) {
-            if (strpos($mediaURI, '://') !== false) {
+            if (str_contains($mediaURI, '://')) {
                 $this->set('uri.media.full', $mediaURI);
                 $this->set('uri.media.path', $mediaURI);
             } else {

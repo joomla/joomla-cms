@@ -17,7 +17,7 @@ describe('Test in backend that the plugins list', () => {
     cy.checkAllResults();
     cy.contains('Disable').click();
     cy.on('window:confirm', () => true);
-    cy.get('#system-message-container').contains('Plugin disabled.').should('exist');
+    cy.checkForSystemMessage('Plugin disabled.');
   });
 
   it('can publish a plugin', () => {
@@ -25,7 +25,7 @@ describe('Test in backend that the plugins list', () => {
     cy.checkAllResults();
     cy.contains('Enable').click();
     cy.on('window:confirm', () => true);
-    cy.get('#system-message-container').contains('Plugin enabled.').should('exist');
+    cy.checkForSystemMessage('Plugin enabled.');
   });
 
   it('can edit a plugin', () => {

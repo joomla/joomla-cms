@@ -10,10 +10,12 @@
 namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Adapter\AdapterInstance;
+use Joomla\CMS\Event\Installer\BeforeUpdateSiteDownloadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -162,7 +164,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing
         }
     }
@@ -194,7 +196,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         try {
             $name = $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing
         }
 
@@ -227,8 +229,8 @@ abstract class UpdateAdapter extends AdapterInstance
             $this->appendExtension = $options['append_extension'];
         }
 
-        if ($this->appendExtension && (substr($url, -4) !== '.xml')) {
-            if (substr($url, -1) !== '/') {
+        if ($this->appendExtension && (!str_ends_with($url, '.xml'))) {
+            if (!str_ends_with($url, '/')) {
                 $url .= '/';
             }
 
@@ -245,11 +247,22 @@ abstract class UpdateAdapter extends AdapterInstance
         $httpOption = new Registry();
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
-        // JHttp transport throws an exception when there's no response.
+        $headers    = [];
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
+        $event = new BeforeUpdateSiteDownloadEvent('onInstallerBeforeUpdateSiteDownload', [
+            'url'     => $url,
+            'headers' => $headers,
+        ]);
+        $dispatcher->dispatch('onInstallerBeforeUpdateSiteDownload', $event);
+        $url     = $event->getArgument('url', $url);
+        $headers = $event->getArgument('headers', $headers);
+
+        // Http transport throws an exception when there's no response.
         try {
             $http     = HttpFactory::getHttp($httpOption);
-            $response = $http->get($url, [], 20);
-        } catch (\RuntimeException $e) {
+            $response = $http->get($url, $headers, 20);
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -268,7 +281,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         if ($response === null || $response->code !== 200) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->getUpdateSiteResponse($options);

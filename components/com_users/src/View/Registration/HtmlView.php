@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
     public $document;
 
     /**
-     * Should we show a captcha form for the submission of the article?
+     * Should we show a captcha form for the registration of a user?
      *
      * @var    boolean
      *

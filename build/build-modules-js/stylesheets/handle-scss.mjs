@@ -14,7 +14,7 @@ export const handleScssFile = async (file) => {
 
   let compiled;
   try {
-    compiled = Sass.renderSync({ file });
+    compiled = Sass.compile(file);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error.formatted);

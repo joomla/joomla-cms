@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
@@ -154,7 +154,7 @@ class AssociationsModel extends ListModel
     {
         $type         = null;
 
-        list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
+        [$extensionName, $typeName] = explode('.', $this->state->get('itemtype'), 2);
 
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
         $types     = $extension->get('types');
@@ -389,7 +389,7 @@ class AssociationsModel extends ListModel
         $baselevel = 1;
 
         if ($categoryId = $this->getState('filter.category_id')) {
-            $categoryTable = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $categoryTable = new Category($db);
             $categoryTable->load($categoryId);
             $baselevel = (int) $categoryTable->level;
 
@@ -480,7 +480,7 @@ class AssociationsModel extends ListModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $app->enqueueMessage(Text::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
 
             return false;
@@ -543,7 +543,7 @@ class AssociationsModel extends ListModel
 
             try {
                 $db->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 $app->enqueueMessage(Text::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
 
                 return false;

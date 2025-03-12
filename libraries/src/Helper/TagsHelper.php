@@ -12,7 +12,6 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
@@ -108,7 +107,7 @@ class TagsHelper extends CMSHelper
         $typeId = $ucm->getTypeId();
 
         // Insert the new tag maps
-        if (strpos(implode(',', $tags), '#') !== false) {
+        if (str_contains(implode(',', $tags), '#')) {
             $tags = $this->createTagsFromField($tags);
         }
 
@@ -194,7 +193,7 @@ class TagsHelper extends CMSHelper
 
                 try {
                     $aliasesMapper = $db->loadAssocList('alias');
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return false;
                 }
 
@@ -246,7 +245,7 @@ class TagsHelper extends CMSHelper
 
         foreach ($tags as $key => $tag) {
             // User is not allowed to create tags, so don't create.
-            if (!$canCreate && strpos($tag, '#new#') !== false) {
+            if (!$canCreate && str_contains($tag, '#new#')) {
                 continue;
             }
 
@@ -323,10 +322,8 @@ class TagsHelper extends CMSHelper
             throw new \InvalidArgumentException('Multiple primary keys are not supported as a content item id');
         }
 
-        $result = $this->unTagItem($contentItemId[$key], $table);
-
-        /** @var  CoreContent $ucmContentTable */
-        $ucmContentTable = Table::getInstance('CoreContent');
+        $result          = $this->unTagItem($contentItemId[$key], $table);
+        $ucmContentTable = new CoreContent(Factory::getDbo());
 
         return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
     }
@@ -591,6 +588,7 @@ class TagsHelper extends CMSHelper
                 'MAX(' . $db->quoteName('c.core_publish_down') . ') AS ' . $db->quoteName('core_publish_down'),
                 'MAX(' . $db->quoteName('ct.type_title') . ') AS ' . $db->quoteName('content_type_title'),
                 'MAX(' . $db->quoteName('ct.router') . ') AS ' . $db->quoteName('router'),
+                'MAX(' . $db->quoteName('tc.title') . ') AS ' . $db->quoteName('core_category_title'),
                 'CASE WHEN ' . $db->quoteName('c.core_created_by_alias') . ' > ' . $db->quote(' ')
                 . ' THEN ' . $db->quoteName('c.core_created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
                 $db->quoteName('ua.email', 'author_email'),
@@ -826,6 +824,26 @@ class TagsHelper extends CMSHelper
      */
     public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {
+        @trigger_error('7.0 Method postStoreProcess() is deprecated, use postStore() instead.', \E_USER_DEPRECATED);
+
+        $this->postStore($table, (array) $newTags, (bool) $replace);
+    }
+
+    /**
+     * Function that handles saving tags used in a table class after a store().
+     *
+     * @param   TableInterface  $table    Table being processed.
+     * @param   array           $newTags  Array of new tags.
+     * @param   boolean         $replace  Flag indicating if all existing tags should be replaced.
+     *                                    This flag takes precedence before $remove.
+     * @param   boolean         $remove   Flag indicating if the tags in $newTags should be removed.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function postStore(TableInterface $table, array $newTags = [], bool $replace = true, bool $remove = false): bool
+    {
         if (!empty($table->newTags) && empty($newTags)) {
             $newTags = $table->newTags;
         }
@@ -845,7 +863,7 @@ class TagsHelper extends CMSHelper
             } else {
                 // Process the tags
                 $data            = $this->getRowData($table);
-                $ucmContentTable = Table::getInstance('CoreContent');
+                $ucmContentTable = new CoreContent(Factory::getDbo());
 
                 $ucm     = new UCMContent($table, $this->typeAlias);
                 $ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
@@ -858,7 +876,11 @@ class TagsHelper extends CMSHelper
                 $ucmId     = $ucmContentTable->core_content_id;
 
                 // Store the tag data if the article data was saved and run related methods.
-                $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                if ($remove) {
+                    $result = $result && $this->unTagItem($ucmId, $table, $newTags);
+                } else {
+                    $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                }
             }
         }
 
@@ -1000,7 +1022,7 @@ class TagsHelper extends CMSHelper
 
         try {
             $results = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
 

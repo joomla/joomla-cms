@@ -122,8 +122,7 @@ class HtmlView extends ListView
 
             // If in the frontend state and language should not activate the search tools.
             if (Factory::getApplication()->isClient('site')) {
-                unset($this->activeFilters['state']);
-                unset($this->activeFilters['language']);
+                unset($this->activeFilters['state'], $this->activeFilters['language']);
             }
         }
     }

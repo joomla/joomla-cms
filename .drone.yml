@@ -128,14 +128,14 @@ steps:
   - name: prepare_system_tests
     depends_on:
       - npm
-    image: joomlaprojects/docker-images:systemtests8.1
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.mjs cypress.config.mjs
+      - cp cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -149,19 +149,19 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysql mysqli mysql
 
   - name: phpmax-system-mysql
     depends_on:
       - phpmin-system-mysql
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysqlmax mysqli mysql
     when:
       event:
         exclude:
@@ -170,7 +170,7 @@ steps:
   - name: phpnext-system-mysql
     depends_on:
       - phpmax-system-mysql
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -180,7 +180,7 @@ steps:
     commands:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysqlnext mysqli mysql
     when:
       event:
         exclude:
@@ -196,7 +196,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgres pgsql postgres
     when:
       event:
         exclude:
@@ -205,19 +205,19 @@ steps:
   - name: phpmax-system-postgres
     depends_on:
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgresmax pgsql postgres
 
   - name: phpnext-system-postgres
     depends_on:
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -227,7 +227,7 @@ steps:
     commands:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgresnext pgsql postgres
     when:
       event:
         exclude:
@@ -384,6 +384,8 @@ steps:
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
       - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - mv build/tmp/packages/* transfer/
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -431,6 +433,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 8587cef2227502ec33fa0434dadf0a3178d6fa7cbbfbe4e962b3c8784c3a2c6f
+hmac: fedcefde305c98f4dfc926b9039f83692827337da9e689e423c9de93a97248dd
 
 ...

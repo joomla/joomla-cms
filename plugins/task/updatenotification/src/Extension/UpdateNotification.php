@@ -15,7 +15,7 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
@@ -127,7 +127,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         // If we're here, we have updates. First, get a link to the Joomla! Update component.
         $baseURL  = Uri::base();
         $baseURL  = rtrim($baseURL, '/');
-        $baseURL .= (substr($baseURL, -13) !== 'administrator') ? '/administrator/' : '/';
+        $baseURL .= (!str_ends_with($baseURL, 'administrator')) ? '/administrator/' : '/';
         $baseURL .= 'index.php?option=com_joomlaupdate';
         $uri      = new Uri($baseURL);
 
@@ -203,7 +203,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
             } catch (MailDisabledException | phpMailerException $exception) {
                 try {
                     $this->logTask($jLanguage->_($exception->getMessage()));
-                } catch (\RuntimeException $exception) {
+                } catch (\RuntimeException) {
                     return Status::KNOCKOUT;
                 }
             }
@@ -245,7 +245,8 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         $ret = [];
 
         try {
-            $rootId    = Table::getInstance('Asset')->getRootId();
+            $table     = new Asset($db);
+            $rootId    = $table->getRootId();
             $rules     = Access::getAssetRules($rootId)->getData();
             $rawGroups = $rules['core.admin']->getData();
             $groups    = [];
@@ -300,7 +301,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
 
             $db->setQuery($query);
             $ret = $db->loadObjectList();
-        } catch (\Exception $exc) {
+        } catch (\Exception) {
             return $ret;
         }
 

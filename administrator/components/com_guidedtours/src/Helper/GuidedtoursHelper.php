@@ -46,7 +46,7 @@ class GuidedtoursHelper
 
         // The uid has an extension separator so we need to check the extension language files
         if (strpos($uid, '.') > 0) {
-            list($extension, $tourid) = explode('.', $uid, 2);
+            [$extension, $tourid] = explode('.', $uid, 2);
 
             $source = '';
 

@@ -168,6 +168,11 @@ class HtmlView extends BaseHtmlView
             }
         }
 
+        $toolbar->linkButton('history', 'COM_SCHEDULER_EXECUTION_HISTORY')
+            ->url('index.php?option=com_scheduler&view=logs&layout=default')
+            ->buttonClass('btn btn-info')
+            ->icon('icon-menu');
+
         // Add "Empty Trash" button if filtering by trashed.
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
             $toolbar->delete('tasks.delete', 'JTOOLBAR_DELETE_FROM_TRASH')

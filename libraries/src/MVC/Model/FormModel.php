@@ -57,7 +57,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $this->events_map = array_merge(
             ['validate' => 'content'],

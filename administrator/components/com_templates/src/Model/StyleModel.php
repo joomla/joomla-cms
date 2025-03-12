@@ -18,9 +18,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -327,7 +326,7 @@ class StyleModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      */
     public function getItem($pk = null)
     {
@@ -347,9 +346,9 @@ class StyleModel extends AdminModel
                 return false;
             }
 
-            // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
+            // Convert to an object before adding other data.
             $properties        = $table->getProperties(1);
-            $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
+            $this->_cache[$pk] = ArrayHelper::toObject($properties);
 
             // Convert the params field to an array.
             $registry                  = new Registry($table->params);
@@ -454,7 +453,7 @@ class StyleModel extends AdminModel
     public function save($data)
     {
         // Detect disabled extension
-        $extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
+        $extension = new Extension($this->getDatabase());
 
         if ($extension->load(['enabled' => 0, 'type' => 'template', 'element' => $data['template'], 'client_id' => $data['client_id']])) {
             $this->setError(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
@@ -597,7 +596,7 @@ class StyleModel extends AdminModel
         }
 
         // Detect disabled extension
-        $extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
+        $extension = new Extension($this->getDatabase());
 
         if ($extension->load(['enabled' => 0, 'type' => 'template', 'element' => $style->template, 'client_id' => $style->client_id])) {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
@@ -778,15 +777,13 @@ class StyleModel extends AdminModel
     /**
      * Custom clean cache method
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_templates');
         parent::cleanCache('_system');

@@ -81,6 +81,16 @@ class Router
     protected $cache = [];
 
     /**
+     * Flag to mark the last parsed URL as tainted
+     * If a URL could be read, but has errors, this
+     * flag can be set to true to mark the URL as erroneous.
+     *
+     * @var    bool
+     * @since  5.3.0
+     */
+    protected $tainted = false;
+
+    /**
      * Router instances container.
      *
      * @var    Router[]
@@ -140,6 +150,9 @@ class Router
      */
     public function parse(&$uri, $setVars = false)
     {
+        // Reset the tainted flag
+        $this->tainted = false;
+
         // Do the preprocess stage of the URL parse process
         $this->processParseRules($uri, self::PROCESS_BEFORE);
 
@@ -363,6 +376,34 @@ class Router
     }
 
     /**
+     * Set the currently parsed URL as tainted
+     * If a URL can be parsed, but not all parts were correct,
+     * (for example an ID was found, but the alias was wrong) the parsing
+     * can be marked as tainted. When the URL is marked as tainted, the router
+     * has to have returned correct data to create the right URL afterwards and
+     * can later do additional processing, like redirecting to the right URL.
+     * If the URL is demonstrably wrong, it should still throw a 404 exception.
+     *
+     * @since  5.3.0
+     */
+    public function setTainted()
+    {
+        $this->tainted = true;
+    }
+
+    /**
+     * Return if the last parsed URL was tainted.
+     *
+     * @return  bool
+     *
+     * @since  5.3.0
+     */
+    public function isTainted()
+    {
+        return $this->tainted;
+    }
+
+    /**
      * Process the parsed router variables based on custom defined rules
      *
      * @param   \Joomla\CMS\Uri\Uri  &$uri   The URI to parse
@@ -419,7 +460,7 @@ class Router
      */
     protected function createUri($url)
     {
-        if (!\is_array($url) && substr($url, 0, 1) !== '&') {
+        if (!\is_array($url) && !str_starts_with($url, '&')) {
             return new Uri($url);
         }
 
@@ -428,7 +469,7 @@ class Router
         if (\is_string($url)) {
             $vars = [];
 
-            if (strpos($url, '&amp;') !== false) {
+            if (str_contains($url, '&amp;')) {
                 $url = str_replace('&amp;', '&', $url);
             }
 

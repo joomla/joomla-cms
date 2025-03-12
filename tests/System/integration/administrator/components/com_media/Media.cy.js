@@ -77,7 +77,7 @@ describe('Test in backend that the media manager', () => {
     cy.visit('/administrator/index.php?option=com_media&path=local-images:/invalid');
     cy.wait('@getMedia');
 
-    cy.get('#system-message-container').should('contain.text', 'File or Folder not found');
+    cy.checkForSystemMessage('File or Folder not found');
   });
 
   it('can display an error message when an invalid path is defined in the session', () => {
@@ -85,6 +85,6 @@ describe('Test in backend that the media manager', () => {
     cy.visit('/administrator/index.php?option=com_media');
     cy.wait('@getMedia');
 
-    cy.get('#system-message-container').should('contain.text', 'File or Folder not found');
+    cy.checkForSystemMessage('File or Folder not found');
   });
 });

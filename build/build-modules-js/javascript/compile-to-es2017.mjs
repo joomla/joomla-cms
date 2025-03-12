@@ -10,13 +10,6 @@ import { babel } from '@rollup/plugin-babel';
 import { minifyCode } from './minify.mjs';
 import { getPackagesUnderScope } from '../init/common/resolve-package.cjs';
 
-function esmOrIife(file) {
-  if (file.endsWith('core.es6.js') || file.endsWith('validate.es6.js')) {
-    return 'iife';
-  }
-  return 'es';
-}
-
 // List of external modules that should not be resolved by rollup
 const externalModules = [];
 const collectExternals = () => {
@@ -91,7 +84,7 @@ export const handleESMFile = async (file) => {
   });
 
   bundle.write({
-    format: esmOrIife(file),
+    format: file.endsWith('core.es6.js') ? 'iife' : 'es',
     sourcemap: false,
     file: resolve(`${newPath}.js`),
   })

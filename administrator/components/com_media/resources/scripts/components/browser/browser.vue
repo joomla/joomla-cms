@@ -64,6 +64,7 @@
           v-for="item in localItems"
           :key="item.path"
           :item="item"
+          :local-items="localItems"
         />
       </div>
     </div>

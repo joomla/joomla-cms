@@ -275,12 +275,8 @@ joomla-tab[view=accordion] {
     padding: 0 !important;
 
     @include media-breakpoint-down(lg) {
-      [dir=ltr] & .respTable {
-        text-align: right;
-      }
-
-      [dir=rtl] & .respTable {
-        text-align: left;
+      .respTable {
+        text-align: end;
       }
 
       .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
@@ -289,26 +285,16 @@ joomla-tab[view=accordion] {
 
       .respTable thead {
         position: absolute;
-        top: -1111px;
-        left: -1111px;
+        inset-block-start: -1111px;
+        inset-inline-start: -1111px;
       }
 
-      /* stylelint-disable */
       .respTable td::before {
+        float: inline-start;
+        padding-inline-end: 2em;
         font-weight: $bold-weight;
         content: attr(data-label) ":";
-
-        [dir=ltr] & {
-          float: left;
-          padding: 0 2em 0 0;
-        }
-
-        [dir=rtl] & {
-          float: right;
-          padding: 0 0 0 2em;
-        }
       }
-      /* stylelint-enable */
 
       .respTable td:nth-child(1) {
         font-weight: $bold-weight;

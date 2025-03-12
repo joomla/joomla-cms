@@ -18,7 +18,7 @@ use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 use Joomla\Event\DispatcherInterface;
 
@@ -77,12 +77,12 @@ class TaskTable extends Table implements CurrentUserInterface
     /**
      * TaskTable constructor override, needed to pass the DB table name and primary key to {@see Table::__construct()}.
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   4.1.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->setColumnAlias('published', 'state');
 
@@ -165,6 +165,44 @@ class TaskTable extends Table implements CurrentUserInterface
         $k = $this->_tbl_key;
 
         return 'com_scheduler.task.' . (int) $this->$k;
+    }
+
+    /**
+     * Method to return the title to use for the asset table.
+     *
+     * @return  string
+     *
+     * @since   5.2.3
+     */
+    protected function _getAssetTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * Method to get the parent asset under which to register this one.
+     * By default, all assets are registered to the ROOT node with ID,
+     * which will default to 1 if none exists.
+     * The extended class can define a table and id to lookup.  If the
+     * asset does not exist it will be created.
+     *
+     * @param   Table|null  $table  A Table object for the asset parent.
+     * @param   null        $id     Id to look up
+     *
+     * @return  integer
+     *
+     * @since   5.2.3
+     */
+    protected function _getAssetParentId(?Table $table = null, $id = null): int
+    {
+        $assetId = null;
+        $asset   = new Asset($this->getDbo(), $this->getDispatcher());
+
+        if ($asset->loadByName('com_scheduler')) {
+            $assetId = $asset->id;
+        }
+
+        return $assetId ?? parent::_getAssetParentId($table, $id);
     }
 
     /**

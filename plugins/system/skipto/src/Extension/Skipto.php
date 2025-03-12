@@ -10,7 +10,9 @@
 
 namespace Joomla\Plugin\System\Skipto\Extension;
 
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,32 +23,49 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  4.0.0
  */
-final class Skipto extends CMSPlugin
+final class Skipto extends CMSPlugin implements SubscriberInterface
 {
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onAfterDispatch' => 'onAfterDispatch',
+        ];
+    }
+
+    /**
      * Add the skipto navigation menu.
+     *
+     * @param   AfterDispatchEvent  $event  The event instance.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onAfterDispatch()
+    public function onAfterDispatch(AfterDispatchEvent $event): void
     {
         $section = $this->params->get('section', 'administrator');
+        $app     = $event->getApplication();
 
-        if ($section !== 'both' && $this->getApplication()->isClient($section) !== true) {
+        if ($section !== 'both' && $app->isClient($section) !== true) {
             return;
         }
 
         // Get the document object.
-        $document = $this->getApplication()->getDocument();
+        $document = $app->getDocument();
 
         if ($document->getType() !== 'html') {
             return;
         }
 
         // Are we in a modal?
-        if ($this->getApplication()->getInput()->get('tmpl', '', 'cmd') === 'component') {
+        if ($app->getInput()->get('tmpl', '', 'cmd') === 'component') {
             return;
         }
 
@@ -54,6 +73,7 @@ final class Skipto extends CMSPlugin
         $this->loadLanguage();
 
         // Add plugin settings and strings for translations in JavaScript.
+        $language = $app->getLanguage();
         $document->addScriptOptions(
             'skipto-settings',
             [
@@ -68,24 +88,24 @@ final class Skipto extends CMSPlugin
                         'displayOption' => 'popup',
 
                         // Button labels and messages
-                        'buttonLabel'            => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_TITLE'),
-                        'buttonTooltipAccesskey' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_ACCESS_KEY'),
+                        'buttonLabel'            => $language->_('PLG_SYSTEM_SKIPTO_TITLE'),
+                        'buttonTooltipAccesskey' => $language->_('PLG_SYSTEM_SKIPTO_ACCESS_KEY'),
 
                         // Menu labels and messages
-                        'landmarkGroupLabel'  => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK'),
-                        'headingGroupLabel'   => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_HEADING'),
-                        'mofnGroupLabel'      => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_HEADING_MOFN'),
-                        'headingLevelLabel'   => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_HEADING_LEVEL'),
-                        'mainLabel'           => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK_MAIN'),
-                        'searchLabel'         => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK_SEARCH'),
-                        'navLabel'            => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK_NAV'),
-                        'regionLabel'         => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK_REGION'),
-                        'asideLabel'          => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK_ASIDE'),
-                        'footerLabel'         => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK_FOOTER'),
-                        'headerLabel'         => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK_HEADER'),
-                        'formLabel'           => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK_FORM'),
-                        'msgNoLandmarksFound' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_LANDMARK_NONE'),
-                        'msgNoHeadingsFound'  => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_SKIPTO_HEADING_NONE'),
+                        'landmarkGroupLabel'  => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK'),
+                        'headingGroupLabel'   => $language->_('PLG_SYSTEM_SKIPTO_HEADING'),
+                        'mofnGroupLabel'      => $language->_('PLG_SYSTEM_SKIPTO_HEADING_MOFN'),
+                        'headingLevelLabel'   => $language->_('PLG_SYSTEM_SKIPTO_HEADING_LEVEL'),
+                        'mainLabel'           => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK_MAIN'),
+                        'searchLabel'         => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK_SEARCH'),
+                        'navLabel'            => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK_NAV'),
+                        'regionLabel'         => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK_REGION'),
+                        'asideLabel'          => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK_ASIDE'),
+                        'footerLabel'         => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK_FOOTER'),
+                        'headerLabel'         => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK_HEADER'),
+                        'formLabel'           => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK_FORM'),
+                        'msgNoLandmarksFound' => $language->_('PLG_SYSTEM_SKIPTO_LANDMARK_NONE'),
+                        'msgNoHeadingsFound'  => $language->_('PLG_SYSTEM_SKIPTO_HEADING_NONE'),
 
                         // Selectors for landmark and headings sections
                         'headings'  => 'h1, h2, h3',

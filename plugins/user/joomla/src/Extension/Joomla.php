@@ -11,6 +11,12 @@
 namespace Joomla\Plugin\User\Joomla\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
+use Joomla\CMS\Event\User\AfterDeleteEvent;
+use Joomla\CMS\Event\User\AfterLoginEvent;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\LoginEvent;
+use Joomla\CMS\Event\User\LogoutEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Log\Log;
@@ -23,6 +29,7 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -34,23 +41,44 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-final class Joomla extends CMSPlugin
+final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareForm' => 'onContentPrepareForm',
+            'onUserAfterDelete'    => 'onUserAfterDelete',
+            'onUserAfterSave'      => 'onUserAfterSave',
+            'onUserLogin'          => 'onUserLogin',
+            'onUserLogout'         => 'onUserLogout',
+            'onUserAfterLogin'     => 'onUserAfterLogin',
+        ];
+    }
+
+    /**
      * Set as required the passwords fields when mail to user is set to No
      *
-     * @param   \Joomla\CMS\Form\Form  $form  The form to be altered.
-     * @param   mixed                  $data  The associated data for the form.
+     * @param   PrepareFormEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onContentPrepareForm($form, $data)
+    public function onContentPrepareForm(PrepareFormEvent $event)
     {
+        $form = $event->getForm();
+        $data = $event->getData();
+
         // Check we are manipulating a valid user form before modifying it.
         $name = $form->getName();
 
@@ -71,8 +99,6 @@ final class Joomla extends CMSPlugin
                 $form->setFieldAttribute('password2', 'required', 'true');
             }
         }
-
-        return true;
     }
 
     /**
@@ -80,16 +106,17 @@ final class Joomla extends CMSPlugin
      *
      * Method is called after user data is deleted from the database
      *
-     * @param   array    $user     Holds the user data
-     * @param   boolean  $success  True if user was successfully stored in the database
-     * @param   string   $msg      Message
+     * @param   AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onUserAfterDelete($user, $success, $msg): void
+    public function onUserAfterDelete(AfterDeleteEvent $event): void
     {
+        $user    = $event->getUser();
+        $success = $event->getDeletingResult();
+
         if (!$success) {
             return;
         }
@@ -137,7 +164,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing
         }
     }
@@ -147,17 +174,17 @@ final class Joomla extends CMSPlugin
      *
      * This method sends a registration email to new users created in the backend.
      *
-     * @param   array    $user     Holds the new user data.
-     * @param   boolean  $isnew    True if a new user is stored.
-     * @param   boolean  $success  True if user was successfully stored in the database.
-     * @param   string   $msg      Message.
+     * @param   AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onUserAfterSave($user, $isnew, $success, $msg): void
+    public function onUserAfterSave(AfterSaveEvent $event): void
     {
+        $user  = $event->getUser();
+        $isnew = $event->getIsNew();
+
         $mail_to_user = $this->params->get('mail_to_user', 1);
 
         if (!$isnew || !$mail_to_user) {
@@ -175,7 +202,7 @@ final class Joomla extends CMSPlugin
         }
 
         // Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
-        if (strpos($app->get('mailfrom'), '@') === false) {
+        if (!str_contains($app->get('mailfrom'), '@')) {
             $app->enqueueMessage($language->_('JERROR_SENDING_EMAIL'), 'warning');
 
             return;
@@ -249,27 +276,30 @@ final class Joomla extends CMSPlugin
     /**
      * This method should handle any login logic and report back to the subject
      *
-     * @param   array  $user     Holds the user data
-     * @param   array  $options  Array holding options (remember, autoregister, group)
+     * @param   LoginEvent $event  The event instance.
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   1.5
      */
-    public function onUserLogin($user, $options = [])
+    public function onUserLogin(LoginEvent $event)
     {
+        $user     = $event->getAuthenticationResponse();
+        $options  = $event->getOptions();
         $instance = $this->getUser($user, $options);
 
         // If getUser returned an error, then pass it back.
         if ($instance instanceof \Exception) {
-            return false;
+            $event->addResult(false);
+            return;
         }
 
         // If the user is blocked, redirect with an error
         if ($instance->block == 1) {
             $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('JERROR_NOLOGIN_BLOCKED'), 'warning');
+            $event->addResult(false);
 
-            return false;
+            return;
         }
 
         // Authorise the user based on the group information
@@ -282,8 +312,9 @@ final class Joomla extends CMSPlugin
 
         if (!$result) {
             $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('JERROR_LOGIN_DENIED'), 'warning');
+            $event->addResult(false);
 
-            return false;
+            return;
         }
 
         // Mark the user as logged in
@@ -318,7 +349,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // The old session is already invalidated, don't let this block logging in
         }
 
@@ -337,22 +368,22 @@ final class Joomla extends CMSPlugin
                 true
             );
         }
-
-        return true;
     }
 
     /**
      * This method should handle any logout logic and report back to the subject
      *
-     * @param   array  $user     Holds the user data.
-     * @param   array  $options  Array holding options (client, ...).
+     * @param   LogoutEvent $event  The event instance.
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   1.5
      */
-    public function onUserLogout($user, $options = [])
+    public function onUserLogout(LogoutEvent $event)
     {
+        $user     = $event->getParameters();
+        $options  = $event->getOptions();
+
         $my      = $this->getApplication()->getIdentity();
         $session = Factory::getSession();
 
@@ -360,7 +391,7 @@ final class Joomla extends CMSPlugin
 
         // Make sure we're a valid user first
         if ($user['id'] === 0 && !$my->get('tmp_user')) {
-            return true;
+            return;
         }
 
         $sharedSessions = $this->getApplication()->get('shared_session', '0');
@@ -386,8 +417,6 @@ final class Joomla extends CMSPlugin
         if ($this->getApplication()->isClient('site')) {
             $this->getApplication()->getInput()->cookie->set('joomla_user_state', '', 1, $this->getApplication()->get('cookie_path', '/'), $this->getApplication()->get('cookie_domain', ''));
         }
-
-        return true;
     }
 
     /**
@@ -399,18 +428,18 @@ final class Joomla extends CMSPlugin
      * logging in, something which would cause the Captive page to appear in the frontend and redirect you to the public
      * frontend homepage after successfully passing the Two Step verification process.
      *
-     * @param   array  $options  Passed by Joomla. user: a User object; responseType: string, authentication response type.
+     * @param   AfterLoginEvent $event  The event instance.
      *
      * @return void
      * @since  4.2.0
      */
-    public function onUserAfterLogin(array $options): void
+    public function onUserAfterLogin(AfterLoginEvent $event): void
     {
         if (!($this->getApplication()->isClient('administrator')) && !($this->getApplication()->isClient('site'))) {
             return;
         }
 
-        $this->disableMfaOnSilentLogin($options);
+        $this->disableMfaOnSilentLogin($event->getOptions());
     }
 
     /**

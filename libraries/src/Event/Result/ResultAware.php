@@ -63,7 +63,7 @@ trait ResultAware
         $this->typeCheckResult($data);
 
         // Append the result. We use the arguments property directly to allow this to work on immutable events.
-        $this->arguments['result']   = $this->arguments['result'] ?? [];
+        $this->arguments['result'] ??= [];
         $this->arguments['result'][] = $data;
     }
 

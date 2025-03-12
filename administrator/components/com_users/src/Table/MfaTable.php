@@ -22,7 +22,7 @@ use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Service\Encrypt;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 
@@ -79,12 +79,12 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
     /**
      * Table constructor
      *
-     * @param   DatabaseDriver        $db          Database driver object
+     * @param   DatabaseInterface     $db          Database driver object
      * @param   ?DispatcherInterface  $dispatcher  Events dispatcher object
      *
      * @since 4.2.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__user_mfa', 'id', $db, $dispatcher);
 

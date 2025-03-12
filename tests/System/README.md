@@ -197,7 +197,7 @@ The Database Commands create items in the database like articles or users. They 
 cy.db_createArticle({ title: 'automated test article' }).then((id) => { ... })`
 ```
 
-The following commands are available and are served by the file [tests/System/support/commands/db.js](/tests/System/support/commands/db.js):
+The following commands are available and are served by the file [tests/System/support/commands/db.mjs](/tests/System/support/commands/db.mjs):
 
 - **db_createArticle** – Creates an article and returns the id
 - **db_createBanner** – Creates a banner and returns the id
@@ -230,7 +230,7 @@ cy.api_get('/content/articles').then((response) => { ... })`
 ```
 The response is an object from the [Cypress request command](https://docs.cypress.io/api/commands/request).
 The following commands are available and are served by the file
-[tests/System/support/commands/api.js](/tests/System/support/commands/api.js):
+[tests/System/support/commands/api.mjs](/tests/System/support/commands/api.mjs):
 
 - **api_get** – HTTP GET request for given path
 - **api_post** – HTTP POST request for given path and body
@@ -290,7 +290,7 @@ sudo npm run cypress:run
 
 If the `root` user does not have a Cypress installation, you can use the Cypress installation cache of the current user:
 ```
-CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress sudo npm run cypress:run
+sudo CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npm run cypress:run
 ```
 
 
@@ -326,3 +326,10 @@ If you encounter the following error while running the System Tests on slow mach
       ...
     }
 ```
+
+## Docker
+The system tests can also be executed in headless mode with docker compose. The following command does a cleanup and then starts the system tests from the current docker-compose.yml file:
+
+`docker compose down && docker compose up system-tests`
+
+The database is used with a temporary filesystem, so the data always gets deleted when the tests are started, therefor the installation test must be performed as the first step. The webserver is accessible on the host from http://localhost:8080 or https://localhost:8443 and PHPMyAdmin on http://localhost:8081.

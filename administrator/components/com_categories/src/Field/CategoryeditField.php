@@ -196,7 +196,7 @@ class CategoryeditField extends ListField
 
         // Filter language
         if (!empty($this->element['language'])) {
-            if (strpos($this->element['language'], ',') !== false) {
+            if (str_contains($this->element['language'], ',')) {
                 $language = explode(',', $this->element['language']);
             } else {
                 $language = $this->element['language'];

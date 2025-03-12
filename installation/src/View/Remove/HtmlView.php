@@ -12,7 +12,7 @@ namespace Joomla\CMS\Installation\View\Remove;
 
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\LanguagesModel;
-use Joomla\CMS\Installation\View\DefaultView;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Version;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,7 +24,7 @@ use Joomla\CMS\Version;
  *
  * @since  3.1
  */
-class HtmlView extends DefaultView
+class HtmlView extends BaseHtmlView
 {
     /**
      * Is the Joomla Version a development version?

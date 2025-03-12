@@ -27,7 +27,7 @@ use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
@@ -299,6 +299,19 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             'prefix'   => $data['dbprefix'],
         ];
 
+        // Validate database name
+        if (\in_array($options['driver'], ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_POSTGRES'), 'warning');
+
+            return false;
+        }
+
+        if (\in_array($options['driver'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_MYSQL'), 'warning');
+
+            return false;
+        }
+
         if ((int) $data['dbencryption'] !== 0) {
             $options['ssl'] = [
                 'enable'             => true,
@@ -384,7 +397,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 return false;
             }
 
-            $asset = Table::getInstance('asset');
+            $asset = new Asset($this->getDatabase());
 
             if ($asset->loadByName('root.1')) {
                 $asset->rules = (string) $rules;
@@ -407,7 +420,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         if (isset($data['filters'])) {
             $registry = new Registry(['filters' => $data['filters']]);
 
-            $extension = Table::getInstance('extension');
+            $extension = new Extension($this->getDatabase());
 
             // Get extension_id
             $extensionId = $extension->find(['name' => 'com_config']);
@@ -475,7 +488,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 } else {
                     $revisedDbo->truncateTable('#__session');
                 }
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 /*
                  * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
                  * Also, this data won't be added or checked anymore once the configuration is saved, so it'll purge itself
@@ -506,7 +519,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                             Log::WARNING,
                             'jerror'
                         );
-                    } catch (\RuntimeException $logException) {
+                    } catch (\RuntimeException) {
                         $app->enqueueMessage(
                             Text::sprintf(
                                 'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
@@ -583,7 +596,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         Log::WARNING,
                         'jerror'
                     );
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),
                         'warning'
@@ -599,7 +612,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             if ($error) {
                 try {
                     Log::add(Text::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $exception) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), 'warning');
                 }
 
@@ -616,16 +629,16 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         if ((!$data['caching'] && $prev['caching']) || $data['cache_handler'] !== $prev['cache_handler']) {
             try {
                 Factory::getCache()->clean();
-            } catch (CacheConnectingException $exception) {
+            } catch (CacheConnectingException) {
                 try {
                     Log::add(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), 'warning');
                 }
-            } catch (UnsupportedCacheException $exception) {
+            } catch (UnsupportedCacheException) {
                 try {
                     Log::add(Text::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), 'warning');
                 }
             }
@@ -659,7 +672,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         Log::WARNING,
                         'jerror'
                     );
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_TEMP_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultTmpPath),
                         'warning'
@@ -674,7 +687,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             if ($error) {
                 try {
                     Log::add(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $exception) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), 'warning');
                 }
             }
@@ -708,7 +721,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         Log::WARNING,
                         'jerror'
                     );
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_LOG_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultLogPath),
                         'warning'
@@ -722,7 +735,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             if ($error) {
                 try {
                     Log::add(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $exception) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), 'warning');
                 }
             }
@@ -871,7 +884,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // We are creating a new item so we don't have an item id so don't allow.
-        if (substr($permission['component'], -6) === '.false') {
+        if (str_ends_with($permission['component'], '.false')) {
             $app->enqueueMessage(Text::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'error');
 
             return false;
@@ -930,8 +943,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         try {
-            /** @var Asset $asset */
-            $asset  = Table::getInstance('asset');
+            $asset  = new Asset($this->getDatabase());
             $result = $asset->loadByName($permission['component']);
 
             if ($result === false) {
@@ -943,10 +955,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 $asset->title = (string) $permission['title'];
 
                 // Get the parent asset id so we have a correct tree.
-                /** @var Asset $parentAsset */
-                $parentAsset = Table::getInstance('Asset');
+                $parentAsset = new Asset($this->getDatabase());
 
-                if (strpos($asset->name, '.') !== false) {
+                if (str_contains($asset->name, '.')) {
                     $assetParts = explode('.', $asset->name);
                     $parentAsset->loadByName($assetParts[0]);
                     $parentAssetId = $parentAsset->id;

@@ -76,7 +76,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
     public function getResetCompleteForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = ['control' => 'jform']);
+        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
@@ -99,7 +99,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
     public function getResetConfirmForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = ['control' => 'jform']);
+        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', ['control' => 'jform']);
 
         if (empty($form)) {
             return false;

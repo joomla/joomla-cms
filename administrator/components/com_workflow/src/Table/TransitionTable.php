@@ -13,7 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -48,12 +48,12 @@ class TransitionTable extends Table
     ];
 
     /**
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__workflow_transitions', 'id', $db, $dispatcher);
     }

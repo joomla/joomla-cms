@@ -13,7 +13,6 @@ namespace Joomla\Component\Actionlogs\Administrator\Helper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
@@ -232,7 +231,7 @@ class ActionlogsHelper
      * @param   string     $contentType
      * @param   integer    $id
      * @param   string     $urlVar
-     * @param   CMSObject  $object
+     * @param   \stdClass  $object
      *
      * @return  string  Link to the content item
      *
@@ -310,7 +309,7 @@ class ActionlogsHelper
 
         try {
             $rows = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $rows = [];
         }
 

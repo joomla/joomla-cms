@@ -95,7 +95,7 @@ class FeedView extends BaseHtmlView
                 $feeditem->link        = Route::_($item->link);
                 $feeditem->description = $description;
                 $feeditem->date        = $date;
-                $feeditem->category    = $title;
+                $feeditem->category    = $item->core_category_title;
                 $feeditem->author      = $author;
 
                 if ($feedEmail === 'site') {

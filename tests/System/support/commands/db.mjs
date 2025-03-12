@@ -631,38 +631,16 @@ Cypress.Commands.add('db_getUserId', () => {
  * @returns integer
  */
 Cypress.Commands.add('db_setInvalidTufRoot', () => {
-  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
   cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
-  cy.task('queryDB', createInsertQuery(
-    'tuf_metadata',
-    {
-      id: 1,
-      update_site_id: 1,
-      root: JSON.stringify(invalidTufMetadata.root),
-      targets: '',
-      snapshot: '',
-      timestamp: '',
-    },
-  ));
+  cy.task('queryDB', `UPDATE #__tuf_metadata SET root = '${JSON.stringify(invalidTufMetadata.root)}', targets = '', snapshot = '', timestamp = '' WHERE id = 1`);
 });
 
 /**
- * Inserts an invalid tuf metadata set
+ * Inserts a valid tuf metadata set
  *
  * @returns integer
  */
 Cypress.Commands.add('db_setValidTufRoot', () => {
-  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
   cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
-  cy.task('queryDB', createInsertQuery(
-    'tuf_metadata',
-    {
-      id: 1,
-      update_site_id: 1,
-      root: JSON.stringify(validTufMetadata.root),
-      targets: '',
-      snapshot: '',
-      timestamp: '',
-    },
-  ));
+  cy.task('queryDB', `UPDATE #__tuf_metadata SET root = '${JSON.stringify(validTufMetadata.root)}', targets = '', snapshot = '', timestamp = '' WHERE id = 1`);
 });

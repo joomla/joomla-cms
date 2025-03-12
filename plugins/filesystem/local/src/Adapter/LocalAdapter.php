@@ -262,7 +262,7 @@ class LocalAdapter implements AdapterInterface
 
         try {
             File::write($localPath, $data);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
         }
 
         if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
@@ -303,7 +303,7 @@ class LocalAdapter implements AdapterInterface
 
         try {
             File::write($localPath, $data);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
         }
 
         if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
@@ -426,7 +426,7 @@ class LocalAdapter implements AdapterInterface
                 $obj->height = $props->height;
 
                 $obj->thumb_path = $this->thumbnails ? $this->getThumbnail($path) : $this->getUrl($obj->path);
-            } catch (UnparsableImageException $e) {
+            } catch (UnparsableImageException) {
                 // Ignore the exception - it's an image that we don't know how to parse right now
             }
         }
@@ -537,7 +537,7 @@ class LocalAdapter implements AdapterInterface
 
         try {
             File::copy($sourcePath, $destinationPath);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             throw new \Exception(Text::_('COM_MEDIA_COPY_FILE_NOT_POSSIBLE'));
         }
     }
@@ -564,7 +564,7 @@ class LocalAdapter implements AdapterInterface
             if (is_file($destinationPath)) {
                 File::delete($destinationPath);
             }
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             throw new \Exception(Text::_('COM_MEDIA_COPY_FOLDER_DESTINATION_CAN_NOT_DELETE'));
         }
 
@@ -652,7 +652,7 @@ class LocalAdapter implements AdapterInterface
 
         try {
             File::move($sourcePath, $destinationPath);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FILE_NOT_POSSIBLE'));
         }
     }
@@ -679,7 +679,7 @@ class LocalAdapter implements AdapterInterface
             if (is_file($destinationPath)) {
                 File::delete($destinationPath);
             }
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             throw new \Exception(Text::_('COM_MEDIA_MOVE_FOLDER_NOT_POSSIBLE'));
         }
 
@@ -860,7 +860,7 @@ class LocalAdapter implements AdapterInterface
 
         try {
             File::delete($tmpFile);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
         }
 
         if (!$can) {
@@ -986,7 +986,7 @@ class LocalAdapter implements AdapterInterface
     {
         try {
             (new Image($path))->createThumbnails([$this->thumbnailSize[0] . 'x' . $this->thumbnailSize[1]], Image::SCALE_INSIDE, \dirname($thumbnailPath), true);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

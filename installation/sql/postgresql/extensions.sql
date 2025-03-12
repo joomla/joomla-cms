@@ -834,7 +834,8 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
 (20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA'),
 (21, 'field', 'com_fields.field', 'id', 'title', '#__fields', 'PLG_ACTIONLOG_JOOMLA'),
-(22, 'guidedtour', 'com_guidedtours.state', 'id', 'title', '#__guidedtours', 'PLG_ACTIONLOG_JOOMLA');
+(22, 'guidedtour', 'com_guidedtours.state', 'id', 'title', '#__guidedtours', 'PLG_ACTIONLOG_JOOMLA'),
+(23, 'contact', 'com_contact.form', 'id', 'name', '#__contact_details', 'PLG_ACTIONLOG_JOOMLA');
 
 
 SELECT setval('#__action_log_config_id_seq', 23, false);
@@ -899,6 +900,29 @@ INSERT INTO "#__scheduler_tasks" ("id", "asset_id", "title", "type", "execution_
 (3, 99, 'Update Notification', 'update.notification', CONCAT('{"rule-type":"interval-hours","interval-hours":"24","exec-day":"01","exec-time":"', TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'UTC', 'HH24:00'), '"}'), '{"type":"interval","exp":"PT24H"}', 1, NULL, TO_TIMESTAMP(TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'UTC' + INTERVAL '24 hours', 'YYYY-MM-DD HH24:00:00'), 'YYYY-MM-DD HH24:MI:SS'), NULL, '{"individual_log":false,"log_file":"","notifications":{"success_mail":"0","failure_mail":"1","fatal_failure_mail":"1","orphan_mail":"1"},"email":"","language_override":""}', CURRENT_TIMESTAMP AT TIME ZONE 'UTC', 42);
 
 SELECT setval('#__scheduler_tasks_id_seq', 4, false);
+-- --------------------------------------------------------
+
+--
+-- Table structure for table "#__scheduler_logs"
+--
+
+CREATE TABLE IF NOT EXISTS "#__scheduler_logs" (
+  "id" serial NOT NULL,
+  "taskname" varchar(255) DEFAULT '' NOT NULL,
+  "tasktype" varchar(128) NOT NULL,
+  "duration" NUMERIC(5,3) NOT NULL,
+  "jobid" integer NOT NULL,
+  "taskid" integer NOT NULL,
+  "exitcode" integer NOT NULL,
+  "lastdate" timestamp without time zone,
+  "nextdate" timestamp without time zone,
+  PRIMARY KEY (id)
+);
+CREATE INDEX "#__scheduler_logs_idx_taskname" ON "#__scheduler_logs" ("taskname");
+CREATE INDEX "#__scheduler_logs_idx_tasktype" ON "#__scheduler_logs" ("tasktype");
+CREATE INDEX "#__scheduler_logs_idx_lastdate" ON "#__scheduler_logs" ("lastdate");
+CREATE INDEX "#__scheduler_logs_idx_nextdate" ON "#__scheduler_logs" ("nextdate");
+
 
 -- --------------------------------------------------------
 

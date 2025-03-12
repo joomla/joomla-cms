@@ -57,29 +57,6 @@ class Date extends \DateTime
     public static $format = 'Y-m-d H:i:s';
 
     /**
-     * Placeholder for a \DateTimeZone object with GMT as the time zone.
-     *
-     * @var    object
-     * @since  1.7.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement
-     */
-    protected static $gmt;
-
-    /**
-     * Placeholder for a \DateTimeZone object with the default server
-     * time zone as the time zone.
-     *
-     * @var    object
-     * @since  1.7.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement
-     */
-    protected static $stz;
-
-    /**
      * The \DateTimeZone object for usage in rending dates as strings.
      *
      * @var    \DateTimeZone
@@ -97,13 +74,6 @@ class Date extends \DateTime
      */
     public function __construct($date = 'now', $tz = null)
     {
-        // Create the base GMT and server time zone objects.
-        if (empty(self::$gmt) || empty(self::$stz)) {
-            // @TODO: This code block stays here only for B/C, can be removed in 5.0
-            self::$gmt = new \DateTimeZone('GMT');
-            self::$stz = new \DateTimeZone(@date_default_timezone_get());
-        }
-
         // If the time zone object is not set, attempt to build it.
         if (!($tz instanceof \DateTimeZone)) {
             if (\is_string($tz)) {
@@ -312,19 +282,19 @@ class Date extends \DateTime
 
         if ($translate) {
             // Manually modify the month and day strings in the formatted time.
-            if (strpos($return, self::DAY_ABBR) !== false) {
+            if (str_contains($return, self::DAY_ABBR)) {
                 $return = str_replace(self::DAY_ABBR, $this->dayToString(parent::format('w'), true), $return);
             }
 
-            if (strpos($return, self::DAY_NAME) !== false) {
+            if (str_contains($return, self::DAY_NAME)) {
                 $return = str_replace(self::DAY_NAME, $this->dayToString(parent::format('w')), $return);
             }
 
-            if (strpos($return, self::MONTH_ABBR) !== false) {
+            if (str_contains($return, self::MONTH_ABBR)) {
                 $return = str_replace(self::MONTH_ABBR, $this->monthToString(parent::format('n'), true), $return);
             }
 
-            if (strpos($return, self::MONTH_NAME) !== false) {
+            if (str_contains($return, self::MONTH_NAME)) {
                 $return = str_replace(self::MONTH_NAME, $this->monthToString(parent::format('n')), $return);
             }
         }

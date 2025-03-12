@@ -371,6 +371,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('captcha', '0');
         $registry->set('list_limit', 20);
         $registry->set('access', 1);
+        $registry->set('frontediting', 1);
 
         // Debug settings.
         $registry->set('debug', false);

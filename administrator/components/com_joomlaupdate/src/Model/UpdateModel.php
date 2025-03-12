@@ -85,18 +85,18 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @since    2.5.4
      */
-    public function applyUpdateSite()
+    public function applyUpdateSite(?string $updateSource = null, ?string $updateURL = null)
     {
-        // Determine the intended update URL.
-        $params = ComponentHelper::getParams('com_joomlaupdate');
+        $params       = ComponentHelper::getParams('com_joomlaupdate');
+        $updateSource = $updateSource ?: $params->get('updatesource', 'default');
+        $updateURL    = trim($updateURL ?: $params->get('customurl', ''));
 
-        switch ($params->get('updatesource', 'default')) {
+        // Determine the intended update URL.
+        switch ($updateSource) {
             case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
-                if (trim($params->get('customurl', '')) != '') {
-                    $updateURL = trim($params->get('customurl', ''));
-                } else {
+                if ($updateURL === '') {
                     Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 
                     return;
@@ -134,21 +134,19 @@ class UpdateModel extends BaseDatabaseModel
         $db->setQuery($query);
         $update_site = $db->loadObject();
 
-        if ($update_site->location !== $updateURL || $update_site->type !== $updateType) {
-            // Modify the database record.
-            $update_site->last_check_timestamp = 0;
-            $update_site->location             = $updateURL;
-            $update_site->type                 = $updateType;
-            $db->updateObject('#__update_sites', $update_site, 'update_site_id');
+        // Modify the database record.
+        $update_site->last_check_timestamp = 0;
+        $update_site->location             = $updateURL;
+        $update_site->type                 = $updateType;
+        $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
-            // Remove cached updates.
-            $query->clear()
-                ->delete($db->quoteName('#__updates'))
-                ->where($db->quoteName('extension_id') . ' = :id')
-                ->bind(':id', $id, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $db->execute();
-        }
+        // Remove cached updates.
+        $query->clear()
+            ->delete($db->quoteName('#__updates'))
+            ->where($db->quoteName('extension_id') . ' = :id')
+            ->bind(':id', $id, ParameterType::INTEGER);
+        $db->setQuery($query);
+        $db->execute();
     }
 
     /**
@@ -384,7 +382,7 @@ class UpdateModel extends BaseDatabaseModel
 
         try {
             $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Passing false here -> download failed message
             return $response;
         }
@@ -395,7 +393,7 @@ class UpdateModel extends BaseDatabaseModel
 
             try {
                 $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Passing false here -> download failed message
                 return $response;
             }
@@ -404,7 +402,7 @@ class UpdateModel extends BaseDatabaseModel
         // Remove protocol, path and query string from URL
         $basename = basename($packageURL);
 
-        if (strpos($basename, '?') !== false) {
+        if (str_contains($basename, '?')) {
             $basename = substr($basename, 0, strpos($basename, '?'));
         }
 
@@ -512,7 +510,7 @@ class UpdateModel extends BaseDatabaseModel
         if (is_file($target)) {
             try {
                 File::delete($target);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 return false;
             }
         }
@@ -520,7 +518,7 @@ class UpdateModel extends BaseDatabaseModel
         // Download the package
         try {
             $result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -534,7 +532,7 @@ class UpdateModel extends BaseDatabaseModel
         // Write the file to disk
         try {
             File::write($target, $body);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             return false;
         }
 
@@ -619,7 +617,7 @@ ENDDATA;
         if (is_file($configpath)) {
             try {
                 File::delete($configpath);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 return false;
             }
         }
@@ -627,7 +625,7 @@ ENDDATA;
         // Write new file. First try with File.
         try {
             $result = File::write($configpath, $data);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             // In case File failed but direct access could help.
             $fp = @fopen($configpath, 'wt');
 
@@ -891,10 +889,6 @@ ENDDATA;
 
         $app = Factory::getApplication();
 
-        // Trigger event after joomla update.
-        // @TODO: The event dispatched twice, here and at the end of current method. One of it should be removed.
-        $app->getDispatcher()->dispatch('onJoomlaAfterUpdate', new AfterJoomlaUpdateEvent('onJoomlaAfterUpdate'));
-
         // Remove the update package.
         $tempdir = $app->get('tmp_path');
 
@@ -930,7 +924,7 @@ ENDDATA;
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
     }
@@ -1079,7 +1073,7 @@ ENDDATA;
             if ($file !== null && is_file($file)) {
                 try {
                     File::delete($file);
-                } catch (FilesystemException $exception) {
+                } catch (FilesystemException) {
                 }
             }
         }
@@ -1419,9 +1413,7 @@ ENDDATA;
             $decode = json_decode($extension->manifest_cache);
 
             // Remove unused fields so they do not cause javascript errors during pre-update check
-            unset($decode->description);
-            unset($decode->copyright);
-            unset($decode->creationDate);
+            unset($decode->description, $decode->copyright, $decode->creationDate);
 
             $this->translateExtensionName($extension);
             $extension->version
@@ -1480,9 +1472,7 @@ ENDDATA;
             $decode = json_decode($plugin->manifest_cache);
 
             // Remove unused fields so they do not cause javascript errors during pre-update check
-            unset($decode->description);
-            unset($decode->copyright);
-            unset($decode->creationDate);
+            unset($decode->description, $decode->copyright, $decode->creationDate);
 
             $this->translateExtensionName($plugin);
             $plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
@@ -1600,7 +1590,7 @@ ENDDATA;
 
         try {
             $response = $http->get($updateSiteInfo['location']);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 

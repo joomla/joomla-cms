@@ -105,7 +105,7 @@ class TaskOption
                     Log::WARNING,
                     'deprecated'
                 );
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Pass
             }
 

@@ -277,7 +277,7 @@ class Language extends BaseLanguage
             // Javascript filter
             $string = addslashes($string);
         } elseif ($interpretBackSlashes) {
-            if (strpos($string, '\\') !== false) {
+            if (str_contains($string, '\\')) {
                 // Interpret \n and \t characters
                 $string = str_replace(['\\\\', '\t', '\n'], ["\\", "\t", "\n"], $string);
             }
