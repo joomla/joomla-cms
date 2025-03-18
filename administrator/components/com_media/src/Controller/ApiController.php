@@ -308,7 +308,10 @@ class ApiController extends BaseController
         $this->app->setHeader('Content-Type', 'application/json');
 
         // Set the status code for the response
-        http_response_code($responseCode);
+        $this->app->setHeader('status', $responseCode);
+
+        // Send headers before sender the data
+        $this->app->sendHeaders();
 
         // Send the data
         echo new JsonResponse($data);
