@@ -20,6 +20,8 @@ use Joomla\CMS\Uri\Uri;
 $app   = Factory::getApplication();
 $input = $app->getInput();
 $wa    = $this->getWebAssetManager();
+$template        = $app->getTemplate(true);
+$isChildTemplate = !empty($template->parent) && $template->template == 'cassiopeia_alpha';
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
@@ -93,6 +95,24 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
+
+if ($isChildTemplate) {
+    $wa->registerAndUseStyle('alphastyle', 'alphastyle.css')
+    ->addInlineStyle(':root {
+        --body-bg: ' . $this->params->get('bodybg') . ';
+        --body-color: ' . $this->params->get('bodycolor') . ';
+        --btnbg: ' . $this->params->get('btnbg') . ';
+        --btnbgh: ' . $this->params->get('btnbgh') . ';
+        --btncolor: ' . $this->params->get('btncolor') . ';
+        --btncolorh: ' . $this->params->get('btncolorh') . ';
+        --footerbg: ' . $this->params->get('footerbg') . ';
+        --footercolor: ' . $this->params->get('footercolor') . ';
+        --headerbg: ' . $this->params->get('headerbg') . ';
+        --headercolor: ' . $this->params->get('headercolor') . ';
+        --link-color: ' . $this->params->get('linkcolor') . ';
+        --link-hover-color: ' . $this->params->get('linkcolorh') . ';
+    }');
+}
 
 // Logo file or site title param
 if ($this->params->get('logoFile')) {

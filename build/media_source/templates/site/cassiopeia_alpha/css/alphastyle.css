@@ -1,0 +1,25 @@
+.container-header {
+  background-color: var(--headerbg);
+  background-image: none;
+  .navbar-brand a {
+    color: var(--headercolor);
+    text-decoration: none;
+  }
+}
+.container-footer {
+  background-color: var(--footerbg);
+  background-image: none;
+  color: var(--footercolor);
+  a {
+    color: var(--footercolor);
+  }
+}
+.btn-primary {
+  background-color: var(--btnbg);
+  border-color: var(--btnbg);
+  &:hover,
+  &:focus {
+    background-color: var(--btnbgh);
+    border-color: var(--btnbgh);
+  }
+}
