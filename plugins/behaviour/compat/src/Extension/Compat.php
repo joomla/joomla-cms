@@ -79,7 +79,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * Include classes which are removed in 7.0
          */
         if ($this->params->get('legacy_classes', '1')) {
-            \JLoader::registerNamespace('\\Joomla\\CMS\\Filesystem', JPATH_PLUGINS . '/behaviour/compat/classes/Filesystem');
+            \JLoader::registerNamespace('\\Joomla\\CMS', JPATH_PLUGINS . '/behaviour/compat/classes');
         }
 
         /**

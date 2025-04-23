@@ -183,13 +183,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $messageLanguageKey = $defaultLanguageKey;
         }
 
-        $id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
+        $id = empty($params->id_holder) ? 0 : $article->{$params->id_holder};
 
         $message = [
             'action'   => $isNew ? 'add' : 'update',
             'type'     => $params->text_prefix . '_TYPE_' . $params->type_title,
             'id'       => $id,
-            'title'    => $article->get($params->title_holder),
+            'title'    => $article->{$params->title_holder} ?? '',
             'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id, $params->id_holder, $article),
         ];
 
@@ -231,13 +231,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
         }
 
-        $id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
+        $id = empty($params->id_holder) ? 0 : $article->{$params->id_holder};
 
         $message = [
             'action' => 'delete',
             'type'   => $params->text_prefix . '_TYPE_' . $params->type_title,
             'id'     => $id,
-            'title'  => $article->get($params->title_holder),
+            'title'  => $article->{$params->title_holder} ?? '',
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);

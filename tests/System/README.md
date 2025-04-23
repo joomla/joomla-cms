@@ -1,6 +1,6 @@
-# System Tests in Joomla
+# Joomla System Tests
 
-The Joomla CMS System Tests are end-to-end (E2E) tests and executed in real browsers
+The **Joomla System Tests** are end-to-end (E2E) tests and executed in real browsers
 using the [Cypress](https://www.cypress.io) test automation tool.
 These tests simulate real user interactions, clicking and navigating like a human would,
 to ensure the entire application works as expected.
@@ -10,14 +10,14 @@ and details how to execute and extend tests.
 It concludes with solutions for common failure situations in the troubleshooting chapter.
 
 
-## Software Architecture – Overview
+## Software Architecture Overview
 
 The following software architecture diagram illustrates the Joomla System Tests architecture and provides an overview.
 It is simplified to offer an initial understanding. Detailed explanations follow later in this document.
 
-![System Tests Architecture](images/system-tests.svg)
+![Joomla System Tests Architecture](images/system-tests.svg)
 
-On the left, **Cypress** is running as a [Node.js](https://nodejs.org/) application. The file **`cypress.config.mjs`** is used to configure settings and preferences for running the System Tests in your environment.
+On the left, **Cypress** is running as a [Node.js](https://nodejs.org/) application. The file **`cypress.config.mjs`** is used to configure settings and preferences for running the Joomla System Tests in your environment.
 
 In the middle, the **Cypress Test Runner** controls a **Browser** with the **Joomla** application running HTML, CSS, and JavaScript. Also running in the browser context are the **Database Commands**, the **API commands** and the npm packages **[joomala-cypress](https://github.com/joomla-projects/joomla-cypress/)** and
 **[smtp-tester](https://www.npmjs.com/package/smtp-tester)**.
@@ -26,19 +26,32 @@ The **Joomla** CMS server software is depicted on the right. It runs with PHP on
 several key components: the public **User-Frontend**, the administrator **Admin-Backend**, the **API**, and the **Web-Installer**. These components and their interactions will be detailed later in the document.
 The file **`configuration.php`** is used to configure settings for Joomla server software.
 
-Joomla uses a **Database**, and the System Tests do as well.
+Joomla uses a **Database**, and the Joomla System Tests do as well.
 
 
 ## Installation
 
-Joomla System Tests work on different operating systems such as macOS, desktop Linux distributions like Ubuntu,
-and Windows (using WSL 2 or a framework like Laragon). They also work well with Docker containers.
-You will need a Web Server and a database like MariaDB running.
+Joomla System Tests are compatible with various operating systems, including macOS, desktop Linux distributions like Ubuntu, and Windows (using WSL 2 or frameworks like Laragon).
+They are fully compatible with the official [Joomla Docker containers](https://hub.docker.com/_/joomla).
+
+To run these tests, you will need a web server (e.g. Apache) and a database (e.g. MariaDB).
+Ensure the web server is configured to load the `rewrite_module` and allow directory overrides. For example, in Apache:
+
+```apache
+# Load the rewrite module
+LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
+
+# Configure directory overrides
+<Directory "...">
+    AllowOverride All
+</Directory>
+```
+
 Before getting started, please ensure you have the following prerequisites installed:
 [PHP](https://www.php.net/), [Git](https://git-scm.com/), [npm](https://www.npmjs.com/),
 and [Composer](https://getcomposer.org/).
 
-The following steps are required for the installation of the CMS System Tests.
+The following steps are required for the installation of the Joomla System Tests.
 
 1. Clone Joomla into an empty folder (e.g. `/var/www/html`) where it can be served by a Web Server
 ```
@@ -58,7 +71,7 @@ cp cypress.config.dist.mjs cypress.config.mjs
 5. Adapt the env variables in the file `cypress.config.mjs`, they should point to the site, user data and database environment. Ensure that the `smtp_port` is not in use on your system.
 
 
-## Running System Tests
+## Running Joomla System Tests
 
 After installation, you can start the Joomla System Tests with headless Cypress. The test suite starts with Joomla Web-Installer as the first test step.
 ```
@@ -86,19 +99,19 @@ npx cypress run --spec 'tests/System/integration/{administrator,site,api,plugins
 > npm run cypress:open
 > ```
 
-If you are running System Tests, you will see `console.log()` outputs from Cypress Tasks in the Node.js environment. If you would like to see `console.log()` output from the browser in headless mode as well, you can use the Electron web browser and set the following environment variable:
+If you are running Joomla System Tests, you will see `console.log()` outputs from Cypress Tasks in the Node.js environment. If you would like to see `console.log()` output from the browser in headless mode as well, you can use the Electron web browser and set the following environment variable:
 ```
 export ELECTRON_ENABLE_LOGGING=1
 npm run cypress:run --browser electron
 ```
 
 
-## Software Architecture – More Detailed
+## Software Architecture Details
 
-Since many interactions in System Tests are involved, the following image illustrates 10 simplified interactions,
+Since Joomla System Tests involve many interactions, the following image illustrates 10 simplified interactions,
 which are numbered and described below.
 
-![System Tests Architecture with 10 Interactions](images/system-tests-interactions.svg)
+![Joomla System Tests Architecture with 10 Interactions](images/system-tests-interactions.svg)
 
 1. **Cypress** starts the **Browser** and runs **Cypress Test Runner** to control Joomla running in the browser and access the DOM.
 2. **Joomla** software running in the browser sends requests to the **Web Server** and receives responses just as it would during normal use, even without tests.
@@ -106,14 +119,15 @@ which are numbered and described below.
 4. Cypress **Tasks** are used to execute code within the Cypress Node.js context. These tasks are triggered by the Cypress Test Runner, which runs in the browser, and are typically used for operations like
 interacting with the file system.
 5. Joomla on the Web Server interacts with the **Database** as it normally would, without running any tests.
-6. System Tests has Cypress custom **Database Commands** (described later) to interact with the database.
-7. The file `cypress.config.mjs` is read by **Cypress** and used to configure settings and preferences for running the System Tests in your environment.
+6. Joomla System Tests has Cypress custom **Database Commands** (described later) to interact with the database.
+7. The file `cypress.config.mjs` is read by **Cypress** and used to configure settings and
+   preferences for running the Joomla System Tests in your environment.
 8. The Joomla installation is initiated by the test spec [Installation.cy.js](integration/install/Installation.cy.js),
 which is the first test executed in the overall test suite.
 This test spec deletes the Joomla configuration file, and since the `configuration.php` file no longer exists,
 the following Joomla Web-Installer call starts the installation process, including database creation.
 To ensure that this initial test spec runs correctly, the `installation` folder must not be deleted,
-allowing the System Tests to be executed multiple times.
+allowing the Joomla System Tests to be executed multiple times.
 After the Joomla Web-Installer completes, [Installation.cy.js](integration/install/Installation.cy.js)
 modifies some parameters in the `configuration.php` file, such as SMTP settings or the API `$secret`.
 9. Joomla Web-Installer creates `configuration.php` file. For security reasons, the file mask is set to read-only (444).
@@ -178,7 +192,7 @@ The following code in a test executes the writing file task with parameters:
 ### Commands
 
 We are using [custom commands](https://docs.cypress.io/api/cypress-api/custom-commands) to enhance Cypress
-with reusable code snippets for the System Tests.
+with reusable code snippets for the Joomla System Tests.
 These commands can be used to create objects in the database or to call the API.
 Since Cypress doesn't support namespaces for commands, we prefix them in the function name.
 Therefore, a Database Command always starts with `db_`, and an API command with `api_`.
@@ -221,7 +235,7 @@ The following commands are available and are served by the file [tests/System/su
 - **db_updateExtensionParameter** – Sets the parameter for the given extension
 
 
-#### API commands
+#### API Commands
 
 The API commands make API requests to the CMS API endpoint `/api/index.php/v1`.
 They are asynchronous and must be chained like:
@@ -238,6 +252,23 @@ The following commands are available and are served by the file
 - **api_delete** – HTTP DELETE request for given path
 - **api_getBearerToken** – Returns the bearer token, creates user entry if needed
 - **api_responseContains** – Checks if the given attribute in the response contains the specified value
+
+
+#### Config Commands
+
+There is a single config command provided by the file
+[tests/System/support/commands/config.mjs](/tests/System/support/commands/config.mjs):
+
+- **config_setParameter** - Sets a parameter in `configuration.php` file
+
+Even tough `config_setParameter` is a Cypress command running in the browser context,
+it uses `cy.readFile()` and the Cypress task `writeRelativeFile` to delegate file system operations to Node.js,
+as browsers cannot access the filesystem directly.
+
+This command is asynchronous and must be chained, as shown below:
+```JavaScript
+cy.config_setParameter('sef', false).then(() => { ... })`
+```
 
 
 ### Developer Tips
@@ -264,7 +295,7 @@ cy.wait(20000); // waits for 20 seconds
 
 ## Troubleshooting
 
-### Errors 'EACCES: permission denied' or 'EPERM: operation not permitted'
+### Error 'EACCES: permission denied' or 'EPERM: operation not permitted'
 
 If the Cypress installation step or the entire test suite is executed by a non-root user, the following error may occur:
 ```
@@ -312,7 +343,7 @@ but you still need to configure `cypress.config.mjs` file.
 
 ### Timeout Error on Slow Machines
 
-If you encounter the following error while running the System Tests on slow machines:
+If you encounter the following error while running the Joomla System Tests on slow machines:
 
 ```
      AssertionError: Timed out retrying after 4000ms: Expected to find element

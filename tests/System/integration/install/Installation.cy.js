@@ -37,6 +37,5 @@ describe('Install Joomla', () => {
     cy.config_setParameter('mailer', 'smtp');
     cy.config_setParameter('smtphost', Cypress.env('smtp_host'));
     cy.config_setParameter('smtpport', Cypress.env('smtp_port'));
-    cy.config_setParameter('force_ssl', '2');
   });
 });

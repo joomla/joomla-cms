@@ -271,11 +271,6 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        // Do not redirect if we are already in a MFA management or captive page
-        if ($this->isMultiFactorAuthenticationPage()) {
-            return false;
-        }
-
         $option       = strtolower($this->input->getCmd('option', ''));
         $task         = strtolower($this->input->getCmd('task', ''));
 
@@ -291,6 +286,13 @@ trait MultiFactorAuthenticationHandler
 
         // Allow the Joomla update finalisation to run
         if ($isAdmin && $option === 'com_joomlaupdate' && \in_array($task, ['update.finalise', 'update.cleanup', 'update.finaliseconfirm'])) {
+            return false;
+        }
+
+        // Do not redirect if we are already in a MFA management or captive page
+        $onlyCaptive = $this->isMultiFactorAuthenticationPending() && !$isMFASetupMandatory;
+
+        if ($this->isMultiFactorAuthenticationPage($onlyCaptive)) {
             return false;
         }
 
