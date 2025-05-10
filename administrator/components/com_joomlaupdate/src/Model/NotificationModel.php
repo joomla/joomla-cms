@@ -30,7 +30,7 @@ use Joomla\Registry\Registry;
  * Joomla! Notification Model
  *
  * @internal
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.100
  */
 final class NotificationModel extends BaseDatabaseModel
 {
@@ -90,7 +90,7 @@ final class NotificationModel extends BaseDatabaseModel
      *
      * @return  array  The list of Super User emails
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.100
      */
     private function getSuperUsers($email = null): array
     {
