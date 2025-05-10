@@ -939,7 +939,7 @@ COMMENT ON TABLE "#__update_sites" IS 'Update Sites';
 --
 
 INSERT INTO "#__update_sites" ("update_site_id", "name", "type", "location", "enabled", "last_check_timestamp") VALUES
-(1, 'Joomla! Core', 'tuf', 'https://update.joomla.org/cms/', 1, 0),
+(1, 'Joomla! Core', 'tuf', 'https://update.joomla.org/alpha/', 1, 0),
 (2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_5.xml', 1, 0),
 (3, 'Joomla! Update Component', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
