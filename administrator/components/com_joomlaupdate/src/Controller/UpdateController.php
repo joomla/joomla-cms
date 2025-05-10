@@ -720,7 +720,7 @@ class UpdateController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.101
      */
     public function healthstatus()
     {
