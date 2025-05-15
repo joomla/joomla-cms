@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
 
             // Check for parameters provided by $_ENV
             $fromEnv = [];
-            $envMap  = Factory::getContainer()->get('config.env.map');
+            $envMap  = Factory::getContainer()->get('config.env-map');
 
             foreach ($envMap as $envName => $fieldName) {
                 if (!array_key_exists($envName, $_ENV)) continue;

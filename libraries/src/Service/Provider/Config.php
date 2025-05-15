@@ -50,11 +50,15 @@ class Config implements ServiceProviderInterface
                     }
 
                     $config = new Registry(new \JConfig());
-                    $envMap = $container->get('config.env.map');
+                    $envMap = $container->get('config.env-map');
 
                     // Load environment variables
                     foreach (array_intersect_key($_ENV, $envMap) as $envName => $envValue) {
-                        $config->set($envMap[$envName], $envValue);
+                        $config->set($envMap[$envName], match ($envValue) {
+                            'true', '(true)' => true,
+                            'false', '(false)' => false,
+                            default => $envValue,
+                        });
                     }
 
                     return $config;
@@ -62,7 +66,7 @@ class Config implements ServiceProviderInterface
                 true
             )
             ->share(
-                'config.env.map',
+                'config.env-map',
                 function (Container $container) {
                     return [
                         'JOOMLA_DEBUG' => 'debug',

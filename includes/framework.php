@@ -79,7 +79,7 @@ switch ($config->error_reporting) {
 }
 
 if (!\defined('JDEBUG')) {
-    \define('JDEBUG', !!($_ENV['JOOMLA_DEBUG'] ?? $config->debug));
+    \define('JDEBUG', (($_ENV['JOOMLA_DEBUG'] ?? '') === 'true' || $config->debug));
 }
 
 // Check deprecation logging

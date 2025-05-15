@@ -24,7 +24,7 @@ if (
 require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Ensure sensible default for JDEBUG is set.
-\define('JDEBUG', !!($_ENV['JOOMLA_DEBUG'] ?? false));
+\define('JDEBUG', ($_ENV['JOOMLA_DEBUG'] ?? '') === 'true');
 
 // If debug mode enabled, set new Exception handler with debug enabled.
 if (JDEBUG) {

@@ -42,8 +42,8 @@ $loader->unregister();
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
 // Load .env variables
-if (is_file(JPATH_ROOT . '/.env')) {
-    $dotenv = Dotenv\Dotenv::createImmutable(JPATH_ROOT);
+if (is_file(JPATH_ROOT . '/.env') || is_file(JPATH_ROOT . '/.env.development')) {
+    $dotenv  = Dotenv\Dotenv::createImmutable(JPATH_ROOT, ['.env', '.env.development']);
     $dotenv->safeLoad();
 }
 
