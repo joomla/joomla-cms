@@ -54,6 +54,10 @@ class Config implements ServiceProviderInterface
 
                     // Load environment variables
                     foreach (array_intersect_key($_ENV, $envMap) as $envName => $envValue) {
+                        if ($envName === 'JOOMLA_LOG_PRIORITIES') {
+                            $envValue = json_decode($envValue, true) ?: [];
+                        }
+
                         $config->set($envMap[$envName], match ($envValue) {
                             'true', '(true)' => true,
                             'false', '(false)' => false,
@@ -80,11 +84,7 @@ class Config implements ServiceProviderInterface
                         'JOOMLA_SITE_OFFLINE_MESSAGE'         => 'offline_message',
                         'JOOMLA_SITE_OFFLINE_MESSAGE_DISPLAY' => 'display_offline_message',
                         'JOOMLA_SITE_OFFLINE_IMAGE'           => 'offline_image',
-
-                        // Debug settings.
-                        'JOOMLA_DEBUG'            => 'debug',
-                        'JOOMLA_DEBUG_LANG'       => 'debug_lang',
-                        'JOOMLA_DEBUG_LANG_CONST' => 'debug_lang_const',
+                        'JOOMLA_SITE_BEHIND_LOADBALANCER'     => 'behind_loadbalancer',
 
                         // Database settings.
                         'JOOMLA_DB_TYPE'                   => 'dbtype',
@@ -113,36 +113,83 @@ class Config implements ServiceProviderInterface
                         // Locale settings.
                         'JOOMLA_TIMEZONE' => 'offset',
 
+                        // Session setting.
+                        'JOOMLA_SESSION_LIFETIME'              => 'lifetime',
+                        'JOOMLA_SESSION_HANDLER'               => 'session_handler',
+                        'JOOMLA_SESSION_SHARED'                => 'shared_session',
+                        'JOOMLA_SESSION_METADATA'              => 'session_metadata',
+                        'JOOMLA_SESSION_FILESYSTEM_PATH'       => 'session_filesystem_path',
+                        'JOOMLA_SESSION_MEMCACHED_SERVER_HOST' => 'session_memcached_server_host',
+                        'JOOMLA_SESSION_MEMCACHED_SERVER_PORT' => 'session_memcached_server_port',
+                        'JOOMLA_SESSION_REDIS_PERSIST'         => 'session_redis_persist',
+                        'JOOMLA_SESSION_REDIS_SERVER_AUTH'     => 'session_redis_server_auth',
+                        'JOOMLA_SESSION_REDIS_SERVER_DB'       => 'session_redis_server_db',
+                        'JOOMLA_SESSION_REDIS_SERVER_HOST'     => 'session_redis_server_host',
+                        'JOOMLA_SESSION_REDIS_SERVER_PORT'     => 'session_redis_server_port',
+
+                        // Mail settings.
+                        'JOOMLA_MAIL_ONLINE'       => 'mailonline',
+                        'JOOMLA_MAIL_MAILER'       => 'mailer',
+                        'JOOMLA_MAIL_FROM'         => 'mailfrom',
+                        'JOOMLA_MAIL_FROMNAME'     => 'fromname',
+                        'JOOMLA_MAIL_REPLYTO'      => 'replyto',
+                        'JOOMLA_MAIL_REPLYTO_NAME' => 'replytoname',
+                        'JOOMLA_MAIL_MASSMAIL_OFF' => 'massmailoff',
+                        'JOOMLA_SENDMAIL'          => 'sendmail',
+                        'JOOMLA_SMTP_AUTH'         => 'smtpauth',
+                        'JOOMLA_SMTP_USER'         => 'smtpuser',
+                        'JOOMLA_SMTP_PASS'         => 'smtppass',
+                        'JOOMLA_SMTP_HOST'         => 'smtphost',
+                        'JOOMLA_SMTP_SECURE'       => 'smtpsecure',
+                        'JOOMLA_SMTP_PORT'         => 'smtpport',
+
+                        // Cache settings.
+                        'JOOMLA_CACHING'                     => 'caching',
+                        'JOOMLA_CACHE_HANDLER'               => 'cache_handler',
+                        'JOOMLA_CACHE_TIME'                  => 'cachetime',
+                        'JOOMLA_CACHE_PLATFORM_PREFIX'       => 'cache_platformprefix',
+                        'JOOMLA_CACHE_MEMCACHED_PERSIST'     => 'memcached_persist',
+                        'JOOMLA_CACHE_MEMCACHED_COMPRESS'    => 'memcached_compress',
+                        'JOOMLA_CACHE_MEMCACHED_SERVER_HOST' => 'memcached_server_host',
+                        'JOOMLA_CACHE_MEMCACHED_SERVER_PORT' => 'memcached_server_port',
+                        'JOOMLA_CACHE_REDIS_PERSIST'         => 'redis_persist',
+                        'JOOMLA_CACHE_REDIS_SERVER_HOST'     => 'redis_server_host',
+                        'JOOMLA_CACHE_REDIS_SERVER_PORT'     => 'redis_server_port',
+                        'JOOMLA_CACHE_REDIS_SERVER_AUTH'     => 'redis_server_auth',
+                        'JOOMLA_CACHE_REDIS_SERVER_DB'       => 'redis_server_db',
+
+                        // Log Settings
+                        'JOOMLA_LOG_CATEGORIES'    => 'log_categories',
+                        'JOOMLA_LOG_CATEGORY_MODE' => 'log_category_mode',
+                        'JOOMLA_LOG_DEPRECATED'    => 'log_deprecated',
+                        'JOOMLA_LOG_EVERYTHING'    => 'log_everything',
+                        'JOOMLA_LOG_PRIORITIES'    => 'log_priorities',
+
                         // CORS settings.
                         'JOOMLA_CORS'               => 'cors',
                         'JOOMLA_CORS_ALLOW_ORIGIN'  => 'cors_allow_origin',
                         'JOOMLA_CORS_ALLOW_METHODS' => 'cors_allow_methods',
                         'JOOMLA_CORS_ALLOW_HEADERS' => 'cors_allow_headers',
 
-                        // Mail settings.
-                        'JOOMLA_MAIL_ONLINE'   => 'mailonline',
-                        'JOOMLA_MAIL_MAILER'   => 'mailer',
-                        'JOOMLA_MAIL_FROM'     => 'mailfrom',
-                        'JOOMLA_MAIL_FROMNAME' => 'fromname',
-                        'JOOMLA_SENDMAIL'      => 'sendmail',
-                        'JOOMLA_SMTP_AUTH'     => 'smtpauth',
-                        'JOOMLA_SMTP_USER'     => 'smtpuser',
-                        'JOOMLA_SMTP_PASS'     => 'smtppass',
-                        'JOOMLA_SMTP_HOST'     => 'smtphost',
-                        'JOOMLA_SMTP_SECURE'   => 'smtpsecure',
-                        'JOOMLA_SMTP_PORT'     => 'smtpport',
+                        // Proxy Settings
+                        'JOOMLA_PROXY_ENABLE' => 'proxy_enable',
+                        'JOOMLA_PROXY_HOST'   => 'proxy_host',
+                        'JOOMLA_PROXY_PORT'   => 'proxy_port',
+                        'JOOMLA_PROXY_USER'   => 'proxy_user',
+                        'JOOMLA_PROXY_PASS'   => 'proxy_pass',
 
-                        // Cache settings.
-                        'JOOMLA_CACHING'               => 'caching',
-                        'JOOMLA_CACHE_HANDLER'         => 'cache_handler',
-                        'JOOMLA_CACHE_TIME'            => 'cachetime',
-                        'JOOMLA_CACHE_PLATFORM_PREFIX' => 'cache_platformprefix',
+                        // Debug settings.
+                        'JOOMLA_DEBUG'            => 'debug',
+                        'JOOMLA_DEBUG_LANG'       => 'debug_lang',
+                        'JOOMLA_DEBUG_LANG_CONST' => 'debug_lang_const',
 
                         // Meta settings.
-                        'JOOMLA_META_DESC'    => 'MetaDesc',
-                        'JOOMLA_META_AUTHOR'  => 'MetaAuthor',
-                        'JOOMLA_META_VERSION' => 'MetaVersion',
-                        'JOOMLA_META_ROBOTS'  => 'robots',
+                        'JOOMLA_META_DESC'           => 'MetaDesc',
+                        'JOOMLA_META_AUTHOR'         => 'MetaAuthor',
+                        'JOOMLA_META_VERSION'        => 'MetaVersion',
+                        'JOOMLA_META_RIGHTS'         => 'MetaRights',
+                        'JOOMLA_META_ROBOTS'         => 'robots',
+                        'JOOMLA_SITENAME_PAGETITLES' => 'sitename_pagetitles',
 
                         // SEO settings.
                         'JOOMLA_SEF'              => 'sef',
@@ -150,11 +197,9 @@ class Config implements ServiceProviderInterface
                         'JOOMLA_SEF_SUFFIX'       => 'sef_suffix',
                         'JOOMLA_SEF_UNICODESLUGS' => 'unicodeslugs',
 
-                        // Session setting.
-                        'JOOMLA_SESSION_LIFETIME' => 'lifetime',
-                        'JOOMLA_SESSION_HANDLER'  => 'session_handler',
-                        'JOOMLA_SESSION_SHARED'   => 'shared_session',
-                        'JOOMLA_SESSION_METADATA' => 'session_metadata',
+                        // Cookie Settings
+                        'JOOMLA_COOKIE_DOMAIN' => 'cookie_domain',
+                        'JOOMLA_COOKIE_PATH'   => 'cookie_path',
                     ];
                 }
             );
