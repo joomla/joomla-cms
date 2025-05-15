@@ -25,7 +25,7 @@ use Tobscure\JsonApi\Resource;
 /**
  * The updates view
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.103
  */
 class JsonapiView extends BaseApiView
 {
@@ -34,7 +34,7 @@ class JsonapiView extends BaseApiView
      *
      * @return string  The rendered data
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.103
      */
     public function getUpdate()
     {
@@ -67,7 +67,7 @@ class JsonapiView extends BaseApiView
      *
      * @return string  The rendered data
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.103
      */
     public function prepareUpdate(string $targetVersion): string
     {
@@ -96,7 +96,7 @@ class JsonapiView extends BaseApiView
      *
      * @return string  The rendered data
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.103
      */
     public function finalizeUpdate($fromVersion)
     {
