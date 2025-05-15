@@ -69,7 +69,36 @@ class Config implements ServiceProviderInterface
                 'config.env-map',
                 function (Container $container) {
                     return [
-                        'JOOMLA_DEBUG' => 'debug',
+                        // Debug settings.
+                        'JOOMLA_DEBUG'            => 'debug',
+                        'JOOMLA_DEBUG_LANG'       => 'debug_lang',
+                        'JOOMLA_DEBUG_LANG_CONST' => 'debug_lang_const',
+
+                        // Database settings.
+                        'JOOMLA_DB_TYPE'                   => 'dbtype',
+                        'JOOMLA_DB_HOST'                   => 'host',
+                        'JOOMLA_DB_USER'                   => 'user',
+                        'JOOMLA_DB_PASSWORD'               => 'password',
+                        'JOOMLA_DB_NAME'                   => 'db',
+                        'JOOMLA_DB_PREFIX'                 => 'dbprefix',
+                        'JOOMLA_DB_ENCRYPTION'             => 'dbencryption',
+                        'JOOMLA_DB_SSL_VERIFY_SERVER_CERT' => 'dbsslverifyservercert',
+                        'JOOMLA_DB_SSL_KEY'                => 'dbsslkey',
+                        'JOOMLA_DB_SSL_CERT'               => 'dbsslcert',
+                        'JOOMLA_DB_SSL_CA'                 => 'dbsslca',
+                        'JOOMLA_DB_SSL_CIPHER'             => 'dbsslcipher',
+
+                        // Server settings
+                        'JOOMLA_FORCE_SSL'       => 'force_ssl',
+                        'JOOMLA_LIVE_SITE'       => 'live_site',
+                        'JOOMLA_SECRET'          => 'secret',
+                        'JOOMLA_GZIP'            => 'gzip',
+                        'JOOMLA_ERROR_REPORTING' => 'error_reporting',
+                        'JOOMLA_HELPURL'         => 'helpurl',
+
+                        // Locale settings.
+                        'JOOMLA_TIMEZONE' => 'offset',
+
                     ];
                 }
             );

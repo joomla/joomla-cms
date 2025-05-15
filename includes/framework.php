@@ -48,7 +48,7 @@ ob_end_clean();
 $config = new JConfig();
 
 // Set the error_reporting, and adjust a global Error Handler
-switch ($config->error_reporting) {
+switch ($_ENV['JOOMLA_ERROR_REPORTING'] ?? $config->error_reporting) {
     case 'default':
     case '-1':
         break;
@@ -72,7 +72,7 @@ switch ($config->error_reporting) {
         break;
 
     default:
-        error_reporting($config->error_reporting);
+        error_reporting($_ENV['JOOMLA_ERROR_REPORTING'] ?? $config->error_reporting);
         ini_set('display_errors', 1);
 
         break;
