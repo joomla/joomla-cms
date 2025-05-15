@@ -69,6 +69,18 @@ class Config implements ServiceProviderInterface
                 'config.env-map',
                 function (Container $container) {
                     return [
+                        // Site settings.
+                        'JOOMLA_SITE_SITENAME'                => 'sitename',
+                        'JOOMLA_SITE_EDITOR'                  => 'editor',
+                        'JOOMLA_SITE_CAPTCHA'                 => 'captcha',
+                        'JOOMLA_SITE_LIST_LIMIT'              => 'list_limit',
+                        'JOOMLA_SITE_ACCESS'                  => 'access',
+                        'JOOMLA_SITE_FRONT_EDITING'           => 'frontediting',
+                        'JOOMLA_SITE_OFFLINE'                 => 'offline',
+                        'JOOMLA_SITE_OFFLINE_MESSAGE'         => 'offline_message',
+                        'JOOMLA_SITE_OFFLINE_MESSAGE_DISPLAY' => 'display_offline_message',
+                        'JOOMLA_SITE_OFFLINE_IMAGE'           => 'offline_image',
+
                         // Debug settings.
                         'JOOMLA_DEBUG'            => 'debug',
                         'JOOMLA_DEBUG_LANG'       => 'debug_lang',
@@ -95,10 +107,54 @@ class Config implements ServiceProviderInterface
                         'JOOMLA_GZIP'            => 'gzip',
                         'JOOMLA_ERROR_REPORTING' => 'error_reporting',
                         'JOOMLA_HELPURL'         => 'helpurl',
+                        'JOOMLA_LOG_PATH'        => 'log_path',
+                        'JOOMLA_TMP_PATH'        => 'tmp_path',
 
                         // Locale settings.
                         'JOOMLA_TIMEZONE' => 'offset',
 
+                        // CORS settings.
+                        'JOOMLA_CORS'               => 'cors',
+                        'JOOMLA_CORS_ALLOW_ORIGIN'  => 'cors_allow_origin',
+                        'JOOMLA_CORS_ALLOW_METHODS' => 'cors_allow_methods',
+                        'JOOMLA_CORS_ALLOW_HEADERS' => 'cors_allow_headers',
+
+                        // Mail settings.
+                        'JOOMLA_MAIL_ONLINE'   => 'mailonline',
+                        'JOOMLA_MAIL_MAILER'   => 'mailer',
+                        'JOOMLA_MAIL_FROM'     => 'mailfrom',
+                        'JOOMLA_MAIL_FROMNAME' => 'fromname',
+                        'JOOMLA_SENDMAIL'      => 'sendmail',
+                        'JOOMLA_SMTP_AUTH'     => 'smtpauth',
+                        'JOOMLA_SMTP_USER'     => 'smtpuser',
+                        'JOOMLA_SMTP_PASS'     => 'smtppass',
+                        'JOOMLA_SMTP_HOST'     => 'smtphost',
+                        'JOOMLA_SMTP_SECURE'   => 'smtpsecure',
+                        'JOOMLA_SMTP_PORT'     => 'smtpport',
+
+                        // Cache settings.
+                        'JOOMLA_CACHING'               => 'caching',
+                        'JOOMLA_CACHE_HANDLER'         => 'cache_handler',
+                        'JOOMLA_CACHE_TIME'            => 'cachetime',
+                        'JOOMLA_CACHE_PLATFORM_PREFIX' => 'cache_platformprefix',
+
+                        // Meta settings.
+                        'JOOMLA_META_DESC'    => 'MetaDesc',
+                        'JOOMLA_META_AUTHOR'  => 'MetaAuthor',
+                        'JOOMLA_META_VERSION' => 'MetaVersion',
+                        'JOOMLA_META_ROBOTS'  => 'robots',
+
+                        // SEO settings.
+                        'JOOMLA_SEF'              => 'sef',
+                        'JOOMLA_SEF_REWRITE'      => 'sef_rewrite',
+                        'JOOMLA_SEF_SUFFIX'       => 'sef_suffix',
+                        'JOOMLA_SEF_UNICODESLUGS' => 'unicodeslugs',
+
+                        // Session setting.
+                        'JOOMLA_SESSION_LIFETIME' => 'lifetime',
+                        'JOOMLA_SESSION_HANDLER'  => 'session_handler',
+                        'JOOMLA_SESSION_SHARED'   => 'shared_session',
+                        'JOOMLA_SESSION_METADATA' => 'session_metadata',
                     ];
                 }
             );
