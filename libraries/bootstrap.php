@@ -41,7 +41,7 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
-// Load environment variables
+// Load environment variables. Look for .env and .env.development and load firsts available.
 $dotenv  = Dotenv\Dotenv::createImmutable(JPATH_ROOT, ['.env', '.env.development']);
 $dotenv->safeLoad();
 
