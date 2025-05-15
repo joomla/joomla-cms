@@ -63,6 +63,13 @@ abstract class SchedulerHelper
         PluginHelper::importPlugin('task');
         $app->getDispatcher()->dispatch('onTaskOptionsList', $event);
 
+        if (isset($options->options) && \is_array($options->options)) {
+            // Sort the options alphabetically by title
+            usort($options->options, function ($a, $b) {
+                return strcmp($a->getTitle(), $b->getTitle());
+            });
+        }
+
         self::$taskOptionsCache = $options;
 
         return $options;

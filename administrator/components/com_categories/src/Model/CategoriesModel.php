@@ -455,7 +455,7 @@ class CategoriesModel extends ListModel
     {
         $items = parent::getItems();
 
-        if ($items != false) {
+        if ($items) {
             $extension = $this->getState('filter.extension');
 
             $this->countItems($items, $extension);

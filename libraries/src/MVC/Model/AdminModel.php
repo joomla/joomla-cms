@@ -1248,7 +1248,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Clear the component's cache
-        if ($result == true) {
+        if ($result) {
             $this->cleanCache();
         }
 

@@ -612,7 +612,7 @@ ENDDATA;
         $data .= '];';
 
         // Remove the old file, if it's there...
-        $configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
+        $configpath = JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/update.php';
 
         if (is_file($configpath)) {
             try {
@@ -900,8 +900,8 @@ ENDDATA;
             }
 
             // Remove the update.php file used in Joomla 4.0.3 and later.
-            if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
-                File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
+            if (is_file(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/update.php')) {
+                File::delete(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/update.php');
             }
 
             // Remove joomla.xml from the site's root.
@@ -994,7 +994,7 @@ ENDDATA;
 
         // Move uploaded file.
         try {
-            File::upload($tmp_src, $tmp_dest, false);
+            File::upload($tmp_src, $tmp_dest);
         } catch (FilesystemException $exception) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500, $exception);
         }

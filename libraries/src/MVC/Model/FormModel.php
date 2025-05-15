@@ -200,7 +200,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
             @trigger_error(
                 'The `onUserBeforeDataValidation` event is deprecated and will be removed in 6.0.'
-                . 'Use the `onContentValidateData` event instead.',
+                . 'Use the `onContentBeforeValidateData` event instead.',
                 E_USER_DEPRECATED
             );
 

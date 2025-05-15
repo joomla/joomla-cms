@@ -170,6 +170,7 @@ class NewsfeedsModel extends ListModel
                     $db->quoteName('a.language'),
                     $db->quoteName('a.publish_up'),
                     $db->quoteName('a.publish_down'),
+                    $db->quoteName('a.modified_by'),
                 ]
             )
         )

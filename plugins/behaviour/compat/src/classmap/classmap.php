@@ -467,6 +467,22 @@ JLoader::registerAlias('JExtensionHelper', '\\Joomla\\CMS\\Extension\\ExtensionH
 
 JLoader::registerAlias('JHtml', '\\Joomla\\CMS\\HTML\\HTMLHelper', '6.0');
 
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\CliInput', '\\Joomla\\CMS\\Application\\CLI\\CliInput', '6.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\CliOutput', '\\Joomla\\CMS\\Application\\CLI\\CliOutput', '6.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\ColorStyle', '\\Joomla\\CMS\\Application\\CLI\\ColorStyle', '6.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\Output\\Stdout', '\\Joomla\\CMS\\Application\\CLI\\Output\\Stdout', '6.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\Output\\Xml', '\\Joomla\\CMS\\Application\\CLI\\Output\\Xml', '6.0');
+JLoader::registerAlias(
+    '\\Joomla\\Application\\Cli\\Output\\Processor\\ColorProcessor',
+    '\\Joomla\\CMS\\Application\\CLI\\Output\\Processor\\ColorProcessor',
+    '6.0'
+);
+JLoader::registerAlias(
+    '\\Joomla\\Application\\Cli\\Output\\Processor\\ProcessorInterface',
+    '\\Joomla\\CMS\\Application\\CLI\\Output\\Processor\\ProcessorInterface',
+    '6.0'
+);
+
 JLoader::registerAlias('JFile', '\\Joomla\\CMS\\Filesystem\\File', '6.0');
 JLoader::registerAlias('JFolder', '\\Joomla\\CMS\\Filesystem\\Folder', '6.0');
 JLoader::registerAlias('JFilesystemHelper', '\\Joomla\\CMS\\Filesystem\\FilesystemHelper', '6.0');
@@ -514,6 +530,3 @@ JLoader::registerAlias('JHtmlString', '\\Joomla\\CMS\\HTML\\Helpers\\StringHelpe
 JLoader::registerAlias('JHtmlTag', '\\Joomla\\CMS\\HTML\\Helpers\\Tag', '6.0');
 JLoader::registerAlias('JHtmlTel', '\\Joomla\\CMS\\HTML\\Helpers\\Telephone', '6.0');
 JLoader::registerAlias('JHtmlUser', '\\Joomla\\CMS\\HTML\\Helpers\\User', '6.0');
-
-// As JLoader is not managing the \Joomla\Input namespace, we need to use the native class alias function
-class_alias('\\Joomla\\Input\\Input', '\\Joomla\\CMS\\Input\\Input');

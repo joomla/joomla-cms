@@ -6,20 +6,12 @@
  * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  *
- * Remove phpcs exception with deprecated autoloading BufferStreamHandler::stream_register();
  * @phpcs:disable PSR1.Files.SideEffects
  */
 
 namespace Joomla\CMS\Utility;
 
 \defined('_JEXEC') or die;
-
-/**
- * @deprecated  3.8 will be removed in 5.0
- *              Workaround for B/C. (removal missed in 4.0, also remove phpcs exception).
- *              If BufferStreamHandler is needed directly call BufferStreamHandler::stream_register();
- */
-BufferStreamHandler::stream_register();
 
 /**
  * Generic Buffer stream handler

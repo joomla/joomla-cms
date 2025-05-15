@@ -585,11 +585,11 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // Give a warning if the cache-folder can not be opened
-        if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false) {
+        if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) === false) {
             $error = true;
 
             // If a custom path is in use, try using the system default instead of disabling cache
-            if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) != false) {
+            if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) !== false) {
                 try {
                     Log::add(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),
@@ -745,10 +745,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config = new Registry($data);
 
         // Overwrite webservices cors settings
-        $app->set('cors', $data['cors']);
-        $app->set('cors_allow_origin', $data['cors_allow_origin']);
-        $app->set('cors_allow_headers', $data['cors_allow_headers']);
-        $app->set('cors_allow_methods', $data['cors_allow_methods']);
+        $app->set('cors', $data['cors'] ?? 0);
+        $app->set('cors_allow_origin', $data['cors_allow_origin'] ?? '*');
+        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token');
+        $app->set('cors_allow_methods', $data['cors_allow_methods'] ?? '');
 
         // Clear cache of com_config component.
         $this->cleanCache('_system');
@@ -786,8 +786,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      */
     public function removeroot()
     {
-        $app = Factory::getApplication();
-
         // Get the previous configuration.
         $prev = new \JConfig();
         $prev = ArrayHelper::fromObject($prev);

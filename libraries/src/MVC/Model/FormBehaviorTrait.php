@@ -94,11 +94,11 @@ trait FormBehaviorTrait
 
         // Load the data.
         if (str_starts_with($source, '<')) {
-            if ($form->load($source, false, $xpath) == false) {
+            if (!$form->load($source, false, $xpath)) {
                 throw new \RuntimeException('Form::loadForm could not load form');
             }
         } else {
-            if ($form->loadFile($source, false, $xpath) == false) {
+            if (!$form->loadFile($source, false, $xpath)) {
                 throw new \RuntimeException('Form::loadForm could not load file');
             }
         }

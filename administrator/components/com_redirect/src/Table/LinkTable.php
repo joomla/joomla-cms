@@ -74,13 +74,13 @@ class LinkTable extends Table
         }
 
         // Check for valid name if not in advanced mode.
-        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == false) {
+        if (empty($this->new_url) && !ComponentHelper::getParams('com_redirect')->get('mode', 0)) {
             $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
             return false;
         }
 
-        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == true) {
+        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0)) {
             // Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
             if ($this->header < 400 && $this->header >= 300) {
                 $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
