@@ -90,7 +90,13 @@ class BaseInstallationModel extends BaseDatabaseModel
 
         if ($active) {
             foreach ($envMap as $groupName => $group) {
-                $envMap[$groupName] = array_intersect_key($group, $_ENV);
+                $activeVars = array_intersect_key($group, $_ENV);
+
+                if ($activeVars) {
+                    $envMap[$groupName] = $activeVars;
+                } else {
+                    unset($envMap[$groupName]);
+                }
             }
         }
 

@@ -73,6 +73,8 @@ class DisplayController extends BaseController
             if ($vName !== $defaultView && !$model->getOptions() && $defaultView !== 'remove') {
                 $app->redirect('index.php');
             }
+
+            $model->checkEnvironmentVariables();
         }
 
         $this->input->set('view', $vName);

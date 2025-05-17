@@ -218,6 +218,37 @@ class ChecksModel extends BaseInstallationModel
     }
 
     /**
+     * Check whether the Environment variables is in use, and whether they are sufficient to continue installation.
+     * Without validation of their values.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function checkEnvironmentVariables(): void
+    {
+        $envMapActive = $this->getEnvironmentMap();
+        $envMapAll    = $this->getEnvironmentMap(false);
+
+        // Environment variables not in use
+        if (!$envMapActive) {
+            return;
+        }
+
+        // Check Database elements
+        if (!empty($envMapActive['db']) && $envMapActive['db'] != $envMapAll['db']) {
+            throw new \UnexpectedValueException(
+                sprintf(
+                    'Environment variables were detected in use, but they are not sufficient to continue the installation. Required: %1s. But provided: %2s',
+                    implode(', ', array_keys($envMapAll['db'])),
+                    implode(', ', array_keys($envMapActive['db']))
+                ),
+                500
+            );
+        }
+    }
+
+    /**
      * Method to get the form.
      *
      * @param   string|null  $view  The view being processed.
