@@ -177,14 +177,15 @@ abstract class DatabaseHelper
     /**
      * Validate and clean up database connection parameters.
      *
-     * @param   \stdClass       $options  The session options
+     * @param   \stdClass       $options        The session options
+     * @param   boolean         $ignoreChanges  Parameter to prevent writing the $options in to session
      *
      * @return  string|boolean  A string with the translated error message if
      *                          validation error, otherwise false.
      *
      * @since   4.0.0
      */
-    public static function validateConnectionParameters($options)
+    public static function validateConnectionParameters($options, bool $ignoreChanges = false)
     {
         // Ensure a database type was selected.
         if (empty($options->db_type)) {
@@ -316,7 +317,7 @@ abstract class DatabaseHelper
         }
 
         // Save options to session data if changed
-        if ($optionsChanged) {
+        if ($optionsChanged && !$ignoreChanges) {
             $optsArr = ArrayHelper::fromObject($options);
             Factory::getSession()->set('setup.options', $optsArr);
         }

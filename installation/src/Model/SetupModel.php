@@ -238,7 +238,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Validate and clean up connection parameters
-        $paramsCheck = DatabaseHelper::validateConnectionParameters($options);
+        $paramsCheck = DatabaseHelper::validateConnectionParameters($options, !empty($options->db_from_environment));
 
         if ($paramsCheck) {
             // Validation error: Enqueue the error message

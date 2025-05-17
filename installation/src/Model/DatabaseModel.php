@@ -57,7 +57,7 @@ class DatabaseModel extends BaseInstallationModel
         }
 
         // Validate and clean up connection parameters
-        $paramsCheck = DatabaseHelper::validateConnectionParameters($options);
+        $paramsCheck = DatabaseHelper::validateConnectionParameters($options, true);
 
         if ($paramsCheck) {
             Factory::getApplication()->enqueueMessage($paramsCheck, 'warning');

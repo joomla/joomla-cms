@@ -131,28 +131,11 @@ class BaseInstallationModel extends BaseDatabaseModel
             }
         }
 
-        return $config;
-    }
-
-    /**
-     * Get the current setup options from the session merged with environment options
-     *
-     * @return array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function getEnvironmentMergedOptions(): array
-    {
-        $options    = $this->getOptions();
-        $envOptions = $this->getEnvironmentOptions();
-
         // Few tweaks
-        if (!empty($envOptions['db_pass'])) {
-            $envOptions['db_pass_plain'] = $envOptions['db_pass'];
+        if (!empty($config['db_pass'])) {
+            $config['db_pass_plain'] = $config['db_pass'];
         }
 
-        $options = array_merge($options, $envOptions);
-
-        return $options;
+        return $config;
     }
 }

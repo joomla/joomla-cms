@@ -89,11 +89,16 @@ class InstallationController extends JSONController
             return;
         }
 
-        $model->storeOptions($data);
+        $data   = $model->storeOptions($data);
+        $envMap = $model->getEnvironmentMap();
 
-        $options = $model->getEnvironmentMergedOptions();
+        // Merge with environment options if any
+        if (!empty($envMap['db'])) {
+            $data = array_merge($data, $model->getEnvironmentOptions());
+            $data['db_from_environment'] = true;
+        }
 
-        if (!$model->validateDbConnection($options)) {
+        if (!$model->validateDbConnection($data)) {
             $r->validated = false;
             $r->error     = true;
         } else {
@@ -118,7 +123,7 @@ class InstallationController extends JSONController
 
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
         $databaseModel = $this->getModel('Database');
-        $options       = $databaseModel->getEnvironmentMergedOptions();
+        $options       = $databaseModel->getOptions();
         var_dump($databaseModel->getOptions());
         // Create Db
         try {
@@ -161,7 +166,7 @@ class InstallationController extends JSONController
         $model = $this->getModel('Database');
 
         $r       = new \stdClass();
-        $options = $model->getEnvironmentMergedOptions();
+        $options = $model->getOptions();
         $db      = $model->initialise($options);
         $files   = [
             'populate1' => 'base',
