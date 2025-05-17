@@ -119,7 +119,7 @@ class InstallationController extends JSONController
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
         $databaseModel = $this->getModel('Database');
         $options       = $databaseModel->getEnvironmentMergedOptions();
-
+        var_dump($databaseModel->getOptions());
         // Create Db
         try {
             $dbCreated = $databaseModel->createDatabase($options);
@@ -143,6 +143,7 @@ class InstallationController extends JSONController
         }
 
         $this->sendJsonResponse($r);
+        var_dump($databaseModel->getOptions());exit;
     }
 
     /**
