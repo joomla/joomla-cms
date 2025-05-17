@@ -13,6 +13,7 @@ namespace Joomla\CMS\Installation\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -52,5 +53,79 @@ class BaseInstallationModel extends BaseDatabaseModel
     public function getOptions()
     {
         return Factory::getSession()->get('setup.options', []);
+    }
+
+    /**
+     * Get grouped list of Environment variable names and their config counterpart.
+     *
+     * @param  boolean  $active   Whether return only active elements in $_ENV or whole map.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getEnvironmentMap(bool $active = true): array
+    {
+        // Use own map instead of Config 'config.env-map' (from Container) because installation setup has different field names.
+        $envMap = [
+            'db' => [
+                // Database required settings.
+                'JOOMLA_DB_TYPE'     => 'db_type',
+                'JOOMLA_DB_HOST'     => 'db_host',
+                'JOOMLA_DB_USER'     => 'db_user',
+                'JOOMLA_DB_PASSWORD' => 'db_pass',
+                'JOOMLA_DB_NAME'     => 'db_name',
+            ],
+            'db_extra' => [
+                // Database optional settings.
+                'JOOMLA_DB_PREFIX'                 => 'db_prefix',
+                'JOOMLA_DB_ENCRYPTION'             => 'db_encryption',
+                'JOOMLA_DB_SSL_VERIFY_SERVER_CERT' => 'db_sslverifyservercert',
+                'JOOMLA_DB_SSL_KEY'                => 'db_sslkey',
+                'JOOMLA_DB_SSL_CERT'               => 'db_sslcert',
+                'JOOMLA_DB_SSL_CA'                 => 'db_sslca',
+                'JOOMLA_DB_SSL_CIPHER'             => 'db_sslcipher',
+            ]
+        ];
+
+        if ($active) {
+            foreach ($envMap as $groupName => $group) {
+                $envMap[$groupName] = array_intersect_key($group, $_ENV);
+            }
+        }
+
+        return $envMap;
+    }
+
+    /**
+     * Get Environment values for Joomla
+     *
+     * @return  Registry
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getEnvironmentOptions(): Registry
+    {
+        $envMap = $this->getEnvironmentMap();
+        $config = new Registry();
+
+        // Load environment variables
+        foreach ($envMap as $group) {
+            foreach ($group as $envName => $setupName) {
+                $envValue = $_ENV[$envName] ?? '';
+
+                if ($envName === 'JOOMLA_LOG_PRIORITIES') {
+                    $envValue = json_decode($envValue, true) ?: [];
+                }
+
+                $config->set($setupName, match ($envValue) {
+                    'true', '(true)' => true,
+                    'false', '(false)' => false,
+                    default => $envValue,
+                });
+            }
+        }
+
+        return $config;
     }
 }

@@ -100,6 +100,16 @@ class SetupModel extends BaseInstallationModel
             $form->removeField('public_folder');
         }
 
+        // Get list of active env variables, and hide the fields related to them
+        $envMap = $this->getEnvironmentMap();
+
+        foreach ($envMap as $group) {
+            foreach ($group as $setupName) {
+                $form->setFieldAttribute($setupName, 'type', 'hidden');
+                $form->setFieldAttribute($setupName, 'required', 'false');
+            }
+        }
+
         // Check the session for previously entered form data.
         $data = (array) $this->getOptions();
 
