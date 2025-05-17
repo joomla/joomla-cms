@@ -78,6 +78,7 @@ class DisplayController extends BaseController
                 $model->checkEnvironmentVariables();
             }
         }
+        dd(empty(0));
 
         $this->input->set('view', $vName);
 

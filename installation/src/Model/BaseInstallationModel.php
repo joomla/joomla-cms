@@ -55,7 +55,7 @@ class BaseInstallationModel extends BaseDatabaseModel
     }
 
     /**
-     * Get grouped list of Environment variable names and their config counterpart.
+     * Get grouped list of environment variable names and their config counterpart.
      *
      * @param  boolean  $active   Whether return only active elements in $_ENV or whole map.
      *
@@ -103,7 +103,7 @@ class BaseInstallationModel extends BaseDatabaseModel
     }
 
     /**
-     * Get options form Environment variables
+     * Get options form environment variables
      *
      * @return  array
      *
@@ -132,5 +132,27 @@ class BaseInstallationModel extends BaseDatabaseModel
         }
 
         return $config;
+    }
+
+    /**
+     * Get the current setup options from the session merged with environment options
+     *
+     * @return array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getEnvironmentMergedOptions(): array
+    {
+        $options    = $this->getOptions();
+        $envOptions = $this->getEnvironmentOptions();
+
+        // Few tweaks
+        if (!empty($envOptions['db_pass'])) {
+            $envOptions['db_pass_plain'] = $envOptions['db_pass'];
+        }
+
+        $options = array_merge($options, $envOptions);
+
+        return $options;
     }
 }

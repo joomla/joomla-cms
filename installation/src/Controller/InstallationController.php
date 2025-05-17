@@ -89,24 +89,11 @@ class InstallationController extends JSONController
             return;
         }
 
-        $data   = $model->storeOptions($data);
-        $envMap = $model->getEnvironmentMap();
+        $model->storeOptions($data);
 
-        // Use Environment options when active
-        if (!empty($envMap['db'])) {
-            $envOptions = $model->getEnvironmentOptions();
+        $options = $model->getEnvironmentMergedOptions();
 
-            $envOptions['db_pass_plain'] = $envOptions['db_pass'] ?? '';
-            $envOptions['db_encryption'] = $envOptions['db_encryption'] ?? 0;
-
-            $data = array_merge($data, $envOptions);
-
-            if (empty($_ENV['JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK'])) {
-                putenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1');
-            }
-        }
-
-        if (!$model->validateDbConnection($data)) {
+        if (!$model->validateDbConnection($options)) {
             $r->validated = false;
             $r->error     = true;
         } else {
@@ -131,22 +118,7 @@ class InstallationController extends JSONController
 
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
         $databaseModel = $this->getModel('Database');
-        $options       = $databaseModel->getOptions();
-        $envMap        = $databaseModel->getEnvironmentMap();
-
-        // Use Environment options when active
-        if (!empty($envMap['db'])) {
-            $envOptions = $databaseModel->getEnvironmentOptions();
-
-            $envOptions['db_pass_plain'] = $envOptions['db_pass'] ?? '';
-            $envOptions['db_encryption'] = $envOptions['db_encryption'] ?? 0;
-
-            $options = array_merge($options, $envOptions);
-
-            if (empty($_ENV['JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK'])) {
-                putenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1');
-            }
-        }
+        $options       = $databaseModel->getEnvironmentMergedOptions();
 
         // Create Db
         try {
@@ -188,7 +160,7 @@ class InstallationController extends JSONController
         $model = $this->getModel('Database');
 
         $r       = new \stdClass();
-        $options = $model->getOptions();
+        $options = $model->getEnvironmentMergedOptions();
         $db      = $model->initialise($options);
         $files   = [
             'populate1' => 'base',

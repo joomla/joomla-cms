@@ -235,7 +235,7 @@ abstract class DatabaseHelper
         // Validate and clean up database connection encryption options
         $optionsChanged = false;
 
-        if ($options->db_encryption === 0) {
+        if (empty($options->db_encryption)) {
             // Reset unused options
             if (!empty($options->db_sslkey)) {
                 $options->db_sslkey = '';
