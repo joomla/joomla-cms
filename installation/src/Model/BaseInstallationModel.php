@@ -13,7 +13,6 @@ namespace Joomla\CMS\Installation\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -104,16 +103,16 @@ class BaseInstallationModel extends BaseDatabaseModel
     }
 
     /**
-     * Get Environment values for Joomla
+     * Get options form Environment variables
      *
-     * @return  Registry
+     * @return  array
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getEnvironmentOptions(): Registry
+    public function getEnvironmentOptions(): array
     {
         $envMap = $this->getEnvironmentMap();
-        $config = new Registry();
+        $config = [];
 
         // Load environment variables
         foreach ($envMap as $group) {
@@ -124,11 +123,11 @@ class BaseInstallationModel extends BaseDatabaseModel
                     $envValue = json_decode($envValue, true) ?: [];
                 }
 
-                $config->set($setupName, match ($envValue) {
+                $config[$setupName] = match ($envValue) {
                     'true', '(true)' => true,
                     'false', '(false)' => false,
                     default => $envValue,
-                });
+                };
             }
         }
 

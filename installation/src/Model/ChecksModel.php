@@ -220,37 +220,34 @@ class ChecksModel extends BaseInstallationModel
     /**
      * Check whether the Environment variables is in use, and whether they are sufficient to continue installation.
      * Without validation of their values.
-     * Returns true if the environment variables is in use and false otherwise.
      *
-     * @return boolean
+     * @return void
      *
      * @since  __DEPLOY_VERSION__
      *
-     * @throws \UnexpectedValueException  When provided the Environment variables are not sufficient to continue the installation
+     * @throws \UnexpectedValueException  When provided Environment variables are not sufficient to continue the installation
      */
-    public function checkEnvironmentVariables(): bool
+    public function checkEnvironmentVariables(): void
     {
         $envMapActive = $this->getEnvironmentMap();
         $envMapAll    = $this->getEnvironmentMap(false);
 
         // Environment variables not in use
         if (!$envMapActive) {
-            return false;
+            return;
         }
 
         // Check Database elements
         if (!empty($envMapActive['db']) && $envMapActive['db'] != $envMapAll['db']) {
             throw new \UnexpectedValueException(
                 sprintf(
-                    'Environment variables were detected in use, but they are not sufficient to continue the installation. Required: %1s. But provided: %2s',
+                    'Environment variables were detected in use, but they are not sufficient to continue the installation. Required: %1s. But missing: %2s',
                     implode(', ', array_keys($envMapAll['db'])),
-                    implode(', ', array_keys($envMapActive['db']))
+                    implode(', ', array_keys(array_diff_key($envMapAll['db'], $envMapActive['db'])))
                 ),
                 500
             );
         }
-
-        return true;
     }
 
     /**

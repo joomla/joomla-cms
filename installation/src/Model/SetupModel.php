@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -107,6 +108,11 @@ class SetupModel extends BaseInstallationModel
             foreach ($group as $setupName) {
                 $form->setFieldAttribute($setupName, 'type', 'hidden');
                 $form->setFieldAttribute($setupName, 'required', 'false');
+                $form->setFieldAttribute($setupName, 'default', '');
+
+                if ($setupName === 'db_prefix') {
+                    $form->setFieldAttribute($setupName, 'validate', '');
+                }
             }
         }
 
@@ -205,55 +211,16 @@ class SetupModel extends BaseInstallationModel
     }
 
     /**
-     * Method to validate the db connection with use of the Environment variables.
-     *
-     * @return  boolean
-     *
-     * @since   __DEPLOY_VERSION__
-     * @throws  \Exception
-     */
-    public function validateDbConnectionEnvVariables(): bool
-    {
-        $envOptions = $this->getEnvironmentOptions();
-        $envMapAll  = $this->getEnvironmentMap(false);
-
-        // Ensure all options is defined.
-        foreach ($envMapAll['db'] as $setupName) {
-            $envOptions->def($setupName, null);
-        }
-        foreach ($envMapAll['db_extra'] as $setupName) {
-            $envOptions->def($setupName, null);
-        }
-
-        // Set some missing and defaults
-        $envOptions->set('db_pass_plain', $envOptions->get('db_pass'));
-        $envOptions->set('db_encryption', $envOptions->get('db_encryption', 0));
-
-        $options = $envOptions->toArray();
-        $result  = $this->validateDbConnection($options, false);
-
-        if (!$result) {
-            Factory::getApplication()->enqueueMessage(
-                'Environment variables were detected in use. However, the values provided are not valid for establishing a database connection.',
-                'error'
-            );
-        }
-
-        return $result;
-    }
-
-    /**
      * Method to validate the db connection properties.
      *
-     * @param   array    $options       Array with database credentials
-     * @param   boolean  $remoteCheck   Whether process check for remote db hosts
+     * @param   array  $options   Array with database credentials
      *
      * @return  boolean
      *
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function validateDbConnection(array $options, bool $remoteCheck = true)
+    public function validateDbConnection(array $options)
     {
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
@@ -281,7 +248,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Security check for remote db hosts
-        if ($remoteCheck && !DatabaseHelper::checkRemoteDbHost($options)) {
+        if (!DatabaseHelper::checkRemoteDbHost($options)) {
             // Messages have been enqueued in the called function.
             return false;
         }

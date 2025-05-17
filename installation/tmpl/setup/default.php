@@ -70,58 +70,60 @@ $wa->useScript('joomla.dialog-autocreate');
                 </div>
             </div>
         </fieldset>
-        <?php if (!$this->hideDbSection): ?>
-            <fieldset id="installStep3" class="j-install-step" >
-                <legend class="j-install-step-header">
-                    <span class="icon-database" aria-hidden="true"></span> <?php echo Text::_('INSTL_DATABASE'); ?>
-                </legend>
-                <div class="j-install-step-form">
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_type'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_host'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_user'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_pass'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_name'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_prefix'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_encryption'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_sslkey'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_sslcert'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_sslverifyservercert'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_sslca'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php echo $this->form->renderField('db_sslcipher'); ?>
-                    </div>
-                    <div class="mb-3">
-                        <?php //echo $this->form->getLabel('db_old'); ?>
-                        <?php echo $this->form->getInput('db_old'); ?>
-                    </div>
-                    <div class="mt-4 mb-3">
-                        <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
-                    </div>
+
+        <fieldset id="installStep3" class="j-install-step"<?php echo $this->hideDbSection ? ' hidden' : '' ?>>
+            <legend class="j-install-step-header">
+                <span class="icon-database" aria-hidden="true"></span> <?php echo Text::_('INSTL_DATABASE'); ?>
+            </legend>
+            <div class="j-install-step-form">
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_type'); ?>
                 </div>
-            </fieldset>
-        <?php endif; ?>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_host'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_user'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_pass'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_name'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_prefix'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_encryption'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_sslkey'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_sslcert'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_sslverifyservercert'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_sslca'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php echo $this->form->renderField('db_sslcipher'); ?>
+                </div>
+                <div class="mb-3">
+                    <?php //echo $this->form->getLabel('db_old'); ?>
+                    <?php echo $this->form->getInput('db_old'); ?>
+                </div>
+                <?php if (!$this->hideDbSection): ?>
+                <div class="mt-4 mb-3">
+                    <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
+                </div>
+                <?php endif; ?>
+            </div>
+        </fieldset>
+
         <fieldset id="installStep4" class="j-install-step" >
             <legend class="j-install-step-header">
                 <span class="icon-cogs" aria-hidden="true"></span> <?php echo Text::_('INSTL_PROGRESS'); ?>

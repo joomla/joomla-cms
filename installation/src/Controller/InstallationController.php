@@ -89,7 +89,22 @@ class InstallationController extends JSONController
             return;
         }
 
-        $data = $model->storeOptions($data);
+        $data   = $model->storeOptions($data);
+        $envMap = $model->getEnvironmentMap();
+
+        // Use Environment options when active
+        if (!empty($envMap['db'])) {
+            $envOptions = $model->getEnvironmentOptions();
+
+            $envOptions['db_pass_plain'] = $envOptions['db_pass'] ?? '';
+            $envOptions['db_encryption'] = $envOptions['db_encryption'] ?? 0;
+
+            $data = array_merge($data, $envOptions);
+
+            if (empty($_ENV['JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK'])) {
+                putenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1');
+            }
+        }
 
         if (!$model->validateDbConnection($data)) {
             $r->validated = false;
@@ -117,6 +132,21 @@ class InstallationController extends JSONController
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
         $databaseModel = $this->getModel('Database');
         $options       = $databaseModel->getOptions();
+        $envMap        = $databaseModel->getEnvironmentMap();
+
+        // Use Environment options when active
+        if (!empty($envMap['db'])) {
+            $envOptions = $databaseModel->getEnvironmentOptions();
+
+            $envOptions['db_pass_plain'] = $envOptions['db_pass'] ?? '';
+            $envOptions['db_encryption'] = $envOptions['db_encryption'] ?? 0;
+
+            $options = array_merge($options, $envOptions);
+
+            if (empty($_ENV['JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK'])) {
+                putenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1');
+            }
+        }
 
         // Create Db
         try {

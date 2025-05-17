@@ -75,10 +75,7 @@ class DisplayController extends BaseController
             }
 
             if ($vName === 'setup') {
-                if ($model->checkEnvironmentVariables()) {
-                    $setupModel = $this->getModel('Setup');
-                    $setupModel->validateDbConnectionEnvVariables();
-                }
+                $model->checkEnvironmentVariables();
             }
         }
 
