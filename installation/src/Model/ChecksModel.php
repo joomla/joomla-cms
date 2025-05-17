@@ -220,19 +220,22 @@ class ChecksModel extends BaseInstallationModel
     /**
      * Check whether the Environment variables is in use, and whether they are sufficient to continue installation.
      * Without validation of their values.
+     * Returns true if the environment variables is in use and false otherwise.
      *
-     * @return void
+     * @return boolean
      *
      * @since  __DEPLOY_VERSION__
+     *
+     * @throws \UnexpectedValueException  When provided the Environment variables are not sufficient to continue the installation
      */
-    public function checkEnvironmentVariables(): void
+    public function checkEnvironmentVariables(): bool
     {
         $envMapActive = $this->getEnvironmentMap();
         $envMapAll    = $this->getEnvironmentMap(false);
 
         // Environment variables not in use
         if (!$envMapActive) {
-            return;
+            return false;
         }
 
         // Check Database elements
@@ -246,6 +249,8 @@ class ChecksModel extends BaseInstallationModel
                 500
             );
         }
+
+        return true;
     }
 
     /**

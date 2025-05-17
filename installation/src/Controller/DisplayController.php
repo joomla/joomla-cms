@@ -74,7 +74,12 @@ class DisplayController extends BaseController
                 $app->redirect('index.php');
             }
 
-            $model->checkEnvironmentVariables();
+            if ($vName === 'setup') {
+                if ($model->checkEnvironmentVariables()) {
+                    $setupModel = $this->getModel('Setup');
+                    $setupModel->validateDbConnectionEnvVariables();
+                }
+            }
         }
 
         $this->input->set('view', $vName);

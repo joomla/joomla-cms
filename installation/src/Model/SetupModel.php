@@ -100,7 +100,7 @@ class SetupModel extends BaseInstallationModel
             $form->removeField('public_folder');
         }
 
-        // Get list of active env variables, and hide the fields related to them
+        // Get the list of active env variables, and hide the fields related to them
         $envMap = $this->getEnvironmentMap();
 
         foreach ($envMap as $group) {
@@ -205,16 +205,55 @@ class SetupModel extends BaseInstallationModel
     }
 
     /**
+     * Method to validate the db connection with use of the Environment variables.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     */
+    public function validateDbConnectionEnvVariables(): bool
+    {
+        $envOptions = $this->getEnvironmentOptions();
+        $envMapAll  = $this->getEnvironmentMap(false);
+
+        // Ensure all options is defined.
+        foreach ($envMapAll['db'] as $setupName) {
+            $envOptions->def($setupName, null);
+        }
+        foreach ($envMapAll['db_extra'] as $setupName) {
+            $envOptions->def($setupName, null);
+        }
+
+        // Set some missing and defaults
+        $envOptions->set('db_pass_plain', $envOptions->get('db_pass'));
+        $envOptions->set('db_encryption', $envOptions->get('db_encryption', 0));
+
+        $options = $envOptions->toArray();
+        $result  = $this->validateDbConnection($options, false);
+
+        if (!$result) {
+            Factory::getApplication()->enqueueMessage(
+                'Environment variables were detected in use. However, the values provided are not valid for establishing a database connection.',
+                'error'
+            );
+        }
+
+        return $result;
+    }
+
+    /**
      * Method to validate the db connection properties.
      *
-     * @param   array  $options  Array with database credentials
+     * @param   array    $options       Array with database credentials
+     * @param   boolean  $remoteCheck   Whether process check for remote db hosts
      *
      * @return  boolean
      *
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function validateDbConnection(array $options)
+    public function validateDbConnection(array $options, bool $remoteCheck = true)
     {
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
@@ -242,7 +281,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Security check for remote db hosts
-        if (!DatabaseHelper::checkRemoteDbHost($options)) {
+        if ($remoteCheck && !DatabaseHelper::checkRemoteDbHost($options)) {
             // Messages have been enqueued in the called function.
             return false;
         }

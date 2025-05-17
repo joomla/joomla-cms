@@ -75,10 +75,10 @@ class BaseInstallationModel extends BaseDatabaseModel
                 'JOOMLA_DB_USER'     => 'db_user',
                 'JOOMLA_DB_PASSWORD' => 'db_pass',
                 'JOOMLA_DB_NAME'     => 'db_name',
+                'JOOMLA_DB_PREFIX'   => 'db_prefix',
             ],
             'db_extra' => [
                 // Database optional settings.
-                'JOOMLA_DB_PREFIX'                 => 'db_prefix',
                 'JOOMLA_DB_ENCRYPTION'             => 'db_encryption',
                 'JOOMLA_DB_SSL_VERIFY_SERVER_CERT' => 'db_sslverifyservercert',
                 'JOOMLA_DB_SSL_KEY'                => 'db_sslkey',
