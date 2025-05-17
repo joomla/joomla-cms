@@ -52,20 +52,23 @@ class ConfigurationModel extends BaseInstallationModel
      */
     public function setup($options)
     {
+        // For the database we have to check the environment options separately, they should not end up in configuration.php
+        $dbOptions = ArrayHelper::toObject(array_merge($options, $this->getEnvironmentOptions()));
+
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
 
         // Get a database object.
         try {
             $db = DatabaseHelper::getDbo(
-                $options->db_type,
-                $options->db_host,
-                $options->db_user,
-                $options->db_pass_plain,
-                $options->db_name,
-                $options->db_prefix,
+                $dbOptions->db_type,
+                $dbOptions->db_host,
+                $dbOptions->db_user,
+                $dbOptions->db_pass_plain,
+                $dbOptions->db_name,
+                $dbOptions->db_prefix,
                 true,
-                DatabaseHelper::getEncryptionSettings($options)
+                DatabaseHelper::getEncryptionSettings($dbOptions)
             );
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
