@@ -270,7 +270,7 @@ class InstallCommand extends AbstractCommand
                 }
             } else {
                 if ($field->hidden) {
-                    $cfg[$field->fieldname] = '';
+                    $cfg[$field->fieldname] = $field->filter($field->default);
                 } else {
                     $cfg[$field->fieldname] = $field->filter(
                         $this->getStringFromOption(
