@@ -67,6 +67,9 @@ class BaseInstallationModel extends BaseDatabaseModel
     {
         // Use own map instead of Config 'config.env-map' (from Container) because installation setup has different field names.
         $envMap = [
+            // Site configuration
+            'JOOMLA_SITE_NAME' => 'site_name',
+
             // Database settings.
             'JOOMLA_DB_TYPE'     => 'db_type',
             'JOOMLA_DB_HOST'     => 'db_host',

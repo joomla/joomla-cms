@@ -245,7 +245,7 @@ class ChecksModel extends BaseInstallationModel
             'JOOMLA_DB_NAME',
             'JOOMLA_DB_PREFIX',
         ];
-        $presentDbKeys = array_intersect(array_keys($envMap), $dbRequired);
+        $presentDbKeys = array_values(array_intersect(array_keys($envMap), $dbRequired));
 
         if ($dbRequired !== $presentDbKeys) {
             throw new \UnexpectedValueException(

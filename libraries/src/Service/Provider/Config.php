@@ -74,7 +74,7 @@ class Config implements ServiceProviderInterface
                 function (Container $container) {
                     return [
                         // Site settings.
-                        'JOOMLA_SITE_SITENAME'                => 'sitename',
+                        'JOOMLA_SITE_NAME'                    => 'sitename',
                         'JOOMLA_SITE_EDITOR'                  => 'editor',
                         'JOOMLA_SITE_CAPTCHA'                 => 'captcha',
                         'JOOMLA_SITE_LIST_LIMIT'              => 'list_limit',

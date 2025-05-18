@@ -96,21 +96,28 @@ class SetupModel extends BaseInstallationModel
             return false;
         }
 
+        $isCli = Factory::getApplication()->isClient('cli_installation');
+
         /** @todo make this available in web installer too */
-        if (!Factory::getApplication()->isClient('cli_installation')) {
+        if (!$isCli) {
             $form->removeField('public_folder');
         }
 
-        // Get the list of active env variables, and hide the fields related to them
+        // Get the list of active env variables, and reconfigure the form fields accordingly
         $envOptions = $this->getEnvironmentOptions();
 
-        foreach (array_keys($envOptions) as $setupName) {
-            $form->setFieldAttribute($setupName, 'type', 'hidden');
-            $form->setFieldAttribute($setupName, 'required', 'false');
-            $form->setFieldAttribute($setupName, 'default', '');
+        foreach ($envOptions as $setupName => $value) {
+            if ($setupName === 'site_name' && !$isCli) {
+                $form->setFieldAttribute($setupName, 'default', $value);
+                $form->setFieldAttribute($setupName, 'readonly', 'true');
+            } else {
+                $form->setFieldAttribute($setupName, 'type', 'hidden');
+                $form->setFieldAttribute($setupName, 'required', 'false');
+                $form->setFieldAttribute($setupName, 'default', '');
 
-            if ($setupName === 'db_prefix') {
-                $form->setFieldAttribute($setupName, 'validate', '');
+                if ($setupName === 'db_prefix') {
+                    $form->setFieldAttribute($setupName, 'validate', '');
+                }
             }
         }
 
