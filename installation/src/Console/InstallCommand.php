@@ -94,6 +94,8 @@ class InstallCommand extends AbstractCommand
             }
         }
 
+        $checkModel->checkEnvironmentVariables();
+
         $this->ioStyle->writeln('OK');
 
         // Collect the configuration
@@ -103,6 +105,10 @@ class InstallCommand extends AbstractCommand
         $cfg['admin_password_plain'] = $cfg['admin_password'];
         $cfg['language']             = 'en-GB';
         $cfg['helpurl']              = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
+
+        $envOptions = $checkModel->getEnvironmentOptions();
+        $cfgWithEnv = array_merge($cfg, $envOptions);
+
         $this->ioStyle->writeln('OK');
 
         /** @var SetupModel $setupModel */
@@ -112,7 +118,7 @@ class InstallCommand extends AbstractCommand
         $this->ioStyle->write('Validating DB connection...');
 
         try {
-            $setupModel->validateDbConnection($cfg);
+            $setupModel->validateDbConnection($cfgWithEnv);
         } catch (\Exception $e) {
             $this->ioStyle->error($e->getMessage());
 
@@ -126,17 +132,17 @@ class InstallCommand extends AbstractCommand
         // Create and populate database
         $this->ioStyle->write('Creating and populating the database...');
         $databaseModel->createDatabase($cfg);
-        $db = $databaseModel->initialise($cfg);
+        $db = $databaseModel->initialise($cfgWithEnv);
 
         // Set the character set to UTF-8 for pre-existing databases.
         try {
-            $db->alterDbCharacterSet($cfg['db_name']);
+            $db->alterDbCharacterSet($cfgWithEnv['db_name']);
         } catch (\RuntimeException $e) {
             // Continue Anyhow
         }
 
         // Backup any old database.
-        if (!$databaseModel->backupDatabase($db, $cfg['db_prefix'])) {
+        if (!$databaseModel->backupDatabase($db, $cfgWithEnv['db_prefix'])) {
             return Command::FAILURE;
         }
 
@@ -155,7 +161,7 @@ class InstallCommand extends AbstractCommand
                 continue;
             }
 
-            $databaseModel->createTables($schema, $cfg);
+            $databaseModel->createTables($schema, $cfgWithEnv);
         }
 
         $this->ioStyle->writeln('OK');
@@ -183,11 +189,11 @@ class InstallCommand extends AbstractCommand
             $this->ioStyle->writeln('OK');
         }
 
-        if (!empty($cfg['public_folder'])) {
+        if (!empty($cfgWithEnv['public_folder'])) {
             $this->ioStyle->write('Creating the public folder...');
 
             try {
-                (new PublicFolderGeneratorHelper())->createPublicFolder($cfg['public_folder']);
+                (new PublicFolderGeneratorHelper())->createPublicFolder($cfgWithEnv['public_folder']);
             } catch (\Exception $e) {
                 $this->ioStyle->error($e->getMessage());
 
@@ -258,13 +264,17 @@ class InstallCommand extends AbstractCommand
                     $cfg[$field->fieldname] = $field->filter($field->default);
                 }
             } else {
-                $cfg[$field->fieldname] = $field->filter(
-                    $this->getStringFromOption(
-                        str_replace('_', '-', $field->fieldname),
-                        Text::_((string)$field->getAttribute('label')),
-                        $field
-                    )
-                );
+                if ($field->hidden) {
+                    $cfg[$field->fieldname] = '';
+                } else {
+                    $cfg[$field->fieldname] = $field->filter(
+                        $this->getStringFromOption(
+                            str_replace('_', '-', $field->fieldname),
+                            Text::_((string)$field->getAttribute('label')),
+                            $field
+                        )
+                    );
+                }
             }
         }
 

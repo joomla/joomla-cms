@@ -81,6 +81,8 @@ class BaseInstallationModel extends BaseDatabaseModel
             'JOOMLA_DB_SSL_CERT'               => 'db_sslcert',
             'JOOMLA_DB_SSL_CA'                 => 'db_sslca',
             'JOOMLA_DB_SSL_CIPHER'             => 'db_sslcipher',
+
+            'JOOMLA_PUBLIC_FOLDER' => 'public_folder',
         ];
 
         if ($active) {
@@ -120,6 +122,7 @@ class BaseInstallationModel extends BaseDatabaseModel
 
         // Few tweaks
         if (!empty($config['db_host'])) {
+            $config['db_encryption']       = (int) ($config['db_encryption'] ?? 0);
             $config['db_from_environment'] = true;
         }
         if (!empty($config['db_pass'])) {
