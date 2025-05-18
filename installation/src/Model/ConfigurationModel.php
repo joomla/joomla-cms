@@ -44,16 +44,17 @@ class ConfigurationModel extends BaseInstallationModel
     /**
      * Method to setup the configuration file
      *
-     * @param   array  $options  The session options
+     * @param   array  $options       The options to create the config
+     * @param   array  $extraOptions  The extra options that should not end up in the final configuration
      *
      * @return  boolean  True on success
      *
      * @since   3.1
      */
-    public function setup($options)
+    public function setup($options, array $extraOptions = [])
     {
-        // For the database we have to check the environment options separately, they should not end up in configuration.php
-        $dbOptions = ArrayHelper::toObject(array_merge($options, $this->getEnvironmentOptions()));
+        // For the database we have to check the extra options separately, they should not end up in the final configuration
+        $dbOptions = ArrayHelper::toObject(array_merge($options, $extraOptions));
 
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);

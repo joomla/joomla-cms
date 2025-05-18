@@ -119,12 +119,14 @@ class InstallationController extends JSONController
         $r = new \stdClass();
 
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
-        $databaseModel = $this->getModel('Database');
-        $options       = $databaseModel->getOptions();
+        $databaseModel   = $this->getModel('Database');
+        $options         = $databaseModel->getOptions();
+        $envOptions      = $databaseModel->getEnvironmentOptions();
+        $optionsWithEnvs = array_merge($options, $envOptions);
 
         // Create Db
         try {
-            $dbCreated = $databaseModel->createDatabase($options);
+            $dbCreated = $databaseModel->createDatabase($optionsWithEnvs);
         } catch (\RuntimeException $e) {
             $this->app->enqueueMessage($e->getMessage(), 'error');
 
@@ -134,11 +136,14 @@ class InstallationController extends JSONController
         if (!$dbCreated) {
             $r->view  = 'setup';
             $r->error = true;
-        } else {
-            // Re-fetch options from the session as the create database call might modify them.
-            $updatedOptions = $databaseModel->getOptions();
 
-            if (!$databaseModel->handleOldDatabase($updatedOptions)) {
+        } else {
+            $updatedOptions = array_merge(['db_created' => 1], $options);
+            $this->app->getSession()->set('setup.options', $updatedOptions);
+
+            $updatedOptionsWithEnvs = array_merge($updatedOptions, $envOptions);
+
+            if (!$databaseModel->handleOldDatabase($updatedOptionsWithEnvs)) {
                 $r->view  = 'setup';
                 $r->error = true;
             }
@@ -212,7 +217,8 @@ class InstallationController extends JSONController
         $setUpModel = $this->getModel('Setup');
 
         // Get the options from the session
-        $options = $setUpModel->getOptions();
+        $options    = $setUpModel->getOptions();
+        $envOptions = $setUpModel->getEnvironmentOptions();
 
         $r       = new \stdClass();
         $r->view = 'remove';
@@ -221,7 +227,7 @@ class InstallationController extends JSONController
         $configurationModel = $this->getModel('Configuration');
 
         // Attempt to setup the configuration.
-        if (!$configurationModel->setup($options)) {
+        if (!$configurationModel->setup($options, $envOptions)) {
             $r->view  = 'setup';
             $r->error = true;
         }

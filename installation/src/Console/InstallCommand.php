@@ -131,7 +131,7 @@ class InstallCommand extends AbstractCommand
 
         // Create and populate database
         $this->ioStyle->write('Creating and populating the database...');
-        $databaseModel->createDatabase($cfg);
+        $databaseModel->createDatabase($cfgWithEnv);
         $db = $databaseModel->initialise($cfgWithEnv);
 
         // Set the character set to UTF-8 for pre-existing databases.
@@ -171,7 +171,7 @@ class InstallCommand extends AbstractCommand
 
         // Attempt to setup the configuration.
         $this->ioStyle->write('Writing configuration.php and additional setup ...');
-        $configurationModel->setup($cfg);
+        $configurationModel->setup($cfg, $envOptions);
         $this->ioStyle->writeln('OK');
 
         if (!(new Version())->isInDevelopmentState()) {
