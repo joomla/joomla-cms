@@ -102,7 +102,7 @@ class BaseInstallationModel extends BaseDatabaseModel
     }
 
     /**
-     * Get options form environment variables
+     * Get options from environment variables
      *
      * @return  array
      *

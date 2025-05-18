@@ -249,8 +249,8 @@ class ChecksModel extends BaseInstallationModel
 
         if ($presentDbKeys && $dbRequired !== $presentDbKeys) {
             throw new \UnexpectedValueException(
-                sprintf(
-                    'Environment variables were detected in use, but they are not sufficient to continue the installation. Required: %1s. Missing: %2s',
+                Text::sprintf(
+                    'INSTL_ENV_ERROR_INCOMPLETE_DB',
                     implode(', ', $dbRequired),
                     implode(', ', array_diff_key($dbRequired, $presentDbKeys))
                 ),
