@@ -108,9 +108,13 @@
   };
 
   Joomla.checkFormField = function(fields) {
-    var state = [];
+    const state = [];
+    let fieldEl;
     fields.forEach(function(field) {
-      state.push(document.formvalidator.validate(document.querySelector(field)));
+      fieldEl = document.querySelector(field);
+      // Skip hidden fields, they will be validated by server
+      if (fieldEl.type === 'hidden') return;
+      state.push(document.formvalidator.validate(fieldEl));
     });
 
     if (state.indexOf(false) > -1) {
