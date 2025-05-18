@@ -65,12 +65,14 @@ class InstallationController extends JSONController
         $r->view = 'setup';
 
         /** @var \Joomla\CMS\Installation\Model\SetupModel $model */
-        $model = $this->getModel('Setup');
-        $data  = $this->app->getInput()->post->get('jform', [], 'array');
+        $model      = $this->getModel('Setup');
+        $data       = $this->app->getInput()->post->get('jform', [], 'array');
+        $envOptions = $model->getEnvironmentOptions();
 
-        if ($model->validate($data, 'setup') === false) {
+        if ($model->validate(array_merge($data, $envOptions), 'setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
             $r->validated = false;
+
             $this->sendJsonResponse($r);
 
             return;
@@ -92,7 +94,7 @@ class InstallationController extends JSONController
         $data = $model->storeOptions($data);
 
         // Merge with environment options if any
-        $data = array_merge($data, $model->getEnvironmentOptions());
+        $data = array_merge($data, $envOptions);
 
 
         if (!$model->validateDbConnection($data)) {

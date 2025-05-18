@@ -88,10 +88,10 @@ class BaseInstallationModel extends BaseDatabaseModel
             'JOOMLA_PUBLIC_FOLDER' => 'public_folder',
 
             // Admin user settings
-//            'JOOMLA_ADMIN_USER'     => 'admin_user',
-//            'JOOMLA_ADMIN_USERNAME' => "admin_username",
-//            'JOOMLA_ADMIN_PASSWORD' => "admin_password",
-//            'JOOMLA_ADMIN_EMAIL'    => "admin_email",
+            'JOOMLA_ADMIN_USER'     => 'admin_user',
+            'JOOMLA_ADMIN_USERNAME' => 'admin_username',
+            'JOOMLA_ADMIN_PASSWORD' => 'admin_password',
+            'JOOMLA_ADMIN_EMAIL'    => 'admin_email',
         ];
 
         if ($active) {
@@ -136,6 +136,10 @@ class BaseInstallationModel extends BaseDatabaseModel
         }
         if (!empty($config['db_pass'])) {
             $config['db_pass_plain'] = $config['db_pass'];
+        }
+
+        if (!empty($config['admin_password'])) {
+            $config['admin_password_plain'] = $config['admin_password'];
         }
 
         return $config;

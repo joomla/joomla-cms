@@ -104,20 +104,17 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Get the list of active env variables, and reconfigure the form fields accordingly
-        $envOptions = $this->getEnvironmentOptions();
+        $envOptions     = $this->getEnvironmentOptions();
+        $readOnlyFields = ['site_name', 'admin_user', 'admin_username', 'admin_email'];
 
         foreach ($envOptions as $setupName => $value) {
-            if ($setupName === 'site_name' && !$isCli) {
+            if (\in_array($setupName, $readOnlyFields) && !$isCli) {
                 $form->setFieldAttribute($setupName, 'default', $value);
                 $form->setFieldAttribute($setupName, 'readonly', 'true');
             } else {
                 $form->setFieldAttribute($setupName, 'type', 'hidden');
                 $form->setFieldAttribute($setupName, 'required', 'false');
                 $form->setFieldAttribute($setupName, 'default', '');
-
-                if ($setupName === 'db_prefix') {
-                    $form->setFieldAttribute($setupName, 'validate', '');
-                }
             }
         }
 

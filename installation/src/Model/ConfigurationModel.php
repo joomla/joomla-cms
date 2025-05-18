@@ -53,8 +53,8 @@ class ConfigurationModel extends BaseInstallationModel
      */
     public function setup($options, array $extraOptions = [])
     {
-        // For the database we have to check the extra options separately, they should not end up in the final configuration
-        $dbOptions = ArrayHelper::toObject(array_merge($options, $extraOptions));
+        // Check the extra options separately, they should not end up in the final configuration
+        $extraOptions = ArrayHelper::toObject(array_merge($options, $extraOptions));
 
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
@@ -62,14 +62,14 @@ class ConfigurationModel extends BaseInstallationModel
         // Get a database object.
         try {
             $db = DatabaseHelper::getDbo(
-                $dbOptions->db_type,
-                $dbOptions->db_host,
-                $dbOptions->db_user,
-                $dbOptions->db_pass_plain,
-                $dbOptions->db_name,
-                $dbOptions->db_prefix,
+                $extraOptions->db_type,
+                $extraOptions->db_host,
+                $extraOptions->db_user,
+                $extraOptions->db_pass_plain,
+                $extraOptions->db_name,
+                $extraOptions->db_prefix,
                 true,
-                DatabaseHelper::getEncryptionSettings($dbOptions)
+                DatabaseHelper::getEncryptionSettings($extraOptions)
             );
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
@@ -199,7 +199,7 @@ class ConfigurationModel extends BaseInstallationModel
         }
 
         // Attempt to create the root user.
-        if (!$this->createRootUser($options, $db)) {
+        if (!$this->createRootUser($extraOptions, $db)) {
             $this->deleteConfiguration();
 
             return false;
