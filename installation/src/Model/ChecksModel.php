@@ -229,21 +229,30 @@ class ChecksModel extends BaseInstallationModel
      */
     public function checkEnvironmentVariables(): void
     {
-        $envMapActive = $this->getEnvironmentMap();
-        $envMapAll    = $this->getEnvironmentMap(false);
+        $envMap = $this->getEnvironmentMap();
 
         // Environment variables not in use
-        if (!$envMapActive) {
+        if (!$envMap) {
             return;
         }
 
-        // Check Database elements
-        if (!empty($envMapActive['db']) && $envMapActive['db'] != $envMapAll['db']) {
+        // Check required Database elements
+        $dbRequired = [
+            'JOOMLA_DB_TYPE',
+            'JOOMLA_DB_HOST',
+            'JOOMLA_DB_USER',
+            'JOOMLA_DB_PASSWORD',
+            'JOOMLA_DB_NAME',
+            'JOOMLA_DB_PREFIX',
+        ];
+        $presentDbKeys = array_intersect(array_keys($envMap), $dbRequired);
+
+        if ($dbRequired !== $presentDbKeys) {
             throw new \UnexpectedValueException(
                 sprintf(
-                    'Environment variables were detected in use, but they are not sufficient to continue the installation. Required: %1s. But missing: %2s',
-                    implode(', ', array_keys($envMapAll['db'])),
-                    implode(', ', array_keys(array_diff_key($envMapAll['db'], $envMapActive['db'])))
+                    'Environment variables were detected in use, but they are not sufficient to continue the installation. Required: %1s. Missing: %2s',
+                    implode(', ', $dbRequired),
+                    implode(', ', array_diff_key($dbRequired, $presentDbKeys))
                 ),
                 500
             );

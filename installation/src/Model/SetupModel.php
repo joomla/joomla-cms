@@ -104,15 +104,13 @@ class SetupModel extends BaseInstallationModel
         // Get the list of active env variables, and hide the fields related to them
         $envMap = $this->getEnvironmentMap();
 
-        foreach ($envMap as $group) {
-            foreach ($group as $setupName) {
-                $form->setFieldAttribute($setupName, 'type', 'hidden');
-                $form->setFieldAttribute($setupName, 'required', 'false');
-                $form->setFieldAttribute($setupName, 'default', '');
+        foreach ($envMap as $setupName) {
+            $form->setFieldAttribute($setupName, 'type', 'hidden');
+            $form->setFieldAttribute($setupName, 'required', 'false');
+            $form->setFieldAttribute($setupName, 'default', '');
 
-                if ($setupName === 'db_prefix') {
-                    $form->setFieldAttribute($setupName, 'validate', '');
-                }
+            if ($setupName === 'db_prefix') {
+                $form->setFieldAttribute($setupName, 'validate', '');
             }
         }
 

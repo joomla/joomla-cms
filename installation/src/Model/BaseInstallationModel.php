@@ -67,36 +67,24 @@ class BaseInstallationModel extends BaseDatabaseModel
     {
         // Use own map instead of Config 'config.env-map' (from Container) because installation setup has different field names.
         $envMap = [
-            'db' => [
-                // Database required settings.
-                'JOOMLA_DB_TYPE'     => 'db_type',
-                'JOOMLA_DB_HOST'     => 'db_host',
-                'JOOMLA_DB_USER'     => 'db_user',
-                'JOOMLA_DB_PASSWORD' => 'db_pass',
-                'JOOMLA_DB_NAME'     => 'db_name',
-                'JOOMLA_DB_PREFIX'   => 'db_prefix',
-            ],
-            'db_extra' => [
-                // Database optional settings.
-                'JOOMLA_DB_ENCRYPTION'             => 'db_encryption',
-                'JOOMLA_DB_SSL_VERIFY_SERVER_CERT' => 'db_sslverifyservercert',
-                'JOOMLA_DB_SSL_KEY'                => 'db_sslkey',
-                'JOOMLA_DB_SSL_CERT'               => 'db_sslcert',
-                'JOOMLA_DB_SSL_CA'                 => 'db_sslca',
-                'JOOMLA_DB_SSL_CIPHER'             => 'db_sslcipher',
-            ]
+            // Database settings.
+            'JOOMLA_DB_TYPE'     => 'db_type',
+            'JOOMLA_DB_HOST'     => 'db_host',
+            'JOOMLA_DB_USER'     => 'db_user',
+            'JOOMLA_DB_PASSWORD' => 'db_pass',
+            'JOOMLA_DB_NAME'     => 'db_name',
+            'JOOMLA_DB_PREFIX'   => 'db_prefix',
+
+            'JOOMLA_DB_ENCRYPTION'             => 'db_encryption',
+            'JOOMLA_DB_SSL_VERIFY_SERVER_CERT' => 'db_sslverifyservercert',
+            'JOOMLA_DB_SSL_KEY'                => 'db_sslkey',
+            'JOOMLA_DB_SSL_CERT'               => 'db_sslcert',
+            'JOOMLA_DB_SSL_CA'                 => 'db_sslca',
+            'JOOMLA_DB_SSL_CIPHER'             => 'db_sslcipher',
         ];
 
         if ($active) {
-            foreach ($envMap as $groupName => $group) {
-                $activeVars = array_intersect_key($group, $_ENV);
-
-                if ($activeVars) {
-                    $envMap[$groupName] = $activeVars;
-                } else {
-                    unset($envMap[$groupName]);
-                }
-            }
+            $envMap = array_intersect_key($envMap, $_ENV);
         }
 
         return $envMap;
@@ -115,20 +103,19 @@ class BaseInstallationModel extends BaseDatabaseModel
         $config = [];
 
         // Load environment variables
-        foreach ($envMap as $group) {
-            foreach ($group as $envName => $setupName) {
-                $envValue = $_ENV[$envName] ?? '';
+        foreach ($envMap as $envName => $setupName) {
+            // Read form $_ENV not getenv() (!!!)
+            $envValue = $_ENV[$envName] ?? '';
 
-                if ($envName === 'JOOMLA_LOG_PRIORITIES') {
-                    $envValue = json_decode($envValue, true) ?: [];
-                }
-
-                $config[$setupName] = match ($envValue) {
-                    'true', '(true)' => true,
-                    'false', '(false)' => false,
-                    default => $envValue,
-                };
+            if ($envName === 'JOOMLA_LOG_PRIORITIES') {
+                $envValue = json_decode($envValue, true) ?: [];
             }
+
+            $config[$setupName] = match ($envValue) {
+                'true', '(true)' => true,
+                'false', '(false)' => false,
+                default => $envValue,
+            };
         }
 
         // Few tweaks

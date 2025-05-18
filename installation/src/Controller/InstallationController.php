@@ -89,8 +89,7 @@ class InstallationController extends JSONController
             return;
         }
 
-        $data   = $model->storeOptions($data);
-        $envMap = $model->getEnvironmentMap();
+        $data = $model->storeOptions($data);
 
         // Merge with environment options if any
         $data = array_merge($data, $model->getEnvironmentOptions());

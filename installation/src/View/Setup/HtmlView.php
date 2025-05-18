@@ -42,11 +42,10 @@ class HtmlView extends DefaultView
      */
     public function display($tpl = null)
     {
-        $model        = $this->getModel();
-        $envMapActive = $model->getEnvironmentMap();
-        $envMapAll    = $model->getEnvironmentMap(false);
+        $model  = $this->getModel();
+        $envMap = $model->getEnvironmentMap();
 
-        $this->hideDbSection = !empty($envMapActive['db']) && $envMapActive['db'] == $envMapAll['db'];
+        $this->hideDbSection = !empty($envMap['JOOMLA_DB_HOST']);
 
         parent::display($tpl);
     }

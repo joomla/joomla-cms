@@ -24,11 +24,6 @@ $wa = $this->getDocument()->getWebAssetManager();
 
 $wa->useScript('joomla.dialog-autocreate');
 ?>
-<style>
-    .j-install-step{
-        display: block;
-    }
-</style>
 <div id="installer-view" data-page-name="setup">
     <form action="index.php" method="post" id="adminForm" class="form-validate">
         <fieldset id="installStep1" class="j-install-step active">
