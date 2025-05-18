@@ -257,26 +257,6 @@ class ChecksModel extends BaseInstallationModel
                 500
             );
         }
-
-        // Check required User options, all or nothing.
-        $userRequired = [
-            'JOOMLA_ADMIN_USER',
-            'JOOMLA_ADMIN_USERNAME',
-            'JOOMLA_ADMIN_PASSWORD',
-            'JOOMLA_ADMIN_EMAIL',
-        ];
-        $presentUserKeys = array_values(array_intersect(array_keys($envMap), $userRequired));
-
-        if ($presentUserKeys && $userRequired !== $presentUserKeys) {
-            throw new \UnexpectedValueException(
-                sprintf(
-                    'Environment variables were detected in use, but they are not sufficient to continue the installation. Required: %1s. Missing: %2s',
-                    implode(', ', $userRequired),
-                    implode(', ', array_diff_key($userRequired, $presentUserKeys))
-                ),
-                500
-            );
-        }
     }
 
     /**
