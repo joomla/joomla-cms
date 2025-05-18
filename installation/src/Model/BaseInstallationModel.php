@@ -86,6 +86,12 @@ class BaseInstallationModel extends BaseDatabaseModel
             'JOOMLA_DB_SSL_CIPHER'             => 'db_sslcipher',
 
             'JOOMLA_PUBLIC_FOLDER' => 'public_folder',
+
+            // Admin user settings
+//            'JOOMLA_ADMIN_USER'     => 'admin_user',
+//            'JOOMLA_ADMIN_USERNAME' => "admin_username",
+//            'JOOMLA_ADMIN_PASSWORD' => "admin_password",
+//            'JOOMLA_ADMIN_EMAIL'    => "admin_email",
         ];
 
         if ($active) {
