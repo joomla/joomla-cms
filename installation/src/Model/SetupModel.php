@@ -113,7 +113,6 @@ class SetupModel extends BaseInstallationModel
                 $form->setFieldAttribute($setupName, 'readonly', 'true');
             } else {
                 $form->setFieldAttribute($setupName, 'type', 'hidden');
-                //$form->setFieldAttribute($setupName, 'required', 'false');
             }
         }
 
