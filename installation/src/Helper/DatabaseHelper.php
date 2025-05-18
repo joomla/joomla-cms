@@ -131,7 +131,7 @@ abstract class DatabaseHelper
     public static function getEncryptionSettings($options)
     {
         return [
-            'dbencryption'          => $options->db_encryption,
+            'dbencryption'          => $options->db_encryption ?? 0,
             'dbsslverifyservercert' => $options->db_sslverifyservercert,
             'dbsslkey'              => $options->db_sslkey,
             'dbsslcert'             => $options->db_sslcert,

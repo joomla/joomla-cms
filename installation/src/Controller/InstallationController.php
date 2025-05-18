@@ -93,10 +93,8 @@ class InstallationController extends JSONController
         $envMap = $model->getEnvironmentMap();
 
         // Merge with environment options if any
-        if (!empty($envMap['db'])) {
-            $data = array_merge($data, $model->getEnvironmentOptions());
-            $data['db_from_environment'] = true;
-        }
+        $data = array_merge($data, $model->getEnvironmentOptions());
+
 
         if (!$model->validateDbConnection($data)) {
             $r->validated = false;
@@ -166,7 +164,7 @@ class InstallationController extends JSONController
         $model = $this->getModel('Database');
 
         $r       = new \stdClass();
-        $options = $model->getOptions();
+        $options = array_merge($model->getOptions(), $model->getEnvironmentOptions());
         $db      = $model->initialise($options);
         $files   = [
             'populate1' => 'base',

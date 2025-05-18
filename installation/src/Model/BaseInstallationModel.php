@@ -132,6 +132,9 @@ class BaseInstallationModel extends BaseDatabaseModel
         }
 
         // Few tweaks
+        if (!empty($config['db_host'])) {
+            $config['db_from_environment'] = true;
+        }
         if (!empty($config['db_pass'])) {
             $config['db_pass_plain'] = $config['db_pass'];
         }

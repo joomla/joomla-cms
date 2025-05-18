@@ -102,7 +102,10 @@ class DatabaseModel extends BaseInstallationModel
      */
     public function createDatabase(array $options)
     {
-        $db = $this->initialise($options, false);
+        // For the database we have to check the environment options separately, they should not end up in configuration.php
+        $optionsSrc = $options;
+        $options    = array_merge($options, $this->getEnvironmentOptions());
+        $db         = $this->initialise($options, false);
 
         if ($db === false) {
             // Error messages are enqueued by the initialise function, we just need to tell the controller how to redirect
@@ -230,20 +233,9 @@ class DatabaseModel extends BaseInstallationModel
             // Continue Anyhow
         }
 
-        $options = (array) $options;
+        $optionsSrc = array_merge(['db_created' => 1], $optionsSrc);
 
-        // Remove *_errors value.
-        foreach ($options as $i => $option) {
-            if (isset($i['1']) && $i['1'] == '*') {
-                unset($options[$i]);
-
-                break;
-            }
-        }
-
-        $options = array_merge(['db_created' => 1], $options);
-
-        Factory::getSession()->set('setup.options', $options);
+        Factory::getSession()->set('setup.options', $optionsSrc);
 
         return true;
     }
@@ -262,6 +254,9 @@ class DatabaseModel extends BaseInstallationModel
         if (!isset($options['db_created']) || !$options['db_created']) {
             return $this->createDatabase($options);
         }
+
+        // Add check the environment options, createDatabase() handle this on its own
+        $options = array_merge($options, $this->getEnvironmentOptions());
 
         if (!$db = $this->initialise($options)) {
             return false;
