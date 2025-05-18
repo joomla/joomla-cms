@@ -114,6 +114,11 @@ class InstallCommand extends AbstractCommand
         /** @var SetupModel $setupModel */
         $setupModel = $app->getMVCFactory()->createModel('Setup', 'Installation');
 
+        // Validate environment options
+        if ($envOptions && $setupModel->validate($envOptions, 'setup') === false) {
+            return Command::FAILURE;
+        }
+
         // Validate DB connection
         $this->ioStyle->write('Validating DB connection...');
 

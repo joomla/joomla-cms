@@ -236,7 +236,7 @@ class ChecksModel extends BaseInstallationModel
             return;
         }
 
-        // Check required Database elements
+        // Check required Database options, all or nothing.
         $dbRequired = [
             'JOOMLA_DB_TYPE',
             'JOOMLA_DB_HOST',
@@ -247,12 +247,32 @@ class ChecksModel extends BaseInstallationModel
         ];
         $presentDbKeys = array_values(array_intersect(array_keys($envMap), $dbRequired));
 
-        if ($dbRequired !== $presentDbKeys) {
+        if ($presentDbKeys && $dbRequired !== $presentDbKeys) {
             throw new \UnexpectedValueException(
                 sprintf(
                     'Environment variables were detected in use, but they are not sufficient to continue the installation. Required: %1s. Missing: %2s',
                     implode(', ', $dbRequired),
                     implode(', ', array_diff_key($dbRequired, $presentDbKeys))
+                ),
+                500
+            );
+        }
+
+        // Check required User options, all or nothing.
+        $userRequired = [
+            'JOOMLA_ADMIN_USER',
+            'JOOMLA_ADMIN_USERNAME',
+            'JOOMLA_ADMIN_PASSWORD',
+            'JOOMLA_ADMIN_EMAIL',
+        ];
+        $presentUserKeys = array_values(array_intersect(array_keys($envMap), $userRequired));
+
+        if ($presentUserKeys && $userRequired !== $presentUserKeys) {
+            throw new \UnexpectedValueException(
+                sprintf(
+                    'Environment variables were detected in use, but they are not sufficient to continue the installation. Required: %1s. Missing: %2s',
+                    implode(', ', $userRequired),
+                    implode(', ', array_diff_key($userRequired, $presentUserKeys))
                 ),
                 500
             );
