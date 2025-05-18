@@ -123,7 +123,7 @@ class HtmlView extends BaseHtmlView
 
             if ($fromEnv) {
                 Factory::getApplication()
-                    ->enqueueMessage(\sprintf('Changes for following parameters will not have an effect, they provided by Environment variables: %s', implode(', ', $fromEnv)));
+                    ->enqueueMessage(Text::sprintf('COM_CONFIG_FIELDS_FROM_ENV', implode(', ', $fromEnv)));
             }
         }
 
