@@ -110,9 +110,7 @@
             break;
           case 'End':
             event.preventDefault();
-            console.log('End', event.target);
             const lastLi = target.closest('ul')?.querySelector(':scope > li:last-child');
-            console.log('lastLi', lastLi);
             if (lastLi) {
               // set focus on last li child with tabindex within current list
               lastLi.querySelector(':scope > [tabindex]:not([tabindex="-1"]), a, button')?.focus();
