@@ -16,11 +16,8 @@ use Joomla\CMS\Helper\ModuleHelper;
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['type' => 'module']);
 
-$id = '';
-
-if ($tagId = $params->get('tag_id', '')) {
-    $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
-}
+$tagId = $params->get('tag_id', '') ?: 'mod-menu' . $module->id;
+$id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
 
 // The menu class is deprecated. Use mod-menu instead
 ?>

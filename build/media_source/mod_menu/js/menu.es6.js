@@ -17,7 +17,7 @@
         };
 
         // Unique prefix for this nav instance - needed for the id of submenus and aria-controls
-        this.idPrefix = nav.parentNode?.id ? nav.parentNode.id : `nav-${Math.floor(Math.random() * 100000)}`;
+        this.idPrefix = this.nav?.id ?? `nav-${Math.floor(Math.random() * 100000)}`;
 
         this.topLevelNodes = this.nav.querySelectorAll(':scope > li');
 
