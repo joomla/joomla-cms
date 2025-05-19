@@ -64,7 +64,7 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
     if ($item->deeper && in_array($item->type, ['separator', 'heading'])) {
         // Add a toggle button. @todo: button or span?
         // @todo aria-label
-        echo '<span class="mod-menu__toggle-sub" role="button" aria-expanded="false" tabindex="0">';
+        echo '<button class="mod-menu__toggle-sub" aria-expanded="false" tabindex="0">';
     }
 
     switch ($item->type) :
@@ -88,14 +88,14 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
             case 'heading':
             case 'separator':
                 echo '<span class="icon-chevron-down" aria-hidden="true">' .
-                     '</span></span>';
+                     '</span></button>';
                 break;
 
             default:
                 // Add a toggle button. @todo: button or span?
-                echo '<span class="mod-menu__toggle-sub" role="button" aria-expanded="false" tabindex="0">' .
+                echo '<button class="mod-menu__toggle-sub" aria-expanded="false" tabindex="0">' .
                 '<span class="icon-chevron-down" aria-hidden="true">' .
-                '</span></span>';
+                '</span></button>';
         }
         echo '<ul class="mod-menu__sub list-unstyled small">';
     } elseif ($item->shallower) {
