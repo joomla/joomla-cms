@@ -33,7 +33,7 @@
 
         if (levelChildUls.length > 0) {
           const togglebtn = topLevelEl.querySelector('[aria-expanded]');
-          togglebtn?.setAttribute('aria-controls', ariaControls);
+          togglebtn?.setAttribute('aria-controls', ariaControls.join(' '));
         }
       });
 
