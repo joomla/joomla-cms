@@ -60,6 +60,13 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
 
     echo '<li class="' . $class . '">';
 
+    // The next item is deeper - add toggle only here it is a heading or separator
+    if ($item->deeper && in_array($item->type, ['separator', 'heading'])) {
+        // Add a toggle button. @todo: button or span?
+        // @todo aria-label
+        echo '<span class="mod-menu__toggle-sub" role="button" aria-expanded="false" tabindex="0">';
+    }
+
     switch ($item->type) :
         case 'separator':
         case 'component':
@@ -75,6 +82,21 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
 
     // The next item is deeper.
     if ($item->deeper) {
+        // Check type - add only here if not a heading or separator
+        // @todo aria-label
+        switch ($item->type) {
+            case 'heading':
+            case 'separator':
+                echo '<span class="icon-chevron-down" aria-hidden="true">'.
+                     '</span></span>';
+                break;
+
+            default:
+                // Add a toggle button. @todo: button or span?
+                echo '<span class="mod-menu__toggle-sub" role="button" aria-expanded="false" tabindex="0">' .
+                '<span class="icon-chevron-down" aria-hidden="true">'.
+                '</span></span>';
+        }
         echo '<ul class="mod-menu__sub list-unstyled small">';
     } elseif ($item->shallower) {
         // The next item is shallower.

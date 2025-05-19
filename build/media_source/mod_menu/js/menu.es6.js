@@ -35,30 +35,8 @@
           });
 
           if (levelChildUls.length > 0) {
-
-            if (!topLevelEl.querySelector('[aria-expanded]')) {
-              // fallback - add element to toggle submenus if not already present
-              // @todo better idea
-              const togglebtn = document.createElement('span');
-              togglebtn.setAttribute('aria-expanded', 'false');
-              togglebtn.setAttribute('aria-controls', ariaControls);
-              togglebtn.setAttribute('role', 'button');
-              togglebtn.tabIndex = '0';
-              togglebtn.innerHTML = '<span class="icon-chevron-down" aria-hidden="true"></span>';
-
-              if (firstChild.nodeName === 'SPAN' && !firstChild.querySelector('a')) {
-                togglebtn.innerHTML = firstChild.getHTML() + '\u00A0\u00A0' + togglebtn.innerHTML;
-                topLevelEl.replaceChild(togglebtn, firstChild);
-              } else {
-                topLevelEl.querySelector('ul').before(togglebtn);
-                const space = document.createTextNode('\u00A0\u00A0');
-                topLevelEl.insertBefore(space, togglebtn);
-              }
-              // @todo aria-label
-            } else {
               const togglebtn = topLevelEl.querySelector('[aria-expanded]');
-              togglebtn.setAttribute('aria-controls', ariaControls);
-            }
+              togglebtn?.setAttribute('aria-controls', ariaControls);
           }
         });
 
