@@ -7,183 +7,186 @@
   'use strict';
 
   class Nav {
-      static idCounter = 0;
+    constructor(nav) {
+      this.nav = nav;
+      this.settings = {
+        menuHoverClass: 'show-menu',
+        dir: 'ltr',
+      };
 
-      constructor(nav) {
-        this.nav = nav;
-        this.settings = {
-          menuHoverClass: 'show-menu',
-          dir: 'ltr',
-        };
+      // Unique prefix for this nav instance - needed for the id of submenus and aria-controls
+      this.idPrefix = this.nav?.id ?? `nav-${Math.floor(Math.random() * 100000)}`;
 
-        // Unique prefix for this nav instance - needed for the id of submenus and aria-controls
-        this.idPrefix = this.nav?.id ?? `nav-${Math.floor(Math.random() * 100000)}`;
+      this.topLevelNodes = this.nav.querySelectorAll(':scope > li');
 
-        this.topLevelNodes = this.nav.querySelectorAll(':scope > li');
-
-        this.topLevelNodes.forEach((topLevelEl) => {
-          // get the first child within topLevelEl - either a link or span
-          const firstChild = topLevelEl.firstElementChild;
-          // get submenu ul elements within topLevelEl
-          const levelChildUls = topLevelEl.querySelectorAll('ul');
-          let ariaControls = [];
-          levelChildUls.forEach((childUl) => {
-            childUl.setAttribute('aria-hidden', 'true');
-            childUl.classList.remove(this.settings.menuHoverClass); // ???
-            childUl.id = `${this.idPrefix}-submenu${Nav.idCounter++}`;
-            ariaControls.push(childUl.id);
-          });
-
-          if (levelChildUls.length > 0) {
-              const togglebtn = topLevelEl.querySelector('[aria-expanded]');
-              togglebtn?.setAttribute('aria-controls', ariaControls);
-          }
+      this.topLevelNodes.forEach((topLevelEl) => {
+        // get submenu ul elements within topLevelEl
+        const levelChildUls = topLevelEl.querySelectorAll('ul');
+        const ariaControls = [];
+        levelChildUls.forEach((childUl) => {
+          childUl.setAttribute('aria-hidden', 'true');
+          childUl.classList.remove(this.settings.menuHoverClass); // ???
+          childUl.id = `${this.idPrefix}-submenu${Nav.idCounter}`;
+          Nav.idCounter += 1;
+          ariaControls.push(childUl.id);
         });
 
-        nav.addEventListener('keydown', this.onMenuKeyDown.bind(this));
-        nav.addEventListener('click', this.onClick.bind(this));
+        if (levelChildUls.length > 0) {
+          const togglebtn = topLevelEl.querySelector('[aria-expanded]');
+          togglebtn?.setAttribute('aria-controls', ariaControls);
+        }
+      });
+
+      nav.addEventListener('keydown', this.onMenuKeyDown.bind(this));
+      nav.addEventListener('click', this.onClick.bind(this));
+    }
+
+    onMenuKeyDown(event) {
+      const target = event.target.closest('li');
+      if (!target) {
+        return;
       }
 
-      onMenuKeyDown(event) {
-        const target = event.target.closest('li');
-        if (!target) {
-          return;
-        }
+      const subLists = target.querySelectorAll('ul');
 
-        const subLists = target.querySelectorAll('ul');
-
-        switch (event.key) {
-          case 'ArrowUp':
-            event.preventDefault();
-            this.tabPrev();
-            break;
-          case 'ArrowLeft':
-            event.preventDefault();
-            if (this.settings.dir === 'rtl') {
-                this.tabNext();
-            } else {
-              this.tabPrev();
-            }
-            break;
-          case 'ArrowDown':
-            event.preventDefault();
-            this.tabNext();
-            break;
-          case 'ArrowRight':
-            event.preventDefault();
-            if (this.settings.dir === 'rtl') {
-                this.tabPrev();
-            } else {
-              this.tabNext();
-            }
-            break;
-          case 'Enter':
-            if (event.target.nodeName === 'SPAN' && event.target.parentNode.nodeName !== 'A' && subLists.length > 0) {
-              event.preventDefault();
-              this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
-            }
-            break;
-          case ' ':
-          case 'Spacebar':
-            if (subLists.length > 0) {
-              event.preventDefault();
-              this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
-            }
-            break;
-          case 'Escape':
-            event.preventDefault();
-            const currentTopLevelLi = this.getTopLevelParentLi(event.target);
-            if (!currentTopLevelLi) {
-              break;
-            }
-            const allChildListsFromTopLevelLi = currentTopLevelLi.querySelectorAll('ul');
-            if (allChildListsFromTopLevelLi.length > 0) {
-              this.toggleSubMenu(currentTopLevelLi, allChildListsFromTopLevelLi, false);
-            }
-            // set focus on the top level li child with tabindex
-            currentTopLevelLi.querySelectorAll(':scope > [tabindex]:not([tabindex="-1"]), a, button').forEach(tabElement => {
-              if (tabElement.hasAttribute(['aria-expanded'])) {
-                tabElement.focus();
-                return;
-              }
-            });
-            break;
-          case 'End':
-            event.preventDefault();
-            const currentLiList = target.closest('ul')?.querySelectorAll(':scope > li');
-            for (let index = currentLiList.length - 1; index >= 0; index--) {
-              const lastTabbable = currentLiList[index].querySelector(':scope > [tabindex]:not([tabindex="-1"]), a, button');
-              if (lastTabbable) {
-                lastTabbable.focus();
-                return;
-              }
-            }
-            break;
-          case 'Home':
-            event.preventDefault();
-            const firstLi = target.closest('ul')?.querySelector(':scope > li:first-child');
-            if (firstLi) {
-              // set focus on first li child with tabindex within current list
-              firstLi.querySelector(':scope > [tabindex]:not([tabindex="-1"]), a, button')?.focus();
-            }
-            break;
-        }
-      }
-
-      onClick(event) {
-        if (!event.target?.hasAttribute('aria-expanded') && !event.target?.closest('[aria-expanded')) {
-          return;
-        }
-        if (event.target?.nodeName === 'A') {
-          return;
-        }
-        if (event.target?.nodeName === 'SPAN' && event.target.parentNode.nodeName === 'A') {
-          return;
-        }
-        const target = event.target.closest('li');
-        const subLists = target?.querySelectorAll('ul');
-        if (subLists && subLists.length > 0) {
+      switch (event.key) {
+        case 'ArrowUp':
           event.preventDefault();
-          this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
+          this.tabPrev();
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          if (this.settings.dir === 'rtl') {
+            this.tabNext();
+          } else {
+            this.tabPrev();
+          }
+          break;
+        case 'ArrowDown':
+          event.preventDefault();
+          this.tabNext();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          if (this.settings.dir === 'rtl') {
+            this.tabPrev();
+          } else {
+            this.tabNext();
+          }
+          break;
+        case 'Enter':
+          if (event.target.nodeName === 'SPAN' && event.target.parentNode.nodeName !== 'A' && subLists.length > 0) {
+            event.preventDefault();
+            this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
+          }
+          break;
+        case ' ':
+        case 'Spacebar':
+          if (subLists.length > 0) {
+            event.preventDefault();
+            this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
+          }
+          break;
+        case 'Escape': {
+          event.preventDefault();
+          const currentTopLevelLi = this.getTopLevelParentLi(event.target);
+          if (!currentTopLevelLi) {
+            break;
+          }
+          const allChildListsFromTopLevelLi = currentTopLevelLi.querySelectorAll('ul');
+          if (allChildListsFromTopLevelLi.length > 0) {
+            this.toggleSubMenu(currentTopLevelLi, allChildListsFromTopLevelLi, false);
+          }
+          // set focus on the top level li child with tabindex
+          currentTopLevelLi.querySelectorAll(':scope > [tabindex]:not([tabindex="-1"]), a, button').forEach((tabElement) => {
+            if (tabElement.hasAttribute(['aria-expanded'])) {
+              tabElement.focus();
+            }
+          });
+          break;
         }
-      }
-
-      toggleSubMenu(target, subLists, open = false) {
-        subLists.forEach((ulChild) => {
-          ulChild.setAttribute('aria-hidden', open ? 'false' : 'true');
-          ulChild.classList.toggle(this.settings.menuHoverClass, open); // ???
-        });
-        target.querySelector(':scope > [aria-expanded]').setAttribute('aria-expanded', open ? 'true' : 'false');
-      }
-
-      focusTabbable(direction = 1) {
-        const tabbables = Array.from(this.nav.querySelectorAll('[tabindex]:not([tabindex="-1"]), a, button'))
-          .filter(el => !el.disabled && el.tabIndex >= 0 && el.offsetParent !== null);
-        const currentIndex = tabbables.indexOf(document.activeElement);
-        if (tabbables.length === 0) return;
-        let nextIndex = (currentIndex + direction + tabbables.length) % tabbables.length;
-        tabbables[nextIndex].focus();
-      }
-
-      tabNext() {
-        this.focusTabbable(1);
-      }
-
-      tabPrev() {
-        this.focusTabbable(-1);
-      }
-
-
-      getTopLevelParentLi(element) {
-        let currentLi = element.closest('li');
-        // this.topLevelNodes is a NodeList of top-level li elements in this nav
-        while (currentLi && !Array.from(this.topLevelNodes).includes(currentLi)) {
-          const parentUl = currentLi.parentElement.closest('ul');
-          currentLi = parentUl ? parentUl.closest('li') : null;
+        case 'End': {
+          event.preventDefault();
+          const currentLiList = target.closest('ul')?.querySelectorAll(':scope > li');
+          for (let index = currentLiList.length - 1; index >= 0; index -= 1) {
+            const lastTabbable = currentLiList[index].querySelector(':scope > [tabindex]:not([tabindex="-1"]), a, button');
+            if (lastTabbable) {
+              lastTabbable.focus();
+              return;
+            }
+          }
+          break;
         }
-        return currentLi; // top-level li or null if not found, or the
+        case 'Home': {
+          event.preventDefault();
+          const firstLi = target.closest('ul')?.querySelector(':scope > li:first-child');
+          if (firstLi) {
+            // set focus on first li child with tabindex within current list
+            firstLi.querySelector(':scope > [tabindex]:not([tabindex="-1"]), a, button')?.focus();
+          }
+          break;
+        }
+        default:
+          break;
       }
+    }
+
+    onClick(event) {
+      if (!event.target?.hasAttribute('aria-expanded') && !event.target?.closest('[aria-expanded')) {
+        return;
+      }
+      if (event.target?.nodeName === 'A') {
+        return;
+      }
+      if (event.target?.nodeName === 'SPAN' && event.target.parentNode.nodeName === 'A') {
+        return;
+      }
+      const target = event.target.closest('li');
+      const subLists = target?.querySelectorAll('ul');
+      if (subLists && subLists.length > 0) {
+        event.preventDefault();
+        this.toggleSubMenu(target, subLists, subLists[0]?.getAttribute('aria-hidden') === 'true');
+      }
+    }
+
+    toggleSubMenu(target, subLists, open = false) {
+      subLists.forEach((ulChild) => {
+        ulChild.setAttribute('aria-hidden', open ? 'false' : 'true');
+        ulChild.classList.toggle(this.settings.menuHoverClass, open); // ???
+      });
+      target.querySelector(':scope > [aria-expanded]').setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    focusTabbable(direction = 1) {
+      const tabbables = Array.from(this.nav.querySelectorAll('[tabindex]:not([tabindex="-1"]), a, button'))
+        .filter((el) => !el.disabled && el.tabIndex >= 0 && el.offsetParent !== null);
+      const currentIndex = tabbables.indexOf(document.activeElement);
+      if (tabbables.length === 0) return;
+      const nextIndex = (currentIndex + direction + tabbables.length) % tabbables.length;
+      tabbables[nextIndex].focus();
+    }
+
+    tabNext() {
+      this.focusTabbable(1);
+    }
+
+    tabPrev() {
+      this.focusTabbable(-1);
+    }
+
+    getTopLevelParentLi(element) {
+      let currentLi = element.closest('li');
+      // this.topLevelNodes is a NodeList of top-level li elements in this nav
+      while (currentLi && !Array.from(this.topLevelNodes).includes(currentLi)) {
+        const parentUl = currentLi.parentElement.closest('ul');
+        currentLi = parentUl ? parentUl.closest('li') : null;
+      }
+      return currentLi; // top-level li or null if not found, or the
+    }
   }
+
+  // static idCounter for unique id generation of submenus
+  Nav.idCounter = 0;
 
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.nav').forEach((nav) => new Nav(nav));

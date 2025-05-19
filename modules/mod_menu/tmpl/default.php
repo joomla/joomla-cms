@@ -87,14 +87,14 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
         switch ($item->type) {
             case 'heading':
             case 'separator':
-                echo '<span class="icon-chevron-down" aria-hidden="true">'.
+                echo '<span class="icon-chevron-down" aria-hidden="true">' .
                      '</span></span>';
                 break;
 
             default:
                 // Add a toggle button. @todo: button or span?
                 echo '<span class="mod-menu__toggle-sub" role="button" aria-expanded="false" tabindex="0">' .
-                '<span class="icon-chevron-down" aria-hidden="true">'.
+                '<span class="icon-chevron-down" aria-hidden="true">' .
                 '</span></span>';
         }
         echo '<ul class="mod-menu__sub list-unstyled small">';
