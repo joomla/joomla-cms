@@ -110,10 +110,13 @@
             break;
           case 'End':
             event.preventDefault();
-            const lastLi = target.closest('ul')?.querySelector(':scope > li:last-child');
-            if (lastLi) {
-              // set focus on last li child with tabindex within current list
-              lastLi.querySelector(':scope > [tabindex]:not([tabindex="-1"]), a, button')?.focus();
+            const currentLiList = target.closest('ul')?.querySelectorAll(':scope > li');
+            for (let index = currentLiList.length - 1; index >= 0; index--) {
+              const lastTabbable = currentLiList[index].querySelector(':scope > [tabindex]:not([tabindex="-1"]), a, button');
+              if (lastTabbable) {
+                lastTabbable.focus();
+                return;
+              }
             }
             break;
           case 'Home':
