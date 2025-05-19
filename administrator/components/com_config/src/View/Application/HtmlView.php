@@ -112,12 +112,11 @@ class HtmlView extends BaseHtmlView
             $this->form->bind($this->data);
 
             // Check for parameters provided by $_ENV
-            $fromEnv = [];
-            $envMap  = Factory::getContainer()->get('config.env-map');
+            $fromEnv  = [];
+            $envMap   = Factory::getContainer()->get('config.env-map');
+            $usedEnvs = array_intersect_key($envMap, $_ENV);
 
-            foreach ($envMap as $envName => $fieldName) {
-                if (!array_key_exists($envName, $_ENV)) continue;
-
+            foreach ($usedEnvs as $fieldName) {
                 $fromEnv[] = Text::_($this->form->getFieldAttribute($fieldName, 'label'));
             }
 

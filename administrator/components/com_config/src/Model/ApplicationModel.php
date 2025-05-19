@@ -80,6 +80,15 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             return false;
         }
 
+        // Check for parameters provided by $_ENV
+        $envMap   = Factory::getContainer()->get('config.env-map');
+        $usedEnvs = array_intersect_key($envMap, $_ENV);
+
+        foreach ($usedEnvs as $fieldName) {
+            $form->setFieldAttribute($fieldName, 'readonly', 'true');
+            $form->setFieldAttribute($fieldName, 'required', 'false');
+        }
+
         return $form;
     }
 
