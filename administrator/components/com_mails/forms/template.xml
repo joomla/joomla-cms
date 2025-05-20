@@ -13,6 +13,7 @@
 			name="subject"
 			type="text"
 			label="COM_MAILS_FIELD_SUBJECT_LABEL"
+			filter="trim"
 		/>
 		<field
 			name="body"

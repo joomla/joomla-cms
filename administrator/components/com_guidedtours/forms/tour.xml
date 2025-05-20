@@ -17,6 +17,7 @@
 		type="text"
 		label="COM_GUIDEDTOURS_TITLE"
 		required="true"
+		filter="trim"
 	/>
 
 	<field
