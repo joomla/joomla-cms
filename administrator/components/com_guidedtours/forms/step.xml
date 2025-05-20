@@ -46,6 +46,7 @@
 		type="text"
 		label="COM_GUIDEDTOURS_STEP_TITLE"
 		required="true"
+		filter="trim"
 	/>
 
 	<field
@@ -196,10 +197,10 @@
 		<fieldset name="options">
 
 			<fieldset name="targetvalues" label="COM_GUIDEDTOURS_STEP_TARGETVALUES_HEADING">
-				<field 
-					name="notetarget" 
-					type="note" 
-					class="alert alert-info" 
+				<field
+					name="notetarget"
+					type="note"
+					class="alert alert-info"
 					description="COM_GUIDEDTOURS_STEP_TARGETNOTE_MESSAGE"
 					showon=".type!:2[OR].interactive_type!:2,5,6" />
 
