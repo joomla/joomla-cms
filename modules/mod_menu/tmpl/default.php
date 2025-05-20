@@ -15,7 +15,8 @@ use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
-$wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['type' => 'module']);
+$wa->getRegistry()->addExtensionRegistryFile('mod_menu');
+$wa->usePreset('mod_menu.menu');
 
 $tagId = $params->get('tag_id', '') ?: 'mod-menu' . $module->id;
 $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';

@@ -1,0 +1,6 @@
+.mod-menu__sub[aria-hidden="true"] {
+  display: none;
+}
+.mod-menu__sub[aria-hidden="false"] {
+  display: block;
+}
