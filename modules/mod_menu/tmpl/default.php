@@ -83,20 +83,22 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
 
     // The next item is deeper.
     if ($item->deeper) {
-        // Check type - add only here if not a heading or separator
+        // Check type - add only on first level
         // @todo aria-label - set in menu item ???
-        switch ($item->type) {
-            case 'heading':
-            case 'separator':
-                echo '<span class="icon-chevron-down" aria-hidden="true">' .
-                     '</span></button>';
-                break;
+        if ($item->level === 1) {
+            switch ($item->type) {
+                case 'heading':
+                case 'separator':
+                    echo '<span class="icon-chevron-down" aria-hidden="true">' .
+                        '</span></button>';
+                    break;
 
-            default:
-                echo '<button class="mod-menu__toggle-sub" aria-expanded="false">' .
-                '<span class="icon-chevron-down" aria-hidden="true"></span>' .
-                '<span class="visually-hidden">' . Text::sprintf('MOD_MENU_TOGGLE_SUBMENU_LABEL', $item->title) . '</span>' .
-                '</button>';
+                default:
+                    echo '<button class="mod-menu__toggle-sub" aria-expanded="false">' .
+                    '<span class="icon-chevron-down" aria-hidden="true"></span>' .
+                    '<span class="visually-hidden">' . Text::sprintf('MOD_MENU_TOGGLE_SUBMENU_LABEL', $item->title) . '</span>' .
+                    '</button>';
+            }
         }
         echo '<ul class="mod-menu__sub list-unstyled small">';
     } elseif ($item->shallower) {
