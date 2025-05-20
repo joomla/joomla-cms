@@ -17,6 +17,7 @@
 			type="text"
 			label="JGLOBAL_TITLE"
 			required="true"
+			filter="trim"
 		/>
 
 		<field

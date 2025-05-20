@@ -25,6 +25,7 @@
 			label="JGLOBAL_TITLE"
 			maxlength="50"
 			required="true"
+			filter="trim"
 		/>
 
 		<field
@@ -33,6 +34,7 @@
 			label="COM_LANGUAGES_FIELD_TITLE_NATIVE_LABEL"
 			maxlength="50"
 			required="true"
+			filter="trim"
 		/>
 
 		<field
