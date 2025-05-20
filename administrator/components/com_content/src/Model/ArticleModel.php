@@ -660,6 +660,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         $input  = $app->getInput();
         $filter = InputFilter::getInstance();
 
+        // Remove spaces before and after title
+        $data['title'] = trim($data['title']);
+
         if (isset($data['metadata']['author'])) {
             $data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
         }
