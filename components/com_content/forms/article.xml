@@ -29,6 +29,7 @@
 			label="JGLOBAL_TITLE"
 			size="30"
 			required="true"
+			filter="trim"
 		/>
 
 		<field

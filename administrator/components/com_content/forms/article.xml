@@ -25,6 +25,7 @@
 			label="JGLOBAL_TITLE"
 			required="true"
 			maxlength="255"
+			filter="trim"
 		/>
 
 		<field
