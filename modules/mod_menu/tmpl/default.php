@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
@@ -83,7 +84,7 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
     // The next item is deeper.
     if ($item->deeper) {
         // Check type - add only here if not a heading or separator
-        // @todo aria-label
+        // @todo aria-label - set in menu item ???
         switch ($item->type) {
             case 'heading':
             case 'separator':
@@ -92,10 +93,10 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
                 break;
 
             default:
-                // Add a toggle button. @todo: button or span?
                 echo '<button class="mod-menu__toggle-sub" aria-expanded="false">' .
-                '<span class="icon-chevron-down" aria-hidden="true">' .
-                '</span></button>';
+                '<span class="icon-chevron-down" aria-hidden="true"></span>' .
+                '<span class="visually-hidden">' . Text::sprintf('MOD_MENU_TOGGLE_SUBMENU_LABEL', $item->title) . '</span>' .
+                '</button>';
         }
         echo '<ul class="mod-menu__sub list-unstyled small">';
     } elseif ($item->shallower) {
