@@ -18,6 +18,7 @@
 			label="JGLOBAL_TITLE"
 			maxlength="100"
 			required="true"
+			filter="trim"
 		/>
 
 		<field
