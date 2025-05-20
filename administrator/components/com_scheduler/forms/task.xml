@@ -11,6 +11,7 @@
 			size="40"
 			maxlength="100"
 			required="true"
+			filter="trim"
 		/>
 
 		<fieldset name="aside">
