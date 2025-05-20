@@ -150,6 +150,15 @@
     }
 
     toggleSubMenu(target, subLists, open = false) {
+      if (open) {
+        // close all opened submenus before opening the new one
+        const allSubMenus = this.nav.querySelectorAll('ul[aria-hidden="false"]');
+        allSubMenus.forEach((ulChild) => {
+            ulChild.setAttribute('aria-hidden', 'true');
+            ulChild.classList.remove(this.settings.menuHoverClass); // ???
+            this.getTopLevelParentLi(ulChild)?.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', 'false');
+        });
+      }
       subLists.forEach((ulChild) => {
         ulChild.setAttribute('aria-hidden', open ? 'false' : 'true');
         ulChild.classList.toggle(this.settings.menuHoverClass, open); // ???
