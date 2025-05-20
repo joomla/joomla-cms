@@ -13,6 +13,7 @@
 			type="text"
 			label="COM_USERS_GROUP_FIELD_TITLE_LABEL"
 			required="true"
+			filter="trim"
 		/>
 
 		<field

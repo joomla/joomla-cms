@@ -34,6 +34,7 @@
 			name="subject"
 			type="text"
 			label="COM_USERS_FIELD_SUBJECT_LABEL"
+			filter="trim"
 		/>
 
 		<field

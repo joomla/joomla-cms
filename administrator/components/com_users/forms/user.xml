@@ -6,6 +6,7 @@
 			type="text"
 			label="COM_USERS_USER_FIELD_NAME_LABEL"
 			required="true"
+			filter="trim"
 		/>
 
 		<field
