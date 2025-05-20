@@ -26,6 +26,7 @@
 			label="JGLOBAL_TITLE"
 			maxlength="48"
 			required="true"
+			filter="trim"git s
 		/>
 		<field
 			name="description"
