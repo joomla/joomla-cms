@@ -1,3 +1,29 @@
+.mod-menu__toggle-sub {
+  align-items: center;
+  color: currentColor;
+  background-color: transparent;
+  border: none;
+  display: inline-flex;
+  padding: 0;
+  &[aria-expanded="true"] .icon-chevron-down {
+    transform: rotate(180deg);
+  }
+}
+.mod-menu .icon-chevron-down {
+  margin-inline-start: .5rem;
+  transition: all .2s,background-color .2s;
+}
+.mod-menu__sub:not(.mod-menu__sub *) {
+  /* @todo bg-color as property ??? */
+  background-color: #fff;
+  display: block;
+  margin: 0;
+  min-width: 12rem;
+  padding: 0;
+  position: absolute;
+  top: 100%;
+}
+
 .mod-menu__sub[aria-hidden="true"] {
   display: none;
 }
