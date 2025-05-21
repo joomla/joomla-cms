@@ -39,4 +39,4 @@ if [ -z "$( ls -A '/root/.cache/Cypress' )" ]; then
   npx cypress verify
 fi
 
-npx cypress run --browser=firefox --e2e --env cmsPath=/tests/www/$TEST_GROUP,db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=https://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/System/output/screenshots
+npx cypress run --browser=firefox --e2e --env cmsPath=/tests/www/$TEST_GROUP,db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_",logFile=/var/log/apache2/error.log --config baseUrl=https://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/System/output/screenshots

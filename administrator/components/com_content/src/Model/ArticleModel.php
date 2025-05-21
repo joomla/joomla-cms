@@ -584,7 +584,18 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     'state',
                     ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                 );
-                $data->catid = $app->getInput()->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null));
+
+                // If multiple categories are filtered, pick the first one to avoid loading all fields
+                $filteredCategories = $filters['category_id'] ?? null;
+                $selectedCatId      = null;
+
+                if (\is_array($filteredCategories)) {
+                    $selectedCatId = (int) reset($filteredCategories);
+                } elseif (!empty($filteredCategories)) {
+                    $selectedCatId = (int) $filteredCategories;
+                }
+
+                $data->catid = $app->getInput()->getInt('catid', $selectedCatId);
 
                 if ($app->isClient('administrator')) {
                     $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
@@ -744,6 +755,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $data['alias']   = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
+            }
+
+            if (!$this->workflowEnabled) {
+                $data['state'] = 0;
+            } else {
+                $data['transition'] = '';
             }
         }
 

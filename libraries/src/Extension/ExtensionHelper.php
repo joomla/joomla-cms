@@ -174,6 +174,7 @@ class ExtensionHelper
 
         // Core plugin extensions - behaviour
         ['plugin', 'compat', 'behaviour', 0],
+        ['plugin', 'compat6', 'behaviour', 0],
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
 
