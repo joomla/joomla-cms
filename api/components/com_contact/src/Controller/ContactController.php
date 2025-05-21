@@ -244,7 +244,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.
-            if ($emailCopyToSender == true && !empty($data['contact_email_copy'])) {
+            if ($emailCopyToSender && !empty($data['contact_email_copy'])) {
                 $mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
