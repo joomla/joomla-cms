@@ -9,6 +9,7 @@
     <exclude-pattern type="relative">^cache/*</exclude-pattern>
     <exclude-pattern type="relative">^media/*</exclude-pattern>
     <exclude-pattern type="relative">^node_modules/*</exclude-pattern>
+    <exclude-pattern type="relative">^plugins/behaviour/compat/classes/*</exclude-pattern>
     <exclude-pattern type="relative">^tmp/*</exclude-pattern>
 
     <!-- Exclude 3rd party libraries and Framework code. -->
@@ -131,8 +132,6 @@
         <exclude-pattern type="relative">administrator/components/com_users/src/Service/HTML/Users\.php</exclude-pattern>
         <exclude-pattern type="relative">components/com_content/helpers/icon\.php</exclude-pattern>
         <exclude-pattern type="relative">components/com_content/helpers/icon\.php</exclude-pattern>
-        <exclude-pattern type="relative">libraries/src/Filesystem/Stream\.php</exclude-pattern>
-        <exclude-pattern type="relative">libraries/src/Filesystem/Streams/StreamString\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Installer/Adapter/ComponentAdapter\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Installer/Adapter/LanguageAdapter\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Installer/Adapter/ModuleAdapter\.php</exclude-pattern>
@@ -204,9 +203,6 @@
         <exclude-pattern type="relative">libraries/src/Encrypt/Base32\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Environment/Browser\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Feed/FeedFactory\.php</exclude-pattern>
-        <exclude-pattern type="relative">libraries/src/Filesystem/Folder\.php</exclude-pattern>
-        <exclude-pattern type="relative">libraries/src/Filesystem/Stream\.php</exclude-pattern>
-        <exclude-pattern type="relative">libraries/src/Filesystem/Support/StringController\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/HTML/Helpers/Grid\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Installer/Adapter/ComponentAdapter\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Installer/Adapter/LanguageAdapter\.php</exclude-pattern>
@@ -246,8 +242,6 @@
         <!-- should be reconsidered -->
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DatabaseModel\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Client/FtpClient\.php</exclude-pattern>
-        <exclude-pattern type="relative">libraries/src/Filesystem/Path\.php</exclude-pattern>
-        <exclude-pattern type="relative">libraries/src/Filesystem/Streams/StreamString\.php</exclude-pattern>
 
         <!-- expected, may move exception to file or refactor implementation -->
         <exclude-pattern type="relative">index\.php</exclude-pattern>

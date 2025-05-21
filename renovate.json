@@ -14,7 +14,7 @@
   "packageRules": [
     {
       "enabled": false,
-      "matchBaseBranches": "5.2-dev",
+      "matchBaseBranches": "6.0-dev",
       "matchPackagePatterns": ["*"]
     }
   ],

@@ -11,6 +11,7 @@
 	<description>PLG_COMPAT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Behaviour\Compat</namespace>
 	<files>
+		<folder>classes</folder>
 		<folder plugin="compat">services</folder>
 		<folder>src</folder>
 	</files>
@@ -27,6 +28,18 @@
 					layout="joomla.form.field.radio.switcher"
 					label="PLG_COMPAT_FIELD_CLASSES_ALIASES_LABEL"
 					description="PLG_COMPAT_FIELD_CLASSES_ALIASES_DESCRIPTION"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="legacy_classes"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_COMPAT_FIELD_LEGACY_CLASSES_LABEL"
+					description="PLG_COMPAT_FIELD_LEGACY_CLASSES_DESCRIPTION"
 					default="1"
 					filter="integer"
 					>

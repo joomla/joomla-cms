@@ -433,7 +433,7 @@ class Taxonomy
             ->where($db->quoteName('t.parent_id') . ' > 1 ')
             ->where('t.lft + 1 = t.rgt')
             ->where($db->quoteName('m.link_id') . ' IS NULL');
-        $query2->delete($db->quoteName('#__finder_taxonomy', 't'));
+        $query2->delete($db->quoteName('#__finder_taxonomy'));
 
         do {
             $db->setQuery($query);
@@ -443,7 +443,7 @@ class Taxonomy
                 break;
             }
 
-            $query2->clear('where')->where($db->quoteName('t.id') . ' IN (' . implode(',', $nodes) . ')');
+            $query2->clear('where')->whereIn($db->quoteName('id'), $nodes);
             $db->setQuery($query2);
             $db->execute();
             $affectedRows += $db->getAffectedRows();

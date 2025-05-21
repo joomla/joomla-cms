@@ -30,7 +30,7 @@ describe('Test in backend that the contacts list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
 
-      cy.get('#system-message-container').contains('Contact published.').should('exist');
+      cy.checkForSystemMessage('Contact published.');
     });
   });
 
@@ -42,7 +42,7 @@ describe('Test in backend that the contacts list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
 
-      cy.get('#system-message-container').contains('Contact unpublished.').should('exist');
+      cy.checkForSystemMessage('Contact unpublished.');
     });
   });
 
@@ -54,7 +54,7 @@ describe('Test in backend that the contacts list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('.button-featured', 'Feature').click();
 
-      cy.get('#system-message-container').contains('Contact featured.').should('exist');
+      cy.checkForSystemMessage('Contact featured.');
     });
   });
 
@@ -66,7 +66,7 @@ describe('Test in backend that the contacts list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Unfeature').click();
 
-      cy.get('#system-message-container').contains('Contact unfeatured.').should('exist');
+      cy.checkForSystemMessage('Contact unfeatured.');
     });
   });
 
@@ -78,7 +78,7 @@ describe('Test in backend that the contacts list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
 
-      cy.get('#system-message-container').contains('Contact trashed.').should('exist');
+      cy.checkForSystemMessage('Contact trashed.');
     });
   });
 
@@ -91,7 +91,7 @@ describe('Test in backend that the contacts list', () => {
       cy.clickToolbarButton('empty trash');
       cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('Contact deleted.').should('exist');
+      cy.checkForSystemMessage('Contact deleted.');
     });
   });
 

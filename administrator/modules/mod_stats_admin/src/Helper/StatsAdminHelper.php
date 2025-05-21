@@ -96,7 +96,7 @@ class StatsAdminHelper
 
             try {
                 $items = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $items = false;
             }
 
@@ -131,7 +131,7 @@ class StatsAdminHelper
         foreach ($arrays as $response) {
             foreach ($response as $row) {
                 // We only add a row if the title and data are given
-                if (isset($row['title']) && isset($row['data'])) {
+                if (isset($row['title'], $row['data'])) {
                     $rows[$i]        = new \stdClass();
                     $rows[$i]->title = $row['title'];
                     $rows[$i]->icon  = $row['icon'] ?? 'info';

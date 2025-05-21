@@ -10,7 +10,8 @@
 namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Adapter\Adapter;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -293,11 +294,8 @@ class Updater extends Adapter
                 foreach ($update_result['updates'] as $current_update) {
                     $current_update->extra_query = $updateSite['extra_query'];
 
-                    /** @var \Joomla\CMS\Table\Update $update */
-                    $update = Table::getInstance('update');
-
-                    /** @var \Joomla\CMS\Table\Extension $extension */
-                    $extension = Table::getInstance('extension');
+                    $update    = new UpdateTable($this->getDbo());
+                    $extension = new Extension($this->getDbo());
 
                     $uid = $update
                         ->find(
@@ -305,7 +303,7 @@ class Updater extends Adapter
                                 'element'   => $current_update->element,
                                 'type'      => $current_update->type,
                                 'client_id' => $current_update->client_id,
-                                'folder'    => isset($current_update->folder) ? $current_update->folder : '',
+                                'folder'    => $current_update->folder ?? '',
                             ]
                         );
 
@@ -315,7 +313,7 @@ class Updater extends Adapter
                                 'element'   => $current_update->element,
                                 'type'      => $current_update->type,
                                 'client_id' => $current_update->client_id,
-                                'folder'    => isset($current_update->folder) ? $current_update->folder : '',
+                                'folder'    => $current_update->folder ?? '',
                             ]
                         );
 

@@ -9,7 +9,9 @@
 
 namespace Joomla\CMS\Form\Field;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -17,7 +19,7 @@ use Joomla\CMS\Form\FormField;
 
 /**
  * Form Field class for the Joomla Platform.
- * Provides a select list of integers with specified first, last and step values.
+ * Provides a Time input.
  *
  * @since  4.0.0
  */
@@ -64,6 +66,15 @@ class TimeField extends FormField
     protected $layout = 'joomla.form.field.time';
 
     /**
+     * The filter.
+     *
+     * @var string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $filter = '';
+
+    /**
      * Method to set certain otherwise inaccessible properties of the form field object.
      *
      * @param   string  $name   The property name for which to set the value.
@@ -76,10 +87,22 @@ class TimeField extends FormField
     public function __set($name, $value)
     {
         switch ($name) {
+            case 'value':
+                if ($value instanceof \DateTimeInterface) {
+                    $this->value = $value->format('H:i:s');
+                } else {
+                    $this->value = (string) $value;
+                }
+                break;
+
             case 'max':
             case 'min':
             case 'step':
                 $this->$name = (int) $value;
+                break;
+
+            case 'filter':
+                $this->filter = (string) $value;
                 break;
 
             default:
@@ -110,6 +133,10 @@ class TimeField extends FormField
             $this->max  = isset($this->element['max']) ? (int) $this->element['max'] : null;
             $this->min  = isset($this->element['min']) ? (int) $this->element['min'] : null;
             $this->step = isset($this->element['step']) ? (int) $this->element['step'] : null;
+
+            if ($this->element['filter']) {
+                $this->__set('filter', $element['filter']);
+            }
         }
 
         return $return;
@@ -130,6 +157,7 @@ class TimeField extends FormField
             case 'min':
             case 'max':
             case 'step':
+            case 'filter':
                 return $this->$name;
         }
 
@@ -145,7 +173,35 @@ class TimeField extends FormField
      */
     protected function getInput()
     {
-        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
+        $data = $this->collectLayoutData();
+
+        if ($this->value) {
+            $app   = Factory::getApplication();
+            $value = Factory::getDate($this->value, 'UTC');
+
+            switch (strtoupper($this->filter)) {
+                case 'SERVER_UTC':
+                    // Convert a date to UTC based on the server timezone.
+                    $value->setTimezone(new \DateTimeZone($app->get('offset')));
+
+                    // Transform the date string.
+                    $data['value'] = $value->format('H:i:s', true, false);
+                    break;
+
+                case 'USER_UTC':
+                    // Convert a date to UTC based on the user timezone.
+                    $value->setTimezone(new \DateTimeZone($app->getIdentity()->getParam('timezone', $app->get('offset'))));
+
+                    // Transform the date string.
+                    $data['value'] = $value->format('H:i:s', true, false);
+                    break;
+
+                default:
+                    $data['value'] = $value->format('H:i:s', false, false);
+            }
+        }
+
+        return $this->getRenderer($this->layout)->render($data);
     }
 
     /**
@@ -160,11 +216,60 @@ class TimeField extends FormField
         $data = parent::getLayoutData();
 
         $extraData = [
-            'min'  => $this->min,
-            'max'  => $this->max,
-            'step' => $this->step,
+            'min'    => $this->min,
+            'max'    => $this->max,
+            'step'   => $this->step,
+            'filter' => $this->filter,
         ];
 
         return array_merge($data, $extraData);
+    }
+
+    /**
+     * Method to filter a field value.
+     *
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
+     *
+     * @return  mixed   The filtered value.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function filter($value, $group = null, ?Registry $input = null)
+    {
+        // Make sure there is a valid SimpleXMLElement.
+        if (!($this->element instanceof \SimpleXMLElement)) {
+            throw new \UnexpectedValueException(\sprintf('%s `element` is not an instance of SimpleXMLElement', __METHOD__));
+        }
+
+        if (!$value) {
+            return '';
+        }
+
+        $app = Factory::getApplication();
+
+        switch (strtoupper($this->filter)) {
+            // Convert a date to UTC based on the server timezone offset.
+            case 'SERVER_UTC':
+                // Return an SQL formatted datetime string in UTC.
+                $return = Factory::getDate($value, $app->get('offset'))->toSql();
+                break;
+
+                // Convert a date to UTC based on the user timezone offset.
+            case 'USER_UTC':
+                // Get the user timezone setting defaulting to the server timezone setting.
+                $offset = $app->getIdentity()->getParam('timezone', $app->get('offset'));
+
+                // Return an SQL formatted datetime string in UTC.
+                $return = Factory::getDate($value, $offset)->toSql();
+                break;
+
+            default:
+                $return = parent::filter($value, $group, $input);
+        }
+
+        return $return;
     }
 }
