@@ -1,9 +1,9 @@
-beforeEach(() => {
-  cy.task('clearEmails');
-  cy.doAdministratorLogin();
-});
-
 describe('Test that the task notification system plugin', () => {
+  beforeEach(() => {
+    cy.task('clearEmails');
+    cy.doAdministratorLogin();
+  });
+
   it('can display notification form', () => {
     cy.visit('/administrator/index.php?option=com_scheduler&view=tasks');
     cy.clickToolbarButton('New');
@@ -16,7 +16,7 @@ describe('Test that the task notification system plugin', () => {
 
   it('can notify successful task execution', () => {
     cy.db_createSchedulerTask({
-      title: 'test task',
+      title: 'Test task',
       type: 'delete.actionlogs',
       execution_rules: { 'rule-type': 'manual' },
       cron_rules: { type: 'manual', exp: '' },
@@ -27,7 +27,7 @@ describe('Test that the task notification system plugin', () => {
     }).then((task) => {
       cy.visit('/administrator/index.php?option=com_scheduler&view=tasks&filter=');
       cy.searchForItem('Test task');
-      cy.intercept('GET', '/administrator/index.php?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=*').as('runschedulertest');
+      cy.intercept('GET', '**/administrator/index.php?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=*').as('runschedulertest');
       cy.get('button[data-scheduler-run]').should('have.attr', 'data-id', task.id).click();
       cy.wait('@runschedulertest').then((interception) => {
         expect(interception.response.body.message).to.eq(null);
@@ -40,7 +40,7 @@ describe('Test that the task notification system plugin', () => {
       });
       cy.task('getMails').then((mails) => {
         cy.wrap(mails).should('have.lengthOf', 1);
-        cy.wrap(mails[0].body).should('have.string', `Scheduled Task#${task.id}, test task, has been successfully executed`);
+        cy.wrap(mails[0].body).should('have.string', `Scheduled Task#${task.id}, Test task, has been successfully executed`);
         cy.wrap(mails[0].headers.subject).should('have.string', 'Task Successful');
         cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.env('sitename')}" <${Cypress.env('email')}>`);
         cy.wrap(mails[0].headers.to).should('equal', Cypress.env('email'));
@@ -50,19 +50,19 @@ describe('Test that the task notification system plugin', () => {
 
   it('can notify failed task execution', () => {
     cy.db_createSchedulerTask({
-      title: 'test task',
+      title: 'Test task',
       type: 'plg_task_requests_task_get',
       execution_rules: { 'rule-type': 'manual' },
       cron_rules: { type: 'manual', exp: '' },
       params: {
         notifications: { failure_mail: 1 },
-        url: `${Cypress.config('baseUrl').replace('https://', 'http://')}/invalid.php`,
+        url: `${Cypress.config('baseUrl').replace('https://', 'http://')}/invalid.html`,
         timeout: 120,
       },
     }).then((task) => {
       cy.visit('/administrator/index.php?option=com_scheduler&view=tasks&filter=');
       cy.searchForItem('Test task');
-      cy.intercept('GET', '/administrator/index.php?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=*').as('runschedulertest');
+      cy.intercept('GET', '**/administrator/index.php?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=*').as('runschedulertest');
       cy.get('button[data-scheduler-run]').should('have.attr', 'data-id', task.id).click();
       cy.wait('@runschedulertest').then((interception) => {
         expect(interception.response.body.message).to.eq(null);
@@ -75,7 +75,7 @@ describe('Test that the task notification system plugin', () => {
       });
       cy.task('getMails').then((mails) => {
         cy.wrap(mails).should('have.lengthOf', 1);
-        cy.wrap(mails[0].body).should('have.string', `Scheduled Task#${task.id}, test task, has failed with exit code 5`);
+        cy.wrap(mails[0].body).should('have.string', `Scheduled Task#${task.id}, Test task, has failed with exit code 5`);
         cy.wrap(mails[0].attachments).should('have.lengthOf', 1);
         cy.wrap(mails[0].headers.subject).should('have.string', 'Task Failure');
         cy.wrap(mails[0].headers.from).should('equal', `"${Cypress.env('sitename')}" <${Cypress.env('email')}>`);
