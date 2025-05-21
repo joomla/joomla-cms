@@ -14,7 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,12 +31,12 @@ class LinkTable extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__redirect_links', 'id', $db, $dispatcher);
     }
@@ -96,7 +96,7 @@ class LinkTable extends Table
             return false;
         }
 
-        $db = $this->getDbo();
+        $db = $this->getDatabase();
 
         // Check for existing name
         $query = $db->getQuery(true)
