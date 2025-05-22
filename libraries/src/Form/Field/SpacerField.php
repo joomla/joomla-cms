@@ -71,7 +71,6 @@ class SpacerField extends FormField
 
             // Get the label text from the XML element, defaulting to the element name.
             $text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-            $text = $this->translateLabel ? Text::_($text) : $text;
 
             // Build the class for the label.
             $class = !empty($this->description) ? 'hasPopover' : '';
