@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\VersionableModelInterface;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -33,7 +34,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContactModel extends AdminModel
+class ContactModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 

@@ -22,6 +22,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\VersionableModelInterface;
 use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -49,7 +50,7 @@ use Joomla\Utilities\ArrayHelper;
  * @since  1.6
  */
 
-class ArticleModel extends AdminModel implements WorkflowModelInterface
+class ArticleModel extends AdminModel implements WorkflowModelInterface, VersionableModelInterface
 {
     use WorkflowBehaviorTrait;
     use VersionableModelTrait;

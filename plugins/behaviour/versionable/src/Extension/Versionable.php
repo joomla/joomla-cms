@@ -94,6 +94,8 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
      */
     public function onTableAfterStore(AfterStoreEvent $event)
     {
+        return;
+
         // Extract arguments
         /** @var VersionableTableInterface $table */
         $table  = $event['subject'];
