@@ -54,7 +54,7 @@ trait VersionableModelTrait
     }
 
     /**
-     * Method to get the version data from the version version history table.
+     * Method to get the version data from the version history table.
      *
      * @param   integer  $historyId  Key to the version history table.
      *
