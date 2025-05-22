@@ -81,7 +81,7 @@ class ContenthistoryHelper
                         $object->$name = ArrayHelper::fromObject($value);
                         continue;
                     }
-                    
+
                     $object->$name = json_decode($value);
                 }
             }

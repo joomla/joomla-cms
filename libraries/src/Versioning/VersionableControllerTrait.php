@@ -52,7 +52,6 @@ trait VersionableControllerTrait
 
         // Determine the name of the primary key for the data.
         $key = $table->getKeyName();
-        $recordId = $table->$key;
 
         // To avoid data collisions the urlVar may be different from the primary key.
         $urlVar = empty($this->urlVar) ? $key : $this->urlVar;

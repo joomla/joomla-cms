@@ -44,7 +44,7 @@ trait VersionableModelTrait
         }
 
         $table = $this->getTable();
-        $key = $table->getKeyName();
+        $key   = $table->getKeyName();
 
         if (isset($rowArray[$key])) {
             return $rowArray[$key];
