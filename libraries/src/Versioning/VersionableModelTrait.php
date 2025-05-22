@@ -122,7 +122,7 @@ trait VersionableModelTrait
         [$extension, $type] = explode('.', $this->typeAlias);
 
         $app  = Factory::getApplication();
-        $app->setUserState($extension . '.edit.' . $type .'.data', $rowArray);
+        $app->setUserState($extension . '.edit.' . $type . '.data', $rowArray);
 
         $historyTable = $this->getHistoryTable($historyId);
 
