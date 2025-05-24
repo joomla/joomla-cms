@@ -536,12 +536,12 @@ class UpdateCoreCommand extends AbstractCommand
         $language->load('plg_behaviour_compat6.sys', JPATH_ADMINISTRATOR);
 
         if (PluginHelper::isEnabled('behaviour', 'compat')) {
-            $this->ioStyle->error('The \''. Text::_('PLG_BEHAVIOUR_COMPAT') . '\' plugin is enabled.');
+            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT') . '\' plugin is enabled.');
             $return = false;
         }
 
         if (!PluginHelper::isEnabled('behaviour', 'compat6')) {
-            $this->ioStyle->error('The \''. Text::_('PLG_BEHAVIOUR_COMPAT6') . '\' plugin is disabled.');
+            $this->ioStyle->error('The \'' . Text::_('PLG_BEHAVIOUR_COMPAT6') . '\' plugin is disabled.');
             $return = false;
         }
 
