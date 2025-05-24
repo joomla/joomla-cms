@@ -25,11 +25,15 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
@@ -47,6 +51,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class UpdateModel extends BaseDatabaseModel
 {
+    private const AUTOUPDATE_URL = 'https://autoupdate.joomla.org/api/v1';
+
     /**
      * @var   array  $updateInformation  null
      * Holds the update information evaluated in getUpdateInformation.
@@ -453,6 +459,206 @@ class UpdateModel extends BaseDatabaseModel
         $response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
 
         return $response;
+    }
+
+    /**
+     * Update the datetime for the last health check run
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function updateLastHealthCheck()
+    {
+        $extension = new Extension($this->getDatabase());
+
+        $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
+
+        $extension->load($extensionId);
+
+        $params = new Registry($extension->params);
+        $params->set('update_last_check', Factory::getDate()->toSql());
+
+        $extension->params = (string) $params;
+
+        $extension->store();
+    }
+
+    /**
+     * Get the latest version for the automated update
+     *
+     * @return string|null
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getAutoUpdateVersion(): ?string
+    {
+        $this->refreshUpdates(true);
+
+        $updateInfo = $this->getUpdateInformation();
+
+        return $updateInfo['latest'] ?? null;
+    }
+
+    /**
+     * Check if the hard conditions for an update are met
+     *
+     * @return boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getAutoUpdateRequirementsState(): bool
+    {
+        foreach ($this->getPhpOptions() as $option) {
+            if ($option->state !== true) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Download file and request password/filesize information
+     *
+     * @param string $targetVersion
+     *
+     * @return array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function prepareAutoUpdate(string $targetVersion): array
+    {
+        $fileInformation = $this->download();
+
+        if ($fileInformation['version'] !== $targetVersion) {
+            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG'), 410);
+        }
+
+        if ($fileInformation['check'] === false) {
+            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG'), 410);
+        }
+
+        if (!$this->createUpdateFile($fileInformation['basename'])) {
+            throw new \Exception('Could not write update file', 410);
+        }
+
+        $app = Factory::getApplication();
+
+        return [
+            'password' => $app->getUserState('com_joomlaupdate.password'),
+            'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
+        ];
+    }
+
+    /**
+     * Change the registration state of a site in the update service
+     *
+     * @return bool
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function changeAutoUpdateRegistration(AutoupdateRegisterState $targetState)
+    {
+        // Purge cache - this makes sure that the changed status will already be available if the health check is performed
+        $this->cleanCache('_system');
+
+        // Prepare connection
+        $http = HttpFactory::getHttp();
+
+        $url = self::AUTOUPDATE_URL;
+        $url .= ($targetState === AutoupdateRegisterState::Subscribe) ? '/register' : '/delete';
+
+        $requestData = [
+            'url' => Uri::root(),
+            'key' => $this->getAutoUpdateToken(),
+        ];
+
+        // JHttp transport throws an exception when there's no response.
+        try {
+            $response = $http->post($url, json_encode($requestData), [
+                'Accept'       => 'application/json',
+                'Content-Type' => 'application/json',
+            ], 20);
+        } catch (\RuntimeException $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+            return false;
+        }
+
+        // Decode response
+        $result = json_decode((string)$response->getBody(), true);
+
+        // Handle non-success response
+        if ($response->getStatusCode() !== 200) {
+            Factory::getApplication()->enqueueMessage(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_ERROR',
+                    $result['message'],
+                    $result['status']
+                ),
+                'error'
+            );
+
+            return false;
+        }
+
+        // Get extension row
+        $extension   = new Extension($this->getDatabase());
+        $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
+        $extension->load($extensionId);
+
+        // Set new update registration state
+        $params = new Registry($extension->params);
+        $params->set(
+            'autoupdate_status',
+            ($targetState === AutoupdateRegisterState::Subscribe)
+                    ? AutoupdateRegisterState::Subscribed->value
+                    : AutoupdateRegisterState::Unsubscribed->value
+        );
+
+        $extension->params = $params->toString();
+
+        if (!$extension->store()) {
+            throw new \RuntimeException($extension->getError());
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the current autoupdate token, set one if none is set
+     *
+     * @return string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected function getAutoUpdateToken(): string
+    {
+        // Get extension row
+        $extension   = new Extension($this->getDatabase());
+        $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
+        $extension->load($extensionId);
+
+        $params = new Registry($extension->params);
+
+        if ($params->get('update_token')) {
+            return $params->get('update_token');
+        }
+
+        // Set new token
+        $params->set(
+            'update_token',
+            UserHelper::genRandomPassword(40)
+        );
+
+        $extension->params = $params->toString();
+
+        if (!$extension->store()) {
+            throw new \RuntimeException($extension->getError());
+        }
+
+        return $params->get('update_token');
     }
 
     /**
