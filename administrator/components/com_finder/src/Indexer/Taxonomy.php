@@ -425,6 +425,7 @@ class Taxonomy
         $db           = Factory::getDbo();
         $nodeTable    = new MapTable($db);
         $query        = $db->getQuery(true);
+        $query2       = $db->getQuery(true);
 
         $query->select($db->quoteName('t.id'))
             ->from($db->quoteName('#__finder_taxonomy', 't'))
@@ -432,15 +433,22 @@ class Taxonomy
             ->where($db->quoteName('t.parent_id') . ' > 1 ')
             ->where('t.lft + 1 = t.rgt')
             ->where($db->quoteName('m.link_id') . ' IS NULL');
+        $query2->delete($db->quoteName('#__finder_taxonomy'));
 
         do {
             $db->setQuery($query);
             $nodes = $db->loadColumn();
 
-            foreach ($nodes as $node) {
-                $nodeTable->delete($node);
-                $affectedRows++;
+            if (!\count($nodes)) {
+                break;
             }
+
+            $query2->clear('where')->whereIn($db->quoteName('id'), $nodes);
+            $db->setQuery($query2);
+            $db->execute();
+            $affectedRows += $db->getAffectedRows();
+            $nodeTable->rebuild();
+            $nodeTable->rebuildPath();
         } while ($nodes);
 
         return $affectedRows;

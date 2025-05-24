@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Templates\Administrator\Model\TemplateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -157,19 +158,22 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var TemplateModel $model */
+        $model = $this->getModel();
+
         $app               = Factory::getApplication();
         $this->file        = $app->getInput()->get('file', '');
         $this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
         $explodeArray      = explode('.', $this->fileName);
         $ext               = end($explodeArray);
-        $this->files       = $this->get('Files');
-        $this->mediaFiles  = $this->get('MediaFiles');
-        $this->state       = $this->get('State');
-        $this->template    = $this->get('Template');
-        $this->preview     = $this->get('Preview');
+        $this->files       = $model->getFiles();
+        $this->mediaFiles  = $model->getMediaFiles();
+        $this->state       = $model->getState();
+        $this->template    = $model->getTemplate();
+        $this->preview     = $model->getPreview();
         $this->pluginState = PluginHelper::isEnabled('installer', 'override');
-        $this->updatedList = $this->get('UpdatedList');
-        $this->styles      = $this->get('AllTemplateStyles');
+        $this->updatedList = $model->getUpdatedList();
+        $this->styles      = $model->getAllTemplateStyles();
         $this->stylesHTML  = '';
 
         $params       = ComponentHelper::getParams('com_templates');
@@ -179,33 +183,33 @@ class HtmlView extends BaseHtmlView
         $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
 
         if (\in_array($ext, $sourceTypes)) {
-            $this->form   = $this->get('Form');
+            $this->form   = $model->getForm();
             $this->form->setFieldAttribute('source', 'syntax', $ext);
-            $this->source = $this->get('Source');
+            $this->source = $model->getSource();
             $this->type   = 'file';
         } elseif (\in_array($ext, $imageTypes)) {
             try {
-                $this->image = $this->get('Image');
+                $this->image = $model->getImage();
                 $this->type  = 'image';
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
                 $this->type = 'home';
             }
         } elseif (\in_array($ext, $fontTypes)) {
-            $this->font = $this->get('Font');
+            $this->font = $model->getFont();
             $this->type = 'font';
         } elseif (\in_array($ext, $archiveTypes)) {
-            $this->archive = $this->get('Archive');
+            $this->archive = $model->getArchive();
             $this->type    = 'archive';
         } else {
             $this->type = 'home';
         }
 
-        $this->overridesList = $this->get('OverridesList');
+        $this->overridesList = $model->getOverridesList();
         $this->id            = $this->state->get('extension.id');
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             $app->enqueueMessage(implode("\n", $errors));
 
             return false;

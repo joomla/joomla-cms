@@ -20,6 +20,7 @@ use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Administrator\Model\IndexModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -112,6 +113,15 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The finder plugins status
+     *
+     * @var    boolean
+     *
+     * @since  5.3.0
+     */
+    protected $finderPlugins = true;
+
+    /**
      * Method to display the view.
      *
      * @param   string  $tpl  A template file to load. [optional]
@@ -125,15 +135,18 @@ class HtmlView extends BaseHtmlView
         // Load plugin language files.
         LanguageHelper::loadPluginLanguage();
 
-        $this->items         = $this->get('Items');
-        $this->total         = $this->get('Total');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->pluginState   = $this->get('pluginState');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var IndexModel $model */
+        $model = $this->getModel();
 
-        if ($this->get('TotalIndexed') === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+        $this->items         = $model->getItems();
+        $this->total         = $model->getTotal();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->pluginState   = $model->getPluginState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+
+        if ($model->getTotalIndexed() === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
@@ -144,13 +157,18 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check that the content - finder plugin is enabled
         if (!PluginHelper::isEnabled('content', 'finder')) {
             $this->finderPluginId = FinderHelper::getFinderPluginId();
+        }
+
+        // Check that the finder plugins are enabled
+        if (!PluginHelper::getPlugin('finder')) {
+            $this->finderPlugins = false;
         }
 
         // Configure the toolbar.

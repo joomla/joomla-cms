@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php8.3
+    image: joomlaprojects/docker-images:php8.4
     volumes:
       - name: certificates
         path: /certificates
@@ -14,7 +14,7 @@ steps:
       - cp -v tests/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php8.3
+    image: joomlaprojects/docker-images:php8.4
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -70,6 +70,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php84-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.4
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php81-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -87,6 +94,13 @@ steps:
   - name: php83-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php84-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.4
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -112,6 +126,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
+  - name: php84-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.4
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
   - name: scss-cs
     depends_on: [ npm ]
     image: node:current-alpine
@@ -128,14 +149,14 @@ steps:
   - name: prepare_system_tests
     depends_on:
       - npm
-    image: joomlaprojects/docker-images:systemtests8.1
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.mjs cypress.config.mjs
+      - cp cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -149,42 +170,24 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysql mysqli mysql
 
   - name: phpmax-system-mysql
     depends_on:
       - phpmin-system-mysql
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysqlmax mysqli mysql
     when:
       event:
         exclude:
           - pull_request
 
-  - name: phpnext-system-mysql
-    depends_on:
-      - phpmax-system-mysql
-    image: joomlaprojects/docker-images:cypress8.3
-    volumes:
-      - name: cypress-cache
-        path: /root/.cache/Cypress
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    failure: ignore
-    commands:
-      - echo "This test is disabled because php next is not stable yet"
-      - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
-    when:
-      event:
-        exclude:
-          - pull_request
 
   - name: phpmin-system-postgres
     depends_on:
@@ -196,7 +199,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgres pgsql postgres
     when:
       event:
         exclude:
@@ -205,39 +208,18 @@ steps:
   - name: phpmax-system-postgres
     depends_on:
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
-
-  - name: phpnext-system-postgres
-    depends_on:
-      - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.3
-    volumes:
-      - name: cypress-cache
-        path: /root/.cache/Cypress
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    failure: ignore
-    commands:
-      - echo "This test is disabled because php next is not stable yet"
-      - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
-    when:
-      event:
-        exclude:
-          - pull_request
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgresmax pgsql postgres
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
     depends_on:
-      - phpnext-system-mysql
-      - phpnext-system-postgres
       - phpmax-system-mysql
       - phpmax-system-postgres
       - phpmin-system-mysql
@@ -410,7 +392,7 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -418,7 +400,8 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) FAILED to build."}' $MATTERMOST_NIGHTLY_HOOK
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -432,6 +415,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 10ae86041b814459e0a4618a7fa2356480177af7966412cc050e9902e9384cbe
+hmac: 99da78521b10f37ddf6731e695fe52f85ee3db142bccac66901ae5372e332aae
 
 ...

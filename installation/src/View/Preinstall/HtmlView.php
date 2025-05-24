@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\View\Preinstall;
 
+use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\View\DefaultView;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -50,7 +51,9 @@ class HtmlView extends DefaultView
      */
     public function display($tpl = null)
     {
-        $this->options = $this->get('PhpOptions');
+        /** @var ChecksModel $model */
+        $model         = $this->getModel();
+        $this->options = $model->getPhpOptions();
 
         parent::display($tpl);
     }

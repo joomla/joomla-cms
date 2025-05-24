@@ -10,8 +10,10 @@
 
 namespace Joomla\Plugin\Content\LoadModule\Extension;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,26 +25,40 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  1.5
  */
-final class LoadModule extends CMSPlugin
+final class LoadModule extends CMSPlugin implements SubscriberInterface
 {
     protected static $modules = [];
 
     protected static $mods = [];
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepare' => 'onContentPrepare',
+        ];
+    }
+
+    /**
      * Plugin that loads module positions within content
      *
-     * @param   string   $context   The context of the content being passed to the plugin.
-     * @param   object   &$article  The article object.  Note $article->text is also available
-     * @param   mixed    &$params   The article params
-     * @param   integer  $page      The 'page' number
+     * @param   ContentPrepareEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onContentPrepare($context, &$article, &$params, $page = 0)
+    public function onContentPrepare(ContentPrepareEvent $event)
     {
+        $context = $event->getContext();
+        $article = $event->getItem();
+
         // Only execute if $article is an object and has a text property
         if (!\is_object($article) || !property_exists($article, 'text') || \is_null($article->text)) {
             return;

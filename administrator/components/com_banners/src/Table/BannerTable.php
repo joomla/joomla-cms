@@ -57,6 +57,7 @@ class BannerTable extends Table implements VersionableTableInterface
 
         $this->created = Factory::getDate()->toSql();
         $this->setColumnAlias('published', 'state');
+        $this->setColumnAlias('title', 'name');
     }
 
     /**

@@ -45,7 +45,7 @@ class Cookie extends Input
         }
 
         // Set the data source.
-        $this->data = &$_COOKIE;
+        $this->data = $_COOKIE;
 
         // Set the options for the class.
         $this->options = $options;
