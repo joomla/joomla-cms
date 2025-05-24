@@ -203,7 +203,7 @@ class GroupTable extends Table implements CurrentUserInterface
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $component = explode('.', $this->context);
-        $db        = $this->getDbo();
+        $db        = $this->getDatabase();
         $query     = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__assets'))
