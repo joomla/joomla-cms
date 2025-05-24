@@ -1348,9 +1348,7 @@ ENDDATA;
         $updateInformation = $this->getUpdateInformation();
 
         // Extra checks when updating to the next major version of Joomla
-        $nextMajorVersion = Version::MAJOR_VERSION + 1;
-
-        if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>=')) {
+        if (version_compare($updateInformation['latest'], (string) Version::MAJOR_VERSION + 1, '>=')) {
             // Check if configured database is compatible with the next major version of Joomla
             $option         = new \stdClass();
             $option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
@@ -1359,17 +1357,25 @@ ENDDATA;
             $options[]      = $option;
 
             // Check if the Joomla 5 backwards compatibility plugin is disabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
+
+            $this->translateExtensionName($plugin);
+
             $option         = new \stdClass();
-            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_DISABLED_TITLE', Version::MAJOR_VERSION);
+            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_TITLE', $plugin->name);
             $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
-            $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_DISABLED_NOTICE');
+            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_NOTICE', $plugin->folder, $plugin->element);
             $options[]      = $option;
 
             // Check if the Joomla 6 backwards compatibility plugin is enabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
+
+            $this->translateExtensionName($plugin);
+
             $option         = new \stdClass();
-            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_NEXT_ENABLED_TITLE', $nextMajorVersion);
+            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_TITLE', $plugin->name);
             $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
-            $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_NEXT_ENABLED_NOTICE');
+            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
             $options[]      = $option;
         }
 
