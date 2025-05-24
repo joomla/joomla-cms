@@ -138,7 +138,6 @@ class InstallationController extends JSONController
         if (!$dbCreated) {
             $r->view  = 'setup';
             $r->error = true;
-
         } else {
             $updatedOptions = array_merge(['db_created' => 1], $options);
             $this->app->getSession()->set('setup.options', $updatedOptions);

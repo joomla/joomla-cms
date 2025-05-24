@@ -57,9 +57,9 @@ $wa->useScript('joomla.dialog-autocreate');
                     <?php echo $this->form->renderField('admin_email'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <?php if (!$this->hideDbSection): ?>
+                    <?php if (!$this->hideDbSection) : ?>
                         <button id="step2" class="btn btn-primary w-100"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
-                    <?php else: ?>
+                    <?php else : ?>
                         <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                     <?php endif; ?>
                 </div>
@@ -111,7 +111,7 @@ $wa->useScript('joomla.dialog-autocreate');
                     <?php //echo $this->form->getLabel('db_old'); ?>
                     <?php echo $this->form->getInput('db_old'); ?>
                 </div>
-                <?php if (!$this->hideDbSection): ?>
+                <?php if (!$this->hideDbSection) : ?>
                 <div class="mt-4 mb-3">
                     <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
