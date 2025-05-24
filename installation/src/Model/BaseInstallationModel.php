@@ -118,10 +118,6 @@ class BaseInstallationModel extends BaseDatabaseModel
             // Read form $_ENV not getenv() (!!!)
             $envValue = $_ENV[$envName] ?? '';
 
-            if ($envName === 'JOOMLA_LOG_PRIORITIES') {
-                $envValue = json_decode($envValue, true) ?: [];
-            }
-
             $config[$setupName] = match ($envValue) {
                 'true', '(true)' => true,
                 'false', '(false)' => false,
