@@ -117,7 +117,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             SetConfigurationCommand::class,
             function (Container $container) {
-                return new SetConfigurationCommand();
+                return new SetConfigurationCommand($container->get('config.env-map') ?: []);
             },
             true
         );
