@@ -194,7 +194,6 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->display();
         $this->progressBar->advance();
 
-
         $errors = $this->checkSchema();
 
         if ($errors > 0) {
