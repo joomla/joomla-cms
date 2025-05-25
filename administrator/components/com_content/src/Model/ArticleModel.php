@@ -756,6 +756,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
             }
+
+            if (!$this->workflowEnabled) {
+                $data['state'] = 0;
+            } else {
+                $data['transition'] = '';
+            }
         }
 
         // Automatic handling of alias for empty fields
