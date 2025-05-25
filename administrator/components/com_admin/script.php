@@ -288,7 +288,7 @@ class JoomlaInstallerScript
              * ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
              */
             // Uninstall the old joomla 5 compatibility plugin
-            ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => null],
+            ['type' => 'plugin', 'element' => 'compat', 'folder' => 'behaviour', 'client_id' => 0, 'pre_function' => null],
         ];
 
         $db = Factory::getDbo();
