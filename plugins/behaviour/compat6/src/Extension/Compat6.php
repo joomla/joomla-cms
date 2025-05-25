@@ -71,7 +71,7 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
          * Load class names which are deprecated since joomla 4.0 and which will
          * likely be removed in Joomla 7.0
          */
-        if ($this->params->get('classes_aliases', '1')) {
+        if ($this->params->get('classes_aliases', '0')) {
             require_once \dirname(__DIR__) . '/classmap/classmap.php';
         }
 
