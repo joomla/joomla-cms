@@ -82,7 +82,7 @@ describe('Test that contenthistory for content category API endpoint', () => {
         // Iterate through each history entry
         historyEntries.forEach((entry) => {
           // Access top-level attributes
-          cy.api_patch(`/content/category/${entry.id}/contenthistory`, { keep_forever: 1 })
+          cy.api_patch(`/content/category/${entry.id}/contenthistory/keep`, { keep_forever: 1 })
             .then((result) => expect(result.status).to.eq(200));
         });
       });
