@@ -501,8 +501,6 @@ class JoomlaInstallerScript
             '/administrator/components/com_finder/helpers/indexer/result.php',
             '/administrator/components/com_finder/helpers/indexer/taxonomy.php',
             '/administrator/components/com_finder/helpers/indexer/token.php',
-            '/administrator/language/en-GB/plg_behaviour_compat.ini',
-            '/administrator/language/en-GB/plg_behaviour_compat.sys.ini',
             '/libraries/src/Application/BaseApplication.php',
             '/libraries/src/Application/CLI/CliInput.php',
             '/libraries/src/Application/CLI/CliOutput.php',

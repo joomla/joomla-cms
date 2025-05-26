@@ -147,6 +147,8 @@ $filesToKeep = [
     // Example: "'/administrator/language/en-GB/en-GB.com_search.ini',",
     "'/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4.ini',",
     "'/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4_steps.ini',",
+    "'/administrator/language/en-GB/plg_behaviour_compat.ini',",
+    "'/administrator/language/en-GB/plg_behaviour_compat.sys.ini',",
 ];
 
 // Specific folders that we want to keep on upgrade
