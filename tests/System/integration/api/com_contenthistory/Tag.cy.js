@@ -20,18 +20,9 @@ describe('Test that contenthistory for tag API endpoint', () => {
         historyEntries.forEach((entry) => {
           const { attributes } = entry;
 
-          // Access top-level attributes
-          const historyId = entry.id;
-          const saveDate = attributes.save_date;
-          const { editor } = attributes;
-          const characterCount = attributes.character_count;
-
           // Access nested `version_data`
           const versionData = attributes.version_data;
           const tagTitle = versionData.title;
-          const { alias } = versionData;
-          const createdTime = versionData.created_time;
-          const modifiedTime = versionData.modified_time;
 
           // Perform assertions
           expect(attributes).to.have.property('editor_user_id');
@@ -47,7 +38,7 @@ describe('Test that contenthistory for tag API endpoint', () => {
   });
 
   it('can delete the history of an existing tag', () => {
-   cy.api_post('/tags', {
+    cy.api_post('/tags', {
       title: 'automated test tag', parent_id: 1, level: 1, description: '', language: '*',
     })
       .then((tag) => cy.api_get(`/tags/${tag.body.data.attributes.id}/contenthistory`))
@@ -68,7 +59,7 @@ describe('Test that contenthistory for tag API endpoint', () => {
   });
 
   it('can keep the forever for the history of an existing tag', () => {
-     cy.api_post('/tags', {
+    cy.api_post('/tags', {
       title: 'automated test tag', parent_id: 1, level: 1, description: '', language: '*',
     })
       .then((tag) => cy.api_get(`/tags/${tag.body.data.attributes.id}/contenthistory`))
