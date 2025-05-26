@@ -82,17 +82,17 @@ if (MediaHelper::isImage($fileUrl) || ($isLocalFile && MediaHelper::getMimeType(
 
     echo LayoutHelper::render('joomla.html.image', $options);
 } elseif (\in_array($fileExtension, $audiosExt)) {
-    $options['src']      = $fileUrl;
+    $options['src']      = $isLocalFile ? $field->value['imagefile'] : $fileUrl;
     $options['controls'] = 'controls';
 
     echo LayoutHelper::render('joomla.html.audio', $options);
 } elseif (\in_array($fileExtension, $videosExt)) {
-    $options['src']      = $fileUrl;
+    $options['src']      = $isLocalFile ? $field->value['imagefile'] : $fileUrl;
     $options['controls'] = 'controls';
 
     echo LayoutHelper::render('joomla.html.video', $options);
 } else {
     $linkText = $field->value['linktext'] ?? Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE');
 
-    echo HTMLHelper::link($fileUrl, $linkText, $options);
+    echo HTMLHelper::link(($isLocalFile ? $field->value['imagefile'] : $fileUrl), $linkText, $options);
 }
