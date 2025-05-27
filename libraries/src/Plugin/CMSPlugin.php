@@ -252,6 +252,8 @@ abstract class CMSPlugin implements PluginInterface, LanguageAwareInterface
             return;
         }
 
+        @trigger_error('The plugin should implement SubscriberInterface.', \E_USER_DEPRECATED);
+
         $reflectedObject = new \ReflectionObject($this);
         $methods         = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
 
@@ -393,6 +395,9 @@ abstract class CMSPlugin implements PluginInterface, LanguageAwareInterface
      * @return  boolean
      *
      * @since   4.0.0
+     *
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     *              Plugin should implement SubscriberInterface.
      */
     private function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
     {
