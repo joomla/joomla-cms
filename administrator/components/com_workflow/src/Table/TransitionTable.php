@@ -94,7 +94,7 @@ class TransitionTable extends Table
     protected function _getAssetName()
     {
         $k        = $this->_tbl_key;
-        $workflow = new WorkflowTable($this->getDbo(), $this->getDispatcher());
+        $workflow = new WorkflowTable($this->getDatabase(), $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
         $parts = explode('.', $workflow->extension);
@@ -128,9 +128,10 @@ class TransitionTable extends Table
      */
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
-        $asset = new Asset($this->getDbo(), $this->getDispatcher());
+        $db    = $this->getDatabase();
+        $asset = new Asset($db, $this->getDispatcher());
 
-        $workflow = new WorkflowTable($this->getDbo(), $this->getDispatcher());
+        $workflow = new WorkflowTable($db, $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
         $parts = explode('.', $workflow->extension);

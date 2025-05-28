@@ -1503,16 +1503,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "3.4.1",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "e283eb17a68b96c340cae397cb77e723b2ea50a6"
+                "reference": "ddea28591d13a2a762eb2ed080afba422868d005"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/e283eb17a68b96c340cae397cb77e723b2ea50a6",
-                "reference": "e283eb17a68b96c340cae397cb77e723b2ea50a6",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/ddea28591d13a2a762eb2ed080afba422868d005",
+                "reference": "ddea28591d13a2a762eb2ed080afba422868d005",
                 "shasum": ""
             },
             "require": {
@@ -1570,7 +1570,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/3.4.1"
+                "source": "https://github.com/joomla-framework/database/tree/3.4.2"
             },
             "funding": [
                 {
@@ -1582,7 +1582,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-04-06T13:57:03+00:00"
+            "time": "2025-05-10T11:36:16+00:00"
         },
         {
             "name": "joomla/di",
