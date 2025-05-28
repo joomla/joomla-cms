@@ -54,14 +54,14 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
     /**
      * Constructor.
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         $config = array_merge(
             [
@@ -140,9 +140,9 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             // Compile the admin notification mail values.
             $data               = $user->getProperties();
             $data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
-            $user->set('activation', $data['activation']);
-            $data['siteurl']  = Uri::base();
-            $data['activate'] = Route::link(
+            $user->activation   = $data['activation'];
+            $data['siteurl']    = Uri::base();
+            $data['activate']   = Route::link(
                 'site',
                 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
                 false,
@@ -205,8 +205,8 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             }
         } elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0)) {
             // Admin activation is on and admin is activating the account
-            $user->set('activation', '');
-            $user->set('block', '0');
+            $user->activation = '';
+            $user->block      = '0';
 
             // Compile the user activated notification mail values.
             $data = $user->getProperties();
@@ -240,8 +240,8 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
                 return false;
             }
         } else {
-            $user->set('activation', '');
-            $user->set('block', '0');
+            $user->activation = '';
+            $user->block      = '0';
         }
 
         // Store the user object.
@@ -339,7 +339,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
         // When multilanguage is set, a user's default site language should also be a Content Language
         if (Multilanguage::isEnabled()) {
-            $form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+            $form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
         }
 
         return $form;
@@ -512,6 +512,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             $mailer = new MailTemplate($mailtemplate, $app->getLanguage()->getTag());
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
+            $mailer->addUnsafeTags(['username', 'password_clear', 'name']);
             $return = $mailer->send();
         } catch (\Exception $exception) {
             try {
@@ -558,6 +559,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
                     $mailer = new MailTemplate('com_users.registration.admin.new_notification', $app->getLanguage()->getTag());
                     $mailer->addTemplateData($data);
                     $mailer->addRecipient($row->email);
+                    $mailer->addUnsafeTags(['username', 'name']);
                     $return = $mailer->send();
                 } catch (\Exception $exception) {
                     try {

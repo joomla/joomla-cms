@@ -14,12 +14,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Component\Users\Site\Model\ProfileModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,18 +60,6 @@ class HtmlView extends BaseHtmlView
     protected $state;
 
     /**
-     * An instance of DatabaseDriver.
-     *
-     * @var    DatabaseDriver
-     * @since  3.6.3
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Will be removed without replacement use database from the container instead
-     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
-     */
-    protected $db;
-
-    /**
      * The page class suffix
      *
      * @var    string
@@ -102,23 +89,21 @@ class HtmlView extends BaseHtmlView
     {
         $user = $this->getCurrentUser();
 
-        // Get the view data.
-        $this->data               = $this->get('Data');
-        $this->form               = $this->getModel()->getForm(new CMSObject(['id' => $user->id]));
-        $this->state              = $this->get('State');
+        /** @var ProfileModel $model */
+        $model                    = $this->getModel();
+        $this->data               = $model->getData();
+        $this->form               = $model->getForm();
+        $this->state              = $model->getState();
         $this->params             = $this->state->get('params');
         $this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
-        $this->db                 = Factory::getDbo();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // View also takes responsibility for checking if the user logged in with remember me.
-        $cookieLogin = $user->get('cookieLogin');
-
-        if (!empty($cookieLogin)) {
+        if (isset($user->cookieLogin) && !empty($user->cookieLogin)) {
             // If so, the user must login to edit the password and other data.
             // What should happen here? Should we force a logout which destroys the cookies?
             $app = Factory::getApplication();
@@ -139,13 +124,14 @@ class HtmlView extends BaseHtmlView
         unset($this->data->text);
 
         // Check for layout from menu item.
-        $query = Factory::getApplication()->getMenu()->getActive()->query;
+        $active = Factory::getApplication()->getMenu()->getActive();
 
         if (
-            isset($query['layout']) && isset($query['option']) && $query['option'] === 'com_users'
-            && isset($query['view']) && $query['view'] === 'profile'
+            $active && isset($active->query['layout'], $active->query['option'])
+            && $active->query['option'] === 'com_users'
+            && isset($active->query['view']) && $active->query['view'] === 'profile'
         ) {
-            $this->setLayout($query['layout']);
+            $this->setLayout($active->query['layout']);
         }
 
         // Escape strings for HTML output

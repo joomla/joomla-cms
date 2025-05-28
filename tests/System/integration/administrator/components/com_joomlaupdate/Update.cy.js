@@ -14,7 +14,7 @@ describe('Test the update retrieval logic', () => {
 
     cy.get('#toolbar joomla-toolbar-button[task="update.purge"] button').click();
 
-    cy.get('#system-message-container').contains('Checked for updates.').should('exist');
+    cy.checkForSystemMessage('Checked for updates.');
   });
 
   it('Receives error fetching available updates with invalid metadata', () => {
@@ -24,6 +24,6 @@ describe('Test the update retrieval logic', () => {
 
     cy.get('#confirmButton').click();
 
-    cy.get('#system-message-container').contains('Update not possible because the offered update does not have enough signatures.').should('exist');
+    cy.checkForSystemMessage('Update not possible because the offered update does not have enough signatures.');
   });
 });

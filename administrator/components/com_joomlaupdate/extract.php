@@ -567,7 +567,7 @@ class ZIPExtraction
     public function setFilename(string $value)
     {
         // Security check: disallow remote filenames
-        if (!empty($value) && strpos($value, '://') !== false) {
+        if (!empty($value) && str_contains($value, '://')) {
             $this->setError('Invalid archive location');
 
             return;
@@ -630,7 +630,7 @@ class ZIPExtraction
      */
     public function initialize(): void
     {
-        $this->debugMsg(sprintf('Initializing extraction. Filepath: %s', $this->filename));
+        $this->debugMsg(\sprintf('Initializing extraction. Filepath: %s', $this->filename));
         $this->totalSize              = @filesize($this->filename) ?: 0;
         $this->archiveFileIsBeingRead = false;
         $this->currentOffset          = 0;
@@ -639,7 +639,7 @@ class ZIPExtraction
         $this->readArchiveHeader();
 
         if (!empty($this->getError())) {
-            $this->debugMsg(sprintf('Error: %s', $this->getError()), self::LOG_ERROR);
+            $this->debugMsg(\sprintf('Error: %s', $this->getError()), self::LOG_ERROR);
 
             return;
         }
@@ -688,7 +688,7 @@ class ZIPExtraction
                 case self::AK_STATE_HEADER:
                 case self::AK_STATE_DATA:
                     $runStateHuman = $this->runState === self::AK_STATE_HEADER ? 'HEADER' : 'DATA';
-                    $this->debugMsg(sprintf('Current run state: %s', $runStateHuman), self::LOG_DEBUG);
+                    $this->debugMsg(\sprintf('Current run state: %s', $runStateHuman), self::LOG_DEBUG);
 
                     $status = $this->processFileData();
                     break;
@@ -696,7 +696,7 @@ class ZIPExtraction
                 case self::AK_STATE_DATAREAD:
                 case self::AK_STATE_POSTPROC:
                     $runStateHuman = $this->runState === self::AK_STATE_DATAREAD ? 'DATAREAD' : 'POSTPROC';
-                    $this->debugMsg(sprintf('Current run state: %s', $runStateHuman), self::LOG_DEBUG);
+                    $this->debugMsg(\sprintf('Current run state: %s', $runStateHuman), self::LOG_DEBUG);
 
                     $this->setLastExtractedFileTimestamp($this->fileHeader->timestamp);
                     $this->processLastExtractedFile();
@@ -728,7 +728,7 @@ class ZIPExtraction
         $error = $this->getError();
 
         if (!empty($error)) {
-            $this->debugMsg(sprintf('Step failed with error: %s', $error), self::LOG_ERROR);
+            $this->debugMsg(\sprintf('Step failed with error: %s', $error), self::LOG_ERROR);
         }
 
         // Did we just finish or run into an error?
@@ -790,7 +790,7 @@ class ZIPExtraction
      */
     private function processLastExtractedFile(): void
     {
-        $this->debugMsg(sprintf('Processing last extracted entity: %s', $this->lastExtractedFilename), self::LOG_DEBUG);
+        $this->debugMsg(\sprintf('Processing last extracted entity: %s', $this->lastExtractedFilename), self::LOG_DEBUG);
 
         if (@is_file($this->lastExtractedFilename)) {
             @chmod($this->lastExtractedFilename, 0644);
@@ -1076,7 +1076,7 @@ class ZIPExtraction
             default:
                 $messageTemplate = 'This script cannot handle ZIP compression method %d. '
                     . 'Only 0 (no compression) and 8 (DEFLATE, gzip) can be handled.';
-                $actualMessage   = sprintf($messageTemplate, $headerData['compmethod']);
+                $actualMessage   = \sprintf($messageTemplate, $headerData['compmethod']);
                 $this->setError($actualMessage);
 
                 return false;
@@ -1094,7 +1094,7 @@ class ZIPExtraction
 
         // If we have a banned file, let's skip it
         if ($isBannedFile) {
-            $debugMessage = sprintf('Current entity (%s) is banned from extraction and will be skipped over.', $this->fileHeader->file);
+            $debugMessage = \sprintf('Current entity (%s) is banned from extraction and will be skipped over.', $this->fileHeader->file);
             $this->debugMsg($debugMessage, self::LOG_DEBUG);
 
             // Advance the file pointer, skipping exactly the size of the compressed data
@@ -1178,7 +1178,7 @@ class ZIPExtraction
         }
 
         if ((@mkdir($dirName, $perms, true) === false) && (!$ignore)) {
-            $this->setError(sprintf('Could not create %s folder', $dirName));
+            $this->setError(\sprintf('Could not create %s folder', $dirName));
         }
     }
 
@@ -1216,14 +1216,14 @@ class ZIPExtraction
                         return $this->processTypeFileCompressed();
 
                     case 'default':
-                        $this->setError(sprintf('Unknown compression type %s.', $this->fileHeader->compression));
+                        $this->setError(\sprintf('Unknown compression type %s.', $this->fileHeader->compression));
 
                         return false;
                 }
                 break;
         }
 
-        $this->setError(sprintf('Unknown entry type %s.', $this->fileHeader->type));
+        $this->setError(\sprintf('Unknown entry type %s.', $this->fileHeader->type));
 
         return false;
     }
@@ -1296,7 +1296,7 @@ class ZIPExtraction
         $directory = rtrim(\dirname($path), '/\\');
 
         // Is this an unwritable directory?
-        if (($directory != $rootDir) && !is_writeable($directory)) {
+        if (($directory != $rootDir) && !is_writable($directory)) {
             @chmod($directory, 0755);
         }
 
@@ -1316,7 +1316,7 @@ class ZIPExtraction
      */
     private function isIgnoredDirectory(string $shortFilename): bool
     {
-        $check = substr($shortFilename, -1) == '/' ? rtrim($shortFilename, '/') : \dirname($shortFilename);
+        $check = str_ends_with($shortFilename, '/') ? rtrim($shortFilename, '/') : \dirname($shortFilename);
 
         return \in_array($check, $this->ignoreDirectories);
     }
@@ -1375,7 +1375,7 @@ class ZIPExtraction
         }
 
         // Remove any trailing slash
-        if (substr($filename, -1) == '/') {
+        if (str_ends_with($filename, '/')) {
             $filename = substr($filename, 0, -1);
         }
 
@@ -1400,6 +1400,9 @@ class ZIPExtraction
         if ($this->dataReadLength == 0) {
             // Before processing file data, ensure permissions are adequate
             $this->setCorrectPermissions($this->fileHeader->file);
+
+            // This file is changed during the script's operation so we clear the status cache.
+            clearstatcache($this->fileHeader->file);
         }
 
         // Open the output file
@@ -1411,7 +1414,7 @@ class ZIPExtraction
         // Can we write to the file?
         if (($outfp === false) && (!$ignore)) {
             // An error occurred
-            $this->setError(sprintf('Could not open %s for writing.', $this->fileHeader->realFile));
+            $this->setError(\sprintf('Could not open %s for writing.', $this->fileHeader->realFile));
 
             return false;
         }
@@ -1467,7 +1470,7 @@ class ZIPExtraction
 
         // Was this a pre-timeout bail out?
         if ($leftBytes > 0) {
-            $this->debugMsg(sprintf('We have %d bytes left to extract in the next step', $leftBytes), self::LOG_DEBUG);
+            $this->debugMsg(\sprintf('We have %d bytes left to extract in the next step', $leftBytes), self::LOG_DEBUG);
             $this->runState = self::AK_STATE_DATA;
 
             return true;
@@ -1491,6 +1494,9 @@ class ZIPExtraction
         // Before processing file data, ensure permissions are adequate
         $this->setCorrectPermissions($this->fileHeader->file);
 
+        // This file is changed during the script's operation so we clear the status cache.
+        clearstatcache($this->fileHeader->file);
+
         // Open the output file
         $outfp = @fopen($this->fileHeader->realFile, 'wb');
 
@@ -1499,7 +1505,7 @@ class ZIPExtraction
 
         if (($outfp === false) && (!$ignore)) {
             // An error occurred
-            $this->setError(sprintf('Could not open %s for writing.', $this->fileHeader->realFile));
+            $this->setError(\sprintf('Could not open %s for writing.', $this->fileHeader->realFile));
 
             return false;
         }
@@ -1544,7 +1550,7 @@ class ZIPExtraction
                 break;
 
             default:
-                $this->setError(sprintf('Unknown compression method %s', $this->fileHeader->compression));
+                $this->setError(\sprintf('Unknown compression method %s', $this->fileHeader->compression));
 
                 return false;
         }
@@ -1650,7 +1656,7 @@ class ZIPExtraction
                 break;
         }
 
-        fputs(self::$logFP, sprintf('%s | %7s | %s' . "\r\n", gmdate('Y-m-d H:i:s'), $priorityString, $message));
+        fwrite(self::$logFP, \sprintf('%s | %7s | %s' . "\r\n", gmdate('Y-m-d H:i:s'), $priorityString, $message));
     }
 
     /**
@@ -1950,7 +1956,7 @@ if ($enabled) {
             @unlink($basePath . 'update.php');
 
             // Import a custom finalisation file
-            $filename = \dirname(__FILE__) . '/finalisation.php';
+            $filename = __DIR__ . '/finalisation.php';
 
             if (file_exists($filename)) {
                 clearFileInOPCache($filename);

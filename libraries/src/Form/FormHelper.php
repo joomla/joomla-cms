@@ -213,8 +213,8 @@ class FormHelper
             $subPrefix = '';
 
             if (strpos($name, '.')) {
-                list($subPrefix, $name) = explode('.', $name);
-                $subPrefix              = ucfirst($subPrefix) . '\\';
+                [$subPrefix, $name] = explode('.', $name);
+                $subPrefix          = ucfirst($subPrefix) . '\\';
             }
 
             // Compile the classname
@@ -229,7 +229,7 @@ class FormHelper
         $prefix = 'J';
 
         if (strpos($type, '.')) {
-            list($prefix, $type) = explode('.', $type);
+            [$prefix, $type] = explode('.', $type);
         }
 
         $class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
@@ -244,9 +244,9 @@ class FormHelper
         // If the type is complex, add the base type to the paths.
         if ($pos = strpos($type, '_')) {
             // Add the complex type prefix to the paths.
-            for ($i = 0, $n = \count($paths); $i < $n; $i++) {
+            foreach ($paths as $value) {
                 // Derive the new path.
-                $path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
+                $path = $value . '/' . strtolower(substr($type, 0, $pos));
 
                 // If the path does not exist, add it.
                 if (!\in_array($path, $paths)) {
@@ -509,7 +509,7 @@ class FormHelper
                 continue;
             }
 
-            $compareEqual     = strpos($showOnPart, '!:') === false;
+            $compareEqual     = !str_contains($showOnPart, '!:');
             $showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
             $dotPos = strpos($showOnPartBlocks[0], '.');
@@ -525,7 +525,7 @@ class FormHelper
                         $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
                     } else {
                         $groupParts = explode('.', $showOnPartBlocks[0]);
-                        $field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+                        $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
                     }
                 }
             }

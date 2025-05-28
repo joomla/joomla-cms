@@ -2,7 +2,6 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 import punycode from 'punycode';
 
 class JFormValidator {
@@ -32,14 +31,12 @@ class JFormValidator {
     });
     this.setHandler('email', (value) => {
       const newValue = punycode.toASCII(value);
-      const regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       return regex.test(newValue);
     });
 
     // Attach all forms with a class 'form-validate'
-    const forms = [].slice.call(document.querySelectorAll('form'));
-
-    forms.forEach((form) => {
+    document.querySelectorAll('form').forEach((form) => {
       if (form.classList.contains('form-validate')) {
         this.attachToForm(form);
       }
@@ -74,8 +71,7 @@ class JFormValidator {
       }
     }
 
-    element.classList.remove('form-control-danger');
-    element.classList.remove('invalid');
+    element.classList.remove('form-control-danger', 'invalid');
     element.classList.add('form-control-success');
     element.parentNode.classList.remove('has-danger');
     element.parentNode.classList.add('has-success');
@@ -97,10 +93,8 @@ class JFormValidator {
     // Get a label
     const label = element.form.querySelector(`label[for="${element.id}"]`);
 
-    element.classList.remove('form-control-success');
-    element.classList.remove('valid');
-    element.classList.add('form-control-danger');
-    element.classList.add('invalid');
+    element.classList.remove('form-control-success', 'valid');
+    element.classList.add('form-control-danger', 'invalid');
     element.parentNode.classList.remove('has-success');
     element.parentNode.classList.add('has-danger');
     element.setAttribute('aria-invalid', 'true');
@@ -145,18 +139,13 @@ class JFormValidator {
       message = label.querySelector('span.form-control-feedback');
     }
 
-    element.classList.remove('form-control-danger');
-    element.classList.remove('form-control-success');
-    element.classList.remove('invalid');
+    element.classList.remove('form-control-danger', 'form-control-success', 'remove');
     element.classList.add('valid');
-    element.parentNode.classList.remove('has-danger');
-    element.parentNode.classList.remove('has-success');
+    element.parentNode.classList.remove('has-danger', 'has-success');
 
     // Remove message
-    if (message) {
-      if (label) {
-        label.removeChild(message);
-      }
+    if (message && label) {
+      label.removeChild(message);
     }
 
     // Restore Label
@@ -256,7 +245,7 @@ class JFormValidator {
     if (form.nodeName === 'FORM') {
       fields = [].slice.call(form.elements);
     } else {
-      fields = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
+      fields = form.querySelectorAll('input, textarea, select, button, fieldset');
     }
     fields.forEach((field) => {
       if (this.validate(field) === false) {
@@ -294,7 +283,7 @@ class JFormValidator {
     if (form.nodeName === 'FORM') {
       elements = [].slice.call(form.elements);
     } else {
-      elements = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
+      elements = form.querySelectorAll('input, textarea, select, button, fieldset');
     }
 
     // Iterate through the form object and attach the validate method to all input fields.
@@ -325,11 +314,11 @@ class JFormValidator {
   }
 }
 
-const initialize = () => {
-  document.formvalidator = new JFormValidator();
+document.formvalidator = new JFormValidator();
 
-  // Cleanup
-  document.removeEventListener('DOMContentLoaded', initialize);
-};
-
-document.addEventListener('DOMContentLoaded', initialize);
+/**
+ * Expose the classes to the global scope
+ * These will be removed in Joomla! 6.0
+ */
+window.JFormValidator = JFormValidator;
+window.punycode = punycode;

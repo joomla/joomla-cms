@@ -51,6 +51,18 @@ function handleError(error) {
   const response = JSON.parse(error.response);
   if (response.message) {
     notifications.error(response.message);
+    // Check for App messages queue
+    if (response.messages) {
+      Object.keys(response.messages).forEach((type) => {
+        response.messages[type].forEach((message) => {
+          if (type === 'error') {
+            notifications.error(message);
+          } else {
+            notifications.notify(message);
+          }
+        });
+      });
+    }
   } else {
     switch (error.status) {
       case 409:

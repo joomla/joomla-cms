@@ -27,7 +27,7 @@ if ($app->isClient('site')) {
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('com_associations.admin-associations-modal');
 
@@ -38,12 +38,12 @@ $canManageCheckin = $this->getCurrentUser()->authorise('core.manage', 'com_check
 
 $iconStates = [
     -2 => 'icon-trash',
-    0  => 'icon-times',
-    1  => 'icon-check',
-    2  => 'icon-folder',
+    0  => 'icon-unpublish',
+    1  => 'icon-publish',
+    2  => 'icon-archive',
 ];
 
-$this->document->addScriptOptions('associations-modal', ['func' => $function]);
+$this->getDocument()->addScriptOptions('associations-modal', ['func' => $function]);
 
 ?>
 <div class="container-popup">

@@ -22,7 +22,7 @@ $app = Factory::getApplication();
 $function  = $app->getInput()->getCmd('function');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_modules.admin-module-search');
 
 if ($function) :

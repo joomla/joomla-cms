@@ -18,7 +18,8 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Database\DatabaseAwareInterface;
@@ -154,7 +155,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
             $installer = clone $installerBase;
 
             // Loads the update database object that represents the language.
-            $language = Table::getInstance('update');
+            $language = new UpdateTable($this->getDatabase());
             $language->load($id);
 
             // Get the URL to the XML manifest file of the selected language.
@@ -228,7 +229,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
      */
     protected function getLanguageManifest($uid)
     {
-        $instance = Table::getInstance('update');
+        $instance = new UpdateTable($this->getDatabase());
         $instance->load($uid);
 
         return trim($instance->detailsurl);
@@ -249,7 +250,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $update->loadFromXml($remoteManifest);
 
         // Get the download url from the remote manifest
-        $downloadUrl = $update->get('downloadurl', false);
+        $downloadUrl = $update->downloadurl ?? false;
 
         // Check if the download url exist, otherwise return empty value
         if ($downloadUrl === false) {
@@ -461,7 +462,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $params = ComponentHelper::getParams('com_languages');
         $params->set($client->name, $language);
 
-        $table = Table::getInstance('extension');
+        $table = new Extension($this->getDatabase());
         $id    = $table->find(['element' => 'com_languages']);
 
         // Load
@@ -488,18 +489,6 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         }
 
         return true;
-    }
-
-    /**
-     * Get the current setup options from the session.
-     *
-     * @return  array
-     *
-     * @since   3.1
-     */
-    public function getOptions()
-    {
-        return Factory::getSession()->get('setup.options', []);
     }
 
     /**

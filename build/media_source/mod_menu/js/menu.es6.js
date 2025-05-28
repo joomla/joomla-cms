@@ -38,37 +38,39 @@
       }
       const spanEl = topLevelEl.querySelector('span');
       if (spanEl) {
-        spanEl.tabIndex = '0';
+        if (spanEl.parentNode.nodeName !== 'A') {
+          spanEl.tabIndex = '0';
+        }
         spanEl.addEventListener('mouseover', topLevelMouseOver(topLevelEl, settings));
         spanEl.addEventListener('mouseout', topLevelMouseOut(topLevelEl, settings));
       }
 
-      topLevelEl.addEventListener('mouseover', ({ target }) => {
-        const ulChild = target.querySelector('ul');
+      topLevelEl.addEventListener('mouseover', ({ currentTarget }) => {
+        const ulChild = currentTarget.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'false');
           ulChild.classList.add(settings.menuHoverClass);
         }
       });
 
-      topLevelEl.addEventListener('mouseout', ({ target }) => {
-        const ulChild = target.querySelector('ul');
+      topLevelEl.addEventListener('mouseout', ({ currentTarget }) => {
+        const ulChild = currentTarget.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'true');
           ulChild.classList.remove(settings.menuHoverClass);
         }
       });
 
-      topLevelEl.addEventListener('focus', ({ target }) => {
-        const ulChild = target.querySelector('ul');
+      topLevelEl.addEventListener('focus', ({ currentTarget }) => {
+        const ulChild = currentTarget.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'true');
           ulChild.classList.add(settings.menuHoverClass);
         }
       });
 
-      topLevelEl.addEventListener('blur', ({ target }) => {
-        const ulChild = target.querySelector('ul');
+      topLevelEl.addEventListener('blur', ({ currentTarget }) => {
+        const ulChild = currentTarget.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'false');
           ulChild.classList.remove(settings.menuHoverClass);

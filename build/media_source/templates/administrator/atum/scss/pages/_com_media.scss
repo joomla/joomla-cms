@@ -11,40 +11,40 @@
 .file-background, .folder-background {
   padding-bottom: 100%;
   background-color: $media-browser-file-bg; //hsl(var(--hue), 20%, 97%);
-  border: $media-manager-border; //1px solid hsl(var(--hue), 35%, 95%);
+  border: $media-manager-border; // 1px solid hsl(var(--hue), 35%, 95%);
 }
 .file-icon, .folder-icon, .media-dragoutline {
   color: $media-manager-file-icon-color; //?? inherit
 }
 
 .media-browser-item-preview {
-  border: $media-manager-border; //1px solid hsl(var(--hue), 35%, 95%);
+  border: $media-manager-border; // 1px solid hsl(var(--hue), 35%, 95%);
 }
 .media-drive {
   background: $media-drive-bg;
   border: $media-manager-border;
 }
 .media-toolbar {
-  background-color: $media-toolbar-bg; //var(--com-media-manager-content-bg,#fff);
-  border-bottom: $media-manager-border; //1px solid var(--template-bg-dark-7);
-  border-inline-start: $media-manager-border; //1px solid var(--template-bg-dark-7)
-  box-shadow: 0 -1px 0 0 $media-manager-border; //var(--template-bg-dark-7);
+  background-color: $media-toolbar-bg; // var(--com-media-manager-content-bg,#fff);
+  border-bottom: $media-manager-border; // 1px solid var(--template-bg-dark-7);
+  border-inline-start: $media-manager-border; // 1px solid var(--template-bg-dark-7)
+  box-shadow: 0 -1px 0 0 $media-manager-border; // var(--template-bg-dark-7);
 }
 .media-toolbar-icon {
-  -webkit-border-start: $media-manager-border; //1px solid var(--template-bg-dark-7);
-  color: $media-toolbar-icon-color; //var(--com-media-manager-toolbar-icon-color,var(--template-bg-dark-60));
-  background-color: $media-toolbar-icon-bg; //transparent;
-  border-inline-start: $media-manager-border; //1px solid var(--template-bg-dark-7);
+  -webkit-border-start: $media-manager-border; // 1px solid var(--template-bg-dark-7);
+  color: $media-toolbar-icon-color; // var(--com-media-manager-toolbar-icon-color,var(--template-bg-dark-60));
+  background-color: $media-toolbar-icon-bg; // transparent;
+  border-inline-start: $media-manager-border; // 1px solid var(--template-bg-dark-7);
 }
 .media-toolbar-icon:hover {
-  background-color: $media-toolbar-icon-bg-hvr; //#f0f0f0;
+  background-color: $media-toolbar-icon-bg-hvr; // #f0f0f0;
 }
 .media-breadcrumb {
-  -webkit-border-start: $media-manager-border; //1px solid var(--template-bg-dark-7)
-  border-inline-start: $media-manager-border;  //1px solid var(--template-bg-dark-7)
+  -webkit-border-start: $media-manager-border; // 1px solid var(--template-bg-dark-7)
+  border-inline-start: $media-manager-border;  // 1px solid var(--template-bg-dark-7)
 }
 .media-breadcrumb-item a {
-  color: $media-manager-content-color; //var(--com-media-manager-content-color,var(--link-color));
+  color: $media-manager-content-color; // var(--com-media-manager-content-color,var(--link-color));
 }
 .media-breadcrumb-item {
   color: var(--btn-primary-color);
@@ -54,12 +54,12 @@
   }
 }
 .media-breadcrumb-item::after {
-  border-inline-start-color: var(--btn-primary-bg); //var(--com-media-manager-overlay-bg,var(--template-bg-dark-3));
+  border-inline-start-color: var(--btn-primary-bg); // var(--com-media-manager-overlay-bg,var(--template-bg-dark-3));
 }
 
 .image-background {
   background-color: $image-bg; // #fff;
-  background-image: $image-bg-image; //linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);
+  background-image: $image-bg-image; // linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);
 }
 .media-tree-item .item-icon {
   color: var(--template-link-color);
@@ -74,7 +74,7 @@
 }
 
 .media-infobar {
-  border-inline-start: $media-manager-border; //1px solid $border-color;
+  border-inline-start: $media-manager-border; // 1px solid $border-color;
   h2 {
     border-bottom: $media-manager-border;
   }

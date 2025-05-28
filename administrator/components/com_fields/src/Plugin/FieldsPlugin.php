@@ -201,7 +201,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @param   \stdclass  $item     The item.
      * @param   \stdclass  $field    The field.
      *
-     * @return  string
+     * @return  ?string
      *
      * @since   3.7.0
      */
@@ -235,7 +235,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @param   \DOMElement  $parent  The field node parent.
      * @param   Form         $form    The form.
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since   3.7.0
      */
@@ -343,7 +343,7 @@ abstract class FieldsPlugin extends CMSPlugin
     protected function getFormPath(Form $form, $data)
     {
         // Check if the field form is calling us
-        if (strpos($form->getName(), 'com_fields.field') !== 0) {
+        if (!str_starts_with($form->getName(), 'com_fields.field')) {
             return null;
         }
 

@@ -17,8 +17,9 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -84,13 +85,13 @@ class CategoryModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -146,7 +147,7 @@ class CategoryModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    An SQL query
+     * @return  QueryInterface    An SQL query
      *
      * @since   1.6
      */
@@ -158,7 +159,6 @@ class CategoryModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        /** @var \Joomla\Database\DatabaseQuery $query */
         $query = $db->getQuery(true);
 
         // Select required fields from the categories.
@@ -404,7 +404,7 @@ class CategoryModel extends ListModel
 
         if ($hitcount) {
             $pk    = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
-            $table = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $table = new Category($this->getDatabase());
             $table->hit($pk);
         }
 

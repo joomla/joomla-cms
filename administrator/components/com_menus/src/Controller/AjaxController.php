@@ -10,12 +10,14 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Table\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -62,11 +64,11 @@ class AjaxController extends BaseController
 
             // Add the title to each of the associated records
             Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
-            $menuTable = Table::getInstance('Menu', '\\Joomla\\CMS\\Table\\', []);
+            $menuTable = new Menu(Factory::getDbo());
 
-            foreach ($associations as $lang => $association) {
+            foreach ($associations as $association) {
                 $menuTable->load($association->id);
-                $associations[$lang]->title = $menuTable->title;
+                $association->title = $menuTable->title;
             }
 
             $countContentLanguages = \count(LanguageHelper::getContentLanguages([0, 1], false));

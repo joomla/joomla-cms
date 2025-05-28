@@ -82,13 +82,13 @@ class CategoryModel extends AdminModel
     /**
      * Override parent constructor.
      *
-     * @param   array                     $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface|null  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $extension       = Factory::getApplication()->getInput()->get('extension', 'com_content');
         $this->typeAlias = $extension . '.category';
@@ -242,7 +242,7 @@ class CategoryModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form|boolean  A JForm object on success, false on failure
+     * @return  Form|boolean  A Form object on success, false on failure
      *
      * @since   1.6
      */
@@ -337,18 +337,12 @@ class CategoryModel extends AdminModel
                 $extension = substr($app->getUserState('com_categories.categories.filter.extension', ''), 4);
                 $filters   = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
-                $data->set(
+                $data->published = $app->getInput()->getInt(
                     'published',
-                    $app->getInput()->getInt(
-                        'published',
-                        ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
-                    )
+                    ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                 );
-                $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set(
-                    'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access   = $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 
@@ -534,7 +528,7 @@ class CategoryModel extends AdminModel
 
         // Alter the title for save as copy
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
@@ -752,6 +746,8 @@ class CategoryModel extends AdminModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -1024,7 +1020,7 @@ class CategoryModel extends AdminModel
             }
 
             // Get the new item ID
-            $newId = $this->table->get('id');
+            $newId = $this->table->id;
 
             // Add the new ID to the array
             $newIds[$pk] = $newId;
@@ -1215,15 +1211,13 @@ class CategoryModel extends AdminModel
     /**
      * Custom clean the cache of com_content and content modules
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         $extension = Factory::getApplication()->getInput()->get('extension');
 

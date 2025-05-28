@@ -123,6 +123,7 @@ class Image
             static::$formats[IMAGETYPE_PNG]  = $info['PNG Support'];
             static::$formats[IMAGETYPE_GIF]  = $info['GIF Read Support'];
             static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
+            static::$formats[IMAGETYPE_AVIF] = $info['AVIF Support'];
         }
 
         // If the source input is a resource, set it as the image handle.
@@ -137,7 +138,7 @@ class Image
     /**
      * Get the image resource handle
      *
-     * @return  resource
+     * @return  \GdImage
      *
      * @since   3.8.0
      * @throws  \LogicException if an image has not been loaded into the instance
@@ -224,10 +225,10 @@ class Image
     private static function getOrientationString(int $width, int $height): string
     {
         switch (true) {
-            case ($width > $height):
+            case $width > $height:
                 return self::ORIENTATION_LANDSCAPE;
 
-            case ($width < $height):
+            case $width < $height:
                 return self::ORIENTATION_PORTRAIT;
 
             default:
@@ -355,7 +356,7 @@ class Image
                 // Save thumb file to disk
                 $thumbFileName = $thumbsFolder . '/' . $thumbFileName;
 
-                if ($thumb->toFile($thumbFileName, $imgProperties->type)) {
+                if ($thumb->toFile($thumbFileName, $imgProperties->type, ['quality' => $imgProperties->type !== IMAGETYPE_PNG ? 70 : 8])) {
                     // Return Image object with thumb path to ease further manipulation
                     $thumb->path     = $thumbFileName;
                     $thumbsCreated[] = $thumb;
@@ -364,27 +365,6 @@ class Image
         }
 
         return $thumbsCreated;
-    }
-
-    /**
-     * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
-     *
-     * @param   mixed    $thumbSizes       string or array of strings. Example: $thumbSizes = ['150x75','250x150'];
-     * @param   integer  $creationMethod   1-3 resize $scaleMethod | 4 create cropping
-     * @param   string   $thumbsFolder     destination thumbs folder. null generates a thumbs folder in the image folder
-     *
-     * @return  array
-     *
-     * @since   2.5.0
-     * @throws  \LogicException
-     * @throws  \InvalidArgumentException
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Use \Joomla\CMS\Image\createThumbnails instead
-     */
-    public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
-    {
-        return $this->createThumbnails($thumbSizes, $creationMethod, $thumbsFolder, false);
     }
 
     /**
@@ -434,12 +414,30 @@ class Image
 
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
-            $rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
-            $color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
-
-            // Set the transparent color values for the new image.
-            imagecolortransparent($handle, $color);
-            imagefill($handle, 0, 0, $color);
+            $ict  = imagecolortransparent($this->getHandle());
+            $ctot = imagecolorstotal($this->getHandle());
+            // Sanitize imagecolortransparent & imagecolorstotal
+            if ($ctot === 255 && $ict === 255) {
+                $ict = 254;
+            }
+            if ($ctot === 0 && $ict === 0) {
+                $ctot = 1;
+            }
+            if ($ict >= 0 && $ict < $ctot) {
+                $rgba = imagecolorsforindex($this->getHandle(), $ict);
+                if (!empty($rgba)) {
+                    $color = imagecolorallocatealpha(
+                        $handle,
+                        $rgba['red'],
+                        $rgba['green'],
+                        $rgba['blue'],
+                        $rgba['alpha']
+                    );
+                    // Set the transparent color values for the new image.
+                    imagecolortransparent($handle, $color);
+                    imagefill($handle, 0, 0, $color);
+                }
+            }
         }
 
         if (!$this->generateBestQuality) {
@@ -583,6 +581,18 @@ class Image
 
         // Attempt to load the image based on the MIME-Type
         switch ($properties->mime) {
+            case 'image/avif':
+                // Make sure the image type is supported.
+                if (empty(static::$formats[IMAGETYPE_AVIF])) {
+                    throw new \RuntimeException('Attempting to load an image of unsupported type AVIF.');
+                }
+
+                // Attempt to create the image handle.
+                $handle = imagecreatefromavif($path);
+                $type   = 'AVIF';
+
+                break;
+
             case 'image/gif':
                 // Make sure the image type is supported.
                 if (empty(static::$formats[IMAGETYPE_GIF])) {
@@ -637,9 +647,8 @@ class Image
 
         /**
          * Check if handle has been created successfully
-         * @todo: Remove check for resource when we only support PHP 8
          */
-        if (!(\is_object($handle) || \is_resource($handle))) {
+        if (!\is_object($handle)) {
             throw new \RuntimeException('Unable to process ' . $type . ' image.');
         }
 
@@ -701,12 +710,30 @@ class Image
 
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
-            $rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
-            $color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
-
-            // Set the transparent color values for the new image.
-            imagecolortransparent($handle, $color);
-            imagefill($handle, 0, 0, $color);
+            $ict  = imagecolortransparent($this->getHandle());
+            $ctot = imagecolorstotal($this->getHandle());
+            // Sanitize imagecolortransparent & imagecolorstotal
+            if ($ctot === 255 && $ict === 255) {
+                $ict = 254;
+            }
+            if ($ctot === 0 && $ict === 0) {
+                $ctot = 1;
+            }
+            if ($ict >= 0 && $ict < $ctot) {
+                $rgba = imagecolorsforindex($this->getHandle(), $ict);
+                if (!empty($rgba)) {
+                    $color = imagecolorallocatealpha(
+                        $handle,
+                        $rgba['red'],
+                        $rgba['green'],
+                        $rgba['blue'],
+                        $rgba['alpha']
+                    );
+                    // Set the transparent color values for the new image.
+                    imagecolortransparent($handle, $color);
+                    imagefill($handle, 0, 0, $color);
+                }
+            }
         }
 
         if (!$this->generateBestQuality) {
@@ -919,6 +946,9 @@ class Image
     public function toFile($path, $type = IMAGETYPE_JPEG, array $options = [])
     {
         switch ($type) {
+            case IMAGETYPE_AVIF:
+                return imageavif($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
+
             case IMAGETYPE_GIF:
                 return imagegif($this->getHandle(), $path);
 
@@ -1029,7 +1059,7 @@ class Image
     protected function sanitizeHeight($height, $width)
     {
         // If no height was given we will assume it is a square and use the width.
-        $height = ($height === null) ? $width : $height;
+        $height = $height ?? $width;
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height)) {
@@ -1068,7 +1098,7 @@ class Image
     protected function sanitizeWidth($width, $height)
     {
         // If no width was given we will assume it is a square and use the height.
-        $width = ($width === null) ? $height : $width;
+        $width = $width ?? $height;
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width)) {

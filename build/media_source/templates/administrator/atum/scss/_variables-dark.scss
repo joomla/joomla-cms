@@ -1,3 +1,4 @@
+@use "sass:color";
 
 // Color definitions for the dark theme - don't use it with the light theme
 $btn-primary-dark:                   #007db0; // contrast ratio: 4.6 with #fff text
@@ -33,24 +34,24 @@ $atum-colors-dark: (
   media-manager-content-bg:          var(--body-bg),
   media-manager-overlay-bg:          var(--template-bg-dark-90),  // fix this
   media-manager-infobar-dt-color:    rgba(255, 255, 255, .54),
-  media-manager-content-color:       lighten($btn-primary-dark, 20%),
+  media-manager-content-color:       color.adjust($btn-primary-dark, $lightness: 20%),
   media-manager-overlay-header-bg:   var(--template-bg-dark-80),
   media-manager-disk-name-color:     var(--template-text-light),
   media-manager-border:              1px solid var(--gray-800),
   media-manager-file-icon-color:     $btn-primary-dark,
   media-manager-tree-item-hover-bg:  var(--gray-600),
-  media-manager-toolbar-icon-color:  lighten($btn-primary-dark, 20%),
+  media-manager-toolbar-icon-color:  color.adjust($btn-primary-dark, $lightness: 20%),
   media-manager-breadcrumb-item-bg:  var(--gray-700),
 
   media-tree-item-color:             $btn-primary-dark,
-  media-tree-active-icon-color:      darken($btn-primary-dark, 10%),
+  media-tree-active-icon-color:      color.adjust($btn-primary-dark, $lightness: -10%),
 
   media-browser-file-bg:             var(--media-manager-bg),
   media-drive-bg:                    var(--media-manager-bg),
 
   media-toolbar-bg:                  var(--media-manager-bg),
   media-toolbar-icon-bg:             var(--media-manager-bg),
-  media-toolbar-icon-color:          lighten($btn-primary-dark, 10%),
+  media-toolbar-icon-color:          color.adjust($btn-primary-dark, $lightness: 10%),
   media-toolbar-icon-bg-hvr:         var(--gray-800),
 
   image-bg:                          #000,
@@ -58,28 +59,28 @@ $atum-colors-dark: (
 
   success-text:                      #418d52,
   success:                           $success-dark,
-  successhvr:                        darken($success-dark, 15%),
+  successhvr:                        color.adjust($success-dark, $lightness: -15%),
 
   danger-text:                       #e0615c,
   danger:                            $danger-dark,
-  dangerhvr:                         darken($danger-dark, 15%),
+  dangerhvr:                         color.adjust($danger-dark, $lightness: -15%),
 
   darkdanger:                        #941f1c,
-  darkdangerhvr:                     darken(#941f1c, 15%),
+  darkdangerhvr:                     color.adjust(#941f1c, $lightness: -15%),
 
   error:                             #941f1c,
   errorhvr:                          #be2824,
 
   warning-text:                      #000,
   warning:                           #f0ad4e,
-  warninghvr:                        darken($warning, 15%),
+  warninghvr:                        color.adjust($warning, $lightness: -15%),
 
   dark-mode-text-light:              rgba(255,255,255,.85),
 
   template-link-color:               $link-color-dark,
   link-color-rgb:                    (36,158,200),
   link-color:                        $link-color-dark,
-  template-link-hover-color:         lighten($link-color-dark, 10%),
+  template-link-hover-color:         color.adjust($link-color-dark, $lightness: 10%),
   link-color-rgb-hvr:                var(--template-link-hover-color),
 
   template-quickicon-bg:             rgba(255, 255, 255, .1),
@@ -87,7 +88,7 @@ $atum-colors-dark: (
 
   // Admin section
   options-form-color:                var(--template-text-light),
-  options-form-bg:                   transparent, //#484b51, //#52565b,
+  options-form-bg:                   transparent, // #484b51, // #52565b,
   options-form-border:               1px solid rgba(255, 255, 255, .05),
   options-form-legend-color:         var(--template-text-light),
   options-form-legend-bg:            var(--admin-background),
@@ -98,7 +99,7 @@ $atum-colors-dark: (
 
   form-check-input-checked-bg-image:      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23eee' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e"),
   form-check-input-checked-bg-color:      $btn-primary-dark,
-  form-check-input-border:                1px solid rgba(255, 255, 255, .2), //rgba(255, 255, 255, .05),
+  form-check-input-border:                1px solid rgba(255, 255, 255, .2), // rgba(255, 255, 255, .05),
 
   form-select-background:                 $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
   form-select-background-rtl:             $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
@@ -110,7 +111,7 @@ $atum-colors-dark: (
   form-select-option:                     var(--template-text-light),
   form-select-option-disabled-bg:         var(--template-bg-dark-90),
   file-selector-btn-bg:                   $btn-primary-dark,
-  file-selector-btn-bg-hvr:               darken($btn-primary-dark, 10%),
+  file-selector-btn-bg-hvr:               color.adjust($btn-primary-dark, $lightness: -10%),
 
   // Background styles
   bg-normal:                         var(--template-bg-dark),
@@ -118,7 +119,7 @@ $atum-colors-dark: (
 
   // Text styles
   text-normal:                       var(--template-text-light),
-  text-reverted:                     black, //var(--template-text-dark),
+  text-reverted:                     black, // var(--template-text-dark),
   text-muted-color:                  var(--template-text-light) !important,
   text-muted-hvr-color:              var(--template-text-dark) !important,
 
@@ -158,7 +159,7 @@ $atum-colors-dark: (
   main-nav-divider-bg:                 #495057,
   main-nav-item-title:                 var(--template-bg-dark-30),
   main-nav-mm-active-bg:               $btn-primary-dark,
-  main-nav-mm-active-quicktask-bg:     darken($btn-primary-dark, 10%),
+  main-nav-mm-active-quicktask-bg:     color.adjust($btn-primary-dark, $lightness: -10%),
   main-nav-badge:                      var(--template-bg-dark-60),
   main-nav-item-title-hvr-bg:          $btn-primary-dark,
   mobile-menu-collapse-bg:             var(--template-bg-dark-50),
@@ -169,7 +170,7 @@ $atum-colors-dark: (
   // Header content
   header-bg:                           #0a0e13,
   header-item-content-bg:              $btn-primary-dark,
-  header-item-content-bg-hvr:          darken($btn-primary-dark, 10%),
+  header-item-content-bg-hvr:          color.adjust($btn-primary-dark, $lightness: -10%),
   header-item-content-border-radius:   22px,
   header-item-content-jversion-color:  var(--dark-mode-text-light),
   header-item-content-jversion-bg:     transparent,
@@ -224,7 +225,7 @@ $atum-colors-dark: (
   joomla-tab-btn-region-border:        var(--atum-btn-bg),
 
   joomla-tablist-btn-aria-exp:         var(--template-text-light),
-  joomla-tablist-btn-aria-exp-bg:      darken($btn-primary-dark, 10%),
+  joomla-tablist-btn-aria-exp-bg:      color.adjust($btn-primary-dark, $lightness: -10%),
   joomla-tablist-btn-aria-exp-aft-bg:  $btn-primary-dark,
   joomla-tablist-border-bottom:        1px solid var(--gray-800),
 
@@ -273,17 +274,17 @@ $atum-colors-dark: (
   btn-primary-color:                   var(--text-normal),
   btn-primary-bg:                      $btn-primary-dark,
   primary:                             $btn-primary-dark,
-  btn-primary-border:                  1px solid lighten($btn-primary-dark, 10%),
-  btn-primary-bg-hvr:                  darken($btn-primary-dark, 10%),
-  btn-primary-border-hvr:              1px solid lighten($btn-primary-dark, 10%),
+  btn-primary-border:                  1px solid color.adjust($btn-primary-dark, $lightness: 10%),
+  btn-primary-bg-hvr:                  color.adjust($btn-primary-dark, $lightness: -10%),
+  btn-primary-border-hvr:              1px solid color.adjust($btn-primary-dark, $lightness: 10%),
   btn-primary-toggle-bg:               var(--template-bg-dark),
   btn-primary-toggle-border:           var(--template-bg-dark),
 
   btn-secondary-color:                   var(--template-text-light),
   btn-secondary-bg:                      $info-dark,
-  btn-secondary-border:                  1px solid lighten($info-dark, 10%),
-  btn-secondary-bg-hvr:                  darken($info-dark, 10%),
-  btn-secondary-border-hvr:              1px solid lighten($info-dark, 10%),
+  btn-secondary-border:                  1px solid color.adjust($info-dark, $lightness: 10%),
+  btn-secondary-bg-hvr:                  color.adjust($info-dark, $lightness: -10%),
+  btn-secondary-border-hvr:              1px solid color.adjust($info-dark, $lightness: 10%),
 
   btn-dark-border:                     1px solid rgba(0,0,0,.85),
   btn-dark-bg:                         rgba(0,0,0,.9),
@@ -292,25 +293,25 @@ $atum-colors-dark: (
   btn-dark-color-hvr:                  #fff,
 
   btn-light-bg:                        $btn-primary-dark,
-  btn-light-border:                    1px solid lighten($btn-primary-dark, 10%),
+  btn-light-border:                    1px solid color.adjust($btn-primary-dark, $lightness: 10%),
   btn-light-bg-hvr:                    $btn-primary-bg-hvr,
 
 
   btn-outline-secondary-color:         var(--template-text-light),
   btn-outline-secondary-bg:            #64676c,
-  btn-outline-secondary-border:        1px solid lighten(#64676c, 10%),
+  btn-outline-secondary-border:        1px solid color.adjust(#64676c, $lightness: 10%),
 
   btn-info-color:                      var(--template-text-light),
   btn-info-bg:                         $info-dark,
-  btn-info-border:                     1px solid lighten($info-dark, 10%),
-  btn-info-bg-hvr:                     darken($info-dark, 10%),
-  btn-info-border-hvr:                 1px solid darken($info-dark, 10%),
+  btn-info-border:                     1px solid color.adjust($info-dark, $lightness: 10%),
+  btn-info-bg-hvr:                     color.adjust($info-dark, $lightness: -10%),
+  btn-info-border-hvr:                 1px solid color.adjust($info-dark, $lightness: -10%),
 
   // Dropdown
-  dropdown-header-bg:                  darken($btn-primary-dark, 10%),
+  dropdown-header-bg:                  color.adjust($btn-primary-dark, $lightness: -10%),
   dropdown-divider-bg:                 1px solid #fff,
   dropdown-item-bg:                    $btn-primary-dark,
-  dropdown-item-bg-hvr:                darken($btn-primary-dark, 10%),
+  dropdown-item-bg-hvr:                color.adjust($btn-primary-dark, $lightness: -10%),
   dropdown-item-border-bottom:         1px solid rgba(255, 255, 255, .1),
   atum-dropdown-link-hover-bg:         var(--gray-700),
 
@@ -335,7 +336,7 @@ $atum-colors-dark: (
   state-success-text:             var(--text-normal),
   state-success-text-hvr:         var(--text-normal),
   state-success-bg:               $success-dark,
-  state-success-bg-hvr:           darken($success-dark, 15%),
+  state-success-bg-hvr:           color.adjust($success-dark, $lightness: -15%),
   state-success-border:           var(--state-success-bg),
   state-success-btn-border:       var(--state-success-bg),
   state-success-icon:             var(--text-normal),
@@ -344,24 +345,24 @@ $atum-colors-dark: (
 
   state-info-text:                var(--text-normal),
   state-info-text-hvr:            var(--text-normal),
-  state-info-bg:                  darken($btn-primary-dark, 15%),
-  state-info-bg-hvr:              darken($btn-primary-dark, 25%),
+  state-info-bg:                  color.adjust($btn-primary-dark, $lightness: -15%),
+  state-info-bg-hvr:              color.adjust($btn-primary-dark, $lightness: -25%),
   state-info-border:              transparent,
   state-info-icon:                var(--state-info-text),
-  state-info-heading-bg:          darken($btn-primary-dark, 5%),
+  state-info-heading-bg:          color.adjust($btn-primary-dark, $lightness: -5%),
 
   state-warning-text:             #000,
   state-warning-text-hvr:         #000,
   state-warning-bg:               $warning,
-  state-warning-bg-hvr:           darken($warning, 15%),
-  state-warning-border:           darken($warning, 15%),
+  state-warning-bg-hvr:           color.adjust($warning, $lightness: -15%),
+  state-warning-border:           color.adjust($warning, $lightness: -15%),
   state-warning-icon:             #000,
-  state-warning-heading-bg:       darken($warning, 15%),
+  state-warning-heading-bg:       color.adjust($warning, $lightness: -15%),
 
   state-danger-text:              var(--text-normal),
   state-danger-text-hvr:          var(--text-normal),
   state-danger-bg:                $danger-dark,
-  state-danger-bg-hvr:            darken($danger-dark, 15%),
+  state-danger-bg-hvr:            color.adjust($danger-dark, $lightness: -15%),
   state-danger-border:            var(--dangerhvr),
   state-danger-icon:              var(--text-normal),
   state-danger-heading-bg:        var(--dangerhvr),
@@ -386,7 +387,7 @@ $atum-colors-dark: (
   atum-btn-icon:                  var(--template-text-light),
   atum-btn-icon-hvr:              $atum-text-dark,
   atum-btn-bg:                    $btn-primary-dark,
-  atum-btn-bg-hvr:                darken($btn-primary-dark, 15%),
+  atum-btn-bg-hvr:                color.adjust($btn-primary-dark, $lightness: -15%),
   atum-btn-border:                1px solid hsl(var(--hue),20%,80%),
   atum-btn-hvr:                   var(--template-text-light),
 
@@ -394,8 +395,8 @@ $atum-colors-dark: (
   atum-btn-success-icon:          var(--template-text-light),
   atum-btn-success-icon-hvr:      var(--atum-btn-success-hvr),
   atum-btn-success-bg:            $success-dark,
-  atum-btn-success-bg-hvr:        darken($success-dark, 15%),
-  atum-btn-success-border:        1px solid lighten($success-dark, 10%),
+  atum-btn-success-bg-hvr:        color.adjust($success-dark, $lightness: -15%),
+  atum-btn-success-border:        1px solid color.adjust($success-dark, $lightness: 10%),
   atum-btn-success-hvr:           var(--template-text-light),
 
   atum-btn-danger:                var(--dangerhvr),
@@ -403,34 +404,34 @@ $atum-colors-dark: (
   atum-btn-danger-icon:           var(--template-text-light),
   atum-btn-danger-icon-hvr:       var(--atum-btn-danger-hvr),
   atum-btn-danger-bg:             $danger,
-  atum-btn-danger-bg-hvr:         darken($danger, 15%),
-  atum-btn-danger-border:         1px solid lighten($danger, 10%),
+  atum-btn-danger-bg-hvr:         color.adjust($danger, $lightness: -15%),
+  atum-btn-danger-border:         1px solid color.adjust($danger, $lightness: 10%),
   atum-btn-danger-hvr:            var(--template-text-light),
 
-  atum-btn-info:                  lighten($info-dark, 50%),
+  atum-btn-info:                  color.adjust($info-dark, $lightness: 50%),
   atum-btn-info-icon:             var(--template-text-light),
   atum-btn-info-icon-hvr:         var(--template-text-dark),
   atum-btn-info-bg:               $info-dark,
-  atum-btn-info-bg-hvr:           darken($info-dark, 15%),
-  atum-btn-info-border:           1px solid lighten($info-dark, 10%),
+  atum-btn-info-bg-hvr:           color.adjust($info-dark, $lightness: -15%),
+  atum-btn-info-border:           1px solid color.adjust($info-dark, $lightness: 10%),
   atum-btn-info-hvr:              var(--template-text-dark),
 
-  atum-btn-primary:               lighten($btn-primary-dark, 25%),
+  atum-btn-primary:               color.adjust($btn-primary-dark, $lightness: 25%),
   atum-btn-primary-icon:          var(--template-text-light),
   atum-btn-primary-icon-hvr:      var(--template-text-dark),
-  atum-btn-primary-bg:            $btn-primary-dark, //var(--template-bg-dark),
-  atum-btn-primary-bg-hvr:        darken($btn-primary-dark, 15%),
-  atum-btn-primary-border:        1px solid lighten($btn-primary-dark, 10%),
+  atum-btn-primary-bg:            $btn-primary-dark, // var(--template-bg-dark),
+  atum-btn-primary-bg-hvr:        color.adjust($btn-primary-dark, $lightness: -15%),
+  atum-btn-primary-border:        1px solid color.adjust($btn-primary-dark, $lightness: 10%),
   atum-btn-primary-hvr:           var(--template-text-light),
 
   atum-btn-secondary:             #f0f4fb,
 
-  atum-btn-action:                darken($info-dark, 10%),
+  atum-btn-action:                color.adjust($info-dark, $lightness: -10%),
   atum-btn-action-icon:           var(--template-text-light),
   atum-btn-action-icon-hvr:       var(--atum-btn-action-hvr),
   atum-btn-action-bg:             $info-dark,
-  atum-btn-action-bg-hvr:         darken($info-dark, 15%),
-  atum-btn-action-border:         1px solid lighten($info-dark, 10%),
+  atum-btn-action-bg-hvr:         color.adjust($info-dark, $lightness: -15%),
+  atum-btn-action-border:         1px solid color.adjust($info-dark, $lightness: 10%),
 
   atum-list-group-bg:             var(--template-sidebar-bg),
 

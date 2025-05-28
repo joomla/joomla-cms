@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Media\Administrator\Plugin;
 
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -33,6 +34,35 @@ class MediaActionPlugin extends CMSPlugin
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareForm' => 'onContentPrepareFormListener',
+        ];
+    }
+
+    /**
+     * The form event. Load additional parameters when available into the field form.
+     * Only when the type of the form is of interest.
+     *
+     * @param   PrepareFormEvent  $event  Event instance.
+     *
+     * @return  void
+     *
+     * @since   5.2.0
+     */
+    public function onContentPrepareFormListener(PrepareFormEvent $event): void
+    {
+        $this->onContentPrepareForm($event->getForm(), $event->getData());
+    }
 
     /**
      * The form event. Load additional parameters when available into the field form.

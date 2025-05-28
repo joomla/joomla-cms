@@ -21,7 +21,7 @@ use Joomla\Component\Scheduler\Administrator\View\Task\HtmlView;
 
 /** @var  HtmlView $this */
 
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 
 $wa->useScript('keepalive');
 $wa->useScript('form.validate');

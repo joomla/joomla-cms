@@ -7,9 +7,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  const allMenus = document.querySelectorAll('ul.mod-menu_dropdown-metismenu');
-
-  allMenus.forEach((menu) => {
+  document.querySelectorAll('ul.mod-menu_dropdown-metismenu').forEach((menu) => {
     // eslint-disable-next-line no-new, no-undef
     const mm = new MetisMenu(menu, {
       triggerElement: 'button.mm-toggler',

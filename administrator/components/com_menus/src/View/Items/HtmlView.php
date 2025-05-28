@@ -18,8 +18,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Menus\Administrator\Model\ItemsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -97,16 +97,19 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var ItemsModel $model */
+        $model = $this->getModel();
+
         $lang                = $this->getLanguage();
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->total         = $this->get('Total');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->total         = $model->getTotal();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -174,7 +177,7 @@ class HtmlView extends BaseHtmlView
                                 }
                             }
 
-                            $vars['layout'] = $vars['layout'] ?? 'default';
+                            $vars['layout'] ??= 'default';
 
                             // Attempt to load the layout xml file.
                             // If Alternative Menu Item, get template folder for layout file
@@ -266,7 +269,9 @@ class HtmlView extends BaseHtmlView
             }
         } else {
             // In menu associations modal we need to remove language filter if forcing a language.
-            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+            $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD');
+
+            if ($forcedLanguage) {
                 // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
                 $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
                 $this->filterForm->setField($languageXml, 'filter', true);
@@ -274,7 +279,14 @@ class HtmlView extends BaseHtmlView
                 // Also, unset the active language filter so the search tools is not open by default with this filter.
                 unset($this->activeFilters['language']);
             }
+
+            $this->filterForm->addControlField('forcedLanguage', $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
         $this->getDispatcher()->dispatch('onBeforeRenderMenuItems', new BeforeRenderMenuItemsViewEvent('onBeforeRenderMenuItems', [
@@ -299,10 +311,10 @@ class HtmlView extends BaseHtmlView
         $user  = $this->getCurrentUser();
 
         // Get the menu title
-        $menuTypeTitle = $this->get('State')->get('menutypetitle');
+        $menuTypeTitle = $this->state->get('menutypetitle');
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($menuTypeTitle) {
             ToolbarHelper::title(Text::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
@@ -373,7 +385,7 @@ class HtmlView extends BaseHtmlView
 
         if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
             $toolbar->delete('items.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+                ->text('JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

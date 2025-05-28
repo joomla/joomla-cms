@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Menus\Administrator\Model\MenuModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -68,16 +69,22 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var MenuModel $model */
+        $model = $this->getModel();
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
         $this->canDo = ContentHelper::getActions('com_menus', 'menu', $this->item->id);
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
+
+        // Add form control fields
+        $this->form->addControlField('task', '');
 
         parent::display($tpl);
         $this->addToolbar();
@@ -96,7 +103,7 @@ class HtmlView extends BaseHtmlView
         $input->set('hidemainmenu', true);
 
         $isNew   = ($this->item->id == 0);
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
 

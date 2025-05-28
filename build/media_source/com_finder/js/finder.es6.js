@@ -66,12 +66,10 @@
 
   // The boot sequence
   const onBoot = () => {
-    const searchWords = [].slice.call(document.querySelectorAll('.js-finder-search-query'));
-
-    searchWords.forEach((searchword) => {
+    document.querySelectorAll('.js-finder-search-query').forEach((searchword) => {
       // Handle the auto suggestion
       if (Joomla.getOptions('finder-search')) {
-        searchword.awesomplete = new Awesomplete(searchword);
+        searchword.awesomplete = new Awesomplete(searchword, { listLabel: Joomla.Text._('COM_FINDER_SEARCH_FORM_LIST_LABEL') });
 
         // If the current value is empty, set the previous value.
         searchword.addEventListener('input', onInputChange);
@@ -85,11 +83,7 @@
       }
     });
 
-    const forms = [].slice.call(document.querySelectorAll('.js-finder-searchform'));
-
-    forms.forEach((form) => {
-      form.addEventListener('submit', onSubmit);
-    });
+    document.querySelectorAll('.js-finder-searchform').forEach((form) => form.addEventListener('submit', onSubmit));
 
     // Cleanup
     document.removeEventListener('DOMContentLoaded', onBoot);

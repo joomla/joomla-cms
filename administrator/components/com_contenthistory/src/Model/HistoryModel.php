@@ -22,6 +22,7 @@ use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,13 +38,13 @@ class HistoryModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -151,7 +152,7 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
@@ -160,7 +161,7 @@ class HistoryModel extends ListModel
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -258,7 +259,7 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
@@ -267,7 +268,7 @@ class HistoryModel extends ListModel
 
                     try {
                         Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
                     }
 
@@ -317,7 +318,7 @@ class HistoryModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.2
      */

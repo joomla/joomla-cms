@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
 $prefix: "";
 
@@ -12,30 +14,30 @@ $white:                            #fff;
 $whiteoffset:                      #fefefe;
 $gray-100:                         #f8f9fa;
 $gray-200:                         #e8e8e8;
-$gray-300:                         #dee2e6; //used for toolbar and badges
-$gray-400:                         #cdcdcd; //used for border-bottom sidebar-nav and toolbar normal border
-$gray-500:                         #adb5bd; //used in toolbar and buttons for border
-$gray-600:                         #666e76; //used for atum-text-dark and $secondary
-$gray-700:                         #495057; //used for atum-text-dark, secondary
+$gray-300:                         #dee2e6; // used for toolbar and badges
+$gray-400:                         #cdcdcd; // used for border-bottom sidebar-nav and toolbar normal border
+$gray-500:                         #adb5bd; // used in toolbar and buttons for border
+$gray-600:                         #666e76; // used for atum-text-dark and $secondary
+$gray-700:                         #495057; // used for atum-text-dark, secondary
 $gray-800:                         #343a40;
-$gray-900:                         #212529; //used for tree header
+$gray-900:                         #212529; // used for tree header
 $bluegray:                         #b2bfcd; // used for borders
-$black:                            #000;    //used for shadows
-$dark-blue:                        #001b4c; //is the atum-special-color
-$light-blue:                       #2a69b8; //is the template-link-color
+$black:                            #000;    // used for shadows
+$dark-blue:                        #001b4c; // is the atum-special-color
+$light-blue:                       #2a69b8; // is the template-link-color
 
 // BS Colours
 $blue:                             #2a69b7; // Same as hsl(213, 63%, 44%); // base color for calculation, Primary-color
-$indigo:                           #0377be; //used in bootstrap
-$purple:                           #6f42c1; //used in bootstrap
-$pink:                             #971250; //used in bootstrap
-$red:                              #c52827; //used in bootstrap
-$red-dark:                         #3b0d0c; //used for alerts error
-$yellow:                           #ffb514; //used in bootstrap
-$green:                            #457d54; //used in bootstrap
-$green-dark:                       #0f2f21; //used for alert success
-$teal:                             #20c997; //used in bootstrap
-$cyan:                             #107d8e; //used in bootstrap
+$indigo:                           #0377be; // used in bootstrap
+$purple:                           #6f42c1; // used in bootstrap
+$pink:                             #971250; // used in bootstrap
+$red:                              #c52827; // used in bootstrap
+$red-dark:                         #3b0d0c; // used for alerts error
+$yellow:                           #ffb514; // used in bootstrap
+$green:                            #457d54; // used in bootstrap
+$green-dark:                       #0f2f21; // used for alert success
+$teal:                             #20c997; // used in bootstrap
+$cyan:                             #107d8e; // used in bootstrap
 $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
@@ -61,7 +63,7 @@ $theme-colors: (
 ) !default;
 
 
-$template-background-light: #f0f4fb; //light background color, frontend dashboard background and installer body background
+$template-background-light: #f0f4fb; // light background color, frontend dashboard background and installer body background
 
 // Font weights
 $thin-weight:                      100;
@@ -215,6 +217,7 @@ $atum-colors: (
   main-nav-ul-bg:                  var(--template-bg-dark-75),
   main-nav-divider-bg:             var(--template-bg-dark-60),
   main-nav-item-title:             var(--template-bg-dark-30),
+  main-nav-item-title-hvr-bg:      var(--template-bg-dark-60),
   main-nav-mm-active-bg:           var(--template-bg-dark-70),
   main-nav-mm-active-quicktask-bg: var(--template-bg-dark-60),
   main-nav-badge:                  var(--template-bg-dark-60),
@@ -245,10 +248,10 @@ $atum-colors: (
   main-card-bg:                    var(--body-bg),
   main-card-col-border-left:       1px solid var(--template-bg-dark-10),
 
-  //cpanel
+  // cpanel
   module-actions-color:            var(--body-color),
 
-  //lists
+  // lists
   atum-list-group-border-color:    var(--template-bg-dark-15),
 
   // box-shadow:
@@ -294,7 +297,7 @@ $atum-colors: (
   nav-header-color:                var(--template-bg-dark),
 
   // choices
-  choices-input-border-color:      var(--body-bg), //TODO
+  choices-input-border-color:      var(--body-bg), // TODO
   choices-input-bg:                var(--body-bg),
   choices-input-placeholder:       $gray-700,
   choices-list-multiple-item-bg:   var(--template-bg-dark),
@@ -340,8 +343,8 @@ $atum-colors: (
   btn-info-color:                   var(--template-text-light),
   btn-info-bg:                      $info,
   btn-info-border:                  1px solid $info,
-  btn-info-bg-hvr:                  darken($info, 10%),
-  btn-info-border-hvr:              1px solid darken($info, 10%),
+  btn-info-bg-hvr:                  color.adjust($info, $lightness: -10%),
+  btn-info-border-hvr:              1px solid color.adjust($info, $lightness: -10%),
 
   btn-outline-secondary-color:      gray-700,
   btn-outline-secondary-bg:         transparent,
@@ -360,7 +363,7 @@ $atum-colors: (
   input-group-text-bg:              var(--template-bg-dark),
   input-group-text-border:          1px solid var(--template-bg-dark),
 
-  //search
+  // search
   js-stools-btn-clear-bg:              var(--template-bg-dark),
   js-stools-btn-clear-disabled-bg:     var(--btn-disabled-bg),
   js-stools-btn-clear-disabled-border: rgba($gray-300, .8),
@@ -385,7 +388,7 @@ $atum-colors: (
   states-btn-primary-border:        var(--btn-primary-bg),
 
   state-success-text:               $success,
-  state-success-text-hvr:           lighten($success, 58%),
+  state-success-text-hvr:           color.adjust($success, $lightness: 58%),
   state-success-bg:                 #f2f8f4,
   state-success-bg-hvr:             $success,
   state-success-border:             hsl(var(--hue), 50%, 93%),
@@ -406,7 +409,7 @@ $atum-colors: (
 
 
   state-warning-text:               #996901,
-  state-warning-text-hvr:           lighten($warning, 44%),
+  state-warning-text-hvr:           color.adjust($warning, $lightness: 44%),
   state-warning-bg:                 #fffcf4,
   state-warning-bg-hvr:             #996900,
   state-warning-border:             #ffb512,
@@ -415,7 +418,7 @@ $atum-colors: (
   state-warning-link-color:         var(--warning-text-emphasis),
 
   state-danger-text:                var(--danger-text-emphasis),
-  state-danger-text-hvr:            lighten($danger, 52%),
+  state-danger-text-hvr:            color.adjust($danger, $lightness: 52%),
   state-danger-bg:                  #f3d4d4,
   state-danger-bg-hvr:              $danger,
   state-danger-border:              var(--danger-border-subtle),
@@ -425,10 +428,10 @@ $atum-colors: (
 
   state-error-text:                 $danger,
   state-error-text-hvr:             $danger,
-  state-error-bg:                   lighten($danger, 52%),
-  state-error-bg-hvr:               lighten($danger, 52%),
+  state-error-bg:                   color.adjust($danger, $lightness: 52%),
+  state-error-bg-hvr:               color.adjust($danger, $lightness: 52%),
   state-error-border:               1px solid $danger,
-  state-error-icon:                 lighten($danger, 20%),
+  state-error-icon:                 color.adjust($danger, $lightness: 20%),
   state-error-heading-bg:           $danger,
 
   alert-info-color:                 var(--template-bg-dark),
@@ -477,6 +480,7 @@ $atum-colors: (
   atum-btn-danger-hvr:              var(--body-bg),
 
   atum-btn-info:                    $atum-text-dark,
+  atum-btn-info-color-hvr:          var(--template-text-light),
   atum-btn-info-icon:               $info,
   atum-btn-info-icon-hvr:           var(--atum-btn-hvr),
   atum-btn-info-bg:                 var(--body-bg),
@@ -502,14 +506,14 @@ $atum-colors: (
   atum-btn-action-hvr:             var(--body-bg),
 
 
-  atum-list-group-bg:               var(--body-bg), //rgba(255, 255, 255, .05),
+  atum-list-group-bg:               var(--body-bg), // rgba(255, 255, 255, .05),
 
   // Calendar
   atum-calendar-week-bg:            #f4f4f4,
   atum-calendar-bg:                 var(--body-bg),
-  atum-calendar-buttons-color:      #495057, //var(--btn-primary-bg);
-  atum-calendar-disabled-color:     #999, //#4b4b4b,
-  atum-calendar-disabled-bg:        #fff, //rgba(0,0,0,.5),
+  atum-calendar-buttons-color:      #495057, // var(--btn-primary-bg);
+  atum-calendar-disabled-color:     #999, // #4b4b4b,
+  atum-calendar-disabled-bg:        #fff, // rgba(0,0,0,.5),
   atum-calendar-select-bg:          $form-select-bg,
   atum-calendar-select-bg-url:      url("../../images/select-bg.svg"),
   atum-calendar-select-bg-url-rtl:  url("../../images/select-bg-rtl.svg"),
@@ -533,18 +537,18 @@ $atum-colors: (
 
   success-text:                      $success,
   success:                           $success,
-  successhvr:                        darken($success, 15%),
+  successhvr:                        color.adjust($success, $lightness: -15%),
 
   danger-text:                       $danger,
   danger:                            $danger,
-  dangerhvr:                         darken($danger, 15%),
+  dangerhvr:                         color.adjust($danger, $lightness: -15%),
 
   darkdanger:                        $danger,
-  darkdangerhvr:                     darken($danger, 15%),
+  darkdangerhvr:                     color.adjust($danger, $lightness: -15%),
 
   warning-text:                      #000,
   warning:                           $warning,
-  warninghvr:                        darken($warning, 15%),
+  warninghvr:                        color.adjust($warning, $lightness: -15%),
 
 );
 
@@ -558,13 +562,13 @@ $colors: (
   info-border:                     var(--info),
   warning-border:                  var(--warning),
   danger-border:                   var(--danger),
-  login-main-bg:                   darken($base-color, 8%), //used on login
+  login-main-bg:                   color.adjust($base-color, $lightness: -8%), // used on login
   border:                          $gray-400,
   "white":                         $white, // the key here must be in quotes to avoid scss compilation warnings.
   white-offset:                    $whiteoffset,
   focus:                           #39f,
   focus-shadow:                    #eaeaea,
-  toggle-color:                    $white, //used in sidebar
+  toggle-color:                    $white, // used in sidebar
 
 );
 
@@ -711,8 +715,8 @@ $dropdown-item-bg-hvr:             var(--dropdown-item-bg-hvr);
 // Alerts
 $state-success-text:               $success;
 $state-success-text-hvr:           $success;
-$state-success-bg:                 lighten($success, 58%);
-$state-success-bg-hvr:             lighten($success, 58%);
+$state-success-bg:                 color.adjust($success, $lightness: 58%);
+$state-success-bg-hvr:             color.adjust($success, $lightness: 58%);
 $state-success-border:             var(--state-success-border);
 $state-success-btn-border:         var(--state-success-btn-border);
 $state-success-icon:               var(--state-success-icon);
@@ -721,7 +725,7 @@ $state-success-heading-bg:         var(--state-success-heading-bg);
 
 $state-info-text:                  var(--state-info-text);
 $state-info-text-hvr:              var(--state-info-text);
-$state-info-bg:                    lighten($info, 90%);
+$state-info-bg:                    color.adjust($info, $lightness: 90%);
 $state-info-bg-hvr:                var(--state-info-bg);
 $state-info-border:                var(--state-info-border);
 $state-info-icon:                  var(--state-info-icon);
@@ -860,12 +864,12 @@ $media-toolbar-icon-bg:             var(--media-toolbar-icon-bg);
 //$media-toolbar-icon-border-start:   var(--media-toolbar-icon-border-start);
 $media-toolbar-icon-color:          var(--media-toolbar-icon-color);
 $media-toolbar-icon-bg-hvr:         var(--media-toolbar-icon-bg-hvr);
-$media-tree-item-color:             var(--media-tree-item-color); //var(--template-bg-dark-60);
+$media-tree-item-color:             var(--media-tree-item-color); // var(--template-bg-dark-60);
 $media-manager-breadcrumb-item-bg:  var(--media-manager-breadcrumb-item-bg);
 $media-tree-active-icon-color:      var(--media-tree-active-icon-color);
 
 $image-bg:                          var(--image-bg); // #fff;
-$image-bg-image:                    var(--image-bg-image); //linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);
+$image-bg-image:                    var(--image-bg-image); // linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);
 
 
 // Buttons
@@ -892,7 +896,7 @@ $form-file-button-color:           var(--white);
 $file-selector-btn-bg:             var(--file-selector-btn-bg);
 $file-selector-btn-bg-hvr:         var(--file-selector-btn-bg-hvr);
 
-//Forms
+// Forms
 $form-aria-grabbed-box-shadow:            var(--form-aria-grabbed-box-shadow);
 $options-form-color:                      var(--options-form-color);
 $options-form-bg:                         var(--options-form-bg);
@@ -1003,7 +1007,7 @@ $breadcrumb-bg:                    var(--white);
 
 // Links
 $link-color:                       $light-blue;
-$link-hover-color:                 darken($light-blue, 20%);
+$link-hover-color:                 color.adjust($light-blue, $lightness: -20%);
 $link-decoration:                  none;
 
 // Z-Index list

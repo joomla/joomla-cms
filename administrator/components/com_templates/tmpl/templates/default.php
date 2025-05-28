@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Templates\Administrator\View\Templates\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -98,21 +98,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php endif; ?>
                                 </th>
                                 <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo $this->escape($item->xmldata->get('version')); ?>
+                                    <?php echo $this->escape($item->xmldata->version); ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo $this->escape($item->xmldata->get('creationDate')); ?>
+                                    <?php echo $this->escape($item->xmldata->creationDate); ?>
                                 </td>
                                 <td class="d-none d-md-table-cell text-center">
-                                    <?php if ($author = $item->xmldata->get('author')) : ?>
+                                    <?php if ($author = $item->xmldata->author) : ?>
                                         <div><?php echo $this->escape($author); ?></div>
                                     <?php else : ?>
                                         &mdash;
                                     <?php endif; ?>
-                                    <?php if ($email = $item->xmldata->get('authorEmail')) : ?>
+                                    <?php if ($email = $item->xmldata->authorEmail) : ?>
                                         <div><?php echo $this->escape($email); ?></div>
                                     <?php endif; ?>
-                                    <?php if ($url = $item->xmldata->get('authorUrl')) : ?>
+                                    <?php if ($url = $item->xmldata->authorUrl) : ?>
                                         <div><a href="<?php echo $this->escape($url); ?>"><?php echo $this->escape($url); ?></a></div>
                                     <?php endif; ?>
                                 </td>

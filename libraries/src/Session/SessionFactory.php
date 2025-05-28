@@ -126,7 +126,7 @@ class SessionFactory implements ContainerAwareInterface
                 return new Handler\RedisHandler($redis, ['ttl' => $options['expire']]);
 
             default:
-                throw new \InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));
+                throw new \InvalidArgumentException(\sprintf('The "%s" session handler is not recognised.', $handlerType));
         }
     }
 

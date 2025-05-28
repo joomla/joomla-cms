@@ -82,7 +82,7 @@ class FeedEntry
         // Validate that any authors that are set are instances of JFeedPerson or null.
         if (($name === 'author') && (!($value instanceof FeedPerson) || ($value === null))) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
                     \get_class($this),
                     \is_object($value) ? \get_class($value) : \gettype($value)
@@ -93,7 +93,7 @@ class FeedEntry
         // Validate that any sources that are set are instances of JFeed or null.
         if (($name === 'source') && (!($value instanceof Feed) || ($value === null))) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%1$s "source" must be an instance of Joomla\\CMS\\Feed\\Feed. %2$s given.',
                     \get_class($this),
                     \is_object($value) ? \get_class($value) : \gettype($value)
@@ -104,7 +104,7 @@ class FeedEntry
         // Disallow setting categories, contributors, or links directly.
         if (\in_array($name, ['categories', 'contributors', 'links'])) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Cannot directly set %1$s property "%2$s".',
                     \get_class($this),
                     $name

@@ -291,7 +291,6 @@
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .sidebar-wrapper {
-      overflow: hidden;
       border: 1px solid rgba(255, 255, 255, .05);
       box-shadow: none;
       .main-nav {

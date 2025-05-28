@@ -18,7 +18,7 @@ use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
@@ -49,12 +49,12 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_content.article';
 
@@ -95,14 +95,14 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
     /**
      * Method to get the parent asset id for the record
      *
-     * @param   Table    $table  A Table object (optional) for the asset parent
-     * @param   integer  $id     The id (optional) of the content.
+     * @param   ?Table    $table  A Table object (optional) for the asset parent
+     * @param   ?integer  $id     The id (optional) of the content.
      *
      * @return  integer
      *
      * @since   1.6
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
 
@@ -111,16 +111,17 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             $catId = (int) $this->catid;
 
             // Build the query to get the asset id for the parent category.
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('asset_id'))
-                ->from($this->_db->quoteName('#__categories'))
-                ->where($this->_db->quoteName('id') . ' = :catid')
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('asset_id'))
+                ->from($db->quoteName('#__categories'))
+                ->where($db->quoteName('id') . ' = :catid')
                 ->bind(':catid', $catId, ParameterType::INTEGER);
 
             // Get the asset id from the database.
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($result = $this->_db->loadResult()) {
+            if ($result = $db->loadResult()) {
                 $assetId = (int) $result;
             }
         }
@@ -156,7 +157,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
                 $this->introtext = $array['articletext'];
                 $this->fulltext  = '';
             } else {
-                list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+                [$this->introtext, $this->fulltext] = preg_split($pattern, $array['articletext'], 2);
             }
         }
 
@@ -328,12 +329,15 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
 
         if ($this->id) {
             // Existing item
-            $this->modified_by = $user->get('id');
+            $this->modified_by = $user->id;
             $this->modified    = $date;
+            if (empty($this->created_by)) {
+                $this->created_by = 0;
+            }
         } else {
             // Field created_by can be set by the user, so we don't touch it if it's set.
             if (empty($this->created_by)) {
-                $this->created_by = $user->get('id');
+                $this->created_by = $user->id;
             }
 
             // Set modified to created date if not set
@@ -348,7 +352,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         }
 
         // Verify that the alias is unique
-        $table = new self($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing article trashed?

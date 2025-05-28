@@ -30,18 +30,6 @@ use Joomla\Utilities\ArrayHelper;
 class DatabaseModel extends BaseInstallationModel
 {
     /**
-     * Get the current setup options from the session.
-     *
-     * @return  array  An array of options from the session.
-     *
-     * @since   4.0.0
-     */
-    public function getOptions()
-    {
-        return Factory::getSession()->get('setup.options', []);
-    }
-
-    /**
      * Method to initialise the database.
      *
      * @param   array    $options  Array with db connection credentials
@@ -143,7 +131,7 @@ class DatabaseModel extends BaseInstallationModel
                 || $type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist')
             ) {
                 /*
-                 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance
+                 * Now we're really getting insane here; we're going to try building a new DatabaseDriver instance
                  * in order to trick the connection into creating the database
                  */
                 if ($type === 'mysql') {

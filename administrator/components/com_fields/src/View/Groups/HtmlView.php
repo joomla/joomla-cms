@@ -19,9 +19,9 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Fields\Administrator\Model\GroupsModel;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -83,14 +83,17 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state         = $this->get('State');
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var GroupsModel $model */
+        $model = $this->getModel();
+
+        $this->state         = $model->getState();
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -120,7 +123,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
         $groupId   = $this->state->get('filter.group_id');
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));
@@ -187,7 +190,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component)) {
-            $toolbar->delete('groups.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('groups.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

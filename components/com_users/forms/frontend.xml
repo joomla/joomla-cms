@@ -44,6 +44,7 @@
 				<option value="light">COM_USERS_USER_COLORSCHEME_OPTION_LIGHT</option>
 				<option value="dark">COM_USERS_USER_COLORSCHEME_OPTION_DARK</option>
 			</field>
+
 		</fieldset>
 	</fields>
 </form>

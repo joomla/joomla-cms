@@ -142,7 +142,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         $newStatus = $config['offline'] ? 'offline' : 'online';
         $exit      = $this->writeConfigFile(new Registry($config));
-        $this->logTask(sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS'), $oldStatus, $newStatus));
+        $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS'), $oldStatus, $newStatus));
 
         $this->endRoutine($event, $exit);
     }
@@ -171,7 +171,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
             // Attempt to write the configuration file as a PHP class named JConfig.
             $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
             File::write($file, $configuration);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
 
             return Status::KNOCKOUT;

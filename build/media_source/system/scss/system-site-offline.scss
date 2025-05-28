@@ -32,7 +32,7 @@ img {
 }
 
 #frame form {
-  text-align: left;
+  text-align: start;
 }
 
 /* -- class styles ---------------------------------- */
@@ -92,7 +92,7 @@ input.button:hover {
 }
 
 fieldset.input p {
-  clear: left;
+  clear: inline-start;
 }
 
 #frmlogin {
@@ -100,7 +100,7 @@ fieldset.input p {
 }
 
 #frmlogin fieldset.button {
-  text-align: right;
+  text-align: end;
 }
 
 /* -- message styles ----------------------------------- */
