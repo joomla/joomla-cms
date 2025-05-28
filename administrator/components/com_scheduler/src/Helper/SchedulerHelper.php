@@ -11,7 +11,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Helper;
 
 use Joomla\CMS\Application\AdministratorApplication;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOptions;
@@ -53,7 +53,7 @@ abstract class SchedulerHelper
         /** @var  AdministratorApplication $app */
         $app     = Factory::getApplication();
         $options = new TaskOptions();
-        $event   = AbstractEvent::create(
+        $event   = EventFactory::create(
             'onTaskOptionsList',
             [
                 'subject' => $options,

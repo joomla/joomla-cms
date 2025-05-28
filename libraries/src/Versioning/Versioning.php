@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Versioning;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\ContentHistory;
@@ -113,7 +113,7 @@ class Versioning
             PluginHelper::importPlugin('workflow');
 
             // Pre-processing by observers
-            $event = AbstractEvent::create(
+            $event = EventFactory::create(
                 'onContentVersioningPrepareTable',
                 [
                     'subject'   => $historyTable,

@@ -12,7 +12,7 @@ namespace Joomla\Component\Scheduler\Administrator\Model;
 
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -767,7 +767,7 @@ class TaskModel extends AdminModel
             return true;
         }
 
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             $this->event_before_unlock,
             [
                 'subject' => $this,
@@ -792,7 +792,7 @@ class TaskModel extends AdminModel
         }
 
         // Trigger the after unlock event
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             $this->event_unlock,
             [
                 'subject' => $this,

@@ -12,7 +12,7 @@ namespace Joomla\Component\Scheduler\Administrator\Task;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -211,7 +211,7 @@ class Task implements LoggerAwareInterface
         $this->snapshot['netDuration'] = 0;
 
         /** @var ExecuteTaskEvent $event */
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onExecuteTask',
             [
                 'eventClass'      => ExecuteTaskEvent::class,
@@ -466,7 +466,7 @@ class Task implements LoggerAwareInterface
         $exitCode  = $this->snapshot['status'] ?? 'NA';
         $eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
 
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             $eventName,
             [
                 'subject' => $this,

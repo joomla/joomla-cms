@@ -10,7 +10,7 @@
 
 namespace Joomla\Plugin\Workflow\Featuring\Extension;
 
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
@@ -266,7 +266,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         // Trigger the change state event.
         $eventResult = $this->getApplication()->getDispatcher()->dispatch(
             'onContentBeforeChangeFeatured',
-            AbstractEvent::create(
+            EventFactory::create(
                 'onContentBeforeChangeFeatured',
                 [
                     'eventClass'  => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',

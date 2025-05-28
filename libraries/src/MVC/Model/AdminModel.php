@@ -10,6 +10,7 @@
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -730,7 +731,7 @@ abstract class AdminModel extends FormModel
                 $this->table->reset();
                 $this->table->load($pk);
 
-                $setTagsEvent = \Joomla\CMS\Event\AbstractEvent::create(
+                $setTagsEvent = EventFactory::create(
                     'onTableSetNewTags',
                     [
                         'subject'     => $this->table,
