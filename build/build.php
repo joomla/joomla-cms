@@ -227,8 +227,8 @@ function build_and_check(string $packageName, string $command): void
 
     // Redirect stderr to stdout
     $fullCommand = $command . ' 2>&1';
-    $output = [];
-    $exitCode = 0;
+    $output      = [];
+    $exitCode    = 0;
 
     exec($fullCommand, $output, $exitCode);
 
@@ -603,21 +603,21 @@ for ($num = $release - 1; $num >= 0; $num--) {
 
     if (!$excludeGzip) {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz';
-        $command = "tar --create --gzip --no-recursion --directory {$time} --file packages/{$packageName} --files-from diffconvert/{$version}.{$num}";
+        $command     = "tar --create --gzip --no-recursion --directory {$time} --file packages/{$packageName} --files-from diffconvert/{$version}.{$num}";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
 
     if (!$excludeBzip2) {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2';
-        $command = "tar --create --bzip2 --no-recursion --directory {$time} --file packages/{$packageName} --files-from diffconvert/{$version}.{$num}";
+        $command     = "tar --create --bzip2 --no-recursion --directory {$time} --file packages/{$packageName} --files-from diffconvert/{$version}.{$num}";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
 
     if (!$excludeZstd) {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.zst';
-        $command = "tar --create --no-recursion --directory {$time} --files-from diffconvert/{$version}.{$num} | zstd --ultra -22 -o packages/{$packageName}";
+        $command     = "tar --create --no-recursion --directory {$time} --files-from diffconvert/{$version}.{$num} | zstd --ultra -22 -o packages/{$packageName}";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
@@ -629,28 +629,28 @@ chdir($time);
 // Create full archive packages.
 if (!$excludeZip) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
-    $command = "zip -r ../packages/{$packageName} *";
+    $command     = "zip -r ../packages/{$packageName} *";
     build_and_check($packageName, $command);
     $checksums[$packageName] = [];
 }
 
 if (!$excludeGzip) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz';
-    $command = "tar --create --gzip --file ../packages/{$packageName} *";
+    $command     = "tar --create --gzip --file ../packages/{$packageName} *";
     build_and_check($packageName, $command);
     $checksums[$packageName] = [];
 }
 
 if (!$excludeBzip2) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2';
-    $command = "tar --create --bzip2 --file ../packages/{$packageName} *";
+    $command     = "tar --create --bzip2 --file ../packages/{$packageName} *";
     build_and_check($packageName, $command);
     $checksums[$packageName] = [];
 }
 
 if (!$excludeZstd) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.zst';
-    $command = "tar --create * | zstd --ultra -22 -o ../packages/{$packageName}";
+    $command     = "tar --create * | zstd --ultra -22 -o ../packages/{$packageName}";
     build_and_check($packageName, $command);
     $checksums[$packageName] = [];
 }
@@ -668,28 +668,28 @@ if (!$debugBuild) {
 
     if (!$excludeZip) {
         $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
-        $command = "zip -r ../packages/{$packageName} *";
+        $command     = "zip -r ../packages/{$packageName} *";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
 
     if (!$excludeGzip) {
         $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz';
-        $command = "tar --create --gzip --file ../packages/{$packageName} *";
+        $command     = "tar --create --gzip --file ../packages/{$packageName} *";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
 
     if (!$excludeBzip2) {
         $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
-        $command = "tar --create --bzip2 --file ../packages/{$packageName} *";
+        $command     = "tar --create --bzip2 --file ../packages/{$packageName} *";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
 
     if (!$excludeZstd) {
         $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.zst';
-        $command = "tar --create * | zstd --ultra -22 -o ../packages/{$packageName}";
+        $command     = "tar --create * | zstd --ultra -22 -o ../packages/{$packageName}";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
