@@ -111,7 +111,7 @@ class JsonapiView extends BaseApiView
          */
         $model = $this->getModel();
 
-        // Write old version to state for usage in model
+        // Write old version and filename to state for usage in model
         Factory::getApplication()->setUserState('com_joomlaupdate.oldversion', $fromVersion);
         Factory::getApplication()->setUserState('com_joomlaupdate.file', $updatefileName);
 
