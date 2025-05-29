@@ -22,8 +22,6 @@ $input = $app->getInput();
 $wa    = $this->getWebAssetManager();
 $template        = $app->getTemplate(true);
 $isChildTemplate = !empty($template->parent) && $template->template == 'cassiopeia_alpha';
-$template        = $app->getTemplate(true);
-$isChildTemplate = !empty($template->parent) && $template->template == 'cassiopeia_alpha';
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
