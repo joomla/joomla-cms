@@ -6,7 +6,7 @@
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
-	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
+	<description>TPL_CASSIOPEIA_ALPHA_XML_DESCRIPTION</description>
 	<positions>
 	<position>topbar</position>
 	<position>below-top</position>
@@ -151,20 +151,9 @@
 
 				<field
 					name="colorName"
-					type="filelist"
-					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
+					type="hidden"
 					default="colors_standard"
-					fileFilter="^custom.+[^min]\.css$"
-					exclude="^colors.+"
-					stripext="true"
-					hide_none="true"
-					hide_default="true"
-					directory="media/templates/site/cassiopeia/css/global/"
-					validate="options"
-					>
-					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
-					<option value="colors_alternative">TPL_CASSIOPEIA_COLOR_NAME_ALTERNATIVE</option>
-				</field>
+				/>
 
 				<field
 					name="fluidContainer"

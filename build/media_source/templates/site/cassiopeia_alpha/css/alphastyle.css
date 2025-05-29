@@ -82,3 +82,8 @@ a:focus-visible,
     color: var(--footercolor);
   }
 }
+.offline-card .header {
+  color: var(--headercolor);
+  background-color: var(--headerbg);
+  background-image: none;
+}
