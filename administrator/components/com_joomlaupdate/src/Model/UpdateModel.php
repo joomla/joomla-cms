@@ -121,7 +121,7 @@ class UpdateModel extends BaseDatabaseModel
                  * case 'nochange':
                  * case 'testing':
                  */
-                $updateURL = 'https://update.joomla.org/cms/';
+                $updateURL = 'https://update.joomla.org/alpha/';
         }
 
         $updateType = (pathinfo($updateURL, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
