@@ -20,7 +20,7 @@ use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 /**
  * The healthcheck controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.0
  */
 class HealthcheckController extends BaseController
 {
@@ -28,7 +28,7 @@ class HealthcheckController extends BaseController
      * The content type of the item.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.0
      */
     protected $contentType = 'healthcheck';
 
@@ -36,7 +36,7 @@ class HealthcheckController extends BaseController
      * The default view for the display method.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.0
      */
     protected $default_view = 'healthcheck';
 
@@ -45,7 +45,7 @@ class HealthcheckController extends BaseController
      *
      * @return HealthcheckController
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     public function show()
     {
@@ -94,7 +94,7 @@ class HealthcheckController extends BaseController
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function displayItem($id = null)
     {
@@ -106,7 +106,7 @@ class HealthcheckController extends BaseController
      *
      * @return  static  A BaseController object to support chaining.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function displayList()
     {
@@ -120,7 +120,7 @@ class HealthcheckController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function delete($id = null)
     {
@@ -137,7 +137,7 @@ class HealthcheckController extends BaseController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     protected function allowEdit($data = [], $key = 'id')
     {
@@ -153,7 +153,7 @@ class HealthcheckController extends BaseController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     protected function allowAdd($data = [])
     {
