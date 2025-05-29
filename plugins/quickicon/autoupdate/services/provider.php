@@ -2,9 +2,9 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Behaviour.compat
+ * @subpackage  Quickicon.Autoupdate
  *
- * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,10 @@
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Behaviour\Compat\Extension\Compat;
+use Joomla\Plugin\Quickicon\Autoupdate\Extension\Autoupdate;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -25,17 +24,22 @@ return new class () implements ServiceProviderInterface {
      * @param   Container  $container  The DI container.
      *
      * @return  void
-     * @since   4.4.0
+     *
+     * @since   5.4.0
      */
     public function register(Container $container)
     {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = PluginHelper::getPlugin('behaviour', 'compat');
-                $dispatcher = $container->get(DispatcherInterface::class);
+                // @Todo This needs to be changed to a proper factory
+                $plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('quickicon', 'autoupdate');
 
-                $plugin = new Compat($dispatcher, (array) $plugin);
+                $plugin = new Autoupdate(
+                    $container->get(DispatcherInterface::class),
+                    Factory::getApplication()->getDocument(),
+                    (array) $plugin
+                );
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
