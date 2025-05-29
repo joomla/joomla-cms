@@ -202,7 +202,6 @@ class ArticlesModel extends ListModel
         // The query optimizer of both, mariadb and mysql fails to recognize the correct index on large article sets
         // For these cases, we enforce the usage of the indexes
         $primaryIndexAppendix = $db->getServerType() === 'mysql' ? " FORCE INDEX(PRIMARY)" : "";
-        $languageIndexAppendix = $db->getServerType() === 'mysql' ? " FORCE INDEX(idx_langcode)" : "";
 
         // Select the required fields from the table.
         $query->select(
@@ -264,7 +263,7 @@ class ArticlesModel extends ListModel
             )
             ->from($db->quoteName('#__content', 'a'))
             ->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article'))
-            ->join('LEFT', $db->quoteName('#__languages', 'l') . $languageIndexAppendix, $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
+            ->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
             ->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
             ->join('LEFT', $db->quoteName('#__users', 'uc') . $primaryIndexAppendix, $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
             ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
