@@ -21,7 +21,7 @@ abstract class BaseController extends ApiController
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      *
      * @throws \Exception
      */

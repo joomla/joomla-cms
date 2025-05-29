@@ -26,7 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for managing the update channel for Joomla
  *
- * @since __DEPLOY_VERSION__
+ * @since 5.4.0
  */
 class AutomatedUpdatesUnregisterCommand extends AbstractCommand
 {
@@ -34,7 +34,7 @@ class AutomatedUpdatesUnregisterCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     protected static $defaultName = 'core:autoupdate:unregister';
 
@@ -42,7 +42,7 @@ class AutomatedUpdatesUnregisterCommand extends AbstractCommand
      * SymfonyStyle Object
      *
      * @var SymfonyStyle
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     private $ioStyle;
 
@@ -51,7 +51,7 @@ class AutomatedUpdatesUnregisterCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     protected function configure(): void
     {
@@ -70,7 +70,7 @@ class AutomatedUpdatesUnregisterCommand extends AbstractCommand
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      *
      */
     private function configureIO(InputInterface $input, OutputInterface $output)
@@ -86,7 +86,7 @@ class AutomatedUpdatesUnregisterCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
