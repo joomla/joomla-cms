@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
+use Joomla\Component\Contact\Site\Model\FormModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -79,11 +80,12 @@ class HtmlView extends BaseHtmlView
         $user = $this->getCurrentUser();
         $app  = Factory::getApplication();
 
-        // Get model data.
-        $this->state       = $this->get('State');
-        $this->item        = $this->get('Item');
-        $this->form        = $this->get('Form');
-        $this->return_page = $this->get('ReturnPage');
+        /** @var FormModel $model */
+        $model             = $this->getModel();
+        $this->state       = $model->getState();
+        $this->item        = $model->getItem();
+        $this->form        = $model->getForm();
+        $this->return_page = $model->getReturnPage();
 
         if (empty($this->item->id)) {
             $authorised = $user->authorise('core.create', 'com_contact') || \count($user->getAuthorisedCategories('com_contact', 'core.create'));
@@ -107,7 +109,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             $app->enqueueMessage(implode("\n", $errors), 'error');
 
             return false;

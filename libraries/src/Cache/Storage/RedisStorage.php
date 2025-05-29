@@ -129,7 +129,7 @@ class RedisStorage extends CacheStorage
 
         try {
             static::$_redis->ping();
-        } catch (\RedisException $e) {
+        } catch (\RedisException) {
             static::$_redis = null;
 
             throw new CacheConnectingException('Redis ping failed', 500);
@@ -286,11 +286,11 @@ class RedisStorage extends CacheStorage
         $secret = $this->_hash;
 
         foreach ($allKeys as $key) {
-            if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode === 'group') {
+            if (str_starts_with($key, $secret . '-cache-' . $group . '-') && $mode === 'group') {
                 static::$_redis->del($key);
             }
 
-            if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode !== 'group') {
+            if (!str_starts_with($key, $secret . '-cache-' . $group . '-') && $mode !== 'group') {
                 static::$_redis->del($key);
             }
         }

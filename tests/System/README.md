@@ -178,6 +178,8 @@ The Joomla System Tests come with some convenient [Cypress Tasks](https://docs.c
 - **writeRelativeFile** – Writes a file relative to the CMS root folder
 - **deleteRelativePath** – Deletes a file or folder relative to the CMS root folder
 - **copyRelativeFile** – Copies a file relative to the CMS root folder
+- **checkForLogs** – Checks the log file (path defined in configuration) for errors
+- **clearLogs** – Clears the logs in the log file from the configuration
 - **startMailServer** – Starts the smtp-tester SMTP server
 - **getMails** – Get received mails from smtp-tester
 - **clearEmails** – Clear all smtp-tester received mails
@@ -357,3 +359,10 @@ If you encounter the following error while running the Joomla System Tests on sl
       ...
     }
 ```
+
+## Docker
+The system tests can also be executed in headless mode with docker compose. The following command does a cleanup and then starts the system tests from the current docker-compose.yml file:
+
+`docker compose down && docker compose up system-tests`
+
+The database is used with a temporary filesystem, so the data always gets deleted when the tests are started, therefor the installation test must be performed as the first step. The webserver is accessible on the host from http://localhost:8080 or https://localhost:8443 and PHPMyAdmin on http://localhost:8081.

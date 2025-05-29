@@ -99,7 +99,7 @@ class TemplatesHelper
             }
 
             foreach ($xml as $key => $value) {
-                $data->set($key, $value);
+                $data->$key = $value;
             }
         }
 

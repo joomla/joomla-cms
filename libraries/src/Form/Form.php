@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Form;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\CurrentUserInterface;
@@ -81,6 +82,16 @@ class Form implements CurrentUserInterface
      * @since  1.7.0
      */
     protected $xml;
+
+    /**
+     * List of control fields.
+     * Hidden "non-model" fields that need for Controller, like "task", "return", token hash, etc.
+     * Array containing name => [value => value, attributes => []] for each field.
+     *
+     * @var    array
+     * @since  5.3.0
+     */
+    protected $controlFields = ['joomla.form.token' => []];
 
     /**
      * Form instances.
@@ -590,7 +601,7 @@ class Form implements CurrentUserInterface
         if (\is_string($data)) {
             try {
                 $data = new \SimpleXMLElement($data);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return false;
             }
         }
@@ -1454,8 +1465,8 @@ class Form implements CurrentUserInterface
         if ($field instanceof DatabaseAwareInterface) {
             try {
                 $field->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
-                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            } catch (DatabaseNotFoundException) {
+                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -1476,7 +1487,7 @@ class Form implements CurrentUserInterface
          * else the value of the 'default' attribute for the field.
          */
         if ($value === null) {
-            $default = (string) ($element['default'] ? $element['default'] : $element->default);
+            $default = (string) ($element['default'] ?: $element->default);
 
             if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate === '1')) {
                 $lang = Factory::getLanguage();
@@ -1694,7 +1705,7 @@ class Form implements CurrentUserInterface
             $forms[$name] = Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
             // Load the data.
-            if (substr($data, 0, 1) === '<') {
+            if (str_starts_with($data, '<')) {
                 if ($forms[$name]->load($data, $replace, $xpath) == false) {
                     throw new \RuntimeException(\sprintf('%s() could not load form', __METHOD__));
                 }
@@ -1865,5 +1876,91 @@ class Form implements CurrentUserInterface
     public function getFieldXml($name, $group = null)
     {
         return $this->findField($name, $group);
+    }
+
+
+    /**
+     * Add control field
+     *
+     * @param string    $name        The name of the input
+     * @param string    $value       The value of the input
+     * @param string[]  $attributes  Optional attributes of the input, in format [name => value]
+     *
+     * @return static
+     *
+     * @since  5.3.0
+     */
+    public function addControlField(string $name, string $value = '', array $attributes = []): static
+    {
+        $this->controlFields[$name] = [
+            'value'      => $value,
+            'attributes' => $attributes,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Remove control field
+     *
+     * @param string $name  The name of the input
+     *
+     * @return static
+     *
+     * @since  5.3.0
+     */
+    public function removeControlField(string $name): static
+    {
+        unset($this->controlFields[$name]);
+
+        return $this;
+    }
+
+    /**
+     * Return array of control fields
+     *
+     * @return array
+     *
+     * @since  5.3.0
+     */
+    public function getControlFields(): array
+    {
+        return $this->controlFields;
+    }
+
+    /**
+     * Render control fields
+     *
+     * @return string
+     *
+     * @since  5.3.0
+     */
+    public function renderControlFields(): string
+    {
+        $html     = [];
+        $hasToken = \array_key_exists('joomla.form.token', $this->controlFields);
+        unset($this->controlFields['joomla.form.token']);
+
+        foreach ($this->controlFields as $n => $v) {
+            // Check for attributes
+            $attrStr = '';
+
+            if ($v['attributes']) {
+                $attr = [];
+                foreach ($v['attributes'] as $attrName => $attrValue) {
+                    $attr[] = htmlspecialchars($attrName) . '="' . htmlspecialchars($attrValue) . '"';
+                }
+                $attrStr = implode(' ', $attr);
+            }
+
+            $html[] = '<input type="hidden" name="' . htmlspecialchars($n) . '" value="' . htmlspecialchars($v['value']) . '" ' . $attrStr . '>';
+        }
+
+        // Add the form token
+        if ($hasToken) {
+            $html[] = HTMLHelper::_('form.token');
+        }
+
+        return implode("\n", $html);
     }
 }

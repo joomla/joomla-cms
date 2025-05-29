@@ -108,7 +108,7 @@ class TagsHelper extends CMSHelper
         $typeId = $ucm->getTypeId();
 
         // Insert the new tag maps
-        if (strpos(implode(',', $tags), '#') !== false) {
+        if (str_contains(implode(',', $tags), '#')) {
             $tags = $this->createTagsFromField($tags);
         }
 
@@ -194,7 +194,7 @@ class TagsHelper extends CMSHelper
 
                 try {
                     $aliasesMapper = $db->loadAssocList('alias');
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return false;
                 }
 
@@ -246,7 +246,7 @@ class TagsHelper extends CMSHelper
 
         foreach ($tags as $key => $tag) {
             // User is not allowed to create tags, so don't create.
-            if (!$canCreate && strpos($tag, '#new#') !== false) {
+            if (!$canCreate && str_contains($tag, '#new#')) {
                 continue;
             }
 
@@ -591,6 +591,7 @@ class TagsHelper extends CMSHelper
                 'MAX(' . $db->quoteName('c.core_publish_down') . ') AS ' . $db->quoteName('core_publish_down'),
                 'MAX(' . $db->quoteName('ct.type_title') . ') AS ' . $db->quoteName('content_type_title'),
                 'MAX(' . $db->quoteName('ct.router') . ') AS ' . $db->quoteName('router'),
+                'MAX(' . $db->quoteName('tc.title') . ') AS ' . $db->quoteName('core_category_title'),
                 'CASE WHEN ' . $db->quoteName('c.core_created_by_alias') . ' > ' . $db->quote(' ')
                 . ' THEN ' . $db->quoteName('c.core_created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
                 $db->quoteName('ua.email', 'author_email'),
@@ -821,6 +822,8 @@ class TagsHelper extends CMSHelper
      * @return  boolean
      *
      * @since   3.1
+     *
+     * @deprecated  5.3 will be removed in 7.0
      */
     public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {
@@ -998,7 +1001,7 @@ class TagsHelper extends CMSHelper
 
         try {
             $results = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
 

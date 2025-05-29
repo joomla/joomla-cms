@@ -5,14 +5,14 @@ Build Status
 
 | Drone-CI                                                                                                                                 | AppVeyor                                                                                                                                                           | PHP                                                                           | Node                                                                                 | npm                                                                             |
 |------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=5.2-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/5.2-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
+| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=5.3-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/5.3-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
 
 Overview
 ---------------------
 * This is the source of Joomla! 5.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 5.2 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.2_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/5.2-dev).
+* Joomla! 5.3 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.3_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/5.3-dev).
 
 What is Joomla?
 ---------------------
@@ -45,9 +45,9 @@ git clone https://github.com/joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 5.2-dev branch:
+- Go to the 5.3-dev branch:
 ```bash
-git checkout 5.2-dev
+git checkout 5.3-dev
 ```
 - Install all the needed composer packages:
 ```bash

@@ -10,12 +10,12 @@
 namespace Joomla\CMS\Log\Logger;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Version;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Utilities\IpHelper;
 
 // phpcs:disable PSR1.Files.SideEffects

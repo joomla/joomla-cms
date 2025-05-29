@@ -628,7 +628,7 @@ class User
             $array['password'] = UserHelper::hashPassword($array['password']);
 
             // Set the registration timestamp
-            $this->set('registerDate', Factory::getDate()->toSql());
+            $this->registerDate = Factory::getDate()->toSql();
         } else {
             // Updating an existing user
             if (!empty($array['password'])) {
@@ -658,10 +658,12 @@ class User
             }
 
             // Prevent updating internal fields
-            unset($array['registerDate']);
-            unset($array['lastvisitDate']);
-            unset($array['lastResetTime']);
-            unset($array['resetCount']);
+            unset(
+                $array['registerDate'],
+                $array['lastvisitDate'],
+                $array['lastResetTime'],
+                $array['resetCount']
+            );
         }
 
         if (\array_key_exists('params', $array)) {
@@ -677,10 +679,8 @@ class User
         }
 
         // Bind the array
-        if (!$this->setProperties($array)) {
-            $this->setError(Text::_('JLIB_USER_ERROR_BIND_ARRAY'));
-
-            return false;
+        foreach ($array as $key => $value) {
+            $this->$key = $value;
         }
 
         // Make sure its an integer
@@ -769,6 +769,11 @@ class User
                         }
                     }
                 }
+            }
+
+            // Unset the activation token, if the mail address changes - that affects both, activation and PW resets
+            if ($this->email !== $oldUser->email && $this->id !== 0 && !empty($this->activation) && !$this->block) {
+                $table->activation = '';
             }
 
             // Fire the onUserBeforeSave event.
@@ -884,7 +889,9 @@ class User
         }
 
         // Assuming all is well at this point let's bind the data
-        $this->setProperties($table->getProperties());
+        foreach ($table->getProperties() as $key => $value) {
+            $this->$key = $value;
+        }
 
         // The user is no longer a guest
         if ($this->id != 0) {

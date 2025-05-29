@@ -14,8 +14,12 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\Application\ApplicationEvents;
+use Joomla\Application\Event\ApplicationEvent;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
+use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -172,14 +176,16 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         $this->setApplication($app);
         $this->setDatabase($db);
 
-        $this->debugLang = $this->getApplication()->get('debug_lang');
+        $app = $this->getApplication();
+
+        $this->debugLang = $app->get('debug_lang');
 
         // Skip the plugin if debug is off
-        if (!$this->debugLang && !$this->getApplication()->get('debug')) {
+        if (!$this->debugLang && !$app->get('debug')) {
             return;
         }
 
-        $this->getApplication()->set('gzip', false);
+        $app->set('gzip', false);
         ob_start();
         ob_implicit_flush(false);
 
@@ -195,19 +201,19 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         // Check whether we want to track the request history for future use.
         if ($this->params->get('track_request_history', false)) {
-            $storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->getApplication()->getName();
+            $storagePath = JPATH_CACHE . '/plg_system_debug_' . $app->getName();
             $this->debugBar->setStorage(new FileStorage($storagePath));
         }
 
-        $this->debugBar->setHttpDriver(new JoomlaHttpDriver($this->getApplication()));
+        $this->debugBar->setHttpDriver(new JoomlaHttpDriver($app));
 
-        $this->isAjax = $this->getApplication()->getInput()->get('option') === 'com_ajax'
-            && $this->getApplication()->getInput()->get('plugin') === 'debug' && $this->getApplication()->getInput()->get('group') === 'system';
+        $this->isAjax = $app->getInput()->get('option') === 'com_ajax'
+            && $app->getInput()->get('plugin') === 'debug' && $app->getInput()->get('group') === 'system';
 
         $this->showLogs = (bool) $this->params->get('logs', true);
 
         // Log deprecated class aliases
-        if ($this->showLogs && $this->getApplication()->get('log_deprecated')) {
+        if ($this->showLogs && $app->get('log_deprecated')) {
             foreach (\JLoader::getDeprecatedAliases() as $deprecation) {
                 Log::add(
                     \sprintf(
@@ -226,11 +232,13 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * Add an assets for debugger.
      *
+     * @param  BeforeCompileHeadEvent $event  The event instance.
+     *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onBeforeCompileHead()
+    public function onBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
         // Only if debugging or language debug is enabled.
         if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && $this->getApplication()->getDocument() instanceof HtmlDocument) {
@@ -261,11 +269,13 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * Show the debug info.
      *
+     * @param   AfterRespondEvent|ApplicationEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   1.6
      */
-    public function onAfterRespond()
+    public function onAfterRespond(AfterRespondEvent|ApplicationEvent $event): void
     {
         $endTime    = microtime(true) - $this->timeInOnAfterDisconnect;
         $endMemory  = memory_get_peak_usage(false);
@@ -355,8 +365,8 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         // No debug for Safari and Chrome redirection.
         if (
-            strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-            && strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false
+            str_starts_with($contents, '<html><head><meta http-equiv="refresh" content="0;')
+            && str_contains(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit')
         ) {
             $this->debugBar->stackData();
 
@@ -371,7 +381,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * AJAX handler
      *
-     * @param AjaxEvent $event
+     * @param  AjaxEvent $event  The event instance.
      *
      * @return  void
      *
@@ -413,22 +423,20 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             return $result;
         }
 
+        $result = true;
+
         // If the user is not allowed to view the output then end here.
         $filterGroups = (array) $this->params->get('filter_groups', []);
 
         if (!empty($filterGroups)) {
-            $userGroups = $this->getApplication()->getIdentity()->get('groups');
+            $userGroups = $this->getApplication()->getIdentity()->groups;
 
             if (!array_intersect($filterGroups, $userGroups)) {
                 $result = false;
-
-                return false;
             }
         }
 
-        $result = true;
-
-        return true;
+        return $result;
     }
 
     /**
@@ -440,7 +448,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onAfterDisconnect(ConnectionEvent $event)
+    public function onAfterDisconnect(ConnectionEvent $event): void
     {
         if (!JDEBUG) {
             return;
@@ -611,7 +619,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                     $category = $entry->category;
                     $relative = $file ? str_replace(JPATH_ROOT, '', $file) : '';
 
-                    if ($relative && 0 === strpos($relative, '/libraries/src')) {
+                    if ($relative && str_starts_with($relative, '/libraries/src')) {
                         if (!$logDeprecatedCore) {
                             break;
                         }
@@ -657,11 +665,13 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * Add server timing headers when profile is activated.
      *
+     * @param   BeforeRespondEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   4.1.0
      */
-    public function onBeforeRespond(): void
+    public function onBeforeRespond(BeforeRespondEvent $event): void
     {
         if (!JDEBUG || !$this->params->get('profile', 1)) {
             return;
@@ -678,13 +688,13 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             }
 
             // Collect the module render time
-            if (strpos($mark->label, 'mod_') !== false) {
+            if (str_contains($mark->label, 'mod_')) {
                 $moduleTime += $mark->time;
                 continue;
             }
 
             // Collect the access render time
-            if (strpos($mark->label, 'Access:') !== false) {
+            if (str_contains($mark->label, 'Access:')) {
                 $accessTime += $mark->time;
                 continue;
             }

@@ -880,7 +880,7 @@ HTMLSTR;
     {
         static $tabLayout = null;
 
-        $tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
+        $tabLayout = $tabLayout ?? new FileLayout('libraries.html.bootstrap.tab.addtab');
         $active    = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
         return $tabLayout->render(['id' => preg_replace('/^[\.#]/', '', $id), 'active' => $active, 'title' => $title]);

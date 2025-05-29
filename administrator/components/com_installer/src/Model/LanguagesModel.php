@@ -136,7 +136,7 @@ class LanguagesModel extends ListModel
 
         try {
             $response = HttpFactory::getHttp()->get($updateSite);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -166,8 +166,8 @@ class LanguagesModel extends ListModel
 
             if ($search) {
                 if (
-                    strpos(strtolower($language->name), $search) === false
-                    && strpos(strtolower($language->element), $search) === false
+                    !str_contains(strtolower($language->name), $search)
+                    && !str_contains(strtolower($language->element), $search)
                 ) {
                     continue;
                 }

@@ -18,7 +18,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -34,6 +33,7 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
@@ -299,6 +299,19 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             'prefix'   => $data['dbprefix'],
         ];
 
+        // Validate database name
+        if (\in_array($options['driver'], ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_POSTGRES'), 'warning');
+
+            return false;
+        }
+
+        if (\in_array($options['driver'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_MYSQL'), 'warning');
+
+            return false;
+        }
+
         if ((int) $data['dbencryption'] !== 0) {
             $options['ssl'] = [
                 'enable'             => true,
@@ -475,7 +488,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 } else {
                     $revisedDbo->truncateTable('#__session');
                 }
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 /*
                  * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
                  * Also, this data won't be added or checked anymore once the configuration is saved, so it'll purge itself
@@ -506,7 +519,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                             Log::WARNING,
                             'jerror'
                         );
-                    } catch (\RuntimeException $logException) {
+                    } catch (\RuntimeException) {
                         $app->enqueueMessage(
                             Text::sprintf(
                                 'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
@@ -583,7 +596,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         Log::WARNING,
                         'jerror'
                     );
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),
                         'warning'
@@ -599,7 +612,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             if ($error) {
                 try {
                     Log::add(Text::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $exception) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), 'warning');
                 }
 
@@ -616,16 +629,16 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         if ((!$data['caching'] && $prev['caching']) || $data['cache_handler'] !== $prev['cache_handler']) {
             try {
                 Factory::getCache()->clean();
-            } catch (CacheConnectingException $exception) {
+            } catch (CacheConnectingException) {
                 try {
                     Log::add(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), 'warning');
                 }
-            } catch (UnsupportedCacheException $exception) {
+            } catch (UnsupportedCacheException) {
                 try {
                     Log::add(Text::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), 'warning');
                 }
             }
@@ -659,7 +672,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         Log::WARNING,
                         'jerror'
                     );
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_TEMP_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultTmpPath),
                         'warning'
@@ -674,7 +687,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             if ($error) {
                 try {
                     Log::add(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $exception) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), 'warning');
                 }
             }
@@ -708,7 +721,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         Log::WARNING,
                         'jerror'
                     );
-                } catch (\RuntimeException $logException) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_LOG_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultLogPath),
                         'warning'
@@ -722,7 +735,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             if ($error) {
                 try {
                     Log::add(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
-                } catch (\RuntimeException $exception) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), 'warning');
                 }
             }
@@ -732,10 +745,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config = new Registry($data);
 
         // Overwrite webservices cors settings
-        $app->set('cors', $data['cors']);
-        $app->set('cors_allow_origin', $data['cors_allow_origin']);
-        $app->set('cors_allow_headers', $data['cors_allow_headers']);
-        $app->set('cors_allow_methods', $data['cors_allow_methods']);
+        $app->set('cors', $data['cors'] ?? 0);
+        $app->set('cors_allow_origin', $data['cors_allow_origin'] ?? '*');
+        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token');
+        $app->set('cors_allow_methods', $data['cors_allow_methods'] ?? '');
 
         // Clear cache of com_config component.
         $this->cleanCache('_system');
@@ -773,8 +786,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      */
     public function removeroot()
     {
-        $app = Factory::getApplication();
-
         // Get the previous configuration.
         $prev = new \JConfig();
         $prev = ArrayHelper::fromObject($prev);
@@ -871,7 +882,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // We are creating a new item so we don't have an item id so don't allow.
-        if (substr($permission['component'], -6) === '.false') {
+        if (str_ends_with($permission['component'], '.false')) {
             $app->enqueueMessage(Text::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'error');
 
             return false;
@@ -946,7 +957,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 /** @var Asset $parentAsset */
                 $parentAsset = Table::getInstance('Asset');
 
-                if (strpos($asset->name, '.') !== false) {
+                if (str_contains($asset->name, '.')) {
                     $assetParts = explode('.', $asset->name);
                     $parentAsset->loadByName($assetParts[0]);
                     $parentAssetId = $parentAsset->id;
@@ -1215,7 +1226,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );
-        $mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
+        $mailer->addRecipient($user->email, $user->name);
+
 
         try {
             $mailSent = $mailer->send();
@@ -1230,9 +1242,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             // If JMail send the mail using PHP Mail as fallback.
             if ($mail->Mailer !== $app->get('mailer')) {
-                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $app->get('mailfrom'), $methodName), 'warning');
+                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $user->email, $methodName), 'warning');
             } else {
-                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
+                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $user->email, $methodName), 'message');
             }
 
             return true;

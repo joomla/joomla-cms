@@ -138,7 +138,7 @@ trait AdditionalLoginButtons
              */
             try {
                 $document = $this->getApplication()->getDocument();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $document = null;
             }
 
