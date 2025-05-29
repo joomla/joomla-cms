@@ -199,6 +199,11 @@ class ArticlesModel extends ListModel
 
         $params = ComponentHelper::getParams('com_content');
 
+        // The query optimizer of both, mariadb and mysql fails to recognize the correct index on large article sets
+        // For these cases, we enforce the usage of the indexes
+        $primaryIndexAppendix = $db->getServerType() === 'mysql' ? " FORCE INDEX(PRIMARY)" : "";
+        $languageIndexAppendix = $db->getServerType() === 'mysql' ? " FORCE INDEX(idx_langcode)" : "";
+
         // Select the required fields from the table.
         $query->select(
             $this->getState(
@@ -259,16 +264,16 @@ class ArticlesModel extends ListModel
             )
             ->from($db->quoteName('#__content', 'a'))
             ->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article'))
-            ->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
+            ->join('LEFT', $db->quoteName('#__languages', 'l') . $languageIndexAppendix, $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
             ->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
-            ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
+            ->join('LEFT', $db->quoteName('#__users', 'uc') . $primaryIndexAppendix, $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
             ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
             ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
             ->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
-            ->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
-            ->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-            ->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
-            ->join('INNER', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
+            ->join('LEFT', $db->quoteName('#__users', 'ua') . $primaryIndexAppendix, $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
+            ->join('INNER', $db->quoteName('#__workflow_associations', 'wa') . $primaryIndexAppendix, $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+            ->join('INNER', $db->quoteName('#__workflow_stages', 'ws') . $primaryIndexAppendix, $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+            ->join('INNER', $db->quoteName('#__workflows', 'w') . $primaryIndexAppendix, $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
 
         if (PluginHelper::isEnabled('content', 'vote')) {
             $query->select(

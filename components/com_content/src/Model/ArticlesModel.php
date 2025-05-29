@@ -202,6 +202,10 @@ class ArticlesModel extends ListModel
         $conditionArchived    = ContentComponent::CONDITION_ARCHIVED;
         $conditionUnpublished = ContentComponent::CONDITION_UNPUBLISHED;
 
+        // The query optimizer of both, mariadb and mysql fails to recognize the correct index on large article sets
+        // For these cases, we enforce the usage of the indexes
+        $primaryIndexAppendix = $db->getServerType() === 'mysql' ? " FORCE INDEX(PRIMARY)" : "";
+
         // Select the required fields from the table.
         $query->select(
             $this->getState(
@@ -268,8 +272,8 @@ class ArticlesModel extends ListModel
             )
             ->from($db->quoteName('#__content', 'a'))
             ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
-            ->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
-            ->join('LEFT', $db->quoteName('#__users', 'uam'), $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
+            ->join('LEFT', $db->quoteName('#__users', 'ua') . $primaryIndexAppendix, $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
+            ->join('LEFT', $db->quoteName('#__users', 'uam') . $primaryIndexAppendix, $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
             ->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'));
 
         $params      = $this->getState('params');
