@@ -548,6 +548,7 @@ class UpdateModel extends BaseDatabaseModel
         return [
             'password' => $app->getUserState('com_joomlaupdate.password'),
             'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
+            'filename' => $app->getUserState('com_joomlaupdate.file'),
         ];
     }
 
