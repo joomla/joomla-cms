@@ -163,7 +163,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
         // Suppress all errors to avoid any output
         try {
             $this->runScheduler();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         ob_end_clean();

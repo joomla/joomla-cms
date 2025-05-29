@@ -19,7 +19,7 @@ namespace Joomla\CMS\Object;
  *
  * @since       4.3.0
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 7.0
  *              Will be removed without replacement
  *              Throw an Exception instead of setError
  */
@@ -46,7 +46,7 @@ trait LegacyErrorHandlingTrait
      *
      * @since   1.7.0
      *
-     * @deprecated  3.1.4 will be removed in 6.0
+     * @deprecated  3.1.4 will be removed in 7.0
      *              Will be removed without replacement
      *              Catch thrown Exceptions instead of getError
      */
@@ -78,7 +78,7 @@ trait LegacyErrorHandlingTrait
      *
      * @since   1.7.0
      *
-     * @deprecated  3.1.4 will be removed in 6.0
+     * @deprecated  3.1.4 will be removed in 7.0
      *              Will be removed without replacement
      *              Catch thrown Exceptions instead of getErrors
      */
@@ -96,7 +96,7 @@ trait LegacyErrorHandlingTrait
      *
      * @since   1.7.0
      *
-     * @deprecated  3.1.4 will be removed in 6.0
+     * @deprecated  3.1.4 will be removed in 7.0
      *              Will be removed without replacement
      *              Throw an Exception instead of using setError
      */

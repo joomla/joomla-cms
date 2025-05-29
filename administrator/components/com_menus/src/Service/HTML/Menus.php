@@ -121,7 +121,7 @@ class Menus
 
         try {
             $registry->loadString($params);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Invalid JSON
         }
 

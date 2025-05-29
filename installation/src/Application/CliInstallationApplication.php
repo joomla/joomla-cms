@@ -311,21 +311,4 @@ final class CliInstallationApplication extends Application implements CMSApplica
     {
         return 'cli_installation' === $identifier;
     }
-
-    /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.3.0
-     *
-     * @deprecated   4.3 will be removed in 5.0
-     *               Use $app->isClient('cli_installation') instead
-     */
-    public function isCli()
-    {
-        return $this->isClient('cli_installation');
-    }
 }

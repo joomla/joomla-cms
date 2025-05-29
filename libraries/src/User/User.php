@@ -10,6 +10,7 @@
 namespace Joomla\CMS\User;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Event\User\AfterDeleteEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\BeforeDeleteEvent;
@@ -542,7 +543,7 @@ class User
      */
     public function getTimezone()
     {
-        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'GMT'));
+        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'UTC'));
 
         return new \DateTimeZone($timezone);
     }
@@ -582,18 +583,16 @@ class User
 
         // Set the default tabletype;
         if (!isset($tabletype)) {
-            $tabletype['name']   = 'user';
-            $tabletype['prefix'] = '\\Joomla\\CMS\\Table\\';
+            $tabletype = \Joomla\CMS\Table\User::class;
         }
 
         // Set a custom table type is defined
         if (isset($type)) {
-            $tabletype['name']   = $type;
-            $tabletype['prefix'] = $prefix;
+            $tabletype = rtrim($prefix, '\\') . '\\' . $type;
         }
 
         // Create the user table object
-        return Table::getInstance($tabletype['name'], $tabletype['prefix']);
+        return new $tabletype(Factory::getDbo());
     }
 
     /**
@@ -658,10 +657,12 @@ class User
             }
 
             // Prevent updating internal fields
-            unset($array['registerDate']);
-            unset($array['lastvisitDate']);
-            unset($array['lastResetTime']);
-            unset($array['resetCount']);
+            unset(
+                $array['registerDate'],
+                $array['lastvisitDate'],
+                $array['lastResetTime'],
+                $array['resetCount']
+            );
         }
 
         if (\array_key_exists('params', $array)) {
@@ -745,15 +746,8 @@ class User
                 $iAmRehashingSuperadmin = true;
             }
 
-            // Check if we are using a CLI application
-            $isCli = false;
-
-            if (Factory::getApplication()->isCli()) {
-                $isCli = true;
-            }
-
             // We are only worried about edits to this account if I am not a Super Admin.
-            if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true) {
+            if (!$iAmSuperAdmin && !$iAmRehashingSuperadmin && !Factory::getApplication() instanceof ConsoleApplication) {
                 // I am not a Super Admin, and this one is, so fail.
                 if (!$isNew && Access::check($this->id, 'core.admin')) {
                     throw new \RuntimeException('User not Super Administrator');
@@ -767,6 +761,11 @@ class User
                         }
                     }
                 }
+            }
+
+            // Unset the activation token, if the mail address changes - that affects both, activation and PW resets
+            if ($this->email !== $oldUser->email && $this->id !== 0 && !empty($this->activation) && !$this->block) {
+                $table->activation = '';
             }
 
             // Fire the onUserBeforeSave event.
