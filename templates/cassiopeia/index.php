@@ -111,6 +111,10 @@ if ($isChildTemplate) {
         --headercolor: ' . $this->params->get('headercolor') . ';
         --link-color: ' . $this->params->get('linkcolor') . ';
         --link-hover-color: ' . $this->params->get('linkcolorh') . ';
+        --body-font-size: ' . $this->params->get('bodysize') . 'rem;
+        --h1size: ' . $this->params->get('h1size') . 'rem;
+        --h2size: ' . $this->params->get('h2size') . 'rem;
+        --h3size: ' . $this->params->get('h3size') . 'rem;
     }');
 }
 
