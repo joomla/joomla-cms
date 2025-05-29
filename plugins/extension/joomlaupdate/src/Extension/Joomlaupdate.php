@@ -149,7 +149,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 
         $registerStatus = $updateModel->changeAutoUpdateRegistration($autoupdateRegisterStatus);
 
-        if (!$registerStatus) {
+        if ($registerStatus !== 1) {
             return;
         }
 

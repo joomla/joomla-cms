@@ -555,7 +555,7 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * Change the registration state of a site in the update service
      *
-     * @return bool
+     * @return int
      *
      * @since 5.4.0
      */
@@ -584,13 +584,31 @@ class UpdateModel extends BaseDatabaseModel
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-            return false;
+            return -1;
         }
 
         // Decode response
         $result = json_decode((string)$response->getBody(), true);
 
-        // Handle non-success response
+        // Handle validation issue
+        if ($response->getStatusCode() === 422) {
+            // Append message
+            Factory::getApplication()->enqueueMessage(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_UNAVAILABLE',
+                ),
+                'warning'
+            );
+
+            $this->updateAutoUpdateParams(
+                AutoupdateRegisterState::Unsubscribed,
+                false
+            );
+
+            return 0;
+        }
+
+        // Handle other non-success response
         if ($response->getStatusCode() !== 200) {
             Factory::getApplication()->enqueueMessage(
                 Text::sprintf(
@@ -601,9 +619,33 @@ class UpdateModel extends BaseDatabaseModel
                 'error'
             );
 
-            return false;
+            $this->updateAutoUpdateParams(
+                AutoupdateRegisterState::Unsubscribed,
+                false
+            );
+
+            return -1;
         }
 
+        $this->updateAutoUpdateParams(
+            ($targetState === AutoupdateRegisterState::Subscribe)
+                ? AutoupdateRegisterState::Subscribed
+                : AutoupdateRegisterState::Unsubscribed,
+            ($targetState === AutoupdateRegisterState::Unsubscribed)
+        );
+
+        return 1;
+    }
+
+    /**
+     * Update the autoupdate activation and registration states
+     *
+     * @return string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function updateAutoUpdateParams(AutoupdateRegisterState $registrationState, bool $enableUpdate): void
+    {
         // Get extension row
         $extension   = new Extension($this->getDatabase());
         $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
@@ -611,20 +653,15 @@ class UpdateModel extends BaseDatabaseModel
 
         // Set new update registration state
         $params = new Registry($extension->params);
-        $params->set(
-            'autoupdate_status',
-            ($targetState === AutoupdateRegisterState::Subscribe)
-                    ? AutoupdateRegisterState::Subscribed->value
-                    : AutoupdateRegisterState::Unsubscribed->value
-        );
+
+        $params->set('autoupdate_status', $registrationState->value);
+        $params->set('autoupdate', (int) $enableUpdate);
 
         $extension->params = $params->toString();
 
         if (!$extension->store()) {
             throw new \RuntimeException($extension->getError());
         }
-
-        return true;
     }
 
     /**

@@ -126,7 +126,7 @@ class AutomatedUpdatesRegisterCommand extends AbstractCommand
 
         $result = $updateModel->changeAutoUpdateRegistration(AutoupdateRegisterState::Subscribe);
 
-        if ($result === false) {
+        if ($result !== 1) {
             return Command::FAILURE;
         }
 

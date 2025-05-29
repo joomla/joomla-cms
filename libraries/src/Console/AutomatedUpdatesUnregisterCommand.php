@@ -126,7 +126,7 @@ class AutomatedUpdatesUnregisterCommand extends AbstractCommand
 
         $result = $updateModel->changeAutoUpdateRegistration(AutoupdateRegisterState::Unsubscribe);
 
-        if ($result === false) {
+        if ($result !== 1) {
             return Command::FAILURE;
         }
 
