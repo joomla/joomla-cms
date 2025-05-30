@@ -204,7 +204,7 @@ class ArticlesModel extends ListModel
 
         // The query optimizer of both, mariadb and mysql fails to recognize the correct index on large article sets
         // For these cases, we enforce the usage of the indexes
-        $primaryIndexAppendix = $db->getServerType() === 'mysql' ? " FORCE INDEX(PRIMARY)" : "";
+        $primaryIndexAppendix = $db->getServerType() === 'mysql' ? ' FORCE INDEX(PRIMARY)' : '';
 
         // Select the required fields from the table.
         $query->select(
