@@ -19,7 +19,7 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Enum;
  */
 enum AutoupdateRegisterResultState: int
 {
-    case Failed = -1;
+    case Failed       = -1;
     case Unavailable  = 0;
-    case Success  = 1;
+    case Success      = 1;
 }
