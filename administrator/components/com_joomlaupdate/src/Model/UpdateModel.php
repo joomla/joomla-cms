@@ -34,6 +34,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterResultState;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
@@ -555,11 +556,11 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * Change the registration state of a site in the update service
      *
-     * @return int
+     * @return AutoupdateRegisterResultState
      *
      * @since 5.4.0
      */
-    public function changeAutoUpdateRegistration(AutoupdateRegisterState $targetState)
+    public function changeAutoUpdateRegistration(AutoupdateRegisterState $targetState): AutoupdateRegisterResultState
     {
         // Purge cache - this makes sure that the changed status will already be available if the health check is performed
         $this->cleanCache('_system');
@@ -584,7 +585,7 @@ class UpdateModel extends BaseDatabaseModel
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-            return -1;
+            return AutoupdateRegisterResultState::Failed;
         }
 
         // Decode response
@@ -605,7 +606,7 @@ class UpdateModel extends BaseDatabaseModel
                 false
             );
 
-            return 0;
+            return AutoupdateRegisterResultState::Unavailable;
         }
 
         // Handle other non-success response
@@ -624,7 +625,7 @@ class UpdateModel extends BaseDatabaseModel
                 false
             );
 
-            return -1;
+            return AutoupdateRegisterResultState::Failed;
         }
 
         $this->updateAutoUpdateParams(
@@ -634,13 +635,11 @@ class UpdateModel extends BaseDatabaseModel
             ($targetState === AutoupdateRegisterState::Unsubscribed)
         );
 
-        return 1;
+        return AutoupdateRegisterResultState::Success;
     }
 
     /**
      * Update the autoupdate activation and registration states
-     *
-     * @return string
      *
      * @since   __DEPLOY_VERSION__
      */
