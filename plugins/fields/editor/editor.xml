@@ -42,6 +42,7 @@
 					folder="editors-xtd"
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
+          data-render-selected-choices="auto"
 				/>
 
 				<field

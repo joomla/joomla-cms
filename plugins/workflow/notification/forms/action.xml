@@ -43,6 +43,7 @@
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
 				showon="notification_send_mail:1"
+        data-render-selected-choices="auto"
 			/>
 		</fieldset>
 	</fields>

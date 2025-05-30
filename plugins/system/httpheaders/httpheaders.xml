@@ -269,6 +269,7 @@
 							class="col-md-4"
 							validate="options"
 							layout="joomla.form.field.list-fancy-select"
+              data-render-selected-choices="auto"
 							>
 							<option value="base-uri">base-uri</option>
 							<option value="block-all-mixed-content">block-all-mixed-content</option>
