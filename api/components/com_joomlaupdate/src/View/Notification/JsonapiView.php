@@ -22,7 +22,7 @@ use Tobscure\JsonApi\Resource;
 /**
  * The notification view
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.0
  */
 class JsonapiView extends BaseApiView
 {
@@ -31,7 +31,7 @@ class JsonapiView extends BaseApiView
      *
      * @return string  The rendered data
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function notification($type, $oldVersion)
     {
