@@ -12,6 +12,7 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,6 +30,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ExtensionInstallCommand extends AbstractCommand
 {
+    use DatabaseAwareTrait;
+
     /**
      * The default command name
      *
