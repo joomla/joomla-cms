@@ -98,13 +98,13 @@ class JsonapiView extends BaseApiView
      * Run the finalize update steps
      *
      * @param string $fromVersion The from version
-     * @param string $updatefileName The name of the update file
+     * @param string $updateFileName The name of the update file
      *
      * @return string  The rendered data
      *
      * @since  5.4.0
      */
-    public function finalizeUpdate($fromVersion, $updatefileName)
+    public function finalizeUpdate($fromVersion, $updateFileName)
     {
         /**
          * @var UpdateModel $model
@@ -113,7 +113,7 @@ class JsonapiView extends BaseApiView
 
         // Write old version and filename to state for usage in model
         Factory::getApplication()->setUserState('com_joomlaupdate.oldversion', $fromVersion);
-        Factory::getApplication()->setUserState('com_joomlaupdate.file', $updatefileName);
+        Factory::getApplication()->setUserState('com_joomlaupdate.file', $updateFileName);
 
         try {
             // Perform the finalization action
