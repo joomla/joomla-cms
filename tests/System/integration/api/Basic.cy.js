@@ -13,7 +13,7 @@ describe('Test that the API', () => {
 
   it('returns not found return code when wrong route is set', () => {
     cy.api_getBearerToken().then((token) => cy.request({
-      method: 'GET', url: '/api/index.php/v1/content/articles/1', headers: { Authorization: `Bearer ${token}` }, failOnStatusCode: false,
+      method: 'GET', url: '/api/index.php/v1/invalid', headers: { Authorization: `Bearer ${token}` }, failOnStatusCode: false,
     })
       .its('status').should('equal', 404));
   });

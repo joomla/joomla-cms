@@ -90,6 +90,8 @@ trait CoreEventAware
         'onSchemaPrepareData'       => Plugin\System\Schemaorg\PrepareDataEvent::class,
         'onSchemaPrepareForm'       => Plugin\System\Schemaorg\PrepareFormEvent::class,
         'onSchemaPrepareSave'       => Plugin\System\Schemaorg\PrepareSaveEvent::class,
+        // Plugin: Stats
+        'onGetStatsData' => Plugin\System\Stats\GetStatsDataEvent::class,
         // Content
         'onContentPrepare'       => Content\ContentPrepareEvent::class,
         'onContentAfterTitle'    => Content\AfterTitleEvent::class,

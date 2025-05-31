@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\UpdateSite as UpdateSiteTable;
@@ -444,8 +443,7 @@ class UpdatesitesModel extends InstallerModel
         array_walk(
             $items,
             static function ($item) {
-                $data              = new CMSObject($item);
-                $item->downloadKey = InstallerHelper::getDownloadKey($data);
+                $item->downloadKey = InstallerHelper::getDownloadKey($item);
             }
         );
 

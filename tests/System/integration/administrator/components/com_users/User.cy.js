@@ -12,7 +12,7 @@ describe('Test in backend that the user form', () => {
     cy.get('#jform_password2').clear().type('testtesttest');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('User saved').should('exist');
+    cy.checkForSystemMessage('User saved');
     cy.contains('test user');
   });
 
@@ -27,7 +27,7 @@ describe('Test in backend that the user form', () => {
       cy.get('#jform_email').clear().type('testedited@example.com');
       cy.clickToolbarButton('Save');
 
-      cy.get('#system-message-container').contains('User saved.').should('exist');
+      cy.checkForSystemMessage('User saved.');
     });
   });
 
@@ -54,7 +54,7 @@ describe('Test in backend that the user form', () => {
       cy.get('#jform_password').clear().type('testresetpswd');
       cy.get('#jform_password2').clear().type('testresetpswd');
       cy.clickToolbarButton('Save & Close');
-      cy.get('#system-message-container').contains('User saved.').should('exist');
+      cy.checkForSystemMessage('User saved.');
       cy.doAdministratorLogout();
 
       // Check that the user can login with the new password

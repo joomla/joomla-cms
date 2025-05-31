@@ -53,7 +53,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -157,7 +157,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
         // Convert website URL to utf8 for display
         $value = htmlspecialchars(PunycodeHelper::urlToUTF8($value), ENT_QUOTES, 'UTF-8');
 
-        if (strpos($value, 'http') === 0) {
+        if (str_starts_with($value, 'http')) {
             return '<a href="' . $value . '">' . $value . '</a>';
         }
 
@@ -328,7 +328,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
             try {
                 $date       = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Throw an exception if date is not valid.
                 throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
             }

@@ -12,7 +12,6 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Access;
 
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -340,10 +339,10 @@ class RulesTest extends UnitTestCase
         $rules   = new Rules($ruleData);
         $allowed = $rules->getAllowed(-42);
 
-        $this->assertInstanceOf(CMSObject::class, $allowed);
-        $this->assertTrue($allowed->get('create'));
-        $this->assertTrue($allowed->get('edit'));
-        $this->assertNull($allowed->get('delete'));
+        $this->assertInstanceOf(\stdClass::class, $allowed);
+        $this->assertTrue($allowed->create);
+        $this->assertTrue($allowed->edit);
+        $this->assertFalse(isset($allowed->delete));
     }
 
     /**

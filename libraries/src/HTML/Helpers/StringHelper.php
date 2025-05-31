@@ -67,7 +67,7 @@ abstract class StringHelper
         if ($length > 0 && FrameworkStringHelper::strlen($text) > $length) {
             $tmp = trim(FrameworkStringHelper::substr($text, 0, $length));
 
-            if ($tmp[0] === '<' && strpos($tmp, '>') === false) {
+            if ($tmp[0] === '<' && !str_contains($tmp, '>')) {
                 return '...';
             }
 
@@ -165,7 +165,7 @@ abstract class StringHelper
         }
 
         // Take care of short simple cases.
-        if ($maxLength <= 3 && $html[0] !== '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength) {
+        if ($maxLength <= 3 && $html[0] !== '<' && !str_contains(substr($html, 0, $maxLength - 1), '<') && $baseLength > $maxLength) {
             return '...';
         }
 
@@ -196,7 +196,7 @@ abstract class StringHelper
 
         // If the plain text is shorter than the max length the variable will not end in ...
         // In that case we use the whole string.
-        if (substr($ptString, -3) !== '...') {
+        if (!str_ends_with($ptString, '...')) {
             return $html;
         }
 

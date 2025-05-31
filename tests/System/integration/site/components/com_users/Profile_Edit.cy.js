@@ -29,7 +29,7 @@ describe('Test in frontend that the users profile view edit layout', () => {
         cy.get('#jform_email1').clear().type('testedited@example.com');
         cy.get('.controls > .btn-primary').click({ force: true });
 
-        cy.get('#system-message-container').contains('Profile saved.');
+        cy.checkForSystemMessage('Profile saved.');
         cy.get('#users-profile-core').should('contain.text', 'Name');
         cy.get('#users-profile-core').should('contain.text', 'automated test user edited');
       });
@@ -49,7 +49,7 @@ describe('Test in frontend that the users profile view edit layout', () => {
         cy.get('#jform_email1').clear().type('testedited@example.com');
         cy.get('.controls > .btn-primary').should('be.visible').click({ force: true });
 
-        cy.get('#system-message-container').contains('Profile saved.');
+        cy.checkForSystemMessage('Profile saved.');
         cy.get('.profile .btn-primary').should('be.visible').click({ force: true });
         cy.get('#jform_name').should('have.value', 'automated test user edited');
         cy.get('#jform_email1').should('have.value', 'testedited@example.com');
