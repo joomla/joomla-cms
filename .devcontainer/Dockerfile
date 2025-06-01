@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     libxtst6 \
     xauth \
-    xvfb\
+    xvfb \
     git \
     unzip \
     libpng-dev \
@@ -23,13 +23,13 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gd mysqli pdo pdo_mysql \
     && apt-get clean
 
-# Install Node.js and npm
+# Install Node.js and npm (corrected approach)
 RUN apt-get update && apt-get install -y \
     software-properties-common \
-    npm
-RUN npm install npm@latest -g && \
-    npm install n -g && \
-    n latest
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest
 
 # Install Xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
@@ -44,7 +44,8 @@ RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/xdebug.ini && \
 
 # Expose the Xdebug port
 EXPOSE 9003
-    # Enable Apache mod_rewrite
+
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
 # Set the working directory inside the container
