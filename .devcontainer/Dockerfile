@@ -17,19 +17,15 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libpng-dev \
-    libjpeg-dev \
+    libjpeg-dev \software-properties-common \
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest \
     libfreetype6-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd mysqli pdo pdo_mysql \
     && apt-get clean
-
-# Install Node.js and npm (corrected approach)
-RUN apt-get update && apt-get install -y \
-    software-properties-common \
-    curl \
-    && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g npm@latest
 
 # Install Xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
