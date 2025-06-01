@@ -23,6 +23,14 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gd mysqli pdo pdo_mysql \
     && apt-get clean
 
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    npm
+RUN npm install npm@latest -g && \
+    npm install n -g && \
+    n latest
+
 # Install Xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
