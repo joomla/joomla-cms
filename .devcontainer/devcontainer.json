@@ -1,0 +1,35 @@
+{
+  "name": "Joomla! Development",
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "username": "joomla"
+    },
+    "ghcr.io/devcontainers/features/node:1": "none",
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-php-composer:0": {}
+  },
+  "onCreateCommand": "sudo chmod +x .devcontainer/install-tools.sh && .devcontainer/install-tools.sh",
+  "postCreateCommand": "sudo chmod +x .devcontainer/setup.sh && .devcontainer/setup.sh && npm install --save-dev cypress",
+  "portsAttributes": {
+		"3306": {
+			"label": "Database (internal)"
+		},
+		"80": {
+			"label": "Joomla! (internal)"
+		},
+		"81": {
+			"label": "phpMyAdmin"
+		}
+	},
+  "forwardPorts": [
+		80,
+		81,
+		3306,
+    9003
+	],
+  "remoteUser": "www-data"
+}

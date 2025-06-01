@@ -1,0 +1,5 @@
+👋 Welcome to "Joomla! Development" in Codespaces!
+
+🛠️  Your environment is fully setup with all the required software.
+
+🚀 To get started, wait for the "postCreateCommand" to finish setting things up, then open the portforwarded URL and append '/administrator'.
