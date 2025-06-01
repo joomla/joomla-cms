@@ -32,11 +32,6 @@
       "type": "vcs",
       "url": "https://github.com/joomla-backports/php-tuf.git",
       "no-api": true
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/joomla-backports/portable-utf8.git",
-      "no-api": true
     }
   ],
   "autoload": {
@@ -90,7 +85,6 @@
     "symfony/polyfill-mbstring": "^1.31.0",
     "symfony/web-link": "^6.4.13",
     "symfony/yaml": "^6.4.18",
-    "typo3/phar-stream-wrapper": "^4.0.0",
     "wamania/php-stemmer": "^4.0.0",
     "tobscure/json-api": "dev-joomla-backports",
     "willdurand/negotiation": "^3.1.0",
@@ -107,7 +101,6 @@
     "web-token/jwt-library": "^3.4.7",
     "phpseclib/bcmath_compat": "^2.0.3",
     "jfcherng/php-diff": "^6.16.2",
-    "voku/portable-utf8": "dev-joomla-5.3 as 6.0.13",
     "php-tuf/php-tuf": "^1.0.3",
     "php-debugbar/php-debugbar": "^2.1.6"
   },

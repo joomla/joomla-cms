@@ -90,7 +90,7 @@ abstract class Dropdown
     public static function start()
     {
         // Only start once
-        if (isset(static::$loaded[__METHOD__]) && static::$loaded[__METHOD__] == true) {
+        if (isset(static::$loaded[__METHOD__])) {
             return;
         }
 
