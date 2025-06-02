@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libpng-dev \
-    libjpeg-dev \software-properties-common \
+    libjpeg-dev \
+    software-properties-common \
     curl \
     && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get install -y nodejs \
