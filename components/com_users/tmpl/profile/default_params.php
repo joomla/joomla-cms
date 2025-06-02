@@ -26,16 +26,15 @@ use Joomla\CMS\Language\Text;
                         <?php echo $field->title; ?>
                     </dt>
                     <dd>
-                    <?php
-                    $service = HTMLHelper::getServiceRegistry()->getService('users');
-
-                    foreach ([$field->id, $field->fieldname, $field->type, 'value'] as $key) {
-                        if (HTMLHelper::isRegistered('users.' . $key) || is_callable([$service, $key])) {
-                            echo HTMLHelper::_('users.' . $key, $field->value);
-                            break;
-                        }
-                    }
-                    ?>
+                        <?php if (HTMLHelper::isRegistered('users.' . $field->id)) : ?>
+                            <?php echo HTMLHelper::_('users.' . $field->id, $field->value); ?>
+                        <?php elseif (HTMLHelper::isRegistered('users.' . $field->fieldname)) : ?>
+                            <?php echo HTMLHelper::_('users.' . $field->fieldname, $field->value); ?>
+                        <?php elseif (HTMLHelper::isRegistered('users.' . $field->type)) : ?>
+                            <?php echo HTMLHelper::_('users.' . $field->type, $field->value); ?>
+                        <?php else : ?>
+                            <?php echo HTMLHelper::_('users.value', $field->value); ?>
+                        <?php endif; ?>
                     </dd>
                 <?php endif; ?>
             <?php endforeach; ?>
