@@ -15,7 +15,12 @@ describe('Test that newsfeed categories API endpoint', () => {
   });
 
   it('can create a category', () => {
-    cy.api_post('/newsfeeds/categories', { title: 'automated test feed category', description: 'automated test feed category description' })
+    cy.api_post('/newsfeeds/categories', {
+      title: 'automated test feed category',
+      description: 'automated test feed category description',
+      parent_id: 1,
+      extension: 'com_newsfeeds',
+    })
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')
