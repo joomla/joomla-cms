@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
@@ -514,56 +513,6 @@ class UpdateModel extends ListModel
         InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
         return $result;
-    }
-
-    /**
-     * Method to get the row form.
-     *
-     * @param   array    $data      Data for the form.
-     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-     *
-     * @return  Form|bool  A Form object on success, false on failure
-     *
-     * @since   2.5.2
-     */
-    public function getForm($data = [], $loadData = true)
-    {
-        // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/models/forms');
-        Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
-        $form = Form::getInstance('com_installer.update', 'update', ['load_data' => $loadData]);
-
-        // Check for an error.
-        if ($form == false) {
-            $this->setError($form->getMessage());
-
-            return false;
-        }
-
-        // Check the session for previously entered form data.
-        $data = $this->loadFormData();
-
-        // Bind the form data if present.
-        if (!empty($data)) {
-            $form->bind($data);
-        }
-
-        return $form;
-    }
-
-    /**
-     * Method to get the data that should be injected in the form.
-     *
-     * @return  mixed  The data for the form.
-     *
-     * @since   2.5.2
-     */
-    protected function loadFormData()
-    {
-        // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState($this->context, []);
-
-        return $data;
     }
 
     /**
