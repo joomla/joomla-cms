@@ -273,7 +273,7 @@ class Date extends \DateTime
         }
 
         // If the returned time should not be local use UTC.
-        if ($local == false) {
+        if (!$local) {
             parent::setTimezone(new \DateTimeZone('UTC'));
         }
 
@@ -299,7 +299,7 @@ class Date extends \DateTime
             }
         }
 
-        if ($local == false && $this->tz !== null) {
+        if (!$local && $this->tz !== null) {
             parent::setTimezone($this->tz);
         }
 

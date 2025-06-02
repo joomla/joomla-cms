@@ -101,7 +101,7 @@ abstract class Links
     {
         if (isset($link['access'])) {
             if (\is_bool($link['access'])) {
-                if ($link['access'] == false) {
+                if (!$link['access']) {
                     return '';
                 }
             } else {

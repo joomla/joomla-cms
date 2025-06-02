@@ -4,32 +4,33 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ebf1b8f344b8e7aa2b24103410c8a7bf",
+    "content-hash": "56639ab836a78d0113b90cd46650b674",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
-            "version": "v3.1.1",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
-                "reference": "d8dbf18599548b8460ab0c462f299a15cacf6e66"
+                "reference": "87fcd0252e86bf8f881b83ebbacd26fede361356"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/d8dbf18599548b8460ab0c462f299a15cacf6e66",
-                "reference": "d8dbf18599548b8460ab0c462f299a15cacf6e66",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/87fcd0252e86bf8f881b83ebbacd26fede361356",
+                "reference": "87fcd0252e86bf8f881b83ebbacd26fede361356",
                 "shasum": ""
             },
             "require": {
                 "ext-pcre": "*",
                 "jakeasmith/http_build_url": "^1",
-                "php": ">=7.2.0"
+                "php": ">=8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "8.0"
+                "phpunit/phpunit": "^9 || ^10"
             },
             "suggest": {
                 "ext-iconv": "Install ext/iconv for using input / output other than UTF-8 or ISO-8859-1",
+                "ext-intl": "Install ext/intl for better case folding",
                 "ext-mbstring": "Install ext/mbstring for using input / output other than UTF-8 or ISO-8859-1"
             },
             "type": "library",
@@ -58,9 +59,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algo26-matthias/idna-convert/issues",
-                "source": "https://github.com/algo26-matthias/idna-convert/tree/v3.1.1"
+                "source": "https://github.com/algo26-matthias/idna-convert/tree/v4.0.4"
             },
-            "time": "2024-03-18T16:24:08+00:00"
+            "time": "2025-03-16T10:00:35+00:00"
         },
         {
             "name": "brick/math",
@@ -1502,16 +1503,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "3.3.1",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "d13a7504471b4730a8107e3566c6fe6d476706fc"
+                "reference": "ddea28591d13a2a762eb2ed080afba422868d005"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/d13a7504471b4730a8107e3566c6fe6d476706fc",
-                "reference": "d13a7504471b4730a8107e3566c6fe6d476706fc",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/ddea28591d13a2a762eb2ed080afba422868d005",
+                "reference": "ddea28591d13a2a762eb2ed080afba422868d005",
                 "shasum": ""
             },
             "require": {
@@ -1569,7 +1570,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/3.3.1"
+                "source": "https://github.com/joomla-framework/database/tree/3.4.2"
             },
             "funding": [
                 {
@@ -1581,7 +1582,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-26T13:22:09+00:00"
+            "time": "2025-05-10T11:36:16+00:00"
         },
         {
             "name": "joomla/di",
@@ -1857,16 +1858,16 @@
         },
         {
             "name": "joomla/http",
-            "version": "3.0.1",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "3379b5a0c68524685b89d6997e5fec56c6ad3d43"
+                "reference": "157ceb1d386cb4a80292909f128f53f1b99f2597"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/3379b5a0c68524685b89d6997e5fec56c6ad3d43",
-                "reference": "3379b5a0c68524685b89d6997e5fec56c6ad3d43",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/157ceb1d386cb4a80292909f128f53f1b99f2597",
+                "reference": "157ceb1d386cb4a80292909f128f53f1b99f2597",
                 "shasum": ""
             },
             "require": {
@@ -1880,7 +1881,8 @@
             "require-dev": {
                 "joomla/test": "^3.0",
                 "phan/phan": "^5.4.2",
-                "phpstan/phpstan": "^1.10.7",
+                "phpstan/phpstan": "^2.0",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
                 "phpunit/phpunit": "^9.5.28",
                 "squizlabs/php_codesniffer": "^3.7.2"
             },
@@ -1912,7 +1914,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/3.0.1"
+                "source": "https://github.com/joomla-framework/http/tree/3.1.0"
             },
             "funding": [
                 {
@@ -1924,7 +1926,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-11T18:42:37+00:00"
+            "time": "2025-03-05T11:15:59+00:00"
         },
         {
             "name": "joomla/input",
@@ -3096,16 +3098,16 @@
         },
         {
             "name": "php-tuf/php-tuf",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-backports/php-tuf.git",
-                "reference": "051750c097eaa1c3954e5f1f480f708260de5d47"
+                "reference": "1fc585dc5a090a4af94823e21470779f31030733"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-backports/php-tuf/zipball/051750c097eaa1c3954e5f1f480f708260de5d47",
-                "reference": "051750c097eaa1c3954e5f1f480f708260de5d47",
+                "url": "https://api.github.com/repos/joomla-backports/php-tuf/zipball/1fc585dc5a090a4af94823e21470779f31030733",
+                "reference": "1fc585dc5a090a4af94823e21470779f31030733",
                 "shasum": ""
             },
             "require": {
@@ -3166,7 +3168,7 @@
                 "MIT"
             ],
             "description": "PHP implementation of The Update Framework (TUF)",
-            "time": "2025-02-03T07:10:33+00:00"
+            "time": "2025-03-19T20:05:51+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -4745,86 +4747,6 @@
             "time": "2024-09-09T11:45:10+00:00"
         },
         {
-            "name": "symfony/polyfill-iconv",
-            "version": "v1.31.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-iconv.git",
-                "reference": "48becf00c920479ca2e910c22a5a39e5d47ca956"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/48becf00c920479ca2e910c22a5a39e5d47ca956",
-                "reference": "48becf00c920479ca2e910c22a5a39e5d47ca956",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "provide": {
-                "ext-iconv": "*"
-            },
-            "suggest": {
-                "ext-iconv": "For best performance"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": {
-                    "url": "https://github.com/symfony/polyfill",
-                    "name": "symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Polyfill\\Iconv\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill for the Iconv extension",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "iconv",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-iconv/tree/v1.31.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-09T11:45:10+00:00"
-        },
-        {
             "name": "symfony/polyfill-intl-grapheme",
             "version": "v1.31.0",
             "source": {
@@ -5882,12 +5804,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-backports/json-api-php.git",
-                "reference": "c6580b75760cd00e555ef5ef1028f63231fb53f2"
+                "reference": "89f1ef6a6711bd2f03d67fa13e4704928da411da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-backports/json-api-php/zipball/c6580b75760cd00e555ef5ef1028f63231fb53f2",
-                "reference": "c6580b75760cd00e555ef5ef1028f63231fb53f2",
+                "url": "https://api.github.com/repos/joomla-backports/json-api-php/zipball/89f1ef6a6711bd2f03d67fa13e4704928da411da",
+                "reference": "89f1ef6a6711bd2f03d67fa13e4704928da411da",
                 "shasum": ""
             },
             "require": {
@@ -5930,216 +5852,7 @@
                 "jsonapi",
                 "standard"
             ],
-            "time": "2025-03-13T08:47:04+00:00"
-        },
-        {
-            "name": "typo3/phar-stream-wrapper",
-            "version": "v4.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "ce4b6e9873d4dd7dce2a397511713bf14977fdf2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/ce4b6e9873d4dd7dce2a397511713bf14977fdf2",
-                "reference": "ce4b6e9873d4dd7dce2a397511713bf14977fdf2",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^7.1 || ^8.0"
-            },
-            "require-dev": {
-                "ext-xdebug": "*",
-                "phpunit/phpunit": "^7 || ^8 || ^9"
-            },
-            "suggest": {
-                "ext-fileinfo": "For PHP builtin file type guessing, otherwise uses internal processing"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "TYPO3\\PharStreamWrapper\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Interceptors for PHP's native phar:// stream handling",
-            "homepage": "https://typo3.org/",
-            "keywords": [
-                "phar",
-                "php",
-                "security",
-                "stream-wrapper"
-            ],
-            "support": {
-                "issues": "https://github.com/TYPO3/phar-stream-wrapper/issues",
-                "source": "https://github.com/TYPO3/phar-stream-wrapper/tree/v4.0.0"
-            },
-            "time": "2024-12-10T00:00:25+00:00"
-        },
-        {
-            "name": "voku/portable-ascii",
-            "version": "2.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/voku/portable-ascii.git",
-                "reference": "b1d923f88091c6bf09699efcd7c8a1b1bfd7351d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/b1d923f88091c6bf09699efcd7c8a1b1bfd7351d",
-                "reference": "b1d923f88091c6bf09699efcd7c8a1b1bfd7351d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
-            },
-            "suggest": {
-                "ext-intl": "Use Intl for transliterator_transliterate() support"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "voku\\": "src/voku/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lars Moelleken",
-                    "homepage": "https://www.moelleken.org/"
-                }
-            ],
-            "description": "Portable ASCII library - performance optimized (ascii) string functions for php.",
-            "homepage": "https://github.com/voku/portable-ascii",
-            "keywords": [
-                "ascii",
-                "clean",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/voku/portable-ascii/issues",
-                "source": "https://github.com/voku/portable-ascii/tree/2.0.3"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/moelleken",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/voku",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/portable-ascii",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://www.patreon.com/voku",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-ascii",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-11-21T01:49:47+00:00"
-        },
-        {
-            "name": "voku/portable-utf8",
-            "version": "dev-joomla-5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-backports/portable-utf8.git",
-                "reference": "eeb3d9e390411cd31af808caa7f7de337ea3a24c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-backports/portable-utf8/zipball/eeb3d9e390411cd31af808caa7f7de337ea3a24c",
-                "reference": "eeb3d9e390411cd31af808caa7f7de337ea3a24c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0.0",
-                "symfony/polyfill-iconv": "~1.0",
-                "symfony/polyfill-intl-grapheme": "~1.0",
-                "symfony/polyfill-intl-normalizer": "~1.0",
-                "symfony/polyfill-mbstring": "~1.0",
-                "symfony/polyfill-php72": "~1.0",
-                "voku/portable-ascii": "~2.0.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "1.9.*@dev",
-                "phpstan/phpstan-strict-rules": "1.4.*@dev",
-                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0",
-                "thecodingmachine/phpstan-strict-rules": "1.0.*@dev",
-                "voku/phpstan-rules": "3.1.*@dev"
-            },
-            "suggest": {
-                "ext-ctype": "Use Ctype for e.g. hexadecimal digit detection",
-                "ext-fileinfo": "Use Fileinfo for better binary file detection",
-                "ext-iconv": "Use iconv for best performance",
-                "ext-intl": "Use Intl for best performance",
-                "ext-json": "Use JSON for string detection",
-                "ext-mbstring": "Use Mbstring for best performance"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "voku\\": "src/voku/"
-                },
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "voku\\tests\\": "tests/"
-                }
-            },
-            "license": [
-                "(Apache-2.0 or GPL-2.0)"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Hamid Sarfraz",
-                    "homepage": "http://pageconfig.com/"
-                },
-                {
-                    "name": "Lars Moelleken",
-                    "homepage": "http://www.moelleken.org/"
-                }
-            ],
-            "description": "Portable UTF-8 library - performance optimized (unicode) string functions for php.",
-            "homepage": "https://github.com/voku/portable-utf8",
-            "keywords": [
-                "clean",
-                "php",
-                "unicode",
-                "utf",
-                "utf-8",
-                "utf8"
-            ],
-            "time": "2024-11-20T09:42:04+00:00"
+            "time": "2025-03-21T09:49:11+00:00"
         },
         {
             "name": "wamania/php-stemmer",
@@ -9609,16 +9322,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.11.3",
+            "version": "3.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "ba05f990e79cbe69b9f35c8c1ac8dca7eecc3a10"
+                "reference": "2d1b63db139c3c6ea0c927698e5160f8b3b8d630"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/ba05f990e79cbe69b9f35c8c1ac8dca7eecc3a10",
-                "reference": "ba05f990e79cbe69b9f35c8c1ac8dca7eecc3a10",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/2d1b63db139c3c6ea0c927698e5160f8b3b8d630",
+                "reference": "2d1b63db139c3c6ea0c927698e5160f8b3b8d630",
                 "shasum": ""
             },
             "require": {
@@ -9685,11 +9398,11 @@
                     "type": "open_collective"
                 },
                 {
-                    "url": "https://thanks.dev/phpcsstandards",
+                    "url": "https://thanks.dev/u/gh/phpcsstandards",
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-01-23T17:04:15+00:00"
+            "time": "2025-03-18T05:04:51+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -10151,18 +9864,10 @@
             "time": "2024-03-03T12:36:25+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "voku/portable-utf8",
-            "version": "dev-joomla-5.3",
-            "alias": "6.0.13",
-            "alias_normalized": "6.0.13.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "tobscure/json-api": 20,
-        "voku/portable-utf8": 20
+        "tobscure/json-api": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
