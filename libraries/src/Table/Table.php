@@ -93,7 +93,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * @var    DatabaseDriver
      * @since  1.7.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  5.4.0 will be removed in 7.0
      *              Use setDatabase() and getDatabase() instead
      *              Example: $this->setDatabase($db);
      */
@@ -542,7 +542,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @since   1.7.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  5.4.0 will be removed in 7.0
      *               Use getDatabase() instead
      *               Example: $this->getDatabase();
      */
@@ -560,7 +560,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @since   1.7.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  5.4.0 will be removed in 7.0
      *              Use setDatabase() instead
      *              Example: $this->setDatabase($db);
      */
@@ -576,7 +576,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @return  DatabaseInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      * @throws  DatabaseNotFoundException May be thrown if the database has not been set.
      *
      * @note    This method will be removed in 7.0 and DatabaseAwareTrait will be used instead.
@@ -593,7 +593,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      *
      * @note    This method will be removed in 7.0 and DatabaseAwareTrait will be used instead.
      */

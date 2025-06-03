@@ -20,7 +20,7 @@ use Joomla\Component\Joomlaupdate\Api\View\Updates\JsonapiView;
 /**
  * The updates controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.0
  */
 class NotificationController extends BaseController
 {
@@ -28,7 +28,7 @@ class NotificationController extends BaseController
      * The content type of the item.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.0
      */
     protected $contentType = 'notification';
 
@@ -36,7 +36,7 @@ class NotificationController extends BaseController
      * The default view for the display method.
      *
      * @var string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.0
      */
     protected $default_view = 'notification';
 
@@ -63,7 +63,7 @@ class NotificationController extends BaseController
      *
      * @return NotificationController
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.0
      */
     public function success()
     {
@@ -123,7 +123,7 @@ class NotificationController extends BaseController
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function displayItem($id = null)
     {
@@ -135,7 +135,7 @@ class NotificationController extends BaseController
      *
      * @return  static  A BaseController object to support chaining.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function displayList()
     {
@@ -149,7 +149,7 @@ class NotificationController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function delete($id = null)
     {
@@ -166,7 +166,7 @@ class NotificationController extends BaseController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     protected function allowEdit($data = [], $key = 'id')
     {
@@ -182,7 +182,7 @@ class NotificationController extends BaseController
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     protected function allowAdd($data = [])
     {
