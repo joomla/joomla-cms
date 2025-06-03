@@ -45,7 +45,7 @@
 				layout="joomla.form.field.list-fancy-select"
 				class="multipleAuthors"
 				filter="array"
-        data-render-selected-choices="auto"
+        renderSelected="true"
 				>
 				<option value="0">JNONE</option>
 				<option value="by_me">COM_CONTENT_FILTER_AUTHORS_BY_ME</option>
@@ -68,7 +68,7 @@
 				layout="joomla.form.field.list-fancy-select"
 				filter="intarray"
 				validate="options"
-        data-render-selected-choices="auto"
+        renderSelected="true"
 			/>
 
 			<field

@@ -543,7 +543,7 @@
 					filter="intarray"
 					class="multipleAuthors"
 					showon="author_filtering_type!:2"
-          data-render-selected-choices="auto"
+          renderSelected="true"
 				/>
 
 				<field
@@ -573,7 +573,7 @@
 					key_field="created_by_alias"
 					value_field="created_by_alias"
 					class="multipleAuthorAliases"
-          data-render-selected-choices="auto"
+          renderSelected="true"
 				/>
 
 				<field

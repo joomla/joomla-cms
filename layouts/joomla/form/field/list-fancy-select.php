@@ -43,6 +43,7 @@ extract($displayData);
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  * @var   array    $options         Options available for this field.
+ * @var   string   $renderSelected  Keep selected items in the list?
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
@@ -55,6 +56,7 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+$attr .= $renderSelected ? ' data-render-selected-choices="auto"' : '';
 $attr .= $dataAttribute;
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".

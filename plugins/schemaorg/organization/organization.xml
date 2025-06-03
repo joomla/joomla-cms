@@ -28,7 +28,7 @@
 					description="JSCHEMAORG_EXTENSION_ALLOWED_DESCRIPTION"
 					multiple="multiple"
 					layout="joomla.form.field.list-fancy-select"
-          data-render-selected-choices="auto"
+          renderSelected="true"
 				/>
 				<field
 					name="forbiddenlist"

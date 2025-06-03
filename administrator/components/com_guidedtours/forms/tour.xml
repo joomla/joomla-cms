@@ -157,7 +157,7 @@
 		multiple="multiple"
 		layout="joomla.form.field.list-fancy-select"
 		default="*"
-    data-render-selected-choices="auto"
+    renderSelected="true"
 		>
 		<option value="*">JALL</option>
 	</field>

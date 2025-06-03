@@ -227,7 +227,7 @@
 			layout="joomla.form.field.list-fancy-select"
 			client="site"
 			multiple="1"
-      data-render-selected-choices="auto"
+      renderSelected="true"
 		/>
 
 		<field
@@ -251,7 +251,7 @@
 			layout="joomla.form.field.list-fancy-select"
 			client="administrator"
 			multiple="1"
-      data-render-selected-choices="auto"
+      renderSelected="true"
 		/>
 
 		<field
