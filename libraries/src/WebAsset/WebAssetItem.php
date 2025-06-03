@@ -333,7 +333,7 @@ class WebAssetItem implements WebAssetItemInterface
      */
     protected function isPathExternal(string $path): bool
     {
-        return strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0 || strpos($path, '//') === 0;
+        return str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '//');
     }
 
     /**
@@ -348,6 +348,6 @@ class WebAssetItem implements WebAssetItemInterface
     protected function isPathAbsolute(string $path): bool
     {
         // We have a full path or not
-        return strpos($path, '/') !== false && is_file(JPATH_ROOT . '/' . $path);
+        return str_contains($path, '/') && is_file(JPATH_ROOT . '/' . $path);
     }
 }

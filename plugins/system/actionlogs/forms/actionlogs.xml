@@ -24,18 +24,6 @@
 				showon="actionlogsNotify:1"
 				default="com_content"
 			/>
-			<field
-				name="actionlogsExcludeSelf"
-				type="radio"
-				label="PLG_SYSTEM_ACTIONLOGS_NOTIFICATIONS_EXCLUDE"
-				layout="joomla.form.field.radio.switcher"
-				showon="actionlogsNotify:1"
-				default="0"
-				filter="integer"
-				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
 		</fields>
 	</fieldset>
 </form>

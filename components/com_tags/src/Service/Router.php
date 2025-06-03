@@ -144,7 +144,7 @@ class Router extends RouterBase
 
         foreach (array_unique([$lang, '*']) as $language) {
             if (isset($query['view']) && $query['view'] === 'tags') {
-                if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
+                if (isset($query['parent_id'], $this->lookup[$language]['tags'][$query['parent_id']])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
                     break;
                 }

@@ -61,7 +61,7 @@ final class Blog extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.3.0
      */
     public static function getSubscribedEvents(): array
     {

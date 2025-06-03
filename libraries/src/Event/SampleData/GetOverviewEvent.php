@@ -20,7 +20,7 @@ use Joomla\CMS\Event\Result\ResultTypeObjectAware;
 /**
  * Cass for Sample data events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.3.0
  */
 class GetOverviewEvent extends SampleDataEvent implements ResultAwareInterface
 {

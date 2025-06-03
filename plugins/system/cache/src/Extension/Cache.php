@@ -24,8 +24,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -38,8 +39,10 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  1.5
  */
-final class Cache extends CMSPlugin implements SubscriberInterface
+final class Cache extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
+    use DispatcherAwareTrait;
+
     /**
      * Cache instance.
      *

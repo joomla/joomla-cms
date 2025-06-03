@@ -105,7 +105,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error(\sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database is not available in constructor in 6.0.', E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -311,7 +311,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', $options);
             $cache->clean();
-        } catch (CacheExceptionInterface $exception) {
+        } catch (CacheExceptionInterface) {
             $options['result'] = false;
         }
 
@@ -398,7 +398,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         try {
             return $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
+        } catch (DatabaseNotFoundException) {
             throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
         }
     }

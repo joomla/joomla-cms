@@ -173,7 +173,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         if (empty($newTags)) {
             $result = $tagsHelper->postStore($table);
         } else {
-            if (\is_string($newTags) && (strpos($newTags, ',') !== false)) {
+            if (\is_string($newTags) && (str_contains($newTags, ','))) {
                 $newTags = explode(',', $newTags);
             } elseif (!\is_array($newTags)) {
                 $newTags = (array) $newTags;

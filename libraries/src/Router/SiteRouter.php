@@ -138,7 +138,7 @@ class SiteRouter extends Router
          */
         try {
             $baseUri = Uri::base(true);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $baseUri = '';
         }
 
@@ -177,7 +177,7 @@ class SiteRouter extends Router
     {
         $route = $uri->getPath();
 
-        if (substr($route, -9) === 'index.php' || substr($route, -1) === '/') {
+        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/'))) {
             // We don't want suffixes when the URL ends in index.php or with a /
             return;
         }
@@ -528,7 +528,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Identify format
-        if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $format = $uri->getVar('format', 'html')) {
+        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/')) && $format = $uri->getVar('format', 'html')) {
             $route .= '.' . $format;
             $uri->setPath($route);
             $uri->delVar('format');
