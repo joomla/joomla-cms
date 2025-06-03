@@ -41,16 +41,17 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
-// Check if load of the environment variables is enabled.
+// Checking whether loading of the environment variables from the file is enabled. Then parse them.
 if (is_file(JPATH_ROOT . '/.env')) {
     /**
      * Some PHP configurations set variables_order="GPCS" not "EGPCS", in which case $_ENV is NOT populated.
      * Detect if the $_ENV  was empty and handle it by explicitly populating through getenv() for CLI,
      * or filter variables from  $_SERVER prefixed with JOOMLA_ for web requests.
+     *
      * To make it work the same for CLI and WEB set variables_order="EGPCS" in php.ini.
      */
     if (!$_ENV) {
-        $_ENV = PHP_SAPI === 'cli' ? getenv() : array_filter($_SERVER, fn ($k) => str_starts_with($k, 'JOOMLA_'), ARRAY_FILTER_USE_KEY);
+        $_ENV = !\array_key_exists('REQUEST_METHOD', $_SERVER) ? getenv() : array_filter($_SERVER, fn ($k) => str_starts_with($k, 'JOOMLA_'), ARRAY_FILTER_USE_KEY);
     }
 
     Dotenv\Dotenv::createImmutable(JPATH_ROOT, ['.env', '.env.dev'], false)->safeLoad();
