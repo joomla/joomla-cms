@@ -747,7 +747,7 @@ class UpdateController extends BaseController
 
             $result = [
                 'active'  => true,
-                'healthy' => $result,
+                'healthy' => $result->value,
             ];
 
             echo json_encode($result);
@@ -764,7 +764,7 @@ class UpdateController extends BaseController
                 && $params->get('updatesource', 'default') === 'default'
                 && (int) $params->get('minimum_stability', Updater::STABILITY_STABLE) === Updater::STABILITY_STABLE
             ),
-            'healthy' => $lastCheck !== false && $lastCheck->diff(new \DateTime())->days < 4,
+            'healthy' => (int) ($lastCheck !== false && $lastCheck->diff(new \DateTime())->days < 4),
         ];
 
         echo json_encode($result);
