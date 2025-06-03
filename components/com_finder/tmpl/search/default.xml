@@ -276,7 +276,7 @@
 				multiple="true"
 				validate="options"
 				showon="show_sort_order:1"
-        renderSelected="true"
+        data-render-selected-choices="auto"
 				>
 				<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
 				<option value="title">COM_FINDER_CONFIG_SORT_OPTION_TITLE</option>

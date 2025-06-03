@@ -29,7 +29,7 @@
 					description="JWORKFLOW_EXTENSION_ALLOWED_DESCRIPTION"
 					multiple="multiple"
 					layout="joomla.form.field.list-fancy-select"
-          renderSelected="true"
+          data-render-selected-choices="auto"
 				/>
 				<field
 					name="forbiddenlist"
@@ -38,7 +38,7 @@
 					description="JWORKFLOW_EXTENSION_FORBIDDEN_DESCRIPTION"
 					multiple="multiple"
 					layout="joomla.form.field.list-fancy-select"
-          renderSelected="true"
+          data-render-selected-choices="auto"
 				/>
 			</fieldset>
 		</fields>

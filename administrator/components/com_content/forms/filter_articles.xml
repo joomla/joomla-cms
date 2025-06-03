@@ -64,7 +64,7 @@
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
 			class="js-select-submit-on-change"
-      renderSelected="true"
+      data-render-selected-choices="auto"
 		/>
 
 		<field
@@ -75,7 +75,7 @@
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_AUTHOR"
 			class="js-select-submit-on-change"
-      renderSelected="true"
+      data-render-selected-choices="auto"
 			>
 			<option value="0">JNONE</option>
 			<option value="by_me">COM_CONTENT_FILTER_AUTHORS_BY_ME</option>

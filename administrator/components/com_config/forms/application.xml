@@ -1182,7 +1182,7 @@
 			layout="joomla.form.field.list-fancy-select"
 			default="all"
 			validate="options"
-      renderSelected="true"
+      data-render-selected-choices="auto"
 			>
 			<option value="all">COM_CONFIG_FIELD_LOG_PRIORITIES_ALL</option>
 			<option value="emergency">COM_CONFIG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
