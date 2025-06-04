@@ -10,30 +10,24 @@ Joomla = window.Joomla || {};
 
   document.addEventListener('DOMContentLoaded', () => {
     // Handle toggle all
-    [].slice.call(document.querySelectorAll('.filter-toggle-all')).forEach((button) => {
-      button.addEventListener('click', () => {
-        [].slice.call(document.querySelectorAll('.filter-node')).forEach((node) => {
-          node.click();
-        });
-      });
+    document.querySelectorAll('.filter-toggle-all').forEach((button) => {
+      button.addEventListener('click', () => document.querySelectorAll('.filter-node').forEach((node) => node.click()));
     });
 
     // Update the count
-    [].slice.call(document.querySelectorAll('.filter-node')).forEach(() => {
+    document.querySelectorAll('.filter-node').forEach(() => {
       const count = document.getElementById('jform_map_count');
       if (count) {
         count.value = document.querySelectorAll('input[type="checkbox"]:checked').length;
       }
     });
 
-    Array.from(document.querySelectorAll('.js-filter'))
-      .forEach((button) => {
-        button.addEventListener('click', (event) => {
-          const btn = event.currentTarget;
-          Array.from(document.querySelectorAll(`.${btn.dataset.id}`))
-            .map((el) => el.click());
-        });
+    document.querySelectorAll('.js-filter').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const btn = event.currentTarget;
+        document.querySelectorAll(`.${btn.dataset.id}`).forEach((el) => el.click());
       });
+    });
 
     // Expand/collapse
     const expandAccordion = document.getElementById('expandAccordion');
@@ -45,17 +39,15 @@ Joomla = window.Joomla || {};
         if (event.target.innerText === Joomla.Text._('COM_FINDER_FILTER_SHOW_ALL')) {
           event.target.innerText = Joomla.Text._('COM_FINDER_FILTER_HIDE_ALL');
 
-          elements = [].slice.call(document.querySelectorAll('.accordion-button.collapsed'));
+          elements = document.querySelectorAll('.accordion-button.collapsed');
         } else {
           event.target.innerText = Joomla.Text._('COM_FINDER_FILTER_SHOW_ALL');
 
-          elements = [].slice.call(document.querySelectorAll('.accordion-button:not(.collapsed)'));
+          elements = document.querySelectorAll('.accordion-button:not(.collapsed)');
         }
 
         if (elements) {
-          elements.forEach((element) => {
-            element.click();
-          });
+          elements.forEach((element) => element.click());
         }
       });
     }

@@ -38,7 +38,7 @@ trait GlobalFilters
     {
         // Filter settings
         $config     = ComponentHelper::getParams('com_config');
-        $userGroups = Access::getGroupsByUser($user->get('id'));
+        $userGroups = Access::getGroupsByUser($user->id);
         $filters    = $config->get('filters');
 
         $forbiddenListTags       = [];

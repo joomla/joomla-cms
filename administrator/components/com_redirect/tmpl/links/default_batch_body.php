@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Redirect\Administrator\View\Links\HtmlView $this */
+
 $published = $this->state->get('filter.published');
 $params    = $this->params;
 $separator = $params->get('separator', '|');

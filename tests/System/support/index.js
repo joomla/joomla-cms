@@ -1,16 +1,13 @@
-import './commands';
-import 'joomla-cypress';
+import('./commands.mjs');
+import('joomla-cypress');
 
 before(() => {
   cy.task('startMailServer');
-  Cypress.on('uncaught:exception', (err, runnable) => {
-    console.log(`err :${err}`);
-    console.log(`runnable :${runnable}`);
-    return false;
-  });
+  cy.task('clearLogs');
 });
 
 afterEach(() => {
   cy.checkForPhpNoticesOrWarnings();
+  cy.task('checkForLogs');
   cy.task('cleanupDB');
 });

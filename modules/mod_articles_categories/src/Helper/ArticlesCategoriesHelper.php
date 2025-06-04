@@ -60,7 +60,7 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
         }
 
         // Get all the children categories of this node
-        $childrenCategories = $parentCategory->getChildren(true);
+        $childrenCategories = $parentCategory->getChildren();
 
         $count = $moduleParams->get('count', 0);
 

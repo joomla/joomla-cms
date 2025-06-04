@@ -40,7 +40,8 @@ extract($displayData);
  * @var  integer  $size            The size text
  * @var  string   $value           The value text
  * @var  string   $src             The path and filename of the image
- * @var  array    $mediaTypes      The supported media types for the Media Manager
+ * @var  string   $mediaTypes      The ids of supported media types for the Media Manager
+ * @var  array    $mediaTypeNames  The names of supported media types for the Media Manager
  * @var  array    $imagesExt       The supported extensions for images
  * @var  array    $audiosExt       The supported extensions for audios
  * @var  array    $videosExt       The supported extensions for videos
@@ -155,9 +156,10 @@ if (!$doc->getScriptOptions('media-picker')) {
 }
 
 ?>
-<joomla-field-media class="field-media-wrapper" type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
+<joomla-field-media class="field-media-wrapper"
+    types="<?php echo $this->escape(implode(',', $mediaTypeNames)); ?>"
     base-path="<?php echo $this->escape(Uri::root()); ?>"
-    root-folder="<?php echo $this->escape(ComponentHelper::getParams('com_media')->get('file_path', 'images')); ?>"
+    root-folder="<?php echo $this->escape(ComponentHelper::getParams('com_media')->get('image_path', 'images')); ?>"
     url="<?php echo $url; ?>"
     input=".field-media-input"
     button-select=".button-select"

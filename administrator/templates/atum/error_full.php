@@ -77,13 +77,29 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 // Set some meta data
     $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-    $monochrome = (bool) $this->params->get('monochrome');
+    $monochrome    = (bool) $this->params->get('monochrome');
+    $colorScheme   = $this->params->get('colorScheme', 'os');
+    $themeModeAttr = '';
+
+    if ($colorScheme) {
+        $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+        // Check for User choose, for now this have a priority over the parameters
+        $userColorScheme = $app->getInput()->cookie->get('userColorScheme', '');
+        if ($userColorScheme && !empty($themeModes[$userColorScheme])) {
+            $themeModeAttr = $themeModes[$userColorScheme];
+        } else {
+            // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
+            $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+            $osColorScheme = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
+            $themeModeAttr = ($themeModes[$colorScheme] ?? '') . ($themeModes[$osColorScheme] ?? '');
+        }
+    }
 
 // @see administrator/templates/atum/html/layouts/status.php
     $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
     ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />

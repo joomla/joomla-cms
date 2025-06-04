@@ -23,7 +23,12 @@
 // jQuery Minicolors
 @import "../../../../../../media/system/scss/jquery-minicolors";
 
+// System overrides
+@import "system/fields/calendar";
+@import "system/fields/switcher";
+
 // Vendor overrides
+@import "vendor/bootstrap/accordion";
 @import "vendor/bootstrap/badge";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
@@ -32,6 +37,7 @@
 @import "vendor/bootstrap/dropdown";
 @import "vendor/bootstrap/form";
 @import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/list-group";
 @import "vendor/bootstrap/modal";
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/reboot";
@@ -85,6 +91,7 @@
   }
 }
 
+// Check if dark mode is enabled
 @if $enable-dark-mode {
   @include color-mode(dark, true) {
     @each $color, $value in $atum-colors-dark {
@@ -205,6 +212,7 @@
 }
 
 .bg-warning {
+  color: #000;
   background-color: var(--warning) !important;
 }
 

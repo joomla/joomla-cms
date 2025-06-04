@@ -41,14 +41,14 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
     /**
      * Public constructor
      *
-     * @param   array                     $config   Plugin configuration
-     * @param   MVCFactoryInterface|null  $factory  MVC Factory for the com_users component
-     * @param   CMSApplication|null       $app      CMS application object
-     * @param   Input|null                $input    Joomla CMS input object
+     * @param   array                 $config   Plugin configuration
+     * @param   ?MVCFactoryInterface  $factory  MVC Factory for the com_users component
+     * @param   ?CMSApplication       $app      CMS application object
+     * @param   ?Input                $input    Joomla CMS input object
      *
      * @since 4.2.0
      */
-    public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct(array $config = [], ?MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -107,7 +107,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
         try {
             // Suppress all modules on the page except those explicitly allowed
             $model->suppressAllModules();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't kill the modules we can still survive.
         }
 

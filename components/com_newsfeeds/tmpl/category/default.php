@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Newsfeeds\Site\View\Category\HtmlView $this */
 $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 ?>
 <div class="com-newsfeeds-category newsfeed-category">

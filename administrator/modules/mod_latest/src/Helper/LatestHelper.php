@@ -41,7 +41,7 @@ abstract class LatestHelper
         $user = Factory::getUser();
 
         // Set List SELECT
-        $model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
+        $model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, a.modified,' .
             ' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down');
 
         // Set Ordering filter
@@ -66,7 +66,7 @@ abstract class LatestHelper
         }
 
         // Set User Filter.
-        $userId = $user->get('id');
+        $userId = $user->id;
 
         switch ($params->get('user_id', '0')) {
             case 'by_me':

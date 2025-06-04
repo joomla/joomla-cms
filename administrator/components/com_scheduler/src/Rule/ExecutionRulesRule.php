@@ -37,7 +37,7 @@ class ExecutionRulesRule extends FormRule
      * @var string CUSTOM_RULE_GROUP  The field group containing custom execution rules
      * @since  4.1.0
      */
-    private const CUSTOM_RULE_GROUP = "execution_rules.custom";
+    private const CUSTOM_RULE_GROUP = "execution_rules.cron-expression";
 
     /**
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form
@@ -54,12 +54,12 @@ class ExecutionRulesRule extends FormRule
      *
      * @since  4.1.0
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): bool
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null): bool
     {
         $fieldName = (string) $element['name'];
         $ruleType  = $input->get(self::RULE_TYPE_FIELD);
 
-        if ($ruleType === $fieldName || ($ruleType === 'custom' && $group === self::CUSTOM_RULE_GROUP)) {
+        if ($ruleType === $fieldName || ($ruleType === 'cron-expression' && $group === self::CUSTOM_RULE_GROUP)) {
             return $this->validateField($element, $value, $group, $form);
         }
 
@@ -82,7 +82,9 @@ class ExecutionRulesRule extends FormRule
 
         // If element is of cron type, we test against options and return
         if ($elementType === 'cron') {
-            return (new OptionsRule())->test($element, $value, $group, null, $form);
+            $clonedElement = clone $element;
+            $clonedElement->addAttribute('required', 'true');
+            return (new OptionsRule())->test($clonedElement, $value, $group, null, $form);
         }
 
         // Test for a positive integer value and return

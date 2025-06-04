@@ -57,7 +57,7 @@
 					label="TPL_CASSIOPEIA_BRAND_LABEL"
 					default="1"
 					layout="joomla.form.field.radio.switcher"
-					filter="boolean"
+					filter="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

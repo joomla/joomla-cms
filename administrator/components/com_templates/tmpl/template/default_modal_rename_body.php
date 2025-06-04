@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
 ?>
 <div id="template-manager-rename" class="container-fluid">
     <div class="mt-2">

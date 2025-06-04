@@ -70,7 +70,7 @@ class HtmlView extends InstallerViewDefault
 
         // Remove the extra_query field if it's a free download extension
         $dlidSupportingSites = InstallerHelper::getDownloadKeySupportedSites(false);
-        $update_site_id      = $this->item->get('update_site_id');
+        $update_site_id      = $this->item->update_site_id;
 
         if (!\in_array($update_site_id, $dlidSupportingSites)) {
             $this->form->removeField('extra_query');
@@ -95,7 +95,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar(): void
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $app     = Factory::getApplication();
         $app->getInput()->set('hidemainmenu', true);
 

@@ -101,10 +101,10 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      */
     public function __construct(
         $config = [],
-        MVCFactoryInterface $factory = null,
+        ?MVCFactoryInterface $factory = null,
         ?CMSWebApplicationInterface $app = null,
         ?Input $input = null,
-        FormFactoryInterface $formFactory = null
+        ?FormFactoryInterface $formFactory = null
     ) {
         parent::__construct($config, $factory, $app, $input);
 
@@ -643,9 +643,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             // Push up to three validation messages out to the user.
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
-                    $this->app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_WARNING);
+                    $this->app->enqueueMessage($errors[$i]->getMessage(), CMSWebApplicationInterface::MSG_ERROR);
                 } else {
-                    $this->app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_WARNING);
+                    $this->app->enqueueMessage($errors[$i], CMSWebApplicationInterface::MSG_ERROR);
                 }
             }
 

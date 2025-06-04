@@ -75,11 +75,6 @@ class SubfieldsField extends ListField
 
         // Iterate over the custom fields for this context
         foreach (static::$customFieldsCache[$this->context] as $customField) {
-            // Skip our own subform type. We won't have subform in subform.
-            if ($customField->type == 'subform') {
-                continue;
-            }
-
             $options[] = HTMLHelper::_(
                 'select.option',
                 $customField->id,
@@ -103,7 +98,7 @@ class SubfieldsField extends ListField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.

@@ -17,8 +17,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Menus\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
     ->useScript('com_menus.admin-menus')
@@ -29,7 +31,7 @@ $return    = base64_encode($uri);
 $user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$modMenuId = (int) $this->get('ModMenuId');
+$modMenuId = (int) $this->getModel()->getModMenuId();
 $itemIds   = [];
 
 foreach ($this->items as $item) {
@@ -45,7 +47,7 @@ if ($saveOrder) {
     HTMLHelper::_('draggablelist.draggable');
 }
 
-$this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
+$this->getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
 
 // Set up the modal options that will be used for module editor
 $popupOptionsEdit = [

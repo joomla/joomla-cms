@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Site\View\Profile\HtmlView $this */
 ?>
 <div class="com-users-profile profile">
     <?php if ($this->params->get('show_page_heading')) : ?>

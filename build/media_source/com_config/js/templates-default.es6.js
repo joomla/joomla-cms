@@ -23,8 +23,7 @@
    * Register events
    */
   const registerEvents = () => {
-    const buttons = [].slice.call(document.querySelectorAll(`[${buttonDataSelector}]`));
-    buttons.forEach((button) => {
+    document.querySelectorAll(`[${buttonDataSelector}]`).forEach((button) => {
       button.addEventListener('click', (e) => {
         e.preventDefault();
         const task = e.currentTarget.getAttribute(buttonDataSelector);

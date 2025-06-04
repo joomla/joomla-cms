@@ -218,7 +218,7 @@ class InputFilter extends BaseInputFilter
         // Make sure we can scan nested file descriptors
         $descriptors = $file;
 
-        if (isset($file['name']) && isset($file['tmp_name'])) {
+        if (isset($file['name'], $file['tmp_name'])) {
             $descriptors = static::decodeFileData(
                 [
                     $file['name'],
@@ -454,7 +454,7 @@ class InputFilter extends BaseInputFilter
         $source = preg_replace_callback(
             '/&#x([a-f0-9]+);/mi',
             function ($m) {
-                return mb_convert_encoding(\chr('0x' . $m[1]), 'UTF-8', 'ISO-8859-1');
+                return mb_convert_encoding(\chr(hexdec($m[1])), 'UTF-8', 'ISO-8859-1');
             },
             $source
         );

@@ -16,7 +16,6 @@ use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -24,6 +23,7 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -59,7 +59,7 @@ class AdministratorApplication extends CMSApplication
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  object.  If the argument is a Input object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                  object.  If the argument is a Registry object that object will become the
@@ -71,7 +71,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name
         $this->name = 'administrator';
@@ -189,7 +189,17 @@ class AdministratorApplication extends CMSApplication
          * $this->input->getCmd('option'); or $this->input->getCmd('view');
          * ex: due of the sef urls
          */
-        $this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
+        $this->checkUserRequiresReset('com_users', 'user', 'edit', [
+            ['option' => 'com_users', 'task' => 'user.edit'],
+            ['option' => 'com_users', 'task' => 'user.save'],
+            ['option' => 'com_users', 'task' => 'user.apply'],
+            ['option' => 'com_users', 'view' => 'captivate'],
+            ['option' => 'com_login', 'task' => 'logout'],
+            ['option' => 'com_users', 'view' => 'methods'],
+            ['option' => 'com_users', 'view' => 'method'],
+            ['option' => 'com_users', 'task' => 'method.add'],
+            ['option' => 'com_users', 'task' => 'method.save'],
+        ]);
 
         // Dispatch the application
         $this->dispatch();
@@ -359,6 +369,21 @@ class AdministratorApplication extends CMSApplication
 
             $this->bootComponent('messages')->getMVCFactory()
                 ->createModel('Messages', 'Administrator')->purge($this->getIdentity() ? $this->getIdentity()->id : 0);
+
+            if ($result) {
+                // Check if the user is required to reset their password
+                $this->checkUserRequiresReset('com_users', 'user', 'edit', [
+                    ['option' => 'com_users', 'task' => 'user.edit'],
+                    ['option' => 'com_users', 'task' => 'user.save'],
+                    ['option' => 'com_users', 'task' => 'user.apply'],
+                    ['option' => 'com_users', 'view' => 'captivate'],
+                    ['option' => 'com_login', 'task' => 'logout'],
+                    ['option' => 'com_users', 'view' => 'methods'],
+                    ['option' => 'com_users', 'view' => 'method'],
+                    ['option' => 'com_users', 'task' => 'method.add'],
+                    ['option' => 'com_users', 'task' => 'method.save'],
+                ]);
+            }
         }
 
         return $result;
@@ -394,7 +419,7 @@ class AdministratorApplication extends CMSApplication
      */
     protected function render()
     {
-        // Get the \JInput object
+        // Get the Input object
         $input = $this->input;
 
         $component = $input->getCmd('option', 'com_login');
@@ -410,7 +435,7 @@ class AdministratorApplication extends CMSApplication
         $rootUser = $this->get('root_user');
 
         if (property_exists('\JConfig', 'root_user')) {
-            if (Factory::getUser()->get('username') === $rootUser || Factory::getUser()->id === (string) $rootUser) {
+            if ($this->getIdentity()->username === $rootUser || $this->getIdentity()->id === (string) $rootUser) {
                 $this->enqueueMessage(
                     Text::sprintf(
                         'JWARNING_REMOVE_ROOT_USER',
@@ -418,7 +443,7 @@ class AdministratorApplication extends CMSApplication
                     ),
                     'warning'
                 );
-            } elseif (Factory::getUser()->authorise('core.admin')) {
+            } elseif ($this->getIdentity()->authorise('core.admin')) {
                 // Show this message to superusers too
                 $this->enqueueMessage(
                     Text::sprintf(
@@ -487,7 +512,7 @@ class AdministratorApplication extends CMSApplication
          * request to go through. Otherwise we force com_login to be loaded, letting the user (re)try authenticating
          * with a user account that has the Backend Login privilege.
          */
-        if ($user->get('guest') || !$user->authorise('core.login.admin')) {
+        if ($user->guest || !$user->authorise('core.login.admin')) {
             $option = \in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
         }
 

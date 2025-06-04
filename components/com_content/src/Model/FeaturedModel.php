@@ -13,6 +13,7 @@ namespace Joomla\Component\Content\Site\Model;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -92,7 +93,7 @@ class FeaturedModel extends ArticlesModel
         }
 
         // Check for category selection
-        if ($params->get('featured_categories') && implode(',', $params->get('featured_categories')) == true) {
+        if ($params->get('featured_categories') && implode(',', $params->get('featured_categories'))) {
             $featuredCategories = $params->get('featured_categories');
             $this->setState('filter.frontpage.categories', $featuredCategories);
         }
@@ -149,7 +150,7 @@ class FeaturedModel extends ArticlesModel
     /**
      * Get the list of items.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {

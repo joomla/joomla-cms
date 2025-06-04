@@ -15,7 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -62,6 +64,38 @@ class LanguageHelper
     }
 
     /**
+     * Builds a list of the system languages which can be used in a select option
+     * with both the native name and the english name
+     *
+     * @param   string   $actualLanguage  Client key for the area
+     * @param   string   $basePath        Base path to use
+     * @param   boolean  $caching         True if caching is used
+     * @param   boolean  $installed       Get only installed languages
+     *
+     * @return  array  List of system languages
+     *
+     * @since   5.1.0
+     */
+    public static function createLanguageListInstall($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
+    {
+        $list      = [];
+        $clientId  = $basePath === JPATH_ADMINISTRATOR ? 1 : 0;
+        $languages = $installed ? static::getInstalledLanguages($clientId, true) : self::getKnownLanguages($basePath);
+
+        foreach ($languages as $languageCode => $language) {
+            $metadata = $installed ? $language->metadata : $language;
+
+            $list[] = [
+                'text'     => $metadata['name'] . ' | ' . $metadata['nativeName'] ?? $metadata['name'],
+                'value'    => $languageCode,
+                'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
+            ];
+        }
+
+        return $list;
+    }
+
+    /**
      * Tries to detect the language.
      *
      * @return  string  locale or null if not found
@@ -78,6 +112,11 @@ class LanguageHelper
                 // Slice out the part before ; on first step, the part before - on second, place into array
                 $browserLang         = substr($browserLang, 0, strcspn($browserLang, ';'));
                 $primary_browserLang = substr($browserLang, 0, 2);
+
+                // Some browser return only "fr" or "de", so let's try to use it like "fr-fr" or "de-de"
+                if (\strlen($browserLang) == 2) {
+                    $browserLang = $browserLang . '-' . $browserLang;
+                }
 
                 foreach ($systemLangs as $systemLang) {
                     // Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
@@ -99,6 +138,8 @@ class LanguageHelper
                 }
             }
         }
+
+        return null;
     }
 
     /**
@@ -164,13 +205,13 @@ class LanguageHelper
     /**
      * Get a list of installed languages.
      *
-     * @param   integer            $clientId         The client app id.
-     * @param   boolean            $processMetaData  Fetch Language metadata.
-     * @param   boolean            $processManifest  Fetch Language manifest.
-     * @param   string             $pivot            The pivot of the returning array.
-     * @param   string             $orderField       Field to order the results.
-     * @param   string             $orderDirection   Direction to order the results.
-     * @param   DatabaseInterface  $db               Database object to use database queries
+     * @param   integer             $clientId         The client app id.
+     * @param   boolean             $processMetaData  Fetch Language metadata.
+     * @param   boolean             $processManifest  Fetch Language manifest.
+     * @param   string              $pivot            The pivot of the returning array.
+     * @param   string              $orderField       Field to order the results.
+     * @param   string              $orderDirection   Direction to order the results.
+     * @param   ?DatabaseInterface  $db               Database object to use database queries
      *
      * @return  array  Array with the installed languages.
      *
@@ -183,7 +224,7 @@ class LanguageHelper
         $pivot = 'element',
         $orderField = null,
         $orderDirection = null,
-        DatabaseInterface $db = null
+        ?DatabaseInterface $db = null
     ) {
         static $installedLanguages = null;
 
@@ -195,7 +236,7 @@ class LanguageHelper
             if ($cache->contains('installedlanguages')) {
                 $installedLanguages = $cache->get('installedlanguages');
             } else {
-                $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
+                $db ??= Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(
@@ -247,7 +288,7 @@ class LanguageHelper
                 if ($processMetaData) {
                     try {
                         $lang->metadata = self::parseXMLLanguageFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -266,7 +307,7 @@ class LanguageHelper
                 if ($processManifest) {
                     try {
                         $lang->manifest = Installer::parseXMLInstallFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -295,7 +336,7 @@ class LanguageHelper
                     continue;
                 }
 
-                $languages[$cId] = ArrayHelper::sortObjects($languages[$cId], $orderField, $orderDirection, true, true);
+                $languages[$cId] = ArrayHelper::sortObjects($language, $orderField, $orderDirection, true, true);
             }
         }
 
@@ -307,7 +348,7 @@ class LanguageHelper
                     continue;
                 }
 
-                $languages[$cId] = ArrayHelper::pivot($languages[$cId], $pivot);
+                $languages[$cId] = ArrayHelper::pivot($language, $pivot);
             }
         }
 
@@ -410,6 +451,12 @@ class LanguageHelper
             return [];
         }
 
+        $cacheFile = JPATH_CACHE . '/language/' . ltrim(str_replace([JPATH_ROOT, '/'], ['', '-'], $fileName), '-') . '.' . filemtime($fileName) . '.php';
+
+        if (is_file($cacheFile)) {
+            return include $cacheFile;
+        }
+
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
         $disabledFunctions      = explode(',', \ini_get('disable_functions'));
@@ -437,10 +484,28 @@ class LanguageHelper
             restore_error_handler();
         }
 
+        if (!\is_array($strings)) {
+            $strings = [];
+        }
+
         // Ini files are processed in the "RAW" mode of parse_ini_string, leaving escaped quotes untouched - lets postprocess them
         $strings = str_replace('\"', '"', $strings);
 
-        return \is_array($strings) ? $strings : [];
+        // Write cache
+        try {
+            Folder::create(\dirname($cacheFile));
+
+            $data         = "<?php\ndefined('_JEXEC') or die;\nreturn " . var_export($strings, true) . ";\n";
+            $bytesWritten = file_put_contents($cacheFile, $data);
+
+            if ($bytesWritten === false || $bytesWritten < \strlen($data)) {
+                throw new FilesystemException('Unable to write cache file');
+            }
+        } catch (FilesystemException $e) {
+            // We ignore the error, as the file is for caching only.
+        }
+
+        return $strings;
     }
 
     /**
@@ -592,7 +657,7 @@ class LanguageHelper
                     if ($metadata = self::parseXMLLanguageFile($file)) {
                         $languages = array_replace($languages, [$dirPathParts['filename'] => $metadata]);
                     }
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     // Ignore it
                 }
             }

@@ -26,6 +26,7 @@ use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\CMS\Console\Loader\WritableLoaderInterface;
+use Joomla\CMS\Console\MaintenanceDatabaseCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -35,7 +36,6 @@ use Joomla\CMS\Console\TasksListCommand;
 use Joomla\CMS\Console\TasksRunCommand;
 use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
-use Joomla\CMS\Input\Input as CMSInput;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -48,6 +48,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
+use Joomla\Input\Input as CMSInput;
 use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Psr\Log\LoggerInterface;
@@ -165,6 +166,7 @@ class Application implements ServiceProviderInterface
                         TasksListCommand::getDefaultName()                => TasksListCommand::class,
                         TasksRunCommand::getDefaultName()                 => TasksRunCommand::class,
                         TasksStateCommand::getDefaultName()               => TasksStateCommand::class,
+                        MaintenanceDatabaseCommand::getDefaultName()      => MaintenanceDatabaseCommand::class,
                     ];
 
                     return new WritableContainerLoader($container, $mapping);

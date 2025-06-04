@@ -3,6 +3,14 @@
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
 			<field
+				name="header"
+				type="text"
+				label="PLG_FIELDS_LIST_PARAMS_HEADER_LABEL"
+				description="PLG_FIELDS_LIST_PARAMS_HEADER_DESC"
+				filter="string"
+			/>
+
+			<field
 				name="multiple"
 				type="list"
 				label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"

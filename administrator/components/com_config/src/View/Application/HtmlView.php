@@ -14,9 +14,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
+use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -54,6 +54,34 @@ class HtmlView extends BaseHtmlView
     public $data;
 
     /**
+     * Title of the fieldset
+     *
+     * @var    string
+     */
+    public $name;
+
+    /**
+     * Name of the fields to display
+     *
+     * @var    string
+     */
+    public $fieldsname;
+
+    /**
+     * CSS class of the form
+     *
+     * @var    string
+     */
+    public $formclass;
+
+    /**
+     * Description of the fieldset
+     *
+     * @var    string
+     */
+    public $description;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -66,10 +94,13 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         try {
+            /** @var ApplicationModel $model */
+            $model = $this->getModel();
+
             // Load Form and Data
-            $form = $this->get('form');
-            $data = $this->get('data');
-            $user = $this->getCurrentUser();
+            $this->form = $model->getForm();
+            $this->data = $model->getData();
+            $this->user = $this->getCurrentUser();
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -77,24 +108,20 @@ class HtmlView extends BaseHtmlView
         }
 
         // Bind data
-        if ($form && $data) {
-            $form->bind($data);
+        if ($this->form && $this->data) {
+            $this->form->bind($this->data);
         }
 
         // Get the params for com_users.
-        $usersParams = ComponentHelper::getParams('com_users');
+        $this->usersParams = ComponentHelper::getParams('com_users');
 
         // Get the params for com_media.
-        $mediaParams = ComponentHelper::getParams('com_media');
+        $this->mediaParams = ComponentHelper::getParams('com_media');
 
-        $this->form        = &$form;
-        $this->data        = &$data;
-        $this->usersParams = &$usersParams;
-        $this->mediaParams = &$mediaParams;
         $this->components  = ConfigHelper::getComponentsWithConfig();
         ConfigHelper::loadLanguageForComponents($this->components);
 
-        $this->userIsSuperAdmin = $user->authorise('core.admin');
+        $this->userIsSuperAdmin = $this->user->authorise('core.admin');
 
         $this->addToolbar();
 
@@ -110,7 +137,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'cog config');
         $toolbar->apply('application.apply');

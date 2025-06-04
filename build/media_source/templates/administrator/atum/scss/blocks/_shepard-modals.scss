@@ -8,13 +8,32 @@
 
 @if $enable-dark-mode {
   @include color-mode(dark) {
-    .shepherd-has-title .shepherd-content .shepherd-header, .shepherd-element.shepherd-has-title[data-popper-placement^=bottom]>.shepherd-arrow:before {
-      background-color: var(--dark-bg-subtle) !important;
+    .shepherd-element, .shepherd-arrow:before {
+      background-color: #2f4156 !important;
     }
 
-    // Matches the bootstrap color on hover for btn-close
-    .shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover {
-      filter: $btn-close-white-filter !important;
+    .shepherd-has-title .shepherd-content .shepherd-header, .shepherd-element.shepherd-has-title[data-popper-placement^=bottom] > .shepherd-arrow:before {
+      background-color: #222f3e !important;
+    }
+
+    .shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+      color: var(--template-link-color) !important;
+
+      &:hover {
+        color: var(--template-link-hover-color) !important;
+      }
+    }
+
+    body .shepherd-button.shepherd-button-secondary:not(:disabled) {
+
+      color: var(--btn-secondary-color) !important;
+      background-color: var(--btn-secondary-bg) !important;
+      border: var(--btn-secondary-border) !important;
+
+      &:hover {
+        color: var(--btn-secondary-color-hvr) !important;
+        background-color: var(--btn-secondary-bg-hvr) !important;
+      }
     }
   }
 }

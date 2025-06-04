@@ -16,8 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Media\Administrator\Model\MediaModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -60,11 +60,14 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var MediaModel $model */
+        $model = $this->getModel();
+
         // Prepare the toolbar
         $this->prepareToolbar();
 
         // Get enabled adapters
-        $this->providers = $this->get('Providers');
+        $this->providers = $model->getProviders();
 
         // Check that there are providers
         if (!\count($this->providers)) {
@@ -87,7 +90,7 @@ class HtmlView extends BaseHtmlView
     protected function prepareToolbar()
     {
         $tmpl    = Factory::getApplication()->getInput()->getCmd('tmpl');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $user    = $this->getCurrentUser();
 
         // Set the title
@@ -96,7 +99,7 @@ class HtmlView extends BaseHtmlView
         // Add the upload and create folder buttons
         if ($user->authorise('core.create', 'com_media')) {
             // Add the upload button
-            $layout = new FileLayout('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
+            $layout = new FileLayout('toolbar.upload', JPATH_ADMINISTRATOR . '/components/com_media/layouts');
 
             $toolbar->customButton('upload')
                 ->html($layout->render([]));
@@ -113,7 +116,7 @@ class HtmlView extends BaseHtmlView
         // Add a delete button
         if ($user->authorise('core.delete', 'com_media')) {
             // Instantiate a new FileLayout instance and render the layout
-            $layout = new FileLayout('toolbar.delete', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
+            $layout = new FileLayout('toolbar.delete', JPATH_ADMINISTRATOR . '/components/com_media/layouts');
 
             $toolbar->customButton('delete')
                 ->html($layout->render([]));

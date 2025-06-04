@@ -23,7 +23,7 @@ use Joomla\Database\DatabaseInterface;
 /**
  * Dispatcher class for mod_stats_admin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
@@ -34,7 +34,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function getLayoutData()
     {

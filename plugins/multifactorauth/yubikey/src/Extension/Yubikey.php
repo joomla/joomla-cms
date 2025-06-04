@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Yubikey\Extension;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
@@ -28,7 +27,6 @@ use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -321,7 +319,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                     return $rec->method === $record->method;
                 }
             );
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $records = [];
         }
 
@@ -411,7 +409,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                 } else {
                     continue;
                 }
-            } catch (\Exception $exc) {
+            } catch (\Exception) {
                 // No response, continue with the next server
                 continue;
             }

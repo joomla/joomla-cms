@@ -12,7 +12,7 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
@@ -38,12 +38,12 @@ class Module extends Table
     /**
      * Constructor.
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__modules', 'id', $db, $dispatcher);
 
@@ -81,29 +81,30 @@ class Module extends Table
     /**
      * Method to get the parent asset id for the record
      *
-     * @param   Table    $table  A Table object (optional) for the asset parent
-     * @param   integer  $id     The id (optional) of the content.
+     * @param   ?Table    $table  A Table object (optional) for the asset parent
+     * @param   ?integer  $id     The id (optional) of the content.
      *
      * @return  integer
      *
      * @since   3.2
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
 
         // This is a module that needs to parent with the extension.
         if ($assetId === null) {
             // Build the query to get the asset id of the parent component.
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__assets'))
-                ->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote('com_modules'));
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__assets'))
+                ->where($db->quoteName('name') . ' = ' . $db->quote('com_modules'));
 
             // Get the asset id from the database.
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($result = $this->_db->loadResult()) {
+            if ($result = $db->loadResult()) {
                 $assetId = (int) $result;
             }
         }
@@ -207,7 +208,9 @@ class Module extends Table
     public function store($updateNulls = true)
     {
         if (!$this->ordering) {
-            $this->ordering = $this->getNextOrder($this->_db->quoteName('position') . ' = ' . $this->_db->quote($this->position));
+            $this->ordering = $this->getNextOrder(
+                $this->getDatabase()->quoteName('position') . ' = ' . $this->getDatabase()->quote($this->position)
+            );
         }
 
         return parent::store($updateNulls);

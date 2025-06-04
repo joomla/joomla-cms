@@ -17,7 +17,10 @@ namespace Joomla\CMS\Form\Field;
  * Form Field class for the Joomla Platform.
  * Provides radio button inputs using default styling
  *
- * @since  4.0.0
+ * @since      4.0.0
+ *
+ * @deprecated 5.2 will be moved to the b/c plugin in 6.0 and removed in 7.0
+ *             Use \Joomla\CMS\Form\Field\RadioField instead
  */
 class RadiobasicField extends ListField
 {
@@ -46,7 +49,7 @@ class RadiobasicField extends ListField
      */
     protected function getInput()
     {
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**

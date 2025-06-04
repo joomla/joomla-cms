@@ -129,6 +129,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       searchFloor: this.minTermLength,
       searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 10,
       renderChoiceLimit: parseInt(this.select.dataset.maxRender, 10) || -1,
+      renderSelectedChoices: 'always',
       shouldSort: false,
       fuseOptions: {
         threshold: 0.3, // Strict search
@@ -239,8 +240,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         // Create and add new
         this.choicesInstance.setChoices([{
-          value: this.newItemPrefix + event.target.value,
-          label: event.target.value,
+          value: new DOMParser().parseFromString(this.newItemPrefix + event.target.value, 'text/html').body.textContent,
+          label: new DOMParser().parseFromString(event.target.value, 'text/html').body.textContent,
           selected: true,
           customProperties: {
             value: event.target.value, // Store real value, just in case

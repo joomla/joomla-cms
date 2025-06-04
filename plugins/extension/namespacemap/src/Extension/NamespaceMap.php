@@ -10,9 +10,12 @@
 
 namespace Joomla\Plugin\Extension\NamespaceMap\Extension;
 
-use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Event\Extension\AfterInstallEvent;
+use Joomla\CMS\Event\Extension\AfterUninstallEvent;
+use Joomla\CMS\Event\Extension\AfterUpdateEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,7 +26,7 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  4.0.0
  */
-final class NamespaceMap extends CMSPlugin
+final class NamespaceMap extends CMSPlugin implements SubscriberInterface
 {
     /**
      * The namespace map file creator
@@ -51,19 +54,34 @@ final class NamespaceMap extends CMSPlugin
     }
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onExtensionAfterInstall'   => 'onExtensionAfterInstall',
+            'onExtensionAfterUpdate'    => 'onExtensionAfterUpdate',
+            'onExtensionAfterUninstall' => 'onExtensionAfterUninstall',
+        ];
+    }
+
+    /**
      * Update / Create map on extension install
      *
-     * @param   Installer  $installer  Installer instance
-     * @param   integer    $eid        Extension id
+     * @param   AfterInstallEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onExtensionAfterInstall($installer, $eid)
+    public function onExtensionAfterInstall(AfterInstallEvent $event): void
     {
         // Check that we have a valid extension
-        if ($eid) {
+        if ($event->getEid()) {
             // Update / Create new map
             $this->fileCreator->create();
         }
@@ -72,18 +90,16 @@ final class NamespaceMap extends CMSPlugin
     /**
      * Update / Create map on extension uninstall
      *
-     * @param   Installer  $installer  Installer instance
-     * @param   integer    $eid        Extension id
-     * @param   boolean    $removed    Installation result
+     * @param   AfterUninstallEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onExtensionAfterUninstall($installer, $eid, $removed)
+    public function onExtensionAfterUninstall(AfterUninstallEvent $event): void
     {
         // Check that we have a valid extension and that it has been removed
-        if ($eid && $removed) {
+        if ($event->getEid() && $event->getRemoved()) {
             // Update / Create new map
             $this->fileCreator->create();
         }
@@ -92,17 +108,16 @@ final class NamespaceMap extends CMSPlugin
     /**
      * Update map on extension update
      *
-     * @param   Installer  $installer  Installer instance
-     * @param   integer    $eid        Extension id
+     * @param   AfterUpdateEvent $event  Event instance.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onExtensionAfterUpdate($installer, $eid)
+    public function onExtensionAfterUpdate(AfterUpdateEvent $event): void
     {
         // Check that we have a valid extension
-        if ($eid) {
+        if ($event->getEid()) {
             // Update / Create new map
             $this->fileCreator->create();
         }
