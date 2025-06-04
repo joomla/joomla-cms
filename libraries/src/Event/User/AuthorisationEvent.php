@@ -80,7 +80,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
     public function typeCheckResult($data): void
     {
         if (!$data instanceof AuthenticationResponse) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts AuthenticationResponse results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts AuthenticationResponse results.', $this->getName()));
         }
     }
 

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 
@@ -51,12 +51,12 @@ class ContentHistory extends Table implements CurrentUserInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__history', 'version_id', $db, $dispatcher);
         $this->ignoreChanges = [
@@ -84,20 +84,20 @@ class ContentHistory extends Table implements CurrentUserInterface
      */
     public function store($updateNulls = false)
     {
-        $this->set('character_count', \strlen($this->get('version_data')));
-        $typeTable = new ContentType($this->getDbo(), $this->getDispatcher());
-        $typeAlias = explode('.', $this->item_id);
+        $this->character_count = \strlen($this->version_data);
+        $typeTable             = new ContentType($this->getDatabase(), $this->getDispatcher());
+        $typeAlias             = explode('.', $this->item_id);
         array_pop($typeAlias);
         $typeTable->load(['type_alias' => implode('.', $typeAlias)]);
 
         if (!isset($this->sha1_hash)) {
-            $this->set('sha1_hash', $this->getSha1($this->get('version_data'), $typeTable));
+            $this->sha1_hash = $this->getSha1($this->version_data, $typeTable);
         }
 
         // Modify author and date only when not toggling Keep Forever
-        if ($this->get('keep_forever') === null) {
-            $this->set('editor_user_id', $this->getCurrentUser()->id);
-            $this->set('save_date', Factory::getDate()->toSql());
+        if ($this->keep_forever === null) {
+            $this->editor_user_id = $this->getCurrentUser()->id;
+            $this->save_date      = Factory::getDate()->toSql();
         }
 
         return parent::store($updateNulls);
@@ -166,9 +166,9 @@ class ContentHistory extends Table implements CurrentUserInterface
      */
     public function getHashMatch()
     {
-        $db       = $this->_db;
-        $itemId   = $this->get('item_id');
-        $sha1Hash = $this->get('sha1_hash');
+        $db       = $this->getDatabase();
+        $itemId   = $this->item_id;
+        $sha1Hash = $this->sha1_hash;
         $query    = $db->getQuery(true);
         $query->select('*')
             ->from($db->quoteName('#__history'))
@@ -197,8 +197,8 @@ class ContentHistory extends Table implements CurrentUserInterface
         $result = true;
 
         // Get the list of version_id values we want to save
-        $db        = $this->_db;
-        $itemId    = $this->get('item_id');
+        $db        = $this->getDatabase();
+        $itemId    = $this->item_id;
         $query     = $db->getQuery(true);
         $query->select($db->quoteName('version_id'))
             ->from($db->quoteName('#__history'))

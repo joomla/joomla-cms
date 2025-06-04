@@ -32,13 +32,12 @@ class TagsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   MVCFactoryInterface  $factory  The factory.
-     *
-     * @param   array                $config   An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -276,8 +275,8 @@ class TagsModel extends ListModel
     {
         $items = parent::getItems();
 
-        if ($items != false) {
-            $extension = $this->getState('filter.extension');
+        if ($items) {
+            $extension = $this->getState('filter.extension', '');
 
             $this->countItems($items, $extension);
         }

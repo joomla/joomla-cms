@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -51,12 +50,12 @@ class TagModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -261,7 +260,7 @@ class TagModel extends ListModel
      *
      * @param   integer  $pk  An optional ID
      *
-     * @return  array
+     * @return  \stdClass|false
      *
      * @since   3.1
      */
@@ -294,18 +293,14 @@ class TagModel extends ListModel
                         continue;
                     }
 
-                    // Convert the Table to a clean CMSObject.
+                    // Convert the Table to a clean object.
                     $properties   = $table->getProperties(1);
-                    $this->item[] = ArrayHelper::toObject($properties, CMSObject::class);
+                    $this->item[] = ArrayHelper::toObject($properties);
                 } catch (\RuntimeException $e) {
                     $this->setError($e->getMessage());
 
                     return false;
                 }
-            }
-
-            if (\count($this->item) != \count($idsArray)) {
-                throw new \Exception(Text::_('COM_TAGS_TAG_NOT_FOUND'), 404);
             }
         }
 

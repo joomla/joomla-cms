@@ -47,14 +47,16 @@ abstract class StringHelper
 
         // Check if HTML tags are allowed.
         if (!$allowHtml) {
+            // Decode entities
+            $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+
             // Deal with spacing issues in the input.
             $text = str_replace('>', '> ', $text);
             $text = str_replace(['&nbsp;', '&#160;'], ' ', $text);
             $text = FrameworkStringHelper::trim(preg_replace('#\s+#mui', ' ', $text));
 
-            // Strip the tags from the input and decode entities.
+            // Strip tags from the input.
             $text = strip_tags($text);
-            $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
 
             // Remove remaining extra spaces.
             $text = str_replace('&nbsp;', ' ', $text);
@@ -65,7 +67,7 @@ abstract class StringHelper
         if ($length > 0 && FrameworkStringHelper::strlen($text) > $length) {
             $tmp = trim(FrameworkStringHelper::substr($text, 0, $length));
 
-            if ($tmp[0] === '<' && strpos($tmp, '>') === false) {
+            if ($tmp[0] === '<' && !str_contains($tmp, '>')) {
                 return '...';
             }
 
@@ -99,19 +101,17 @@ abstract class StringHelper
                 preg_match_all("#</([a-z][a-z0-9]*)\b(?:[^>]*?)>#iU", $tmp, $result);
                 $closedTags = $result[1];
 
-                $numOpened = \count($openedTags);
-
                 // Not all tags are closed so trim the text and finish.
-                if (\count($closedTags) !== $numOpened) {
+                if (\count($closedTags) !== \count($openedTags)) {
                     // Closing tags need to be in the reverse order of opening tags.
                     $openedTags = array_reverse($openedTags);
 
                     // Close tags
-                    for ($i = 0; $i < $numOpened; $i++) {
-                        if (!\in_array($openedTags[$i], $closedTags)) {
-                            $tmp .= '</' . $openedTags[$i] . '>';
+                    foreach ($openedTags as $openedTag) {
+                        if (!\in_array($openedTag, $closedTags)) {
+                            $tmp .= '</' . $openedTag . '>';
                         } else {
-                            unset($closedTags[array_search($openedTags[$i], $closedTags)]);
+                            unset($closedTags[array_search($openedTag, $closedTags)]);
                         }
                     }
                 }
@@ -165,7 +165,7 @@ abstract class StringHelper
         }
 
         // Take care of short simple cases.
-        if ($maxLength <= 3 && $html[0] !== '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength) {
+        if ($maxLength <= 3 && $html[0] !== '<' && !str_contains(substr($html, 0, $maxLength - 1), '<') && $baseLength > $maxLength) {
             return '...';
         }
 
@@ -196,7 +196,7 @@ abstract class StringHelper
 
         // If the plain text is shorter than the max length the variable will not end in ...
         // In that case we use the whole string.
-        if (substr($ptString, -3) !== '...') {
+        if (!str_ends_with($ptString, '...')) {
             return $html;
         }
 
@@ -239,6 +239,8 @@ abstract class StringHelper
             // Set new $maxlength that adjusts for the HTML tags
             $maxLength += $diffLength;
         }
+
+        return '';
     }
 
     /**

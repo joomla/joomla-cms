@@ -13,7 +13,7 @@ namespace Joomla\Component\Languages\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Language;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 
@@ -31,13 +31,13 @@ class LanguagesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -182,7 +182,9 @@ class LanguagesModel extends ListModel
      */
     public function setPublished($cid, $value = 0)
     {
-        return Table::getInstance('Language', 'Joomla\\CMS\\Table\\')->publish($cid, $value);
+        $table = new Language($this->getDatabase());
+
+        return $table->publish($cid, $value);
     }
 
     /**
@@ -200,7 +202,7 @@ class LanguagesModel extends ListModel
         $pks = (array) $pks;
 
         // Get a row instance.
-        $table = Table::getInstance('Language', 'Joomla\\CMS\\Table\\');
+        $table = new Language($this->getDatabase());
 
         // Iterate the items to delete each one.
         foreach ($pks as $itemId) {
@@ -220,15 +222,13 @@ class LanguagesModel extends ListModel
     /**
      * Custom clean cache method, 2 places for 2 clients.
      *
-     * @param   string   $group     Optional cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('_system');
         parent::cleanCache('com_languages');

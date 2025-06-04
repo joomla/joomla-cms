@@ -82,7 +82,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
     public function get(string $name): AbstractCommand
     {
         if (!$this->has($name)) {
-            throw new CommandNotFoundException(sprintf('Command "%s" does not exist.', $name));
+            throw new CommandNotFoundException(\sprintf('Command "%s" does not exist.', $name));
         }
 
         return $this->container->get($this->commandMap[$name]);

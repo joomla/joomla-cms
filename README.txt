@@ -70,7 +70,7 @@ The Joomla! 6.0 branch is under heavy development and not all links in this docu
 	* Where to request a feature? https://issues.joomla.org
 	* How do you report a bug? https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues
 	* Get Involved: Joomla! is a community developed software. Join the community at https://volunteers.joomla.org
-	* Documentation for Developers: https://docs.joomla.org/Special:MyLanguage/Portal:Developers
+	* Documentation for Developers: https://manual.joomla.org/
 	* Documentation for Web designers: https://docs.joomla.org/Special:MyLanguage/Web_designers
 
 Copyright:

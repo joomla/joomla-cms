@@ -10,8 +10,10 @@
 
 namespace Joomla\Plugin\MediaAction\Resize\Extension;
 
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Image\Image;
 use Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -22,22 +24,36 @@ use Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin;
  *
  * @since  4.0.0
  */
-final class Resize extends MediaActionPlugin
+final class Resize extends MediaActionPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return array_merge(parent::getSubscribedEvents(), [
+            'onContentBeforeSave' => 'onContentBeforeSave',
+        ]);
+    }
+
     /**
      * The save event.
      *
-     * @param   string   $context  The context
-     * @param   object   $item     The item
-     * @param   boolean  $isNew    Is new item
-     * @param   array    $data     The validated data
+     * @param   BeforeSaveEvent $event  The event instance
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave($context, $item, $isNew, $data = [])
+    public function onContentBeforeSave(BeforeSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $item    = $event->getItem();
+
         if ($context != 'com_media.file') {
             return;
         }
@@ -56,13 +72,18 @@ final class Resize extends MediaActionPlugin
 
         $imgObject = new Image(imagecreatefromstring($item->data));
 
-        if ($imgObject->getWidth() < $this->params->get('batch_width', 0) && $imgObject->getHeight() < $this->params->get('batch_height', 0)) {
+        $maxWidth  = (int) $this->params->get('batch_width', 0);
+        $maxHeight = (int) $this->params->get('batch_height', 0);
+        if (
+            !(($maxWidth && $imgObject->getWidth() > $maxWidth)
+            || ($maxHeight && $imgObject->getHeight() > $maxHeight))
+        ) {
             return;
         }
 
         $imgObject->resize(
-            $this->params->get('batch_width', 0),
-            $this->params->get('batch_height', 0),
+            $maxWidth,
+            $maxHeight,
             false,
             Image::SCALE_INSIDE
         );

@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
@@ -63,6 +64,12 @@ if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
+
+// When there are due Tasks show that information to the user
+if ($this->hasDueTasks === true) {
+    $app->enqueueMessage(Text::_('COM_SCHEDULER_MSG_DUETASKS'), 'warning');
+}
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -127,6 +134,11 @@ if ($saveOrder && !empty($this->items)) {
                     <!-- Last runs -->
                     <th scope="col" class="d-none d-lg-table-cell">
                         <?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_LAST_RUN_DATE', 'a.last_execution', $listDirn, $listOrder) ?>
+                    </th>
+
+                    <!-- Next runs -->
+                    <th scope="col" class="d-none d-lg-table-cell">
+                        <?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_NEXT_RUN_DATE', 'a.next_execution', $listDirn, $listOrder) ?>
                     </th>
 
                     <!-- Test task -->
@@ -239,15 +251,30 @@ if ($saveOrder && !empty($this->items)) {
                             <?php echo $item->last_execution ? HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5') : '-'; ?>
                         </td>
 
+                        <!-- Next run date -->
+                        <td class="small d-none d-lg-table-cell">
+                            <?php echo $item->next_execution ? HTMLHelper::_('date', $item->next_execution, 'DATE_FORMAT_LC5') : Text::_('COM_SCHEDULER_NEXT_RUN_MANUAL'); ?>
+                        </td>
+
                         <!-- Test task -->
                         <td class="small d-none d-md-table-cell">
-                            <button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?>
-                                    data-scheduler-run
-                                    data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>"
-                                    data-url="<?php echo Route::_('index.php?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=' . (int) $item->id); ?>">
-                                <span class="fa fa-play fa-sm me-2"></span>
-                                <?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
-                            </button>
+                            <div id="run-task-btn-wrapper"
+                                    <?php
+                                    $disabled = ($item->state < 0 || !Scheduler::isAuthorizedToRun($item, $user));
+                                    if ($disabled) :
+                                        $reason = Text::_($item->state < 0 ? "COM_SCHEDULER_MANAGER_TOOLTIP_TASK_TRASHED" : "COM_SCHEDULER_MANAGER_TOOLTIP_NOT_AUTHORIZED");
+                                        echo ' data-toggle="tooltip" data-placement="top" title="' . $reason . '"';
+                                    endif;
+                                    ?>
+                                >
+                                <button type="button" class="btn btn-sm btn-warning" <?php echo $disabled ? 'disabled' : ''; ?>
+                                        data-scheduler-run
+                                        data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>"
+                                        data-url="<?php echo Route::_('index.php?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=' . (int) $item->id); ?>">
+                                    <span class="fa fa-play fa-sm me-2"></span>
+                                    <?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
+                                </button>
+                            </div>
                         </td>
 
                         <!-- Priority -->

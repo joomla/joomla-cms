@@ -136,26 +136,14 @@ class ArchiveModel extends ArticlesModel
      *
      * @access public
      * @return array
+     * @deprecated 5.2.0 will be removed in 7.0
+     *             Use getItems() instead
      */
     public function getData()
     {
-        $app = Factory::getApplication();
+        @trigger_error('ArchiveModel::getData() is deprecated. Use getItems() instead. Will be removed in 7.0.', E_USER_DEPRECATED);
 
-        // Lets load the content if it doesn't already exist
-        if (empty($this->_data)) {
-            // Get the page/component configuration
-            $params = $app->getParams();
-
-            // Get the pagination request variables
-            $limit      = $app->getInput()->get('limit', $params->get('display_num', 20), 'uint');
-            $limitstart = $app->getInput()->get('limitstart', 0, 'uint');
-
-            $query = $this->_buildQuery();
-
-            $this->_data = $this->_getList($query, $limitstart, $limit);
-        }
-
-        return $this->_data;
+        return $this->getItems();
     }
 
     /**

@@ -38,16 +38,16 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *
      * @since   3.0.1
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         $this->input = Factory::getApplication()->getInput();
 
         // Article frontpage Editor pagebreak proxying:
         if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak') {
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_content';
         } elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal') {
             // Article frontpage Editor article proxying:
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_content';
         }
 
         parent::__construct($config, $factory, $app, $input);
@@ -111,7 +111,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
         }
 
-        if ($vName === 'article') {
+        if ($vName === 'article' && \in_array($this->input->getMethod(), ['GET', 'POST'])) {
             // Get/Create the model
             if ($model = $this->getModel($vName)) {
                 if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1) {

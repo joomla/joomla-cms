@@ -90,6 +90,8 @@ trait CoreEventAware
         'onSchemaPrepareData'       => Plugin\System\Schemaorg\PrepareDataEvent::class,
         'onSchemaPrepareForm'       => Plugin\System\Schemaorg\PrepareFormEvent::class,
         'onSchemaPrepareSave'       => Plugin\System\Schemaorg\PrepareSaveEvent::class,
+        // Plugin: Stats
+        'onGetStatsData' => Plugin\System\Stats\GetStatsDataEvent::class,
         // Content
         'onContentPrepare'       => Content\ContentPrepareEvent::class,
         'onContentAfterTitle'    => Content\AfterTitleEvent::class,
@@ -124,6 +126,10 @@ trait CoreEventAware
         'onUserBeforeDelete'         => User\BeforeDeleteEvent::class,
         'onUserAfterDelete'          => User\AfterDeleteEvent::class,
         'onUserAfterRemind'          => User\AfterRemindEvent::class,
+        'onUserBeforeResetRequest'   => User\BeforeResetRequestEvent::class,
+        'onUserAfterResetRequest'    => User\AfterResetRequestEvent::class,
+        'onUserBeforeResetComplete'  => User\BeforeResetCompleteEvent::class,
+        'onUserAfterResetComplete'   => User\AfterResetCompleteEvent::class,
         // User Group
         'onUserBeforeSaveGroup'   => Model\BeforeSaveEvent::class,
         'onUserAfterSaveGroup'    => Model\AfterSaveEvent::class,
@@ -149,6 +155,8 @@ trait CoreEventAware
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
         'onExtensionChangeState'     => Model\BeforeChangeStateEvent::class,
+        'onJoomlaBeforeUpdate'       => Extension\BeforeJoomlaUpdateEvent::class,
+        'onJoomlaAfterUpdate'        => Extension\AfterJoomlaUpdateEvent::class,
         // Installer
         'onInstallerAddInstallationTab'    => Installer\AddInstallationTabEvent::class,
         'onInstallerBeforeInstallation'    => Installer\BeforeInstallationEvent::class,
@@ -197,6 +205,10 @@ trait CoreEventAware
         'onPageCacheSetCaching' => PageCache\SetCachingEvent::class,
         'onPageCacheGetKey'     => PageCache\GetKeyEvent::class,
         'onPageCacheIsExcluded' => PageCache\IsExcludedEvent::class,
+        // Sample Data
+        'onSampledataGetOverview' => SampleData\GetOverviewEvent::class,
+        // Mail
+        'onMailBeforeRendering' => Mail\BeforeRenderingMailTemplateEvent::class,
     ];
 
     /**

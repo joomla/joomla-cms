@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -74,6 +75,15 @@ class HtmlView extends BaseHtmlView
     protected $levels;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -84,11 +94,14 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state   = $this->get('State');
-        $this->form    = $this->get('Form');
-        $this->item    = $this->get('Item');
-        $this->modules = $this->get('Modules');
-        $this->levels  = $this->get('ViewLevels');
+        /** @var ItemModel $model */
+        $model = $this->getModel();
+
+        $this->state   = $model->getState();
+        $this->form    = $model->getForm();
+        $this->item    = $model->getItem();
+        $this->modules = $model->getModules();
+        $this->levels  = $model->getViewLevels();
         $this->canDo   = ContentHelper::getActions('com_menus', 'menu', (int) $this->state->get('item.menutypeid'));
 
         // Check if we're allowed to edit this item
@@ -98,7 +111,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -108,8 +121,11 @@ class HtmlView extends BaseHtmlView
             return;
         }
 
+        $input          = Factory::getApplication()->getInput();
+        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
+
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -117,6 +133,13 @@ class HtmlView extends BaseHtmlView
             // Only allow to select categories with All language or with the forced language.
             $this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('forcedLanguage', $forcedLanguage)
+            ->addControlField('menutype', $input->get('menutype', ''))
+            ->addControlField('fieldtype', '', ['id' => 'fieldtype']);
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
@@ -144,7 +167,7 @@ class HtmlView extends BaseHtmlView
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
         $clientId   = $this->state->get('item.client_id', 0);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
@@ -203,7 +226,9 @@ class HtmlView extends BaseHtmlView
         // Get the help information for the menu item.
         $lang = $this->getLanguage();
 
-        $help = $this->get('Help');
+        /** @var ItemModel $model */
+        $model = $this->getModel();
+        $help  = $model->getHelp();
 
         if ($lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
@@ -231,7 +256,7 @@ class HtmlView extends BaseHtmlView
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 

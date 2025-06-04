@@ -11,17 +11,16 @@
 namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\UpdateSite as UpdateSiteTable;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,13 +36,13 @@ class UpdatesitesModel extends InstallerModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Model\ListModel
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -444,8 +443,7 @@ class UpdatesitesModel extends InstallerModel
         array_walk(
             $items,
             static function ($item) {
-                $data              = new CMSObject($item);
-                $item->downloadKey = InstallerHelper::getDownloadKey($data);
+                $item->downloadKey = InstallerHelper::getDownloadKey($item);
             }
         );
 
@@ -466,40 +464,6 @@ class UpdatesitesModel extends InstallerModel
      */
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
-        // Load the filter state.
-        $stateKeys = [
-            'search'    => 'string',
-            'client_id' => 'int',
-            'enabled'   => 'string',
-            'type'      => 'string',
-            'folder'    => 'string',
-            'supported' => 'int',
-        ];
-
-        foreach ($stateKeys as $key => $filterType) {
-            $stateKey = 'filter.' . $key;
-
-            switch ($filterType) {
-                case 'int':
-                case 'bool':
-                    $default = null;
-                    break;
-
-                default:
-                    $default = '';
-                    break;
-            }
-
-            $stateValue = $this->getUserStateFromRequest(
-                $this->context . '.' . $stateKey,
-                'filter_' . $key,
-                $default,
-                $filterType
-            );
-
-            $this->setState($stateKey, $stateValue);
-        }
-
         parent::populateState($ordering, $direction);
     }
 
@@ -588,7 +552,7 @@ class UpdatesitesModel extends InstallerModel
 
         // Process select filters.
         $supported = $this->getState('filter.supported');
-        $enabled   = $this->getState('filter.enabled');
+        $enabled   = $this->getState('filter.enabled', '');
         $type      = $this->getState('filter.type');
         $clientId  = $this->getState('filter.client_id');
         $folder    = $this->getState('filter.folder');

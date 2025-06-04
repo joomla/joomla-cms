@@ -73,6 +73,7 @@ $wa->useScript('keepalive')
                         'access',
                         'language',
                         'extensions',
+                        'autostart',
                         'note',
                     ];
 

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
 $prefix: "";
 
@@ -341,8 +343,8 @@ $atum-colors: (
   btn-info-color:                   var(--template-text-light),
   btn-info-bg:                      $info,
   btn-info-border:                  1px solid $info,
-  btn-info-bg-hvr:                  darken($info, 10%),
-  btn-info-border-hvr:              1px solid darken($info, 10%),
+  btn-info-bg-hvr:                  color.adjust($info, $lightness: -10%),
+  btn-info-border-hvr:              1px solid color.adjust($info, $lightness: -10%),
 
   btn-outline-secondary-color:      gray-700,
   btn-outline-secondary-bg:         transparent,
@@ -386,7 +388,7 @@ $atum-colors: (
   states-btn-primary-border:        var(--btn-primary-bg),
 
   state-success-text:               $success,
-  state-success-text-hvr:           lighten($success, 58%),
+  state-success-text-hvr:           color.adjust($success, $lightness: 58%),
   state-success-bg:                 #f2f8f4,
   state-success-bg-hvr:             $success,
   state-success-border:             hsl(var(--hue), 50%, 93%),
@@ -407,7 +409,7 @@ $atum-colors: (
 
 
   state-warning-text:               #996901,
-  state-warning-text-hvr:           lighten($warning, 44%),
+  state-warning-text-hvr:           color.adjust($warning, $lightness: 44%),
   state-warning-bg:                 #fffcf4,
   state-warning-bg-hvr:             #996900,
   state-warning-border:             #ffb512,
@@ -416,7 +418,7 @@ $atum-colors: (
   state-warning-link-color:         var(--warning-text-emphasis),
 
   state-danger-text:                var(--danger-text-emphasis),
-  state-danger-text-hvr:            lighten($danger, 52%),
+  state-danger-text-hvr:            color.adjust($danger, $lightness: 52%),
   state-danger-bg:                  #f3d4d4,
   state-danger-bg-hvr:              $danger,
   state-danger-border:              var(--danger-border-subtle),
@@ -426,10 +428,10 @@ $atum-colors: (
 
   state-error-text:                 $danger,
   state-error-text-hvr:             $danger,
-  state-error-bg:                   lighten($danger, 52%),
-  state-error-bg-hvr:               lighten($danger, 52%),
+  state-error-bg:                   color.adjust($danger, $lightness: 52%),
+  state-error-bg-hvr:               color.adjust($danger, $lightness: 52%),
   state-error-border:               1px solid $danger,
-  state-error-icon:                 lighten($danger, 20%),
+  state-error-icon:                 color.adjust($danger, $lightness: 20%),
   state-error-heading-bg:           $danger,
 
   alert-info-color:                 var(--template-bg-dark),
@@ -535,18 +537,18 @@ $atum-colors: (
 
   success-text:                      $success,
   success:                           $success,
-  successhvr:                        darken($success, 15%),
+  successhvr:                        color.adjust($success, $lightness: -15%),
 
   danger-text:                       $danger,
   danger:                            $danger,
-  dangerhvr:                         darken($danger, 15%),
+  dangerhvr:                         color.adjust($danger, $lightness: -15%),
 
   darkdanger:                        $danger,
-  darkdangerhvr:                     darken($danger, 15%),
+  darkdangerhvr:                     color.adjust($danger, $lightness: -15%),
 
   warning-text:                      #000,
   warning:                           $warning,
-  warninghvr:                        darken($warning, 15%),
+  warninghvr:                        color.adjust($warning, $lightness: -15%),
 
 );
 
@@ -560,7 +562,7 @@ $colors: (
   info-border:                     var(--info),
   warning-border:                  var(--warning),
   danger-border:                   var(--danger),
-  login-main-bg:                   darken($base-color, 8%), // used on login
+  login-main-bg:                   color.adjust($base-color, $lightness: -8%), // used on login
   border:                          $gray-400,
   "white":                         $white, // the key here must be in quotes to avoid scss compilation warnings.
   white-offset:                    $whiteoffset,
@@ -713,8 +715,8 @@ $dropdown-item-bg-hvr:             var(--dropdown-item-bg-hvr);
 // Alerts
 $state-success-text:               $success;
 $state-success-text-hvr:           $success;
-$state-success-bg:                 lighten($success, 58%);
-$state-success-bg-hvr:             lighten($success, 58%);
+$state-success-bg:                 color.adjust($success, $lightness: 58%);
+$state-success-bg-hvr:             color.adjust($success, $lightness: 58%);
 $state-success-border:             var(--state-success-border);
 $state-success-btn-border:         var(--state-success-btn-border);
 $state-success-icon:               var(--state-success-icon);
@@ -723,7 +725,7 @@ $state-success-heading-bg:         var(--state-success-heading-bg);
 
 $state-info-text:                  var(--state-info-text);
 $state-info-text-hvr:              var(--state-info-text);
-$state-info-bg:                    lighten($info, 90%);
+$state-info-bg:                    color.adjust($info, $lightness: 90%);
 $state-info-bg-hvr:                var(--state-info-bg);
 $state-info-border:                var(--state-info-border);
 $state-info-icon:                  var(--state-info-icon);
@@ -1005,7 +1007,7 @@ $breadcrumb-bg:                    var(--white);
 
 // Links
 $link-color:                       $light-blue;
-$link-hover-color:                 darken($light-blue, 20%);
+$link-hover-color:                 color.adjust($light-blue, $lightness: -20%);
 $link-decoration:                  none;
 
 // Z-Index list

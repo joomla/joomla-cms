@@ -103,7 +103,7 @@ RoboFile.ini
 !/tests/System/output/screenshots/.gitkeep
 /tests/System/output/videos
 !/tests/System/output/videos/.gitkeep
-cypress.config.js
+cypress.config.mjs
 
 # WebAuthn FIDO metadata cache
 /plugins/system/webauthn/fido.jwt

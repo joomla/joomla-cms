@@ -35,14 +35,14 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *
      * @since   3.7.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Frontpage Editor Fields Button proxying.
         if ($input->get('view') === 'fields' && $input->get('layout') === 'modal') {
             // Load the backend language file.
             $app->getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
 
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_fields';
         }
 
         parent::__construct($config, $factory, $app, $input);

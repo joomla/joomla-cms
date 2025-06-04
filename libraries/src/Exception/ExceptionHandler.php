@@ -44,7 +44,7 @@ class ExceptionHandler
         if ($errorNumber === E_USER_DEPRECATED) {
             try {
                 Log::add("$errorMessage - $errorFile - Line $errorLine", Log::WARNING, 'deprecated');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Silence
             }
 
@@ -115,7 +115,7 @@ class ExceptionHandler
 
             try {
                 $renderer = AbstractRenderer::getRenderer($format);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
                 // Default to the HTML renderer
                 $renderer = AbstractRenderer::getRenderer('html');
             }
@@ -216,7 +216,7 @@ class ExceptionHandler
         // Try to log the error, but don't let the logging cause a fatal error
         try {
             Log::add(
-                sprintf(
+                \sprintf(
                     'Uncaught Throwable of type %1$s thrown with message "%2$s". Stack trace: %3$s',
                     \get_class($error),
                     $error->getMessage(),
@@ -225,7 +225,7 @@ class ExceptionHandler
                 Log::CRITICAL,
                 'error'
             );
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             // Logging failed, don't make a stink about it though
         }
     }

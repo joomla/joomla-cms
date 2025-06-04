@@ -55,9 +55,9 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      * @since   3.6
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $this->events_map = array_merge(
             ['validate' => 'content'],
@@ -200,7 +200,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
             @trigger_error(
                 'The `onUserBeforeDataValidation` event is deprecated and will be removed in 6.0.'
-                . 'Use the `onContentValidateData` event instead.',
+                . 'Use the `onContentBeforeValidateData` event instead.',
                 E_USER_DEPRECATED
             );
 

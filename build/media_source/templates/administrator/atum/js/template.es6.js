@@ -286,3 +286,23 @@ window.addEventListener('joomla:menu-toggle', (event) => {
     changeLogo(event.detail);
   }
 });
+
+/**
+ * Close any open data-bs-toggle="collapse" in the header when opening a data-bs-toggle="dropdown"
+ *
+ * @since 4.4
+ */
+document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('#header [data-bs-toggle="collapse"]').forEach((cb) => {
+      const target = document.querySelector(cb.getAttribute('data-bs-target'));
+      if (target.contains(button)) {
+        return;
+      }
+      const collapseMenu = bootstrap.Collapse.getInstance(target) || new bootstrap.Collapse(target, {
+        toggle: false,
+      });
+      collapseMenu.hide();
+    });
+  });
+});

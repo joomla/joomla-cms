@@ -50,7 +50,7 @@ $wa->useScript('keepalive')
     <input type="hidden" name="task" value="">
     <?php echo HTMLHelper::_('form.token'); ?>
 
-    <div class="mb-2">
+    <div class="d-grid gap-2 d-sm-block mb-2">
     <button type="button" class="btn btn-primary" data-submit-task="config.apply">
         <span class="icon-check" aria-hidden="true"></span>
         <?php echo Text::_('JSAVE') ?>

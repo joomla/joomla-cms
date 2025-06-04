@@ -96,11 +96,11 @@ PHP;
     {
         $destinationPath     = rtrim($destinationPath, '/\\') . '/';
         $fullDestinationPath = $destinationPath;
-        $definePublic        = '\'' . $destinationPath . '\'';
+        $definePublic        = '\'' . rtrim($destinationPath, '/') . '\'';
         $root                = JPATH_ROOT . '/';
         $defineRoot          = '\'' . JPATH_ROOT . '\'';
 
-        if (substr($destinationPath, 0, 1) !== '/') {
+        if (!str_starts_with($destinationPath, '/')) {
             $fullDestinationPath = JPATH_ROOT . '/' . $destinationPath;
             $root                = '';
             $dirsToRoot          = substr_count($destinationPath, '/');
@@ -163,10 +163,10 @@ PHP;
 
         // Get all the local filesystem directories
         if (\defined('_JCLI_INSTALLATION')) {
-            $localDirectories = [(object)['directory' => 'images']];
+            $localDirectories = [(object)['directory' => 'images'], (object)['directory' => 'files']];
         } elseif (PluginHelper::isEnabled('filesystem', 'local')) {
             $local            = PluginHelper::getPlugin('filesystem', 'local');
-            $localDirectories = (new Registry($local->params))->get('directories', [(object)['directory' => 'images']]);
+            $localDirectories = (new Registry($local->params))->get('directories', [(object)['directory' => 'images'], (object)['directory' => 'files']]);
         }
 
         // Symlink all the local filesystem directories
@@ -190,7 +190,7 @@ PHP;
      */
     private function createSymlink(string $source, string $dest, string $base): void
     {
-        if (substr($source, 0, 1) !== '/') {
+        if (!str_starts_with($source, '/')) {
             $source = str_repeat('../', substr_count($dest, '/')) . $source;
             $dest   = $base . $dest;
         }

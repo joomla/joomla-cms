@@ -92,13 +92,13 @@ final class Content extends Adapter implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return array_merge([
+        return array_merge(parent::getSubscribedEvents(), [
             'onFinderCategoryChangeState' => 'onFinderCategoryChangeState',
             'onFinderChangeState'         => 'onFinderChangeState',
             'onFinderAfterDelete'         => 'onFinderAfterDelete',
             'onFinderBeforeSave'          => 'onFinderBeforeSave',
             'onFinderAfterSave'           => 'onFinderAfterSave',
-        ], parent::getSubscribedEvents());
+        ]);
     }
 
     /**
@@ -124,7 +124,7 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @since   2.5
      */
-    public function onFinderCategoryChangeState(FinderEvent\AfterCategoryChangeStateEvent $event)
+    public function onFinderCategoryChangeState(FinderEvent\AfterCategoryChangeStateEvent $event): void
     {
         // Make sure we're handling com_content categories.
         if ($event->getExtension() === 'com_content') {
@@ -205,12 +205,12 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @param   FinderEvent\BeforeSaveEvent   $event  The event instance.
      *
-     * @return  boolean  True on success.
+     * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderBeforeSave(FinderEvent\BeforeSaveEvent $event)
+    public function onFinderBeforeSave(FinderEvent\BeforeSaveEvent $event): void
     {
         $context = $event->getContext();
         $row     = $event->getItem();
@@ -231,8 +231,6 @@ final class Content extends Adapter implements SubscriberInterface
                 $this->checkCategoryAccess($row);
             }
         }
-
-        return true;
     }
 
     /**
@@ -246,7 +244,7 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @since   2.5
      */
-    public function onFinderChangeState(FinderEvent\AfterChangeStateEvent $event)
+    public function onFinderChangeState(FinderEvent\AfterChangeStateEvent $event): void
     {
         $context = $event->getContext();
         $pks     = $event->getPks();

@@ -81,7 +81,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Check and show the the alert.
+     * Check and show the alert.
      *
      * This method is called when the Quick Icons module is constructing its set
      * of icons.
@@ -112,7 +112,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         // Show this only when not snoozed
         if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id']) {
             // Build the  message to be displayed in the cpanel
-            $messageText = sprintf(
+            $messageText = \sprintf(
                 $app->getLanguage()->_($this->currentMessage['messageText']),
                 HTMLHelper::_('date', Eos::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3')),
                 $this->currentMessage['messageLink']

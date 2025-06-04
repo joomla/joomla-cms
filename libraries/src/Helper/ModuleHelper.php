@@ -41,7 +41,7 @@ abstract class ModuleHelper
      * @param   string  $name   The name of the module
      * @param   string  $title  The title of the module, optional
      *
-     * @return  \stdClass  The Module object
+     * @return  \stdClass|null  The Module object
      *
      * @since   1.5
      */
@@ -49,22 +49,21 @@ abstract class ModuleHelper
     {
         $result  = null;
         $modules =& static::load();
-        $total   = \count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the name of the module
-            if ($modules[$i]->name === $name || $modules[$i]->module === $name) {
+            if ($module->name === $name || $module->module === $name) {
                 // Match the title if we're looking for a specific instance of the module
-                if (!$title || $modules[$i]->title === $title) {
+                if (!$title || $module->title === $title) {
                     // Found it
-                    $result = &$modules[$i];
+                    $result = $module;
                     break;
                 }
             }
         }
 
         // If we didn't find it, and the name is mod_something, create a dummy object
-        if ($result === null && strpos($name, 'mod_') === 0) {
+        if ($result === null && str_starts_with($name, 'mod_')) {
             $result         = static::createDummyModule();
             $result->module = $name;
         }
@@ -87,11 +86,10 @@ abstract class ModuleHelper
         $result   = [];
         $input    = Factory::getApplication()->getInput();
         $modules  = &static::load();
-        $total    = \count($modules);
 
-        for ($i = 0; $i < $total; $i++) {
-            if ($modules[$i]->position === $position) {
-                $result[] = &$modules[$i];
+        foreach ($modules as $module) {
+            if ($module->position === $position) {
+                $result[] = $module;
             }
         }
 
@@ -321,7 +319,7 @@ abstract class ModuleHelper
         $defaultLayout = $layout;
         $template      = $templateObj->template;
 
-        if (strpos($layout, ':') !== false) {
+        if (str_contains($layout, ':')) {
             // Get the template and file name from the string
             $temp          = explode(':', $layout);
             $template      = $temp[0] === '_' ? $template : $temp[0];
@@ -336,7 +334,7 @@ abstract class ModuleHelper
             $tPath = Path::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
             $iPath = Path::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
             $bPath = Path::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // On error fallback to the default path
             return $dPath;
         }
@@ -695,13 +693,11 @@ abstract class ModuleHelper
     {
         $modules =& static::load();
 
-        $total = \count($modules);
-
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($modules as $module) {
             // Match the id of the module
-            if ((string) $modules[$i]->id === $id) {
+            if ((string) $module->id === $id) {
                 // Found it
-                return $modules[$i];
+                return $module;
             }
         }
 

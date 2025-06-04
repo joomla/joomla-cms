@@ -67,7 +67,7 @@ class MenuField extends ModalSelectField
                 $newName = $map[$name];
 
                 @trigger_error(
-                    sprintf(
+                    \sprintf(
                         'MenuField::__get property "%s" is deprecated, and will not work in Joomla 6. Use "%s" property instead.',
                         $name,
                         $newName
@@ -110,7 +110,7 @@ class MenuField extends ModalSelectField
                 $newName = $map[$name];
 
                 @trigger_error(
-                    sprintf(
+                    \sprintf(
                         'MenuField::__set property "%s" is deprecated, and will not work in Joomla 6. Use "%s" property instead.',
                         $name,
                         $newName

@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -163,7 +164,7 @@ trait DisplayTrait
 
                 // if we have a name and path, add it to the list
                 if ($external['name'] != '' && $path != '') {
-                    $externalPlugins[$external['name']] = substr($path, 0, 1) == '/' ? Uri::root() . substr($path, 1) : $path;
+                    $externalPlugins[$external['name']] = str_starts_with($path, '/') ? Uri::root() . substr($path, 1) : $path;
                 }
             }
         }
@@ -204,7 +205,7 @@ trait DisplayTrait
              * If URL, just pass it to $content_css
              * else, assume it is a file name in the current template folder
              */
-            $content_css = strpos($content_css_custom, 'http') !== false
+            $content_css = str_contains($content_css_custom, 'http')
                 ? $content_css_custom
                 : $this->includeRelativeFiles('css', $content_css_custom);
         } else {
@@ -324,8 +325,21 @@ trait DisplayTrait
 
         if ($dragdrop && $user->authorise('core.create', 'com_media')) {
             $wa->useScript('plg_editors_tinymce.jdragndrop');
-            $plugins[] = 'jdragndrop';
-            $uploadUrl = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
+            $plugins[]  = 'jdragndrop';
+            $uploadUrl  = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
+            $uploadPath = $levelParams->get('path', '');
+
+            // Make sure the path is full, and contain the media adapter in it.
+            $mediaHelper = new class () {
+                use ProviderManagerHelperTrait;
+
+                public function prepareTinyMCEUploadPath(string $path): string
+                {
+                    $result = $this->resolveAdapterAndPath($path);
+
+                    return implode(':', $result);
+                }
+            };
 
             Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
             Text::script('ERROR');
@@ -333,13 +347,10 @@ trait DisplayTrait
             Text::script('PLG_TINY_DND_ALTTEXT');
             Text::script('PLG_TINY_DND_LAZYLOADED');
             Text::script('PLG_TINY_DND_EMPTY_ALT');
+            Text::script('PLG_TINY_DND_FILE_EXISTS_ERROR');
 
-            $scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
-            $scriptOptions['csrfToken']          = $csrf;
+            $scriptOptions['parentUploadFolder'] = $mediaHelper->prepareTinyMCEUploadPath($uploadPath);
             $scriptOptions['uploadUri']          = $uploadUrl;
-
-            // @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
-            $scriptOptions['comMediaAdapter']    = 'local-images:';
         }
 
         // Convert pt to px in dropdown
@@ -372,11 +383,11 @@ trait DisplayTrait
         $custom_button = trim($levelParams->get('custom_button', ''));
 
         if ($custom_plugin) {
-            $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
+            $plugins   = array_merge($plugins, explode(str_contains($custom_plugin, ',') ? ',' : ' ', $custom_plugin));
         }
 
         if ($custom_button) {
-            $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
+            $toolbar1  = array_merge($toolbar1, explode(str_contains($custom_button, ',') ? ',' : ' ', $custom_button));
         }
 
         // Merge the two toolbars for backwards compatibility
@@ -480,7 +491,8 @@ trait DisplayTrait
                 'promotion' => false,
 
                 // Hardened security
-                'sandbox_iframes'       => true,
+                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
+                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
                 'convert_unsafe_embeds' => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
