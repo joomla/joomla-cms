@@ -58,7 +58,7 @@ class JsonapiView extends BaseApiView
 
         $exportData = $model->collectDataForExportRequest();
 
-        if ($exportData == false) {
+        if (!$exportData) {
             throw new RouteNotFoundException('Item does not exist');
         }
 
