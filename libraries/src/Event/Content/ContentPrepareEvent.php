@@ -65,7 +65,7 @@ class ContentPrepareEvent extends ContentEvent
 
             // @TODO: In 6.0 throw an exception
             @trigger_error(
-                sprintf('The "params" attribute for the event "%s" must be type of Registry. In 6.0 it will throw an exception', $this->getName()),
+                \sprintf('The "params" attribute for the event "%s" must be type of Registry. In 6.0 it will throw an exception', $this->getName()),
                 E_USER_DEPRECATED
             );
         }

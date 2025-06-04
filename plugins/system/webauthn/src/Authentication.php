@@ -308,7 +308,7 @@ final class Authentication
         /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
         try {
             $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             Log::add('The plg_system_webauthn.publicKeyCredentialCreationOptions in the session is invalid', Log::NOTICE, 'webauthn.system');
             $publicKeyCredentialCreationOptions = null;
         }
@@ -323,7 +323,7 @@ final class Authentication
         $myUserId     = $myUser->id;
 
         if (($myUser->guest) || ($myUserId != $storedUserId)) {
-            $message = sprintf('Invalid user! We asked the authenticator to attest user ID %d, the current user ID is %d', $storedUserId, $myUserId);
+            $message = \sprintf('Invalid user! We asked the authenticator to attest user ID %d, the current user ID is %d', $storedUserId, $myUserId);
             Log::add($message, Log::NOTICE, 'webauthn.system');
 
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
@@ -392,7 +392,7 @@ final class Authentication
                 '/templates/',
                 '/templates/' . $this->app->getTemplate(),
             ];
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
 
@@ -452,7 +452,7 @@ final class Authentication
         $scheme    = Uri::getInstance()->getScheme();
         $subdomain = ($scheme == 'https') ? 'secure' : 'www';
 
-        return sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
+        return \sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
     }
 
     /**
@@ -502,7 +502,7 @@ final class Authentication
 
         try {
             $publicKeyCredentialRequestOptions = unserialize(base64_decode($encodedOptions));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             Log::add('Invalid plg_system_webauthn.publicKeyCredentialRequestOptions in the session', Log::NOTICE, 'webauthn.system');
 
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));

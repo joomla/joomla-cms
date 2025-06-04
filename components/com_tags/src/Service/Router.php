@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -53,8 +54,8 @@ class Router extends RouterBase
      * System - SEF Plugin parameters
      *
      * @var   Registry
-     * @since __DEPLOY_VERSION__
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     * @since 5.2.0
+     * @deprecated  5.2.0 will be removed in 6.0
      *              without replacement
      */
     private $sefparams;
@@ -76,7 +77,12 @@ class Router extends RouterBase
         parent::__construct($app, $menu);
 
         $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
-        $this->sefparams = new Registry($sefPlugin->params);
+
+        if ($sefPlugin) {
+            $this->sefparams = new Registry($sefPlugin->params);
+        } else {
+            $this->sefparams = new Registry();
+        }
 
         $this->buildLookup();
     }
@@ -93,6 +99,31 @@ class Router extends RouterBase
      */
     public function preprocess($query)
     {
+        // Make sure the alias for the tags is correct
+        if (isset($query['id'])) {
+            if (!\is_array($query['id'])) {
+                $query['id'] = [$query['id']];
+            }
+
+            foreach ($query['id'] as &$item) {
+                if (!strpos($item, ':')) {
+                    $dbquery = $this->db->getQuery(true);
+                    $id      = (int) $item;
+
+                    $dbquery->select($dbquery->quoteName('alias'))
+                        ->from('#__tags')
+                        ->where($dbquery->quoteName('id') . ' = :key')
+                        ->bind(':key', $id, ParameterType::INTEGER);
+
+                    $obj = $this->db->setQuery($dbquery)->loadObject();
+
+                    if ($obj) {
+                        $item .= ':' . $obj->alias;
+                    }
+                }
+            }
+        }
+
         $active = $this->menu->getActive();
 
         /**
@@ -113,7 +144,7 @@ class Router extends RouterBase
 
         foreach (array_unique([$lang, '*']) as $language) {
             if (isset($query['view']) && $query['view'] === 'tags') {
-                if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
+                if (isset($query['parent_id'], $this->lookup[$language]['tags'][$query['parent_id']])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
                     break;
                 }
@@ -191,10 +222,6 @@ class Router extends RouterBase
                 if (isset($query['id'])) {
                     $ids = $query['id'];
 
-                    if (!\is_array($ids)) {
-                        $ids = [$ids];
-                    }
-
                     foreach ($ids as $id) {
                         $segments[] = $id;
                     }
@@ -241,7 +268,7 @@ class Router extends RouterBase
 
         foreach ($segments as &$segment) {
             if (strpos($segment, ':')) {
-                [$void, $segment] = explode(':', $segment, 2);
+                [, $segment] = explode(':', $segment, 2);
             }
         }
 
@@ -273,15 +300,44 @@ class Router extends RouterBase
             $vars['view'] = array_shift($segments);
         }
 
-        $ids = [];
+        $ids          = [];
+        $matchedAlias = false;
 
         if ($item && $item->query['view'] == 'tag') {
             $ids = $item->query['id'];
         }
 
+        // Iterate through all URL segments and try to parse tag IDs from them
         while (\count($segments)) {
             $id    = array_shift($segments);
-            $ids[] = $this->fixSegment($id);
+
+            // We have a numeric ID
+            if (!$matchedAlias && is_numeric($id)) {
+                $ids[] = $id;
+
+                // We allow more than one numeric segment in the URL
+                continue;
+            }
+
+            // We have a comma-separated list of IDs
+            if (!$matchedAlias && str_contains($id, ',')) {
+                $ids[] = $id;
+
+                // We don't allow more than one list of IDs in a URL
+                break;
+            }
+
+            $slug  = $this->fixSegment($id);
+
+            // We did not find the segment as a tag in the DB
+            if ($slug === $id) {
+                array_unshift($segments, $id);
+                break;
+            }
+
+            // We don't want to match numeric or comma-separated segments after we matched an alias
+            $matchedAlias = true;
+            $ids[]        = $slug;
         }
 
         if (\count($ids)) {

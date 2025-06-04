@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Header
 
 .container-header {
@@ -221,7 +223,7 @@
       color: $white;
 
       &:hover, &:focus {
-        color: darken($white, 10%);
+        color: color.adjust($white, $lightness: -10%);
       }
     }
 

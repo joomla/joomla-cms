@@ -12,8 +12,8 @@ namespace Joomla\Component\Templates\Administrator\Helper;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -98,7 +98,7 @@ abstract class TemplateHelper
 
         $allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
-        if ($format == '' || $format == false || (!\in_array($format, $allowable))) {
+        if ($format === '' || !\in_array($format, $allowable)) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
 

@@ -16,7 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
@@ -52,12 +52,12 @@ class TourTable extends Table implements CurrentUserInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   4.3.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__guidedtours', 'id', $db, $dispatcher);
     }
@@ -107,12 +107,6 @@ class TourTable extends Table implements CurrentUserInterface
         // set missing Uid
         if (empty($this->uid)) {
             $this->setTourUid();
-        }
-
-        // set autostart
-        // @todo: remove once autostart has been added to the tour form
-        if (\is_null($this->autostart)) {
-            $this->autostart = 0;
         }
 
         // make sure the uid is unique
@@ -181,7 +175,7 @@ class TourTable extends Table implements CurrentUserInterface
      */
     protected function ensureUniqueUid()
     {
-        $table  = new TourTable($this->_db);
+        $table  = new TourTable($this->getDatabase());
         $unique = false;
         // Alter the title & uid
         while (!$unique) {

@@ -49,11 +49,11 @@ class NotequalsRule extends FormRule
 
         // Check that a validation field is set.
         if (!$field) {
-            throw new \UnexpectedValueException(sprintf('$field empty in %s::test', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('$field empty in %s::test', \get_class($this)));
         }
 
         if ($input === null) {
-            throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', \get_class($this)));
+            throw new \InvalidArgumentException(\sprintf('The value for $input must not be null in %s', \get_class($this)));
         }
 
         // Test the two values against each other.

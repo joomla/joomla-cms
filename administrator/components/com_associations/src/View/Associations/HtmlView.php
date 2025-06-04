@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Associations\Administrator\Model\AssociationsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -126,9 +127,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var AssociationsModel $model */
+        $model = $this->getModel();
+
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         if (!Associations::isEnabled()) {
             $link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
@@ -136,7 +140,7 @@ class HtmlView extends BaseHtmlView
         } elseif ($this->state->get('itemtype') != '' && $this->state->get('language') != '') {
             $type = null;
 
-            list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
+            [$extensionName, $typeName] = explode('.', $this->state->get('itemtype'), 2);
 
             $extension = AssociationsHelper::getSupportedExtension($extensionName);
 
@@ -170,8 +174,7 @@ class HtmlView extends BaseHtmlView
 
                 // Dynamic filter form.
                 // This selectors doesn't have to activate the filter bar.
-                unset($this->activeFilters['itemtype']);
-                unset($this->activeFilters['language']);
+                unset($this->activeFilters['itemtype'], $this->activeFilters['language']);
 
                 // Remove filters options depending on selected type.
                 if (empty($support['state'])) {
@@ -211,8 +214,8 @@ class HtmlView extends BaseHtmlView
                     }
                 }
 
-                $this->items      = $this->get('Items');
-                $this->pagination = $this->get('Pagination');
+                $this->items      = $model->getItems();
+                $this->pagination = $model->getPagination();
 
                 $linkParameters = [
                     'layout'   => 'edit',
@@ -225,7 +228,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new \Exception(implode("\n", $errors), 500);
         }
 
@@ -245,7 +248,7 @@ class HtmlView extends BaseHtmlView
     {
         $user = $this->getCurrentUser();
 
-        if (isset($this->typeName) && isset($this->extensionName)) {
+        if (isset($this->typeName, $this->extensionName)) {
             $helper = AssociationsHelper::getExtensionHelper($this->extensionName);
             $title  = $helper->getTypeTitle($this->typeName);
 

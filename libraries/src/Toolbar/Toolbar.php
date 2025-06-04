@@ -107,7 +107,7 @@ class Toolbar
         // At 5.0, require the factory to be injected
         if (!$factory) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'As of Joomla! 5.0, a %1$s must be provided to a %2$s object when creating it.',
                     ToolbarFactoryInterface::class,
                     \get_class($this)
@@ -197,7 +197,7 @@ class Toolbar
         $this->_bar[] = $args;
 
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s::appendButton() should only accept %s instance in Joomla 6.0.',
                 static::class,
                 ToolbarButton::class
@@ -274,7 +274,7 @@ class Toolbar
         array_unshift($this->_bar, $args);
 
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s::prependButton() should only accept %s instance in Joomla 6.0.',
                 static::class,
                 ToolbarButton::class
@@ -408,7 +408,7 @@ class Toolbar
     public function addButtonPath($path)
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 6.0.'
                     . ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
                 ToolbarButton::class,
@@ -445,7 +445,7 @@ class Toolbar
     public function getButtonPath(): array
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 'Lookup paths for %s objects is deprecated and will be removed in Joomla 6.0.',
                 ToolbarButton::class
             ),
@@ -496,7 +496,7 @@ class Toolbar
         }
 
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Method %s() not found in class: %s',
                 $name,
                 static::class

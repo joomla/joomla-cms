@@ -47,7 +47,7 @@ class ComboField extends ListField
     protected function getInput()
     {
         if (empty($this->layout)) {
-            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+            throw new \UnexpectedValueException(\sprintf('%s has no layout assigned.', $this->name));
         }
 
         return $this->getRenderer($this->layout)->render($this->collectLayoutData());

@@ -23,3 +23,13 @@
     transform: translateY(0);
   }
 }
+
+/* Only apply margin when #system-message-container contains a visible joomla-alert */
+#system-message-container:has(joomla-alert) {
+  margin-top: 1em;
+}
+
+/* Remove margin when no <joomla-alert> exists */
+#system-message-container:not(:has(joomla-alert)) {
+  margin-top: 0;
+}

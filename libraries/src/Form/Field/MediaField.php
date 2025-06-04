@@ -251,7 +251,7 @@ class MediaField extends FormField
     protected function getInput()
     {
         if (empty($this->layout)) {
-            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+            throw new \UnexpectedValueException(\sprintf('%s has no layout assigned.', $this->name));
         }
 
         return $this->getRenderer($this->layout)->render($this->collectLayoutData());
@@ -274,7 +274,7 @@ class MediaField extends FormField
         }
 
         // Value in new format such as images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180
-        if ($this->value && strpos($this->value, '#') !== false) {
+        if ($this->value && str_contains($this->value, '#')) {
             $uri     = new Uri(explode('#', $this->value)[1]);
             $adapter = $uri->getHost();
             $path    = $uri->getPath();

@@ -49,7 +49,7 @@ trait ResultTypeBooleanAware
         }
 
         if (!\is_bool($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Boolean results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Boolean results.', $this->getName()));
         }
     }
 }

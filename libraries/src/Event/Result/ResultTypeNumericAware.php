@@ -64,7 +64,7 @@ trait ResultTypeNumericAware
         }
 
         if (!is_numeric($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Numeric results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Numeric results.', $this->getName()));
         }
     }
 }

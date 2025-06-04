@@ -170,10 +170,6 @@ if ($clientId === 1) {
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
 
-    <input type="hidden" name="task" value="">
-    <input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
-    <input type="hidden" name="menutype" value="<?php echo $input->get('menutype', '', 'cmd'); ?>">
     <?php echo $this->form->getInput('component_id'); ?>
-    <?php echo HTMLHelper::_('form.token'); ?>
-    <input type="hidden" id="fieldtype" name="fieldtype" value="">
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

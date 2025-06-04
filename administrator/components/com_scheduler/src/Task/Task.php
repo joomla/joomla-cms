@@ -207,7 +207,7 @@ class Task implements LoggerAwareInterface
         }
 
         $this->snapshot['status']      = Status::RUNNING;
-        $this->snapshot['taskStart']   = $this->snapshot['taskStart'] ?? microtime(true);
+        $this->snapshot['taskStart']   ??= microtime(true);
         $this->snapshot['netDuration'] = 0;
 
         /** @var ExecuteTaskEvent $event */
@@ -307,10 +307,10 @@ class Task implements LoggerAwareInterface
         $db    = $this->db;
         $query = $db->getQuery(true);
         $id    = $this->get('id');
-        $now   = Factory::getDate('now', 'GMT');
+        $now   = Factory::getDate('now', 'UTC');
 
         $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-        $timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
+        $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
         $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
         $now              = $now->toSql();
 
@@ -333,7 +333,7 @@ class Task implements LoggerAwareInterface
         try {
             $db->lockTable('#__scheduler_tasks');
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         } finally {
             $db->unlockTables();
@@ -395,7 +395,7 @@ class Task implements LoggerAwareInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -446,7 +446,7 @@ class Task implements LoggerAwareInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
         }
 
         $this->set('next_execution', $nextExec);

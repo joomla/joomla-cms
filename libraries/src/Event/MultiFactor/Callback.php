@@ -49,7 +49,7 @@ class Callback extends AbstractImmutableEvent
     public function setMethod(string $value): string
     {
         if (empty($value)) {
-            throw new \DomainException(sprintf("Argument 'method' of event %s must be a non-empty string.", $this->name));
+            throw new \DomainException(\sprintf("Argument 'method' of event %s must be a non-empty string.", $this->name));
         }
 
         return $value;

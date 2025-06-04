@@ -14,6 +14,17 @@
 					<option value="1">JENABLED</option>
 				</field>
 				<field
+					name="notification_success_groups"
+					type="usergrouplist"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_SUCCESS_USERGROUP_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					checksuperusergroup="0"
+					default="8"
+					showon="success_mail:1"
+				>
+				</field>
+				<field
 					name="failure_mail"
 					type="radio"
 					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_FAILURE_MAIL_TOGGLE"
@@ -22,6 +33,17 @@
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="notification_failure_groups"
+					type="usergrouplist"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_FAILURE_USERGROUP_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					checksuperusergroup="0"
+					default="8"
+					showon="failure_mail:1"
+				>
 				</field>
 				<field
 					name="fatal_failure_mail"
@@ -34,6 +56,17 @@
 					<option value="1">JENABLED</option>
 				</field>
 				<field
+					name="notification_fatal_groups"
+					type="usergrouplist"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_FATAL_USERGROUP_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					checksuperusergroup="0"
+					default="8"
+					showon="fatal_failure_mail:1"
+				>
+				</field>
+				<field
 					name="orphan_mail"
 					type="radio"
 					label="PLG_SYSTEM_TASK_NOTIFICATION_LABEL_ORPHANED_TASK_MAIL_TOGGLE"
@@ -42,6 +75,17 @@
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="notification_orphan_groups"
+					type="usergrouplist"
+					label="PLG_SYSTEM_TASK_NOTIFICATION_ORPHAN_USERGROUP_LABEL"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					checksuperusergroup="0"
+					default="8"
+					showon="orphan_mail:1"
+				>				
 				</field>
 			</fieldset>
 		</fields>

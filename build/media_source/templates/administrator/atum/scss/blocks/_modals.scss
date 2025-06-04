@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Modals
 
 .modal {
@@ -128,7 +130,7 @@
     max-width: 180px;
     padding: 10px 15px;
     text-align: end;
-    background: darken($gray-100, 2.5%);
+    background: color.adjust($gray-100, $lightness: -2.5%);
     border-right: 1px solid $table-border-color;
 
     .badge {
@@ -218,7 +220,8 @@ joomla-dialog {
         width: 66px;
         height: 66px;
         content: "";
-        background: url("../../../../system/images/ajax-loader.gif") no-repeat center; // TODO: use svg animation?
+        background: url("../../../../system/images/joomla-loader.svg") no-repeat center;
+        background-size: 66px 66px;
         transform: translate(-50%, -50%);
       }
     }

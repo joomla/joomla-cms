@@ -13,8 +13,8 @@ namespace Joomla\Component\Installer\Administrator\View\Update;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as CmsInstallerHelper;
+use Joomla\Component\Installer\Administrator\Model\UpdateModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,7 +31,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * List of update items.
      *
-     * @var array
+     * @var \stdClass[]
      */
     protected $items;
 
@@ -81,18 +81,18 @@ class HtmlView extends InstallerViewDefault
      */
     public function display($tpl = null)
     {
+        /** @var UpdateModel $model */
+        $model = $this->getModel();
+
         // Get data from the model.
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->paths         = new \stdClass();
+        $this->paths->first  = '';
 
-        $paths        = new \stdClass();
-        $paths->first = '';
-
-        $this->paths = &$paths;
-
-        if (\count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (\count($this->items) === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         } else {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');
@@ -104,7 +104,7 @@ class HtmlView extends InstallerViewDefault
         }
 
         $mappingCallback = function ($item) {
-            $dlkeyInfo                  = CmsInstallerHelper::getDownloadKey(new CMSObject($item));
+            $dlkeyInfo                  = CmsInstallerHelper::getDownloadKey($item);
             $item->isMissingDownloadKey = $dlkeyInfo['supported'] && !$dlkeyInfo['valid'];
 
             if ($item->isMissingDownloadKey) {

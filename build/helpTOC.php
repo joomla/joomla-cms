@@ -89,14 +89,14 @@ $command = new class () extends AbstractCommand {
 
         $cleanMembers = [];
 
-        $io->comment(sprintf('Loop through docs wiki categories since Joomla Version %d.0 - Takes a while ...', Version::MAJOR_VERSION));
+        $io->comment(\sprintf('Loop through docs wiki categories since Joomla Version %d.0 - Takes a while ...', Version::MAJOR_VERSION));
 
         // Loop through the Versions since 5.0 to get all HelpTocs - Temporary fix
         for ($helpScreenMinor=Version::MINOR_VERSION; $helpScreenMinor >= 0; $helpScreenMinor--) {
 
             // Get the category members (local hack)
             $categoryMembers = $mediawiki->categories->getCategoryMembers(
-                sprintf('Category:Help_screen_%s.%s', Version::MAJOR_VERSION, $helpScreenMinor),
+                \sprintf('Category:Help_screen_%s.%s', Version::MAJOR_VERSION, $helpScreenMinor),
                 null,
                 'max'
             );
@@ -115,7 +115,7 @@ $command = new class () extends AbstractCommand {
             */
 
             // Strip the namespace prefix off the titles and replace spaces with underscores
-            $namespace = sprintf('Help%d.x:', Version::MAJOR_VERSION);
+            $namespace = \sprintf('Help%d.x:', Version::MAJOR_VERSION);
 
             foreach ($members as $member) {
                 $cleanMembers[str_replace([$namespace, ' '], ['', '_'], $member)] = trim(str_replace($namespace, ' ', $member));
@@ -142,15 +142,15 @@ $command = new class () extends AbstractCommand {
             $string = strtoupper($key);
 
             // Validate the key exists
-            $io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $string));
+            $io->comment(\sprintf('Validating key COM_ADMIN_HELP_%s', $string));
 
             if ($language->hasKey('COM_ADMIN_HELP_' . $string)) {
-                $io->comment(sprintf('Adding %s', $string));
+                $io->comment(\sprintf('Adding %s', $string));
 
                 $toc[$key] = $string;
             } else {
                 // We check the string for words in singular/plural form and check again
-                $io->comment(sprintf('Inflecting %s', $string));
+                $io->comment(\sprintf('Inflecting %s', $string));
 
                 $inflected = '';
 
@@ -170,10 +170,10 @@ $command = new class () extends AbstractCommand {
 
                 // Now try to validate the key
                 if ($inflected !== '') {
-                    $io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $inflected));
+                    $io->comment(\sprintf('Validating key COM_ADMIN_HELP_%s', $inflected));
 
                     if ($language->hasKey('COM_ADMIN_HELP_' . $inflected)) {
-                        $io->comment(sprintf('Adding %s', $inflected));
+                        $io->comment(\sprintf('Adding %s', $inflected));
 
                         $toc[$key] = $inflected;
                     }
@@ -181,7 +181,7 @@ $command = new class () extends AbstractCommand {
             }
         }
 
-        $io->comment(sprintf('Number of strings: %d', \count($toc)));
+        $io->comment(\sprintf('Number of strings: %d', \count($toc)));
 
         // JSON encode the file and write it to JPATH_ADMINISTRATOR/help/en-GB/toc.json
         file_put_contents(JPATH_ADMINISTRATOR . '/help/en-GB/toc.json', json_encode($toc));
@@ -197,9 +197,9 @@ $command = new class () extends AbstractCommand {
             // write missing strings to JPATH_BASE/tmp/missing-helptoc.txt
             file_put_contents(JPATH_BASE . '/tmp/missing-helptoc.txt', $str_missing);
 
-            $io->caution(sprintf('Number of media-wiki articles without string: %d', \count($missing)));
+            $io->caution(\sprintf('Number of media-wiki articles without string: %d', \count($missing)));
 
-            $io->note(sprintf('Missing strings are saved in: %s and should be revised and added to %s', 'tmp/missing-helptoc.txt', 'administrator/language/en-GB/com_admin.ini'));
+            $io->note(\sprintf('Missing strings are saved in: %s and should be revised and added to %s', 'tmp/missing-helptoc.txt', 'administrator/language/en-GB/com_admin.ini'));
 
             $io->caution('TODO: For a complete TOC, please run this script again after adding the missing language strings!');
 
