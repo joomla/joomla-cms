@@ -51,7 +51,7 @@ class FeedView extends CategoryFeedView
         $app               = Factory::getApplication();
         $params            = $app->getParams();
         $item->description = '';
-        $obj               = json_decode($item->images) ?? new stdClass();
+        $obj               = json_decode($item->images) ?? new \stdClass();
 
         // Ensure alt properties are set
         $obj->image_intro_alt    = $obj->image_intro_alt ?? '';
