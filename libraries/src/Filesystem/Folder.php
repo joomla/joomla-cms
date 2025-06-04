@@ -243,7 +243,7 @@ abstract class Folder
                     }
                 }
 
-                if ($inBaseDir == false) {
+                if (!$inBaseDir) {
                     // Return false for JFolder::create because the path to be created is not in open_basedir
                     Log::add(__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), Log::WARNING, 'jerror');
 
