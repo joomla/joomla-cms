@@ -25,7 +25,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
-use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
@@ -873,9 +872,6 @@ class CategoryModel extends AdminModel
      */
     protected function batchCopy($value, $pks, $contexts)
     {
-        $type       = new UCMType();
-        $this->type = $type->getTypeByAlias($this->typeAlias);
-
         // $value comes as {parent_id}.{extension}
         $parts    = explode('.', $value);
         $parentId = (int) ArrayHelper::getValue($parts, 0, 1);
@@ -1080,10 +1076,7 @@ class CategoryModel extends AdminModel
      */
     protected function batchMove($value, $pks, $contexts)
     {
-        $parentId   = (int) $value;
-        $type       = new UCMType();
-        $this->type = $type->getTypeByAlias($this->typeAlias);
-
+        $parentId  = (int) $value;
         $db        = $this->getDatabase();
         $query     = $db->getQuery(true);
         $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');

@@ -28,7 +28,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
-use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -203,8 +202,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $this->user           = $this->getCurrentUser();
             $this->table          = $this->getTable();
             $this->tableClassName = \get_class($this->table);
-            $this->contentType    = new UCMType();
-            $this->type           = $this->contentType->getTypeByTable($this->tableClassName);
         }
 
         $categoryId = (int) $value;

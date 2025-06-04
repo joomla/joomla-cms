@@ -24,7 +24,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
-use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -1594,11 +1593,6 @@ abstract class AdminModel extends FormModel
             // Get table class name
             $tc                   = explode('\\', \get_class($this->table));
             $this->tableClassName = end($tc);
-
-            // Get UCM Type data
-            $this->contentType = new UCMType();
-            $this->type        = $this->contentType->getTypeByTable($this->tableClassName)
-                ?: $this->contentType->getTypeByAlias($this->typeAlias);
         }
     }
 
