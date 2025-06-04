@@ -313,7 +313,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
          * This record is marked as default, therefore we need to unset the default flag from all other records for this
          * user.
          */
-        $db    = $this->getDbo();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->update($db->quoteName('#__user_mfa'))
             ->set($db->quoteName('default') . ' = 0')
@@ -366,7 +366,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
              * need to delete the remaining entry and go away. We don't trigger this if the Method we are deleting was
              * the `backupcodes` because we might just be regenerating the backup codes.
              */
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__user_mfa'))
                 ->where($db->quoteName('user_id') . ' = :user_id')
@@ -380,7 +380,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
 
         // This was the default record. Promote the next available record to default.
         if ($this->deleteFlags[$pk]['default']) {
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__user_mfa'))
@@ -414,7 +414,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
      */
     private function getNumRecords(int $userId): int
     {
-        $db    = $this->getDbo();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
             ->from($db->quoteName('#__user_mfa'))

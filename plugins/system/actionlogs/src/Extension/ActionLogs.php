@@ -46,7 +46,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -67,7 +67,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function onAfterInitialise(AfterInitialiseEvent $event): void
     {
@@ -175,14 +175,14 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
         $id = (int) $data->id;
 
         $query = $db->getQuery(true)
-            ->select($db->quoteName(['notify', 'extensions', 'exclude_self']))
+            ->select($db->quoteName(['notify', 'extensions']))
             ->from($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')
             ->bind(':userid', $id, ParameterType::INTEGER);
 
         try {
             $values = $db->setQuery($query)->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -193,10 +193,9 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
         // Load plugin language files.
         $this->loadLanguage();
 
-        $data->actionlogs                        = new \stdClass();
-        $data->actionlogs->actionlogsNotify      = $values->notify;
-        $data->actionlogs->actionlogsExtensions  = $values->extensions;
-        $data->actionlogs->actionlogsExcludeSelf = $values->exclude_self;
+        $data->actionlogs                       = new \stdClass();
+        $data->actionlogs->actionlogsNotify     = $values->notify;
+        $data->actionlogs->actionlogsExtensions = $values->extensions;
 
         if (!HTMLHelper::isRegistered('users.actionlogsNotify')) {
             HTMLHelper::register('users.actionlogsNotify', [__CLASS__, 'renderActionlogsNotify']);
@@ -204,10 +203,6 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         if (!HTMLHelper::isRegistered('users.actionlogsExtensions')) {
             HTMLHelper::register('users.actionlogsExtensions', [__CLASS__, 'renderActionlogsExtensions']);
-        }
-
-        if (!HTMLHelper::isRegistered('users.actionlogsExcludeSelf')) {
-            HTMLHelper::register('users.actionlogsExcludeSelf', [__CLASS__, 'renderActionlogsExcludeSelf']);
         }
     }
 
@@ -253,10 +248,9 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
         // If preferences don't exist, insert.
         if (!$exists && $authorised && isset($user['actionlogs'])) {
             $notify  = (int) $user['actionlogs']['actionlogsNotify'];
-            $exclude = (int) $user['actionlogs']['actionlogsExcludeSelf'];
-            $values  = [':userid', ':notify', ':exclude'];
-            $bind    = [$userid, $notify, $exclude];
-            $columns = ['user_id', 'notify', 'exclude_self'];
+            $values  = [':userid', ':notify'];
+            $bind    = [$userid, $notify];
+            $columns = ['user_id', 'notify'];
 
             $query->bind($values, $bind, ParameterType::INTEGER);
 
@@ -276,11 +270,6 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
             $values = [$db->quoteName('notify') . ' = :notify'];
 
             $query->bind(':notify', $notify, ParameterType::INTEGER);
-
-            $exclude  = (int) $user['actionlogs']['actionlogsExcludeSelf'];
-            $values[] = $db->quoteName('exclude_self') . ' = :exclude';
-
-            $query->bind(':exclude', $exclude, ParameterType::INTEGER);
 
             if (isset($user['actionlogs']['actionlogsExtensions'])) {
                 $values[]  = $db->quoteName('extensions') . ' = :extension';
@@ -303,7 +292,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -336,7 +325,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -351,20 +340,6 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
      * @since   3.9.16
      */
     public static function renderActionlogsNotify($value)
-    {
-        return Text::_($value ? 'JYES' : 'JNO');
-    }
-
-    /**
-     * Method to render a value.
-     *
-     * @param   integer|string  $value  The value (0 or 1).
-     *
-     * @return  string  The rendered value.
-     *
-     * @since   5.3.0
-     */
-    public static function renderActionlogsExcludeSelf($value)
     {
         return Text::_($value ? 'JYES' : 'JNO');
     }
@@ -419,12 +394,12 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
         $db = $this->getDatabase();
 
         $query = $db->getQuery(true)
-            ->select($db->quoteName(['user_id', 'notify', 'extensions', 'exclude_self']))
+            ->select($db->quoteName(['user_id', 'notify', 'extensions']))
             ->from($db->quoteName('#__action_logs_users'));
 
         try {
             $values = $db->setQuery($query)->loadObjectList();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -445,7 +420,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 // Do nothing.
             }
         }

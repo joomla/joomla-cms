@@ -135,7 +135,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
                 $this->mfaConfigurationUI = Mfa::canShowConfigurationInterface($userBeingEdited)
                     ? Mfa::getConfigurationInterface($userBeingEdited)
                     : '';
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // In case something goes really wrong with the plugins; prevents hard breaks.
                 $this->mfaConfigurationUI = null;
             }

@@ -417,13 +417,13 @@ abstract class UserHelper
             $handler = $container->get(Argon2idHandler::class);
 
             $passwordAlgorithm = self::HASH_ARGON2ID;
-        } elseif (strpos($hash, '$argon2i') === 0) {
+        } elseif (str_starts_with($hash, '$argon2i')) {
             // Check for Argon2i hashes
             /** @var Argon2iHandler $handler */
             $handler = $container->get(Argon2iHandler::class);
 
             $passwordAlgorithm = self::HASH_ARGON2I;
-        } elseif (strpos($hash, '$2') === 0) {
+        } elseif (str_starts_with($hash, '$2')) {
             // Check for bcrypt hashes
             /** @var BCryptHandler $handler */
             $handler = $container->get(BCryptHandler::class);
@@ -591,7 +591,7 @@ abstract class UserHelper
                     ->delete($db->quoteName('#__session'))
                     ->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
             )->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // No issue, let things go
         }
 

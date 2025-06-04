@@ -497,7 +497,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
             default:
                 // Check for data attribute
-                if (strpos($name, 'data-') === 0 && \array_key_exists($name, $this->dataAttributes)) {
+                if (str_starts_with($name, 'data-') && \array_key_exists($name, $this->dataAttributes)) {
                     return $this->dataAttributes[$name];
                 }
         }
@@ -593,7 +593,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
             default:
                 // Detect data attribute(s)
-                if (strpos($name, 'data-') === 0) {
+                if (str_starts_with($name, 'data-')) {
                     $this->dataAttributes[$name] = $value;
                 } else {
                     if (property_exists(__CLASS__, $name)) {
@@ -671,7 +671,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         // Lets detect miscellaneous data attribute. For eg, data-*
         foreach ($this->element->attributes() as $key => $value) {
-            if (strpos($key, 'data-') === 0) {
+            if (str_starts_with($key, 'data-')) {
                 // Data attribute key value pair
                 $this->dataAttributes[$key] = $value;
             }
@@ -1094,7 +1094,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             }
 
             // Check for a callback filter
-            if (strpos($filter, '::') !== false) {
+            if (str_contains($filter, '::')) {
                 if (\is_callable(explode('::', $filter))) {
                     return \call_user_func(explode('::', $filter), $value);
                 }
@@ -1217,8 +1217,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             if ($rule instanceof DatabaseAwareInterface) {
                 try {
                     $rule->setDatabase($this->getDatabase());
-                } catch (DatabaseNotFoundException $e) {
-                    @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                } catch (DatabaseNotFoundException) {
+                    @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }
@@ -1242,8 +1242,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             if ($rule instanceof DatabaseAwareInterface) {
                 try {
                     $rule->setDatabase($this->getDatabase());
-                } catch (DatabaseNotFoundException $e) {
-                    @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                } catch (DatabaseNotFoundException) {
+                    @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }

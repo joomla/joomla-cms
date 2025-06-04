@@ -838,7 +838,7 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (23, 'contact', 'com_contact.form', 'id', 'name', '#__contact_details', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__action_log_config_id_seq', 23, false);
+SELECT setval('#__action_log_config_id_seq', 24, false);
 
 --
 -- Table structure for table `#__action_logs_users`
@@ -848,7 +848,6 @@ CREATE TABLE "#__action_logs_users" (
   "user_id" integer NOT NULL,
   "notify" integer NOT NULL,
   "extensions" text NOT NULL,
-  "exclude_self" integer NOT NULL DEFAULT 0,
   PRIMARY KEY ("user_id")
 );
 

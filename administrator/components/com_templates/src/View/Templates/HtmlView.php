@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
         $toolbar  = $this->getDocument()->getToolbar();
 
         // Add a shortcut to the styles list view.
-        $toolbar->linkButton('', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')
+        $toolbar->linkButton('styles', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')
             ->url('index.php?option=com_templates&view=styles&client_id=' . $clientId)
             ->icon('icon-brush thememanager');
 

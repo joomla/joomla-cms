@@ -28,5 +28,24 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
  */
 define('_JEXEC', 1);
 
+// Load global path definitions
+if (file_exists(__DIR__ . '/defines.php')) {
+    include_once __DIR__ . '/defines.php';
+}
+
+require_once __DIR__ . '/includes/defines.php';
+
+// Check the existence of an update-extraction config file
+if (
+    !empty($_GET['jautoupdate'])
+    && is_file(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/update.php')
+) {
+    // Load extraction script and...
+    require_once JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/extract.php';
+
+    // ... die
+    die();
+}
+
 // Run the application - All executable code should be triggered through this file
-require_once dirname(__FILE__) . '/includes/app.php';
+require_once __DIR__ . '/includes/app.php';

@@ -122,6 +122,8 @@ function clean_checkout(string $dir)
     system('find libraries/vendor -name _config.yml | xargs rm -rf -');
     system('find libraries/vendor -name .bowerrc | xargs rm -rf -');
     system('find libraries/vendor -name bower.json | xargs rm -rf -');
+    system('find libraries/vendor -name .drone.yml | xargs rm -rf -');
+    system('find libraries/vendor -name .drone.jsonnet | xargs rm -rf -');
     system('rm -rf libraries/vendor/bin');
 
     // aldo26-matthias/idna-convert

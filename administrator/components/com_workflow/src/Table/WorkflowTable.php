@@ -68,7 +68,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
      */
     public function delete($pk = null)
     {
-        $db  = $this->getDbo();
+        $db  = $this->getDatabase();
         $app = Factory::getApplication();
         $pk  = (int) $pk;
 
@@ -142,7 +142,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
                 return false;
             }
         } else {
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true);
 
             $query
@@ -181,7 +181,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
         $date = Factory::getDate();
         $user = $this->getCurrentUser();
 
-        $table = new self($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($this->id) {
             // Existing item
@@ -300,16 +300,17 @@ class WorkflowTable extends Table implements CurrentUserInterface
         $extension = array_shift($parts);
 
         // Build the query to get the asset id for the parent category.
-        $query = $this->getDbo()->getQuery(true)
-            ->select($this->getDbo()->quoteName('id'))
-            ->from($this->getDbo()->quoteName('#__assets'))
-            ->where($this->getDbo()->quoteName('name') . ' = :extension')
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__assets'))
+            ->where($db->quoteName('name') . ' = :extension')
             ->bind(':extension', $extension);
 
         // Get the asset id from the database.
-        $this->getDbo()->setQuery($query);
+        $db->setQuery($query);
 
-        if ($result = $this->getDbo()->loadResult()) {
+        if ($result = $db->loadResult()) {
             $assetId = (int) $result;
         }
 

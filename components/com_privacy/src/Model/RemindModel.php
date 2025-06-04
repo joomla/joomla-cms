@@ -85,7 +85,7 @@ class RemindModel extends AdminModel
 
         try {
             $remind = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
 
             return false;

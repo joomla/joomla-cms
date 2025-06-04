@@ -466,7 +466,7 @@ class FileAdapter extends InstallerAdapter
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Install failed, rollback changes - error logged by the installer
             return false;
         }
@@ -589,7 +589,7 @@ class FileAdapter extends InstallerAdapter
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

@@ -32,7 +32,7 @@ final class Log extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -81,7 +81,7 @@ final class Log extends CMSPlugin implements SubscriberInterface
 
         try {
             Logger::add($errorlog['comment'], Logger::INFO, $errorlog['status']);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If the log file is unwriteable during login then we should not go to the error page
             return;
         }
