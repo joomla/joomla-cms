@@ -124,7 +124,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.4
      */
     public function addJooa11y(BeforeCompileHeadEvent $event)
     {

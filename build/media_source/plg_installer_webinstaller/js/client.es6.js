@@ -413,7 +413,7 @@ customElements.whenDefined('joomla-tab').then(() => {
     link.click();
   }
 
-  if (link.hasAttribute('aria-expanded') && link.getAttribute('aria-expanded') === 'true' && !instance) {
+  if (link.hasAttribute('aria-selected') && link.getAttribute('aria-selected') === 'true' && !instance) {
     instance = new WebInstaller();
     instance.initialise();
   }

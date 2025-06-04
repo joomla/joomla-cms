@@ -81,7 +81,7 @@ class StepModel extends AdminModel
         $tour->load($data['tour_id']);
 
         // Language keys must include GUIDEDTOUR to prevent save issues
-        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
+        if (str_contains($data['description'], 'GUIDEDTOUR')) {
             $data['description'] = strip_tags($data['description']);
         }
 

@@ -564,7 +564,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                         $db->execute();
 
                         $stepval = true;
-                    } catch (ExecutionFailureException $e) {
+                    } catch (ExecutionFailureException) {
                         // The database API will have already logged the error it caught, we just need to alert the user to the issue
                         Log::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), Log::WARNING, 'jerror');
 
@@ -1351,7 +1351,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             } else {
                 $db->insertObject('#__schemas', $o);
             }
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             /**
              * Safe fallback: delete any existing record and insert afresh.
              *

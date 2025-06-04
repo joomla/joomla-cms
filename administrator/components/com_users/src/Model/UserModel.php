@@ -292,7 +292,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         }
 
         // Destroy all active sessions for the user after changing the password or blocking him
-        if ($data['password2'] || $data['block']) {
+        if (!empty($data['password2']) || $data['block']) {
             UserHelper::destroyUserSessions($user->id, true);
         }
 

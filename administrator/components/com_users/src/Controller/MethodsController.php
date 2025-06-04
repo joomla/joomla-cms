@@ -75,7 +75,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $user   = ($userId === null)
             ? $this->app->getIdentity()
             : $this->getUserFactory()->loadUserById($userId);
-        $user   = $user ?? $this->getUserFactory()->loadUserById(0);
+        $user   ??= $this->getUserFactory()->loadUserById(0);
 
         if (!MfaHelper::canDeleteMethod($user)) {
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -127,7 +127,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $user   = ($userId === null)
             ? $this->app->getIdentity()
             : $this->getUserFactory()->loadUserById($userId);
-        $user   = $user ?? $this->getUserFactory()->loadUserById(0);
+        $user ??= $this->getUserFactory()->loadUserById(0);
 
         if (!MfaHelper::canShowConfigurationInterface($user)) {
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -171,7 +171,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $user   = ($userId === null)
             ? $this->app->getIdentity()
             : $this->getUserFactory()->loadUserById($userId);
-        $user   = $user ?? $this->getUserFactory()->loadUserById(0);
+        $user ??= $this->getUserFactory()->loadUserById(0);
 
         if (!MfaHelper::canAddEditMethod($user)) {
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);

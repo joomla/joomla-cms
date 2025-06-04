@@ -97,7 +97,7 @@ class Route
             $client = $app->getName();
 
             return static::link($client, $url, $xhtml, $tls, $absolute);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             /**
              * @deprecated  3.9 this method will not fail silently from 6.0
              *              Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 6.0
@@ -128,7 +128,7 @@ class Route
     public static function link($client, $url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
     {
         // If we cannot process this $url exit early.
-        if (!\is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0)) {
+        if (!\is_array($url) && (!str_starts_with($url, '&')) && (!str_starts_with($url, 'index.php'))) {
             return $url;
         }
 
@@ -136,7 +136,7 @@ class Route
         if ($client && !isset(self::$_router[$client])) {
             try {
                 self::$_router[$client] = Factory::getContainer()->get(ucfirst($client) . 'Router') ?: Factory::getApplication()::getRouter($client);
-            } catch (KeyNotFoundException $e) {
+            } catch (KeyNotFoundException) {
                 self::$_router[$client] = Factory::getApplication()::getRouter($client);
             }
         }

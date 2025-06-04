@@ -155,7 +155,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     {
         try {
             $app = Factory::getApplication();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 

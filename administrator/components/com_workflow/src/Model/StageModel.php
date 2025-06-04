@@ -106,7 +106,7 @@ class StageModel extends AdminModel
 
         // Make sure we use the correct extension when editing an existing workflow
         $key = $table->getKeyName();
-        $pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk  = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
 
         if ($pk > 0) {
             $table->load($pk);
@@ -121,7 +121,7 @@ class StageModel extends AdminModel
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title)   = $this->generateNewTitle(0, '', $data['title']);
+                [$title]       = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 

@@ -17,6 +17,8 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\String\StringableInterface;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Folder;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\KnownButtons;
@@ -32,9 +34,10 @@ use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
  *
  * @since  1.5
  */
-final class TinyMCE extends CMSPlugin implements SubscriberInterface
+final class TinyMCE extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
     use DatabaseAwareTrait;
+    use DispatcherAwareTrait;
 
     // @todo: KnownButtons, ToolbarPresets for backward compatibility. Remove in Joomla 6
     use KnownButtons;

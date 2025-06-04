@@ -111,7 +111,6 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         $canDo   = ContentHelper::getActions('com_scheduler');
-        $user    = Factory::getApplication()->getIdentity();
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_SCHEDULER_FIELDSET_EXEC_HIST'), 'list');

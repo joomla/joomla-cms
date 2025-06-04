@@ -34,9 +34,8 @@
     a {
       color: var(--body-color);
     }
-    &::before,
     &::after {
-      border: none;
+      border-inline-start-color: $breadcrumbs-current-bg;
     }
   }
   &:hover {
@@ -62,7 +61,7 @@
     border-inline-start: 10px solid transparent;
   }
   &::before {
-    border-inline-start-color: $border-color;
+    border-inline-start-color: var(--gray-400);
   }
   &::after {
     border-inline-start-color: $breadcrumbs-bg;

@@ -156,7 +156,7 @@ class Router extends RouterView
     public function getNewsfeedSegment($id, $query)
     {
         if ($this->noIDs && strpos($id, ':')) {
-            list($void, $segment) = explode(':', $id, 2);
+            [$void, $segment] = explode(':', $id, 2);
 
             return [$void => $segment];
         }
