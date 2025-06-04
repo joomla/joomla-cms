@@ -33,6 +33,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterResultState;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Exception\FilesystemException;
@@ -548,17 +549,18 @@ class UpdateModel extends BaseDatabaseModel
         return [
             'password' => $app->getUserState('com_joomlaupdate.password'),
             'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
+            'filename' => $app->getUserState('com_joomlaupdate.file'),
         ];
     }
 
     /**
      * Change the registration state of a site in the update service
      *
-     * @return bool
+     * @return AutoupdateRegisterResultState
      *
      * @since 5.4.0
      */
-    public function changeAutoUpdateRegistration(AutoupdateRegisterState $targetState)
+    public function changeAutoUpdateRegistration(AutoupdateRegisterState $targetState): AutoupdateRegisterResultState
     {
         // Purge cache - this makes sure that the changed status will already be available if the health check is performed
         $this->cleanCache('_system');
@@ -583,26 +585,66 @@ class UpdateModel extends BaseDatabaseModel
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-            return false;
+            return AutoupdateRegisterResultState::Failed;
         }
 
         // Decode response
         $result = json_decode((string)$response->getBody(), true);
 
-        // Handle non-success response
+        // Handle validation issue
+        if ($response->getStatusCode() === 422) {
+            // Append message
+            Factory::getApplication()->enqueueMessage(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_UNAVAILABLE',
+                ),
+                'warning'
+            );
+
+            $this->updateAutoUpdateParams(
+                AutoupdateRegisterState::Unsubscribed,
+                false
+            );
+
+            return AutoupdateRegisterResultState::Unavailable;
+        }
+
+        // Handle other non-success response
         if ($response->getStatusCode() !== 200) {
             Factory::getApplication()->enqueueMessage(
                 Text::sprintf(
                     'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_ERROR',
-                    $result['message'],
-                    $result['status']
+                    $result['message'] ?: '',
+                    $result['status'] ?: ''
                 ),
                 'error'
             );
 
-            return false;
+            $this->updateAutoUpdateParams(
+                AutoupdateRegisterState::Unsubscribed,
+                false
+            );
+
+            return AutoupdateRegisterResultState::Failed;
         }
 
+        $this->updateAutoUpdateParams(
+            ($targetState === AutoupdateRegisterState::Subscribe)
+                ? AutoupdateRegisterState::Subscribed
+                : AutoupdateRegisterState::Unsubscribed,
+            ($targetState === AutoupdateRegisterState::Unsubscribed)
+        );
+
+        return AutoupdateRegisterResultState::Success;
+    }
+
+    /**
+     * Update the autoupdate activation and registration states
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function updateAutoUpdateParams(AutoupdateRegisterState $registrationState, bool $enableUpdate): void
+    {
         // Get extension row
         $extension   = new Extension($this->getDatabase());
         $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
@@ -610,20 +652,15 @@ class UpdateModel extends BaseDatabaseModel
 
         // Set new update registration state
         $params = new Registry($extension->params);
-        $params->set(
-            'autoupdate_status',
-            ($targetState === AutoupdateRegisterState::Subscribe)
-                    ? AutoupdateRegisterState::Subscribed->value
-                    : AutoupdateRegisterState::Unsubscribed->value
-        );
+
+        $params->set('autoupdate_status', $registrationState->value);
+        $params->set('autoupdate', (int) $enableUpdate);
 
         $extension->params = $params->toString();
 
         if (!$extension->store()) {
             throw new \RuntimeException($extension->getError());
         }
-
-        return true;
     }
 
     /**
@@ -1347,14 +1384,35 @@ ENDDATA;
         $options[]         = $option;
         $updateInformation = $this->getUpdateInformation();
 
-        // Check if configured database is compatible with the next major version of Joomla
-        $nextMajorVersion = Version::MAJOR_VERSION + 1;
-
-        if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>=')) {
+        // Extra checks when updating to the next major version of Joomla
+        if (version_compare($updateInformation['latest'], (string) Version::MAJOR_VERSION + 1, '>=')) {
+            // Check if configured database is compatible with the next major version of Joomla
             $option         = new \stdClass();
             $option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
             $option->state  = $this->isDatabaseTypeSupported();
             $option->notice = null;
+            $options[]      = $option;
+
+            // Check if the Joomla 5 backwards compatibility plugin is disabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
+
+            $this->translateExtensionName($plugin);
+
+            $option         = new \stdClass();
+            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_TITLE', $plugin->name);
+            $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
+            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_NOTICE', $plugin->folder, $plugin->element);
+            $options[]      = $option;
+
+            // Check if the Joomla 6 backwards compatibility plugin is enabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
+
+            $this->translateExtensionName($plugin);
+
+            $option         = new \stdClass();
+            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_TITLE', $plugin->name);
+            $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
+            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
             $options[]      = $option;
         }
 
