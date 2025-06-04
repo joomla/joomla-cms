@@ -260,7 +260,7 @@ body {
 
   select {
     width: 100%;
-    margin-left: 0 !important;
+    margin-inline-start: 0 !important;
   }
 }
 
@@ -275,7 +275,7 @@ body {
 
   span {
     position: relative;
-    margin-right: 5px;
+    margin-inline-end: 5px;
     font-size: 1.2rem;
   }
 }
@@ -380,8 +380,8 @@ label {
 
   .control-label {
     padding-top: 5px;
-    padding-right: 5px;
-    text-align: left;
+    padding-inline-end: 5px;
+    text-align: start;
   }
 }
 
@@ -407,7 +407,7 @@ legend {
 
   .checkbox input {
     position: static;
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 
 }
@@ -416,6 +416,13 @@ legend {
   padding-top: 5px;
   margin-bottom: 0;
 }
+
+/* rtl:begin:ignore */
+#jform_db_prefix {
+  text-align: start;
+  direction: ltr;
+}
+/* rtl:end:ignore */
 
 // Possibly temporary until Bootstrap support it themselves
 .form-select[multiple] {
