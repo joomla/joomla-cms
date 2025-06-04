@@ -28,7 +28,6 @@ use Joomla\String\StringHelper;
  * Core content table
  *
  * @since  3.1
- * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
  */
 class CoreContent extends Table implements CurrentUserInterface
 {
@@ -39,7 +38,6 @@ class CoreContent extends Table implements CurrentUserInterface
      *
      * @var    boolean
      * @since  4.0.0
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     protected $_supportNullValue = true;
 
@@ -48,7 +46,6 @@ class CoreContent extends Table implements CurrentUserInterface
      *
      * @var    array
      * @since  4.0.0
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     protected $_jsonEncode = ['core_params', 'core_metadata', 'core_images', 'core_urls', 'core_body'];
 
@@ -59,7 +56,6 @@ class CoreContent extends Table implements CurrentUserInterface
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
@@ -79,7 +75,6 @@ class CoreContent extends Table implements CurrentUserInterface
      *
      * @see     Table::check()
      * @since   3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function check()
     {
@@ -167,7 +162,6 @@ class CoreContent extends Table implements CurrentUserInterface
      * @return  boolean  True on success.
      *
      * @throws  \UnexpectedValueException
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      * @since      3.1
      */
     public function delete($pk = null)
@@ -186,7 +180,6 @@ class CoreContent extends Table implements CurrentUserInterface
      * @return  boolean  True on success.
      *
      * @throws  \UnexpectedValueException
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      * @since      3.1
      */
     public function deleteByContentId($contentItemId = null, $typeAlias = null)
@@ -231,7 +224,6 @@ class CoreContent extends Table implements CurrentUserInterface
      * @return  boolean  True on success.
      *
      * @since   3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function store($updateNulls = true)
     {
@@ -285,7 +277,6 @@ class CoreContent extends Table implements CurrentUserInterface
      * @return  boolean  True on success.
      *
      * @since   3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     protected function storeUcmBase($updateNulls = true, $isNew = false)
     {
