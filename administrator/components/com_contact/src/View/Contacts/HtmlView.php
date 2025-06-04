@@ -44,7 +44,7 @@ class HtmlView extends ListView
             $config['option'] = 'com_contact';
         }
 
-        $config['toolbar_icon'] = 'address-book contact';
+        $config['toolbar_icon']   = 'address-book contact';
         $config['supports_batch'] = true;
 
         parent::__construct($config);

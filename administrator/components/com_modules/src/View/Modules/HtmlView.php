@@ -55,7 +55,7 @@ class HtmlView extends ListView
             $config['option'] = 'com_modules';
         }
 
-        $config['toolbar_icon'] = 'cube module';
+        $config['toolbar_icon']   = 'cube module';
         $config['supports_batch'] = true;
 
         parent::__construct($config);
