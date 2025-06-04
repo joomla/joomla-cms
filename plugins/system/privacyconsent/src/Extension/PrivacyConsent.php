@@ -44,7 +44,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -200,7 +200,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
             try {
                 $this->getDatabase()->insertObject('#__privacy_consents', $userNote);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Do nothing if the save fails
             }
 
@@ -301,10 +301,10 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
                 'method', 'methods', 'captive', 'callback',
             ];
             $isAllowedUserTask = \in_array($task, $allowedUserTasks)
-                || substr($task, 0, 8) === 'captive.'
-                || substr($task, 0, 8) === 'methods.'
-                || substr($task, 0, 7) === 'method.'
-                || substr($task, 0, 9) === 'callback.';
+                || str_starts_with($task, 'captive.')
+                || str_starts_with($task, 'methods.')
+                || str_starts_with($task, 'method.')
+                || str_starts_with($task, 'callback.');
 
             if (
                 ($option == 'com_users' && $isAllowedUserTask)

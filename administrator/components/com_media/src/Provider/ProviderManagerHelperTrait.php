@@ -154,7 +154,7 @@ trait ProviderManagerHelperTrait
             $defaultFilePath = ComponentHelper::getParams('com_media')->get('file_path', 'files');
             $defaultAdapter  = $this->getAdapter('local-' . $defaultFilePath);
             // @TODO: Need a proper configuration for default adapter.
-        } catch (ProviderAccountNotFoundException $e) {
+        } catch (ProviderAccountNotFoundException) {
             $defaultAdapter = null;
         }
 

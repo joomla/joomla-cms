@@ -131,7 +131,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $authHeader  = $this->getApplication()->getInput()->server->get('REDIRECT_HTTP_AUTHORIZATION', '', 'string');
         }
 
-        if (substr($authHeader, 0, 7) == 'Bearer ') {
+        if (str_starts_with($authHeader, 'Bearer ')) {
             $parts       = explode(' ', $authHeader, 2);
             $tokenString = trim($parts[1]);
             $tokenString = $this->filter->clean($tokenString, 'BASE64');
@@ -149,7 +149,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         // The token is a base64 encoded string. Make sure we can decode it.
         $authString = @base64_decode($tokenString);
 
-        if (empty($authString) || (strpos($authString, ':') === false)) {
+        if (empty($authString) || (!str_contains($authString, ':'))) {
             return;
         }
 
@@ -163,7 +163,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        list($algo, $userId, $tokenHMAC) = $parts;
+        [$algo, $userId, $tokenHMAC] = $parts;
 
         /**
          * Verify the HMAC algorithm requested in the token string is allowed
@@ -180,7 +180,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
          */
         try {
             $siteSecret = $this->getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -282,7 +282,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -313,7 +313,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $value = $db->setQuery($query)->loadResult();
 
             return $value == 1;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

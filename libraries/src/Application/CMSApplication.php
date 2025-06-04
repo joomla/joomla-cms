@@ -249,10 +249,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
         ];
 
-        // For empty queue, if messages exists in the session, enqueue them first.
-        $messages = $this->getMessageQueue();
-
-        if (!\in_array($message, $this->messageQueue)) {
+        // Get the messages of the session and add the new message if it is not already in the queue.
+        if (!\in_array($message, $this->getMessageQueue())) {
             // Enqueue the message.
             $this->messageQueue[] = $message;
         }
@@ -498,7 +496,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 Log::WARNING,
                 'deprecated'
             );
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -829,7 +827,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     public function isHttpsForced($clientId = null)
     {
-        $clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+        $clientId = (int) ($clientId ?? $this->getClientId());
         $forceSsl = (int) $this->get('force_ssl');
 
         if ($clientId === 0 && $forceSsl === 2) {

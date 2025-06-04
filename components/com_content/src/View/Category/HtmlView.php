@@ -167,10 +167,6 @@ class HtmlView extends CategoryView
             $this->category->metadata = new Registry($this->category->metadata);
         }
 
-        if (($app->get('MetaAuthor') == '1') && $this->category->get('author', '')) {
-            $this->getDocument()->setMetaData('author', $this->category->get('author', ''));
-        }
-
         $mdata = $this->category->metadata->toArray();
 
         foreach ($mdata as $k => $v) {

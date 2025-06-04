@@ -158,7 +158,7 @@ class ContactsModel extends ListModel
                         'list.select',
                         'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
                         ', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
-                        ', a.publish_up, a.publish_down'
+                        ', a.publish_up, a.publish_down, a.modified_by'
                     )
                 )
             )

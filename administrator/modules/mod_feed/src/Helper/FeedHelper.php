@@ -33,7 +33,7 @@ class FeedHelper
      *
      * @return  \Joomla\CMS\Feed\Feed|string  Return a Feed object or a string message if error.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function getFeedData(Registry $params, FeedFactory $feed): \Joomla\CMS\Feed\Feed|string
     {
@@ -43,7 +43,7 @@ class FeedHelper
         // Get RSS parsed object
         try {
             $rssDoc = $feed->getFeed($rssurl);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
         }
 
@@ -63,7 +63,7 @@ class FeedHelper
      *
      * @since   1.5
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.3.0 will be removed in 7.0
      *             Use the non-static method getFeedData
      *             Example: Factory::getApplication()->bootModule('mod_feed', 'administrator')
      *                          ->getHelper('FeedHelper')

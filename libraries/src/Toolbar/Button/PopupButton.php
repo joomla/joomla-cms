@@ -73,13 +73,13 @@ class PopupButton extends ToolbarButton
      */
     protected function prepareOptions(array &$options)
     {
-        $options['icon'] = $options['icon'] ?? 'icon-square';
+        $options['icon'] ??= 'icon-square';
 
         parent::prepareOptions($options);
 
         $options['doTask'] = $this->_getCommand($this->getUrl());
 
-        $options['selector'] = $options['selector'] ?? 'modal-' . $this->getName();
+        $options['selector'] ??= 'modal-' . $this->getName();
     }
 
     /**
@@ -221,9 +221,9 @@ JS
      */
     private function _getCommand($url)
     {
-        $url = $url ?? '';
+        $url ??= '';
 
-        if (strpos($url, 'http') !== 0) {
+        if (!str_starts_with($url, 'http')) {
             $url = Uri::base() . $url;
         }
 

@@ -601,7 +601,7 @@ class Form implements CurrentUserInterface
         if (\is_string($data)) {
             try {
                 $data = new \SimpleXMLElement($data);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return false;
             }
         }
@@ -1465,8 +1465,8 @@ class Form implements CurrentUserInterface
         if ($field instanceof DatabaseAwareInterface) {
             try {
                 $field->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
-                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            } catch (DatabaseNotFoundException) {
+                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -1487,7 +1487,7 @@ class Form implements CurrentUserInterface
          * else the value of the 'default' attribute for the field.
          */
         if ($value === null) {
-            $default = (string) ($element['default'] ? $element['default'] : $element->default);
+            $default = (string) ($element['default'] ?: $element->default);
 
             if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate === '1')) {
                 $lang = Factory::getLanguage();
@@ -1705,7 +1705,7 @@ class Form implements CurrentUserInterface
             $forms[$name] = Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
             // Load the data.
-            if (substr($data, 0, 1) === '<') {
+            if (str_starts_with($data, '<')) {
                 if ($forms[$name]->load($data, $replace, $xpath) == false) {
                     throw new \RuntimeException(\sprintf('%s() could not load form', __METHOD__));
                 }

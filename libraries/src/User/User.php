@@ -658,10 +658,12 @@ class User
             }
 
             // Prevent updating internal fields
-            unset($array['registerDate']);
-            unset($array['lastvisitDate']);
-            unset($array['lastResetTime']);
-            unset($array['resetCount']);
+            unset(
+                $array['registerDate'],
+                $array['lastvisitDate'],
+                $array['lastResetTime'],
+                $array['resetCount']
+            );
         }
 
         if (\array_key_exists('params', $array)) {
@@ -767,6 +769,11 @@ class User
                         }
                     }
                 }
+            }
+
+            // Unset the activation token, if the mail address changes - that affects both, activation and PW resets
+            if ($this->email !== $oldUser->email && $this->id !== 0 && !empty($this->activation) && !$this->block) {
+                $table->activation = '';
             }
 
             // Fire the onUserBeforeSave event.

@@ -2369,6 +2369,10 @@ class JoomlaInstallerScript
             '/media/system/css/system-site-offline_rtl.min.css.gz',
             '/media/system/scss/system-site-offline_rtl.scss',
             // From 5.3.0-alpha3 to 5.3.0-beta1
+            '/administrator/modules/mod_feed/mod_feed.php',
+            '/administrator/modules/mod_privacy_status/mod_privacy_status.php',
+            '/libraries/vendor/guzzlehttp/promises/src/functions.php',
+            '/libraries/vendor/guzzlehttp/promises/src/functions_include.php',
             '/libraries/vendor/maximebf/debugbar/LICENSE',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/CacheCacheCollector.php',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Bridge/DoctrineCollector.php',
@@ -2446,6 +2450,26 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/PdoStorage.php',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/RedisStorage.php',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Storage/StorageInterface.php',
+            // From 5.3.0-beta3 to 5.3.0-rc1
+            '/libraries/vendor/joomla/http/.drone.jsonnet',
+            '/libraries/vendor/joomla/http/.drone.yml',
+            '/libraries/vendor/joomla/oauth1/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth1/.drone.yml',
+            '/libraries/vendor/joomla/oauth2/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth2/.drone.yml',
+            '/libraries/vendor/joomla/router/.drone.jsonnet',
+            '/libraries/vendor/joomla/router/.drone.yml',
+            '/libraries/vendor/joomla/string/.drone.jsonnet',
+            '/libraries/vendor/joomla/string/.drone.yml',
+            '/libraries/vendor/joomla/uri/.drone.jsonnet',
+            '/libraries/vendor/joomla/uri/.drone.yml',
+            '/libraries/vendor/joomla/utilities/.drone.jsonnet',
+            '/libraries/vendor/joomla/utilities/.drone.yml',
+            // From 5.3.0-rc1 to 5.3.0-rc2
+            '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
+            '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
+            '/libraries/vendor/algo26-matthias/idna-convert/src/Exception/Std3AsciiRulesViolationException.php',
+            '/libraries/vendor/algo26-matthias/idna-convert/src/TranscodeUnicode/ByteLengthTrait.php',
         ];
 
         $folders = [
@@ -3306,7 +3330,7 @@ class JoomlaInstallerScript
         try {
             // Using hard-coded string because a new language string would not be available in all cases
             Log::add('Fixing permissions for files and folders.', Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 

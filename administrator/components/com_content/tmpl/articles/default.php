@@ -321,7 +321,7 @@ $assoc = Associations::isEnabled();
                                     <?php echo $this->escape($item->access_level); ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell">
-                                    <?php if ((int) $item->created_by != 0) : ?>
+                                    <?php if (!empty($item->author_name)) : ?>
                                         <a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
                                             <?php echo $this->escape($item->author_name); ?>
                                         </a>

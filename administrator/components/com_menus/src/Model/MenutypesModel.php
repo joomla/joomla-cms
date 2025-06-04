@@ -279,7 +279,7 @@ class MenutypesModel extends BaseDatabaseModel
             $view = basename($viewPath);
 
             // Ignore private views.
-            if (strpos($view, '_') !== 0) {
+            if (!str_starts_with($view, '_')) {
                 // Determine if a metadata file exists for the view.
                 $file = $viewPath . '/metadata.xml';
 
@@ -470,7 +470,7 @@ class MenutypesModel extends BaseDatabaseModel
         // Build list of standard layout names
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename($layout), '_')) {
                 // Get the layout name.
                 $layoutNames[] = basename($layout, '.xml');
             }
@@ -509,7 +509,7 @@ class MenutypesModel extends BaseDatabaseModel
         // Process the found layouts.
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename($layout), '_')) {
                 $file = $layout;
 
                 // Get the layout name.
@@ -537,8 +537,7 @@ class MenutypesModel extends BaseDatabaseModel
 
                             // If the view is hidden from the menu, discard it and move on to the next view.
                             if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
-                                unset($xml);
-                                unset($o);
+                                unset($xml, $o);
                                 continue;
                             }
 

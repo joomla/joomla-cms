@@ -70,7 +70,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -527,7 +527,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -553,7 +553,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 return false;
             }
         }
@@ -590,7 +590,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -922,7 +922,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return false;
             }
         }
@@ -956,7 +956,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -1132,7 +1132,7 @@ final class MultiLanguage extends CMSPlugin implements SubscriberInterface
             if ($stage_id) {
                 $workflow->createAssociation($newId, $stage_id);
             }
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 

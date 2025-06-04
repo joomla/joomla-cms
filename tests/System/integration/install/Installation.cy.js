@@ -19,6 +19,9 @@ describe('Install Joomla', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.installJoomla(config);
 
+    // Disable compat plugin
+    cy.db_enableExtension(0, 'plg_behaviour_compat');
+
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
     cy.disableStatistics();
@@ -33,6 +36,5 @@ describe('Install Joomla', () => {
     cy.config_setParameter('mailer', 'smtp');
     cy.config_setParameter('smtphost', Cypress.env('smtp_host'));
     cy.config_setParameter('smtpport', Cypress.env('smtp_port'));
-    cy.config_setParameter('force_ssl', '2');
   });
 });
