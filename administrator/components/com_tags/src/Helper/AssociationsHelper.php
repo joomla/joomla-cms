@@ -20,7 +20,7 @@ use Joomla\Component\Tags\Site\Helper\AssociationHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Content associations helper.
+ * Tags associations helper.
  *
  * @since  __DEPLOY_VERSION__
  */
