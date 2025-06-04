@@ -69,7 +69,7 @@ class FeedView extends AbstractView
             $link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
             $description = '';
-            $obj         = json_decode($row->images);
+            $obj         = json_decode($row->images) ?? new stdClass();
 
             // Ensure alt properties are set
             $obj->image_intro_alt    = $obj->image_intro_alt ?? '';
