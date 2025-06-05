@@ -75,7 +75,8 @@
 	<fieldset
 		name="automated-updates"
 		label="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_LABEL"
-	>
+		description="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_DESC"
+		>
 		<field
 			name="autoupdate"
 			type="radio"

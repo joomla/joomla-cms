@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterResultState;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Console\Command\AbstractCommand;
@@ -26,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for managing the update channel for Joomla
  *
- * @since __DEPLOY_VERSION__
+ * @since 5.4.0
  */
 class AutomatedUpdatesRegisterCommand extends AbstractCommand
 {
@@ -34,7 +35,7 @@ class AutomatedUpdatesRegisterCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     protected static $defaultName = 'core:autoupdate:register';
 
@@ -42,7 +43,7 @@ class AutomatedUpdatesRegisterCommand extends AbstractCommand
      * SymfonyStyle Object
      *
      * @var SymfonyStyle
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     private $ioStyle;
 
@@ -51,7 +52,7 @@ class AutomatedUpdatesRegisterCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     protected function configure(): void
     {
@@ -70,7 +71,7 @@ class AutomatedUpdatesRegisterCommand extends AbstractCommand
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      *
      */
     private function configureIO(InputInterface $input, OutputInterface $output)
@@ -86,7 +87,7 @@ class AutomatedUpdatesRegisterCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
@@ -126,7 +127,7 @@ class AutomatedUpdatesRegisterCommand extends AbstractCommand
 
         $result = $updateModel->changeAutoUpdateRegistration(AutoupdateRegisterState::Subscribe);
 
-        if ($result === false) {
+        if ($result !== AutoupdateRegisterResultState::Success) {
             return Command::FAILURE;
         }
 
