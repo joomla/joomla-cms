@@ -35,8 +35,10 @@ if (Joomla && Joomla.getOptions('js-auto-update')) {
         // Not active
         if (!healthStatus.active) {
           update('warning', Joomla.Text._('PLG_QUICKICON_AUTOUPDATE_DISABLED'));
-        } else if (!healthStatus.healthy) {
+        } else if (healthStatus.healthy === -1) {
           update('danger', Joomla.Text._('PLG_QUICKICON_AUTOUPDATE_OUTDATED'));
+        } else if (healthStatus.healthy === 0) {
+          update('warning', Joomla.Text._('PLG_QUICKICON_AUTOUPDATE_UNAVAILABLE'));
         } else {
           update('success', Joomla.Text._('PLG_QUICKICON_AUTOUPDATE_OK'));
         }
