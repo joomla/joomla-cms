@@ -15,6 +15,7 @@ use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterResultState;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateState;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
@@ -149,7 +150,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 
         $registerStatus = $updateModel->changeAutoUpdateRegistration($autoupdateRegisterStatus);
 
-        if (!$registerStatus) {
+        if ($registerStatus !== AutoupdateRegisterResultState::Success) {
             return;
         }
 
