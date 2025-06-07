@@ -70,7 +70,7 @@ class TimeField extends FormField
      *
      * @var string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $filter = '';
 
@@ -235,7 +235,7 @@ class TimeField extends FormField
      *
      * @return  mixed   The filtered value.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function filter($value, $group = null, ?Registry $input = null)
     {
