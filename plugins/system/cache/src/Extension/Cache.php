@@ -111,7 +111,9 @@ final class Cache extends CMSPlugin implements SubscriberInterface, DispatcherAw
         ?Profiler $profiler,
         ?SiteRouter $router
     ) {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
+
+        $this->setDispatcher($dispatcher);
 
         $this->documentFactory        = $documentFactory;
         $this->cacheControllerFactory = $cacheControllerFactory;

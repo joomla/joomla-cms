@@ -34,9 +34,9 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new None(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('editors', 'none')
                 );
+                $plugin->setDispatcher($container->get(DispatcherInterface::class));
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
