@@ -115,6 +115,7 @@ class RandomImageHelper
                 }
 
                 $ext = pathinfo($img, PATHINFO_EXTENSION);
+
                 if (\in_array(strtolower($ext), $extensions, true)) {
                     $images[$i]         = new \stdClass();
                     $images[$i]->name   = $img;
