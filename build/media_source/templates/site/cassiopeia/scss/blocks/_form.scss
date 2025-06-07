@@ -96,6 +96,7 @@ td .form-control {
 
   &[id^=id-skip-] {
     right: auto;
+    max-width: unset;
   }
 
   &[id^=cbunpublish] {

@@ -630,7 +630,7 @@ class TemplateController extends BaseController
         } elseif ($model->deleteFolder($location)) {
             $this->setMessage(Text::_('COM_TEMPLATES_FOLDER_DELETE_SUCCESS'));
 
-            if (stristr(base64_decode($file), $location) != false) {
+            if (stristr(base64_decode($file), $location)) {
                 $file = base64_encode('home');
             }
 

@@ -840,7 +840,7 @@ class TagsHelper extends CMSHelper
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function postStore(TableInterface $table, array $newTags = [], bool $replace = true, bool $remove = false): bool
     {
@@ -856,7 +856,7 @@ class TagsHelper extends CMSHelper
 
         // Process ucm_content and ucm_base if either tags have changed or we have some tags.
         if ($this->tagsChanged || (!empty($newTags) && $newTags[0] != '')) {
-            if (!$newTags && $replace == true) {
+            if (!$newTags && $replace) {
                 // Delete all tags data
                 $key    = $table->getKeyName();
                 $result = $this->deleteTagData($table, $table->$key);
