@@ -51,7 +51,7 @@ if (is_file(JPATH_ROOT . '/.env')) {
      * To make it work the same for CLI and WEB set variables_order="EGPCS" in php.ini.
      */
     if (!$_ENV) {
-        $_ENV = !\array_key_exists('REQUEST_METHOD', $_SERVER) ? getenv() : array_filter($_SERVER, fn ($k) => str_starts_with($k, 'JOOMLA_'), ARRAY_FILTER_USE_KEY);
+        $_ENV = PHP_SAPI === 'cli' ? getenv() : array_filter($_SERVER, fn ($k) => str_starts_with($k, 'JOOMLA_'), ARRAY_FILTER_USE_KEY);
     }
 
     Dotenv\Dotenv::createImmutable(JPATH_ROOT, ['.env', '.env.dev'], false)->safeLoad();
