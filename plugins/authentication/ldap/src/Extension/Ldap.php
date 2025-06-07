@@ -12,10 +12,10 @@ namespace Joomla\Plugin\Authentication\Ldap\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\User\AuthenticationEvent;
-use Joomla\CMS\Extension\PluginWithSubscriberInterface;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
@@ -31,7 +31,7 @@ use Symfony\Component\Ldap\LdapInterface;
  *
  * @since  1.5
  */
-final class Ldap extends CMSPlugin implements PluginWithSubscriberInterface
+final class Ldap extends CMSPlugin implements SubscriberInterface
 {
     /**
      * The ldap factory

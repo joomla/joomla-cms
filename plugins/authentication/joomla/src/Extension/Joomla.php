@@ -12,11 +12,11 @@ namespace Joomla\Plugin\Authentication\Joomla\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\User\AuthenticationEvent;
-use Joomla\CMS\Extension\PluginWithSubscriberInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,7 +27,7 @@ use Joomla\Database\DatabaseAwareTrait;
  *
  * @since  1.5
  */
-final class Joomla extends CMSPlugin implements PluginWithSubscriberInterface
+final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
