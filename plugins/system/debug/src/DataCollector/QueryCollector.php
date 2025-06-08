@@ -1,258 +1,165 @@
 <?php
-
 /**
- * @package     Joomla.Plugin
- * @subpackage  System.Debug
- *
- * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package        Alter Sentry
+ * @copyright      Copyright (C) 2025-2025 AlterBrains.com. All rights reserved.
+ * @license        https://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL
  */
 
-namespace Joomla\Plugin\System\Debug\DataCollector;
+namespace AlterBrains\Plugin\Behaviour\Altersentry\Sentry;
 
-use DebugBar\DataCollector\AssetProvider;
-use Joomla\CMS\Uri\Uri;
-use Joomla\Database\Monitor\DebugMonitor;
-use Joomla\Plugin\System\Debug\AbstractDataCollector;
-use Joomla\Registry\Registry;
+use Joomla\Database\QueryMonitorInterface;
+use Sentry\Breadcrumb;
+use Sentry\SentrySdk;
+use Sentry\Tracing\SpanContext;
 
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
-
-/**
- * QueryDataCollector
- *
- * @since  4.0.0
- */
-class QueryCollector extends AbstractDataCollector implements AssetProvider
+class SentryDebugMonitor implements QueryMonitorInterface
 {
     /**
-     * Collector name.
-     *
-     * @var   string
-     * @since 4.0.0
+     * @var ?QueryMonitorInterface
+     * @since 1.0
      */
-    private $name = 'queries';
+    public $oldMonitor;
 
     /**
-     * The query monitor.
-     *
-     * @var    DebugMonitor
-     * @since  4.0.0
+     * @var string
+     * @since 1.0
      */
-    private $queryMonitor;
+    protected $sql;
 
     /**
-     * Profile data.
-     *
-     * @var   array
-     * @since 4.0.0
+     * @var float
+     * @since 1.0
      */
-    private $profiles;
+    protected $startTime;
 
     /**
-     * Explain data.
-     *
-     * @var   array
-     * @since 4.0.0
+     * @var ?array
+     * @since 1.0
      */
-    private $explains;
+    protected $boundParams;
 
     /**
-     * Accumulated Duration.
-     *
-     * @var   integer
-     * @since 4.0.0
+     * @var bool
+     * @since 1.0
      */
-    private $accumulatedDuration = 0;
+    protected $breadcrumbsSql;
 
     /**
-     * Accumulated Memory.
-     *
-     * @var   integer
-     * @since 4.0.0
+     * @var bool
+     * @since 1.0
      */
-    private $accumulatedMemory = 0;
+    protected $breadcrumbsSqlBindings;
 
     /**
-     * Constructor.
-     *
-     * @param   Registry      $params        Parameters.
-     * @param   DebugMonitor  $queryMonitor  Query monitor.
-     * @param   array         $profiles      Profile data.
-     * @param   array         $explains      Explain data
-     *
-     * @since 4.0.0
+     * @var bool
+     * @since 1.0
      */
-    public function __construct(Registry $params, DebugMonitor $queryMonitor, array $profiles, array $explains)
+    protected $tracingSql;
+
+    /**
+     * @var bool
+     * @since 1.0
+     */
+    protected $tracingSqlBindings;
+
+    /**
+     * @since 1.0
+     */
+    public function __construct(array $config, ?QueryMonitorInterface $oldMonitor = null)
     {
-        $this->queryMonitor = $queryMonitor;
+        $this->oldMonitor = $oldMonitor;
 
-        parent::__construct($params);
+        $this->breadcrumbsSql = $config['breadcrumbs_sql'];
+        $this->breadcrumbsSqlBindings = $config['breadcrumbs_sql_bindings'];
 
-        $this->profiles = $profiles;
-        $this->explains = $explains;
+        $this->tracingSql = $config['breadcrumbs_sql'];
+        $this->tracingSqlBindings = $config['breadcrumbs_sql_bindings'];
     }
 
     /**
-     * Called by the DebugBar when data needs to be collected
-     *
-     * @since  4.0.0
-     *
-     * @return array Collected data
+     * @inheritDoc
+     * @since 1.0
      */
-    public function collect(): array
+    public function startQuery(string $sql, ?array $boundParams = null): void
     {
-        $statements = $this->getStatements();
+        $this->sql = $sql;
+        $this->boundParams = $boundParams;
+        $this->startTime = \microtime(true);
 
-        return [
-            'data' => [
-                'statements'               => $statements,
-                'nb_statements'            => \count($statements),
-                'accumulated_duration_str' => $this->getDataFormatter()->formatDuration($this->accumulatedDuration),
-                'memory_usage_str'         => $this->getDataFormatter()->formatBytes($this->accumulatedMemory),
-                'xdebug_link'              => $this->getXdebugLinkTemplate(),
-                'root_path'                => JPATH_ROOT,
-            ],
-            'count' => \count($this->queryMonitor->getLogs()),
-        ];
+        $this->oldMonitor?->startQuery($sql, $boundParams);
     }
 
     /**
-     * Returns the unique name of the collector
-     *
-     * @since  4.0.0
-     *
-     * @return string
+     * @inheritDoc
+     * @since 1.0
      */
-    public function getName(): string
+    public function stopQuery(): void
     {
-        return $this->name;
-    }
+        $executionTimeMs = \round((\microtime(true) - $this->startTime) * 1000, 2);
+        $bindings = [];
 
-    /**
-     * Returns a hash where keys are control names and their values
-     * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
-     *
-     * @since  4.0.0
-     *
-     * @return array
-     */
-    public function getWidgets(): array
-    {
-        return [
-            'queries' => [
-                'icon'    => 'database',
-                'widget'  => 'PhpDebugBar.Widgets.SQLQueriesWidget',
-                'map'     => $this->name . '.data',
-                'default' => '[]',
-            ],
-            'queries:badge' => [
-                'map'     => $this->name . '.count',
-                'default' => 'null',
-            ],
-        ];
-    }
-
-    /**
-     * Assets for the collector.
-     *
-     * @since  4.0.0
-     *
-     * @return array
-     */
-    public function getAssets(): array
-    {
-        return [
-            'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.css',
-            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js',
-        ];
-    }
-
-    /**
-     * Prepare the executed statements data.
-     *
-     * @since  4.0.0
-     *
-     * @return array
-     */
-    private function getStatements(): array
-    {
-        $statements    = [];
-        $logs          = $this->queryMonitor->getLogs();
-        $boundParams   = $this->queryMonitor->getBoundParams();
-        $timings       = $this->queryMonitor->getTimings();
-        $memoryLogs    = $this->queryMonitor->getMemoryLogs();
-        $stacks        = $this->queryMonitor->getCallStacks();
-        $collectStacks = $this->params->get('query_traces');
-
-        foreach ($logs as $id => $item) {
-            $queryTime   = 0;
-            $queryMemory = 0;
-
-            if ($timings && isset($timings[$id * 2 + 1])) {
-                // Compute the query time.
-                $queryTime                 = ($timings[$id * 2 + 1] - $timings[$id * 2]);
-                $this->accumulatedDuration += $queryTime;
+        if (($this->breadcrumbsSqlBindings || $this->tracingSqlBindings) && $this->boundParams) {
+            foreach ($this->boundParams as $key => $binding) {
+                /** @noinspection OnlyWritesOnParameterInspection
+                 * @noinspection RedundantSuppression
+                 */
+                $bindings[$key] = $binding instanceof \stdClass ? $binding->value : $binding;
             }
-
-            if ($memoryLogs && isset($memoryLogs[$id * 2 + 1])) {
-                // Compute the query memory usage.
-                $queryMemory             = ($memoryLogs[$id * 2 + 1] - $memoryLogs[$id * 2]);
-                $this->accumulatedMemory += $queryMemory;
-            }
-
-            $trace          = [];
-            $callerLocation = '';
-
-            if (isset($stacks[$id])) {
-                $cnt = 0;
-
-                foreach ($stacks[$id] as $i => $stack) {
-                    $class = $stack['class'] ?? '';
-                    $file  = $stack['file'] ?? '';
-                    $line  = $stack['line'] ?? '';
-
-                    $caller   = $this->formatCallerInfo($stack);
-                    $location = $file && $line ? "$file:$line" : 'same';
-
-                    $isCaller = 0;
-
-                    if (\Joomla\Database\DatabaseDriver::class === $class && !str_contains($file, 'DatabaseDriver.php')) {
-                        $callerLocation = $location;
-                        $isCaller       = 1;
-                    }
-
-                    if ($collectStacks) {
-                        $trace[] = [\count($stacks[$id]) - $cnt, $isCaller, $caller, $file, $line];
-                    }
-
-                    $cnt++;
-                }
-            }
-
-            $explain        = $this->explains[$id] ?? [];
-            $explainColumns = [];
-
-            // Extract column labels for Explain table
-            if ($explain) {
-                $explainColumns = array_keys(reset($explain));
-            }
-
-            $statements[] = [
-                'sql'          => $item,
-                'params'       => $boundParams[$id] ?? [],
-                'duration_str' => $this->getDataFormatter()->formatDuration($queryTime),
-                'memory_str'   => $this->getDataFormatter()->formatBytes($queryMemory),
-                'caller'       => $callerLocation,
-                'callstack'    => $trace,
-                'explain'      => $explain,
-                'explain_col'  => $explainColumns,
-                'profile'      => $this->profiles[$id] ?? [],
-            ];
         }
 
-        return $statements;
+        // Breadcrumbs
+        if ($this->breadcrumbsSql) {
+            Integration::addBreadcrumb(
+                new Breadcrumb(
+                    Breadcrumb::LEVEL_INFO,
+                    Breadcrumb::TYPE_DEFAULT,
+                    'db.sql.query',
+                    $this->sql,
+                    [
+                        'executionTimeMs' => $executionTimeMs,
+                    ] + ($bindings ? ['bindings' => $bindings] : []),
+                )
+            );
+        }
+
+        // Tracing
+        if ($this->tracingSql) {
+            $parentSpan = SentrySdk::getCurrentHub()->getSpan();
+            if ($parentSpan === null || !$parentSpan->getSampled()) {
+                return;
+            }
+
+            $context = SpanContext::make()
+                ->setOp('db.sql.query')
+                // useless
+                /*->setData([
+                    'db.name' => $connection->getDatabaseName(),
+                    'db.system' => $connection->getDriverName(),
+                    'server.address' => $connection->getConfig('host'),
+                    'server.port' => $connection->getConfig('port'),
+                ])*/
+                ->setOrigin('auto.db')
+                ->setDescription($this->sql)
+                ->setStartTimestamp($this->startTime)
+                ->setEndTimestamp($executionTimeMs);
+
+            if ($this->tracingSqlBindings && $bindings) {
+                $context->setData(/*$context->getData() + */ [
+                    'db.sql.bindings' => $bindings,
+                ]);
+            }
+
+            $parentSpan->startChild($context);
+        }
+
+        $this->oldMonitor?->stopQuery();
+    }
+
+    /**
+     * @since 1.0
+     */
+    public function __call(string $name, array $arguments): mixed
+    {
+        return $this->oldMonitor->$name(...$arguments);
     }
 }
