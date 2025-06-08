@@ -308,7 +308,7 @@ class ContactsModel extends ListModel
             );
 
             if ($includeNone) {
-                $subQuery2 = $db->getQuery(true)
+                $subQuery2 = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_contact.contact'));
@@ -326,7 +326,7 @@ class ContactsModel extends ListModel
             $tag = (int) $tag;
 
             if ($tag === 0) {
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_contact.contact'));

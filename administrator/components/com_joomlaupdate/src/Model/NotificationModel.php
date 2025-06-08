@@ -150,7 +150,7 @@ final class NotificationModel extends BaseDatabaseModel
 
         // Get the user IDs of users belonging to the SA groups
         try {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('user_id'))
                 ->from($db->quoteName('#__user_usergroup_map'))
                 ->whereIn($db->quoteName('group_id'), $groups);
@@ -167,7 +167,7 @@ final class NotificationModel extends BaseDatabaseModel
 
         // Get the user information for the Super Administrator users
         try {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['id', 'username', 'email', 'params']))
                 ->from($db->quoteName('#__users'))
                 ->whereIn($db->quoteName('id'), $userIDs)

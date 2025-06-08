@@ -359,7 +359,7 @@ class CategoriesModel extends ListModel
             ->bind(':typeAlias', $typeAlias);
 
             if ($includeNone) {
-                $subQuery2 = $db->getQuery(true)
+                $subQuery2 = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = :typeAlias2');
@@ -378,7 +378,7 @@ class CategoriesModel extends ListModel
             $tag = (int) $tag;
 
             if ($tag === 0) {
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = :typeAlias');
