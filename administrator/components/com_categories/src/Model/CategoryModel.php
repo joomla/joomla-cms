@@ -1224,6 +1224,10 @@ class CategoryModel extends AdminModel
         switch ($extension) {
             case 'com_content':
                 parent::cleanCache('com_content');
+                parent::cleanCache('mod_articles');
+                /**
+                 * @deprecated __DEPLOY_VERSION__ cleanCache for legacy modules will be removed in 8.0
+                 */
                 parent::cleanCache('mod_articles_archive');
                 parent::cleanCache('mod_articles_categories');
                 parent::cleanCache('mod_articles_category');
