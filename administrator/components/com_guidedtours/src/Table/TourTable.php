@@ -175,7 +175,7 @@ class TourTable extends Table implements CurrentUserInterface
      */
     protected function ensureUniqueUid()
     {
-        $table  = new TourTable($this->_db);
+        $table  = new TourTable($this->getDatabase());
         $unique = false;
         // Alter the title & uid
         while (!$unique) {

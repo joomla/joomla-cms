@@ -840,7 +840,7 @@ class TagsHelper extends CMSHelper
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function postStore(TableInterface $table, array $newTags = [], bool $replace = true, bool $remove = false): bool
     {

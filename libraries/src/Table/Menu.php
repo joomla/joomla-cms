@@ -171,7 +171,7 @@ class Menu extends Nested
      */
     public function store($updateNulls = true)
     {
-        $db = $this->getDbo();
+        $db = $this->getDatabase();
 
         // Verify that the alias is unique
         $table = new self($db, $this->getDispatcher());
@@ -242,7 +242,7 @@ class Menu extends Nested
 
             // The alias already exists. Enqueue an error message.
             if ($error) {
-                $menuTypeTable = new MenuType($this->getDbo(), $this->getDispatcher());
+                $menuTypeTable = new MenuType($db, $this->getDispatcher());
                 $menuTypeTable->load(['menutype' => $table->menutype]);
                 $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
 

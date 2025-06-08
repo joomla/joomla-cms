@@ -717,7 +717,7 @@ abstract class AdminModel extends FormModel
      *
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function batchTags($value, $pks, $contexts, $removeTags = false)
     {
