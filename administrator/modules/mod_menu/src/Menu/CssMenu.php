@@ -13,10 +13,11 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\MenuType;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
@@ -231,7 +232,7 @@ class CssMenu
             $uri = clone Uri::getInstance();
             $uri->setVar('recover_menu', 1);
 
-            $table    = Table::getInstance('MenuType');
+            $table    = new MenuType(Factory::getDbo());
             $menutype = $params->get('menutype');
 
             $table->load(['menutype' => $menutype]);

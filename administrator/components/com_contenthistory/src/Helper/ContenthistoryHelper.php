@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
-use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -320,7 +319,7 @@ class ContenthistoryHelper
     public static function prepareData(ContentHistory $table)
     {
         $object     = static::decodeFields($table->version_data);
-        $typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
+        $typesTable = new ContentType(Factory::getDbo());
         $typeAlias  = explode('.', $table->item_id);
         array_pop($typeAlias);
         $typesTable->load(['type_alias' => implode('.', $typeAlias)]);

@@ -27,7 +27,7 @@ use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
@@ -397,7 +397,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 return false;
             }
 
-            $asset = Table::getInstance('asset');
+            $asset = new Asset($this->getDatabase());
 
             if ($asset->loadByName('root.1')) {
                 $asset->rules = (string) $rules;
@@ -420,7 +420,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         if (isset($data['filters'])) {
             $registry = new Registry(['filters' => $data['filters']]);
 
-            $extension = Table::getInstance('extension');
+            $extension = new Extension($this->getDatabase());
 
             // Get extension_id
             $extensionId = $extension->find(['name' => 'com_config']);
@@ -941,8 +941,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         try {
-            /** @var Asset $asset */
-            $asset  = Table::getInstance('asset');
+            $asset  = new Asset($this->getDatabase());
             $result = $asset->loadByName($permission['component']);
 
             if ($result === false) {
@@ -954,8 +953,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 $asset->title = (string) $permission['title'];
 
                 // Get the parent asset id so we have a correct tree.
-                /** @var Asset $parentAsset */
-                $parentAsset = Table::getInstance('Asset');
+                $parentAsset = new Asset($this->getDatabase());
 
                 if (str_contains($asset->name, '.')) {
                     $assetParts = explode('.', $asset->name);
