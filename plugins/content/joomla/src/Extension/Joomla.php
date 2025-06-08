@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Content\Joomla\Extension;
 
 use Joomla\CMS\Cache\CacheControllerFactory;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model\AfterChangeStateEvent;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
@@ -20,9 +19,13 @@ use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -34,6 +37,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -163,26 +167,35 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         }
 
         $user = $this->getApplication()->getIdentity();
+        $this->loadLanguage();
 
-        // Messaging for new items
-
-        $default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-        $debug            = $this->getApplication()->get('debug_lang');
-
+        // Emailing for new items
         foreach ($users as $user_id) {
             if ($user_id != $user->id) {
-                // Load language for messaging
-                $receiver = $this->getUserFactory()->loadUserById($user_id);
-                $lang     = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
-                $lang->load('com_content');
-                $message = [
-                    'user_id_to' => $user_id,
-                    'subject'    => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-                    'message'    => \sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->name, $article->title),
+                $receiver     = $this->getUserFactory()->loadUserById($user_id);
+                $linkMode     = $this->getApplication()->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+                $templateData = [
+                    'sitename' => $this->getApplication()->get('sitename'),
+                    'name'     => $user->name,
+                    'email'    => PunycodeHelper::emailToPunycode($user->email),
+                    'title'    => $article->title,
+                    'url'      => Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true),
                 ];
-                $model_message = $this->getApplication()->bootComponent('com_messages')->getMVCFactory()
-                    ->createModel('Message', 'Administrator');
-                $model_message->save($message);
+
+                // Send email
+                try {
+                    $mailer = new MailTemplate('plg_content_joomla.newarticle', $receiver->getParam('admin_language', $this->getLanguage()->getTag()));
+                    $mailer->addTemplateData($templateData);
+                    $mailer->addRecipient($receiver->email, $receiver->name);
+
+                    $mailer->send();
+                } catch (MailDisabledException | phpMailerException $exception) {
+                    try {
+                        Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+                    } catch (\RuntimeException $exception) {
+                        $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                    }
+                }
             }
         }
     }

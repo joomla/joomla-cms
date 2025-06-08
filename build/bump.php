@@ -162,7 +162,7 @@ $version = [
     'build'      => '',
     'reldate'    => $date->format('j-F-Y'),
     'reltime'    => $date->format('H:i'),
-    'reltz'      => 'GMT',
+    'reltz'      => 'UTC',
     'credate'    => $date->format('Y-m'),
 ];
 
