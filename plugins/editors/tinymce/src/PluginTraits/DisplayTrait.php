@@ -323,8 +323,7 @@ trait DisplayTrait
 
         $dragdrop = $levelParams->get('drag_drop', 1);
 
-        if ($dragdrop && $user->authorise('core.create', 'com_media')) {
-            $wa->useScript('plg_editors_tinymce.jdragndrop');
+        if ($dragdrop && $user->authorise('core.manage', 'com_media') && $user->authorise('core.create', 'com_media')) {
             $plugins[]  = 'jdragndrop';
             $uploadUrl  = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
             $uploadPath = $levelParams->get('path', '');
@@ -349,8 +348,14 @@ trait DisplayTrait
             Text::script('PLG_TINY_DND_EMPTY_ALT');
             Text::script('PLG_TINY_DND_FILE_EXISTS_ERROR');
 
-            $scriptOptions['parentUploadFolder'] = $mediaHelper->prepareTinyMCEUploadPath($uploadPath);
-            $scriptOptions['uploadUri']          = $uploadUrl;
+            try {
+                $scriptOptions['parentUploadFolder'] = $mediaHelper->prepareTinyMCEUploadPath($uploadPath);
+                $scriptOptions['uploadUri']          = $uploadUrl;
+                $wa->useScript('plg_editors_tinymce.jdragndrop');
+            }
+            catch (\InvalidArgumentException $e) {
+                // If the path is not valid, we will not be able to upload files
+            }
         }
 
         // Convert pt to px in dropdown
