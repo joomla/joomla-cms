@@ -145,7 +145,7 @@ class ExceptionHandler
 
             if ($isCli) {
                 echo $data;
-            } elseif ($isAPI){
+            } elseif ($isAPI) {
                 $app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
                 $app->sendHeaders();
 
