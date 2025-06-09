@@ -709,7 +709,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                                 )
                             );
                             $foundAssociation = true;
-                        }                        
+                        }
                     } elseif (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code])) {
                         /**
                          * The login form does not contain a menu item redirection.
