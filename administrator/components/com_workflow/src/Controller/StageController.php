@@ -154,7 +154,6 @@ class StageController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $append = parent::getRedirectToItemAppend($recordId);
-
         $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
         return $append;
