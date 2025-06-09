@@ -693,7 +693,7 @@ if (Joomla.getOptions('com_guidedtours.autotour', '') !== '') {
   tourId = Joomla.getOptions('com_guidedtours.autotour');
 }
 
-if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
+if ((Number.parseInt(tourId, 10) > 0 || tourId !== null) && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
   loadTour(tourId);
 } else {
   emptyStorage();
