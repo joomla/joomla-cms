@@ -603,6 +603,8 @@ Cypress.Commands.add('db_createWorkflow', (workflowData) => {
     description: '',
     extension: 'com_content.article',
     default: 0,
+    created: '2025-06-01 18:00:00',
+    modified: '2025-06-01 18:00:00',
   };
   const workflow = { ...defaultWorkflowOptions, ...workflowData };
 
