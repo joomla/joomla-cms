@@ -2,7 +2,7 @@ describe('Test in backend that the workflow form', () => {
   before(() => cy.task('writeRelativeFile', { path: 'administrator/language/overrides/en-GB.override.ini', content: 'AUTOMATED_TEST_WORKFLOW="Test workflow translated"' }));
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => {
-    cy.task('queryDB', "DELETE FROM #__workflow_stages WHERE workflow_id = (SELECT id FROM #__workflows WHERE title = 'AUTOMATED_TEST_WORKFLOW')");
+    cy.task('queryDB', "DELETE FROM #__workflow_stages WHERE workflow_id IN (SELECT id FROM #__workflows WHERE title = 'AUTOMATED_TEST_WORKFLOW')");
     cy.task('queryDB', "DELETE FROM #__workflows WHERE title = 'AUTOMATED_TEST_WORKFLOW'");
   });
   after(() => cy.task('deleteRelativePath', 'administrator/language/overrides/en-GB.override.ini'));

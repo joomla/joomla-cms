@@ -537,7 +537,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
             } elseif ($response->code !== 200) {
                 $data = json_decode($response->body);
 
-                $error = 'Could not send site statistics to remote server: ' . $data->message;
+                $error = 'Could not send site statistics to remote server: ' . ($data->message ?? $response->body);
             }
         } catch (\UnexpectedValueException $e) {
             // There was an error sending stats. Should we do anything?

@@ -11,7 +11,7 @@ describe('Test that the notification workflow plugin', () => {
     cy.doAdministratorLogin();
   });
   afterEach(() => {
-    cy.task('queryDB', "DELETE FROM #__workflow_associations WHERE item_id = (SELECT id FROM #__content WHERE title = 'Article notification') AND extension = 'com_content.article'");
+    cy.task('queryDB', "DELETE FROM #__workflow_associations WHERE item_id IN (SELECT id FROM #__content WHERE title = 'Article notification') AND extension = 'com_content.article'");
     cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Article notification'");
     cy.task('queryDB', 'UPDATE #__workflows SET `default` = 1 WHERE id = 1');
   });

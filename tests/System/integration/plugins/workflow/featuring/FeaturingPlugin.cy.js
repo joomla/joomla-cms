@@ -8,7 +8,7 @@ describe('Test that the featuring workflow plugin', () => {
   });
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => {
-    cy.task('queryDB', "DELETE FROM #__workflow_associations WHERE item_id = (SELECT id FROM #__content WHERE title = 'Article featuring') AND extension = 'com_content.article'");
+    cy.task('queryDB', "DELETE FROM #__workflow_associations WHERE item_id IN (SELECT id FROM #__content WHERE title = 'Article featuring') AND extension = 'com_content.article'");
     cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Article featuring'");
     cy.task('queryDB', 'UPDATE #__workflows SET `default` = 1 WHERE id = 1');
   });
