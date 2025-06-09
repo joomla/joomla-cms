@@ -1,6 +1,6 @@
 describe('Test that contenthistory for banners API endpoint', () => {
   afterEach(() => {
-    cy.task('queryDB', 'DELETE FROM #__banners WHERE name = "automated test banner"');
+    cy.task('queryDB', "DELETE FROM #__banners WHERE name = 'automated test banner'");
     cy.task('queryDB', 'DELETE FROM #__history');
   });
 
