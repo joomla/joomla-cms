@@ -92,7 +92,7 @@ Joomla.toggleAllNextElements = (element, className) => {
 
     // listen to click event to get selected rows
     if (itemList) {
-      itemList.addEventListener('click', () => {
+      itemList.addEventListener('joomla:update', () => {
         dropDownBtn.querySelectorAll('.button-transition').forEach((trans) => {
           trans.parentNode.classList.add('d-none');
         });
