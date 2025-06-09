@@ -52,7 +52,7 @@ describe('Test that the featuring workflow plugin', () => {
     cy.db_createArticle({ title: 'Test article', featured: 0 }).then((article) => {
       cy.visit(`/administrator/index.php?option=com_content&task=article.edit&id=${article.id}`);
       cy.get('#jform_featured-lbl').should('contain', 'Featured: No');
-      cy.intercept('POST', '/administrator/index.php?option=com_content*', (req) => { req.body += '&jform[featured]=1'; }).as('articleSave');
+      cy.intercept('POST', '**/administrator/index.php?option=com_content*', (req) => { req.body += '&jform[featured]=1'; }).as('articleSave');
       cy.clickToolbarButton('Save');
       cy.checkForSystemMessage('Save failed with the following error: You\'re not allowed to change the featured state of this item. Please use a workflow transition.');
       cy.get('#jform_featured-lbl').should('contain', 'Featured: No');
@@ -64,7 +64,7 @@ describe('Test that the featuring workflow plugin', () => {
       cy.doFrontendLogin();
       cy.visit(`/index.php?option=com_content&task=article.edit&a_id=${article.id}`);
       cy.get('#jform_featured-lbl').should('contain', 'Featured: No');
-      cy.intercept('POST', '/index.php/component/content*', (req) => { req.body += '&jform[featured]=1'; }).as('articleSave');
+      cy.intercept('POST', '**/index.php/component/content*', (req) => { req.body += '&jform[featured]=1'; }).as('articleSave');
       cy.get('button[data-submit-task="article.apply"]').click();
       cy.checkForSystemMessage('Save failed with the following error: You\'re not allowed to change the featured state of this item. Please use a workflow transition.');
       cy.get('#jform_featured-lbl').should('contain', 'Featured: No');
