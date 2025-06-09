@@ -91,11 +91,11 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      *
      * @param   Model\PrepareFormEvent   $event  The event
      *
-     * @return   boolean
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onContentPrepareForm(Model\PrepareFormEvent $event)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event): void
     {
         $form    = $event->getForm();
         $data    = $event->getData();
@@ -105,8 +105,6 @@ final class Notification extends CMSPlugin implements SubscriberInterface
         if ($context === 'com_workflow.transition') {
             $this->enhanceWorkflowTransitionForm($form, $data);
         }
-
-        return true;
     }
 
     /**
@@ -114,11 +112,11 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      *
      * @param   WorkflowTransitionEvent  $event  The workflow event being processed.
      *
-     * @return   void
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
+    public function onWorkflowAfterTransition(WorkflowTransitionEvent $event): void
     {
         $context       = $event->getArgument('extension');
         $extensionName = $event->getArgument('extensionName');
@@ -288,11 +286,11 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $context
      *
-     * @return   boolean
+     * @return  boolean
      *
      * @since   4.0.0
      */
-    protected function isSupported($context)
+    protected function isSupported($context): bool
     {
         if (!$this->checkAllowedAndForbiddenlist($context)) {
             return false;
@@ -319,7 +317,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      *
      * @param   array  $userIds  The userIds which must be checked
      *
-     * @return   array  users with active message input box
+     * @return  array  users with active message input box
      *
      * @since   4.0.0
      */
