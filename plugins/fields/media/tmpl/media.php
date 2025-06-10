@@ -93,6 +93,9 @@ if (MediaHelper::isImage($fileUrl) || ($isLocalFile && MediaHelper::getMimeType(
     echo LayoutHelper::render('joomla.html.video', $options);
 } else {
     $linkText = $field->value['linktext'] ?? Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE');
-
-    echo HTMLHelper::link(($isLocalFile ? $field->value['imagefile'] : $fileUrl), $linkText, $options);
+    $fileUrl = $isLocalFile ? $field->value['imagefile'] : $fileUrl;
+    if(str_contains($linkText, '{filename}')) {
+        $linkText = str_replace('{filename}', $fileUrl, $linkText);
+    }
+    echo HTMLHelper::link($fileUrl, $linkText, $options);
 }
