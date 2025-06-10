@@ -14,8 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-use Joomla\CMS\UCM\UCMContent;
-use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
