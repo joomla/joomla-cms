@@ -94,7 +94,7 @@ if (MediaHelper::isImage($fileUrl) || ($isLocalFile && MediaHelper::getMimeType(
 } else {
     $linkText = $field->value['linktext'] ?? Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE');
     $fileUrl = $isLocalFile ? $field->value['imagefile'] : $fileUrl;
-    if(str_contains($linkText, '{filename}')) {
+    if (str_contains($linkText, '{filename}')) {
         $linkText = str_replace('{filename}', basename($fileUrl), $linkText);
     }
     echo HTMLHelper::link($fileUrl, $linkText, $options);
