@@ -45,8 +45,15 @@ class CategoryFeedView extends AbstractView
         $extension      = $app->getInput()->getString('option');
         $contentType    = $extension . '.' . $this->viewName;
 
-        $ucmType      = new UCMType();
-        $ucmRow       = $ucmType->getTypeByAlias($contentType);
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('ct') . '.*')
+            ->from($db->quoteName('#__content_types', 'ct'))
+            ->where($db->quoteName('ct.type_alias') . ' = :alias')
+            ->bind(':alias', $contentType);
+
+        $db->setQuery($query);
+        $ucmRow       = $db->loadObject();
         $ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
         $createdField = null;
         $titleField   = null;
