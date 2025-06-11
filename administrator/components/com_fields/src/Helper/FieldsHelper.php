@@ -259,6 +259,155 @@ class FieldsHelper
     }
 
     /**
+     * Returns the fields for the given context and the given field.
+     * If the item is an object the returned fields do have an additional field
+     * "value" which represents the value for the given item. If the item has an
+     * assigned_cat_ids field, then additionally fields which belong to that
+     * category will be returned.
+     * Should the value being prepared to be shown in an HTML context then
+     * prepareValue must be set to true. No further escaping needs to be done.
+     * The values of the fields can be overridden by an associative array where the keys
+     * have to be a name and its corresponding value.
+     *
+     * @param   string             $context              The context of the content passed to the helper
+     * @param   int                $fieldId                The id of the field to get
+     * @param   object|array|null  $item                 The item being edited in the form
+     * @param   int|bool           $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
+     * @param   ?array             $valueToOverride     The values to override
+     * @param   bool               $includeSubformFields Should I include fields marked as Only Use In Subform?
+     *
+     * @return  object|null
+     *
+     * @throws \Exception
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getField(
+        $context,
+        $fieldId,
+        $item = null,
+        $prepareValue = false,
+        ?object $valueToOverride = null,
+        bool $includeSubformFields = false
+    ) {
+        if (self::$fieldCache === null) {
+            // Load the model
+            self::$fieldCache = Factory::getApplication()->bootComponent('com_fields')
+                ->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
+
+            self::$fieldCache->setState('filter.state', 1);
+            self::$fieldCache->setState('list.limit', 1);
+        }
+
+        if ($includeSubformFields) {
+            self::$fieldCache->setState('filter.only_use_in_subform', '');
+        } else {
+            self::$fieldCache->setState('filter.only_use_in_subform', 0);
+        }
+
+        if (\is_array($item)) {
+            $item = (object) $item;
+        }
+
+        if (Multilanguage::isEnabled() && isset($item->language) && $item->language != '*') {
+            self::$fieldsCache->setState('filter.language', ['*', $item->language]);
+        }
+
+        self::$fieldCache->setState('filter.context', $context);
+        self::$fieldCache->setState('filter.assigned_cat_ids', []);
+
+        /*
+         * If item has assigned_cat_ids parameter display only fields which
+         * belong to the category
+         */
+        if ($item && (isset($item->catid) || isset($item->fieldscatid))) {
+            $assignedCatIds = $item->catid ?? $item->fieldscatid;
+
+            if (!\is_array($assignedCatIds)) {
+                $assignedCatIds = explode(',', $assignedCatIds);
+            }
+
+            // Fields without any category assigned should show as well
+            $assignedCatIds[] = 0;
+
+            self::$fieldCache->setState('filter.assigned_cat_ids', $assignedCatIds);
+        }
+
+        $field = self::$fieldCache->getItem($fieldId);
+
+        if ($field === false) {
+            return null;
+        }
+
+        if ($item && isset($item->id)) {
+            if (self::$fieldCache === null) {
+                self::$fieldCache = Factory::getApplication()->bootComponent('com_fields')
+                    ->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
+            }
+
+            /** @var DispatcherInterface $dispatcher */
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+            PluginHelper::importPlugin('fields', null, true, $dispatcher);
+
+            if ($valueToOverride) {
+                $field->value = $valueToOverride;
+            } else {
+                $field->value = self::$fieldCache->getFieldValue($field->id, $item->id);
+            }
+
+            if (!isset($field->value) || $field->value === '') {
+                $field->value = $field->default_value;
+            }
+
+            $field->rawvalue = $field->value;
+
+            // If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display Content, 3 - After Display Content, 0 - Do not prepare
+            if ($prepareValue && (\is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2'))) {
+                /*
+                 * On before field prepare
+                 * Event allow plugins to modify the output of the field before it is prepared
+                 */
+                $dispatcher->dispatch('onCustomFieldsBeforePrepareField', new BeforePrepareFieldEvent('onCustomFieldsBeforePrepareField', [
+                    'context' => $context,
+                    'item'    => $item,
+                    'subject' => $field,
+                ]));
+
+                // Gathering the value for the field
+                $value = $dispatcher->dispatch('onCustomFieldsPrepareField', new PrepareFieldEvent('onCustomFieldsPrepareField', [
+                    'context' => $context,
+                    'item'    => $item,
+                    'subject' => $field,
+                ]))->getArgument('result', []);
+
+                if (\is_array($value)) {
+                    $value = array_filter($value, function ($v) {
+                        return $v !== '' && $v !== null;
+                    });
+                    $value = $value ? implode(' ', $value) : '';
+                }
+
+                /*
+                 * On after field render
+                 * Event allows plugins to modify the output of the prepared field
+                 */
+                $eventAfter = new AfterPrepareFieldEvent('onCustomFieldsAfterPrepareField', [
+                    'context' => $context,
+                    'item'    => $item,
+                    'subject' => $field,
+                    'value'   => &$value, // @todo: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
+                ]);
+                $dispatcher->dispatch('onCustomFieldsAfterPrepareField', $eventAfter);
+                $value = $eventAfter->getValue();
+
+                // Assign the value
+                $field->value = $value;
+            }
+        }
+
+        return $field;
+    }
+
+    /**
      * Renders the layout file and data on the context and does a fall back to
      * Fields afterwards.
      *
