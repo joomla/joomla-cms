@@ -90,7 +90,7 @@
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
 					showon="user_id:created_by"
-          data-render-selected-choices="auto"
+					data-render-selected-choices="auto"
 				/>
 			</fieldset>
 

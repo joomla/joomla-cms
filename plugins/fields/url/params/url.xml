@@ -9,7 +9,7 @@
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
 				validate="options"
-        data-render-selected-choices="auto"
+				data-render-selected-choices="auto"
 				>
 				<option value="http">HTTP</option>
 				<option value="https">HTTPS</option>
