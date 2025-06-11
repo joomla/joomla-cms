@@ -164,7 +164,7 @@ class TagModel extends AdminModel
                 $associations = Associations::getAssociations('com_tags', '#__tags', 'com_tags.tag', $result->id, 'id', 'alias', null);
 
                 foreach ($associations as $tag => $association) {
-                    $result->associations[$tag] = $association->id;
+                    $result->associations[$tag] = (int) $association->id;
                 }
             }
         }
@@ -262,6 +262,8 @@ class TagModel extends AdminModel
                     $field->addAttribute('label', $language->title);
                     $field->addAttribute('translate_label', 'false');
                     $field->addAttribute('mode', 'nested');
+                    $field->addAttribute('custom', 'false');
+                    $field->addAttribute('parent', 'parent');
                     $option = $field->addChild('option');
                     $option->addAttribute('value', '');
                 }
