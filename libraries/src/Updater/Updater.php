@@ -10,7 +10,8 @@
 namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Adapter\Adapter;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -181,6 +182,36 @@ class Updater extends Adapter
     }
 
     /**
+     * Returns available updates
+     *
+     * @param integer $eid
+     * @param string $minimumStability
+     * @param boolean $includeCurrent
+     *
+     * @return array
+     */
+    public function getAvailableUpdates(int $eid, string $minimumStability = self::STABILITY_STABLE): array
+    {
+        $results = $this->getUpdateSites($eid);
+
+        if (empty($results)) {
+            return [];
+        }
+
+        $updateObjects = [];
+
+        foreach ($results as $result) {
+            $updateElements = $this->getUpdateObjectsForSite($result, $minimumStability);
+
+            foreach ($updateElements as $updateElement) {
+                $updateObjects[] = get_object_vars($updateElement);
+            }
+        }
+
+        return $updateObjects;
+    }
+
+    /**
      * Returns the update site records for an extension with ID $eid. If $eid is zero all enabled update sites records
      * will be returned.
      *
@@ -293,11 +324,8 @@ class Updater extends Adapter
                 foreach ($update_result['updates'] as $current_update) {
                     $current_update->extra_query = $updateSite['extra_query'];
 
-                    /** @var \Joomla\CMS\Table\Update $update */
-                    $update = Table::getInstance('update');
-
-                    /** @var \Joomla\CMS\Table\Extension $extension */
-                    $extension = Table::getInstance('extension');
+                    $update    = new UpdateTable($this->getDbo());
+                    $extension = new Extension($this->getDbo());
 
                     $uid = $update
                         ->find(

@@ -17,8 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\JsonApiView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -106,7 +106,7 @@ class ApiController extends BaseController
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
-        $this->modelState = new CMSObject();
+        $this->modelState = new Registry();
 
         parent::__construct($config, $factory, $app, $input);
 

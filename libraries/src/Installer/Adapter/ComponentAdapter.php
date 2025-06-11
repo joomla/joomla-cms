@@ -16,8 +16,9 @@ use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Category;
 use Joomla\CMS\Table\Extension;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
@@ -338,8 +339,7 @@ class ComponentAdapter extends InstallerAdapter
      */
     protected function finaliseInstall()
     {
-        /** @var Update $update */
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
 
         // Clobber any possible pending updates
         $uid = $update->find(
@@ -378,8 +378,7 @@ class ComponentAdapter extends InstallerAdapter
             Log::add(Text::_('JLIB_INSTALLER_ABORT_COMP_UPDATESITEMENUS_FAILED'), Log::WARNING, 'jerror');
         }
 
-        /** @var Asset $asset */
-        $asset = Table::getInstance('Asset');
+        $asset = new Asset($this->getDatabase());
 
         // Check if an asset already exists for this extension and create it if not
         if (!$asset->loadByName($this->extension->element)) {
@@ -426,7 +425,7 @@ class ComponentAdapter extends InstallerAdapter
         $db->execute();
 
         // Remove the component container in the assets table.
-        $asset = Table::getInstance('Asset');
+        $asset = new Asset($this->getDatabase());
 
         if ($asset->loadByName($this->getElement())) {
             $asset->delete();
@@ -451,10 +450,11 @@ class ComponentAdapter extends InstallerAdapter
         $db->execute();
 
         // Rebuild the categories for correct lft/rgt
-        Table::getInstance('category')->rebuild();
+        $table = new Category($db);
+        $table->rebuild();
 
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
             [
                 'element'   => $this->extension->element,
@@ -692,8 +692,7 @@ class ComponentAdapter extends InstallerAdapter
                     $this->_removeAdminMenus($eid);
 
                     // Remove the extension record itself
-                    /** @var Extension $extensionTable */
-                    $extensionTable = Table::getInstance('extension');
+                    $extensionTable = new Extension($this->getDatabase());
                     $extensionTable->delete($eid);
                 }
             }
@@ -881,8 +880,7 @@ class ComponentAdapter extends InstallerAdapter
                     $this->_removeAdminMenus($eid);
 
                     // Remove the extension record itself
-                    /** @var Extension $extensionTable */
-                    $extensionTable = Table::getInstance('extension');
+                    $extensionTable = new Extension($this->getDatabase());
                     $extensionTable->delete($eid);
                 }
             }
@@ -1148,8 +1146,7 @@ class ComponentAdapter extends InstallerAdapter
     {
         $db = $this->getDatabase();
 
-        /** @var  \Joomla\CMS\Table\Menu  $table */
-        $table = Table::getInstance('menu');
+        $table = new Menu($db);
 
         // Get the ids of the menu items
         $query = $db->getQuery(true)
@@ -1288,7 +1285,7 @@ class ComponentAdapter extends InstallerAdapter
                 $manifest_details = Installer::parseXMLInstallFile(
                     JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'component';
                 $extension->client_id      = 0;
                 $extension->element        = $component;
@@ -1307,7 +1304,7 @@ class ComponentAdapter extends InstallerAdapter
                 $manifest_details = Installer::parseXMLInstallFile(
                     JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'component';
                 $extension->client_id      = 1;
                 $extension->element        = $component;
@@ -1325,7 +1322,7 @@ class ComponentAdapter extends InstallerAdapter
                 $manifest_details = Installer::parseXMLInstallFile(
                     JPATH_API . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'component';
                 $extension->client_id      = 3;
                 $extension->element        = $component;
@@ -1392,8 +1389,7 @@ class ComponentAdapter extends InstallerAdapter
     {
         $db = $this->getDatabase();
 
-        /** @var  \Joomla\CMS\Table\Menu  $table */
-        $table  = Table::getInstance('menu');
+        $table = new Menu($db);
 
         try {
             $table->setLocation($parentId, 'last-child');
@@ -1440,8 +1436,7 @@ class ComponentAdapter extends InstallerAdapter
                 return false;
             }
 
-            /** @var  \Joomla\CMS\Table\Menu $temporaryTable */
-            $temporaryTable = Table::getInstance('menu');
+            $temporaryTable = new Menu($db);
             $temporaryTable->delete($menu_id, true);
             $temporaryTable->load($parentId);
             $temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);

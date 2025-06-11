@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
@@ -283,7 +282,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Return a tour and its steps or null if not found
      *
-     * @param   CMSObject  $item  The tour to load
+     * @param   \stdClass  $item  The tour to load
      *
      * @return null|object
      *

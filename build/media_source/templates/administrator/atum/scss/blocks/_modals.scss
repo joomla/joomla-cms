@@ -220,7 +220,8 @@ joomla-dialog {
         width: 66px;
         height: 66px;
         content: "";
-        background: url("../../../../system/images/ajax-loader.gif") no-repeat center; // TODO: use svg animation?
+        background: url("../../../../system/images/joomla-loader.svg") no-repeat center;
+        background-size: 66px 66px;
         transform: translate(-50%, -50%);
       }
     }

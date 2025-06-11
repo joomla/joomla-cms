@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The application input object.
      *
-     * @var    \Joomla\CMS\Input\Input
+     * @var    \Joomla\Input\Input
      * @since  4.0.0
      */
     protected $input;

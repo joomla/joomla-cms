@@ -197,11 +197,11 @@ class ConstraintCheckerTest extends UnitTestCase
             [(array) ["name" => "foobar", "version" => "4.*"], false],
             [(array) ["name" => "joomla", "version" => "1.*"], false],
             [(array) ["name" => "joomla", "version" => "3.1.2"], false],
-            [(array) ["name" => "joomla", "version" => "6.*"], false],
+            [(array) ["name" => "joomla", "version" => "6.*"], true],
             [(array) ["name" => "joomla", "version" => ""], true],
             [(array) ["name" => "joomla", "version" => ".*"], true],
             [(array) ["name" => "joomla", "version" => JVERSION], true],
-            [(array) ["name" => "joomla", "version" => "5.*"], true],
+            [(array) ["name" => "joomla", "version" => "5.*"], false],
         ];
     }
 

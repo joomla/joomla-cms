@@ -254,6 +254,10 @@
   background-color: hsl(var(--hue), 20%, 97%);
   border: 1px solid hsl(var(--hue), 35%, 95%);
   border-radius: $grid-item-border-radius;
+
+  &.with-thumbnail {
+    padding-bottom: 0;
+  }
 }
 
 .file-icon, .folder-icon {
