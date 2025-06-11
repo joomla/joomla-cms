@@ -323,7 +323,8 @@ trait DisplayTrait
 
         $dragdrop = $levelParams->get('drag_drop', 1);
 
-        if ($dragdrop && $user->authorise('core.manage', 'com_media') && $user->authorise('core.create', 'com_media')) {
+        // There is a bit of a strange (but exprected?) behaviour, if you're in admin you need to pass "core.manage", but not in frontend
+        if ($dragdrop && (!$app->isClient('administrator') || $user->authorise('core.manage', 'com_media')) && $user->authorise('core.create', 'com_media')) {
             $plugins[]  = 'jdragndrop';
             $uploadUrl  = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
             $uploadPath = $levelParams->get('path', '');
