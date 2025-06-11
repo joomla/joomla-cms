@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Versioning;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
@@ -78,6 +80,9 @@ trait VersionableModelTrait
         if (isset($rowArray[$key])) {
             $table->load($rowArray[$key]);
         }
+
+        $rowArray['checked_out']      = Factory::getUser()->id;
+        $rowArray['checked_out_time'] = (new Date())->toSql();
 
         return $table->bind($rowArray);
     }
