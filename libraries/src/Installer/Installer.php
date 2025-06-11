@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Installer;
 
-use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\Extension\AfterInstallEvent;
 use Joomla\CMS\Event\Extension\AfterUninstallEvent;
@@ -20,6 +19,8 @@ use Joomla\CMS\Event\Extension\BeforeUpdateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
@@ -42,9 +43,35 @@ use Joomla\Filesystem\Path;
  *
  * @since  3.1
  */
-class Installer extends Adapter implements DatabaseAwareInterface
+class Installer implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
+    /**
+     * Array of installer adapters
+     *
+     * @var    string[]|InstallerAdapter[]
+     * @since  __DEPLOY_VERSION__
+     */
+    private $adapters = [];
+
+    /**
+     * Adapter Class Prefix
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    private $classprefix = '\\Joomla\\CMS\\Installer\\Adapter';
+
+    /**
+     * Base Path for the installer adapters
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    private $adapterfolder;
 
     /**
      * Array of paths needed by the installer
@@ -176,7 +203,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function __construct($basepath = __DIR__, $classprefix = '\\Joomla\\CMS\\Installer\\Adapter', $adapterfolder = 'Adapter')
     {
-        parent::__construct($basepath, $classprefix, $adapterfolder);
+        $this->adapterfolder = $basepath . '/' . $adapterfolder;
+        $this->classprefix   = $classprefix;
+        $this->loadAdapters();
 
         $this->extension = Table::getInstance('Extension');
     }
@@ -574,13 +603,20 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     break;
 
                 default:
-                    if ($type && \is_object($this->_adapters[$type])) {
+                    if ($type) {
+                        try {
+                            $adapter = $this->getAdapter($type);
+                        } catch (\InvalidArgumentException $e) {
+                            $stepval = false;
+                            break;
+                        }
+
                         // Build the name of the custom rollback method for the type
                         $method = '_rollback_' . $step['type'];
 
                         // Custom rollback method handler
-                        if (method_exists($this->_adapters[$type], $method)) {
-                            $stepval = $this->_adapters[$type]->$method($step);
+                        if (method_exists($adapter, $method)) {
+                            $stepval = $adapter->$method($step);
                         }
                     } else {
                         // Set it to false
@@ -703,7 +739,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $type   = $this->extension->type;
         $params = ['extension' => $this->extension, 'route' => 'discover_install'];
 
-        $adapter = $this->loadAdapter($type, $params);
+        $adapter = $this->getAdapter($type, $params);
 
         if (!\is_object($adapter)) {
             return false;
@@ -775,7 +811,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $results = [];
 
         foreach ($this->getAdapters() as $adapter) {
-            $instance = $this->loadAdapter($adapter);
+            $instance = $this->getAdapter($adapter);
 
             // Joomla! 1.5 installation adapter legacy support
             if (method_exists($instance, 'discover')) {
@@ -865,7 +901,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     {
         $params = ['extension' => $this->extension, 'route' => 'uninstall'];
 
-        $adapter = $this->loadAdapter($type, $params);
+        $adapter = $this->getAdapter($type, $params);
 
         if (!\is_object($adapter)) {
             return false;
@@ -921,7 +957,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             }
 
             // Fetch the adapter
-            $adapter = $this->loadAdapter($this->extension->type);
+            $adapter = $this->getAdapter($this->extension->type);
 
             if (!\is_object($adapter)) {
                 return false;
@@ -972,7 +1008,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $params = ['route' => $route, 'manifest' => $this->getManifest()];
 
         // Load the adapter
-        $adapter = $this->loadAdapter($type, $params);
+        $adapter = $this->getAdapter($type, $params);
 
         if ($returnAdapter) {
             return $adapter;
@@ -994,7 +1030,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function parseQueries(\SimpleXMLElement $element)
     {
         // Get the database connector object
-        $db = & $this->_db;
+        $db = $this->getDatabase();
 
         if (!$element || !\count($element->children())) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1043,7 +1079,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             return 0;
         }
 
-        $db          = &$this->_db;
+        $db          = $this->getDatabase();
         $dbDriver    = $db->getServerType();
         $updateCount = 0;
 
@@ -2349,6 +2385,51 @@ class Installer extends Adapter implements DatabaseAwareInterface
     }
 
     /**
+     * Discover all adapters in the adapterfolder path
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function loadAdapters()
+    {
+        $files    = new \DirectoryIterator($this->adapterfolder);
+
+        // Process the core adapters
+        foreach ($files as $file) {
+            $fileName = $file->getFilename();
+
+            // Only load php files.
+            if (!$file->isFile() || $file->getExtension() !== 'php') {
+                continue;
+            }
+
+            // Derive the class name from the filename.
+            $name  = str_ireplace('.php', '', trim($fileName));
+            $name  = str_ireplace('adapter', '', trim($name));
+            $class = rtrim($this->classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
+
+            if (!class_exists($class)) {
+                // Not namespaced
+                $class = $this->classprefix . ucfirst($name);
+            }
+
+            // Core adapters should autoload based on classname, keep this fallback just in case
+            if (!class_exists($class)) {
+                // Try to load the adapter object
+                \JLoader::register($class, $this->adapterfolder . '/' . $fileName);
+
+                if (!class_exists($class)) {
+                    // Skip to next one
+                    continue;
+                }
+            }
+
+            $this->adapters[strtolower($name)] = $class;
+        }
+    }
+
+    /**
      * Gets a list of available install adapters.
      *
      * @param   array  $options  An array of options to inject into the adapter
@@ -2360,59 +2441,64 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function getAdapters($options = [], array $custom = [])
     {
-        $files    = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
-        $adapters = [];
-
-        // Process the core adapters
-        foreach ($files as $file) {
-            $fileName = $file->getFilename();
-
-            // Only load for php files.
-            if (!$file->isFile() || $file->getExtension() !== 'php') {
-                continue;
-            }
-
-            // Derive the class name from the filename.
-            $name  = str_ireplace('.php', '', trim($fileName));
-            $name  = str_ireplace('adapter', '', trim($name));
-            $class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
-
-            if (!class_exists($class)) {
-                // Not namespaced
-                $class = $this->_classprefix . ucfirst($name);
-            }
-
-            // Core adapters should autoload based on classname, keep this fallback just in case
-            if (!class_exists($class)) {
-                // Try to load the adapter object
-                \JLoader::register($class, $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName);
-
-                if (!class_exists($class)) {
-                    // Skip to next one
-                    continue;
-                }
-            }
-
-            $adapters[] = $name;
-        }
-
-        // Add any custom adapters if specified
-        if (\count($custom) >= 1) {
+        if (\count($custom)) {
             foreach ($custom as $adapter) {
                 // Setup the class name
                 // @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
-                $class = $this->_classprefix . ucfirst(trim($adapter));
+                $class = $this->classprefix . ucfirst(trim($adapter));
 
                 // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
                 if (!class_exists($class)) {
                     continue;
                 }
 
-                $adapters[] = str_ireplace('.php', '', $fileName);
+                $this->adapters[$adapter] = $class;
             }
         }
 
-        return $adapters;
+        return array_keys($this->adapters);
+    }
+
+    /**
+     * Get an install adapter instance
+     *
+     * @param   string  $name     Adapter name
+     * @param   array   $options  Adapter options
+     *
+     * @return  InstallerAdapter
+     *
+     * @throws  \InvalidArgumentException
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getAdapter($name, $options = [])
+    {
+        $name = strtolower($name);
+
+        if (!isset($this->adapters[$name])) {
+            throw new \InvalidArgumentException(\sprintf('The %s install adapter does not exist.', $name));
+        }
+
+        if (\is_string($this->adapters[$name])) {
+            $class = $this->adapters[$name];
+
+            // Ensure the adapter type is part of the options array
+            $options['type'] = $name;
+
+            // Check for a possible service from the container otherwise manually instantiate the class
+            if (Factory::getContainer()->has($class)) {
+                return Factory::getContainer()->get($class);
+            }
+
+            $adapter = new $class($this, $this->getDatabase(), $options);
+
+            if ($adapter instanceof ContainerAwareInterface) {
+                $adapter->setContainer(Factory::getContainer());
+            }
+
+            $this->adapters[$name] = $adapter;
+        }
+
+        return $this->adapters[$name];
     }
 
     /**
@@ -2423,36 +2509,40 @@ class Installer extends Adapter implements DatabaseAwareInterface
      *
      * @return  InstallerAdapter
      *
-     * @since   3.4
      * @throws  \InvalidArgumentException
+     * @since   3.4
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     *              Use getAdapter() instead
      */
     public function loadAdapter($adapter, $options = [])
     {
-        $class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($adapter) . 'Adapter';
+        return $this->getAdapter($adapter, $options);
+    }
 
-        if (!class_exists($class)) {
-            // Not namespaced
-            $class = $this->_classprefix . ucfirst($adapter);
+    /**
+     * Set an adapter by name
+     *
+     * @param   string                   $name     Adapter name
+     * @param   InstallerAdapter|string  $adapter  Adapter object or class name
+     *
+     * @return  boolean  True if successful
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setAdapter($name, $adapter)
+    {
+        if (\is_object($adapter)) {
+            $this->adapters[$name] = $adapter;
+
+            return true;
         }
 
-        if (!class_exists($class)) {
-            throw new \InvalidArgumentException(\sprintf('The %s install adapter does not exist.', $adapter));
+        if (class_exists($adapter)) {
+            $this->adapters[$name] = $adapter;
+
+            return true;
         }
 
-        // Ensure the adapter type is part of the options array
-        $options['type'] = $adapter;
-
-        // Check for a possible service from the container otherwise manually instantiate the class
-        if (Factory::getContainer()->has($class)) {
-            return Factory::getContainer()->get($class);
-        }
-
-        $adapter = new $class($this, $this->getDatabase(), $options);
-
-        if ($adapter instanceof ContainerAwareInterface) {
-            $adapter->setContainer(Factory::getContainer());
-        }
-
-        return $adapter;
+        return false;
     }
 }

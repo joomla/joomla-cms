@@ -10,30 +10,22 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.formvalidator');
 
+$direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
+
 /** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
+
+$wa = $this->getDocument()->getWebAssetManager();
+
+$wa->useScript('joomla.dialog-autocreate');
 ?>
 
 <div id="installer-view" data-page-name="setup">
-    <form action="index.php" method="post" id="languageForm" class="lang-select">
-        <fieldset class="j-install-step active">
-            <legend class="j-install-step-header">
-                <span class="icon-language" aria-hidden="true"></span> <?php echo Text::_('INSTL_SELECT_INSTALL_LANG'); ?>
-            </legend>
-            <div class="j-install-step-form">
-                <div class="mb-3">
-                    <?php echo $this->form->renderField('language'); ?>
-                </div>
-                <input type="hidden" name="task" value="language.set">
-                <input type="hidden" name="format" value="json">
-                <?php echo HTMLHelper::_('form.token'); ?>
-            </div>
-        </fieldset>
-    </form>
     <form action="index.php" method="post" id="adminForm" class="form-validate">
         <fieldset id="installStep1" class="j-install-step active">
             <legend class="j-install-step-header">
@@ -44,7 +36,7 @@ HTMLHelper::_('behavior.formvalidator');
                     <?php echo $this->form->renderField('site_name'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="step1" class="btn btn-primary w-100"><?php echo Text::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                    <button id="step1" class="btn btn-primary w-100"><?php echo Text::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -66,7 +58,7 @@ HTMLHelper::_('behavior.formvalidator');
                     <?php echo $this->form->renderField('admin_email'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="step2" class="btn btn-primary w-100"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                    <button id="step2" class="btn btn-primary w-100"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -116,7 +108,7 @@ HTMLHelper::_('behavior.formvalidator');
                     <?php echo $this->form->getInput('db_old'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                    <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -132,6 +124,32 @@ HTMLHelper::_('behavior.formvalidator');
             </div>
         </fieldset>
         <input type="hidden" name="admin_password2" id="jform_admin_password2">
+        <?php echo HTMLHelper::_('form.token'); ?>
+    </form>
+    <form action="index.php" method="post" id="languageForm" class="lang-select">
+        <div class="d-flex align-items-center">
+            <span class="fas fa-globe me-1" aria-hidden="true"></span>
+            <?php
+                $dataAttribs = [
+                    'textHeader'      => Text::_('INSTL_SELECT_INSTALL_LANG'),
+                    'iconHeader'      => 'icon-language',
+                    'src'             => '#languageSelect',
+                ];
+
+                $text = '<span class="ms-1 fw-bold" id="languageForm-current"></span>';
+
+                $text .= '<button type="button" data-joomla-dialog="' . htmlspecialchars(json_encode($dataAttribs)) . '" aria-label="' . Text::_('INSTL_CHANGE_INSTALL_LANG') . '" class="btn btn-primary btn-sm ms-2"><span class="fas fa-repeat fa-fw me-2" aria-hidden="true"></span>' . Text::_('INSTL_CHANGE_INSTALL_LANG_SHORT') . '</button>';
+
+                echo Text::sprintf('INSTL_SELECTED_INSTALL_LANGUAGE', $text);
+                ?>
+        </div>
+        <template id="languageSelect">
+            <div class="mb-3">
+                <?php echo $this->form->renderField('language'); ?>
+            </div>
+        </template>
+        <input type="hidden" name="task" value="language.set">
+        <input type="hidden" name="format" value="json">
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>
 

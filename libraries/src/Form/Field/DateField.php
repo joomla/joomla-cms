@@ -14,7 +14,7 @@ use Joomla\CMS\Form\FormField;
 /**
  * Date field
  *
- * @since   __DEPLOY_VERSION__
+ * @since   6.0.0
  */
 class DateField extends FormField
 {
@@ -23,7 +23,7 @@ class DateField extends FormField
      *
      * @var     string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $type = 'Date';
 
@@ -32,7 +32,7 @@ class DateField extends FormField
      *
      * @var    string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $layout = 'joomla.form.field.date';
 
@@ -41,7 +41,7 @@ class DateField extends FormField
      *
      * @var string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $dateMin = '';
 
@@ -50,7 +50,7 @@ class DateField extends FormField
      *
      * @var string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected $dateMax = '';
 
@@ -65,7 +65,7 @@ class DateField extends FormField
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
@@ -87,7 +87,7 @@ class DateField extends FormField
      *
      * @return  mixed  The property value or null.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function __get($name)
     {
@@ -109,7 +109,7 @@ class DateField extends FormField
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function __set($name, $value)
     {
@@ -137,7 +137,7 @@ class DateField extends FormField
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function getLayoutData()
     {

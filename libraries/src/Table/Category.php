@@ -108,33 +108,35 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         $assetId = null;
 
         // This is a category under a category.
+        $db = $this->getDatabase();
+
         if ($this->parent_id > 1) {
             // Build the query to get the asset id for the parent category.
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('asset_id'))
-                ->from($this->_db->quoteName('#__categories'))
-                ->where($this->_db->quoteName('id') . ' = :parentId')
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('asset_id'))
+                ->from($db->quoteName('#__categories'))
+                ->where($db->quoteName('id') . ' = :parentId')
                 ->bind(':parentId', $this->parent_id, ParameterType::INTEGER);
 
             // Get the asset id from the database.
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($result = $this->_db->loadResult()) {
+            if ($result = $db->loadResult()) {
                 $assetId = (int) $result;
             }
         } elseif ($assetId === null) {
             // This is a category that needs to parent with the extension.
             // Build the query to get the asset id for the parent category.
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__assets'))
-                ->where($this->_db->quoteName('name') . ' = :extension')
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__assets'))
+                ->where($db->quoteName('name') . ' = :extension')
                 ->bind(':extension', $this->extension);
 
             // Get the asset id from the database.
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($result = $this->_db->loadResult()) {
+            if ($result = $db->loadResult()) {
                 $assetId = (int) $result;
             }
         }
@@ -259,7 +261,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         }
 
         // Verify that the alias is unique
-        $table = new Category($this->getDbo(), $this->getDispatcher());
+        $table = new Category($this->getDatabase(), $this->getDispatcher());
 
         if (
             $table->load(['alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension])
