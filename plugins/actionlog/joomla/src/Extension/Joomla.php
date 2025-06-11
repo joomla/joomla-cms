@@ -1186,7 +1186,10 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             'version'     => JVERSION,
             'oldversion'  => $oldVersion,
         ];
-        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
+
+        $messageKey = ($user->id) ? 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE' : 'PLG_ACTIONLOG_JOOMLA_SYSTEM_UPDATE';
+
+        $this->addLog([$message], $messageKey, $context, $user->id);
     }
 
     /**

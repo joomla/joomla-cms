@@ -10,10 +10,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.formvalidator');
+
+$direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 
 /** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
 
@@ -33,7 +36,7 @@ $wa->useScript('joomla.dialog-autocreate');
                     <?php echo $this->form->renderField('site_name'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="step1" class="btn btn-primary w-100"><?php echo Text::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                    <button id="step1" class="btn btn-primary w-100"><?php echo Text::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -55,7 +58,7 @@ $wa->useScript('joomla.dialog-autocreate');
                     <?php echo $this->form->renderField('admin_email'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="step2" class="btn btn-primary w-100"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                    <button id="step2" class="btn btn-primary w-100"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -105,7 +108,7 @@ $wa->useScript('joomla.dialog-autocreate');
                     <?php echo $this->form->getInput('db_old'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                    <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -135,7 +138,7 @@ $wa->useScript('joomla.dialog-autocreate');
 
                 $text = '<span class="ms-1 fw-bold" id="languageForm-current"></span>';
 
-                $text .= '<button type="button" data-joomla-dialog="' . htmlspecialchars(json_encode($dataAttribs)) . '" class="btn btn-primary btn-sm ms-2"><span class="fas fa-repeat fa-fw" aria-hidden="true"></span><span class="visually-hidden">' . Text::_('INSTL_CHANGE_INSTALL_LANG') . '</span></button>';
+                $text .= '<button type="button" data-joomla-dialog="' . htmlspecialchars(json_encode($dataAttribs)) . '" aria-label="' . Text::_('INSTL_CHANGE_INSTALL_LANG') . '" class="btn btn-primary btn-sm ms-2"><span class="fas fa-repeat fa-fw me-2" aria-hidden="true"></span>' . Text::_('INSTL_CHANGE_INSTALL_LANG_SHORT') . '</button>';
 
                 echo Text::sprintf('INSTL_SELECTED_INSTALL_LANGUAGE', $text);
                 ?>
