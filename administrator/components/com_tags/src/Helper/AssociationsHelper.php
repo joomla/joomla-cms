@@ -152,11 +152,11 @@ class AssociationsHelper extends AssociationExtensionHelper
         if (\in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'tag':
-                    $fields['title'] = 'a.title';
-                    $fields['state'] = 'a.published';
+                    $fields['title']           = 'a.title';
+                    $fields['state']           = 'a.published';
                     $fields['created_user_id'] = 'a.created_user_id';
-                    $fields['ordering'] = 'a.lft';
-                    $fields['catid'] = null;
+                    $fields['ordering']        = 'a.lft';
+                    $fields['catid']           = null;
 
                     $support['state']     = true;
                     $support['acl']       = true;
