@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
@@ -261,6 +262,8 @@ class TagModel extends AdminModel
                     $field->addAttribute('label', $language->title);
                     $field->addAttribute('translate_label', 'false');
                     $field->addAttribute('mode', 'nested');
+                    $option = $field->addChild('option');
+                    $option->addAttribute('value', '');
                 }
 
                 $form->load($addform, false);

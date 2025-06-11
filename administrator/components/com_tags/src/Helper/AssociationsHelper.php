@@ -154,6 +154,9 @@ class AssociationsHelper extends AssociationExtensionHelper
                 case 'tag':
                     $fields['title'] = 'a.title';
                     $fields['state'] = 'a.published';
+                    $fields['created_user_id'] = 'a.created_user_id';
+                    $fields['ordering'] = 'a.lft';
+                    $fields['catid'] = null;
 
                     $support['state']     = true;
                     $support['acl']       = true;
