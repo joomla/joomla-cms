@@ -115,7 +115,7 @@
 		<field
 			name="content"
 			type="editor"
-			label="COM_MODULES_FIELD_CONTENT_LABEL1"
+			label="COM_MODULES_FIELD_CONTENT_LABEL"
 			buttons="true"
 			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			hide="readmore,pagebreak,module,fields"
