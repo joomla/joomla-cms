@@ -115,10 +115,10 @@
 		<field
 			name="content"
 			type="editor"
-			label="COM_MODULES_FIELD_CONTENT_LABEL"
+			label="COM_MODULES_FIELD_CONTENT_LABEL1"
 			buttons="true"
 			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
-			hide="readmore,pagebreak"
+			hide="readmore,pagebreak,module,fields"
 		/>
 
 		<field
