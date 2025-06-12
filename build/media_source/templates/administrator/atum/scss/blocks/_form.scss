@@ -161,10 +161,14 @@ label.valid {
 :hover + [role="tooltip"] {
   position: absolute;
   display: block;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .filter-search-bar__description {
-  bottom: 100%;
+  top: 100%;
+  bottom: auto;
 }
 
 .container-popup .filter-search-bar__description {

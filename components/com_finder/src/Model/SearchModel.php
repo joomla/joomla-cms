@@ -543,7 +543,7 @@ class SearchModel extends ListModel
                 $this->setState('list.ordering', 'l.sale_price');
                 break;
 
-            case ($order === 'relevance' && !empty($this->includedTerms)):
+            case $order === 'relevance' && !empty($this->includedTerms):
                 $this->setState('list.ordering', 'm.weight');
                 break;
 

@@ -40,7 +40,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *
      * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function getPrivacyPolicyInformation(CMSApplicationInterface $app)
     {
@@ -73,7 +73,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *
      * @return  array  Array containing a status of whether a menu is published for the request form and its current link
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      *
      */
     public function getRequestFormMenuStatus(CMSApplicationInterface $app)
@@ -162,7 +162,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *
      * @return  integer
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function getNumberOfUrgentRequests()
     {
@@ -192,7 +192,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *
      * @return string The database encryption details
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.3.0
      */
     public function getDatabaseConnectionEncryption()
     {
@@ -206,7 +206,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.3.0 will be removed in 7.0
      *             Use the non-static method getPrivacyPolicyInformation
      *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
      *                          ->getHelper('PrivacyStatusHelper')
@@ -228,7 +228,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.3.0 will be removed in 7.0
      *             Use the non-static method getRequestFormMenuStatus
      *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
      *                          ->getHelper('PrivacyStatusHelper')
@@ -250,7 +250,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *
      * @since   4.0.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.3.0 will be removed in 7.0
      *             Use the non-static method getNumberOfUrgentRequests
      *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
      *                          ->getHelper('PrivacyStatusHelper')

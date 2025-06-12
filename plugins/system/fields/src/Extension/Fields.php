@@ -38,7 +38,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -288,7 +288,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
         $context = $form->getName();
 
         // When a category is edited, the context is com_categories.categorycom_content
-        if (strpos($context, 'com_categories.category') === 0) {
+        if (str_starts_with($context, 'com_categories.category')) {
             $context = str_replace('com_categories.category', '', $context) . '.categories';
             $data    = $data ?: $this->getApplication()->getInput()->get('jform', [], 'array');
 

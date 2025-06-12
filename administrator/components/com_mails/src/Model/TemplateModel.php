@@ -125,7 +125,7 @@ class TemplateModel extends AdminModel
 
         try {
             $attachmentPath = rtrim(Path::check(JPATH_ROOT . '/' . $params->get('attachment_folder')), \DIRECTORY_SEPARATOR);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $attachmentPath = '';
         }
 

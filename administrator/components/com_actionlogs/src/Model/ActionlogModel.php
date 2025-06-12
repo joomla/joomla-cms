@@ -58,7 +58,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         try {
             $user = $userId ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();
         } catch (\UnexpectedValueException $e) {
-            @trigger_error(\sprintf('UserFactory must be set, this will not be caught anymore in 7.0.'), E_USER_DEPRECATED);
+            @trigger_error('UserFactory must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
             $user = Factory::getUser($userId);
         }
 
@@ -91,7 +91,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             try {
                 $db->insertObject('#__action_logs', $logMessage);
                 $loggedMessages[] = $logMessage;
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Ignore it
             }
         }
@@ -99,7 +99,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         try {
             // Send notification email to users who choose to be notified about the action logs
             $this->sendNotificationEmails($loggedMessages, $user->name, $context);
-        } catch (MailDisabledException | phpMailerException $e) {
+        } catch (MailDisabledException | phpMailerException) {
             // Ignore it
         }
     }
@@ -126,7 +126,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $query = $db->getQuery(true);
 
         $query
-            ->select($db->quoteName(['u.email', 'u.username', 'l.extensions', 'l.exclude_self']))
+            ->select($db->quoteName(['u.email', 'l.extensions']))
             ->from($db->quoteName('#__users', 'u'))
             ->where($db->quoteName('u.block') . ' = 0')
             ->join(
@@ -142,10 +142,6 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $recipients = [];
 
         foreach ($users as $user) {
-            if ($user->username === $this->getCurrentUser()->username && $user->exclude_self) {
-                continue;
-            }
-
             $extensions = json_decode($user->extensions, true);
 
             if ($extensions && \in_array(strtok($context, '.'), $extensions)) {
@@ -167,7 +163,8 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             $m              = [];
             $m['extension'] = Text::_($extension);
             $m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
-            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
+            $tzOffset       = Factory::getApplication()->get('offset');
+            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', $tzOffset);
             $m['username']  = $username;
             $temp[]         = $m;
 

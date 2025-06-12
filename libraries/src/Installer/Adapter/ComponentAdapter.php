@@ -521,7 +521,7 @@ class ComponentAdapter extends InstallerAdapter
     {
         $element = parent::getElement($element);
 
-        if (strpos($element, 'com_') !== 0) {
+        if (!str_starts_with($element, 'com_')) {
             $element = 'com_' . $element;
         }
 
@@ -1242,7 +1242,7 @@ class ComponentAdapter extends InstallerAdapter
         try {
             $db->setQuery($query);
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -1366,7 +1366,7 @@ class ComponentAdapter extends InstallerAdapter
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

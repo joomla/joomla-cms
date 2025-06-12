@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
         // Add the upload and create folder buttons
         if ($user->authorise('core.create', 'com_media')) {
             // Add the upload button
-            $layout = new FileLayout('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
+            $layout = new FileLayout('toolbar.upload', JPATH_ADMINISTRATOR . '/components/com_media/layouts');
 
             $toolbar->customButton('upload')
                 ->html($layout->render([]));
@@ -116,7 +116,7 @@ class HtmlView extends BaseHtmlView
         // Add a delete button
         if ($user->authorise('core.delete', 'com_media')) {
             // Instantiate a new FileLayout instance and render the layout
-            $layout = new FileLayout('toolbar.delete', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
+            $layout = new FileLayout('toolbar.delete', JPATH_ADMINISTRATOR . '/components/com_media/layouts');
 
             $toolbar->customButton('delete')
                 ->html($layout->render([]));

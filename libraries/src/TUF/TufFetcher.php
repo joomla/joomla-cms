@@ -127,17 +127,17 @@ class TufFetcher
                 }
                 throw $e;
             }
-        } catch (DownloadSizeException $e) {
+        } catch (DownloadSizeException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), CMSApplicationInterface::MSG_ERROR);
-        } catch (MetadataException $e) {
+        } catch (MetadataException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), CMSApplicationInterface::MSG_ERROR);
-        } catch (FreezeAttackException $e) {
+        } catch (FreezeAttackException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_FREEZE_ATTACK'), CMSApplicationInterface::MSG_ERROR);
-        } catch (RollbackAttackException $e) {
+        } catch (RollbackAttackException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), CMSApplicationInterface::MSG_ERROR);
-        } catch (SignatureThresholdException $e) {
+        } catch (SignatureThresholdException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), CMSApplicationInterface::MSG_ERROR);
-        } catch (TufException $e) {
+        } catch (TufException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ERROR_GENERIC'), CMSApplicationInterface::MSG_ERROR);
         }
 

@@ -94,7 +94,7 @@ class AssociationsController extends AdminController
         $this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
         // Figure out if the item supports checking and check it in
-        list($extensionName, $typeName) = explode('.', $this->input->get('itemtype'));
+        [$extensionName, $typeName] = explode('.', $this->input->get('itemtype'));
 
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
         $types     = $extension->get('types');

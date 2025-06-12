@@ -24,7 +24,7 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
  * Example:
  *   new GetStatsDataEvent('onEventName', ['context' => 'com_example.example']);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.3.0
  */
 class GetStatsDataEvent extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -37,8 +37,8 @@ class GetStatsDataEvent extends AbstractImmutableEvent implements ResultAwareInt
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @since  5.3.0
+     * @deprecated 5.3.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context'];
 
@@ -50,7 +50,7 @@ class GetStatsDataEvent extends AbstractImmutableEvent implements ResultAwareInt
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -73,7 +73,7 @@ class GetStatsDataEvent extends AbstractImmutableEvent implements ResultAwareInt
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     protected function onSetContext(string $value): string
     {
@@ -85,7 +85,7 @@ class GetStatsDataEvent extends AbstractImmutableEvent implements ResultAwareInt
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     public function getContext(): string
     {

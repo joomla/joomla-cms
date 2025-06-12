@@ -81,7 +81,7 @@ class Language
                     break;
                 }
             }
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // We don't have a stemmer for the language
         }
     }
