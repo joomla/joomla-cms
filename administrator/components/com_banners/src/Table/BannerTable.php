@@ -223,7 +223,7 @@ class BannerTable extends Table implements VersionableTableInterface
             $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 
             return false;
-        }    
+        }
 
         if (empty($this->id)) {
             $purchaseType = $this->purchase_type;
