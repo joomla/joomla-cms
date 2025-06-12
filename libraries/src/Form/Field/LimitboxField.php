@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -89,10 +90,22 @@ class LimitboxField extends ListField
             }
 
             if (!empty($limits)) {
+                $lang = new Language();
+                
                 foreach ($limits as $value) {
+                    if ($value != 0) {
+                        if ($lang->hasKey('J' . $value)) {
+                            $text = Text::_('J' . $value);
+                        } else {
+                            $text = $value;
+                        }
+                    } else {
+                        $text = Text::_('JALL');
+                    }
+
                     $options[] = (object) [
                         'value' => $value,
-                        'text'  => ($value != 0) ? Text::_('J' . $value) : Text::_('JALL'),
+                        'text'  => $text,
                     ];
                 }
 
