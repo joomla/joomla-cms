@@ -31,7 +31,7 @@ interface PluginInterface extends DispatcherAwareInterface
      *
      * @since   4.0.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  5.4.0 will be removed in 7.0
      *              Plugin should implement SubscriberInterface.
      *              These plugins will be added to dispatcher in PluginHelper::import().
      */
