@@ -91,7 +91,7 @@ class LimitboxField extends ListField
 
             if (!empty($limits)) {
                 $lang = new Language();
-                
+
                 foreach ($limits as $value) {
                     if ($value != 0) {
                         if ($lang->hasKey('J' . $value)) {
