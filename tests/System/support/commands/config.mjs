@@ -13,6 +13,6 @@ Cypress.Commands.add('config_setParameter', (parameter, value) => {
     const content = fileContent.replace(regex, `public $${parameter} = ${newValue};`);
 
     // Write the modified content back to the configuration file relative to the CMS root folder
-    return cy.task('writeRelativeFile', { path: 'configuration.php', content });
+    return cy.task('writeRelativeFile', { path: 'configuration.php', content }).then(() => cy.wait(2000));
   });
 });
