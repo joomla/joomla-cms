@@ -247,6 +247,7 @@ jobs:
         with:
           name: system-test-output
           path: tests/System/output
+          if-no-files-found: ignore
     services:
       mysql:
         image: mariadb
