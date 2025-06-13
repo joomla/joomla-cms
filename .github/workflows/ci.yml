@@ -177,7 +177,9 @@ jobs:
       - uses: actions/cache@v4
         id: cache-cypress
         with:
-          path: /root/.cache/Cypress
+          path: |
+            /root/.cache/Cypress
+            /github/home/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
       - name: Install Cypress dependencies
         if: steps.cache-cypress.outputs.cache-hit != 'true'
@@ -224,12 +226,12 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
       - uses: actions/cache/restore@v4
         with:
-          path: /root/.cache/Cypress
+          path: |
+            /root/.cache/Cypress
+            /github/home/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
       - name: Run System tests
-        run: |
-          npx cypress install
-          bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} chrome
+        run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} chrome
       - name: Archive test results results
         uses: actions/upload-artifact@v4
         if: always()
