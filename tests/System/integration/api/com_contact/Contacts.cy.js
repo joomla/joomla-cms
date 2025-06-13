@@ -47,7 +47,7 @@ describe('Test that contacts API endpoint', () => {
   });
 
   it('check correct response for delete a not existent contact', () => {
-    cy.api_delete(`/contacts/9999`)
+    cy.api_delete('/contacts/9999')
       .then((result) => expect(result.status).to.eq(204));
   });
 
