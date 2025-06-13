@@ -2,7 +2,8 @@
 FROM php:8.3-apache
 
 # Install required dependencies
-RUN apt-get update && apt-get install -y \
+apt-get update && \
+apt-get install -y \
     libgtk2.0-0 \
     libgtk-3-0 \
     libgbm-dev \
@@ -18,15 +19,15 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libpng-dev \
     libjpeg-dev \
-    software-properties-common \
-    curl \
-    && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g npm@latest \
     libfreetype6-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd mysqli pdo pdo_mysql \
-    && apt-get clean
+    software-properties-common \
+    curl && \
+curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+apt-get install -y nodejs && \
+npm install -g npm@latest && \
+docker-php-ext-configure gd --with-freetype --with-jpeg && \
+docker-php-ext-install gd mysqli pdo pdo_mysql && \
+apt-get clean
 
 # Install Xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
