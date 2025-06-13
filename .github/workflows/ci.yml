@@ -9,6 +9,7 @@ concurrency:
 
 jobs:
   composer:
+    name: Install PHP dependencies
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     steps:
@@ -27,6 +28,7 @@ jobs:
           composer install --no-progress --ignore-platform-reqs
 
   npm:
+    name: Install JS/CSS dependencies and build assets
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer]
@@ -51,6 +53,7 @@ jobs:
         run: npm ci --unsafe-perm
 
   code-style-php:
+    name: Check PHP code style
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer, npm]
@@ -68,6 +71,7 @@ jobs:
           ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
 
   code-style-js:
+    name: Check Javascript code style
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer, npm]
@@ -88,6 +92,7 @@ jobs:
           npm run lint:testjs
 
   code-style-css:
+    name: Check CSS code style
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer, npm]
@@ -106,6 +111,7 @@ jobs:
         run: npm run lint:css
 
   tests-unit:
+    name: Run Unit tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php${{ matrix.php_version }}
     needs: [code-style-php, code-style-js, code-style-css]
@@ -122,6 +128,7 @@ jobs:
         run: ./libraries/vendor/bin/phpunit --testsuite Unit
 
   tests-integration:
+    name: Run integration tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php${{ matrix.php_version }}
     needs: [code-style-php, code-style-js, code-style-css]
@@ -162,6 +169,7 @@ jobs:
           POSTGRES_DB: test_joomla
 
   tests-system-prepare:
+    name: Prepare system tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:cypress8.4
     env:
@@ -188,6 +196,7 @@ jobs:
           npx cypress verify
 
   tests-system:
+    name: Run system tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:cypress${{ matrix.config.php_version }}
     needs: [tests-system-prepare, tests-unit, tests-integration]
