@@ -73,7 +73,7 @@ class FeedView extends AbstractView
             $link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
             $description = '';
-            $obj         = json_decode($row->images) ?? new \stdClass();
+            $obj         = json_decode($row->images ?? '{}');
 
             // Set feed image to image_intro or if that's empty, to image_fulltext
             if (!empty($obj->image_intro)) {
