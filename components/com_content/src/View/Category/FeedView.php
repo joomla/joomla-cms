@@ -51,7 +51,7 @@ class FeedView extends CategoryFeedView
         $app               = Factory::getApplication();
         $params            = $app->getParams();
         $item->description = '';
-        $obj               = json_decode($item->images) ?? new \stdClass();
+        $obj               = json_decode($item->images ?? '{}');
 
         // Set feed image to image_intro or if that's empty, to image_fulltext
         if (!empty($obj->image_intro)) {
