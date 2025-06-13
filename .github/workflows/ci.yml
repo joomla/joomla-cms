@@ -188,7 +188,7 @@ jobs:
   tests-system:
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:cypress${{ matrix.config.php_version }}
-    needs: [tests-system-prepare, tests-unit, tests-integration]
+    needs: [tests-system-prepare]
     strategy:
       matrix:
         config:
