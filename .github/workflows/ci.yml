@@ -22,7 +22,7 @@ jobs:
       - name: Install PHP dependencies
         if: steps.cache-php.outputs.cache-hit != 'true'
         run: |
-          git config --global --add safe.directory /__w/joomla-cms/joomla-cms
+          git config --global --add safe.directory ${{ github.workspace }}
           composer config --global home
           composer validate --no-check-all --strict
           composer install --no-progress --ignore-platform-reqs
