@@ -313,8 +313,6 @@ class Updater implements DatabaseAwareInterface
     {
         $retVal = [];
 
-        $this->getAdapter($updateSite['type']);
-
         try {
             // Get the update information from the remote update XML document
             /** @var UpdateAdapter $adapter */
