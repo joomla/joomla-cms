@@ -135,6 +135,7 @@ jobs:
     strategy:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4']
+        config: ['phpunit.xml.dist', 'phpunit-pgsql.xml.dist']
     steps:
       - uses: actions/checkout@v4
       - name: Start LDAP container
@@ -148,7 +149,7 @@ jobs:
       - name: Run Integration tests
         run: |
          sleep 3
-          ./libraries/vendor/bin/phpunit --testsuite Integration
+          ./libraries/vendor/bin/phpunit --testsuite Integration --configuration ${{ matrix.config }}
       - name: Stop LDAP container
         uses: docker://docker
         with:
