@@ -16,7 +16,6 @@ describe('Test that the sef system plugin', () => {
 
   it('can process if option \'sef\' disabled', () => {
     cy.config_setParameter('sef', false)
-      .then(() => cy.wait(2000))
       .then(() => {
         cy.request({ url: '/index.php?option=com_users&view=login', followRedirect: false })
           .then((response) => {
@@ -31,7 +30,6 @@ describe('Test that the sef system plugin', () => {
 
   it('can process if option \'enforcesuffix\' enabled', () => {
     cy.config_setParameter('sef_suffix', true)
-      .then(() => cy.wait(2000))
       .then(() => {
         cy.request({ url: '/index.php/component/users/login', followRedirect: false })
           .then((response) => {
