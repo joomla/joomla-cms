@@ -21,7 +21,7 @@ chown -R www-data /tests/www/$TEST_GROUP/
 # Required for media manager tests
 chmod -R 777 /tests/www/$TEST_GROUP/images
 
-# Disable opcache, otherwise there are issues when the config is changed in a test like the SefPlugin.cy.js
+# Disable opcache, otherwise there are issues when the config is changed in a test
 rm /etc/php/*/apache2/conf.d/10-opcache.ini
 
 echo "[RUNNER] Start Apache"
