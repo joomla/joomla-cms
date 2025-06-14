@@ -27,6 +27,7 @@ use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -118,7 +119,7 @@ class TaskModel extends AdminModel
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $config['events_map'] = array_merge(
             [
@@ -254,7 +255,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getTable($name = 'Task', $prefix = 'Table', $options = []): Table
+    public function getTable($name = 'Task', $prefix = 'Administrator', $options = []): Table
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -397,7 +398,7 @@ class TaskModel extends AdminModel
 
             $db->setQuery($lockQuery)->execute();
             $affectedRows = $db->getAffectedRows();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return null;
         } finally {
             $db->unlockTables();
@@ -413,7 +414,7 @@ class TaskModel extends AdminModel
     /**
      * Checks if there are any running tasks in the database.
      *
-     * @param \JDatabaseDriver $db The database driver to use.
+     * @param DatabaseInterface $db The database driver to use.
      * @return bool True if there are running tasks, false otherwise.
      * @since 4.4.9
      */
@@ -427,7 +428,7 @@ class TaskModel extends AdminModel
 
         try {
             $runningCount = $db->setQuery($lockCountQuery)->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -481,7 +482,7 @@ class TaskModel extends AdminModel
     /**
      * Retrieves the ID of the next task based on the given criteria.
      *
-     * @param \JDatabaseDriver $db The database object.
+     * @param DatabaseInterface $db The database object.
      * @param string $now The current time.
      * @param array $options The options for retrieving the next task.
      *                       - includeCliExclusive: Whether to include CLI exclusive tasks.
@@ -526,7 +527,7 @@ class TaskModel extends AdminModel
 
         try {
             return $db->setQuery($idQuery)->loadColumn();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
     }
@@ -534,7 +535,7 @@ class TaskModel extends AdminModel
     /**
      * Fetches a task from the database based on the current time.
      *
-     * @param \JDatabaseDriver $db The database driver to use.
+     * @param DatabaseInterface $db The database driver to use.
      * @param string $now The current time in the database's time format.
      * @return \stdClass|null The fetched task object, or null if no task was found.
      * @since 5.2.0
@@ -550,7 +551,7 @@ class TaskModel extends AdminModel
 
         try {
             $task = $db->setQuery($getQuery)->loadObject();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return null;
         }
 
@@ -630,7 +631,7 @@ class TaskModel extends AdminModel
 
         // If no params, we set as empty array.
         // ? Is this the right place to do this
-        $data['params'] = $data['params'] ?? [];
+        $data['params'] ??= [];
 
         // Parent method takes care of saving to the table
         return parent::save($data);
@@ -691,7 +692,7 @@ class TaskModel extends AdminModel
         ];
 
         $ruleType        = $executionRules['rule-type'];
-        $ruleClass       = strpos($ruleType, 'interval') === 0 ? 'interval' : $ruleType;
+        $ruleClass       = str_starts_with($ruleType, 'interval') ? 'interval' : $ruleType;
         $buildExpression = '';
 
         if ($ruleClass === 'interval') {

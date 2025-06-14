@@ -18,6 +18,7 @@ use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
 use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
+use Joomla\CMS\Component\Router\Rules\PreprocessRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
@@ -99,6 +100,9 @@ class Router extends RouterView
 
         parent::__construct($app, $menu);
 
+        $preprocess = new PreprocessRules($contact, '#__contact_details', 'id', 'catid');
+        $preprocess->setDatabase($this->db);
+        $this->attachRule($preprocess);
         $this->attachRule(new MenuRules($this));
         $this->attachRule(new StandardRules($this));
         $this->attachRule(new NomenuRules($this));
@@ -122,7 +126,7 @@ class Router extends RouterView
 
             if ($this->noIDs) {
                 foreach ($path as &$segment) {
-                    list($id, $segment) = explode(':', $segment, 2);
+                    [, $segment] = explode(':', $segment, 2);
                 }
             }
 
@@ -155,20 +159,8 @@ class Router extends RouterView
      */
     public function getContactSegment($id, $query)
     {
-        if (!strpos($id, ':')) {
-            $id      = (int) $id;
-            $dbquery = $this->db->getQuery(true);
-            $dbquery->select($this->db->quoteName('alias'))
-                ->from($this->db->quoteName('#__contact_details'))
-                ->where($this->db->quoteName('id') . ' = :id')
-                ->bind(':id', $id, ParameterType::INTEGER);
-            $this->db->setQuery($dbquery);
-
-            $id .= ':' . $this->db->loadResult();
-        }
-
-        if ($this->noIDs) {
-            list($void, $segment) = explode(':', $id, 2);
+        if ($this->noIDs && strpos($id, ':')) {
+            [$void, $segment] = explode(':', $id, 2);
 
             return [$void => $segment];
         }
@@ -205,13 +197,28 @@ class Router extends RouterView
             $category = $this->getCategories(['access' => false])->get($query['id']);
 
             if ($category) {
-                foreach ($category->getChildren() as $child) {
-                    if ($this->noIDs) {
+                if ($this->noIDs) {
+                    foreach ($category->getChildren() as $child) {
                         if ($child->alias == $segment) {
                             return $child->id;
                         }
-                    } else {
+                    }
+
+                    // We haven't found a matching category, but maybe we turned off IDs?
+                    foreach ($category->getChildren() as $child) {
                         if ($child->id == (int) $segment) {
+                            $this->app->getRouter()->setTainted();
+
+                            return $child->id;
+                        }
+                    }
+                } else {
+                    foreach ($category->getChildren() as $child) {
+                        if ($child->id == (int) $segment) {
+                            if ($child->id . '-' . $child->alias != $segment) {
+                                $this->app->getRouter()->setTainted();
+                            }
+
                             return $child->id;
                         }
                     }
@@ -249,20 +256,43 @@ class Router extends RouterView
             $dbquery = $this->db->getQuery(true);
             $dbquery->select($this->db->quoteName('id'))
                 ->from($this->db->quoteName('#__contact_details'))
-                ->where($this->db->quoteName('alias') . ' = :alias')
-                ->bind(':alias', $segment);
+                ->where($this->db->quoteName('alias') . ' = :segment')
+                ->bind(':segment', $segment);
 
             if (isset($query['id']) && $query['id']) {
-                $dbquery->where($this->db->quoteName('catid') . ' = :catid')
-                    ->bind(':catid', $query['id'], ParameterType::INTEGER);
+                $dbquery->where($this->db->quoteName('catid') . ' = :id')
+                    ->bind(':id', $query['id'], ParameterType::INTEGER);
             }
 
             $this->db->setQuery($dbquery);
 
-            return (int) $this->db->loadResult();
+            $id = (int) $this->db->loadResult();
+
+            // Do we have a URL with ID?
+            if ($id) {
+                return $id;
+            }
+
+            $this->app->getRouter()->setTainted();
         }
 
-        return (int) $segment;
+        $id = (int) $segment;
+
+        if ($id) {
+            $dbquery = $this->db->getQuery(true);
+            $dbquery->select($this->db->quoteName('alias'))
+                ->from($this->db->quoteName('#__contact_details'))
+                ->where($this->db->quoteName('id') . ' = :id')
+                ->bind(':id', $id, ParameterType::INTEGER);
+            $this->db->setQuery($dbquery);
+            $alias = $this->db->loadResult();
+
+            if ($alias && $id . '-' . $alias != $segment) {
+                $this->app->getRouter()->setTainted();
+            }
+        }
+
+        return $id;
     }
 
     /**

@@ -12,7 +12,7 @@ on:
 
 env:
   JOOMLA_MAJOR_VERSION: 5
-  JOOMLA_MINOR_VERSION: 5.2
+  JOOMLA_MINOR_VERSION: 5.3
 
 permissions:
   contents: read
@@ -60,7 +60,7 @@ jobs:
 
       - name: Update static error pages
         run: |
-          npm ci --ignore-scripts && node build/build.js --build-pages
+          npm ci --ignore-scripts && node build/build.mjs --build-pages
 
       - name: Create commit
         continue-on-error: true

@@ -90,7 +90,7 @@ trait AjaxHandlerSaveLabel
         // Save the new label
         try {
             $repository->setLabel($credentialId, $newLabel);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $event->addResult(false);
 
             return;

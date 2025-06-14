@@ -48,11 +48,6 @@ $noUser    = true;
                 <?php echo LayoutHelper::render('joomla.html.batch.tag', []); ?>
             </div>
         </div>
-        <div class="form-group col-md-6">
-            <div class="controls">
-                <?php echo LayoutHelper::render('joomla.html.batch.user', ['noUser' => $noUser]); ?>
-            </div>
-        </div>
     </div>
 </div>
 <div class="btn-toolbar p-3">

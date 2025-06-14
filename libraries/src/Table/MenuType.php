@@ -197,7 +197,7 @@ class MenuType extends Table implements CurrentUserInterface
     public function delete($pk = null)
     {
         $k  = $this->_tbl_key;
-        $pk = $pk === null ? $this->$k : $pk;
+        $pk = $pk ?? $this->$k;
 
         // If no primary key is given, return false.
         if ($pk !== null) {
@@ -316,6 +316,6 @@ class MenuType extends Table implements CurrentUserInterface
             $assetId = $asset->id;
         }
 
-        return $assetId === null ? parent::_getAssetParentId($table, $id) : $assetId;
+        return $assetId ?? parent::_getAssetParentId($table, $id);
     }
 }

@@ -343,7 +343,7 @@ abstract class FieldsPlugin extends CMSPlugin
     protected function getFormPath(Form $form, $data)
     {
         // Check if the field form is calling us
-        if (strpos($form->getName(), 'com_fields.field') !== 0) {
+        if (!str_starts_with($form->getName(), 'com_fields.field')) {
             return null;
         }
 

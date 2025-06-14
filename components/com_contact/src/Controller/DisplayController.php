@@ -42,7 +42,7 @@ class DisplayController extends BaseController
         $input = Factory::getApplication()->getInput();
 
         if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal') {
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_contact';
         }
 
         parent::__construct($config, $factory, $app, $input);
@@ -69,7 +69,7 @@ class DisplayController extends BaseController
         $vName = $this->input->get('view', 'categories');
         $this->input->set('view', $vName);
 
-        if ($this->app->getIdentity()->get('id')) {
+        if ($this->app->getIdentity()->id) {
             $cachable = false;
         }
 
