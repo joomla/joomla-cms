@@ -15,8 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -39,7 +39,7 @@ class PluginsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -108,9 +108,9 @@ class PluginsModel extends ListModel
     /**
      * Returns an object list.
      *
-     * @param   DatabaseQuery|string  $query       A database query object.
-     * @param   integer               $limitstart  Offset.
-     * @param   integer               $limit       The number of records.
+     * @param   QueryInterface|string  $query       A database query object.
+     * @param   integer                $limitstart  Offset.
+     * @param   integer                $limit       The number of records.
      *
      * @return  object[]
      */
@@ -135,7 +135,7 @@ class PluginsModel extends ListModel
                 $escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
                 foreach ($result as $i => $item) {
-                    if (!preg_match("/$escapedSearchString/i", $item->name)) {
+                    if (!preg_match("/$escapedSearchString/iu", $item->name)) {
                         unset($result[$i]);
                     }
                 }
@@ -145,7 +145,7 @@ class PluginsModel extends ListModel
             $direction         = ($orderingDirection == 'desc') ? -1 : 1;
             $result            = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
-            $total                                      = count($result);
+            $total                                      = \count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -154,24 +154,24 @@ class PluginsModel extends ListModel
 
             $this->cache[$this->getStoreId('getStart')] = $limitstart;
 
-            return array_slice($result, $limitstart, $limit ?: null);
-        } else {
-            if ($ordering == 'ordering') {
-                $query->order('a.folder ASC');
-                $ordering = 'a.ordering';
-            }
-
-            $query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
-
-            if ($ordering == 'folder') {
-                $query->order('a.ordering ASC');
-            }
-
-            $result = parent::_getList($query, $limitstart, $limit);
-            $this->translate($result);
-
-            return $result;
+            return \array_slice($result, $limitstart, $limit ?: null);
         }
+
+        if ($ordering === 'ordering') {
+            $query->order('a.folder ASC');
+            $ordering = 'a.ordering';
+        }
+
+        $query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+
+        if ($ordering === 'folder') {
+            $query->order('a.ordering ASC');
+        }
+
+        $result = parent::_getList($query, $limitstart, $limit);
+        $this->translate($result);
+
+        return $result;
     }
 
     /**
@@ -197,7 +197,7 @@ class PluginsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {

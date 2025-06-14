@@ -25,6 +25,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       throw new Error('Joomla API is not properly initiated');
     }
 
+    this.confirmationReceived = false;
     this.onChange = this.onChange.bind(this);
     this.executeTask = this.executeTask.bind(this);
   }
@@ -101,10 +102,23 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       return false;
     }
 
-    // eslint-disable-next-line no-restricted-globals
-    if (this.confirmMessage && !confirm(this.confirmMessage)) {
+    // Ask for User confirmation when needed
+    if (this.confirmMessage && !this.confirmationReceived) {
+      // eslint-disable-next-line import/no-unresolved,no-undef
+      import('joomla.dialog')
+        .then((m) => m.default.confirm(this.confirmMessage, Joomla.Text._('WARNING', 'Warning')))
+        .then((confirmed) => {
+          if (confirmed) {
+            // Set confirmation flag, and emulate the click again
+            this.confirmationReceived = true;
+            this.buttonElement.click();
+          }
+        });
       return false;
     }
+
+    // Reset any previous confirmation
+    this.confirmationReceived = false;
 
     if (this.task) {
       Joomla.submitbutton(this.task, this.form, this.formValidation);

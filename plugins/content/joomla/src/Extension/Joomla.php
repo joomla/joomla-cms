@@ -10,17 +10,29 @@
 
 namespace Joomla\Plugin\Content\Joomla\Extension;
 
+use Joomla\CMS\Cache\CacheControllerFactory;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterChangeStateEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -32,32 +44,56 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-final class Joomla extends CMSPlugin
+final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentBeforeSave'        => 'onContentBeforeSave',
+            'onContentAfterSave'         => 'onContentAfterSave',
+            'onContentBeforeDelete'      => 'onContentBeforeDelete',
+            'onContentBeforeChangeState' => 'onContentBeforeChangeState',
+            'onContentChangeState'       => 'onContentChangeState',
+            'onSchemaBeforeCompileHead'  => 'onSchemaBeforeCompileHead',
+        ];
+    }
+
+    /**
      * The save event.
      *
-     * @param   string   $context  The context
-     * @param   object   $table    The item
-     * @param   boolean  $isNew    Is new item
-     * @param   array    $data     The validated data
+     * @param   BeforeSaveEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave($context, $table, $isNew, $data)
+    public function onContentBeforeSave(BeforeSaveEvent $event)
     {
+        $context = $event->getContext();
+        $table   = $event->getItem();
+        $isNew   = $event->getIsNew();
+        $data    = $event->getData();
+        $result  = true;
+
         if ($context === 'com_menus.item') {
-            return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
+            $result = $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
+            $event->addResult($result);
+            return;
         }
 
         // Check we are handling the frontend edit form.
-        if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew || !$table->hasField('published')) {
-            return true;
+        if (!\in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew || !$table->hasField('published')) {
+            return;
         }
 
         $item = clone $table;
@@ -69,14 +105,16 @@ final class Joomla extends CMSPlugin
         if ($item->$publishedField > 0 && isset($data[$publishedField]) && $data[$publishedField] < 1) {
             switch ($context) {
                 case 'com_workflow.workflow':
-                    return $this->workflowNotUsed($item->id);
+                    $result = $this->workflowNotUsed($item->id);
+                    break;
 
                 case 'com_workflow.stage':
-                    return $this->stageNotUsed($item->id);
+                    $result = $this->stageNotUsed($item->id);
+                    break;
             }
         }
 
-        return true;
+        $event->addResult($result);
     }
 
     /**
@@ -84,16 +122,18 @@ final class Joomla extends CMSPlugin
      * Article is passed by reference, but after the save, so no changes will be saved.
      * Method is called right after the content is saved
      *
-     * @param   string   $context  The context of the content passed to the plugin (added in 1.6)
-     * @param   object   $article  A JTableContent object
-     * @param   boolean  $isNew    If the content is just about to be created
+     * @param   AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onContentAfterSave($context, $article, $isNew): void
+    public function onContentAfterSave(AfterSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $article = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         // Check we are handling the frontend edit form.
         if ($context !== 'com_content.form') {
             return;
@@ -138,7 +178,7 @@ final class Joomla extends CMSPlugin
                 $message = [
                     'user_id_to' => $user_id,
                     'subject'    => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-                    'message'    => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
+                    'message'    => \sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->name, $article->title),
                 ];
                 $model_message = $this->getApplication()->bootComponent('com_messages')->getMVCFactory()
                     ->createModel('Message', 'Administrator');
@@ -150,47 +190,58 @@ final class Joomla extends CMSPlugin
     /**
      * Don't allow categories to be deleted if they contain items or subcategories with items
      *
-     * @param   string  $context  The context for the content passed to the plugin.
-     * @param   object  $data     The data relating to the content that was deleted.
+     * @param   BeforeDeleteEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   1.6
      */
-    public function onContentBeforeDelete($context, $data)
+    public function onContentBeforeDelete(BeforeDeleteEvent $event)
     {
+        $context = $event->getContext();
+        $data    = $event->getItem();
+
         // Skip plugin if we are deleting something other than categories
-        if (!in_array($context, ['com_categories.category', 'com_workflow.stage', 'com_workflow.workflow'])) {
-            return true;
+        if (!\in_array($context, ['com_categories.category', 'com_workflow.stage', 'com_workflow.workflow'])) {
+            return;
         }
+
+        $result = true;
 
         switch ($context) {
             case 'com_categories.category':
-                return $this->canDeleteCategories($data);
+                $result = $this->canDeleteCategories($data);
+                break;
 
             case 'com_workflow.workflow':
-                return $this->workflowNotUsed($data->id);
+                $result = $this->workflowNotUsed($data->id);
+                break;
 
             case 'com_workflow.stage':
-                return $this->stageNotUsed($data->id);
+                $result = $this->stageNotUsed($data->id);
+                break;
         }
+
+        $event->addResult($result);
     }
 
     /**
      * Don't allow workflows/stages to be deleted if they contain items
      *
-     * @param   string  $context  The context for the content passed to the plugin.
-     * @param   object  $pks      The IDs of the records which will be changed.
-     * @param   object  $value    The new state.
+     * @param   BeforeChangeStateEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onContentBeforeChangeState($context, $pks, $value)
+    public function onContentBeforeChangeState(BeforeChangeStateEvent $event)
     {
-        if ($value > 0 || !in_array($context, ['com_workflow.workflow', 'com_workflow.stage'])) {
-            return true;
+        $context = $event->getContext();
+        $pks     = $event->getPks();
+        $value   = $event->getValue();
+
+        if ($value > 0 || !\in_array($context, ['com_workflow.workflow', 'com_workflow.stage'])) {
+            return;
         }
 
         $result = true;
@@ -207,7 +258,424 @@ final class Joomla extends CMSPlugin
             }
         }
 
-        return $result;
+        $event->addResult($result);
+    }
+
+    /**
+     * Add autogenerated schema data for content and contacts
+     *
+     * @param   BeforeCompileHeadEvent  $event  The event object
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
+    {
+        if (!$this->getApplication()->isClient('site')) {
+            return;
+        }
+
+        $context = $event->getContext();
+        $schema  = $event->getSchema();
+
+        [$extension, $view, $id] = explode('.', $context);
+
+        if ($extension === 'com_content' && $this->params->get('schema_content', 1)) {
+            $this->injectContentSchema($context, $schema);
+        } elseif ($extension === 'com_contact' && $this->params->get('schema_contact', 1)) {
+            $this->injectContactSchema($context, $schema);
+        }
+    }
+
+    /**
+     * Inject com_content schemas if needed
+     *
+     * @param   string    $context  The com_content context like com_content.article.5
+     * @param   Registry  $schema   The overall schema object to manipulate
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    private function injectContentSchema(string $context, Registry $schema)
+    {
+        $app = $this->getApplication();
+        $db  = $this->getDatabase();
+
+        [$extension, $view, $id] = explode('.', $context);
+
+        // Check if there is already a schema for the item, then skip it
+        $mySchema = $schema->toArray();
+
+        if (!isset($mySchema['@graph']) || !\is_array($mySchema['@graph'])) {
+            return;
+        }
+
+        $baseId   = Uri::root() . '#/schema/';
+        $schemaId = $baseId . str_replace('.', '/', $context);
+
+        foreach ($mySchema['@graph'] as $entry) {
+            // Someone added our context already, no need to add automated data
+            if (isset($entry['@id']) && $entry['@id'] == $schemaId) {
+                return;
+            }
+        }
+
+        $additionalSchemas = [];
+
+        $component = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
+
+        $enableCache = $this->params->get('schema_cache', 1);
+
+        $cache = Factory::getContainer()->get(CacheControllerFactory::class)
+            ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
+
+        // Add article data
+        if ($view == 'article' && $id > 0) {
+            $additionalSchemas = $cache->get(function ($id) use ($component, $baseId) {
+                $model = $component->createModel('Article', 'Site');
+
+                $article = $model->getItem($id);
+
+                if (empty($article->id)) {
+                    return;
+                }
+
+                $article->images = new Registry($article->images);
+
+                $articleSchema = $this->createArticleSchema($article);
+
+                $articleSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
+
+                return [$articleSchema];
+            }, [$id]);
+        } elseif (\in_array($view, ['category', 'featured', 'archive'])) {
+            $additionalSchemas = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
+                $menu     = $app->getMenu()->getActive();
+                $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
+
+                $additionalSchemas = [];
+
+                $additionalSchema = [
+                    '@type'    => 'Blog',
+                    '@id'      => $schemaId,
+                    'isPartOf' => ['@id' => $baseId . 'WebPage/base'],
+                    'name'     => htmlentities($menu->title),
+                    'blogPost' => [],
+                ];
+
+                if ($menu->getParams()->get('menu-meta_description')) {
+                    $additionalSchema['description'] = htmlentities($menu->getParams()->get('menu-meta_description'));
+                }
+
+                $model = $component->createModel($view, 'Site');
+
+                $articles = $model->getItems();
+
+                $articleIds = ArrayHelper::getColumn($articles, 'id');
+
+                if (!empty($articleIds)) {
+                    $aContext = 'com_content.article';
+
+                    // Load the schema data from the database
+                    $query = $db->getQuery(true)
+                        ->select('*')
+                        ->from($db->quoteName('#__schemaorg'))
+                        ->whereIn($db->quoteName('itemId'), $articleIds)
+                        ->where($db->quoteName('context') . ' = :context')
+                        ->bind(':context', $aContext, ParameterType::STRING);
+
+                    $schemas = $db->setQuery($query)->loadObjectList('itemId');
+
+                    foreach ($articles as $article) {
+                        if (isset($schemas[$article->id])) {
+                            $localSchema = new Registry($schemas[$article->id]->schema);
+
+                            $localSchema->set('@id', $baseId . str_replace('.', '/', $aContext) . '/' . (int) $article->id);
+
+                            $additionalSchema['blogPost'][] = ['@id' => $localSchema->get('@id')];
+
+                            $additionalSchemas[] = $localSchema->toArray();
+
+                            continue;
+                        }
+
+                        // No schema found, fallback to default one
+                        $article->images = new Registry($article->images);
+
+                        $articleSchema = $this->createArticleSchema($article);
+
+                        // Set to BlogPosting
+                        $articleSchema['@type'] = 'BlogPosting';
+
+                        $additionalSchemas[] = $articleSchema;
+
+                        $additionalSchema['blogPost'][] = ['@id' => $articleSchema['@id']];
+                    }
+                }
+
+                array_unshift($additionalSchemas, $additionalSchema);
+
+                return $additionalSchemas;
+            }, [$view, $id]);
+        }
+
+        if (!empty($additionalSchemas)) {
+            $mySchema['@graph'] = array_merge($mySchema['@graph'], $additionalSchemas);
+        }
+
+        $schema->set('@graph', $mySchema['@graph']);
+    }
+
+    /**
+     * Returns a finished Article schema type based on a given joomla article
+     *
+     * @param object $article  An article to extract schema data from
+     *
+     * @return array
+     *
+     * @since   5.0.0
+     */
+    private function createArticleSchema(object $article)
+    {
+        $baseId   = Uri::root() . '#/schema/';
+        $schemaId = $baseId . 'com_content/article/' . (int) $article->id;
+
+        $schema = [];
+
+        $schema['@type']       = 'Article';
+        $schema['@id']         = $schemaId;
+        $schema['name']        = $article->title;
+        $schema['headline']    = $article->title;
+
+        $schema['inLanguage']  = $article->language === '*' ? $this->getApplication()->get('language') : $article->language;
+
+        // Author information
+        if ($article->params->get('show_author') && !empty($article->author)) {
+            $author = [];
+
+            $author['@type'] = 'Person';
+            $author['name']  = $article->created_by_alias ?: $article->author;
+
+            if ($article->params->get('link_author') == true && !empty($article->contact_link)) {
+                $author['url'] = $article->contact_link;
+            }
+
+            $schema['author'] = $author;
+        }
+
+        // Images
+        if ($article->images->get('image_intro')) {
+            $schema['thumbnailUrl'] = HTMLHelper::_('cleanImageUrl', $article->images->get('image_intro'))->url;
+        }
+
+        if ($article->images->get('image_fulltext')) {
+            $schema['image'] = HTMLHelper::_('cleanImageUrl', $article->images->get('image_fulltext'))->url;
+        }
+
+        // Categories
+        $categories = [];
+
+        // Parent category if not root
+        if ($article->params->get('show_parent_category') && !empty($article->parent_id) && $article->parent_id > 1) {
+            $categories[] = $article->parent_title;
+        }
+
+        // Current category
+        if ($article->params->get('show_category')) {
+            $categories[] = $article->category_title;
+        }
+
+        if (!empty($categories)) {
+            $schema['articleSection'] = implode(', ', $categories);
+        }
+
+        // Dates
+        if ($article->params->get('show_publish_date')) {
+            $schema['dateCreated'] = Factory::getDate($article->created)->toISO8601();
+        }
+
+        if ($article->params->get('show_modify_date')) {
+            $schema['dateModified'] = Factory::getDate($article->modified)->toISO8601();
+        }
+
+        // Hits
+        if ($article->params->get('show_hits')) {
+            $counter = [];
+
+            $counter['@type']                = 'InteractionCounter';
+            $counter['userInteractionCount'] = $article->hits;
+
+            $schema['interactionStatistic'] = $counter;
+        }
+
+        return $schema;
+    }
+
+    /**
+     * Inject com_contact schemas if needed
+     *
+     * @param   string    $context  The com_contact context like com_contact.contact.5
+     * @param   Registry  $schema   The overall schema object to manipulate
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    private function injectContactSchema(string $context, Registry $schema)
+    {
+        $app = $this->getApplication();
+        $db  = $this->getDatabase();
+
+        [$extension, $view, $id] = explode('.', $context);
+
+        // Check if there is already a schema for the item, then skip it
+        $mySchema = $schema->toArray();
+
+        if (!isset($mySchema['@graph']) || !\is_array($mySchema['@graph'])) {
+            return;
+        }
+
+        $baseId   = Uri::root() . '#/schema/';
+        $schemaId = $baseId . str_replace('.', '/', $context);
+
+        foreach ($mySchema['@graph'] as $entry) {
+            // Someone added our context already, no need to add automated data
+            if (isset($entry['@id']) && $entry['@id'] == $schemaId) {
+                return;
+            }
+        }
+
+        $additionalSchema = [];
+
+        $component = $this->getApplication()->bootComponent('com_contact')->getMVCFactory();
+
+        $enableCache = $this->params->get('schema_cache', 1);
+
+        $cache = Factory::getContainer()->get(CacheControllerFactory::class)
+            ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
+
+        // Add contact data
+        if ($view == 'contact' && $id > 0) {
+            $additionalSchema = $cache->get(function ($id) use ($component, $baseId) {
+                $model = $component->createModel('Contact', 'Site');
+
+                $contact = $model->getItem($id);
+
+                if (empty($contact->id)) {
+                    return;
+                }
+
+                $contactSchema = $this->createContactSchema($contact);
+
+                $contactSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
+
+                return $contactSchema;
+            }, [$id]);
+
+            $mySchema['@graph'][] = $additionalSchema;
+        } elseif ($view === 'featured') {
+            $additionalSchemas = $cache->get(function ($graph) use ($component, $baseId) {
+                $model = $component->createModel('Featured', 'Site');
+
+                $contacts = $model->getItems();
+
+                $allSchemas = [];
+
+                foreach ($contacts as $contact) {
+                    foreach ($graph as $entry) {
+                        $schemaId = $baseId . 'com_contact/contact/' . (int) $contact->id;
+
+                        // Someone added our context already, no need to add automated data
+                        if (isset($entry['@id']) && $entry['@id'] == $schemaId) {
+                            return;
+                        }
+                    }
+
+                    $contactSchema = $this->createContactSchema($contact);
+
+                    $contactSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
+
+                    $allSchemas[] = $contactSchema;
+                }
+
+                return $allSchemas;
+            }, [$mySchema['@graph']]);
+
+            foreach ($additionalSchemas as $additionalSchema) {
+                $mySchema['@graph'][] = $additionalSchema;
+            }
+        }
+
+        $schema->set('@graph', $mySchema['@graph']);
+    }
+
+    /**
+     * Returns a finished Person schema type based on a given joomla contact
+     *
+     * @param object $contact  A contact to extract schema data from
+     *
+     * @return array
+     *
+     * @since   5.0.0
+     */
+    private function createContactSchema(object $contact)
+    {
+        $baseId   = Uri::root() . '#/schema/';
+        $schemaId = $baseId . 'com_contact/contact/' . (int) $contact->id;
+
+        $schema = [];
+
+        $schema['@type']       = 'Person';
+        $schema['@id']         = $schemaId;
+        $schema['name']        = $contact->name;
+
+        if ($contact->image && $contact->params->get('show_image')) {
+            $schema['image'] = HTMLHelper::_('cleanImageUrl', $contact->image)->url;
+        }
+
+        if ($contact->con_position && $contact->params->get('show_position')) {
+            $schema['jobTitle'] = $contact->con_position;
+        }
+
+        $schema['address'] = [];
+
+        if ($contact->params->get('show_street_address') && $contact->address) {
+            $schema['address']['streetAddress'] = $contact->address;
+        }
+
+        if ($contact->params->get('show_suburb') && $contact->suburb) {
+            $schema['address']['addressLocality'] = $contact->suburb;
+        }
+
+        if ($contact->params->get('show_state') && $contact->state) {
+            $schema['address']['addressRegion'] = $contact->state;
+        }
+
+        if ($contact->params->get('show_postcode') && $contact->postcode) {
+            $schema['address']['postalCode'] = $contact->postcode;
+        }
+
+        if ($contact->params->get('show_country') && $contact->country) {
+            $schema['address']['addressCountry'] = $contact->country;
+        }
+
+        if ($contact->params->get('show_telephone') && $contact->telephone) {
+            $schema['address']['telephone'] = $contact->telephone;
+        } elseif ($contact->params->get('show_mobile') && $contact->mobile) {
+            $schema['address']['telephone'] = $contact->mobile;
+        }
+
+        if ($contact->params->get('show_fax') && $contact->fax) {
+            $schema['address']['faxNumber'] = $contact->fax;
+        }
+
+        if ($contact->params->get('show_webpage') && $contact->webpage) {
+            $schema['address']['url'] = $contact->webpage;
+        }
+
+        return $schema;
     }
 
     /**
@@ -502,7 +970,7 @@ final class Joomla extends CMSPlugin
         }
 
         // Make sure we only do the query if we have some categories to look in
-        if (count($childCategoryIds)) {
+        if (\count($childCategoryIds)) {
             // Count the items in this category
             $query = $db->getQuery(true)
                 ->select('COUNT(' . $db->quoteName('id') . ')')
@@ -519,34 +987,38 @@ final class Joomla extends CMSPlugin
             }
 
             return $count;
-        } else { // If we didn't have any categories to check, return 0
-            return 0;
         }
+
+        // If we didn't have any categories to check, return 0
+        return 0;
     }
 
     /**
      * Change the state in core_content if the stage in a table is changed
      *
-     * @param   string   $context  The context for the content passed to the plugin.
-     * @param   array    $pks      A list of primary key ids of the content that has changed stage.
-     * @param   integer  $value    The value of the condition that the content has been changed to
+     * @param   AfterChangeStateEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.1
      */
-    public function onContentChangeState($context, $pks, $value)
+    public function onContentChangeState(AfterChangeStateEvent $event)
     {
-        $pks = ArrayHelper::toInteger($pks);
+        $context = $event->getContext();
+        $pks     = $event->getPks();
+        $value   = $event->getValue();
+        $pks     = ArrayHelper::toInteger($pks);
 
         if ($context === 'com_workflow.stage' && $value < 1) {
             foreach ($pks as $pk) {
                 if (!$this->stageNotUsed($pk)) {
-                    return false;
+                    $event->addResult(false);
+                    return;
                 }
             }
 
-            return true;
+            $event->addResult(true);
+            return;
         }
 
         $db    = $this->getDatabase();
@@ -562,7 +1034,7 @@ final class Joomla extends CMSPlugin
         $cctable = new CoreContent($db);
         $cctable->publish($ccIds, $value);
 
-        return true;
+        $event->addResult(true);
     }
 
     /**

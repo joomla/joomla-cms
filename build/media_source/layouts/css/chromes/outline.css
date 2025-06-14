@@ -1,8 +1,8 @@
 .mod-preview {
-  background: rgba(100,100,100,.08);
-  box-shadow: 0 0 0 4px #f4f4f4, 0 0 0 5px rgba(100,100,100,.2);
-  border-radius: 1px;
   margin: 8px 0;
+  background: rgba(100,100,100,.08);
+  border-radius: 1px;
+  box-shadow: 0 0 0 4px #f4f4f4, 0 0 0 5px rgba(100,100,100,.2);
 }
 
 .mod-preview-info {
@@ -11,7 +11,7 @@
   font-family: Arial, sans-serif;
   font-size: .75rem;
   line-height: 1rem;
-  color: white;
+  color: #fff;
   background-color: #33373f;
   border-radius: 3px;
   box-shadow: 0 -10px 20px rgba(0,0,0,.2) inset;

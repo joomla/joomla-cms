@@ -72,7 +72,7 @@ class MethodModel extends BaseDatabaseModel
      */
     public function methodExists(string $method): bool
     {
-        if (!is_array($this->mfaMethods)) {
+        if (!\is_array($this->mfaMethods)) {
             $this->populateMfaMethods();
         }
 
@@ -89,8 +89,8 @@ class MethodModel extends BaseDatabaseModel
      */
     public function getRenderOptions(?User $user = null): SetupRenderOptions
     {
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser();
         }
 
         $renderOptions = new SetupRenderOptions();
@@ -119,16 +119,16 @@ class MethodModel extends BaseDatabaseModel
     /**
      * Get the specified MFA record. It will return a fake default record when no record ID is specified.
      *
-     * @param   User|null  $user  The user record. Null to use the currently logged in user.
+     * @param   ?User  $user  The user record. Null to use the currently logged in user.
      *
      * @return  MfaTable
      * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function getRecord(User $user = null): MfaTable
+    public function getRecord(?User $user = null): MfaTable
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -176,7 +176,7 @@ class MethodModel extends BaseDatabaseModel
                 break;
 
             default:
-                $key = sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
+                $key = \sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
                 break;
         }
 
@@ -193,14 +193,14 @@ class MethodModel extends BaseDatabaseModel
      */
     protected function getDefaultRecord(?User $user = null): MfaTable
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
         $method = $this->getState('method');
         $title  = '';
 
-        if (is_null($this->mfaMethods)) {
+        if (\is_null($this->mfaMethods)) {
             $this->populateMfaMethods();
         }
 

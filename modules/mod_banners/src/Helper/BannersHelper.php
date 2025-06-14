@@ -31,13 +31,17 @@ class BannersHelper
      * Retrieve list of banners
      *
      * @param   Registry        $params  The module parameters
-     * @param   BannersModel    $model   The model
      * @param   CMSApplication  $app     The application
      *
      * @return  mixed
+     *
+     * @since   5.1.0
      */
-    public static function getList(Registry $params, BannersModel $model, CMSApplication $app)
+    public function getBanners(Registry $params, CMSApplication $app)
     {
+        /** @var BannersModel $model */
+        $model = $app->bootComponent('com_banners')->getMVCFactory()->createModel('Banners', 'Site', ['ignore_request' => true]);
+
         $keywords = explode(',', $app->getDocument()->getMetaData('keywords'));
         $config   = ComponentHelper::getParams('com_banners');
 
@@ -59,5 +63,27 @@ class BannersHelper
         }
 
         return $banners;
+    }
+
+    /**
+     * Retrieve list of banners
+     *
+     * @param   Registry        $params  The module parameters
+     * @param   BannersModel    $model   The model
+     * @param   CMSApplication  $app     The application
+     *
+     * @return  mixed
+     *
+     * @since   1.5
+     *
+     * @deprecated 5.1.0 will be removed in 7.0
+     *             Use the non-static method getBanners
+     *             Example: Factory::getApplication()->bootModule('mod_banners', 'site')
+     *                          ->getHelper('BannersHelper')
+     *                          ->getBanners($params, Factory::getApplication())
+     */
+    public static function getList(Registry $params, BannersModel $model, CMSApplication $app)
+    {
+        return (new self())->getBanners($params, $app);
     }
 }

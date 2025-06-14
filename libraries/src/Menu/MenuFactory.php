@@ -48,7 +48,7 @@ class MenuFactory implements MenuFactoryInterface
             throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
         }
 
-        if (!array_key_exists('db', $options)) {
+        if (!\array_key_exists('db', $options)) {
             $options['db'] = $this->getDatabase();
         }
 

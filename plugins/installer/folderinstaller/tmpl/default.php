@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/** @var PlgInstallerFolderInstaller $this */
+/** @var \Joomla\Plugin\Installer\Folder\Extension\FolderInstaller $this */
 
 Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 

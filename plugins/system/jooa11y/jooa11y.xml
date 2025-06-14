@@ -56,6 +56,30 @@
 					description="PLG_SYSTEM_JOOA11Y_FIELD_CONTAINER_IGNORE_DESC"
 					filter="string"
 				/>
+				<field
+					name="extraProps"
+					type="subform"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS_DESC"
+					multiple="true"
+					>
+					<form>
+						<field type="text" name="key" label="PLG_SYSTEM_JOOA11Y_KEY"/>
+						<field type="text" name="value" label="PLG_SYSTEM_JOOA11Y_VALUE"/>
+					</form>
+				</field>
+				<field
+					name="checks"
+					type="subform"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_CHECKS"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_CHECKS_DESC"
+					multiple="true"
+					>
+					<form>
+						<field type="text" name="key" label="PLG_SYSTEM_JOOA11Y_KEY"/>
+						<field type="text" name="value" label="PLG_SYSTEM_JOOA11Y_VALUE"/>
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

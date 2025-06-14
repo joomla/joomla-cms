@@ -33,13 +33,18 @@ if ($headerClass !== 'card-title') :
     $headerAttribs['class'] = 'card-header ' . $headerClass;
 endif;
 
+// Add class from attributes if any
+if (!empty($attribs['class'])) {
+    $moduleAttribs['class'] .= ' ' . htmlspecialchars($attribs['class'], ENT_QUOTES, 'UTF-8');
+}
+
 // Only add aria if the moduleTag is not a div
 if ($moduleTag !== 'div') {
     if ($module->showtitle) :
         $moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
         $headerAttribs['id']              = 'mod-' . $module->id;
     else :
-        $moduleAttribs['aria-label'] = $module->title;
+        $moduleAttribs['aria-label'] = htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8');
     endif;
 }
 

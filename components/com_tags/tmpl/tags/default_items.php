@@ -10,19 +10,19 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Tags\Site\View\Tags\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_tags.tags-default');
 
 // Get the user object.
-$user = Factory::getUser();
+$user = $this->getCurrentUser();
 
 // Check if user is allowed to add/edit based on tags permissions.
 $canEdit      = $user->authorise('core.edit', 'com_tags');

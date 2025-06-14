@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="form">
+		<field
+			name="plugin"
+			type="plugins"
+			label="COM_FINDER_FIELD_FINDER_PLUGIN_LABEL"
+			folder="finder"
+			required="true"
+		/>
+
+		<field
+			name="id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			required="true"
+		/>
+	</fieldset>
+</form>

@@ -37,6 +37,9 @@ trait AjaxHandlerSaveLabel
      */
     public function onAjaxWebauthnSavelabel(AjaxSaveLabel $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Initialize objects
         $input      = $this->getApplication()->getInput();
         $repository = $this->authenticationHelper->getCredentialsRepository();
@@ -87,7 +90,7 @@ trait AjaxHandlerSaveLabel
         // Save the new label
         try {
             $repository->setLabel($credentialId, $newLabel);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $event->addResult(false);
 
             return;

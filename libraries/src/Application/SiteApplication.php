@@ -13,12 +13,14 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouter;
@@ -28,7 +30,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -68,20 +70,20 @@ final class SiteApplication extends CMSApplication
     /**
      * Class constructor.
      *
-     * @param   Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                 object.  If the argument is a JInput object that object will become the
-     *                                 application's input object, otherwise a default input object is created.
-     * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
-     *                                 object.  If the argument is a Registry object that object will become the
-     *                                 application's config object, otherwise a default config object is created.
-     * @param   WebClient  $client     An optional argument to provide dependency injection for the application's client
-     *                                 object.  If the argument is a WebClient object that object will become the
-     *                                 application's client object, otherwise a default client object is created.
-     * @param   Container  $container  Dependency injection container.
+     * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
+     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  application's input object, otherwise a default input object is created.
+     * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
+     *                                  object.  If the argument is a Registry object that object will become the
+     *                                  application's config object, otherwise a default config object is created.
+     * @param   ?WebClient  $client     An optional argument to provide dependency injection for the application's client
+     *                                  object.  If the argument is a WebClient object that object will become the
+     *                                  application's client object, otherwise a default client object is created.
+     * @param   ?Container  $container  Dependency injection container.
      *
      * @since   3.2
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         // Register the application name
         $this->name = 'site';
@@ -110,7 +112,7 @@ final class SiteApplication extends CMSApplication
         $user  = Factory::getUser();
 
         if (!$menus->authorise($itemid)) {
-            if ($user->get('id') == 0) {
+            if ($user->id == 0) {
                 // Set the data
                 $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
 
@@ -205,12 +207,21 @@ final class SiteApplication extends CMSApplication
             $document->setGenerator('Joomla! - Open Source Content Management');
         }
 
+        // Trigger the onAfterInitialiseDocument event.
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterInitialiseDocument',
+            new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', ['subject' => $this, 'document' => $document])
+        );
+
         $contents = ComponentHelper::renderComponent($component);
-        $document->setBuffer($contents, 'component');
+        $document->setBuffer($contents, ['type' => 'component']);
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterDispatch');
+        $this->dispatchEvent(
+            'onAfterDispatch',
+            new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
+        );
     }
 
     /**
@@ -242,7 +253,18 @@ final class SiteApplication extends CMSApplication
              * $this->input->getCmd('option'); or $this->input->getCmd('view');
              * ex: due of the sef urls
              */
-            $this->checkUserRequireReset('com_users', 'profile', 'edit', 'com_users/profile.save,com_users/profile.apply,com_users/user.logout');
+            $this->checkUserRequiresReset('com_users', 'profile', 'edit', [
+                ['option' => 'com_users', 'task' => 'profile.save'],
+                ['option' => 'com_users', 'task' => 'profile.apply'],
+                ['option' => 'com_users', 'task' => 'user.logout'],
+                ['option' => 'com_users', 'task' => 'user.menulogout'],
+                ['option' => 'com_users', 'task' => 'captive.validate'],
+                ['option' => 'com_users', 'view' => 'captive'],
+                ['option' => 'com_users', 'view' => 'methods'],
+                ['option' => 'com_users', 'view' => 'method'],
+                ['option' => 'com_users', 'task' => 'method.add'],
+                ['option' => 'com_users', 'task' => 'method.save'],
+            ]);
         }
 
         // Dispatch the application
@@ -348,21 +370,6 @@ final class SiteApplication extends CMSApplication
         }
 
         return $params[$hash];
-    }
-
-    /**
-     * Return a reference to the Pathway object.
-     *
-     * @param   string  $name     The name of the application.
-     * @param   array   $options  An optional associative array of configuration settings.
-     *
-     * @return  Pathway  A Pathway object
-     *
-     * @since   3.2
-     */
-    public function getPathway($name = 'site', $options = [])
-    {
-        return parent::getPathway($name, $options);
     }
 
     /**
@@ -473,11 +480,7 @@ final class SiteApplication extends CMSApplication
             $cache->store($templates, $cacheId);
         }
 
-        if (isset($templates[$id])) {
-            $template = $templates[$id];
-        } else {
-            $template = $templates[0];
-        }
+        $template = $templates[$id] ?? $templates[0];
 
         // Allows for overriding the active template from the request
         $template_override = $this->input->getCmd('template', '');
@@ -672,7 +675,25 @@ final class SiteApplication extends CMSApplication
         // Set the access control action to check.
         $options['action'] = 'core.login.site';
 
-        return parent::login($credentials, $options);
+        $result = parent::login($credentials, $options);
+
+        if (!($result instanceof \Exception) && $result) {
+            // Check if the user is required to reset their password
+            $this->checkUserRequiresReset('com_users', 'profile', 'edit', [
+                ['option' => 'com_users', 'task' => 'profile.save'],
+                ['option' => 'com_users', 'task' => 'profile.apply'],
+                ['option' => 'com_users', 'task' => 'user.logout'],
+                ['option' => 'com_users', 'task' => 'user.menulogout'],
+                ['option' => 'com_users', 'task' => 'captive.validate'],
+                ['option' => 'com_users', 'view' => 'captive'],
+                ['option' => 'com_users', 'view' => 'methods'],
+                ['option' => 'com_users', 'view' => 'method'],
+                ['option' => 'com_users', 'task' => 'method.add'],
+                ['option' => 'com_users', 'task' => 'method.save'],
+            ]);
+        }
+
+        return $result;
     }
 
     /**
@@ -786,8 +807,11 @@ final class SiteApplication extends CMSApplication
         }
 
         // Trigger the onAfterRoute event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterRoute');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterRoute',
+            new AfterRouteEvent('onAfterRoute', ['subject' => $this])
+        );
 
         $Itemid = $this->input->getInt('Itemid', null);
         $this->authorise($Itemid);
@@ -839,7 +863,7 @@ final class SiteApplication extends CMSApplication
      */
     public function setTemplate($template, $styleParams = null)
     {
-        if (is_object($template)) {
+        if (\is_object($template)) {
             $templateName        = empty($template->template)
                 ? ''
                 : $template->template;

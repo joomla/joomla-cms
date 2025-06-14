@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<form>
+	<fields name="params">
+		<fieldset name="task_params">
+			<field
+				name="delay"
+				type="number"
+				label="PLG_TASK_GLOBALCHECKIN_DELAY_LABEL"
+				default="1"
+				required="true"
+				min="0"
+				step="1"
+				validate="number"
+				filter="int"
+			/>
+		</fieldset>
+	</fields>
+</form>

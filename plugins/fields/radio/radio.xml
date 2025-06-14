@@ -24,6 +24,17 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="form_layout"
+					type="list"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
+					class="form-select"
+					default="joomla.form.field.radio.buttons"			       
+					>
+					<option value="joomla.form.field.radio.buttons">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_BUTTONS</option>
+					<option value="joomla.form.field.radio.switcher">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_SWITCHER</option>
+				</field>
+				
+				<field
 					name="options"
 					type="subform"
 					label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_LABEL"

@@ -39,7 +39,8 @@ class DisplayController extends BaseController
      * you will need to override it in your own controllers.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe url parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  An instance of the current object to support chaining.
      *
@@ -74,7 +75,7 @@ class DisplayController extends BaseController
             $appendLink .= '&function=' . $function;
         }
 
-        if (substr($position, 0, 6) != 'cpanel') {
+        if (!str_starts_with($position, 'cpanel')) {
             $position = 'cpanel';
         }
 

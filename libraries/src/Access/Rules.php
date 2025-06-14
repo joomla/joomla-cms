@@ -12,7 +12,7 @@ namespace Joomla\CMS\Access;
 use Joomla\CMS\Object\CMSObject;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -174,7 +174,7 @@ class Rules
 
         foreach ($this->data as $name => &$action) {
             if ($action->allow($identity)) {
-                $allowed->set($name, true);
+                $allowed->$name = true;
             }
         }
 

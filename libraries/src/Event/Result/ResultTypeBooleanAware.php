@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Event\Result;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -48,8 +48,8 @@ trait ResultTypeBooleanAware
             return;
         }
 
-        if (!is_bool($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Boolean results.', $this->getName()));
+        if (!\is_bool($data)) {
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Boolean results.', $this->getName()));
         }
     }
 }

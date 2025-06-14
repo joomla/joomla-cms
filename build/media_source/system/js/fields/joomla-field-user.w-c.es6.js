@@ -1,152 +1,174 @@
-((customElements, Joomla) => {
-  class JoomlaFieldUser extends HTMLElement {
-    constructor() {
-      super();
+/**
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+// eslint-disable-next-line import/no-unresolved
+import JoomlaDialog from 'joomla.dialog';
 
-      this.onUserSelect = '';
-      this.onchangeStr = '';
+class JoomlaFieldUser extends HTMLElement {
+  constructor() {
+    super();
 
-      // Bind events
-      this.buttonClick = this.buttonClick.bind(this);
-      this.iframeLoad = this.iframeLoad.bind(this);
-      this.modalClose = this.modalClose.bind(this);
-      this.setValue = this.setValue.bind(this);
-    }
+    this.onUserSelect = '';
+    this.onchangeStr = '';
 
-    static get observedAttributes() {
-      return ['url', 'modal', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
-    }
+    // Bind context
+    this.modalClose = this.modalClose.bind(this);
+    this.setValue = this.setValue.bind(this);
+    this.modalOpen = this.modalOpen.bind(this);
+  }
 
-    get url() { return this.getAttribute('url'); }
+  static get observedAttributes() {
+    return ['url', 'modal', 'modal-width', 'modal-height', 'modal-title', 'input', 'input-name', 'button-select'];
+  }
 
-    set url(value) { this.setAttribute('url', value); }
+  get url() {
+    return this.getAttribute('url');
+  }
 
-    get modalClass() { return this.getAttribute('modal'); }
+  set url(value) {
+    this.setAttribute('url', value);
+  }
 
-    set modalClass(value) { this.setAttribute('modal', value); }
+  get modalWidth() {
+    return this.getAttribute('modal-width');
+  }
 
-    get modalWidth() { return this.getAttribute('modal-width'); }
+  set modalWidth(value) {
+    this.setAttribute('modal-width', value);
+  }
 
-    set modalWidth(value) { this.setAttribute('modal-width', value); }
+  get modalTitle() {
+    return this.getAttribute('modal-title');
+  }
 
-    get modalHeight() { return this.getAttribute('modal-height'); }
+  set modalTitle(value) {
+    this.setAttribute('modal-title', value);
+  }
 
-    set modalHeight(value) { this.setAttribute('modal-height', value); }
+  get modalHeight() {
+    return this.getAttribute('modal-height');
+  }
 
-    get inputId() { return this.getAttribute('input'); }
+  set modalHeight(value) {
+    this.setAttribute('modal-height', value);
+  }
 
-    set inputId(value) { this.setAttribute('input', value); }
+  get inputId() {
+    return this.getAttribute('input');
+  }
 
-    get inputNameClass() { return this.getAttribute('input-name'); }
+  set inputId(value) {
+    this.setAttribute('input', value);
+  }
 
-    set inputNameClass(value) { this.setAttribute('input-name', value); }
+  get inputNameClass() {
+    return this.getAttribute('input-name');
+  }
 
-    get buttonSelectClass() { return this.getAttribute('button-select'); }
+  set inputNameClass(value) {
+    this.setAttribute('input-name', value);
+  }
 
-    set buttonSelectClass(value) { this.setAttribute('button-select', value); }
+  get buttonSelectClass() {
+    return this.getAttribute('button-select');
+  }
 
-    connectedCallback() {
-      // Set up elements
-      this.modal = this.querySelector(this.modalClass);
-      this.modalBody = this.querySelector('.modal-body');
-      this.input = this.querySelector(this.inputId);
-      this.inputName = this.querySelector(this.inputNameClass);
-      this.buttonSelect = this.querySelector(this.buttonSelectClass);
+  set buttonSelectClass(value) {
+    this.setAttribute('button-select', value);
+  }
 
-      // Bootstrap modal init
-      if (this.modal
-        && window.bootstrap
-        && window.bootstrap.Modal
-        && !window.bootstrap.Modal.getInstance(this.modal)) {
-        Joomla.initialiseModal(this.modal, { isJoomla: true });
+  connectedCallback() {
+    // Set up elements
+    this.input = this.querySelector(this.inputId);
+    this.inputName = this.querySelector(this.inputNameClass);
+    this.buttonSelect = this.querySelector(this.buttonSelectClass);
+
+    if (this.buttonSelect) {
+      this.buttonSelect.addEventListener('click', this.modalOpen.bind(this));
+      // this.modal.addEventListener('hide', this.removeIframe.bind(this));
+
+      // Check for onchange callback,
+      this.onchangeStr = this.input.getAttribute('data-onchange');
+      if (this.onchangeStr) {
+        // eslint-disable-next-line no-new-func
+        this.onUserSelect = new Function(this.onchangeStr);
+        this.input.addEventListener('change', this.onUserSelect);
       }
-
-      if (this.buttonSelect) {
-        this.buttonSelect.addEventListener('click', this.modalOpen.bind(this));
-        this.modal.addEventListener('hide', this.removeIframe.bind(this));
-
-        // Check for onchange callback,
-        this.onchangeStr = this.input.getAttribute('data-onchange');
-        if (this.onchangeStr) {
-          /* eslint-disable */
-          this.onUserSelect = new Function(this.onchangeStr);
-          this.input.addEventListener('change', this.onUserSelect);
-          /* eslint-enable */
-        }
-      }
-    }
-
-    disconnectedCallback() {
-      if (this.onchangeStr && this.input) {
-        this.input.removeEventListener('change', this.onUserSelect);
-      }
-
-      if (this.buttonSelect) {
-        this.buttonSelect.removeEventListener('click', this);
-      }
-
-      if (this.modal) {
-        this.modal.removeEventListener('hide', this);
-      }
-    }
-
-    buttonClick({ target }) {
-      this.setValue(target.getAttribute('data-user-value'), target.getAttribute('data-user-name'));
-      this.modalClose();
-    }
-
-    iframeLoad() {
-      const iframeDoc = this.iframeEl.contentWindow.document;
-      const buttons = [].slice.call(iframeDoc.querySelectorAll('.button-select'));
-
-      buttons.forEach((button) => {
-        button.addEventListener('click', this.buttonClick);
-      });
-    }
-
-    // Opens the modal
-    modalOpen() {
-      // Reconstruct the iframe
-      this.removeIframe();
-      const iframe = document.createElement('iframe');
-      iframe.setAttribute('name', 'field-user-modal');
-      iframe.src = this.url.replace('{field-user-id}', this.input.getAttribute('id'));
-      iframe.setAttribute('width', this.modalWidth);
-      iframe.setAttribute('height', this.modalHeight);
-
-      this.modalBody.appendChild(iframe);
-
-      this.modal.open();
-
-      this.iframeEl = this.modalBody.querySelector('iframe');
-
-      // handle the selection on the iframe
-      this.iframeEl.addEventListener('load', this.iframeLoad);
-    }
-
-    // Closes the modal
-    modalClose() {
-      Joomla.Modal.getCurrent().close();
-      this.modalBody.innerHTML = '';
-    }
-
-    // Remove the iframe
-    removeIframe() {
-      this.modalBody.innerHTML = '';
-    }
-
-    // Sets the value
-    setValue(value, name) {
-      this.input.setAttribute('value', value);
-      this.inputName.setAttribute('value', name || value);
-      // trigger change event both on the input and on the custom element
-      this.input.dispatchEvent(new Event('change'));
-      this.dispatchEvent(new CustomEvent('change', {
-        detail: { value, name },
-        bubbles: true,
-      }));
     }
   }
 
-  customElements.define('joomla-field-user', JoomlaFieldUser);
-})(customElements, Joomla);
+  disconnectedCallback() {
+    if (this.onUserSelect && this.input) {
+      this.input.removeEventListener('change', this.onUserSelect);
+    }
+
+    if (this.buttonSelect) {
+      this.buttonSelect.removeEventListener('click', this.modalOpen);
+    }
+
+    if (this.modal) {
+      this.modal.removeEventListener('hide', this);
+    }
+  }
+
+  // Opens the modal
+  modalOpen() {
+    // Create and show the dialog
+    const dialog = new JoomlaDialog({
+      popupType: 'iframe',
+      src: this.url,
+      textHeader: this.modalTitle,
+      width: this.modalWidth,
+      height: this.modalHeight,
+    });
+    dialog.classList.add('joomla-dialog-user-field');
+    dialog.show();
+
+    // Wait for message
+    const msgListener = (event) => {
+      // Avoid cross origins
+      if (event.origin !== window.location.origin) return;
+      // Check message type
+      if (event.data.messageType === 'joomla:content-select') {
+        this.setValue(event.data.id, event.data.name);
+        dialog.close();
+      } else if (event.data.messageType === 'joomla:cancel') {
+        dialog.close();
+      }
+    };
+    window.addEventListener('message', msgListener);
+
+    dialog.addEventListener('joomla-dialog:close', () => {
+      window.removeEventListener('message', msgListener);
+      dialog.destroy();
+      this.dialog = null;
+      // Focus on the input field to re-trigger the validation
+      this.inputName.focus();
+      this.buttonSelect.focus();
+    });
+
+    this.dialog = dialog;
+  }
+
+  // Closes the modal
+  modalClose() {
+    if (this.dialog) {
+      this.dialog.close();
+    }
+  }
+
+  // Sets the value
+  setValue(value, name) {
+    this.input.setAttribute('value', value);
+    this.inputName.setAttribute('value', name || value);
+    // trigger change event both on the input and on the custom element
+    this.input.dispatchEvent(new CustomEvent('change'));
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: { value, name },
+      bubbles: true,
+    }));
+  }
+}
+
+customElements.define('joomla-field-user', JoomlaFieldUser);

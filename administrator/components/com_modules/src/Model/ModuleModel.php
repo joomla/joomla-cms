@@ -13,11 +13,10 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -25,6 +24,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -87,9 +88,12 @@ class ModuleModel extends AdminModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
             [
@@ -105,7 +109,7 @@ class ModuleModel extends AdminModel
             $config
         );
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -191,7 +195,7 @@ class ModuleModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
@@ -345,22 +349,22 @@ class ModuleModel extends AdminModel
                 // Trigger the before delete event.
                 $result = $app->triggerEvent($this->event_before_delete, [$context, $table]);
 
-                if (in_array(false, $result, true) || !$table->delete($pk)) {
+                if (\in_array(false, $result, true) || !$table->delete($pk)) {
                     throw new \Exception($table->getError());
-                } else {
-                    // Delete the menu assignments
-                    $pk    = (int) $pk;
-                    $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
-                        ->delete($db->quoteName('#__modules_menu'))
-                        ->where($db->quoteName('moduleid') . ' = :moduleid')
-                        ->bind(':moduleid', $pk, ParameterType::INTEGER);
-                    $db->setQuery($query);
-                    $db->execute();
-
-                    // Trigger the after delete event.
-                    $app->triggerEvent($this->event_after_delete, [$context, $table]);
                 }
+
+                // Delete the menu assignments
+                $pk    = (int) $pk;
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->delete($db->quoteName('#__modules_menu'))
+                    ->where($db->quoteName('moduleid') . ' = :moduleid')
+                    ->bind(':moduleid', $pk, ParameterType::INTEGER);
+                $db->setQuery($query);
+                $db->execute();
+
+                // Trigger the after delete event.
+                $app->triggerEvent($this->event_after_delete, [$context, $table]);
 
                 // Clear module cache
                 parent::cleanCache($table->module);
@@ -396,6 +400,8 @@ class ModuleModel extends AdminModel
         }
 
         $table = $this->getTable();
+
+        $tuples = [];
 
         foreach ($pks as $pk) {
             if ($table->load($pk, true)) {
@@ -604,7 +610,7 @@ class ModuleModel extends AdminModel
                 // This allows us to inject parameter settings into a new module.
                 $params = $app->getUserState('com_modules.add.module.params');
 
-                if (is_array($params)) {
+                if (\is_array($params)) {
                     $data->set('params', $params);
                 }
             }
@@ -751,7 +757,7 @@ class ModuleModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Module', $prefix = 'JTable', $config = [])
+    public function getTable($type = 'Module', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -940,7 +946,7 @@ class ModuleModel extends AdminModel
         // Trigger the before save event.
         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
 
             return false;

@@ -103,7 +103,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!(is_object($table) && $table instanceof VersionableTableInterface)) {
+        if (!(\is_object($table) && $table instanceof VersionableTableInterface)) {
             return;
         }
 
@@ -143,7 +143,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
         /** @var VersionableTableInterface $table */
         $table = $event['subject'];
 
-        if (!(is_object($table) && $table instanceof VersionableTableInterface)) {
+        if (!(\is_object($table) && $table instanceof VersionableTableInterface)) {
             return;
         }
 

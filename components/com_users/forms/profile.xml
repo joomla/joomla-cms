@@ -37,6 +37,9 @@
 			filter="raw"
 			size="30"
 			validate="password"
+			strengthmeter="true"
+			rules="true"
+			force="on"
 		/>
 
 		<field

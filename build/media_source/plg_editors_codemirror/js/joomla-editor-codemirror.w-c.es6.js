@@ -1,153 +1,134 @@
+/**
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// eslint-disable-next-line import/no-unresolved, max-classes-per-file
+import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
+// eslint-disable-next-line import/no-unresolved
+import { createFromTextarea, EditorState, keymap } from 'codemirror';
+
+/**
+ * Codemirror Decorator for JoomlaEditor
+ */
+// eslint-disable-next-line max-classes-per-file
+class CodemirrorDecorator extends JoomlaEditorDecorator {
+  /**
+   * @returns {string}
+   */
+  getValue() {
+    return this.instance.state.doc.toString();
+  }
+
+  /**
+   * @param {String} value
+   * @returns {CodemirrorDecorator}
+   */
+  setValue(value) {
+    const editor = this.instance;
+    editor.dispatch({
+      changes: { from: 0, to: editor.state.doc.length, insert: value },
+    });
+    return this;
+  }
+
+  /**
+   * @returns {string}
+   */
+  getSelection() {
+    const { state } = this.instance;
+    return state.sliceDoc(
+      state.selection.main.from,
+      state.selection.main.to,
+    );
+  }
+
+  replaceSelection(value) {
+    const v = this.instance.state.replaceSelection(value);
+    this.instance.dispatch(v);
+    return this;
+  }
+
+  disable(enable) {
+    const editor = this.instance;
+    editor.state.config.compartments.forEach((facet, compartment) => {
+      if (compartment.$j_name === 'readOnly') {
+        editor.dispatch({
+          effects: compartment.reconfigure(EditorState.readOnly.of(!enable)),
+        });
+      }
+    });
+    return this;
+  }
+}
+
 class CodemirrorEditor extends HTMLElement {
   constructor() {
     super();
 
-    this.instance = '';
-    this.host = window.location.origin;
-    this.element = this.querySelector('textarea');
-    this.refresh = this.refresh.bind(this);
-
-    // Observer instance to refresh the Editor when it become visible, eg after Tab switching
-    this.intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && this.instance) {
-        this.instance.refresh();
+    this.toggleFullScreen = () => {
+      if (!this.classList.contains('fullscreen')) {
+        this.classList.add('fullscreen');
+        document.documentElement.scrollTop = 0;
+        document.documentElement.style.overflow = 'hidden';
+      } else {
+        this.closeFullScreen();
       }
-    }, { threshold: 0 });
-  }
+    };
 
-  static get observedAttributes() {
-    return ['options'];
+    this.closeFullScreen = () => {
+      this.classList.remove('fullscreen');
+      document.documentElement.style.overflow = '';
+    };
+
+    this.interactionCallback = () => {
+      JoomlaEditor.setActive(this.element.id);
+    };
   }
 
   get options() { return JSON.parse(this.getAttribute('options')); }
 
-  set options(value) { this.setAttribute('options', value); }
-
-  attributeChangedCallback(attr, oldValue, newValue) {
-    switch (attr) {
-      case 'options':
-        if (oldValue && newValue !== oldValue) {
-          this.refresh(this.element);
-        }
-        break;
-      default:
-      // Do nothing
-    }
-  }
+  get fsCombo() { return this.getAttribute('fs-combo'); }
 
   async connectedCallback() {
-    const cmPath = this.getAttribute('editor');
-    const addonsPath = this.getAttribute('addons');
+    const { options } = this;
 
-    await import(`${this.host}/${cmPath}`);
+    // Configure full screen feature
+    if (this.fsCombo) {
+      options.customExtensions = options.customExtensions || [];
+      options.customExtensions.push(() => keymap.of([
+        { key: this.fsCombo, run: this.toggleFullScreen },
+        { key: 'Escape', run: this.closeFullScreen },
+      ]));
 
-    if (this.options.keyMapUrl) {
-      await import(`${this.host}/${this.options.keyMapUrl}`);
+      // Relocate BS modals, to resolve z-index issue in full screen
+      this.bsModals = this.querySelectorAll('.joomla-modal.modal');
+      this.bsModals.forEach((modal) => document.body.appendChild(modal));
     }
-    await import(`${this.host}/${addonsPath}`);
 
-    const that = this;
+    // Create and register the Editor
+    this.element = this.querySelector('textarea');
+    this.instance = await createFromTextarea(this.element, options);
+    this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
+    JoomlaEditor.register(this.jEditor);
 
-    // For mode autoloading.
-    window.CodeMirror.modeURL = this.getAttribute('mod-path');
-
-    // Fire this function any time an editor is created.
-    window.CodeMirror.defineInitHook((editor) => {
-      // Try to set up the mode
-      const mode = window.CodeMirror.findModeByName(editor.options.mode || '')
-        || window.CodeMirror.findModeByExtension(editor.options.mode || '');
-
-      window.CodeMirror.autoLoadMode(editor, typeof mode === 'object' ? mode.mode : editor.options.mode);
-
-      if (mode && mode.mime) {
-        // Fix the x-php error
-        if (['text/x-php', 'application/x-httpd-php', 'application/x-httpd-php-open'].includes(mode.mime)) {
-          editor.setOption('mode', 'php');
-        } else if (mode.mime === 'text/html') {
-          editor.setOption('mode', mode.mode);
-        } else {
-          editor.setOption('mode', mode.mime);
-        }
-      }
-
-      const toggleFullScreen = () => {
-        that.instance.setOption('fullScreen', !that.instance.getOption('fullScreen'));
-        const header = document.getElementById('subhead');
-        if (header) {
-          const header1 = document.getElementById('header');
-          header1.classList.toggle('hidden');
-          header.classList.toggle('hidden');
-          that.instance.display.wrapper.style.top = `${header.getBoundingClientRect().height}px`;
-        }
-      };
-
-      const closeFullScreen = () => {
-        that.instance.getOption('fullScreen');
-        that.instance.setOption('fullScreen', false);
-
-        if (!that.instance.getOption('fullScreen')) {
-          const header = document.getElementById('subhead');
-          if (header) {
-            const header1 = document.getElementById('header');
-            header.classList.toggle('hidden');
-            header1.classList.toggle('hidden');
-            that.instance.display.wrapper.style.top = `${header.getBoundingClientRect().height}px`;
-          }
-        }
-      };
-
-      const map = {
-        'Ctrl-Q': toggleFullScreen,
-        [that.getAttribute('fs-combo')]: toggleFullScreen,
-        Esc: closeFullScreen,
-      };
-
-      editor.addKeyMap(map);
-
-      const makeMarker = () => {
-        const marker = document.createElement('div');
-        marker.className = 'CodeMirror-markergutter-mark';
-
-        return marker;
-      };
-
-      // Handle gutter clicks (place or remove a marker).
-      editor.on('gutterClick', (ed, n, gutter) => {
-        if (gutter !== 'CodeMirror-markergutter') {
-          return;
-        }
-
-        const info = ed.lineInfo(n);
-        const hasMarker = !!info.gutterMarkers && !!info.gutterMarkers['CodeMirror-markergutter'];
-        ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : makeMarker());
-      });
-
-      /* Some browsers do something weird with the fieldset which doesn't
-        work well with CodeMirror. Fix it. */
-      if (that.parentNode.tagName.toLowerCase() === 'fieldset') {
-        that.parentNode.style.minWidth = 0;
-      }
-    });
-
-    // Register Editor
-    this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
-    this.instance.disable = (disabled) => this.setOption('readOnly', disabled ? 'nocursor' : false);
-    Joomla.editors.instances[this.element.id] = this.instance;
-
-    // Watch when the element in viewport, and refresh the editor
-    this.intersectionObserver.observe(this);
+    // Find out when editor is interacted
+    this.addEventListener('click', this.interactionCallback);
   }
 
   disconnectedCallback() {
+    if (this.instance) {
+      this.element.style.display = '';
+      this.instance.destroy();
+    }
     // Remove from the Joomla API
-    delete Joomla.editors.instances[this.element.id];
+    JoomlaEditor.unregister(this.element.id);
+    this.removeEventListener('click', this.interactionCallback);
 
-    // Remove from observer
-    this.intersectionObserver.unobserve(this);
-  }
-
-  refresh(element) {
-    this.instance.fromTextArea(element, this.options);
+    // Restore modals
+    if (this.bsModals && this.bsModals.length) {
+      this.bsModals.forEach((modal) => this.appendChild(modal));
+    }
   }
 }
 

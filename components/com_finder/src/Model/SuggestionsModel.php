@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -61,7 +61,7 @@ class SuggestionsModel extends ListModel
     /**
      * Method to build a database query to load the list data.
      *
-     * @return  DatabaseQuery  A database query
+     * @return  QueryInterface  A database query
      *
      * @since   2.5
      */
@@ -75,6 +75,7 @@ class SuggestionsModel extends ListModel
         $db          = $this->getDatabase();
         $termIdQuery = $db->getQuery(true);
         $termQuery   = $db->getQuery(true);
+        $aQuery      = $db->getQuery(true);
 
         // Limit term count to a reasonable number of results to reduce main query join size
         $termIdQuery->select('ti.term_id')
@@ -88,14 +89,14 @@ class SuggestionsModel extends ListModel
         $termIds = $db->setQuery($termIdQuery, 0, 100)->loadColumn();
 
         // Early return on term mismatch
-        if (!count($termIds)) {
+        if (!\count($termIds)) {
             return $termIdQuery;
         }
 
         // Select required fields
-        $termQuery->select('DISTINCT(t.term)')
+        $termQuery->select('t.term, t.links, t.weight')
             ->from($db->quoteName('#__finder_terms', 't'))
-            ->whereIn('t.term_id', $termIds)
+            ->where('t.term_id in (' . implode(',', $termIds) . ')')
             ->order('t.links DESC')
             ->order('t.weight DESC');
 
@@ -108,8 +109,8 @@ class SuggestionsModel extends ListModel
             ->where('l.access IN (' . implode(',', $groups) . ')')
             ->where('l.state = 1')
             ->where('l.published = 1');
-
-        return $termQuery;
+        $aQuery->select('DISTINCT o.term')->from('(' . $termQuery . ') AS o');
+        return $aQuery;
     }
 
     /**
@@ -176,6 +177,6 @@ class SuggestionsModel extends ListModel
         $this->setState('params', $params);
 
         // Load the user state.
-        $this->setState('user.id', (int) $user->get('id'));
+        $this->setState('user.id', (int) $user->id);
     }
 }

@@ -11,7 +11,7 @@
 	<description>MOD_LATESTACTIONS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\LatestActions</namespace>
 	<files>
-		<filename module="mod_latestactions">mod_latestactions.php</filename>
+		<folder module="mod_latestactions">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

@@ -11,12 +11,14 @@
 namespace Joomla\Plugin\Content\PageNavigation\Extension;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,30 +29,45 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.5
  */
-final class PageNavigation extends CMSPlugin
+final class PageNavigation extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentBeforeDisplay' => 'onContentBeforeDisplay',
+        ];
+    }
+
+    /**
      * If in the article view and the parameter is enabled shows the page navigation
      *
-     * @param   string   $context  The context of the content being passed to the plugin
-     * @param   object   &$row     The article object
-     * @param   mixed    &$params  The article params
-     * @param   integer  $page     The 'page' number
+     * @param   BeforeDisplayEvent $event  The event instance.
      *
-     * @return  mixed  void or true
+     * @return  void
      *
      * @since   1.6
      */
-    public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
+    public function onContentBeforeDisplay(BeforeDisplayEvent $event)
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $params  = $event->getParams();
+
         $app   = $this->getApplication();
         $view  = $app->getInput()->get('view');
         $print = $app->getInput()->getBool('print');
 
         if ($print) {
-            return false;
+            return;
         }
 
         if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation')) {
@@ -70,7 +87,7 @@ final class PageNavigation extends CMSPlugin
              */
             $params_list = $params->toArray();
 
-            if (array_key_exists('orderby_sec', $params_list)) {
+            if (\array_key_exists('orderby_sec', $params_list)) {
                 $order_method = $params->get('orderby_sec', '');
             } else {
                 $order_method = $params->get('orderby', '');
@@ -81,25 +98,25 @@ final class PageNavigation extends CMSPlugin
                 $order_method = '';
             }
 
-            if (in_array($order_method, ['date', 'rdate'])) {
+            if (\in_array($order_method, ['date', 'rdate'])) {
                 // Get the order code
                 $orderDate = $params->get('order_date');
 
                 switch ($orderDate) {
-                    // Use created if modified is not set
                     case 'modified':
+                        // Use created if modified is not set
                         $orderby = 'CASE WHEN ' . $db->quoteName('a.modified') . ' IS NULL THEN ' .
                             $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
                         break;
 
-                    // Use created if publish_up is not set
                     case 'published':
+                        // Use created if publish_up is not set
                         $orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' .
                             $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
                         break;
 
-                    // Use created as default
                     default:
+                        // Use created as default
                         $orderby = $db->quoteName('a.created');
                         break;
                 }
@@ -188,7 +205,7 @@ final class PageNavigation extends CMSPlugin
             $list = $db->loadObjectList('id');
 
             // This check needed if incorrect Itemid is given resulting in an incorrect result.
-            if (!is_array($list)) {
+            if (!\is_array($list)) {
                 $list = [];
             }
 
@@ -206,7 +223,7 @@ final class PageNavigation extends CMSPlugin
                 $row->prev = $rows[$location - 1];
             }
 
-            if (($location + 1) < count($rows)) {
+            if (($location + 1) < \count($rows)) {
                 // The next content item cannot be in an array position greater than the number of array positions.
                 $row->next = $rows[$location + 1];
             }

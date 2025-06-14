@@ -146,7 +146,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
             File::write($responseFilename, $responseBody);
             $this->snapshot['output_file'] = $responseFilename;
             $responseStatus                = 'SAVED';
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
             $responseStatus = 'NOT_SAVED';
         }
@@ -158,7 +158,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
 > Response: $responseStatus
 EOF;
 
-        $this->logTask(sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
+        $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
 
         if ($response->code !== 200) {
             return TaskStatus::KNOCKOUT;

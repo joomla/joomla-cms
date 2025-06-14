@@ -1,38 +1,43 @@
+@use "sass:color";
+
 // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
 $prefix: "";
 
-// Disable dark mode in J4.4 - it's going to cause major b/c breaks to introduce. We will enable it in 5.0
-$enable-dark-mode:                 false;
+// Use dark mode conditionally based on data-bs-theme attribute
+$color-mode-type: data;
+
+// Enable dark mode in J5.0
+$enable-dark-mode: true;
 
 // Variables
 $white:                            #fff;
 $whiteoffset:                      #fefefe;
 $gray-100:                         #f8f9fa;
 $gray-200:                         #e8e8e8;
-$gray-300:                         #dee2e6; //used for toolbar and badges
-$gray-400:                         #cdcdcd; //used for border-bottom sidebar-nav and toolbar normal border
-$gray-500:                         #adb5bd; //used in toolbar and buttons for border
-$gray-600:                         #666e76; //used for atum-text-dark and $secondary
-$gray-700:                         #495057; //used for atum-text-dark, secondary
+$gray-300:                         #dee2e6; // used for toolbar and badges
+$gray-400:                         #cdcdcd; // used for border-bottom sidebar-nav and toolbar normal border
+$gray-500:                         #adb5bd; // used in toolbar and buttons for border
+$gray-600:                         #666e76; // used for atum-text-dark and $secondary
+$gray-700:                         #495057; // used for atum-text-dark, secondary
 $gray-800:                         #343a40;
-$gray-900:                         #212529; //used for tree header
+$gray-900:                         #212529; // used for tree header
 $bluegray:                         #b2bfcd; // used for borders
-$black:                            #000;    //used for shadows
-$dark-blue:                        #001b4c; //is the atum-special-color
-$light-blue:                       #2a69b8; //is the template-link-color
+$black:                            #000;    // used for shadows
+$dark-blue:                        #001b4c; // is the atum-special-color
+$light-blue:                       #2a69b8; // is the template-link-color
 
 // BS Colours
 $blue:                             #2a69b7; // Same as hsl(213, 63%, 44%); // base color for calculation, Primary-color
-$indigo:                           #0377be; //used in bootstrap
-$purple:                           #6f42c1; //used in bootstrap
-$pink:                             #971250; //used in bootstrap
-$red:                              #c52827; //used in bootstrap
-$red-dark:                         #3b0d0c; //used for alerts error
-$yellow:                           #ffb514; //used in bootstrap
-$green:                            #457d54; //used in bootstrap
-$green-dark:                       #0f2f21; //used for alert success
-$teal:                             #20c997; //used in bootstrap
-$cyan:                             #107d8e; //used in bootstrap
+$indigo:                           #0377be; // used in bootstrap
+$purple:                           #6f42c1; // used in bootstrap
+$pink:                             #971250; // used in bootstrap
+$red:                              #c52827; // used in bootstrap
+$red-dark:                         #3b0d0c; // used for alerts error
+$yellow:                           #ffb514; // used in bootstrap
+$green:                            #457d54; // used in bootstrap
+$green-dark:                       #0f2f21; // used for alert success
+$teal:                             #20c997; // used in bootstrap
+$cyan:                             #107d8e; // used in bootstrap
 $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
@@ -41,30 +46,63 @@ $atum-text-dark:                   $gray-700;
 $success:                          $green;
 $danger:                           $red;
 $info:                             $light-blue;
-$warning:                          $yellow;
+$warning:                          #ffb514;
+$featured:                         #c78800;
 
 $theme-colors: (
-  "primary":                         $darkblue,
-  "secondary":                       $gray-700,
-  "success":                         $success,
-  "info":                            $light-blue,
-  "warning":                         $yellow,
-  "danger":                          $danger,
-  "light":                           $gray-100,
-  "dark":                            $gray-900,
-  "action":                          $base-color,
-  "error":                           $red-dark) !default;
+  "primary":                       $darkblue,
+  "secondary":                     $gray-700,
+  "success":                       $success,
+  "info":                          $light-blue,
+  "warning":                       $warning,
+  "danger":                        $danger,
+  "light":                         $gray-100,
+  "dark":                          $gray-900,
+  "action":                        $base-color,
+  "error":                         $red-dark
+) !default;
+
+
+$template-background-light: #f0f4fb; // light background color, frontend dashboard background and installer body background
+
+// Font weights
+$thin-weight:                      100;
+$extralight-weight:                200;
+$light-weight:                     300;
+$normal-weight:                    400;
+$medium-weight:                    500;
+$semibold-weight:                  600;
+$bold-weight:                      700;
+$extrabold-weight:                 800;
+$black-weight:                     900;
+
+$form-select-indicator:            url("../images/select-bg.svg");
+$form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
+$form-select-indicator-active:     url("../../../images/select-bg.svg");
+$form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
+$form-select-bg:                   var(--template-bg-light);
+$form-select-bg-size:              calc(max(100%, 116rem));
+$form-select-bg-size-sm:           75rem;
+
+// links
+$template-link-color:             var(--template-link-color);
+$template-link-hover-color:       var(--template-link-hover-color);
+
+//$form-select-background:        $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+//$form-select-background-rtl:    $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),
   template-sidebar-font-color:     $white,
   template-sidebar-link-color:     $white,
-  template-bg-light:               #f0f4fb, //light background color, frontend dashboard background
+  template-bg-light:               $template-background-light,
   template-link-color:             var(--link-color),
+  template-link-hover-color:       var(--link-hover-color),
   template-text-light:             $white,
   template-text-dark:              $atum-text-dark,
   template-special-color:          $dark-blue,
   template-contrast:               $light-blue,
+  template-quickicon-color:        hsl(var(--hue), 30%, 40%),
   template-bg-dark:                hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:              hsl(var(--hue), 40%, 97%),
   template-bg-dark-5:              hsl(var(--hue), 40%, 95%),
@@ -80,11 +118,443 @@ $atum-colors: (
   template-bg-dark-70:             hsl(var(--hue), 40%, 30%),
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
-  template-bg-dark-90:             hsl(var(--hue), 40%, 10%)
+  template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
+
+  media-manager-overlay-header-bg:  var(--template-bg-dark-5),
+  media-manager-infobar-dt-color:   rgba(0, 0, 0, .54),
+  media-manager-content-bg:         var(--body-bg),
+  media-manager-file-icon-color:    hsl(var(--hue), 20%, 60%),
+
+  media-manager-content-color:      $light-blue,
+  media-manager-overlay-bg:         var(--template-bg-dark-3),
+  media-manager-disk-name-color:    var(--template-text-dark),
+  media-manager-tree-item-hover-bg: #e1e1e1,
+  media-manager-toolbar-icon-color: var(--template-bg-dark-60),
+  media-manager-border:             1px solid var(--template-bg-dark-7),
+  media-browser-file-bg:            hsl(var(--hue), 20%, 97%),
+  // media-browser-file-border:       1px solid hsl(var(--hue), 35%, 95%),
+  // media-browser-item-preview-border: 1px solid hsl(var(--hue, 35%, 95%)),
+  media-drive-bg:                   var(--com-media-manager-content-bg,#fff),
+  media-toolbar-bg:                 var(--com-media-manager-content-bg,#fff),
+  media-toolbar-icon-bg:            transparent,
+  media-toolbar-icon-color:         var(--com-media-manager-toolbar-icon-color, var(--template-bg-dark-60)),
+  media-toolbar-icon-bg-hvr:        #f0f0f0,
+  media-tree-item-color:            var(--template-bg-dark-60),
+
+  media-manager-breadcrumb-item-bg: var(--com-media-manager-overlay-bg, var(--template-bg-dark-3)),
+  media-tree-active-icon-color:     $light-blue,
+
+  image-bg:                        #fff,
+  image-bg-image:                  (linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%)),
+
+  template-quickicon-bg:                   hsl(var(--hue), 60%, 97%),
+  template-quickicon-bg-hvr:               var(--template-bg-dark),
+  form-control-bg:                         var(--template-text-light),
+  form-control-bg-disabled:                var(--gray-200),
+  form-control-border:                     var(--border-width) solid var(--template-bg-dark-20),
+
+  form-check-input-checked-bg-image:       url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e"),
+  form-check-input-checked-bg-color:       $blue,
+  form-check-input-border:                 var(--border-width) solid var(--template-bg-dark-20),
+
+  form-select-background:                  $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+  form-select-background-rtl:              $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+
+  form-select-border:              var(--form-control-border),
+
+  form-select-success-bg:          var(--white-offset),
+  form-select-danger-bg:           var(--white-offset),
+  form-select-disabled-bg:         var(--gray-200),
+  form-select-option:              var(--template-text-dark),
+  form-select-option-disabled-bg:  var(--template-bg-dark-5),
+
+  file-selector-btn-bg:            var(--template-bg-dark-70),
+  file-selector-btn-bg-hvr:        var(--template-bg-dark-50),
+
+  // background:
+  bg-normal:                       var(--template-bg-light),
+  bg-reverted:                     var(--template-bg-dark-60),
+
+  // text
+  text-normal:                     var(--template-text-dark),
+  text-reverted:                   var(--template-text-light),
+  text-muted-color:                var(--template-text-dark) !important,
+  text-muted-hvr-color:            var(--template-text-light) !important,
+
+  // quickicons
+  quickicon-bg:                    var(--white),
+  quickicon-color:                 var(--template-quickicon-color),
+  quickicon-color-hvr:             var(--template-quickicon-color),
+  quickicon-border:                1px solid hsl(var(--hue), 50%, 93%),
+  quickicon-border-radius:         4px,
+  quickicon-link-hvr:              $white,
+  quickicon-linkadd-bg:            hsl(var(--hue), 50%, 93%),
+  quickicon-linkadd-bg-hvr:        var(--template-bg-dark),
+  quickicon-linkadd-color:         var(--template-quickicon-color),
+  quickicon-amount-bg:             hsl(var(--hue), 50%, 93%),
+
+  // modules
+  new-modules-color:               var(--template-quickicon-color),
+  new-modules-bg:                  hsl(var(--hue), 60%, 97%),
+  new-modules-bg-hvr:              var(--template-bg-dark),
+  new-modules-icon-color:          var(--template-quickicon-color),
+  new-modules-icon-color-hvr:      hsl(var(--hue), 50%, 93%),
+  new-module-color:                var(--text-color),
+  new-module-bg:                   var(--template-quickicon-bg),
+  new-module-border:               1px solid hsl(var(--hue), 50%, 93%),
+  new-module-link-bg:              hsl(var(--hue), 50%, 93%),
+  new-module-link-span:            var(--quickicon-color),
+  new-module-link-hvr:             var(--new-modules-bg-hvr),
+  new-module-link-span-hvr:        var(--new-modules-icon-color-hvr),
+
+  // sidebar incl. main-nav
+  sidebarwrapper-bg:               var(--template-sidebar-bg),
+  sidebar-item-color:              $white,
+  sidebar-item-color-hvr:          var(--template-text-light),
+  sidebar-item-bg-hvr:             var(--template-bg-dark-65),
+  sidebar-toggle-bg:               var(--template-bg-dark-60),
+  sidebar-toggle-link:             $white,
+  main-nav-ul-bg:                  var(--template-bg-dark-75),
+  main-nav-divider-bg:             var(--template-bg-dark-60),
+  main-nav-item-title:             var(--template-bg-dark-30),
+  main-nav-item-title-hvr-bg:      var(--template-bg-dark-60),
+  main-nav-mm-active-bg:           var(--template-bg-dark-70),
+  main-nav-mm-active-quicktask-bg: var(--template-bg-dark-60),
+  main-nav-badge:                  var(--template-bg-dark-60),
+  mobile-menu-collapse-bg:         var(--template-bg-dark-50),
+
+  // header-content
+  header-bg:                          var(--template-bg-dark),
+  header-item-content-bg:             var(--template-bg-dark-60),
+  header-item-content-bg-hvr:         var(--template-bg-dark-50),
+  header-item-content-border-radius:  22px,
+  header-item-content-jversion-color: var(--bluegray),
+  header-item-content-jversion-bg:    transparent,
+  header-logo-bg:                     var(--template-bg-dark-70),
+
+  // table
+  table-color:                        var(--body-color),
+  table-border-top-nfc:               2px solid #dee2e6,
+  table-link-color:                   var(--template-link-color),
+  table-link-font-weight:             $medium-weight,
+  table-link-font-weight-sorted:      $medium-weight,
+  badge-bg-info:                      var(--info) !important,
+
+  // card
+  card-header-color:               var(--template-bg-dark),
+  card-bg:                         hsla(0, 0%, 100%, .7),
+  card-header-bg:                  var(--card-bg),
+  card-body-bg:                    var(--card-bg),
+  main-card-bg:                    var(--body-bg),
+  main-card-col-border-left:       1px solid var(--template-bg-dark-10),
+
+  // cpanel
+  module-actions-color:            var(--body-color),
+
+  // lists
+  atum-list-group-border-color:    var(--template-bg-dark-15),
+
+  // box-shadow:
+  atum-box-shadow:                 0 2px 10px -8px var(--template-bg-dark-50),
+  dropdown-box-shadow:             0 1px 1px rgba($black, .15),
+  quickicon-box-shadow-success:    0 0 3px 0 var(--success),
+  quickicon-box-shadow-danger:     0 0 3px 0 var(--danger),
+  quickicon-box-shadow-warning:    0 0 3px 0 var(--warning),
+
+  login-box-shadow:                0 4px 20px -10px var(--template-bg-dark-50),
+  login-focus-box-shadow:          inset 0 0 1px 1px var(--template-contrast),
+
+  modal-btn-box-shadow:            1px 1px 1px 0 rgba(0, 0, 0, .25),
+  modal-joomla-dialog-box-shadow:  0 .5rem 1rem rgba(0, 0, 0, .15),
+
+  form-aria-grabbed-box-shadow:    0 0 2px 1px var(--template-bg-dark),
+
+  choices__button_joomla-focus-box-shadow: 0 0 0 2px #00bcd4,
+
+  joomla-tab-accordion-box-shadow:    (0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04)),
+  joomla-tab-btn-hvr:                 var(--template-bg-dark-60),
+  joomla-tab-btn-aria-exp-bg:         var(--template-bg-dark-3),
+  joomla-tab-btn-region-border:       1px solid var(--template-bg-dark-3),
+  joomla-tablist-btn-aria-exp:        var(--template-text-light),
+  joomla-tablist-btn-aria-exp-bg:     var(--template-bg-dark-60),
+  joomla-tablist-btn-aria-exp-aft-bg: var(--template-bg-dark),
+  joomla-tablist-border-bottom:       1px solid var(--template-bg-dark-10),
+  joomla-tab-tablist-border:          1px solid $gray-300,
+  joomla-tab-vert-border-bottom:      1px solid $gray-300,
+
+  admin-background:                var(--template-bg-light),
+  options-form-color:              var(--template-text-dark),
+  options-form-bg:                 unset,
+  options-form-border:             1px solid var(--template-bg-dark-20),
+  options-form-legend-color:       var(--template-text-dark),
+  options-form-legend-bg:          inherit,
+
+  // details
+  details-bg:                      var(--template-bg-dark-3),
+  details-border:                  1px solid var(--template-bg-dark-10),
+
+  // nav
+  nav-header-color:                var(--template-bg-dark),
+
+  // choices
+  choices-input-border-color:      var(--body-bg), // TODO
+  choices-input-bg:                var(--body-bg),
+  choices-input-placeholder:       $gray-700,
+  choices-list-multiple-item-bg:   var(--template-bg-dark),
+  choices-list-multiple-item:      $white,
+
+  // switcher
+  switcher-toggle-inside-bg:       #fff,
+  switcher-toggle-outside-off-bg:  #d3d3d3,
+  switcher-toggle-outside-on-bg:   #2f7d32,
+
+  // input
+  input-border-color:               var(--template-bg-dark-20),
+
+  // icons
+  featured-icon-color:              $featured,
+
+  // users
+  users-method-image:               var(--light),
+  users-methods-reset-cont-bg:      var(--light),
+  users-method-header-inact-bg:     var(--light),
+
+  // Login
+  login-label-color:                $dark-blue,
+
+  // Icons
+  icon-success:                     var(--success),
+  icon-success-border:              var(--success),
+  icon-checkedout-color:            var(--template-text-dark),
+
+  // Buttons
+  btn-primary-color:                var(--template-text-light),
+  btn-primary-bg:                   var(--template-bg-dark-60),
+  btn-primary-border:               1px solid var(--template-bg-dark-60),
+  btn-primary-bg-hvr:               var(--template-bg-dark-70),
+  btn-primary-border-hvr:           1px solid var(--template-bg-dark-90),
+  btn-primary-toggle-bg:            var(--template-bg-dark),
+  btn-primary-toggle-border:        var(--template-bg-dark),
+
+  btn-secondary-bg:                 var(--template-bg-dark-60),
+  btn-secondary-border:             1px solid var(--template-bg-dark-60),
+  btn-secondary-color:              var(--template-text-light),
+
+  btn-info-color:                   var(--template-text-light),
+  btn-info-bg:                      $info,
+  btn-info-border:                  1px solid $info,
+  btn-info-bg-hvr:                  color.adjust($info, $lightness: -10%),
+  btn-info-border-hvr:              1px solid color.adjust($info, $lightness: -10%),
+
+  btn-outline-secondary-color:      gray-700,
+  btn-outline-secondary-bg:         transparent,
+  btn-outline-secondary-border:     var(--btn-secondary-border),
+
+  btn-dark-border:                  1px solid rgba(0,0,0,.85),
+  btn-dark-bg:                      rgba(0,0,0,.9),
+  btn-dark-bg-hvr:                  #000,
+  btn-dark-color:                   #fff,
+  btn-dark-color-hvr:               #fff,
+
+  btn-light-bg:                     #f8f9fa,
+  btn-light-border:                 1px solid #f8f9fa,
+  btn-light-bg-hvr:                 #d3d4d5,
+
+  input-group-text-bg:              var(--template-bg-dark),
+  input-group-text-border:          1px solid var(--template-bg-dark),
+
+  // search
+  js-stools-btn-clear-bg:              var(--template-bg-dark),
+  js-stools-btn-clear-disabled-bg:     var(--btn-disabled-bg),
+  js-stools-btn-clear-disabled-border: rgba($gray-300, .8),
+
+  // cpanel
+  cpanel-addmodule-hover:           var(--template-bg-dark),
+
+  // Dropdown
+  dropdown-header-bg:               var(--template-bg-dark),
+  dropdown-item-bg:                 var(--template-bg-dark-70),
+  dropdown-item-bg-hvr:             var(--template-bg-dark),
+  dropdown-item-border-bottom:      1px solid rgba(0, 0, 0, .1),
+  atum-dropdown-link-hover-bg:     var(--tertiary-bg),
+  atum-dropdown-link-hover-color:   var(--body-color),
+
+  // Alerts
+  // TODO change this color block to better suitable colors in a future PR
+  states-link-color:                var(--template-link-color),
+  states-btn-primary-bg:            var(--btn-primary-bg),
+  states-btn-primary-bg-hover:      var(--btn-primary-bg-hvr),
+  states-btn-primary-color:         var(--btn-primary-color),
+  states-btn-primary-border:        var(--btn-primary-bg),
+
+  state-success-text:               $success,
+  state-success-text-hvr:           color.adjust($success, $lightness: 58%),
+  state-success-bg:                 #f2f8f4,
+  state-success-bg-hvr:             $success,
+  state-success-border:             hsl(var(--hue), 50%, 93%),
+  state-success-btn-border:         1px solid $success,
+  state-success-icon:               #55a258,
+  state-success-icon-hvr:           var(--state-success-icon),
+  state-success-heading-bg:         $success,
+  state-success-link-color:         $success,
+
+  state-info-text:                  var(--template-bg-dark-70),
+  state-info-text-hvr:              var(--body-bg),
+  state-info-bg:                    #dbe4f0,
+  state-info-bg-hvr:                var(--template-bg-dark-70),
+  state-info-border:                var(--template-bg-dark-70),
+  state-info-icon:                  var(--template-bg-dark-70),
+  state-info-heading-bg:            var(--template-bg-dark-70),
+  state-info-link-color:            var(--template-bg-dark-70),
+
+
+  state-warning-text:               #996901,
+  state-warning-text-hvr:           color.adjust($warning, $lightness: 44%),
+  state-warning-bg:                 #fffcf4,
+  state-warning-bg-hvr:             #996900,
+  state-warning-border:             #ffb512,
+  state-warning-icon:               $warning,
+  state-warning-heading-bg:         #ffb512,
+  state-warning-link-color:         var(--warning-text-emphasis),
+
+  state-danger-text:                var(--danger-text-emphasis),
+  state-danger-text-hvr:            color.adjust($danger, $lightness: 52%),
+  state-danger-bg:                  #f3d4d4,
+  state-danger-bg-hvr:              $danger,
+  state-danger-border:              var(--danger-border-subtle),
+  state-danger-icon:                #ce8484,
+  state-danger-heading-bg:          $danger,
+  state-danger-link-color:          var(--danger-text-emphasis),
+
+  state-error-text:                 $danger,
+  state-error-text-hvr:             $danger,
+  state-error-bg:                   color.adjust($danger, $lightness: 52%),
+  state-error-bg-hvr:               color.adjust($danger, $lightness: 52%),
+  state-error-border:               1px solid $danger,
+  state-error-icon:                 color.adjust($danger, $lightness: 20%),
+  state-error-heading-bg:           $danger,
+
+  alert-info-color:                 var(--template-bg-dark),
+  alert-info-bg:                    var(--template-bg-dark-10),
+  alert-info-border:                1px solid var(--template-bg-dark-20),
+  alert-link-text-color:            var(--info-text-emphasis),
+  alert-accent-color:               #fff,
+
+  // Subhead
+  atum-subhead-color:               var(--template-text-dark),
+  atum-subhead-bg:                  $white,
+  atum-subhead-bg-img:              (linear-gradient(var(--toolbar-bg), var(--template-bg-dark-3))),
+
+  atum-btn:                         $atum-text-dark,
+  atum-btn-icon:                    $atum-text-dark,
+  atum-btn-icon-hvr:                var(--template-text-light),
+  atum-btn-bg:                      var(--body-bg),
+  atum-btn-bg-hvr:                  $atum-text-dark,
+  atum-btn-border:                  1px solid hsl(var(--hue),20%,80%),
+  atum-btn-hvr:                     var(--body-bg),
+
+  /*
+  btn-success:                      var(--success),
+  btn-success-icon:                 var(--atum-btn-success-bg-hvr),
+  btn-success-icon-hvr:             var(--template-text-light),
+  btn-success-bg:                   var(--body-bg),
+  btn-success-bg-hvr:               var(--success),
+  btn-success-border:               1px solid hsl(var(--hue),20%,80%),
+  btn-success-hvr:                  var(--body-bg),
+  */
+
+  atum-btn-success:                 var(--success),
+  atum-btn-success-icon:            var(--atum-btn-success-bg-hvr),
+  atum-btn-success-icon-hvr:        var(--template-text-light),
+  atum-btn-success-bg:              var(--body-bg),
+  atum-btn-success-bg-hvr:          var(--success),
+  atum-btn-success-border:          1px solid hsl(var(--hue),20%,80%),
+  atum-btn-success-hvr:             var(--body-bg),
+
+  atum-btn-danger:                  $danger,
+  atum-btn-danger-icon:             $danger,
+  atum-btn-danger-icon-hvr:         var(--template-text-light),
+  atum-btn-danger-bg:               var(--body-bg),
+  atum-btn-danger-bg-hvr:           $danger,
+  atum-btn-danger-border:           1px solid hsl(var(--hue),20%,80%),
+  atum-btn-danger-hvr:              var(--body-bg),
+
+  atum-btn-info:                    $atum-text-dark,
+  atum-btn-info-color-hvr:          var(--template-text-light),
+  atum-btn-info-icon:               $info,
+  atum-btn-info-icon-hvr:           var(--atum-btn-hvr),
+  atum-btn-info-bg:                 var(--body-bg),
+  atum-btn-info-bg-hvr:             $info,
+  atum-btn-info-border:             1px solid hsl(var(--hue),20%,80%),
+  atum-btn-info-hvr:                var(--body-bg),
+
+  atum-btn-primary:                 var(--template-link-color),
+  atum-btn-primary-icon:            var(--template-link-color),
+  atum-btn-primary-icon-hvr:        var(--template-text-light),
+  atum-btn-primary-bg:              var(--body-bg),
+  atum-btn-primary-bg-hvr:          var(--template-link-color),
+  atum-btn-primary-border:          1px solid hsl(var(--hue),20%,80%),
+  atum-btn-primary-hvr:             var(--body-bg),
+
+
+  atum-btn-action:                 var(--template-text-light),
+  atum-btn-action-icon:            var(--template-bg-dark),
+  atum-btn-action-icon-hvr:        var(--template-text-light),
+  atum-btn-action-bg:              var(--body-bg),
+  atum-btn-action-bg-hvr:          var(--template-bg-dark),
+  atum-btn-action-border:          1px solid hsl(var(--hue),20%,80%),
+  atum-btn-action-hvr:             var(--body-bg),
+
+
+  atum-list-group-bg:               var(--body-bg), // rgba(255, 255, 255, .05),
+
+  // Calendar
+  atum-calendar-week-bg:            #f4f4f4,
+  atum-calendar-bg:                 var(--body-bg),
+  atum-calendar-buttons-color:      #495057, // var(--btn-primary-bg);
+  atum-calendar-disabled-color:     #999, // #4b4b4b,
+  atum-calendar-disabled-bg:        #fff, // rgba(0,0,0,.5),
+  atum-calendar-select-bg:          $form-select-bg,
+  atum-calendar-select-bg-url:      url("../../images/select-bg.svg"),
+  atum-calendar-select-bg-url-rtl:  url("../../images/select-bg-rtl.svg"),
+
+  // Permissions
+  permissions-sliders-oddCol-bg:    var(--template-bg-light),
+  respTable-border-bottom:          1em solid var(--template-bg-dark-80),
+
+  // Treeselect
+  treeselect-line-color:            hsl(var(--hue), 40%, 93%),
+  treeselect-dropdown-toggle:       var(--template-text-dark),
+
+  icon-check-square-bg:             rgb(33,37,41),
+  icon-square-bg:                   rgb(33,37,41),
+  icon-check-square-color:          var(--template-text-light),
+  icon-square-color:                var(--template-text-light),
+
+  // Table Row Dragging
+  drag-color:                       #151515,
+  drag-background-color:            $teal,
+
+  success-text:                      $success,
+  success:                           $success,
+  successhvr:                        color.adjust($success, $lightness: -15%),
+
+  danger-text:                       $danger,
+  danger:                            $danger,
+  dangerhvr:                         color.adjust($danger, $lightness: -15%),
+
+  darkdanger:                        $danger,
+  darkdangerhvr:                     color.adjust($danger, $lightness: -15%),
+
+  warning-text:                      #000,
+  warning:                           $warning,
+  warninghvr:                        color.adjust($warning, $lightness: -15%),
+
 );
 
 $colors: (
   card-bg:                         rgba(255, 255, 255, .7),
+  card-color:                      var(--template-bg-dark-60),
   bluegray:                        $bluegray,
   lightbluegray:                   #f6f9fc,
   toolbar-bg:                      $white,
@@ -92,13 +562,14 @@ $colors: (
   info-border:                     var(--info),
   warning-border:                  var(--warning),
   danger-border:                   var(--danger),
-  login-main-bg:                   darken($base-color, 8%), //used on login
+  login-main-bg:                   color.adjust($base-color, $lightness: -8%), // used on login
   border:                          $gray-400,
   "white":                         $white, // the key here must be in quotes to avoid scss compilation warnings.
   white-offset:                    $whiteoffset,
   focus:                           #39f,
   focus-shadow:                    #eaeaea,
-  toggle-color:                    $white, //used in sidebar
+  toggle-color:                    $white, // used in sidebar
+
 );
 
 // Alerts
@@ -106,8 +577,14 @@ $alert-border-level:               0;
 $alert-color-level:                0;
 
 // Global
-$atum-box-shadow:                  0 2px 10px -8px var(--template-bg-dark-50);
 $btn-disabled-opacity:             .4;
+$admin-background:                 var(--admin-background);
+$bg-normal:                        var(--bg-normal);
+$bg-reverted:                      var(--bg-reverted);
+
+// Login
+$login-box-shadow:                 var(--login-box-shadow);
+$login-focus-box-shadow:           var(--login-focus-box-shadow);
 
 // Toolbar
 $atum-toolbar-line-height:         2.45rem;
@@ -117,6 +594,20 @@ $sidebar-width:                    18rem;
 $sidebar-width-login:              28.75rem;
 $sidebar-width-closed:             3rem;
 $main-brand-height:                3rem;
+$sidebarwrapper-bg:                var(--sidebarwrapper-bg);
+$sidebar-item-color:               var(--sidebar-item-color);
+$sidebar-item-color-hvr:           var(--sidebar-item-color-hvr);
+$sidebar-item-bg-hvr:              var(--sidebar-item-bg-hvr);
+$sidebar-toggle-bg:                var(--sidebar-toggle-bg);
+$sidebar-toggle-link:              var(--sidebar-toggle-link);
+$main-nav-ul-bg:                   var(--main-nav-ul-bg);
+$main-nav-divider-bg:              var(--main-nav-divider-bg);
+$main-nav-item-title:              var(--main-nav-item-title);
+$main-nav-mm-active-bg:            var(--main-nav-mm-active-bg);
+$main-nav-mm-active-quicktask-bg:  var(--main-nav-mm-active-quicktask-bg);
+$main-nav-badge:                   var(--main-nav-badge);
+$main-nav-item-title-hvr-bg:       var(--main-nav-item-title-hvr-bg);
+$mobile-menu-collapse-bg:          var(--mobile-menu-collapse-bg);
 
 // Fonts
 $font-family-sans-serif:           "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
@@ -140,28 +631,32 @@ $fa-css-prefix:                    fa !default;
 $fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 $roboto-font-path:                 "../../../../../media/vendor/roboto-fontface/fonts";
 
-// Font weights
-$thin-weight:                      100;
-$extralight-weight:                200;
-$light-weight:                     300;
-$normal-weight:                    400;
-$medium-weight:                    500;
-$semibold-weight:                  600;
-$bold-weight:                      700;
-$extrabold-weight:                 800;
-$black-weight:                     900;
-
 // Tables
-$table-bg:                         var(--white);
 $table-cell-padding-y:             .75rem;
 $table-cell-padding-x:             1rem;
 $table-cell-padding-y-sm:          .3rem;
 $table-cell-padding-x-sm:          .3rem;
 $table-group-separator-color:      $gray-300;
+$table-border-top-nfc:             var(--table-border-top-nfc);
+$table-link-color:                 var(--table-link-color);
+$table-link-font-weight:           var(--table-link-font-weight);
+$table-link-font-weight-sorted:    var(--table-link-font-weight-sorted);
+$badge-bg-info:                    var(--badge-bg-info);
+
+// card
+$card-header-color:                var(--card-header-color);
+$card-header-bg:                   var(--card-header-bg);
+$card-bg:                          var(--card-bg);
+$main-card-bg:                     var(--main-card-bg);
+$main-card-col-border-left:        var(--main-card-col-border-left);
+$card-body-bg:                     var(--card-body-bg);
+
+// cpanel
+$module-actions-color:             var(--module-actions-color);
 
 // Dropdowns
 $dropdown-padding-y:               0;
-$dropdown-box-shadow:              0 1px 1px rgba($black, .15);
+$dropdown-box-shadow:              var(--dropdown-box-shadow);
 $dropdown-link-hover-color:        var(--template-text-dark);
 $dropdown-border-width:            1px;
 $dropdown-item-padding-y:          .5rem;
@@ -172,26 +667,95 @@ $dropdown-spacer:                  0;
 $card-border-width:                0;
 $card-border-color:                transparent;
 
+// Details
+$details-bg:                      var(--details-bg);
+$details-border:                  var(--details-border);
+
+// nav
+$nav-header-color:                var(--nav-header-color);
+
+// users
+$users-method-image:              var(--users-method-image);
+$users-methods-reset-cont-bg:     var(--users-methods-reset-cont-bg);
+$users-method-header-inact-bg:    var(--users-method-header-inact-bg);
+
+// Icons
+$icon-success:                     var(--icon-success);
+$icon-success-border:              var(--icon-success-border);
+$icon-checkedout-color:            var(--icon-checkedout-color);
+
+// Buttons
+$btn-primary-color:                var(--btn-primary-color);
+$btn-primary-bg:                   var(--btn-primary-bg);
+$btn-primary-border:               var(--btn-primary-border);
+$btn-primary-bg-hvr:               var(--btn-primary-bg-hvr);
+$btn-primary-border-hvr:           var(--btn-primary-border-hvr);
+$btn-primary-toggle-bg:            var(--btn-primary-toggle-bg);
+$btn-primary-toggle-border:        var(--btn-primary-toggle-border);
+
+$btn-secondary-bg:                 var(--btn-secondary-bg);
+$btn-secondary-border:             var(--btn-secondary-border);
+
+$btn-outline-secondary-color:      var(--btn-outline-secondary-color);
+$btn-outline-secondary-bg:         var(--btn-outline-secondary-bg);
+$btn-outline-secondary-border:     var(--btn-outline-secondary-border);
+$input-group-text-bg:              var(--input-group-text-bg);
+$input-group-text-border:          var(--input-group-text-border);
+
+// Search
+$js-stools-btn-clear-bg:              var(--template-bg-dark);
+$js-stools-btn-clear-disabled-bg:     var(--btn-disabled-bg);
+$js-stools-btn-clear-disabled-border: var(--js-stools-btn-clear-disabled-border);
+
+// Dropdown
+$dropdown-header-bg:               var(--dropdown-header-bg);
+$dropdown-item-bg:                 var(--dropdown-item-bg);
+$dropdown-item-bg-hvr:             var(--dropdown-item-bg-hvr);
+
 // Alerts
 $state-success-text:               $success;
-$state-success-bg:                 lighten($success, 58%);
-$state-success-border:             hsl(var(--hue),50%,93%);
+$state-success-text-hvr:           $success;
+$state-success-bg:                 color.adjust($success, $lightness: 58%);
+$state-success-bg-hvr:             color.adjust($success, $lightness: 58%);
+$state-success-border:             var(--state-success-border);
+$state-success-btn-border:         var(--state-success-btn-border);
+$state-success-icon:               var(--state-success-icon);
+$state-success-icon-hvr:           var(--state-success-icon-hvr);
+$state-success-heading-bg:         var(--state-success-heading-bg);
 
-$state-info-text:                  var(--template-bg-dark-70);
-$state-info-bg:                    var(--white);
-$state-info-border:                var(--template-bg-dark-70);
+$state-info-text:                  var(--state-info-text);
+$state-info-text-hvr:              var(--state-info-text);
+$state-info-bg:                    color.adjust($info, $lightness: 90%);
+$state-info-bg-hvr:                var(--state-info-bg);
+$state-info-border:                var(--state-info-border);
+$state-info-icon:                  var(--state-info-icon);
+$state-info-heading-bg:            var(--state-info-heading-bg);
 
-$state-warning-text:               darken($warning, 24%);
-$state-warning-bg:                 lighten($warning, 44%);
-$state-warning-border:             $warning;
+$state-warning-text:               var(--state-warning-text);
+$state-warning-text-hvr:           var(--state-warning-text);
+$state-warning-bg:                 var(--state-warning-bg);
+$state-warning-bg-hvr:             var(--state-warning-bg);
+$state-warning-border:             var(--state-warning-border);
+$state-warning-icon:               var(--state-warning-icon);
+$state-warning-heading-bg:         var(--state-warning-heading-bg);
 
-$state-danger-text:                $danger;
-$state-danger-bg:                  lighten($danger, 52%);
-$state-danger-border:              $danger;
+$state-danger-text:                var(--state-danger-text);
+$state-danger-text-hvr:            var(--state-danger-text);
+$state-danger-bg:                  var(--state-danger-bg);
+$state-danger-bg-hvr:              var(--state-danger-bg);
+$state-danger-border:              var(--state-danger-border);
+$state-danger-icon:                var(--state-danger-icon);
+$state-danger-heading-bg:          var(--state-danger-heading-bg);
 
-$state-error-text:                 $danger;
-$state-error-bg:                   lighten($danger, 52%);
-$state-error-border:               $danger;
+$state-error-text:                 var(--state-error-text);
+$state-error-text-hvr:             var(--state-error-text);
+$state-error-bg:                   var(--state-error-bg);
+$state-error-bg-hvr:               var(--state-error-bg);
+$state-error-border:               var(--state-error-border);
+$state-error-icon:                 var(--state-error-icon);
+$state-error-heading-bg:           var(--state-error-heading-bg);
+
+$alert-border:                     var(--alert-border);
 
 // Badges
 $badge-padding-x:                  .2rem;
@@ -201,8 +765,8 @@ $badge-border-radius:              .2rem;
 $success-bg:                       $green;
 $success-txt:                      $white;
 
-$warning-bg:                       #f9d71c;
-$warning-txt:                      #000;
+$warning-bg:                       #996808;
+$warning-txt:                      #fff;
 
 $danger-bg:                        #900;
 $danger-txt:                       #fff;
@@ -220,9 +784,93 @@ $treeselect-line-height:           2.2rem;
 $treeselect-indent:                40px;
 
 // List
-$list-group-bg:                    var(--white-offset);
-$list-group-border-color:          hsl(var(--hue),40%,85%);
+$atum-list-group-border-color:     var(--atum-list-group-border-color);
 $list-group-item-padding-y:        .75rem;
+
+// Login
+$login-label-color:                var(--login-label-color);
+
+// Subhead
+$atum-subhead-bg:                  var(--atum-subhead-bg);
+$atum-subhead-bg-img:              var(--atum-subhead-bg-img);
+$atum-btn-color:                   var(--atum-btn-color);
+$atum-btn-bg:                      var(--atum-btn-bg);
+$atum-btn-border:                  var(--atum-btn-border);
+$atum-btn-hvr:                     var(--atum-btn-hvr);
+
+$atum-btn-success:                 var(--atum-btn-success);
+$atum-btn-success-bg:              var(--atum-btn-success-bg);
+$atum-btn-success-border:          var(--atum-btn-success-border);
+$atum-btn-success-hvr:             var(--atum-btn-success-hvr);
+
+$atum-btn-danger:                  var(--atum-btn-danger);
+$atum-btn-danger-bg:               var(--atum-btn-danger-bg);
+$atum-btn-danger-border:           var(--atum-btn-danger-border);
+$atum-btn-danger-hvr:              var(--atum-btn-danger-hvr);
+
+$atum-btn-info:                    var(--atum-btn-info);
+$atum-btn-info-bg:                 var(--atum-btn-info-bg);
+$atum-btn-info-border:             var(--atum-btn-info-border);
+$atum-btn-info-hvr:                var(--atum-btn-info-hvr);
+
+$atum-btn-primary:                 var(--atum-btn-primary);
+$atum-btn-primary-bg:              var(--atum-btn-primary-bg);
+$atum-btn-primary-border:          var(--atum-btn-primary-border);
+$atum-btn-primary-hvr:             var(--atum-btn-primary-hvr);
+
+
+$atum-btn-secondary:               var(--atum-btn-secondary);
+$atum-btn-action:                  var(--atum-btn-action);
+$atum-btn-action-bg:               var(--atum-btn-action-bg);
+
+$atum-list-group-bg:               var(--atum-list-group-bg);
+
+// Calendar
+$atum-calendar-week-bg:            var(--atum-calendar-week-bg);
+$atum-calendar-bg:                 var(--atum-calendar-bg);
+$atum-calendar-buttons-color:      var(--atum-calendar-buttons-color);
+$atum-calendar-disabled-color:     var(--atum-calendar-disabled-color);
+$atum-calendar-disabled-bg:        var(--atum-calendar-disabled-bg);
+$atum-calendar-select-bg:          var(--atum-calendar-select-bg);
+$atum-calendar-select-bg-url:      var(--atum-calendar-select-bg-url);
+$atum-calendar-select-bg-url-rtl:  var(--atum-calendar-select-bg-url-rtl);
+
+// Permissions
+$permissions-sliders-oddCol-bg:    var(--permissions-sliders-oddCol);
+$respTable-border-bottom:          var(--respTable-border-bottom);
+
+// Media Manager
+$media-manager-overlay-header-bg:  var(--media-manager-overlay-header-bg);
+$media-manager-infobar-dt-color:   var(--media-manager-infobar-dt-color);
+$media-manager-content-bg:         var(--media-manager-content-bg);
+$media-manager-content-color:      var(--media-manager-content-color);
+$media-manager-file-icon-color:    var(--media-manager-file-icon-color); //?? inherit
+
+$media-manager-overlay-bg:         var(--media-manager-overlay-bg);
+$media-manager-disk-name-color:    var(--media-manager-disk-name-color);
+$media-manager-tree-item-hover-bg: var(--media-manager-tree-item-hover-bg);
+$media-manager-toolbar-icon-color: var(--media-manager-toolbar-icon-color);
+
+$media-manager-border:             var(--media-manager-border);
+$media-browser-file-bg:             var(--media-browser-file-bg);
+//$media-browser-item-preview-border: var(--media-browser-item-preview-border);
+$media-drive-bg:                    var(--media-drive-bg);
+//$media-drive-border:                var(--media-drive-border);
+$media-toolbar-bg:                  var(--media-toolbar-bg);
+//$media-toolbar-border-bottom:       var(--media-toolbar-border-bottom);
+//$media-toolbar-border-inline-start: var(--media-toolbar-border-inline-start);
+
+$media-toolbar-icon-bg:             var(--media-toolbar-icon-bg);
+//$media-toolbar-icon-border-start:   var(--media-toolbar-icon-border-start);
+$media-toolbar-icon-color:          var(--media-toolbar-icon-color);
+$media-toolbar-icon-bg-hvr:         var(--media-toolbar-icon-bg-hvr);
+$media-tree-item-color:             var(--media-tree-item-color); // var(--template-bg-dark-60);
+$media-manager-breadcrumb-item-bg:  var(--media-manager-breadcrumb-item-bg);
+$media-tree-active-icon-color:      var(--media-tree-active-icon-color);
+
+$image-bg:                          var(--image-bg); // #fff;
+$image-bg-image:                    var(--image-bg-image); // linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);
+
 
 // Buttons
 $input-btn-padding-y-sm-submenu:    0;
@@ -231,24 +879,43 @@ $input-btn-submenu-icon-distance:   1rem;
 
 // Custom form
 $form-select-indicator-padding:    3rem;
-$form-select-bg:                   var(--template-bg-light);
-$form-select-bg-size:              calc(max(100%, 116rem));
-$form-select-indicator:            url("../images/select-bg.svg");
-$form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
-$form-select-indicator-active:     url("../../../images/select-bg.svg");
-$form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
-$form-select-background:           $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$form-select-background-rtl:       $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$form-select-box-shadow:           $atum-box-shadow;
-$form-select-bg-size-sm:           75rem;
+$form-select-background:           var(--form-select-background);
+$form-select-background-rtl:       var(--form-select-background-rtl);
+$form-select-border:               var(--form-select-border);
+$form-select-border-radius:        4px;
+$form-select-box-shadow:           var(--atum-box-shadow);
 $form-select-multiple-padding-y:   .3rem;
+$form-select-success-bg:           var(--form-select-success-bg);
+$form-select-danger-bg:            var(--form-select-danger-bg);
+$form-select-disabled-bg:          var(--form-select-disabled-bg);
+$form-select-option:               var(--form-select-option);
+$form-select-option-disabled-bg:   var(--form-select-option-disabled-bg);
+
 $form-file-button-color:           var(--white);
+
+$file-selector-btn-bg:             var(--file-selector-btn-bg);
+$file-selector-btn-bg-hvr:         var(--file-selector-btn-bg-hvr);
+
+// Forms
+$form-aria-grabbed-box-shadow:            var(--form-aria-grabbed-box-shadow);
+$options-form-color:                      var(--options-form-color);
+$options-form-bg:                         var(--options-form-bg);
+$options-form-border:                     var(--options-form-border);
+$options-form-legend-color:               var(--options-form-legend-color);
+$options-form-legend-bg:                  var(--options-form-legend-bg);
+$form-control-bg:                         var(--form-control-bg);
+$form-control-bg-disabled:                var(--form-control-bg-disabled);
+$form-control-border:                     var(--form-control-border);
+
+$form-check-input-checked-bg-image:       var(--form-check-input-checked-bg-image);
+$form-check-input-checked-bg-color:       var(--form-check-input-checked-bg-color);
+$form-check-input-border:                 var(--form-check-input-border);
 
 // Input
 $input-padding:                    .5rem 1rem;
-$input-border-color:               var(--template-bg-dark-20);
+$input-border-color:               var(--input-border-color);
 $input-focus-border-color:         var(--focus);
-$input-box-shadow:                 $atum-box-shadow;
+$input-box-shadow:                 var(--atum-box-shadow);
 $input-max-width:                  100%;
 $input-btn-focus-width:            .2rem;
 $input-btn-focus-color:            var(--focus-shadow);
@@ -257,14 +924,79 @@ $input-btn-padding-x:              1rem;
 
 // Modals
 $modal-header-height:              2.875rem;
+$modal-btn-box-shadow:             var(--modal-btn-box-shadow);
+$modal-joomla-dialog-box-shadow:   var(--modal-joomla-dialog-box-shadow);
+
+// Choices
+$choices__button_joomla-focus-box-shadow:  var(--choices__button_joomla-focus-box-shadow);
+$choices-input-border-color:       var(--choices-input-border-color);
+$choices-input-bg:                 var(--choices-input-bg);
+$choices-input-placeholder:        var(--choices-input-placeholder);
+$choices-list-multiple-item-bg:    var(--choices-list-multiple-item-bg);
+$choices-list-multiple-item:       var(--choices-list-multiple-item);
+
+// Switcher
+$switcher-toggle-inside-bg:        var(--switcher-toggle-inside-bg);
+$switcher-toggle-outside-off-bg:   var(--switcher-toggle-outside-off-bg);
+$switcher-toggle-outside-on-bg:    var(--switcher-toggle-outside-on-bg);
+
+// Joomla-Tab
+$joomla-tab-accordion-box-shadow:    var(--joomla-tab-accordion-box-shadow);
+$joomla-tab-btn-hvr:                 var(--joomla-tab-btn-hvr);
+$joomla-tab-btn-aria-exp-bg:         var(--joomla-tab-btn-aria-exp-bg);
+$joomla-tab-btn-region-border:       var(--joomla-tab-btn-region-border);
+$joomla-tablist-btn-aria-exp:        var(--joomla-tablist-btn-aria-exp);
+$joomla-tablist-btn-aria-exp-bg:     var(--joomla-tablist-btn-aria-exp-bg);
+$joomla-tablist-btn-aria-exp-aft-bg: var(--joomla-tablist-btn-aria-exp-aft-bg);
+$joomla-tablist-border-bottom:       var(--joomla-tablist-border-bottom);
+$joomla-tab-tablist-border:          var(--joomla-tab-tablist-border);
+$joomla-tab-vert-border-bottom:      var(--joomla-tab-vert-border-bottom);
 
 // Quickicons
-$quickicon-bg:                     var(--white);
-$quickicon-box-shadow-success:     0 0 3px 0 var(--success);
-$quickicon-box-shadow-danger:      0 0 3px 0 var(--danger);
-$quickicon-box-shadow-warning:     0 0 3px 0 var(--warning);
+$quickicon-bg:                     var(--quickicon-bg);
+$quickicon-box-shadow-success:     var(--quickicon-box-shadow-success);
+$quickicon-box-shadow-danger:      var(--quickicon-box-shadow-danger);
+$quickicon-box-shadow-warning:     var(--quickicon-box-shadow-warning);
 $quickicon-icon-size:              2rem;
 $quickicon-icon-size-sm:           1.3rem;
+$quickicon-border:                var(--quickicon-border);
+$quickicon-border-radius:         var(--quickicon-border-radius);
+$quickicon-color:                 var(--quickicon-color);
+$quickicon-color-hvr:             var(--quickicon-color-hvr);
+$quickicon-link-hvr:              var(--quickicon-link-hvr);
+$quickicon-linkadd-color:         var(--quickicon-linkadd-color);
+$quickicon-linkadd-bg:            var(--quickicon-linkadd-bg);
+$quickicon-amount-bg:             var(--quickicon-amount-bg);
+
+// Text
+$text-normal:                     var(--text-normal);
+$text-reverted:                   var(--text-reverted);
+$text-muted-color:                var(--text-muted-color);
+$text-muted-hvr-color:            var(--text-muted-hvr-color);
+
+// Modules
+$new-modules-color:               var(--new-modules-color);
+$new-modules-bg:                  var(--new-modules-bg);
+$new-modules-bg-hvr:              var(--new-modules-bg-hvr);
+$new-modules-icon-color:          var(--new-modules-icon-color);
+$new-modules-icon-color-hvr:      var(--new-modules-icon-color-hvr);
+$new-module-color:                var(--new-module-color);
+$new-module-bg:                   var(--new-module-bg);
+$new-module-border:               var(--new-module-border);
+$new-module-link-bg:              var(--new-module-link-bg);
+$new-module-link-span:            var(--new-module-link-span);
+$new-module-link-hvr:             var(--new-module-link-hvr);
+$new-module-link-span-hvr:        var(--new-module-link-span-hvr);
+
+// header-content
+$header-bg:                          var(--header-bg);
+$header-item-content-bg:             var(--header-item-content-bg);
+$header-item-content-bg-hvr:         var(--header-item-content-bg-hvr);
+$header-item-content-border-radius:  var(--header-item-content-border-radius);
+$header-item-content-jversion-color: var(--header-item-content-jversion-color);
+$header-item-content-jversion-bg:    var(--header-item-content-jversion-bg);
+$header-logo-bg:                     var(--header-logo-bg);
+
 
 // Gutter
 $grid-gutter-width:                2rem;
@@ -275,7 +1007,7 @@ $breadcrumb-bg:                    var(--white);
 
 // Links
 $link-color:                       $light-blue;
-$link-hover-color:                 darken($light-blue, 20%);
+$link-hover-color:                 color.adjust($light-blue, $lightness: -20%);
 $link-decoration:                  none;
 
 // Z-Index list

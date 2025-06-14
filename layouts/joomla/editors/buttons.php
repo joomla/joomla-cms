@@ -17,9 +17,12 @@ $buttons = $displayData;
 ?>
 <div class="editor-xtd-buttons" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
     <?php if ($buttons) : ?>
-        <?php foreach ($buttons as $button) : ?>
+        <?php foreach ($buttons as $button) :
+            $options     = (array) $button->get('options');
+            $legacyModal = $button->get('modal');
+            ?>
             <?php echo $this->sublayout('button', $button); ?>
-            <?php echo $this->sublayout('modal', $button); ?>
+            <?php echo $legacyModal ? $this->sublayout('modal', $button) : ''; ?>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>

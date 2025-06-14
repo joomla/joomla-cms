@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Event\Result;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -63,8 +63,8 @@ trait ResultTypeFloatAware
             return;
         }
 
-        if (!is_float($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Float results.', $this->getName()));
+        if (!\is_float($data)) {
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Float results.', $this->getName()));
         }
     }
 }

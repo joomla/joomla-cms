@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Model\FeaturedModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -31,7 +32,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state = null;
 
@@ -117,20 +118,22 @@ class HtmlView extends BaseHtmlView
     {
         $user = $this->getCurrentUser();
 
-        $state      = $this->get('State');
-        $items      = $this->get('Items');
-        $pagination = $this->get('Pagination');
+        /** @var FeaturedModel $model */
+        $model      = $this->getModel();
+        $state      = $model->getState();
+        $items      = $model->getItems();
+        $pagination = $model->getPagination();
 
         // Flag indicates to not add limitstart=0 to URL
         $pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         /** @var \Joomla\Registry\Registry $params */
-        $params = &$state->params;
+        $params = $state->params;
 
         // PREPARE THE DATA
 
@@ -173,7 +176,7 @@ class HtmlView extends BaseHtmlView
 
         // Preprocess the breakdown of leading, intro and linked articles.
         // This makes it much easier for the designer to just integrate the arrays.
-        $max = count($items);
+        $max = \count($items);
 
         // The first group is the leading articles.
         $limit = $numLeading;

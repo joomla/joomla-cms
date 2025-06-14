@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,13 +31,14 @@ class MapTable extends Nested
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database Driver connector object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   2.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__finder_taxonomy', 'id', $db);
+        parent::__construct('#__finder_taxonomy', 'id', $db, $dispatcher);
 
         $this->setColumnAlias('published', 'state');
         $this->access = (int) Factory::getApplication()->get('access');

@@ -59,7 +59,7 @@ class OverridesController extends AdminController
 
             // Remove the items.
             if ($model->delete($cid)) {
-                $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+                $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
             } else {
                 $this->setMessage($model->getError(), 'error');
             }

@@ -115,7 +115,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 
         $results = MfaHelper::getUserMfaRecords($userId);
 
-        if (count($results) < 1) {
+        if (\count($results) < 1) {
             return $return;
         }
 
@@ -123,7 +123,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
         foreach ($results as $result) {
             $options = $result->options;
 
-            if (!is_array($options) || empty($options)) {
+            if (!\is_array($options) || empty($options)) {
                 continue;
             }
 
@@ -131,17 +131,17 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
                 continue;
             }
 
-            if (isset($options['attested']) && is_string($options['attested'])) {
+            if (isset($options['attested']) && \is_string($options['attested'])) {
                 $options['attested'] = json_decode($options['attested'], true);
 
                 $return[$result->id] = $this->attestedCredentialToPublicKeyCredentialSource(
                     AttestedCredentialData::createFromArray($options['attested']),
                     $userId
                 );
-            } elseif (isset($options['pubkeysource']) && is_string($options['pubkeysource'])) {
+            } elseif (isset($options['pubkeysource']) && \is_string($options['pubkeysource'])) {
                 $options['pubkeysource'] = json_decode($options['pubkeysource'], true);
                 $return[$result->id]     = PublicKeyCredentialSource::createFromArray($options['pubkeysource']);
-            } elseif (isset($options['pubkeysource']) && is_array($options['pubkeysource'])) {
+            } elseif (isset($options['pubkeysource']) && \is_array($options['pubkeysource'])) {
                 $return[$result->id] = PublicKeyCredentialSource::createFromArray($options['pubkeysource']);
             }
         }

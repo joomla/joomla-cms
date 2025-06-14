@@ -12,7 +12,7 @@ if (!Joomla) {
   throw new Error('Joomla API was not properly initialized');
 }
 
-Array.from(document.querySelectorAll('.quickicon')).forEach((quickicon) => {
+document.querySelectorAll('.quickicon').forEach((quickicon) => {
   const counter = quickicon.querySelector('.quickicon-amount');
   if (!counter) {
     return;
@@ -30,7 +30,7 @@ Array.from(document.querySelectorAll('.quickicon')).forEach((quickicon) => {
           quickicon.classList.add('error');
         }
 
-        if (Object.prototype.hasOwnProperty.call(response, 'data')) {
+        if (Object.hasOwn(response, 'data')) {
           const name = quickicon.querySelector('.quickicon-name');
           const nameSpan = document.createElement('span');
           quickicon.classList.add(response.data > 0 ? 'warning' : 'success');

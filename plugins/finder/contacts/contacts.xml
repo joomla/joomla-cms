@@ -18,4 +18,35 @@
 		<language tag="en-GB">language/en-GB/plg_finder_contacts.ini</language>
 		<language tag="en-GB">language/en-GB/plg_finder_contacts.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
+				<field
+					name="search_archived"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_FINDER_CONTACTS_FIELD_SEARCH_ARCHIVED_LABEL"
+					description="PLG_FINDER_CONTACTS_FIELD_SEARCH_ARCHIVED_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="taxonomies"
+					type="taxonomytypes"
+					label="PLG_FINDER_CONTACTS_TAXONOMIES_LABEL"
+					default="type,category,language,region,country"
+					multiple="true"
+					>
+					<option value="category">PLG_FINDER_CONTACTS_TAXONOMIES_CATEGORY</option>
+					<option value="country">PLG_FINDER_CONTACTS_TAXONOMIES_COUNTRY</option>
+					<option value="language">PLG_FINDER_CONTACTS_TAXONOMIES_LANGUAGE</option>
+					<option value="region">PLG_FINDER_CONTACTS_TAXONOMIES_REGION</option>
+					<option value="type">PLG_FINDER_CONTACTS_TAXONOMIES_TYPE</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

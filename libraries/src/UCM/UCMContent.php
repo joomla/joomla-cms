@@ -16,7 +16,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -45,13 +45,13 @@ class UCMContent extends UCMBase
     /**
      * Instantiate UCMContent.
      *
-     * @param   TableInterface  $table  The table object
-     * @param   string          $alias  The type alias
-     * @param   UCMType         $type   The type object
+     * @param   ?TableInterface  $table  The table object
+     * @param   string           $alias  The type alias
+     * @param   ?UCMType         $type   The type object
      *
      * @since   3.1
      */
-    public function __construct(TableInterface $table = null, $alias = null, UCMType $type = null)
+    public function __construct(?TableInterface $table = null, $alias = null, ?UCMType $type = null)
     {
         parent::__construct($alias, $type);
 
@@ -66,14 +66,14 @@ class UCMContent extends UCMBase
     /**
      * Method to save the data
      *
-     * @param   array    $original  The original data to be saved
-     * @param   UCMType  $type      The UCM Type object
+     * @param   array     $original  The original data to be saved
+     * @param   ?UCMType  $type      The UCM Type object
      *
      * @return  boolean  true
      *
      * @since   3.1
      */
-    public function save($original = null, UCMType $type = null)
+    public function save($original = null, ?UCMType $type = null)
     {
         $type    = $type ?: $this->type;
         $ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
@@ -93,14 +93,14 @@ class UCMContent extends UCMBase
     /**
      * Delete content from the Core Content table
      *
-     * @param   mixed    $pk    Array or comma-separated string of ids to delete
-     * @param   UCMType  $type  The content type object
+     * @param   mixed     $pk    Array or comma-separated string of ids to delete
+     * @param   ?UCMType  $type  The content type object
      *
      * @return  boolean  True if success
      *
      * @since   3.1
      */
-    public function delete($pk, UCMType $type = null)
+    public function delete($pk, ?UCMType $type = null)
     {
         $db   = Factory::getDbo();
         $type = $type ?: $this->type;
@@ -124,14 +124,14 @@ class UCMContent extends UCMBase
     /**
      * Map the original content to the Core Content fields
      *
-     * @param   array    $original  The original data array
-     * @param   UCMType  $type      Type object for this data
+     * @param   array     $original  The original data array
+     * @param   ?UCMType  $type      Type object for this data
      *
      * @return  array[]  $ucmData  The mapped UCM data
      *
      * @since   3.1
      */
-    public function mapData($original, UCMType $type = null)
+    public function mapData($original, ?UCMType $type = null)
     {
         $contentType = $type ?: $this->type;
 
@@ -172,17 +172,17 @@ class UCMContent extends UCMBase
     /**
      * Store data to the appropriate table
      *
-     * @param   array           $data        Data to be stored
-     * @param   TableInterface  $table       Table Object
-     * @param   boolean         $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
+     * @param   array            $data        Data to be stored
+     * @param   ?TableInterface  $table       Table Object
+     * @param   boolean          $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
      *
      * @return  boolean  true on success
      *
      * @since   3.1
      */
-    protected function store($data, TableInterface $table = null, $primaryKey = null)
+    protected function store($data, ?TableInterface $table = null, $primaryKey = null)
     {
-        $table = $table ?: Table::getInstance('Corecontent');
+        $table = $table ?: Table::getInstance('CoreContent');
 
         $typeId     = $this->getType()->type->type_id;
         $primaryKey = $primaryKey ?: $this->getPrimaryKey($typeId, $data['core_content_item_id']);

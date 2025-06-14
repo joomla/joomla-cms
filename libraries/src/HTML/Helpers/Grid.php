@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -138,7 +138,7 @@ abstract class Grid
     public static function checkedOut(&$row, $i, $identifier = 'id')
     {
         $user   = Factory::getUser();
-        $userid = $user->get('id');
+        $userid = $user->id;
 
         if ($row instanceof Table) {
             $result = $row->isCheckedOut($userid);
@@ -148,13 +148,13 @@ abstract class Grid
 
         if ($result) {
             return static::_checkedOut($row);
-        } else {
-            if ($identifier === 'id') {
-                return HTMLHelper::_('grid.id', $i, $row->$identifier);
-            } else {
-                return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
-            }
         }
+
+        if ($identifier === 'id') {
+            return HTMLHelper::_('grid.id', $i, $row->$identifier);
+        }
+
+        return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
     }
 
     /**
@@ -172,7 +172,7 @@ abstract class Grid
      */
     public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix = '')
     {
-        if (is_object($value)) {
+        if (\is_object($value)) {
             $value = $value->published;
         }
 
@@ -237,7 +237,7 @@ abstract class Grid
     public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
     {
         return '<a href="javascript:saveorder('
-            . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
+            . (\count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
             . Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-sort"></span></a>';
     }
 

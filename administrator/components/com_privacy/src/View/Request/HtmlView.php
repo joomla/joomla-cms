@@ -15,12 +15,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
+use Joomla\Component\Privacy\Administrator\Model\RequestModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -52,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item record
      *
-     * @var    CMSObject
+     * @var    \stdClass
      * @since  3.9.0
      */
     protected $item;
@@ -60,7 +58,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.9.0
      */
     protected $state;
@@ -78,7 +76,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        /** @var RequestsModel $model */
+        /** @var RequestModel $model */
         $model       = $this->getModel();
         $this->item  = $model->getItem();
         $this->state = $model->getState();
@@ -98,11 +96,11 @@ class HtmlView extends BaseHtmlView
 
         // Variables only required for the edit layout
         if ($this->getLayout() === 'edit') {
-            $this->form = $this->get('Form');
+            $this->form = $model->getForm();
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -122,7 +120,7 @@ class HtmlView extends BaseHtmlView
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Set the title and toolbar based on the layout
         if ($this->getLayout() === 'edit') {
@@ -173,8 +171,8 @@ class HtmlView extends BaseHtmlView
 
                     break;
 
-                // Item is in a "locked" state and cannot transition
                 default:
+                    // Item is in a "locked" state and cannot transition
                     break;
             }
 

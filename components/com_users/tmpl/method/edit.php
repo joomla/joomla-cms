@@ -49,7 +49,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
             <?php if (!empty($this->renderOptions['help_url'])) : ?>
             <span class="float-end">
                 <a href="<?php echo $this->renderOptions['help_url'] ?>"
-                   class="btn btn-sm btn-default btn-inverse btn-dark"
+                   class="btn btn-sm btn-dark"
                    target="_blank"
                 >
                     <span class="icon icon-question-sign" aria-hidden="true"></span>
@@ -165,7 +165,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                 </button>
 
                 <a href="<?php echo $cancelURL ?>"
-                   class="btn btn-sm btn-danger">
+                   class="btn btn-danger">
                     <span class="icon icon-cancel-2" aria-hidden="true"></span>
                     <?php echo Text::_('JCANCEL'); ?>
                 </a>

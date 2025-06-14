@@ -94,16 +94,16 @@ class PluginController extends BaseController
              *  - control-panel : Redirect to Control Panel
              */
             switch ($action) {
-                /**
-                 * Close a window opened by developer
-                 * Use this for close New Windows opened for OAuth Process
-                 */
                 case 'close':
+                    /**
+                     * Close a window opened by developer
+                     * Use this for close New Windows opened for OAuth Process
+                     */
                     $this->setRedirect(Route::_('index.php?option=com_media&view=plugin&action=close', false));
                     break;
 
-                // Redirect browser to any page specified by the user
                 case 'redirect':
+                    // Redirect browser to any page specified by the user
                     if (!isset($eventResults['redirect_uri'])) {
                         throw new \Exception("Redirect URI must be set in the plugin");
                     }
@@ -111,14 +111,14 @@ class PluginController extends BaseController
                     $this->setRedirect($eventResults['redirect_uri']);
                     break;
 
-                // Redirect browser to Control Panel
                 case 'control-panel':
+                    // Redirect browser to Control Panel
                     $this->setRedirect(Route::_('index.php', false));
                     break;
 
-                // Redirect browser to Media Manager
                 case 'media-manager':
                 default:
+                    // Redirect browser to Media Manager
                     $this->setRedirect(Route::_('index.php?option=com_media&view=media', false));
             }
         } catch (\Exception $e) {

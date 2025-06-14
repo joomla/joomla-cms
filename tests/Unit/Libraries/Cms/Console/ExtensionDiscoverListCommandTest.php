@@ -62,9 +62,9 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
         $filteredextensionsArray1 = $command->filterExtensionsBasedOnState($extensions1, $state);
         $filteredextensionsArray2 = $command->filterExtensionsBasedOnState($extensions2, $state);
 
-        $size0 = sizeof($filteredextensionsArray0);
-        $size1 = sizeof($filteredextensionsArray1);
-        $size2 = sizeof($filteredextensionsArray2);
+        $size0 = \sizeof($filteredextensionsArray0);
+        $size1 = \sizeof($filteredextensionsArray1);
+        $size2 = \sizeof($filteredextensionsArray2);
 
         $this->assertSame($size0, 0);
         $this->assertSame($size1, 1);

@@ -6,38 +6,14 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_associations.admin-associations-default.es5",
-      "type": "script",
-      "uri": "com_associations/admin-associations-default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_associations.admin-associations-default",
       "type": "script",
       "uri": "com_associations/admin-associations-default.min.js",
       "dependencies": [
-        "com_associations.admin-associations-default.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_associations.admin-associations-modal.es5",
-      "type": "script",
-      "uri": "com_associations/admin-associations-modal-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -45,22 +21,10 @@
       "type": "script",
       "uri": "com_associations/admin-associations-modal.min.js",
       "dependencies": [
-        "com_associations.admin-associations-modal.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_associations.associations-edit.es5",
-      "type": "script",
-      "uri": "com_associations/associations-edit-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -68,7 +32,7 @@
       "type": "script",
       "uri": "com_associations/associations-edit.min.js",
       "dependencies": [
-        "com_associations.associations-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module",
@@ -85,11 +49,10 @@
       "type": "script",
       "uri": "com_associations/sidebyside.min.js",
       "dependencies": [
-        "core",
-        "jquery"
+        "core"
       ],
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     },
     {

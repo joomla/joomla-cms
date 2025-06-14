@@ -249,7 +249,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $update->loadFromXml($remoteManifest);
 
         // Get the download url from the remote manifest
-        $downloadUrl = $update->get('downloadurl', false);
+        $downloadUrl = $update->downloadurl ?? false;
 
         // Check if the download url exist, otherwise return empty value
         if ($downloadUrl === false) {
@@ -340,7 +340,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
             $row           = new \stdClass();
             $row->language = $lang;
 
-            if (!is_array($info)) {
+            if (!\is_array($info)) {
                 continue;
             }
 
@@ -488,18 +488,6 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         }
 
         return true;
-    }
-
-    /**
-     * Get the current setup options from the session.
-     *
-     * @return  array
-     *
-     * @since   3.1
-     */
-    public function getOptions()
-    {
-        return Factory::getSession()->get('setup.options', []);
     }
 
     /**

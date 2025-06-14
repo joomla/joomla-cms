@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Finder\Administrator\View\Filters\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_FINDER',
@@ -24,7 +25,7 @@ $displayData = [
     'title'      => Text::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'),
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_finder')) {
+if ($this->getCurrentUser()->authorise('core.create', 'com_finder')) {
     $displayData['createURL']  = "index.php?option=com_finder&task=filter.add";
 }
 

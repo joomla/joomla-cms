@@ -29,7 +29,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static   This object to support chaining.
      *
@@ -81,7 +82,7 @@ class DisplayController extends BaseController
 
         $app->login($credentials, ['action' => 'core.login.admin']);
 
-        if (Uri::isInternal($return) && strpos($return, 'tmpl=component') === false) {
+        if (Uri::isInternal($return) && !str_contains($return, 'tmpl=component')) {
             $app->redirect($return);
         } else {
             $app->redirect('index.php');

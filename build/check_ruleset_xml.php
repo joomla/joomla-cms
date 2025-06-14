@@ -21,7 +21,7 @@ function usage($command)
     echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
     echo PHP_EOL;
     echo "[options]:" . PHP_EOL;
-    echo "--file <path>:\tPath to the PHPCS ruleset XML file to be checked, defaults to '" . dirname(__DIR__) . "/ruleset.xml'." . PHP_EOL;
+    echo "--file <path>:\tPath to the PHPCS ruleset XML file to be checked, defaults to '" . \dirname(__DIR__) . "/ruleset.xml'." . PHP_EOL;
     echo "--fix:\t\tFix the XML file if any obsolete exclude patterns were found." . PHP_EOL;
     echo "--help:\t\tShow this help output." . PHP_EOL;
     echo PHP_EOL;
@@ -35,7 +35,7 @@ if (isset($options['help'])) {
     exit(0);
 }
 
-$rulesetFile = $options['file'] ?? dirname(__DIR__) . '/ruleset.xml';
+$rulesetFile = $options['file'] ?? \dirname(__DIR__) . '/ruleset.xml';
 
 // Exclude patterns to be skipped from the check because the file or folder might not exist
 $ignoreList = [
@@ -55,7 +55,7 @@ foreach ($rulesetLines as $line => $text) {
         continue;
     }
 
-    if (in_array($matches[1], $ignoreList)) {
+    if (\in_array($matches[1], $ignoreList)) {
         continue;
     }
 
@@ -73,11 +73,11 @@ foreach ($rulesetLines as $line => $text) {
     }
 
     if (substr($path, -1) === '/') {
-        if (!is_dir(dirname(__DIR__) . '/' . $path)) {
+        if (!is_dir(\dirname(__DIR__) . '/' . $path)) {
             echo 'Line no. ' . $line + 1 . ': Folder "' . $path . '" doesn\'t exist.' . PHP_EOL;
             $obsoleteLineIdxs[] = $line;
         }
-    } elseif (!is_file(dirname(__DIR__) . '/' . $path)) {
+    } elseif (!is_file(\dirname(__DIR__) . '/' . $path)) {
         echo 'Line no. ' . $line + 1 . ': File "' . $path . '" doesn\'t exist.' . PHP_EOL;
         $obsoleteLineIdxs[] = $line;
     }
@@ -85,7 +85,7 @@ foreach ($rulesetLines as $line => $text) {
 
 echo "... done." . PHP_EOL;
 
-if (!count($obsoleteLineIdxs)) {
+if (!\count($obsoleteLineIdxs)) {
     echo "No obsolete lines found." . PHP_EOL;
 
     exit(0);

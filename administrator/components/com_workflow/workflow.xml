@@ -13,7 +13,6 @@
 	<administration>
 		<menu>COM_WORKFLOW</menu>
 		<files folder="admin">
-			<filename>access.xml</filename>
 			<filename>workflow.xml</filename>
 			<folder>forms</folder>
 			<folder>services</folder>

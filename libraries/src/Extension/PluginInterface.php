@@ -12,13 +12,15 @@ namespace Joomla\CMS\Extension;
 use Joomla\Event\DispatcherAwareInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Access to plugin specific services.
  *
  * @since  4.0.0
+ *
+ * @TODO  Starting from 7.0 the class will no longer extend DispatcherAwareInterface
  */
 interface PluginInterface extends DispatcherAwareInterface
 {

@@ -9,11 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.formvalidator');
+
+$direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 
 /** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
@@ -27,7 +30,7 @@ HTMLHelper::_('behavior.formvalidator');
             <h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
             <div class="mt-4 mb-3">
                 <button id="installAddFeatures" class="btn btn-primary w-100">
-                    <?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
+                    <?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span>
                 </button>
             </div>
         </div>
@@ -41,17 +44,19 @@ HTMLHelper::_('behavior.formvalidator');
                     class="j-install-step-form flex-column d-none"
                 >
         <?php endif; ?>
-        <p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
         <table class="table table-sm">
+            <caption>
+                <?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?>
+            </caption>
             <thead>
             <tr>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
                 </th>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
                 </th>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
                 </th>
             </tr>
@@ -71,11 +76,11 @@ HTMLHelper::_('behavior.formvalidator');
                             } ?>
                         />
                     </td>
-                    <td>
+                    <th scope="row">
                         <label for="admin-language-cb<?php echo $i; ?>">
                             <?php echo $lang->name; ?>
                         </label>
-                    </td>
+                    </th>
                     <td>
                         <?php echo $lang->language; ?>
                     </td>
@@ -83,17 +88,19 @@ HTMLHelper::_('behavior.formvalidator');
             <?php endforeach; ?>
             </tbody>
         </table>
-        <p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC_FRONTEND'); ?></p>
         <table class="table table-sm">
+            <caption>
+                <?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC_FRONTEND'); ?>
+            </caption>
             <thead>
             <tr>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
                 </th>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
                 </th>
-                <th>
+                <th scope="col">
                     <?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
                 </th>
             </tr>
@@ -113,11 +120,11 @@ HTMLHelper::_('behavior.formvalidator');
                             } ?>
                         />
                     </td>
-                    <td>
+                    <th scope="row">
                         <label for="site-language-cb<?php echo $i; ?>">
                             <?php echo $lang->name; ?>
                         </label>
-                    </td>
+                    </th>
                     <td>
                         <?php echo $lang->language; ?>
                     </td>
@@ -126,7 +133,7 @@ HTMLHelper::_('behavior.formvalidator');
             </tbody>
         </table>
         <button id="defaultLanguagesButton" class="btn btn-primary mt-2 mb-3 w-100">
-            <?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
+            <?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span>
         </button>
         <?php echo HTMLHelper::_('form.token'); ?>
         </div>
@@ -185,7 +192,7 @@ HTMLHelper::_('behavior.formvalidator');
             <?php endif; ?>
                 <?php if ($this->development) : ?>
                     <div id="removeInstallationTab" class="flex-column">
-                        <p><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></p>
+                        <p class="alert alert-info text-center"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></p>
                         <button id="removeInstallationFolder" class="btn btn-danger w-100"><?php echo Text::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?></button>
                     </div>
                 <?php endif; ?>

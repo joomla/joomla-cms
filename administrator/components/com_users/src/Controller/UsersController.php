@@ -40,15 +40,15 @@ class UsersController extends AdminController
      * Constructor.
      *
      * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The CMSApplication for the dispatcher
-     * @param   Input                $input    Input
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The CMSApplication for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since  1.6
      * @see    BaseController
      * @throws \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -103,9 +103,9 @@ class UsersController extends AdminController
                 $this->setMessage($model->getError(), 'error');
             } else {
                 if ($value == 1) {
-                    $this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
+                    $this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', \count($ids)));
                 } elseif ($value == 0) {
-                    $this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', count($ids)));
+                    $this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', \count($ids)));
                 }
             }
         }
@@ -140,7 +140,7 @@ class UsersController extends AdminController
             if (!$model->activate($ids)) {
                 $this->setMessage($model->getError(), 'error');
             } else {
-                $this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', count($ids)));
+                $this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', \count($ids)));
             }
         }
 

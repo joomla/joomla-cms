@@ -14,9 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Component\Messages\Administrator\Model\MessageModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,8 +28,10 @@ use Joomla\CMS\User\User;
  *
  * @since  1.6
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The Form object
      *
@@ -46,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -61,14 +64,19 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var MessageModel $model */
+        $model = $this->getModel();
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
-        } elseif ($this->getLayout() !== 'edit' && empty($this->item->message_id)) {
+        }
+
+        if ($this->getLayout() !== 'edit' && empty($this->item->message_id)) {
             throw new GenericDataException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -86,7 +94,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $app     = Factory::getApplication();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($this->getLayout() == 'edit') {
             $app->getInput()->set('hidemainmenu', true);
@@ -98,10 +106,10 @@ class HtmlView extends BaseHtmlView
             $toolbar->help('Private_Messages:_Write');
         } else {
             ToolbarHelper::title(Text::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
-            $sender = User::getInstance($this->item->user_id_from);
+            $sender = $this->getUserFactory()->loadUserById($this->item->user_id_from);
 
             if (
-                $sender->id !== $app->getIdentity()->get('id') && ($sender->authorise('core.admin')
+                $sender->id !== $app->getIdentity()->id && ($sender->authorise('core.admin')
                 || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
                 && $app->getIdentity()->authorise('core.manage', 'com_users')
             ) {

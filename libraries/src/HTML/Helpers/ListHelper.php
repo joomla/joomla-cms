@@ -16,7 +16,7 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -105,7 +105,7 @@ abstract class ListHelper
 
         $options[] = HTMLHelper::_('select.option', 0, ' - ' . Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL') . ' - ');
 
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = \count($items); $i < $n; $i++) {
             $items[$i]->text = Text::_($items[$i]->text);
 
             if (StringHelper::strlen($items[$i]->text) > $chop) {
@@ -130,7 +130,7 @@ abstract class ListHelper
      * @param   string   $attribs   HTML tag attributes
      * @param   string   $selected  The selected item
      * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
-     * @param   string   $id        ID attribute for the resulting <select> element
+     * @param   ?string  $id        ID attribute for the resulting <select> element
      *
      * @return  string   HTML markup for the select list
      *

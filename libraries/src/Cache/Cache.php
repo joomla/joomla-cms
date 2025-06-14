@@ -12,8 +12,8 @@ namespace Joomla\CMS\Cache;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Session\Session;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -67,8 +67,8 @@ class Cache
 
         // Overwrite default options with given options
         foreach ($options as $option => $value) {
-            if (isset($options[$option]) && $options[$option] !== '') {
-                $this->_options[$option] = $options[$option];
+            if ($value !== null && $value !== '') {
+                $this->_options[$option] = $value;
             }
         }
 
@@ -94,7 +94,7 @@ class Cache
     public static function getInstance($type = 'output', $options = [])
     {
         @trigger_error(
-            sprintf(
+            \sprintf(
                 '%s() is deprecated. The cache controller should be fetched from the factory.',
                 __METHOD__
             ),
@@ -616,7 +616,7 @@ class Cache
                 }
 
                 // Sanitize empty data
-                foreach (\array_keys($headNow) as $key) {
+                foreach (array_keys($headNow) as $key) {
                     if (!isset($headNow[$key]) || $headNow[$key] === []) {
                         unset($headNow[$key]);
                     }
@@ -682,12 +682,12 @@ class Cache
 
         // Platform defaults
         $defaulturlparams = [
-            'format' => 'WORD',
-            'option' => 'WORD',
-            'view'   => 'WORD',
-            'layout' => 'WORD',
+            'format' => 'CMD',
+            'option' => 'CMD',
+            'view'   => 'CMD',
+            'layout' => 'CMD',
             'tpl'    => 'CMD',
-            'id'     => 'INT',
+            'id'     => 'STRING',
         ];
 
         // Use platform defaults if parameter doesn't already exist.

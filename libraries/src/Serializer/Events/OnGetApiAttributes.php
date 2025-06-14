@@ -47,7 +47,7 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
     {
         if (
             !\array_key_exists('attributes', $arguments)
-            || \array_key_exists('attributes', $arguments) && !is_array($arguments['attributes'])
+            || \array_key_exists('attributes', $arguments) && !\is_array($arguments['attributes'])
         ) {
             throw new \BadMethodCallException("Argument 'attributes' as an array is required for event $name");
         }

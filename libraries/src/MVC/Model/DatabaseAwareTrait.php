@@ -12,7 +12,7 @@ namespace Joomla\CMS\MVC\Model;
 use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -72,7 +72,7 @@ trait DatabaseAwareTrait
      *              Use the trait from the database package
      *              Example: \Joomla\Database\DatabaseAwareTrait::setDatabase()
      */
-    public function setDbo(DatabaseInterface $db = null)
+    public function setDbo(?DatabaseInterface $db = null)
     {
         $this->_db = $db;
     }

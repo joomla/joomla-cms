@@ -19,11 +19,13 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
+
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 HTMLHelper::_('bootstrap.modal');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa    = $this->document->getWebAssetManager();
+$wa    = $this->getDocument()->getWebAssetManager();
 $input = Factory::getApplication()->getInput();
 
 // Enable assets
@@ -34,7 +36,7 @@ $wa->useScript('form.validate')
     ->useStyle('com_templates.admin-templates');
 
 // No access if not global SuperUser
-if (!Factory::getUser()->authorise('core.admin')) {
+if (!$this->getCurrentUser()->authorise('core.admin')) {
     Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
 }
 
@@ -59,17 +61,9 @@ if ($this->type == 'font') {
     <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
     <div class="row mt-2">
         <div class="col-md-8" id="conditional-section">
-            <?php if ($this->type == 'file') : ?>
+            <?php if ($this->type != 'home') : ?>
                 <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . str_replace('//', '/', base64_decode($this->file)) : '/' . ((int) $this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . str_replace('//', '/', base64_decode($this->file))), $this->template->element); ?></p>
                 <p class="lead path hidden"><?php echo $this->source->filename; ?></p>
-            <?php endif; ?>
-            <?php if ($this->type == 'image') : ?>
-                <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->image['path'], $this->template->element); ?></p>
-                <p class="lead path hidden"><?php echo $this->image['path']; ?></p>
-            <?php endif; ?>
-            <?php if ($this->type == 'font') : ?>
-                <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->font['rel_path'], $this->template->element); ?></p>
-                <p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
             <?php endif; ?>
         </div>
         <?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>

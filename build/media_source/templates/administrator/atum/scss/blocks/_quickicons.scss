@@ -1,7 +1,7 @@
 // Quick Icons
 
 .quick-icons {
-  background-color: $white;
+  background-color: $quickicon-bg;
 
   .nav {
     display: grid;
@@ -18,10 +18,13 @@
   }
 
   .quickicon {
-    --text-color: hsl(var(--hue), 30%, 40%);
-    --bg-color: hsl(var(--hue), 60%, 97%);
-    --icon-color: hsl(var(--hue), 30%, 40%);
-    --bg-color-hvr: var(--template-bg-dark);
+    --text-color: var(--template-quickicon-color);
+    --bg-color: var(--template-quickicon-bg);
+    --icon-color: var(--template-quickicon-color);
+    --icon-color-hvr: #{$quickicon-color-hvr};
+    --bg-color-hvr: var(--template-quickicon-bg-hvr);
+    --text-color-hvr: #{$quickicon-link-hvr};
+    --text-amount-color: var(--template-quickicon-color);
 
     display: flex;
     flex-grow: 1;
@@ -36,13 +39,18 @@
       background-color: var(--bg-color);
       transition: all .25s ease;
 
+      &:focus-visible {
+        border: 1px solid var(--link-color);
+        outline: 0;
+      }
+
       .quickicon-icon {
         margin-top: .5rem;
         margin-inline-start: .2rem;
+        color: var(--icon-color);
 
         > * {
           font-size: $quickicon-icon-size;
-          color: var(--icon-color);
         }
       }
 
@@ -56,7 +64,8 @@
         padding: .25rem .5rem;
         font-weight: $bold-weight;
         line-height: 1rem;
-        background: hsl(var(--hue),50%,93%);
+        color: var(--text-amount-color);
+        background: $quickicon-amount-bg;
         border-radius: $border-radius;
         transition: all .25s ease;
         margin-inline-start: .5rem;
@@ -71,28 +80,54 @@
       &:hover,
       &:focus,
       &:active {
-        color: $white;
+        color: var(--text-color-hvr);
         text-decoration: none;
         background: var(--bg-color-hvr);
+        --text-amount-color: var(--bg-color-hvr);
 
         .quickicon-amount {
+          color: $quickicon-amount-bg;
           background: var(--icon-color);
+        }
+        .quickicon-icon {
+          color: var(--icon-color-hvr);
         }
       }
 
-      &.warning,
+      &.info {
+        --text-color: var(--state-info-text);
+        --text-color-hvr: var(--state-info-text-hvr);
+        --bg-color: var(--state-info-bg);
+        --icon-color: var(--state-info-icon);
+        --icon-color-hvr: var(--state-info-icon-hvr);
+        --bg-color-hvr: var(--state-info-bg-hvr);
+      }
+
+      &.warning {
+        --text-color: var(--state-warning-text);
+        --text-color-hvr: var(--state-warning-text-hvr);
+        --bg-color: var(--state-warning-bg);
+        --icon-color: var(--state-warning-icon);
+        --icon-color-hvr: var(--state-warning-icon-hvr);
+        --bg-color-hvr: var(--state-warning-bg-hvr);
+      }
+
       &.danger {
-        --text-color: var(--danger);
-        --bg-color: #f4f0f0;
-        --icon-color: #ce8484;
-        --bg-color-hvr: var(--danger);
+        --text-color: var(--state-danger-text);
+        --text-color-hvr: var(--state-danger-text-hvr);
+        --bg-color: var(--state-danger-bg);
+        --icon-color: var(--state-danger-icon);
+        --icon-color-hvr: var(--state-danger-icon-hvr);
+        --bg-color-hvr: var(--state-danger-bg-hvr);
       }
 
       &.success {
-        --text-color: var(--success);
-        --bg-color: #f3f9f3;
-        --icon-color: #55a258;
-        --bg-color-hvr: var(--success);
+        --text-color: var(--state-success-text);
+        --text-color-hvr: var(--state-success-text-hvr);
+        --bg-color: var(--state-success-bg);
+        --icon-color: var(--state-success-icon);
+        --icon-color-hvr: var(--state-success-icon-hvr);
+        --bg-color-hvr: var(--state-success-bg-hvr);
       }
     }
   }
@@ -105,7 +140,7 @@
   .quickicon-linkadd {
     width: 2.5rem;
     font-size: 1.2rem;
-    background: hsl(var(--hue),50%,93%);
+    background: $quickicon-linkadd-bg;
     transition: all .25s ease;
 
     a {
@@ -115,13 +150,18 @@
 
       > * {
         margin-bottom: 10px;
-        color: hsl(var(--hue), 30%, 40%);
+        color: $quickicon-linkadd-color;
+      }
+
+      &:focus-visible {
+        border: 1px solid var(--link-color);
+        outline: 0;
       }
 
       &:hover,
       &:focus,
       &:active {
-        background: var(--template-bg-dark);
+        background: var(--quickicon-linkadd-bg-hvr);
 
         * {
           color: $white;
@@ -135,8 +175,8 @@
     display: flex;
     min-height: 6rem;
     overflow: hidden;
-    border: 1px solid hsl(var(--hue),50%,93%);
-    border-radius: 4px;
+    border: $quickicon-border;
+    border-radius: $quickicon-border-radius;
   }
 }
 

@@ -16,13 +16,14 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Guidedtours\Administrator\Model\StepModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit an Step
+ * View to edit a Step
  *
  * @since 4.3.0
  */
@@ -38,7 +39,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The active item
      *
-     * @var object
+     * @var \stdClass
      */
     protected $item;
 
@@ -68,11 +69,14 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        /** @var StepModel $model */
+        $model = $this->getModel();
 
-        if (\count($errors = $this->get('Errors'))) {
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
+
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -145,7 +149,7 @@ class HtmlView extends BaseHtmlView
         }
 
         ToolbarHelper::divider();
-        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] === 'show';
         $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
 
         if ($inlinehelp) {

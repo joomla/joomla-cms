@@ -21,14 +21,14 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 /** @var HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')
     ->useScript('bootstrap.popover')
     ->useScript('bootstrap.tab');
 
 // Text::script doesn't have a sprintf equivalent so work around this
-$this->document->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
+$this->getDocument()->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
 // Push Joomla! Update client-side error messages
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
@@ -84,7 +84,7 @@ $compatibilityTypes = [
 ];
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
+$currentJoomlaVersion = $this->updateInfo['installed'] ?? JVERSION;
 
 $updatePossible = true;
 
@@ -361,7 +361,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>
 
-    <?php if (Factory::getUser()->authorise('core.admin')) : ?>
+    <?php if ($this->getCurrentUser()->authorise('core.admin')) : ?>
         <div class="text-center">
             <a href="<?php echo Route::_('index.php?option=com_joomlaupdate&view=upload'); ?>" class="btn btn-sm btn-outline-secondary">
                 <?php echo Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND'); ?>

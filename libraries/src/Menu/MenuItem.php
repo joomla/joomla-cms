@@ -14,7 +14,7 @@ use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -38,7 +38,7 @@ class MenuItem implements NodeInterface
     /**
      * The type of menu this item belongs to
      *
-     * @var    integer
+     * @var    string
      * @since  3.7.0
      */
     public $menutype;
@@ -81,7 +81,7 @@ class MenuItem implements NodeInterface
      * @var    string
      * @since  3.7.0
      */
-    public $link;
+    public $link = '';
 
     /**
      * The type of link
@@ -222,7 +222,7 @@ class MenuItem implements NodeInterface
         if (!($this->params instanceof Registry)) {
             try {
                 $this->params = new Registry($this->params);
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 /*
                  * Joomla shipped with a broken sample json string for 4 years which caused fatals with new
                  * error checks. So for now we catch the exception here - but one day we should remove it and require

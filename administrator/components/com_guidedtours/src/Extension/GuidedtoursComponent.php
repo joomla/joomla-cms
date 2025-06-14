@@ -66,10 +66,12 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
      * @since 4.3.0
      */
     public const STEP_INTERACTIVETYPE_NAMES = [
-        self::STEP_INTERACTIVETYPE_FORM_SUBMIT => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_FORM_SUBMIT',
-        self::STEP_INTERACTIVETYPE_TEXT        => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_TEXT_FIELD',
-        self::STEP_INTERACTIVETYPE_BUTTON      => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_BUTTON',
-        self::STEP_INTERACTIVETYPE_OTHER       => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_OTHER',
+        self::STEP_INTERACTIVETYPE_FORM_SUBMIT    => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_FORM_SUBMIT',
+        self::STEP_INTERACTIVETYPE_TEXT           => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_TEXT_FIELD',
+        self::STEP_INTERACTIVETYPE_BUTTON         => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_BUTTON',
+        self::STEP_INTERACTIVETYPE_OTHER          => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_OTHER',
+        self::STEP_INTERACTIVETYPE_CHECKBOX_RADIO => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_CHECKBOX_RADIO_FIELD',
+        self::STEP_INTERACTIVETYPE_SELECT         => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_SELECT_LIST',
     ];
 
     /**
@@ -99,6 +101,20 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
      * @since 4.3.0
      */
     public const STEP_INTERACTIVETYPE_OTHER = 3;
+
+    /**
+     * An interactive step for checkbox/radio fields
+     *
+     * @since 5.1.0
+     */
+    public const STEP_INTERACTIVETYPE_CHECKBOX_RADIO = 5;
+
+    /**
+     * An interactive step for select element fields
+     *
+     * @since 5.1.0
+     */
+    public const STEP_INTERACTIVETYPE_SELECT = 6;
 
     /**
      * Booting the extension. This is the function to set up the environment of the extension like

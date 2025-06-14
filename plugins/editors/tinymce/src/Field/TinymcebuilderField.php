@@ -15,7 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Plugin\Editors\TinyMCE\Extension\TinyMCE;
+use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -47,14 +47,6 @@ class TinymcebuilderField extends FormField
     protected $layout = 'plugins.editors.tinymce.field.tinymcebuilder';
 
     /**
-     * The prepared layout data
-     *
-     * @var    array
-     * @since  3.7.0
-     */
-    protected $layoutData = [];
-
-    /**
      * Method to get the data to be passed to the layout for rendering.
      *
      * @return  array
@@ -63,10 +55,6 @@ class TinymcebuilderField extends FormField
      */
     protected function getLayoutData()
     {
-        if (!empty($this->layoutData)) {
-            return $this->layoutData;
-        }
-
         $data       = parent::getLayoutData();
         $paramsAll  = (object) $this->form->getValue('params');
         $setsAmount = empty($paramsAll->sets_amount) ? 3 : $paramsAll->sets_amount;
@@ -87,9 +75,9 @@ class TinymcebuilderField extends FormField
 
         $data['menus']         = $menus;
         $data['menubarSource'] = array_keys($menus);
-        $data['buttons']       = TinyMCE::getKnownButtons();
+        $data['buttons']       = TinyMCEProvider::getKnownButtons();
         $data['buttonsSource'] = array_keys($data['buttons']);
-        $data['toolbarPreset'] = TinyMCE::getToolbarPreset();
+        $data['toolbarPreset'] = TinyMCEProvider::getToolbarPreset();
         $data['setsAmount']    = $setsAmount;
 
         // Get array of sets names
@@ -166,8 +154,6 @@ class TinymcebuilderField extends FormField
         } elseif (file_exists(JPATH_ROOT . '/' . $languageFile2)) {
             $data['languageFile'] = $languageFile2;
         }
-
-        $this->layoutData = $data;
 
         return $data;
     }

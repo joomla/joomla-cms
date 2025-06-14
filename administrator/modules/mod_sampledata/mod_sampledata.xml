@@ -11,7 +11,7 @@
 	<description>MOD_SAMPLEDATA_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Sampledata</namespace>
 	<files>
-		<filename module="mod_sampledata">mod_sampledata.php</filename>
+		<folder module="mod_sampledata">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

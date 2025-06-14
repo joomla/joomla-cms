@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Site\View\Article;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
@@ -23,7 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Event\Event;
+use Joomla\Component\Content\Site\Model\ArticleModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -62,7 +63,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -107,13 +108,15 @@ class HtmlView extends BaseHtmlView
         $app  = Factory::getApplication();
         $user = $this->getCurrentUser();
 
-        $this->item  = $this->get('Item');
+        /** @var ArticleModel $model */
+        $model       = $this->getModel();
+        $this->item  = $model->getItem();
         $this->print = $app->getInput()->getBool('print', false);
-        $this->state = $this->get('State');
+        $this->state = $model->getState();
         $this->user  = $user;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -173,7 +176,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $offset = $this->state->get('list.offset');
+        $offset = (int) $this->state->get('list.offset');
 
         // Check the view access to the article (the model has already computed the values).
         if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0')) {
@@ -189,8 +192,8 @@ class HtmlView extends BaseHtmlView
          * - Deny access to logged users with 403 code
          * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
          */
-        if ($item->params->get('access-view') == false && !strlen($item->fulltext)) {
-            if ($this->user->get('guest')) {
+        if ($item->params->get('access-view') == false && !\strlen($item->fulltext)) {
+            if ($this->user->guest) {
                 $return                = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
                 $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
@@ -222,19 +225,33 @@ class HtmlView extends BaseHtmlView
             $item->associations = AssociationHelper::displayAssociations($item->id);
         }
 
+        $dispatcher = $this->getDispatcher();
+
         // Process the content plugins.
-        PluginHelper::importPlugin('content');
-        $this->dispatchEvent(new Event('onContentPrepare', ['com_content.article', &$item, &$item->params, $offset]));
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
-        $item->event                    = new \stdClass();
-        $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayTitle = trim(implode("\n", $results));
+        $contentEventArguments = [
+            'context' => 'com_content.article',
+            'subject' => $item,
+            'params'  => $item->params,
+            'page'    => $offset,
+        ];
 
-        $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$item->params, $offset]);
-        $item->event->beforeDisplayContent = trim(implode("\n", $results));
+        $dispatcher->dispatch('onContentPrepare', new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments));
 
-        $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayContent = trim(implode("\n", $results));
+        // Extra content from events
+        $item->event   = new \stdClass();
+        $contentEvents = [
+            'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+            'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+        ];
+
+        foreach ($contentEvents as $resultKey => $event) {
+            $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+            $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
+        }
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx', ''));
@@ -266,17 +283,15 @@ class HtmlView extends BaseHtmlView
             $this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
         }
 
-        $title = $this->params->get('page_title', '');
-
         // If the menu item is not linked to this article
         if (!$this->menuItemMatchArticle) {
             // If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
-            $title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
+            $title = $this->item->params->get('article_page_title', $this->item->title);
 
             // Get ID of the category from active menu item
             if (
                 $menu && $menu->component == 'com_content' && isset($menu->query['view'])
-                && in_array($menu->query['view'], ['categories', 'category'])
+                && \in_array($menu->query['view'], ['categories', 'category'])
             ) {
                 $id = $menu->query['id'];
             } else {
@@ -296,15 +311,19 @@ class HtmlView extends BaseHtmlView
             foreach ($path as $item) {
                 $pathway->addItem($item['title'], $item['link']);
             }
-        }
-
-        if (empty($title)) {
+        } else {
             /**
-             * This happens when the current active menu item is linked to the article without browser
-             * page title set, so we use Browser Page Title in article and fallback to article title
-             * if that is not set
+             * This case the menu item links directly to the article, browser will be determined by following
+             * order:
+             * 1. Browser page title set from menu item itself
+             * 2. Browser page title set for the article
+             * 3. Article title
              */
-            $title = $this->item->params->get('article_page_title', $this->item->title);
+            $menuItemParams = $menu->getParams();
+            $title          = $menuItemParams->get(
+                'page_title',
+                $this->item->params->get('article_page_title', $this->item->title)
+            );
         }
 
         $this->setDocumentTitle($title);
@@ -334,7 +353,7 @@ class HtmlView extends BaseHtmlView
 
         // If there is a pagebreak heading or title, add it to the page title
         if (!empty($this->item->page_title)) {
-            $this->item->title = $this->item->title . ' - ' . $this->item->page_title;
+            $this->item->title .= ' - ' . $this->item->page_title;
             $this->setDocumentTitle(
                 $this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
             );

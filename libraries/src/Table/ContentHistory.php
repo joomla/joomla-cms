@@ -10,11 +10,14 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -22,8 +25,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.2
  */
-class ContentHistory extends Table
+class ContentHistory extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Array of object fields to unset from the data object before calculating SHA1 hash. This allows us to detect a meaningful change
      * in the database row using the hash. This can be read from the #__content_types content_history_options column.
@@ -46,13 +51,14 @@ class ContentHistory extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__history', 'version_id', $db);
+        parent::__construct('#__history', 'version_id', $db, $dispatcher);
         $this->ignoreChanges = [
             'modified_by',
             'modified_user_id',
@@ -78,20 +84,20 @@ class ContentHistory extends Table
      */
     public function store($updateNulls = false)
     {
-        $this->set('character_count', \strlen($this->get('version_data')));
-        $typeTable = Table::getInstance('ContentType', 'JTable', ['dbo' => $this->getDbo()]);
-        $typeAlias = explode('.', $this->item_id);
+        $this->character_count = \strlen($this->version_data);
+        $typeTable             = new ContentType($this->getDbo(), $this->getDispatcher());
+        $typeAlias             = explode('.', $this->item_id);
         array_pop($typeAlias);
         $typeTable->load(['type_alias' => implode('.', $typeAlias)]);
 
         if (!isset($this->sha1_hash)) {
-            $this->set('sha1_hash', $this->getSha1($this->get('version_data'), $typeTable));
+            $this->sha1_hash = $this->getSha1($this->version_data, $typeTable);
         }
 
         // Modify author and date only when not toggling Keep Forever
-        if ($this->get('keep_forever') === null) {
-            $this->set('editor_user_id', Factory::getUser()->id);
-            $this->set('save_date', Factory::getDate()->toSql());
+        if ($this->keep_forever === null) {
+            $this->editor_user_id = $this->getCurrentUser()->id;
+            $this->save_date      = Factory::getDate()->toSql();
         }
 
         return parent::store($updateNulls);
@@ -161,8 +167,8 @@ class ContentHistory extends Table
     public function getHashMatch()
     {
         $db       = $this->_db;
-        $itemId   = $this->get('item_id');
-        $sha1Hash = $this->get('sha1_hash');
+        $itemId   = $this->item_id;
+        $sha1Hash = $this->sha1_hash;
         $query    = $db->getQuery(true);
         $query->select('*')
             ->from($db->quoteName('#__history'))
@@ -192,7 +198,7 @@ class ContentHistory extends Table
 
         // Get the list of version_id values we want to save
         $db        = $this->_db;
-        $itemId    = $this->get('item_id');
+        $itemId    = $this->item_id;
         $query     = $db->getQuery(true);
         $query->select($db->quoteName('version_id'))
             ->from($db->quoteName('#__history'))

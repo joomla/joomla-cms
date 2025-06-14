@@ -20,11 +20,11 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Privacy\Administrator\View\Consents\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user       = Factory::getUser();
+$user       = $this->getCurrentUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $now        = Factory::getDate();
@@ -34,6 +34,7 @@ $stateMsgs  = [
     0 => Text::_('COM_PRIVACY_CONSENTS_STATE_OBSOLETE'),
     1 => Text::_('COM_PRIVACY_CONSENTS_STATE_VALID')
 ];
+$this->getLanguage()->load('plg_system_privacyconsent', JPATH_ADMINISTRATOR);
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=consents'); ?>" method="post" name="adminForm" id="adminForm">

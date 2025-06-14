@@ -10,17 +10,15 @@
 
 namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -53,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  4.1.0
      */
     protected $state;
@@ -94,18 +92,22 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null): void
     {
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var TasksModel $model */
+        $model = $this->getModel();
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->hasDueTasks   = $model->getHasDueTasks();
+
+        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('empty_state');
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -125,8 +127,8 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         $canDo   = ContentHelper::getActions('com_scheduler');
-        $user    = Factory::getApplication()->getIdentity();
-        $toolbar = Toolbar::getInstance();
+        $user    = $this->getCurrentUser();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 
@@ -166,9 +168,14 @@ class HtmlView extends BaseHtmlView
             }
         }
 
+        $toolbar->linkButton('history', 'COM_SCHEDULER_EXECUTION_HISTORY')
+            ->url('index.php?option=com_scheduler&view=logs&layout=default')
+            ->buttonClass('btn btn-info')
+            ->icon('icon-menu');
+
         // Add "Empty Trash" button if filtering by trashed.
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('tasks.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('tasks.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

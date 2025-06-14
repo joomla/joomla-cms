@@ -1,4 +1,5 @@
 @import "../../variables";
+@import "../../../../../../../../media/vendor/bootstrap/scss/mixins";
 
 // Search tools
 
@@ -27,7 +28,19 @@
     }
 
     .js-stools-btn-clear {
-      background-color: var(--template-bg-dark);
+      background-color: $js-stools-btn-clear-bg;
+      &[disabled],
+      &.dropdown-toggle[disabled] {
+        background: $js-stools-btn-clear-disabled-bg;
+        border: $js-stools-btn-clear-disabled-border;
+        opacity: .5;
+
+        &:hover,
+        &:active,
+        &:focus {
+          cursor: not-allowed;
+        }
+      }
     }
   }
 
@@ -45,7 +58,7 @@
     grid-gap: 8px;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     padding: 10px;
-    background-color: $white;
+    background-color: var(--body-bg);
   }
 }
 
@@ -58,4 +71,22 @@
 .js-stools-container-selector {
   margin: 5px 0;
   margin-inline-end: 8px;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .js-stools-container-bar .btn-toolbar .js-stools-btn-clear {
+      &[disabled],
+      &.dropdown-toggle[disabled] {
+        background: var(--body-bg);
+        border: var(--btn-secondary-border);
+        opacity: .5;
+        &:hover,
+        &:active,
+        &:focus {
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
 }

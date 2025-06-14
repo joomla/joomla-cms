@@ -12,8 +12,8 @@ namespace Joomla\Component\Templates\Administrator\Helper;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -71,9 +71,9 @@ abstract class TemplateHelper
         ];
         $explodedFileName = explode('.', $file['name']);
 
-        if (count($explodedFileName) > 2) {
+        if (\count($explodedFileName) > 2) {
             foreach ($executable as $extensionName) {
-                if (in_array($extensionName, $explodedFileName)) {
+                if (\in_array($extensionName, $explodedFileName)) {
                     $app = Factory::getApplication();
                     $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXECUTABLE'), 'error');
 
@@ -98,14 +98,14 @@ abstract class TemplateHelper
 
         $allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
-        if ($format == '' || $format == false || (!in_array($format, $allowable))) {
+        if ($format == '' || $format == false || (!\in_array($format, $allowable))) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
 
             return false;
         }
 
-        if (in_array($format, $archiveTypes)) {
+        if (\in_array($format, $archiveTypes)) {
             $zip = new \ZipArchive();
 
             if ($zip->open($file['tmp_name']) === true) {
@@ -117,7 +117,7 @@ abstract class TemplateHelper
                         $explodeArray = explode('.', $entry);
                         $ext          = end($explodeArray);
 
-                        if (!in_array($ext, $allowable)) {
+                        if (!\in_array($ext, $allowable)) {
                             $app = Factory::getApplication();
                             $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UNSUPPORTED_ARCHIVE'), 'error');
 

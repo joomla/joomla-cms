@@ -22,7 +22,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -105,7 +105,7 @@ class Authentication implements ServiceProviderInterface
                 MD5Handler::class,
                 function (Container $container) {
                     @trigger_error(
-                        sprintf(
+                        \sprintf(
                             'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
                             MD5Handler::class,
                             'password.handler.default'
@@ -123,7 +123,7 @@ class Authentication implements ServiceProviderInterface
                 PHPassHandler::class,
                 function (Container $container) {
                     @trigger_error(
-                        sprintf(
+                        \sprintf(
                             'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
                             PHPassHandler::class,
                             'password.handler.default'

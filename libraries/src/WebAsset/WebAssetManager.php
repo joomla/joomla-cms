@@ -9,13 +9,14 @@
 
 namespace Joomla\CMS\WebAsset;
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -108,6 +109,16 @@ class WebAssetManager implements WebAssetManagerInterface
     protected $dependenciesIsActual = false;
 
     /**
+     * A cache holder for list of sorted assets, used by getAssets() method
+     * This is emptied when dependencies actualised, see enableDependencies() method
+     *
+     * @var    array
+     *
+     * @since  5.1.0
+     */
+    protected $sortedAssets = [];
+
+    /**
      * Class constructor
      *
      * @param   WebAssetRegistry  $registry  The WebAsset Registry instance
@@ -187,7 +198,7 @@ class WebAssetManager implements WebAssetManagerInterface
     {
         $method = strtolower($method);
 
-        if (0 === strpos($method, 'use')) {
+        if (str_starts_with($method, 'use')) {
             $type = substr($method, 3);
 
             if (empty($arguments[0])) {
@@ -197,7 +208,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->useAsset($type, $arguments[0]);
         }
 
-        if (0 === strpos($method, 'addinline')) {
+        if (str_starts_with($method, 'addinline')) {
             $type = substr($method, 9);
 
             if (empty($arguments[0])) {
@@ -207,7 +218,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->addInline($type, ...$arguments);
         }
 
-        if (0 === strpos($method, 'disable')) {
+        if (str_starts_with($method, 'disable')) {
             $type = substr($method, 7);
 
             if (empty($arguments[0])) {
@@ -217,7 +228,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->disableAsset($type, $arguments[0]);
         }
 
-        if (0 === strpos($method, 'register')) {
+        if (str_starts_with($method, 'register')) {
             // Check for registerAndUse<Type>
             $andUse = substr($method, 8, 6) === 'anduse';
 
@@ -232,12 +243,12 @@ class WebAssetManager implements WebAssetManagerInterface
                 $name = $arguments[0] instanceof WebAssetItemInterface ? $arguments[0]->getName() : $arguments[0];
 
                 return $this->registerAsset($type, ...$arguments)->useAsset($type, $name);
-            } else {
-                return $this->registerAsset($type, ...$arguments);
             }
+
+            return $this->registerAsset($type, ...$arguments);
         }
 
-        throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, get_class($this)));
+        throw new \BadMethodCallException(\sprintf('Undefined method %s in class %s', $method, \get_class($this)));
     }
 
     /**
@@ -286,6 +297,9 @@ class WebAssetManager implements WebAssetManagerInterface
             $this->dependenciesIsActual = false;
         }
 
+        // To re-order assets
+        $this->sortedAssets[$type] = [];
+
         return $this;
     }
 
@@ -315,6 +329,9 @@ class WebAssetManager implements WebAssetManagerInterface
 
         // To re-check dependencies
         $this->dependenciesIsActual = false;
+
+        // To re-order assets
+        $this->sortedAssets[$type] = [];
 
         // For Preset case
         if ($type === 'preset') {
@@ -366,7 +383,7 @@ class WebAssetManager implements WebAssetManagerInterface
             // Make sure dependency exists
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
-                    sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
+                    \sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
                 );
             }
 
@@ -409,7 +426,7 @@ class WebAssetManager implements WebAssetManagerInterface
             // Make sure dependency exists
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
-                    sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
+                    \sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
                 );
             }
 
@@ -502,13 +519,13 @@ class WebAssetManager implements WebAssetManagerInterface
     {
         if ($asset instanceof WebAssetItemInterface) {
             $this->registry->add($type, $asset);
-        } elseif (is_string($asset)) {
+        } elseif (\is_string($asset)) {
             $options['type'] = $type;
             $assetInstance   = $this->registry->createAsset($asset, $uri, $options, $attributes, $dependencies);
             $this->registry->add($type, $assetInstance);
         } else {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s(): Argument #2 ($asset) must be a string or an instance of %s, %s given.',
                     __METHOD__,
                     WebAssetItemInterface::class,
@@ -541,7 +558,7 @@ class WebAssetManager implements WebAssetManagerInterface
      * Get all active assets, optionally sort them to follow the dependency Graph
      *
      * @param   string  $type  The asset type, script or style
-     * @param   bool    $sort  Whether need to sort the assets to follow the dependency Graph
+     * @param   bool    $sort  Whether we need to sort the assets to follow the dependency Graph
      *
      * @return  WebAssetItem[]
      *
@@ -563,7 +580,19 @@ class WebAssetManager implements WebAssetManagerInterface
 
         // Apply Tree sorting for regular asset items, but return FIFO order for "preset"
         if ($sort && $type !== 'preset') {
-            $assets = $this->calculateOrderOfActiveAssets($type);
+            // Check previous calculations
+            if (!empty($this->sortedAssets[$type])) {
+                $assets = [];
+
+                foreach ($this->sortedAssets[$type] as $name) {
+                    $assets[$name] = $this->registry->get($type, $name);
+                }
+            } else {
+                $assets = $this->calculateOrderOfActiveAssets($type);
+
+                // Cache the result
+                $this->sortedAssets[$type] = array_keys($assets);
+            }
         } else {
             $assets = [];
 
@@ -661,13 +690,13 @@ class WebAssetManager implements WebAssetManagerInterface
     {
         if ($content instanceof WebAssetItemInterface) {
             $assetInstance = $content;
-        } elseif (is_string($content)) {
+        } elseif (\is_string($content)) {
             $name          = $options['name'] ?? ('inline.' . md5($content));
             $assetInstance = $this->registry->createAsset($name, '', $options, $attributes, $dependencies);
             $assetInstance->setOption('content', $content);
         } else {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s(): Argument #2 ($content) must be a string or an instance of %s, %s given.',
                     __METHOD__,
                     WebAssetItemInterface::class,
@@ -724,14 +753,14 @@ class WebAssetManager implements WebAssetManagerInterface
     /**
      * Update Dependencies state for all active Assets or only for given
      *
-     * @param   string        $type   The asset type, script or style
-     * @param   WebAssetItem  $asset  The asset instance to which need to enable dependencies
+     * @param   ?string        $type   The asset type, script or style
+     * @param   ?WebAssetItem  $asset  The asset instance to which need to enable dependencies
      *
      * @return  self
      *
      * @since  4.0.0
      */
-    protected function enableDependencies(string $type = null, WebAssetItem $asset = null): self
+    protected function enableDependencies(?string $type = null, ?WebAssetItem $asset = null): self
     {
         if ($type === 'preset') {
             // Preset items already was enabled by usePresetItems()
@@ -772,7 +801,9 @@ class WebAssetManager implements WebAssetManagerInterface
                 }
             }
 
+            // Update state flag and clear sorting cache
             $this->dependenciesIsActual = true;
+            $this->sortedAssets         = [];
         }
 
         return $this;
@@ -940,11 +971,11 @@ class WebAssetManager implements WebAssetManagerInterface
     /**
      * Return dependencies for Asset as array of WebAssetItem objects
      *
-     * @param   string        $type           The asset type, script or style
-     * @param   WebAssetItem  $asset          Asset instance
-     * @param   boolean       $recursively    Whether to search for dependency recursively
-     * @param   string        $recursionType  The type of initial item to prevent loop
-     * @param   WebAssetItem  $recursionRoot  Initial item to prevent loop
+     * @param   string         $type           The asset type, script or style
+     * @param   WebAssetItem   $asset          Asset instance
+     * @param   boolean        $recursively    Whether to search for dependency recursively
+     * @param   ?string        $recursionType  The type of initial item to prevent loop
+     * @param   ?WebAssetItem  $recursionRoot  Initial item to prevent loop
      *
      * @return  array
      *
@@ -956,12 +987,12 @@ class WebAssetManager implements WebAssetManagerInterface
         string $type,
         WebAssetItem $asset,
         $recursively = false,
-        string $recursionType = null,
-        WebAssetItem $recursionRoot = null
+        ?string $recursionType = null,
+        ?WebAssetItem $recursionRoot = null
     ): array {
         $assets        = [];
-        $recursionRoot = $recursionRoot ?? $asset;
-        $recursionType = $recursionType ?? $type;
+        $recursionRoot ??= $asset;
+        $recursionType ??= $type;
 
         foreach ($asset->getDependencies() as $depName) {
             $depType = $type;
@@ -973,7 +1004,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
-                    sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $depName, $asset->getName(), $depType)
+                    \sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $depName, $asset->getName(), $depType)
                 );
             }
 
@@ -990,5 +1021,34 @@ class WebAssetManager implements WebAssetManagerInterface
         }
 
         return $assets;
+    }
+
+    /**
+     * A helper method to call onAttachCallback for script assets that implements WebAssetAttachBehaviorInterface
+     *
+     * @param   array     $assets     Array of assets
+     * @param   Document  $document   Document instance to attach
+     * @param   array     $cache      Array of object ids which callback was already called
+     *
+     * @return  array  Array of object ids for which callback was called
+     *
+     * @since 5.1.0
+     */
+    public static function callOnAttachCallback(array $assets, Document $document, array $cache = []): array
+    {
+        foreach ($assets as $asset) {
+            if (!$asset instanceof WebAssetAttachBehaviorInterface) {
+                continue;
+            }
+
+            $oid = spl_object_id($asset);
+
+            if (empty($cache[$oid])) {
+                $asset->onAttachCallback($document);
+                $cache[$oid] = true;
+            }
+        }
+
+        return $cache;
     }
 }

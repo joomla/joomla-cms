@@ -14,8 +14,8 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Menus\Administrator\Model\MenusModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -74,6 +74,14 @@ class HtmlView extends BaseHtmlView
     public $activeFilters;
 
     /**
+     * Ordering of the items
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    protected $ordering;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -84,18 +92,21 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items      = $this->get('Items');
-        $this->modules    = $this->get('Modules');
-        $this->pagination = $this->get('Pagination');
-        $this->state      = $this->get('State');
+        /** @var MenusModel $model */
+        $model = $this->getModel();
+
+        $this->items      = $model->getItems();
+        $this->modules    = $model->getModules();
+        $this->pagination = $model->getPagination();
+        $this->state      = $model->getState();
 
         if ($this->getLayout() == 'default') {
-            $this->filterForm    = $this->get('FilterForm');
-            $this->activeFilters = $this->get('ActiveFilters');
+            $this->filterForm    = $model->getFilterForm();
+            $this->activeFilters = $model->getActiveFilters();
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -114,7 +125,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo   = ContentHelper::getActions('com_menus');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
 

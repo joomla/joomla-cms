@@ -24,6 +24,14 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="header"
+					type="text"
+					label="PLG_FIELDS_LIST_PARAMS_HEADER_LABEL"
+					description="PLG_FIELDS_LIST_PARAMS_HEADER_DESC"
+					filter="string"
+				/>
+
+				<field
 					name="multiple"
 					type="radio"
 					label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"
@@ -33,6 +41,17 @@
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="form_layout"
+					type="list"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
+					class="form-select"
+					default="joomla.form.field.list"				      
+					>
+					<option value="joomla.form.field.list">JLIB_FORM_FIELD_PARAM_LAYOUT_BASIC_SELECT</option>
+					<option value="joomla.form.field.list-fancy-select">JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT</option>
 				</field>
 
 				<field

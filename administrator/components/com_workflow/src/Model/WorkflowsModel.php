@@ -12,9 +12,10 @@
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,12 +31,13 @@ class WorkflowsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -50,7 +52,7 @@ class WorkflowsModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -81,7 +83,7 @@ class WorkflowsModel extends ListModel
         $this->setState('filter.component', $parts[0]);
 
         // Extract the optional section name
-        $this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+        $this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
         parent::populateState($ordering, $direction);
     }
@@ -207,7 +209,7 @@ class WorkflowsModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  DatabaseQuery  The query to database.
+     * @return  QueryInterface  The query to database.
      *
      * @since  4.0.0
      */

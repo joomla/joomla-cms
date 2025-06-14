@@ -106,7 +106,7 @@ class StageModel extends AdminModel
 
         // Make sure we use the correct extension when editing an existing workflow
         $key = $table->getKeyName();
-        $pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk  = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
 
         if ($pk > 0) {
             $table->load($pk);
@@ -117,11 +117,11 @@ class StageModel extends AdminModel
         }
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title)   = $this->generateNewTitle(0, '', $data['title']);
+                [$title]       = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -183,7 +183,7 @@ class StageModel extends AdminModel
         $context   = $this->option . '.' . $this->name;
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
-        if (!\property_exists($record, 'workflow_id')) {
+        if (!property_exists($record, 'workflow_id')) {
             $workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
             $record->workflow_id = $workflowID;
         }

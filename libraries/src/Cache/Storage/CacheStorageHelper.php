@@ -31,7 +31,7 @@ class CacheStorageHelper
     /**
      * Cached item size
      *
-     * @var    string
+     * @var    int
      * @since  1.7.0
      */
     public $size = 0;
@@ -39,7 +39,7 @@ class CacheStorageHelper
     /**
      * Counter
      *
-     * @var    integer
+     * @var    int
      * @since  1.7.0
      */
     public $count = 0;
@@ -59,7 +59,7 @@ class CacheStorageHelper
     /**
      * Increase cache items count.
      *
-     * @param   string  $size  Cached item size
+     * @param   int  $size  Cached item size
      *
      * @return  void
      *

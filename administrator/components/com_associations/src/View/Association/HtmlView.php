@@ -16,10 +16,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Associations\Administrator\Model\AssociationModel;
@@ -59,7 +57,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -359,19 +357,19 @@ class HtmlView extends BaseHtmlView
             'language assoc'
         );
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $toolbar->customButton('reference')
             ->html('<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'
             . Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>');
 
         $toolbar->customButton('target')
-            ->html('<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'target\')" '
+            ->html('<joomla-toolbar-button id="toolbar-target"><button onclick="Joomla.submitbutton(\'target\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'
             . Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>');
 
         if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true) {
-            $toolbar->standardButton('', 'COM_ASSOCIATIONS_COPY_REFERENCE', 'copy')
+            $toolbar->standardButton('copy', 'COM_ASSOCIATIONS_COPY_REFERENCE', 'copy')
                 ->icon('icon-copy')
                 ->listCheck(false);
         }

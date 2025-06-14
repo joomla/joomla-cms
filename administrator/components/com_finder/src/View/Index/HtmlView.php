@@ -17,10 +17,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Administrator\Model\IndexModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -113,6 +113,15 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The finder plugins status
+     *
+     * @var    boolean
+     *
+     * @since  5.3.0
+     */
+    protected $finderPlugins = true;
+
+    /**
      * Method to display the view.
      *
      * @param   string  $tpl  A template file to load. [optional]
@@ -126,15 +135,18 @@ class HtmlView extends BaseHtmlView
         // Load plugin language files.
         LanguageHelper::loadPluginLanguage();
 
-        $this->items         = $this->get('Items');
-        $this->total         = $this->get('Total');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->pluginState   = $this->get('pluginState');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var IndexModel $model */
+        $model = $this->getModel();
 
-        if ($this->get('TotalIndexed') === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+        $this->items         = $model->getItems();
+        $this->total         = $model->getTotal();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->pluginState   = $model->getPluginState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+
+        if ($model->getTotalIndexed() === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
@@ -145,13 +157,18 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check that the content - finder plugin is enabled
         if (!PluginHelper::isEnabled('content', 'finder')) {
             $this->finderPluginId = FinderHelper::getFinderPluginId();
+        }
+
+        // Check that the finder plugins are enabled
+        if (!PluginHelper::getPlugin('finder')) {
+            $this->finderPlugins = false;
         }
 
         // Configure the toolbar.
@@ -170,17 +187,42 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo   = ContentHelper::getActions('com_finder');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'search-plus finder');
 
-        $toolbar->popupButton('archive', 'COM_FINDER_INDEX')
-            ->url('index.php?option=com_finder&view=indexer&tmpl=component')
-            ->iframeWidth(550)
-            ->iframeHeight(210)
-            ->onclose('window.parent.location.reload()')
-            ->icon('icon-archive')
-            ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
+        if (JDEBUG) {
+            $dropdown = $toolbar->dropdownButton('indexing-group');
+            $dropdown->text('COM_FINDER_INDEX')
+                ->toggleSplit(false)
+                ->icon('icon-archive')
+                ->buttonClass('btn btn-action');
+
+            $childBar = $dropdown->getChildToolbar();
+
+            $childBar->popupButton('index', 'COM_FINDER_INDEX')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_HEADING_INDEXER'))
+                ->url('index.php?option=com_finder&view=indexer&tmpl=component')
+                ->modalWidth('800px')
+                ->modalHeight('400px')
+                ->icon('icon-archive')
+                ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
+
+            $childBar->linkButton('indexdebug', 'COM_FINDER_INDEX_TOOLBAR_INDEX_DEBUGGING')
+                ->url('index.php?option=com_finder&view=indexer&layout=debug')
+                ->icon('icon-tools');
+        } else {
+            $toolbar->popupButton('index', 'COM_FINDER_INDEX')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_HEADING_INDEXER'))
+                ->url('index.php?option=com_finder&view=indexer&tmpl=component')
+                ->modalWidth('800px')
+                ->modalHeight('400px')
+                ->icon('icon-archive')
+                ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
+        }
+
 
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
@@ -198,7 +240,7 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($canDo->get('core.delete')) {
-                $toolbar->confirmButton('', 'JTOOLBAR_DELETE', 'index.delete')
+                $toolbar->confirmButton('delete', 'JTOOLBAR_DELETE', 'index.delete')
                     ->message('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')
                     ->icon('icon-delete')
                     ->listCheck(true);
@@ -214,16 +256,18 @@ class HtmlView extends BaseHtmlView
 
                 $childBar = $dropdown->getChildToolbar();
 
-                $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise', false);
+                $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise');
                 $childBar->confirmButton('index-purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', 'index.purge')
                     ->message('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT')
                     ->icon('icon-trash');
             }
 
-            $toolbar->popupButton('bars', 'COM_FINDER_STATISTICS')
+            $toolbar->popupButton('statistics', 'COM_FINDER_STATISTICS')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_STATISTICS_TITLE'))
                 ->url('index.php?option=com_finder&view=statistics&tmpl=component')
-                ->iframeWidth(550)
-                ->iframeHeight(350)
+                ->modalWidth('800px')
+                ->modalHeight('500px')
                 ->title(Text::_('COM_FINDER_STATISTICS_TITLE'))
                 ->icon('icon-bars');
         }

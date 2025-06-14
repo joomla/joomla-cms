@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Content\PageBreak\Extension;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
@@ -17,6 +18,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Utility\Utility;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,7 +40,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-final class PageBreak extends CMSPlugin
+final class PageBreak extends CMSPlugin implements SubscriberInterface
 {
     /**
      * The navigation list with all page objects if parameter 'multipage_toc' is active.
@@ -49,19 +51,35 @@ final class PageBreak extends CMSPlugin
     protected $list = [];
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepare' => 'onContentPrepare',
+        ];
+    }
+
+    /**
      * Plugin that adds a pagebreak into the text and truncates text at that point
      *
-     * @param   string   $context  The context of the content being passed to the plugin.
-     * @param   object   &$row     The article object.  Note $article->text is also available
-     * @param   mixed    &$params  The article params
-     * @param   integer  $page     The 'page' number
+     * @param   ContentPrepareEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onContentPrepare($context, &$row, &$params, $page = 0)
+    public function onContentPrepare(ContentPrepareEvent $event)
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $params  = $event->getParams();
+        $page    = $event->getPage();
+
         $canProceed = $context === 'com_content.article';
 
         if (!$canProceed) {
@@ -141,7 +159,7 @@ final class PageBreak extends CMSPlugin
         }
 
         // Count the number of pages.
-        $n = count($text);
+        $n = \count($text);
 
         // We have found at least one plugin, therefore at least 2 pages.
         if ($n > 1) {

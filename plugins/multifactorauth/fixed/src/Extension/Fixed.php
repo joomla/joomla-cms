@@ -24,7 +24,6 @@ use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -157,6 +156,8 @@ class Fixed extends CMSPlugin implements SubscriberInterface
                     'html' => '',
                     // Custom HTML to display below the MFA form
                     'post_message' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_POSTMESSAGE'),
+                    // Override the autocomplete attribute for the HTML input box.
+                    'autocomplete' => 'off',
                 ]
             )
         );

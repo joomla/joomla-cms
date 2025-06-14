@@ -11,7 +11,8 @@
 	<description>MOD_LOGINSUPPORT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Loginsupport</namespace>
 	<files>
-		<filename module="mod_loginsupport">mod_loginsupport.php</filename>
+		<folder module="mod_loginsupport">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

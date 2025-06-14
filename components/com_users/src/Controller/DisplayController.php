@@ -10,9 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,8 +27,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean        $cachable   If true, the view output will be cached
-     * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types,
-     *                                     for valid values see {@link \Joomla\CMS\Filter\InputFilter::clean()}.
+     * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types.
+     *                         @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      *
@@ -50,61 +48,11 @@ class DisplayController extends BaseController
         if ($view = $this->getView($vName, $vFormat)) {
             // Do any specific processing by view.
             switch ($vName) {
-                case 'registration':
-                    // If the user is already logged in, redirect to the profile page.
-                    $user = $this->app->getIdentity();
-
-                    if ($user->get('guest') != 1) {
-                        // Redirect to profile page.
-                        $this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
-
-                        return;
-                    }
-
-                    // Check if user registration is enabled
-                    if (ComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0) {
-                        // Registration is disabled - Redirect to login page.
-                        $this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
-
-                        return;
-                    }
-
-                    // The user is a guest, load the registration model and show the registration page.
-                    $model = $this->getModel('Registration');
-                    break;
-
-                // Handle view specific models.
-                case 'profile':
-                    // If the user is a guest, redirect to the login page.
-                    $user = $this->app->getIdentity();
-
-                    if ($user->get('guest') == 1) {
-                        // Redirect to login page.
-                        $this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
-
-                        return;
-                    }
-
-                    $model = $this->getModel($vName);
-                    break;
-
-                // Handle the default views.
-                case 'login':
-                    $model = $this->getModel($vName);
-                    break;
-
                 case 'remind':
                 case 'reset':
-                    // If the user is already logged in, redirect to the profile page.
-                    $user = $this->app->getIdentity();
-
-                    if ($user->get('guest') != 1) {
-                        // Redirect to profile page.
-                        $this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
-
-                        return;
-                    }
-
+                case 'registration':
+                case 'login':
+                case 'profile':
                     $model = $this->getModel($vName);
                     break;
 
@@ -116,15 +64,13 @@ class DisplayController extends BaseController
 
                     return $controller->execute($task);
 
-                    break;
-
                 default:
                     $model = $this->getModel('Login');
                     break;
             }
 
             // Make sure we don't send a referer
-            if (in_array($vName, ['remind', 'reset'])) {
+            if (\in_array($vName, ['remind', 'reset'])) {
                 $this->app->setHeader('Referrer-Policy', 'no-referrer', true);
             }
 

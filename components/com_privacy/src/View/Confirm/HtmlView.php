@@ -15,7 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\Component\Privacy\Site\Model\ConfirmModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.9.0
      */
     protected $state;
@@ -74,13 +74,14 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        // Initialise variables.
-        $this->form   = $this->get('Form');
-        $this->state  = $this->get('State');
+        /** @var ConfirmModel $model */
+        $model        = $this->getModel();
+        $this->form   = $model->getForm();
+        $this->state  = $model->getState();
         $this->params = $this->state->params;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

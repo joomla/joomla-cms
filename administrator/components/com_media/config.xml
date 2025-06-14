@@ -23,7 +23,7 @@
 			type="text"
 			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
 			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
-			default="images"
+			default="files"
 			validate="folderPathExists"
 			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|media|modules|plugins|templates|tmp"
 		/>
@@ -55,7 +55,7 @@
 			type="textarea"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_EXTENSIONS_DESC"
-			default="bmp,gif,jpg,jpeg,png,webp,ico,mp3,mp4,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv"
+			default="bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,mp4,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv"
 			showon="restrict_uploads:1"
 		/>
 
@@ -77,7 +77,7 @@
 			type="textarea"
 			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
-			default="bmp,gif,jpg,jpeg,png,webp"
+			default="bmp,gif,jpg,jpeg,png,webp,avif"
 		/>
 
 		<field
@@ -116,7 +116,7 @@
 			type="textarea"
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
-			default="image/jpeg,image/gif,image/png,image/bmp,image/webp,audio/ogg,audio/mpeg,audio/mp4,video/mp4,video/mpeg,video/quicktime,video/webm,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
+			default="image/jpeg,image/gif,image/png,image/bmp,image/webp,image/avif,audio/ogg,audio/mpeg,audio/mp4,video/mp4,video/mpeg,video/quicktime,video/webm,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
 			showon="restrict_uploads:1"
 		/>
 	</fieldset>

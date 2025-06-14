@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Filesystem;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -309,8 +309,8 @@ class FilesystemHelper
         static $output_type = true;
 
         if ($max_size === false || $output_type != $unitOutput) {
-            $max_size   = self::parseSize(ini_get('post_max_size'));
-            $upload_max = self::parseSize(ini_get('upload_max_filesize'));
+            $max_size   = self::parseSize(\ini_get('post_max_size'));
+            $upload_max = self::parseSize(\ini_get('upload_max_filesize'));
 
             if ($upload_max > 0 && ($upload_max < $max_size || $max_size == 0)) {
                 $max_size = $upload_max;

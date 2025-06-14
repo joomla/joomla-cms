@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="Book"
+				type="subform"
+				showon="schemaType:Book"
+			>
+				<form>
+
+					<field
+						name="@type"
+						type="hidden"
+						default="Book"
+					/>
+
+					<field
+						name="noteBook"
+						type="note"
+						description="PLG_SCHEMAORG_BOOK_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
+						name="name"
+						type="text"
+						label="PLG_SCHEMAORG_BOOK_FIELD_NAME_LABEL"
+						filter="string"
+						size="30"
+					/>
+
+					<field
+						name="author"
+						type="text"
+						label="PLG_SCHEMAORG_BOOK_FIELD_AUTHOR_LABEL"
+						filter="string"
+						size="30"
+					/>
+
+					<field
+						name="datePublished"
+						type="calendar"
+						label="PLG_SCHEMAORG_BOOK_FIELD_DATE_PUBLISHED_LABEL"
+						class="input-small"
+						filter="user_utc"
+						showtime="false"
+						todaybutton="true"
+						translateformat="true"
+					/>
+
+					<field
+						name="abridged"
+						type="list"
+						label="PLG_SCHEMAORG_BOOK_FIELD_ABRIDGED_LABEL"
+						default="0"
+						>
+						<option>JNONE</option>
+						<option value="true">JYES</option>
+						<option value="false">JNO</option>
+					</field>
+
+					<field
+						name="bookEdition"
+						type="text"
+						label="PLG_SCHEMAORG_BOOK_FIELD_BOOK_EDITION_LABEL"
+						filter="string"
+						size="30"
+					/>
+
+					<field
+						name="bookFormat"
+						type="list"
+						label="PLG_SCHEMAORG_BOOK_FIELD_BOOK_FORMAT_LABEL"
+						default="0"
+						>
+						<option>JNONE</option>
+						<option value="AudiobookFormat">PLG_SCHEMAORG_BOOK_FIELD_AUDIOBOOK_LABEL</option>
+						<option value="EBook">PLG_SCHEMAORG_BOOK_FIELD_E_BOOK_LABEL</option>
+						<option value="GraphicNovel">PLG_SCHEMAORG_BOOK_FIELD_GRAPHIC_NOVEL</option>
+						<option value="Hardcover">PLG_SCHEMAORG_BOOK_FIELD_HARDCOVER_LABEL</option>
+						<option value="Paperback">PLG_SCHEMAORG_BOOK_FIELD_PAPERBACK_LABEL</option>
+					</field>
+
+					<field
+						name="illustrator"
+						type="subform"
+						label="PLG_SCHEMAORG_BOOK_FIELD_ILLUSTRATOR_LABEL"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="Person"
+							/>
+
+							<field
+								name="name"
+								type="text"
+								label="PLG_SCHEMAORG_BOOK_FIELD_ILLUSTRATOR_NAME_LABEL"
+								filter="string"
+							/>
+
+							<field
+								name="url"
+								type="url"
+								label="PLG_SCHEMAORG_BOOK_FIELD_URL_LABEL"
+								filter="url"
+								validate="url"
+							/>
+
+							<field
+								name="email"
+								type="email"
+								label="PLG_SCHEMAORG_BOOK_FIELD_EMAIL_LABEL"
+								validate="email"
+							/>
+
+							<field
+								name="address"
+								type="subform"
+								label="PLG_SCHEMAORG_BOOK_FIELD_ADDRESS_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
+
+									<field
+										name="addressLocality"
+										type="text"
+										label="PLG_SCHEMAORG_BOOK_FIELD_LOCALITY_LABEL"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										label="PLG_SCHEMAORG_BOOK_FIELD_POSTAL_CODE_LABEL"
+									/>
+
+									<field
+										name="streetAddress"
+										type="text"
+										label="PLG_SCHEMAORG_BOOK_FIELD_STREET_ADDRESS_LABEL"
+									/>
+
+								</form>
+
+							</field>
+
+						</form>
+
+					</field>
+
+					<field
+						name="isbn"
+						type="text"
+						label="PLG_SCHEMAORG_BOOK_FIELD_ISBN_LABEL"
+						filter="string"
+						size="30"
+					/>
+
+					<field
+						name="numberOfPages"
+						type="number"
+						label="PLG_SCHEMAORG_BOOK_FIELD_NUMBER_OF_PAGES_LABEL"
+					/>
+
+					<field
+						name="genericField"
+						type="subform"
+						label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_FIELD_LABEL"
+						multiple="true"
+					>
+						<form>
+							<field
+								name="genericTitle"
+								type="text"
+								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_TITLE_LABEL"
+								filter="string"
+								size="30"
+							/>
+							<field
+								name="genericValue"
+								type="text"
+								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_VALUE_LABEL"
+								filter="string"
+								size="30"
+							/>
+						</form>
+
+					</field>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>

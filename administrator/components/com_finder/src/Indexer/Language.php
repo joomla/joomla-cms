@@ -75,8 +75,13 @@ class Language
         }
 
         try {
-            $this->stemmer = StemmerFactory::create($this->language);
-        } catch (NotFoundException $e) {
+            foreach (StemmerFactory::LANGS as $classname => $isoCodes) {
+                if (\in_array($this->language, $isoCodes)) {
+                    $this->stemmer = StemmerFactory::create($this->language);
+                    break;
+                }
+            }
+        } catch (NotFoundException) {
             // We don't have a stemmer for the language
         }
     }

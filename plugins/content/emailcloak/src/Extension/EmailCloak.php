@@ -10,8 +10,12 @@
 
 namespace Joomla\Plugin\Content\EmailCloak\Extension;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\CustomFields\AfterPrepareFieldEvent;
+use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,32 +27,96 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-final class EmailCloak extends CMSPlugin
+final class EmailCloak extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Plugin that cloaks all emails in content from spambots via Javascript.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @param   string   $context  The context of the content being passed to the plugin.
-     * @param   mixed    &$row     An object with a "text" property or the string to be cloaked.
-     * @param   mixed    &$params  Additional parameters.
-     * @param   integer  $page     Optional page number. Unused. Defaults to zero.
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepare'                => 'onContentPrepare',
+            'onFinderResult'                  => 'onFinderResult',
+            'onCustomFieldsAfterPrepareField' => 'onCustomFieldsAfterPrepareField',
+        ];
+    }
+
+    /**
+     * Plugin that cloaks all emails in com_finder from spambots via Javascript.
+     *
+     * @param   ResultEvent  $event  Event instance
      *
      * @return  void
      */
-    public function onContentPrepare($context, &$row, &$params, $page = 0)
+    public function onFinderResult(ResultEvent $event)
+    {
+        $item = $event->getItem();
+
+        // If the item does not have a text property there is nothing to do
+        if (!isset($item->description)) {
+            return;
+        }
+
+        $text = $this->cloak($item->description);
+
+        if ($text) {
+            $item->description = $text;
+        }
+    }
+
+    /**
+     * Plugin that cloaks all emails in content from spambots via Javascript.
+     *
+     * @param   ContentPrepareEvent  $event  Event instance
+     *
+     * @return  void
+     */
+    public function onContentPrepare(ContentPrepareEvent $event)
     {
         // Don't run if in the API Application
         // Don't run this plugin when the content is being indexed
-        if ($this->getApplication()->isClient('api') || $context === 'com_finder.indexer') {
+        if ($this->getApplication()->isClient('api') || $event->getContext() === 'com_finder.indexer') {
             return;
         }
 
-        // If the row is not an object or does not have a text property there is nothing to do
-        if (!is_object($row) || !property_exists($row, 'text')) {
+        // Get content item
+        $item = $event->getItem();
+
+        // If the item does not have a text property there is nothing to do
+        if (!isset($item->text)) {
             return;
         }
 
-        $this->cloak($row->text, $params);
+        $text = $this->cloak($item->text);
+
+        if ($text) {
+            $item->text = $text;
+        }
+    }
+
+    /**
+     * Plugin that cloaks all emails in a custom field.
+     *
+     * @param   AfterPrepareFieldEvent  $event  Event instance
+     *
+     * @return  void
+     */
+    public function onCustomFieldsAfterPrepareField(AfterPrepareFieldEvent $event)
+    {
+        // If the value is empty then there is nothing to do
+        if (empty($event->getValue())) {
+            return;
+        }
+
+        $text = $this->cloak($event->getValue());
+
+        if ($text) {
+            $event->updateValue($text);
+        }
     }
 
     /**
@@ -61,7 +129,7 @@ final class EmailCloak extends CMSPlugin
      */
     private function getPattern($link, $text)
     {
-        $pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
+        $pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~iu';
 
         return $pattern;
     }
@@ -69,34 +137,30 @@ final class EmailCloak extends CMSPlugin
     /**
      * Cloak all emails in text from spambots via Javascript.
      *
-     * @param   string  &$text    The string to be cloaked.
-     * @param   mixed   &$params  Additional parameters. Parameter "mode" (integer, default 1)
-     *                             replaces addresses with "mailto:" links if nonzero.
+     * @param   string  $text    The string to be cloaked.
      *
-     * @return  void
+     * @return  string
      */
-    private function cloak(&$text, &$params)
+    private function cloak($text)
     {
         /*
-         * Check for presence of {emailcloak=off} which is explicits disables this
-         * bot for the item.
+         * Check for presence of {emailcloak=off} which explicitly disables the
+         * plugin for the item.
          */
         if (StringHelper::strpos($text, '{emailcloak=off}') !== false) {
-            $text = StringHelper::str_ireplace('{emailcloak=off}', '', $text);
-
-            return;
+            return StringHelper::str_ireplace('{emailcloak=off}', '', $text);
         }
 
-        // Simple performance check to determine whether bot should process further.
+        // Simple performance check to determine whether the plugin should process further.
         if (StringHelper::strpos($text, '@') === false) {
-            return;
+            return '';
         }
 
         $mode = (int) $this->params->def('mode', 1);
         $mode = $mode === 1;
 
         // Example: any@example.org
-        $searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,24}))';
+        $searchEmail = "([\p{L}\p{N}\.\'\-\+\_]+\@(?:[\.\-\p{L}\p{N}]+\.)+(?:[\-\p{L}\p{N}]{2,24}))";
 
         // Example: any@example.org?subject=anyText
         $searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
@@ -131,7 +195,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -152,7 +216,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -171,7 +235,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -190,7 +254,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -208,7 +272,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -226,7 +290,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -244,7 +308,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -262,7 +326,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -280,7 +344,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -302,7 +366,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -323,7 +387,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -342,7 +406,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -360,7 +424,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -382,7 +446,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -404,7 +468,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -426,7 +490,7 @@ final class EmailCloak extends CMSPlugin
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -434,28 +498,28 @@ final class EmailCloak extends CMSPlugin
          * <img src="..." title="email@example.org"> or <input type="text" placeholder="email@example.org">
          * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
          */
-        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|<[^>]+?(\w*=\"' . $searchEmail . '\")[^>]*\/>~i';
+        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|<[^>]+?(\w*=\"' . $searchEmail . '\")[^>]*\/>~iu';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail        = $regs[0][0];
             $replacement = HTMLHelper::_('email.cloak', $mail, 0, $mail);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($mail));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($mail));
         }
 
         /*
          * Search for plain text email addresses, such as email@example.org but within HTML attributes:
          * <a title="email@example.org" href="#">email</a> or <li title="email@example.org">email</li>
          */
-        $pattern = '(<[^>]+?(\w*=\"' . $searchEmail . '")[^>]*>[^<]+<[^<]+>)';
+        $pattern = '~(<[^>]+?(\w*=\"' . $searchEmail . '")[^>]*>[^<]+<[^<]+>)~iu';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail        = $regs[0][0];
             $replacement =  HTMLHelper::_('email.cloak', $mail, 0, $mail);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($mail));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($mail));
         }
 
         /*
@@ -465,14 +529,16 @@ final class EmailCloak extends CMSPlugin
         * The '<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' exclude image files with @ in filename
         */
 
-        $pattern = '~<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' . $searchEmail . '~i';
+        $pattern = '~<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' . $searchEmail . '~iu';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail        = $regs[1][0];
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mail);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
+            $text = substr_replace($text, $replacement, $regs[1][1], \strlen($mail));
         }
+
+        return $text;
     }
 }

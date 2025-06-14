@@ -1,0 +1,46 @@
+
+includes:
+	- libraries/vendor/phpstan/phpstan-deprecation-rules/rules.neon
+	- build/phpstan/phpstan.neon
+
+parameters:
+	level: 0
+	phpVersion: 80100
+	reportUnmatchedIgnoredErrors: false
+	scanDirectories:
+		- libraries/php-encryption
+		- libraries/phpass
+	scanFiles:
+		- libraries/loader.php
+		- libraries/namespacemap.php
+	paths:
+		- libraries/src
+		- administrator
+		- components
+		- installation
+		- plugins
+	excludePaths:
+		- administrator/cache
+		- administrator/components/com_joomlaupdate/finalisation.php
+	ignoreErrors:
+		-
+			message: '#Access to protected property [a-zA-Z0-9\\_]+\\HtmlView::\$[a-zA-Z0-9\\_]+.#'
+			paths:
+				- components/*
+				- administrator/components/*
+		-
+			message: '#Call to protected method [a-zA-Z0-9\\_]+\(\) of class Joomla\\CMS\\MVC\\View\\AbstractView\.#'
+			paths:
+				- components/*
+				- administrator/components/*
+		-
+			message: '#Call to protected method [a-zA-Z0-9\\_]+\(\) of class Joomla\\CMS\\MVC\\View\\HtmlView\.#'
+			paths:
+				- components/*
+				- administrator/components/*
+		-
+			message: '#Call to protected method [a-zA-Z0-9\\_]+\(\) of class Joomla\\CMS\\.*\.#'
+			paths:
+				- plugins/*
+		-
+			message: '#Call to deprecated method \_\(\) of class Joomla\\CMS\\Language\\Language.*#'

@@ -72,12 +72,12 @@ class HtmlView extends InstallerViewDefault
         $dlidSupportingSites = InstallerHelper::getDownloadKeySupportedSites(false);
         $update_site_id      = $this->item->get('update_site_id');
 
-        if (!in_array($update_site_id, $dlidSupportingSites)) {
+        if (!\in_array($update_site_id, $dlidSupportingSites)) {
             $this->form->removeField('extra_query');
         }
 
         // Check for errors.
-        if (count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -95,13 +95,13 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar(): void
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $app     = Factory::getApplication();
         $app->getInput()->set('hidemainmenu', true);
 
         $user       = $app->getIdentity();
         $userId     = $user->id;
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out === $userId);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out === $userId);
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_installer', 'updatesite');

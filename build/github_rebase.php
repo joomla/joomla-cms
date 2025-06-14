@@ -9,15 +9,18 @@
  */
 
 // Set defaults
-$scriptRoot   = __DIR__;
-$prNumber     = false;
-$php          = 'php';
-$git          = 'git';
-$gh           = 'gh';
-$checkPath    = false;
-$ghRepo       = 'joomla/joomla-cms';
-$baseBranches = '4.1-dev';
-$targetBranch = '4.2-dev';
+$scriptRoot       = __DIR__;
+$prNumber         = false;
+$php              = 'php';
+$git              = 'git';
+$gh               = 'gh';
+$checkPath        = false;
+$ghRepo           = 'joomla/joomla-cms';
+$baseBranches     = '4.1-dev';
+$targetBranch     = '4.2-dev';
+$label            = '';
+$additionalReason = '';
+$tryRun           = false;
 
 $script = array_shift($argv);
 
@@ -31,11 +34,17 @@ if (empty($argv)) {
         Description:
             Rebase all open pull requests on github to the target branch.
 
+            --try-run:
+              Just list the PRs which would be rebased.
+
             --base:
               The base branch of the pull request. Multiple branches can be separated by comma.
 
             --target:
               The target branch the pull request gets rebased to.
+
+            --label:
+              The tag of the pull request must have to be rebased.
 
             --pr:
               Rebase only the given PR.
@@ -48,20 +57,37 @@ foreach ($argv as $arg) {
     if (substr($arg, 0, 2) === '--') {
         $argi = explode('=', $arg, 2);
         switch ($argi[0]) {
+            case '--try-run':
+                $tryRun = true;
+                break;
             case '--base':
                 $baseBranches = $argi[1];
                 break;
             case '--target':
-                    $targetBranch = $argi[1];
+                $targetBranch = $argi[1];
                 break;
             case '--pr':
-                    $prNumber = $argi[1];
+                $prNumber = $argi[1];
                 break;
+            case '--label':
+                $label = $argi[1];
+                break;
+            case '--reason':
+                $additionalReason = $argi[1];
+                break;
+            default:
+                die('Unknown option: ' . $argi[0]);
         }
     } else {
         $checkPath = $arg;
         break;
     }
+}
+
+$reason = 'This pull request has been automatically rebased to ' . $targetBranch . '.';
+
+if (!empty($additionalReason)) {
+    $reason .= ' ' . $additionalReason;
 }
 
 $cmd        = $git . ' -C "' . $scriptRoot . '" rev-parse --show-toplevel';
@@ -107,6 +133,10 @@ $fieldList = [
 
 $branches = 'base:' . implode(' base:', explode(',', $baseBranches));
 
+if (!empty($label)) {
+    $branches .= ' label:' . $label;
+}
+
 if (!empty($prNumber)) {
     echo "Retrieving Pull Request " . $prNumber . "...\n";
     $cmd = $gh . ' pr view ' . $prNumber . ' --json ' . implode(',', $fieldList);
@@ -130,24 +160,32 @@ if (!empty($prNumber)) {
 
 $list = json_decode($json, true);
 
-echo "\nFound " . count($list) . " pull request(s).\n";
+echo "\nFound " . \count($list) . " pull request(s).\n";
 
 foreach ($list as $pr) {
     echo "Rebase #" . $pr['number'] . "\n";
 
     $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --base ' . $targetBranch;
     $output = [];
-    exec($cmd, $output, $result);
-    if ($result !== 0) {
-        var_dump([$cmd, $output, $result]);
-        die('Unable to set target branch for pr #' . $pr['number']);
+    if (!$tryRun) {
+        exec($cmd, $output, $result);
+        if ($result !== 0) {
+            var_dump([$cmd, $output, $result]);
+            die('Unable to set target branch for pr #' . $pr['number']);
+        }
+    } else {
+        echo "TRY RUN: " . $cmd . "\n";
     }
 
-    $cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "This pull request has been automatically rebased to ' . $targetBranch . '."';
+    $cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "' . $reason . '"';
     $output = [];
-    exec($cmd, $output, $result);
-    if ($result !== 0) {
-        var_dump([$cmd, $output, $result]);
-        die('Unable to create a comment for pr #' . $pr['number']);
+    if (!$tryRun) {
+        exec($cmd, $output, $result);
+        if ($result !== 0) {
+            var_dump([$cmd, $output, $result]);
+            die('Unable to create a comment for pr #' . $pr['number']);
+        }
+    } else {
+        echo "TRY RUN: " . $cmd . "\n";
     }
 }

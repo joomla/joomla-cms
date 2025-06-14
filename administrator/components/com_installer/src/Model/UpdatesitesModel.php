@@ -11,7 +11,6 @@
 namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -21,6 +20,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\UpdateSite as UpdateSiteTable;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -36,13 +37,13 @@ class UpdatesitesModel extends InstallerModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Model\ListModel
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -86,7 +87,7 @@ class UpdatesitesModel extends InstallerModel
         $result = true;
 
         // Ensure eid is an array of extension ids
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid];
         }
 
@@ -125,7 +126,7 @@ class UpdatesitesModel extends InstallerModel
         }
 
         // Ensure eid is an array of extension ids
-        if (!is_array($ids)) {
+        if (!\is_array($ids)) {
             $ids = [$ids];
         }
 
@@ -148,7 +149,7 @@ class UpdatesitesModel extends InstallerModel
         // Enable the update site in the table and store it in the database
         foreach ($ids as $i => $id) {
             // Don't allow to delete Joomla Core update sites.
-            if (in_array((int) $id, $joomlaUpdateSitesIds)) {
+            if (\in_array((int) $id, $joomlaUpdateSitesIds)) {
                 $app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
                 continue;
             }
@@ -465,40 +466,6 @@ class UpdatesitesModel extends InstallerModel
      */
     protected function populateState($ordering = 'name', $direction = 'asc')
     {
-        // Load the filter state.
-        $stateKeys = [
-            'search'    => 'string',
-            'client_id' => 'int',
-            'enabled'   => 'string',
-            'type'      => 'string',
-            'folder'    => 'string',
-            'supported' => 'int',
-        ];
-
-        foreach ($stateKeys as $key => $filterType) {
-            $stateKey = 'filter.' . $key;
-
-            switch ($filterType) {
-                case 'int':
-                case 'bool':
-                    $default = null;
-                    break;
-
-                default:
-                    $default = '';
-                    break;
-            }
-
-            $stateValue = $this->getUserStateFromRequest(
-                $this->context . '.' . $stateKey,
-                'filter_' . $key,
-                $default,
-                $filterType
-            );
-
-            $this->setState($stateKey, $stateValue);
-        }
-
         parent::populateState($ordering, $direction);
     }
 
@@ -517,7 +484,7 @@ class UpdatesitesModel extends InstallerModel
     /**
      * Method to get the database query
      *
-     * @return  \Joomla\Database\DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   3.4
      */
@@ -587,7 +554,7 @@ class UpdatesitesModel extends InstallerModel
 
         // Process select filters.
         $supported = $this->getState('filter.supported');
-        $enabled   = $this->getState('filter.enabled');
+        $enabled   = $this->getState('filter.enabled', '');
         $type      = $this->getState('filter.type');
         $clientId  = $this->getState('filter.client_id');
         $folder    = $this->getState('filter.folder');
@@ -609,7 +576,7 @@ class UpdatesitesModel extends InstallerModel
                 ->bind(':clientId', $clientId, ParameterType::INTEGER);
         }
 
-        if ($folder !== '' && in_array($type, ['plugin', 'library', ''], true)) {
+        if ($folder !== '' && \in_array($type, ['plugin', 'library', ''], true)) {
             $folderForBinding = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('e.folder') . ' = :folder')
                 ->bind(':folder', $folderForBinding);
@@ -626,18 +593,18 @@ class UpdatesitesModel extends InstallerModel
 
         if (is_numeric($supported)) {
             switch ($supported) {
-                // Show Update Sites which support Download Keys
                 case 1:
+                    // Show Update Sites which support Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeySupportedSites($enabled);
                     break;
 
-                // Show Update Sites which are missing Download Keys
                 case -1:
+                    // Show Update Sites which are missing Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeyExistsSites(false, $enabled);
                     break;
 
-                // Show Update Sites which have valid Download Keys
                 case 2:
+                    // Show Update Sites which have valid Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeyExistsSites(true, $enabled);
                     break;
             }

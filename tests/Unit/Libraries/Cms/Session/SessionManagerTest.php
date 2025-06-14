@@ -47,15 +47,6 @@ class SessionManagerTest extends UnitTestCase
      */
     protected function setUp(): void
     {
-        // @todo remove this after upgrading phpunit to 9+ see https://github.com/sebastianbergmann/phpunit/issues/4879
-        if (version_compare(phpversion(), '8.1.0', '>=')) {
-            /**
-             * See https://github.com/sebastianbergmann/phpunit/issues/4879 - we'll need a higher phpunit version for 8.1 and
-             * higher for this to work
-             */
-            $this->markTestSkipped('PHPUnit 8 cannot mock SessionHandlerInterface in PHP 8.1 and higher');
-        }
-
         $this->sessionHandler = $this->createMock(\SessionHandlerInterface::class);
 
         $this->manager = new SessionManager($this->sessionHandler);
@@ -115,15 +106,9 @@ class SessionManagerTest extends UnitTestCase
             'a2b3c4',
         ];
 
-        $this->sessionHandler->expects($this->at(0))
+        $this->sessionHandler->expects($this->exactly(2))
             ->method('destroy')
-            ->with($sessionIds[0])
-            ->willReturn(true);
-
-        $this->sessionHandler->expects($this->at(1))
-            ->method('destroy')
-            ->with($sessionIds[1])
-            ->willReturn(false);
+            ->will($this->onConsecutiveCalls(true, false));
 
         $this->assertFalse($this->manager->destroySessions($sessionIds));
     }

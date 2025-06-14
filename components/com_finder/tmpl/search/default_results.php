@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\Component\Finder\Site\View\Search\HtmlView $this */
 ?>
 <?php // Display the suggested search if it is different from the current search. ?>
 <?php if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($this->explained && $this->params->get('show_explained_query', 1))) : ?>
@@ -56,8 +57,8 @@ use Joomla\CMS\Uri\Uri;
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
     <?php
         // Allow a maximum of 10 tokens to be highlighted. Otherwise the URL can get too long.
-        $this->document->getWebAssetManager()->useScript('highlight');
-        $this->document->addScriptOptions(
+        $this->getDocument()->getWebAssetManager()->useScript('highlight');
+        $this->getDocument()->addScriptOptions(
             'highlight',
             [[
                     'class'      => 'js-highlight',
@@ -67,7 +68,7 @@ use Joomla\CMS\Uri\Uri;
     ?>
 <?php endif; ?>
 <?php // Display a list of results ?>
-<ol id="search-result-list" class="js-highlight com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
+<ul id="search-result-list" class="js-highlight com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
     <?php $this->baseUrl = Uri::getInstance()->toString(['scheme', 'host', 'port']); ?>
     <?php foreach ($this->results as $i => $result) : ?>
         <?php $this->result = &$result; ?>
@@ -75,7 +76,7 @@ use Joomla\CMS\Uri\Uri;
         <?php $layout = $this->getLayoutFile($this->result->layout); ?>
         <?php echo $this->loadTemplate($layout); ?>
     <?php endforeach; ?>
-</ol>
+</ul>
 <?php // Display the pagination ?>
 <div class="com-finder__navigation search-pagination">
     <?php if ($this->params->get('show_pagination', 1) > 0) : ?>
@@ -89,7 +90,7 @@ use Joomla\CMS\Uri\Uri;
             <?php $start = (int) $this->pagination->limitstart + 1; ?>
             <?php $total = (int) $this->pagination->total; ?>
             <?php $limit = (int) $this->pagination->limit * $this->pagination->pagesCurrent; ?>
-            <?php $limit = (int) ($limit > $total ? $total : $limit); ?>
+            <?php $limit = (int) min($limit, $total); ?>
             <?php echo Text::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total); ?>
         </div>
     <?php endif; ?>

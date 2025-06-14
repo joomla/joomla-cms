@@ -11,10 +11,10 @@
 namespace Joomla\Component\Config\Site\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -99,7 +99,7 @@ class ModulesModel extends FormModel
             }
 
             // Attempt to load the xml file.
-            if (!$xml = simplexml_load_file($formFile)) {
+            if (!simplexml_load_file($formFile)) {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
         }
@@ -187,7 +187,7 @@ class ModulesModel extends FormModel
 
         try {
             $positions = $db->loadColumn();
-            $positions = is_array($positions) ? $positions : [];
+            $positions = \is_array($positions) ? $positions : [];
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

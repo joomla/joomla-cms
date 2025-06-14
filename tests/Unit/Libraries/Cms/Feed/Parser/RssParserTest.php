@@ -39,7 +39,7 @@ class RssParserTest extends UnitTestCase
         $category = 'IT/Internet/Web development';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement("<category>$category</category>");
 
         $feedMock = $this->createMock(Feed::class);
@@ -75,7 +75,7 @@ class RssParserTest extends UnitTestCase
         ];
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<cloud domain="' . $cloud['domain'] . '" port="' . $cloud['port'] .
             '" path="' . $cloud['path'] . '" registerProcedure="' . $cloud['registerProcedure'] .
             '" protocol="' . $cloud['protocol'] . '" />');
@@ -88,7 +88,7 @@ class RssParserTest extends UnitTestCase
                 'cloud',
                 $this->callback(
                     function ($value) use ($cloud) {
-                        return is_object($value)
+                        return \is_object($value)
                             && $value->domain === $cloud['domain']
                             && $value->port === $cloud['port']
                             && $value->path === $cloud['path']
@@ -119,7 +119,7 @@ class RssParserTest extends UnitTestCase
         $copyright = 'All Rights Reserved.';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<rights>' . $copyright . '</rights>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -149,7 +149,7 @@ class RssParserTest extends UnitTestCase
         $subtitle = 'Lorem Ipsum ...';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<description>' . $subtitle . '</description>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -179,7 +179,7 @@ class RssParserTest extends UnitTestCase
         $generator = 'Joomla';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<generator>' . $generator . '</generator>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -214,7 +214,7 @@ class RssParserTest extends UnitTestCase
         ];
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<image><url>' . $image['url'] . '</url><title>' . $image['title'] .
             '</title><link>' . $image['link'] . '</link><description>' . $image['description'] .
             '</description></image>');
@@ -261,7 +261,7 @@ class RssParserTest extends UnitTestCase
         $language = 'en-US';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<language>' . $language . '</language>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -291,7 +291,7 @@ class RssParserTest extends UnitTestCase
         $buildDate = 'Sat, 01 Jan 2011 00:00:00 UTC';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<lastBuildDate>' . $buildDate . '</lastBuildDate>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -321,7 +321,7 @@ class RssParserTest extends UnitTestCase
         $link = 'http://domain.com/path/to/resource';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement("<link href='$link' />");
 
         $feedMock = $this->createMock(Feed::class);
@@ -361,7 +361,7 @@ class RssParserTest extends UnitTestCase
         ];
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<managingEditor>' . $editor['email'] . ' ' . $editor['name'] . '</managingEditor>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -400,7 +400,7 @@ class RssParserTest extends UnitTestCase
         $pubDate = 'Sat, 01 Jan 2011 00:00:00 GMT';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<pubDate>' . $pubDate . '</pubDate>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -430,7 +430,7 @@ class RssParserTest extends UnitTestCase
         $skipDays = ['Saturday', 'Sunday'];
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<skipDays><day>' . $skipDays[0] . '</day><day>' . $skipDays[1] . '</day></skipDays>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -460,7 +460,7 @@ class RssParserTest extends UnitTestCase
         $skipHours = ['0', '10'];
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<skipHours><hour>' . $skipHours[0] . '</hour><hour>' . $skipHours[1] . '</hour></skipHours>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -490,7 +490,7 @@ class RssParserTest extends UnitTestCase
         $title = 'My Title.';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement("<title>$title</title>");
 
         $feedMock = $this->createMock(Feed::class);
@@ -520,7 +520,7 @@ class RssParserTest extends UnitTestCase
         $ttl = '45';
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement("<ttl>$ttl</ttl>");
 
         $feedMock = $this->createMock(Feed::class);
@@ -553,7 +553,7 @@ class RssParserTest extends UnitTestCase
         ];
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement('<webmaster>' . $webmaster['email'] . ' ' . $webmaster['name'] . '</webmaster>');
 
         $feedMock = $this->createMock(Feed::class);
@@ -636,7 +636,7 @@ class RssParserTest extends UnitTestCase
         ];
 
         // It's currently not possible to mock simple xml element
-        // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
+        // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
         $xmlElement = new \SimpleXMLElement(
             '<entry>
 				<link>' . $entry['link'] . '</link>

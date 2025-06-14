@@ -12,7 +12,7 @@ namespace Joomla\CMS\Feed;
 use Joomla\CMS\Date\Date;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -87,10 +87,10 @@ class Feed implements \ArrayAccess, \Countable
         // Validate that any authors that are set are instances of JFeedPerson or null.
         if (($name === 'author') && (!($value instanceof FeedPerson) || ($value === null))) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
                     \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    \is_object($value) ? \get_class($value) : \gettype($value)
                 )
             );
         }
@@ -98,7 +98,7 @@ class Feed implements \ArrayAccess, \Countable
         // Disallow setting categories or contributors directly.
         if (\in_array($name, ['categories', 'contributors'])) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Cannot directly set %1$s property "%2$s".',
                     \get_class($this),
                     $name
@@ -187,8 +187,7 @@ class Feed implements \ArrayAccess, \Countable
      *
      * @return  integer number of entries in the feed.
      */
-    #[\ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return \count($this->entries);
     }
@@ -204,8 +203,7 @@ class Feed implements \ArrayAccess, \Countable
      * @see     ArrayAccess::offsetExists()
      * @since   3.1.4
      */
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->entries[$offset]);
     }
@@ -220,8 +218,7 @@ class Feed implements \ArrayAccess, \Countable
      * @see     ArrayAccess::offsetGet()
      * @since   3.1.4
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->entries[$offset];
     }
@@ -232,28 +229,25 @@ class Feed implements \ArrayAccess, \Countable
      * @param   mixed      $offset  The offset to assign the value to.
      * @param   FeedEntry  $value   The JFeedEntry to set.
      *
-     * @return  boolean
+     * @return  void
      *
      * @see     ArrayAccess::offsetSet()
      * @since   3.1.4
      * @throws  \InvalidArgumentException
      */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (!($value instanceof FeedEntry)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%1$s entries must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
                     \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    \is_object($value) ? \get_class($value) : \gettype($value)
                 )
             );
         }
 
         $this->entries[$offset] = $value;
-
-        return true;
     }
 
     /**
@@ -266,8 +260,7 @@ class Feed implements \ArrayAccess, \Countable
      * @see     ArrayAccess::offsetUnset()
      * @since   3.1.4
      */
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->entries[$offset]);
     }

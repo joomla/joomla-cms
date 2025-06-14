@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params">
+		<fieldset name="task_params">
+			<field
+					name="consentexpiration"
+					type="integer"
+					label="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATIONDAYS_LABEL"
+					description="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATIONDAYS_DESC"
+					first="0"
+					last="720"
+					step="30"
+					default="360"
+					filter="int"
+					validate="number"
+				/>
+				<field
+					name="remind"
+					type="integer"
+					label="PLG_TASK_PRIVACYCONSENT_REMINDBEFORE_LABEL"
+					description="PLG_TASK_PRIVACYCONSENT_REMINDBEFORE_DESC"
+					first="0"
+					last="120"
+					step="1"
+					default="30"
+					filter="int"
+					validate="number"
+				/>
+		</fieldset>
+	</fields>
+</form>

@@ -16,3 +16,4 @@ package.json
 package-lock.json
 phpunit.xml.dist
 phpunit-pgsql.xml.dist
+tests/System/images

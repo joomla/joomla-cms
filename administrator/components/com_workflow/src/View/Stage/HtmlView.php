@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
+use Joomla\Component\Workflow\Administrator\Model\StageModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -81,13 +82,16 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var StageModel $model */
+        $model = $this->getModel();
+
         // Get the Data
-        $this->state      = $this->get('State');
-        $this->form       = $this->get('Form');
-        $this->item       = $this->get('Item');
+        $this->state = $model->getState();
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -122,7 +126,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         $canDo = StageHelper::getActions($this->extension, 'stage', $this->item->id);
 

@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Site\Model\ArchiveModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -31,7 +32,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state = null;
 
@@ -115,12 +116,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var ArchiveModel $model */
+        $model      = $this->getModel();
+        $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
-        $state      = $this->get('State');
-        $items      = $this->get('Items');
-        $pagination = $this->get('Pagination');
+        $state      = $model->getState();
+        $items      = $model->getItems();
+        $pagination = $model->getPagination();
 
-        if ($errors = $this->getModel()->getErrors()) {
+        if ($errors = $model->getErrors()) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -196,8 +200,8 @@ class HtmlView extends BaseHtmlView
         $years       = [];
         $years[]     = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
-        for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++) {
-            $years[] = HTMLHelper::_('select.option', $this->years[$i], $this->years[$i]);
+        foreach ($this->years as $year) {
+            $years[] = HTMLHelper::_('select.option', $year, $year);
         }
 
         $form->yearField = HTMLHelper::_(
@@ -219,6 +223,8 @@ class HtmlView extends BaseHtmlView
         $this->pagination = &$pagination;
         $this->pagination->setAdditionalUrlParam('month', $state->get('filter.month'));
         $this->pagination->setAdditionalUrlParam('year', $state->get('filter.year'));
+        $this->pagination->setAdditionalUrlParam('filter-search', $state->get('list.filter'));
+        $this->pagination->setAdditionalUrlParam('catid', $app->getInput()->get->get('catid', [], 'array'));
 
         $this->_prepareDocument();
 

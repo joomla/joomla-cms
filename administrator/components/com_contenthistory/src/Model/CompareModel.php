@@ -176,7 +176,7 @@ class CompareModel extends ListModel
                 $typeAlias        = implode('.', $typeAlias);
                 $contentTypeTable->load(['type_alias' => $typeAlias]);
                 $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-                $result        = in_array((int) $id, $typeEditables);
+                $result        = \in_array((int) $id, $typeEditables);
             }
         }
 

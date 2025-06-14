@@ -12,7 +12,7 @@ namespace Joomla\CMS\Toolbar\Button;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,10 +47,10 @@ class StandardButton extends BasicButton
         if (empty($options['is_child'])) {
             $class = $this->fetchButtonClass($this->getName());
 
-            $options['btnClass'] = $options['button_class'] = ($options['button_class'] ?? $class);
+            $options['btnClass'] = ($options['button_class'] ??= $class);
         }
 
-        $options['onclick'] = $options['onclick'] ?? $this->_getCommand();
+        $options['onclick'] ??= $this->_getCommand();
     }
 
     /**

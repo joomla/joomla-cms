@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Event\Result;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -64,7 +64,7 @@ trait ResultTypeNumericAware
         }
 
         if (!is_numeric($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts Numeric results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Numeric results.', $this->getName()));
         }
     }
 }

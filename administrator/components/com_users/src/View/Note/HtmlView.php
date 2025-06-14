@@ -16,9 +16,9 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Users\Administrator\Model\NoteModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  2.5
      */
     protected $state;
@@ -68,13 +68,16 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var NoteModel $model */
+        $model = $this->getModel();
+
         // Initialise view variables.
-        $this->state = $this->get('State');
-        $this->item  = $this->get('Item');
-        $this->form  = $this->get('Form');
+        $this->state = $model->getState();
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -97,8 +100,8 @@ class HtmlView extends BaseHtmlView
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
-        $toolbar    = Toolbar::getInstance();
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_users', 'category', $this->item->catid);
@@ -106,7 +109,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_USERS_NOTES'), 'users user');
 
         // If not checked out, can save the item.
-        if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create')))) {
+        if (!$checkedOut && ($canDo->get('core.edit') || \count($user->getAuthorisedCategories('com_users', 'core.create')))) {
             $toolbar->apply('note.apply');
         }
 
@@ -115,16 +118,16 @@ class HtmlView extends BaseHtmlView
         $saveGroup->configure(
             function (Toolbar $childBar) use ($checkedOut, $canDo, $user, $isNew) {
                 // If not checked out, can save the item.
-                if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create')))) {
+                if (!$checkedOut && ($canDo->get('core.edit') || \count($user->getAuthorisedCategories('com_users', 'core.create')))) {
                     $childBar->save('note.save');
                 }
 
-                if (!$checkedOut && count($user->getAuthorisedCategories('com_users', 'core.create'))) {
+                if (!$checkedOut && \count($user->getAuthorisedCategories('com_users', 'core.create'))) {
                     $childBar->save2new('note.save2new');
                 }
 
                 // If an existing item, can save to a copy.
-                if (!$isNew && (count($user->getAuthorisedCategories('com_users', 'core.create')) > 0)) {
+                if (!$isNew && (\count($user->getAuthorisedCategories('com_users', 'core.create')) > 0)) {
                     $childBar->save2copy('note.save2copy');
                 }
             }

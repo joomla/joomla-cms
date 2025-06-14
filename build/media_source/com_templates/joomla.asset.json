@@ -6,64 +6,14 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_templates.admin-template-compare.es5",
-      "type": "script",
-      "uri": "com_templates/admin-template-compare-es5.min.js",
-      "dependencies": [
-        "core",
-        "diff"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
-      "name": "com_templates.admin-template-compare",
-      "type": "script",
-      "uri": "com_templates/admin-template-compare.min.js",
-      "dependencies": [
-        "com_templates.admin-template-compare.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "deprecated": true,
-      "deprecatedMsg": "To be removed in Joomla 5.0"
-    },
-    {
-      "name": "com_templates.admin-template-toggle-assignment.es5",
-      "type": "script",
-      "uri": "com_templates/admin-template-toggle-assignment-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_templates.admin-template-toggle-assignment",
       "type": "script",
       "uri": "com_templates/admin-template-toggle-assignment.min.js",
       "dependencies": [
-        "com_templates.admin-template-toggle-assignment.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_templates.admin-template-toggle-switch.es5",
-      "type": "script",
-      "uri": "com_templates/admin-template-toggle-switch-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -71,7 +21,7 @@
       "type": "script",
       "uri": "com_templates/admin-template-toggle-switch.min.js",
       "dependencies": [
-        "com_templates.admin-template-toggle-switch.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -83,23 +33,11 @@
       "uri": "com_templates/admin-templates-default.min.css"
     },
     {
-      "name": "com_templates.admin-templates.es5",
-      "type": "script",
-      "uri": "com_templates/admin-templates-default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_templates.admin-templates",
       "type": "script",
       "uri": "com_templates/admin-templates-default.min.js",
       "dependencies": [
-        "com_templates.admin-templates.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

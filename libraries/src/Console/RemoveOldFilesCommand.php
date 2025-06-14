@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -60,7 +60,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 
         if ($output->isVeryVerbose() || $output->isDebug()) {
             foreach ($status['files_checked'] as $file) {
-                $exists = in_array($file, array_values($status['files_exist']));
+                $exists = \in_array($file, array_values($status['files_exist']));
 
                 if ($exists) {
                     $symfonyStyle->writeln('<error>File Checked & Exists</error> - ' . $file, OutputInterface::VERBOSITY_VERY_VERBOSE);
@@ -70,7 +70,7 @@ class RemoveOldFilesCommand extends AbstractCommand
             }
 
             foreach ($status['folders_checked'] as $folder) {
-                $exists = in_array($folder, array_values($status['folders_exist']));
+                $exists = \in_array($folder, array_values($status['folders_exist']));
 
                 if ($exists) {
                     $symfonyStyle->writeln('<error>Folder Checked & Exists</error> - ' . $folder, OutputInterface::VERBOSITY_VERY_VERBOSE);
@@ -99,7 +99,7 @@ class RemoveOldFilesCommand extends AbstractCommand
         }
 
         $symfonyStyle->success(
-            sprintf(
+            \sprintf(
                 $dryRun ? '%s Files checked and %s would be deleted' : '%s Files checked and %s deleted',
                 \count($status['files_checked']),
                 ($dryRun ? \count($status['files_exist']) : \count($status['files_deleted']))
@@ -107,7 +107,7 @@ class RemoveOldFilesCommand extends AbstractCommand
         );
 
         $symfonyStyle->success(
-            sprintf(
+            \sprintf(
                 $dryRun ? '%s Folders checked and %s would be deleted' : '%s Folders checked and %s deleted',
                 \count($status['folders_checked']),
                 ($dryRun ? \count($status['folders_exist']) : \count($status['folders_deleted']))

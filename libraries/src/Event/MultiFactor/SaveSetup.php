@@ -17,7 +17,7 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -65,7 +65,7 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
     public function setRecord(MfaTable $value): MfaTable
     {
         if (empty($value)) {
-            throw new \DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+            throw new \DomainException(\sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
         }
 
         return $value;
@@ -85,7 +85,7 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
     public function setInput(Input $value): Input
     {
         if (empty($value)) {
-            throw new \DomainException(sprintf('Argument \'input\' of event %s must be an Input object.', $this->name));
+            throw new \DomainException(\sprintf('Argument \'input\' of event %s must be an Input object.', $this->name));
         }
 
         return $value;

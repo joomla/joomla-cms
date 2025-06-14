@@ -16,6 +16,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Newsfeeds\Site\View\Category\HtmlView $this */
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));

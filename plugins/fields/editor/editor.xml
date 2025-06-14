@@ -63,13 +63,13 @@
 					type="list"
 					label="PLG_FIELDS_EDITOR_PARAMS_FILTER_LABEL"
 					class="list"
-					default="JComponentHelper::filterText"
+					default="\Joomla\CMS\Component\ComponentHelper::filterText"
 					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
 					<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>
-					<option value="JComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
+					<option value="\Joomla\CMS\Component\ComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
 				</field>
 			</fieldset>
 		</fields>

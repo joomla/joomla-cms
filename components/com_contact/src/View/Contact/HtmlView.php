@@ -18,7 +18,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
+use Joomla\Component\Contact\Site\Model\ContactModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,8 +32,10 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
  *
  * @since  1.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The item model state
      *
@@ -52,7 +57,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item object details
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    \stdClass
      *
      * @since  1.6
      */
@@ -132,11 +137,13 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var ContactModel $model */
+        $model      = $this->getModel();
         $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
-        $state      = $this->get('State');
-        $item       = $this->get('Item');
-        $this->form = $this->get('Form');
+        $state      = $model->getState();
+        $item       = $model->getItem();
+        $this->form = $model->getForm();
         $params     = $state->get('params');
         $contacts   = [];
 
@@ -189,14 +196,14 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if access is not public
         $groups = $user->getAuthorisedViewLevels();
 
-        if (!in_array($item->access, $groups) || !in_array($item->category_access, $groups)) {
+        if (!\in_array($item->access, $groups) || !\in_array($item->category_access, $groups)) {
             $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
             $app->setHeader('status', 403, true);
 
@@ -233,84 +240,70 @@ class HtmlView extends BaseHtmlView
         switch ($item->params->get('contact_icons')) {
             case 1:
                 // Text
-                $item->params->set('marker_address', Text::_('COM_CONTACT_ADDRESS') . ': ');
-                $item->params->set('marker_email', Text::_('JGLOBAL_EMAIL') . ': ');
-                $item->params->set('marker_telephone', Text::_('COM_CONTACT_TELEPHONE') . ': ');
-                $item->params->set('marker_fax', Text::_('COM_CONTACT_FAX') . ': ');
-                $item->params->set('marker_mobile', Text::_('COM_CONTACT_MOBILE') . ': ');
-                $item->params->set('marker_webpage', Text::_('COM_CONTACT_WEBPAGE') . ': ');
-                $item->params->set('marker_misc', Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
                 $item->params->set('marker_class', 'jicons-text');
                 break;
 
             case 2:
                 // None
-                $item->params->set('marker_address', '');
-                $item->params->set('marker_email', '');
-                $item->params->set('marker_telephone', '');
-                $item->params->set('marker_mobile', '');
-                $item->params->set('marker_fax', '');
-                $item->params->set('marker_misc', '');
-                $item->params->set('marker_webpage', '');
-                $item->params->set('marker_class', 'jicons-none');
+                $item->params->set('marker_class', 'jicons-none visually-hidden');
                 break;
 
             default:
                 if ($item->params->get('icon_address')) {
                     $item->params->set(
                         'marker_address',
-                        HTMLHelper::_('image', $item->params->get('icon_address', ''), Text::_('COM_CONTACT_ADDRESS'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_address', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_email')) {
                     $item->params->set(
                         'marker_email',
-                        HTMLHelper::_('image', $item->params->get('icon_email', ''), Text::_('COM_CONTACT_EMAIL'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_email', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_telephone')) {
                     $item->params->set(
                         'marker_telephone',
-                        HTMLHelper::_('image', $item->params->get('icon_telephone', ''), Text::_('COM_CONTACT_TELEPHONE'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_telephone', ''), '', false)
                     );
                 }
 
-                if ($item->params->get('icon_fax', '')) {
+                if ($item->params->get('icon_fax')) {
                     $item->params->set(
                         'marker_fax',
-                        HTMLHelper::_('image', $item->params->get('icon_fax', ''), Text::_('COM_CONTACT_FAX'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_fax', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_misc')) {
                     $item->params->set(
                         'marker_misc',
-                        HTMLHelper::_('image', $item->params->get('icon_misc', ''), Text::_('COM_CONTACT_OTHER_INFORMATION'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_misc', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_mobile')) {
                     $item->params->set(
                         'marker_mobile',
-                        HTMLHelper::_('image', $item->params->get('icon_mobile', ''), Text::_('COM_CONTACT_MOBILE'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_mobile', ''), '', false)
                     );
                 }
 
                 if ($item->params->get('icon_webpage')) {
                     $item->params->set(
                         'marker_webpage',
-                        HTMLHelper::_('image', $item->params->get('icon_webpage', ''), Text::_('COM_CONTACT_WEBPAGE'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_webpage', ''), '', false)
                     );
                 }
 
-                $item->params->set('marker_class', 'jicons-icons');
+                $item->params->set('marker_class', 'jicons-icons visually-hidden');
                 break;
         }
 
         // Add links to contacts
-        if ($item->params->get('show_contact_list') && count($contacts) > 1) {
+        if ($item->params->get('show_contact_list') && \count($contacts) > 1) {
             foreach ($contacts as &$contact) {
                 $contact->link = Route::_(RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language));
             }
@@ -348,7 +341,7 @@ class HtmlView extends BaseHtmlView
 
         $contactUser = null;
 
-        if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id)) {
+        if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = $this->getUserFactory()->loadUserById($item->user_id)) {
             $contactUser->text = '';
             $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
 
@@ -367,8 +360,10 @@ class HtmlView extends BaseHtmlView
         $this->contacts    = &$contacts;
         $this->contactUser = $contactUser;
 
-        $model = $this->getModel();
-        $model->hit();
+        if (\in_array($app->getInput()->getMethod(), ['GET', 'POST'])) {
+            $model = $this->getModel();
+            $model->hit();
+        }
 
         $captchaSet = $item->params->get('captcha', $app->get('captcha', '0'));
 
@@ -418,7 +413,7 @@ class HtmlView extends BaseHtmlView
             // Get ID of the category from active menu item
             if (
                 $menu && $menu->component == 'com_contact' && isset($menu->query['view'])
-                && in_array($menu->query['view'], ['categories', 'category'])
+                && \in_array($menu->query['view'], ['categories', 'category'])
             ) {
                 $id = $menu->query['id'];
             } else {

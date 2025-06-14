@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\WebAsset\WebAssetItem;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -27,17 +27,17 @@ class LangActiveAssetItem extends WebAssetItem
     /**
      * Class constructor
      *
-     * @param   string  $name          The asset name
-     * @param   string  $uri           The URI for the asset
-     * @param   array   $options       Additional options for the asset
-     * @param   array   $attributes    Attributes for the asset
-     * @param   array   $dependencies  Asset dependencies
+     * @param   string   $name          The asset name
+     * @param   ?string  $uri           The URI for the asset
+     * @param   array    $options       Additional options for the asset
+     * @param   array    $attributes    Attributes for the asset
+     * @param   array    $dependencies  Asset dependencies
      *
      * @since   4.0.0
      */
     public function __construct(
         string $name,
-        string $uri = null,
+        ?string $uri = null,
         array $options = [],
         array $attributes = [],
         array $dependencies = []

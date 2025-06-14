@@ -276,7 +276,7 @@
 				case "%b":
 				case "%B":
 					for (j = 0; j < 12; ++j) {
-						if (localStrings.months[j].substr(0, a[i].length).toLowerCase() === a[i].toLowerCase()) {
+						if (localStrings.months[j].substring(0, a[i].length).toLowerCase() === a[i].toLowerCase()) {
 							m = j;
 							break;
 						}
@@ -319,7 +319,7 @@
 			if (a[i].search(/[a-zA-Z]+/) != -1) {
 				var t = -1;
 				for (j = 0; j < 12; ++j) {
-					if (localStrings.months[j].substr(0, a[i].length).toLowerCase() === a[i].toLowerCase()) {
+					if (localStrings.months[j].substring(0, a[i].length).toLowerCase() === a[i].toLowerCase()) {
 						t = j;
 						break;
 					}
@@ -402,7 +402,7 @@
 		s["%w"] = w;                                                                                // the day of the week (range 0 to 6, 0 = SUN)
 		// FIXME: %x : preferred date representation for the current locale without the time
 		// FIXME: %X : preferred time representation for the current locale without the date
-		s["%y"] = ('' + y).substr(2, 2);                                                            // year without the century (range 00 to 99)
+		s["%y"] = ('' + y).substring(2);                                                            // year without the century (range 00 to 99)
 		s["%Y"] = y;                                                                                // year with the century
 		s["%%"] = "%";                                                                              // a literal '%' character
 

@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Contact\Administrator\Model\ContactModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -48,9 +49,18 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
+
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
     /**
      * Display the view.
@@ -61,13 +71,22 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        /** @var ContactModel $model */
+        $model = $this->getModel();
+
         // Initialise variables.
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
+
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
+        }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -84,7 +103,11 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
 
         parent::display($tpl);
     }
@@ -103,8 +126,8 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
-        $toolbar    = Toolbar::getInstance();
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
@@ -114,7 +137,7 @@ class HtmlView extends BaseHtmlView
         // Build the actions for new and existing records.
         if ($isNew) {
             // For new records, check the create permission.
-            if (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
+            if (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
                 $toolbar->apply('contact.apply');
 
                 $saveGroup = $toolbar->dropdownButton('save-group');
@@ -132,7 +155,7 @@ class HtmlView extends BaseHtmlView
                 );
             }
 
-            $toolbar->cancel('contact.cancel');
+            $toolbar->cancel('contact.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
@@ -183,5 +206,38 @@ class HtmlView extends BaseHtmlView
 
         $toolbar->divider();
         $toolbar->help('Contacts:_Edit');
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $user       = $this->getCurrentUser();
+        $userId     = $user->id;
+        $isNew      = ($this->item->id == 0);
+        $toolbar    = $this->getDocument()->getToolbar();
+
+        // Since we don't track these assets at the item level, use the category id.
+        $canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
+
+        ToolbarHelper::title($isNew ? Text::_('COM_CONTACT_MANAGER_CONTACT_NEW') : Text::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address-book contact');
+
+        $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0);
+        $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+
+        // For new records, check the create permission.
+        if ($canCreate || $canEdit) {
+            $toolbar->apply('contact.apply');
+            $toolbar->save('contact.save');
+        }
+
+        $toolbar->cancel('contact.cancel');
     }
 }

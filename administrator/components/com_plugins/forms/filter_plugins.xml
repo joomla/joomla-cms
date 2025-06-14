@@ -12,7 +12,7 @@
 
 		<field
 			name="enabled"
-			type="plugin_status"
+			type="pluginstatus"
 			label="JSTATUS"
 			class="js-select-submit-on-change"
 			>

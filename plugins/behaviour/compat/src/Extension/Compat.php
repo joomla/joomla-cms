@@ -10,7 +10,10 @@
 
 namespace Joomla\Plugin\Behaviour\Compat\Extension;
 
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -34,8 +37,76 @@ final class Compat extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         /**
-         * This plugin does not listen to any events.
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
          */
-        return [];
+        return [
+            'onAfterInitialiseDocument' => ['onAfterInitialiseDocument', Priority::HIGH],
+        ];
+    }
+
+    /**
+     * Constructor
+     *
+     * @param   DispatcherInterface  $dispatcher  The event dispatcher
+     * @param   array                $config      An optional associative array of configuration settings.
+     *                                            Recognized key values include 'name', 'group', 'params', 'language'
+     *                                            (this list is not meant to be comprehensive).
+     *
+     * @since   1.5
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config = [])
+    {
+        parent::__construct($dispatcher, $config);
+
+        /**
+         * Normally we should never use the constructor to execute any logic which would
+         * affect other parts of the cms, but since we need to load class aliases as
+         * early as possible we load the class aliases in the constructor so behaviour and system plugins
+         * which depend on the JPlugin alias for example still are working
+         */
+
+        /**
+         * Load class names which are deprecated in joomla 4.0 and which will
+         * likely be removed in Joomla 6.0
+         */
+        if ($this->params->get('classes_aliases', '1')) {
+            require_once \dirname(__DIR__) . '/classmap/classmap.php';
+        }
+    }
+
+    /**
+     * We run as early as possible, this should be the first event
+     *
+     * @param  AfterInitialiseDocumentEvent $event
+     * @return void
+     *
+     * @since  5.0.0
+     */
+    public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event)
+    {
+        /**
+         * Load the es5 assets stubs, they are needed if an extension
+         * directly uses a core es5 asset which has no function in Joomla 5+
+         * and only provides an empty asset to not throw an exception
+         */
+        if ($this->params->get('es5_assets', '1')) {
+            $event->getDocument()
+                ->getWebAssetManager()
+                ->getRegistry()
+                ->addRegistryFile('media/plg_behaviour_compat/es5.asset.json');
+        }
+        /**
+         * Load the removed assets stubs, they are needed if an extension
+         * directly uses a core asset from Joomla 4 which is not present in Joomla 5+
+         * and only provides an empty asset to not throw an exception
+         */
+        if ($this->params->get('removed_asset', '1')) {
+            $event->getDocument()
+                ->getWebAssetManager()
+                ->getRegistry()
+                ->addRegistryFile('media/plg_behaviour_compat/removed.asset.json');
+        }
     }
 }

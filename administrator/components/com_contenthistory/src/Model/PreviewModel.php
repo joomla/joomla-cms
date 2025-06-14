@@ -141,7 +141,7 @@ class PreviewModel extends ItemModel
                 $id               = array_pop($typeAlias);
                 $typeAlias        = implode('.', $typeAlias);
                 $typeEditables    = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-                $result           = in_array((int) $id, $typeEditables);
+                $result           = \in_array((int) $id, $typeEditables);
             }
         }
 

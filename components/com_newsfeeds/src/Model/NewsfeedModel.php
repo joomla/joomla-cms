@@ -179,14 +179,14 @@ class NewsfeedModel extends ItemModel
 
                 // Compute access permissions.
 
-                if ($access = $this->getState('filter.access')) {
+                if ($this->getState('filter.access')) {
                     // If the access filter has been set, we already know this user can view.
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
                     $user   = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
-                    $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+                    $data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
                 }
 
                 $this->_item[$pk] = $data;

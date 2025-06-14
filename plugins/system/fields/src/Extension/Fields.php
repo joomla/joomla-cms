@@ -10,11 +10,14 @@
 
 namespace Joomla\Plugin\System\Fields\Extension;
 
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Event\Content;
+use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\User;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,31 +29,48 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7
  */
-final class Fields extends CMSPlugin
+final class Fields extends CMSPlugin implements SubscriberInterface
 {
     use UserFactoryAwareTrait;
 
     /**
-     * Load the language file on instantiation.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    boolean
-     * @since  3.7.0
+     * @return array
+     *
+     * @since   5.3.0
      */
-    protected $autoloadLanguage = true;
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentNormaliseRequestData' => 'onContentNormaliseRequestData',
+            'onContentPrepare'              => 'onContentPrepare',
+            'onContentPrepareForm'          => 'onContentPrepareForm',
+            'onContentAfterSave'            => 'onContentAfterSave',
+            'onContentAfterDelete'          => 'onContentAfterDelete',
+            'onUserAfterSave'               => 'onUserAfterSave',
+            'onUserAfterDelete'             => 'onUserAfterDelete',
+            'onContentAfterTitle'           => 'onContentAfterTitle',
+            'onContentBeforeDisplay'        => 'onContentBeforeDisplay',
+            'onContentAfterDisplay'         => 'onContentAfterDisplay',
+        ];
+    }
 
     /**
      * Normalizes the request data.
      *
-     * @param   string  $context  The context
-     * @param   object  $data     The object
-     * @param   Form    $form     The form
+     * @param   Model\NormaliseRequestDataEvent  $event  The event object
      *
      * @return  void
      *
      * @since   3.8.7
      */
-    public function onContentNormaliseRequestData($context, $data, Form $form)
+    public function onContentNormaliseRequestData(Model\NormaliseRequestDataEvent $event)
     {
+        $context = $event->getContext();
+        $data    = $event->getData();
+        $form    = $event->getForm();
+
         if (!FieldsHelper::extract($context, $data)) {
             return;
         }
@@ -85,19 +105,20 @@ final class Fields extends CMSPlugin
     /**
      * The save event.
      *
-     * @param   string                   $context  The context
-     * @param   \Joomla\CMS\Table\Table  $item     The table
-     * @param   boolean                  $isNew    Is new item
-     * @param   array                    $data     The validated data
+     * @param   Model\AfterSaveEvent  $event  The event object
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    public function onContentAfterSave($context, $item, $isNew, $data = []): void
+    public function onContentAfterSave(Model\AfterSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $item    = $event->getItem();
+        $data    = $event->getData();
+
         // Check if data is an array and the item has an id
-        if (!is_array($data) || empty($item->id) || empty($data['com_fields'])) {
+        if (!\is_array($data) || empty($item->id) || empty($data['com_fields'])) {
             return;
         }
 
@@ -135,7 +156,7 @@ final class Fields extends CMSPlugin
         // Loop over the fields
         foreach ($fields as $field) {
             // Determine the value if it is (un)available from the data
-            if (array_key_exists($field->name, $data['com_fields'])) {
+            if (\array_key_exists($field->name, $data['com_fields'])) {
                 $value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
             } else {
                 // Field not available on form, use stored value
@@ -143,12 +164,12 @@ final class Fields extends CMSPlugin
             }
 
             // If no value set (empty) remove value from database
-            if (is_array($value) ? !count($value) : !strlen($value)) {
+            if (\is_array($value) ? !\count($value) : !\strlen($value)) {
                 $value = null;
             }
 
             // JSON encode value for complex fields
-            if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric')))) {
+            if (\is_array($value) && (\count($value, COUNT_NORMAL) !== \count($value, COUNT_RECURSIVE) || !\count(array_filter(array_keys($value), 'is_numeric')))) {
                 $value = json_encode($value);
             }
 
@@ -160,17 +181,17 @@ final class Fields extends CMSPlugin
     /**
      * The save event.
      *
-     * @param   array    $userData  The date
-     * @param   boolean  $isNew     Is new
-     * @param   boolean  $success   Is success
-     * @param   string   $msg       The message
+     * @param   User\AfterSaveEvent  $event  The event object
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    public function onUserAfterSave($userData, $isNew, $success, $msg): void
+    public function onUserAfterSave(User\AfterSaveEvent $event): void
     {
+        $userData = $event->getUser();
+        $success  = $event->getSavingResult();
+
         // It is not possible to manipulate the user during save events
         // Check if data is valid or we are in a recursion
         if (!$userData['id'] || !$success) {
@@ -182,26 +203,34 @@ final class Fields extends CMSPlugin
         $task = $this->getApplication()->getInput()->getCmd('task');
 
         // Skip fields save when we activate a user, because we will lose the saved data
-        if (in_array($task, ['activate', 'block', 'unblock'])) {
+        if (\in_array($task, ['activate', 'block', 'unblock'])) {
             return;
         }
 
         // Trigger the events with a real user
-        $this->onContentAfterSave('com_users.user', $user, false, $userData);
+        $contentEvent = new Model\AfterSaveEvent('onContentAfterSave', [
+            'context' => 'com_users.user',
+            'subject' => $user,
+            'isNew'   => false,
+            'data'    => $userData,
+        ]);
+        $this->onContentAfterSave($contentEvent);
     }
 
     /**
      * The delete event.
      *
-     * @param   string    $context  The context
-     * @param   \stdClass  $item     The item
+     * @param   Model\AfterDeleteEvent  $event  The event object
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    public function onContentAfterDelete($context, $item): void
+    public function onContentAfterDelete(Model\AfterDeleteEvent $event): void
     {
+        $context = $event->getContext();
+        $item    = $event->getItem();
+
         // Set correct context for category
         if ($context === 'com_categories.category') {
             $context = $item->extension . '.categories';
@@ -224,47 +253,51 @@ final class Fields extends CMSPlugin
     /**
      * The user delete event.
      *
-     * @param   \stdClass  $user    The context
-     * @param   boolean   $success Is success
-     * @param   string    $msg     The message
+     * @param   User\AfterDeleteEvent  $event  The event object
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    public function onUserAfterDelete($user, $success, $msg): void
+    public function onUserAfterDelete(User\AfterDeleteEvent $event): void
     {
+        $user     = $event->getUser();
         $item     = new \stdClass();
         $item->id = $user['id'];
 
-        $this->onContentAfterDelete('com_users.user', $item);
+        $contentEvent = new Model\AfterDeleteEvent('onContentAfterDelete', [
+            'context' => 'com_users.user',
+            'subject' => $item,
+        ]);
+        $this->onContentAfterDelete($contentEvent);
     }
 
     /**
      * The form event.
      *
-     * @param   Form      $form  The form
-     * @param   \stdClass  $data  The data
+     * @param   Model\PrepareFormEvent  $event  The event object
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.7.0
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event)
     {
+        $form    = $event->getForm();
+        $data    = $event->getData();
         $context = $form->getName();
 
         // When a category is edited, the context is com_categories.categorycom_content
-        if (strpos($context, 'com_categories.category') === 0) {
+        if (str_starts_with($context, 'com_categories.category')) {
             $context = str_replace('com_categories.category', '', $context) . '.categories';
             $data    = $data ?: $this->getApplication()->getInput()->get('jform', [], 'array');
 
             // Set the catid on the category to get only the fields which belong to this category
-            if (is_array($data) && array_key_exists('id', $data)) {
+            if (\is_array($data) && \array_key_exists('id', $data)) {
                 $data['catid'] = $data['id'];
             }
 
-            if (is_object($data) && isset($data->id)) {
+            if (\is_object($data) && isset($data->id)) {
                 $data->catid = $data->id;
             }
         }
@@ -272,7 +305,7 @@ final class Fields extends CMSPlugin
         $parts = FieldsHelper::extract($context, $form);
 
         if (!$parts) {
-            return true;
+            return;
         }
 
         $input = $this->getApplication()->getInput();
@@ -284,64 +317,53 @@ final class Fields extends CMSPlugin
             $data = $jformData;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
         FieldsHelper::prepareForm($parts[0] . '.' . $parts[1], $form, $data);
-
-        return true;
     }
 
     /**
      * The display event.
      *
-     * @param   string    $context     The context
-     * @param   \stdClass  $item        The item
-     * @param   Registry  $params      The params
-     * @param   integer   $limitstart  The start
+     * @param   Content\AfterTitleEvent  $event  The event object
      *
-     * @return  string
+     * @return  void
      *
      * @since   3.7.0
      */
-    public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
+    public function onContentAfterTitle(Content\AfterTitleEvent $event)
     {
-        return $this->display($context, $item, $params, 1);
+        $event->addResult($this->display($event->getContext(), $event->getItem(), $event->getParams(), 1));
     }
 
     /**
      * The display event.
      *
-     * @param   string    $context     The context
-     * @param   \stdClass  $item        The item
-     * @param   Registry  $params      The params
-     * @param   integer   $limitstart  The start
+     * @param   Content\BeforeDisplayEvent  $event  The event object
      *
-     * @return  string
+     * @return  void
      *
      * @since   3.7.0
      */
-    public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
+    public function onContentBeforeDisplay(Content\BeforeDisplayEvent $event)
     {
-        return $this->display($context, $item, $params, 2);
+        $event->addResult($this->display($event->getContext(), $event->getItem(), $event->getParams(), 2));
     }
 
     /**
      * The display event.
      *
-     * @param   string    $context     The context
-     * @param   \stdClass  $item        The item
-     * @param   Registry  $params      The params
-     * @param   integer   $limitstart  The start
+     * @param   Content\AfterDisplayEvent  $event  The event object
      *
-     * @return  string
+     * @return  void
      *
      * @since   3.7.0
      */
-    public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
+    public function onContentAfterDisplay(Content\AfterDisplayEvent $event)
     {
-        return $this->display($context, $item, $params, 3);
+        $event->addResult($this->display($event->getContext(), $event->getItem(), $event->getParams(), 3));
     }
 
     /**
@@ -379,7 +401,7 @@ final class Fields extends CMSPlugin
             $item = $this->prepareTagItem($item);
         }
 
-        if (is_string($params) || !$params) {
+        if (\is_string($params) || !$params) {
             $params = new Registry($params);
         }
 
@@ -429,15 +451,17 @@ final class Fields extends CMSPlugin
     /**
      * Performs the display event.
      *
-     * @param   string    $context  The context
-     * @param   \stdClass  $item     The item
+     * @param   Content\ContentPrepareEvent  $event  The event object
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    public function onContentPrepare($context, $item)
+    public function onContentPrepare(Content\ContentPrepareEvent $event)
     {
+        $context = $event->getContext();
+        $item    = $event->getItem();
+
         // Check property exists (avoid costly & useless recreation), if need to recreate them, just unset the property!
         if (isset($item->jcfields)) {
             return;

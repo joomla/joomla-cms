@@ -12,20 +12,21 @@ namespace Joomla\CMS\Console;
 use Joomla\Application\Cli\CliInput;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -128,9 +129,7 @@ class UpdateCoreCommand extends AbstractCommand
      */
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
-        ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message%');
-        $this->progressBar = new ProgressBar($output, 8);
-        $this->progressBar->setFormat('custom');
+        $this->progressBar = new ProgressBar($output, 9);
 
         $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
@@ -157,7 +156,7 @@ class UpdateCoreCommand extends AbstractCommand
         $this->configureIO($input, $output);
         $this->ioStyle->title('Updating Joomla');
 
-        $this->progressBar->setMessage("Starting up ...");
+        $this->ioStyle->writeln("Starting up ...");
         $this->progressBar->start();
 
         $model = $this->getUpdateModel();
@@ -175,8 +174,11 @@ class UpdateCoreCommand extends AbstractCommand
 
         $this->setUpdateInfo($model->getUpdateInformation());
 
+        $this->progressBar->clear();
+        $this->ioStyle->writeln('Running checks ...');
+        $this->progressBar->display();
         $this->progressBar->advance();
-        $this->progressBar->setMessage('Running checks ...');
+
 
         if (!$this->updateInfo['hasUpdate']) {
             $this->progressBar->finish();
@@ -185,8 +187,11 @@ class UpdateCoreCommand extends AbstractCommand
             return self::ERR_CHECKS_FAILED;
         }
 
+        $this->progressBar->clear();
+        $this->ioStyle->writeln('Check Database Table Structure...');
+        $this->progressBar->display();
         $this->progressBar->advance();
-        $this->progressBar->setMessage('Check Database Table Structure...');
+
 
         $errors = $this->checkSchema();
 
@@ -198,8 +203,10 @@ class UpdateCoreCommand extends AbstractCommand
             return self::ERR_CHECKS_FAILED;
         }
 
+        $this->progressBar->clear();
+        $this->ioStyle->writeln('Starting Joomla! update ...');
+        $this->progressBar->display();
         $this->progressBar->advance();
-        $this->progressBar->setMessage('Starting Joomla! update ...');
 
         if ($this->updateJoomlaCore($model)) {
             $this->progressBar->finish();
@@ -251,28 +258,61 @@ class UpdateCoreCommand extends AbstractCommand
         $updateInformation = $this->updateInfo;
 
         if (!empty($updateInformation['hasUpdate'])) {
+            $this->progressBar->clear();
+            $this->ioStyle->writeln("Processing update package ...");
+            $this->progressBar->display();
             $this->progressBar->advance();
-            $this->progressBar->setMessage("Processing update package ...");
+
             $package = $this->processUpdatePackage($updateInformation);
 
+            $this->progressBar->clear();
+            $this->ioStyle->writeln("Finalizing update ...");
+            $this->progressBar->display();
             $this->progressBar->advance();
-            $this->progressBar->setMessage("Finalizing update ...");
+
             $result = $updatemodel->finaliseUpgrade();
 
             if ($result) {
+                $updateSourceChanged = $updatemodel->resetUpdateSource();
+
+                if ($updateSourceChanged) {
+                    $message = Text::sprintf(
+                        'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK',
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                    );
+                    $this->ioStyle->info($message);
+                } elseif ($updateSourceChanged !== null) {
+                    $message = Text::sprintf(
+                        'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                    );
+                    $this->ioStyle->warning($message);
+                }
+
+                $this->progressBar->clear();
+                $this->ioStyle->writeln("Cleaning up ...");
+                $this->progressBar->display();
                 $this->progressBar->advance();
-                $this->progressBar->setMessage("Cleaning up ...");
 
                 // Remove the administrator/cache/autoload_psr4.php file
                 $autoloadFile = JPATH_CACHE . '/autoload_psr4.php';
 
-                if (file_exists($autoloadFile)) {
-                    File::delete($autoloadFile);
-                }
+                try {
+                    if (file_exists($autoloadFile)) {
+                        File::delete($autoloadFile);
+                    }
 
-                // Remove the xml
-                if (file_exists(JPATH_BASE . '/joomla.xml')) {
-                    File::delete(JPATH_BASE . '/joomla.xml');
+                    // Remove the xml
+                    if (file_exists(JPATH_BASE . '/joomla.xml')) {
+                        File::delete(JPATH_BASE . '/joomla.xml');
+                    }
+                } catch (FilesystemException $exception) {
+                    $this->progressBar->clear();
+                    $this->ioStyle->error($exception->getMessage());
+                    $this->progressBar->display();
+                    $this->progressBar->advance();
                 }
 
                 InstallerHelper::cleanupInstall($package['file'], $package['extractdir']);
@@ -330,7 +370,7 @@ class UpdateCoreCommand extends AbstractCommand
         $app         = $this->getApplication();
         $updatemodel = $app->bootComponent('com_joomlaupdate')->getMVCFactory($app)->createModel('Update', 'Administrator');
 
-        if (is_bool($updatemodel)) {
+        if (\is_bool($updatemodel)) {
             $this->updateModel = $updatemodel;
 
             return;
@@ -357,19 +397,28 @@ class UpdateCoreCommand extends AbstractCommand
             return false;
         }
 
+        $this->progressBar->clear();
+        $this->ioStyle->writeln("Downloading update package ...");
+        $this->progressBar->display();
         $this->progressBar->advance();
-        $this->progressBar->setMessage("Downloading update package ...");
+
         $file = $this->downloadFile($updateInformation['object']->downloadurl->_data);
 
         $tmpPath       = $this->getApplication()->get('tmp_path');
         $updatePackage = $tmpPath . '/' . $file;
 
+        $this->progressBar->clear();
+        $this->ioStyle->writeln("Extracting update package ...");
+        $this->progressBar->display();
         $this->progressBar->advance();
-        $this->progressBar->setMessage("Extracting update package ...");
+
         $package = $this->extractFile($updatePackage);
 
+        $this->progressBar->clear();
+        $this->ioStyle->writeln("Copying files ...");
+        $this->progressBar->display();
         $this->progressBar->advance();
-        $this->progressBar->setMessage("Copying files ...");
+
         $this->copyFileTo($package['extractdir'], JPATH_BASE);
 
         return ['file' => $updatePackage, 'extractdir' => $package['extractdir']];

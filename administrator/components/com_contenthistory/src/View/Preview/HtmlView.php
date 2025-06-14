@@ -13,6 +13,7 @@ namespace Joomla\Component\Contenthistory\Administrator\View\Preview;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Contenthistory\Administrator\Model\PreviewModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -35,7 +36,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -50,8 +51,11 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->item  = $this->get('Item');
+        /** @var PreviewModel $model */
+        $model = $this->getModel();
+
+        $this->state = $model->getState();
+        $this->item  = $model->getItem();
 
         if (false === $this->item) {
             $this->getLanguage()->load('com_content', JPATH_SITE, null, true);
@@ -60,7 +64,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -23,10 +23,6 @@ $wa  = $this->getWebAssetManager();
 
 // Styles
 $wa->registerAndUseStyle('template.system.offline', 'media/system/css/system-site-offline.css');
-
-if ($this->direction === 'rtl') {
-    $wa->registerAndUseStyle('template.system.offline_rtl', 'media/system/css/system-site-offline_rtl.css');
-}
 
 $wa->registerAndUseStyle('template.system.general', 'media/system/css/system-site-general.css');
 

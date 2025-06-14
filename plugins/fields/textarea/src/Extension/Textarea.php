@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Fields\Textarea\Extension;
 
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,6 +22,6 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
  *
  * @since  3.7.0
  */
-final class Textarea extends FieldsPlugin
+final class Textarea extends FieldsPlugin implements SubscriberInterface
 {
 }

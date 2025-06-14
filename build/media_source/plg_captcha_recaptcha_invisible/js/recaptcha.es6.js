@@ -8,10 +8,9 @@
   'use strict';
 
   window.JoomlainitReCaptchaInvisible = () => {
-    const elements = [].slice.call(document.getElementsByClassName('g-recaptcha'));
     const optionKeys = ['sitekey', 'badge', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
 
-    elements.forEach((element) => {
+    document.querySelectorAll('.g-recaptcha').forEach((element) => {
       let options = {};
 
       if (element.dataset) {

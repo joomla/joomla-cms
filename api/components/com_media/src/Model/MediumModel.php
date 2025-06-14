@@ -69,7 +69,7 @@ class MediumModel extends BaseModel
 
         try {
             return $this->mediaApiModel->getFile($adapterName, $path, $options);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             throw new ResourceNotFound(
                 Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
                 404
@@ -121,7 +121,7 @@ class MediumModel extends BaseModel
                     $this->mediaApiModel->move($adapterName, $oldPath, $path, $override),
                     '/'
                 );
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND',
@@ -138,7 +138,7 @@ class MediumModel extends BaseModel
             // com_media expects separate directory and file name.
             // If we moved the file before, we must use the new path.
             $basename = basename($resultPath ?: $path);
-            $dirname  = dirname($resultPath ?: $path);
+            $dirname  = \dirname($resultPath ?: $path);
 
             try {
                 // If there is content, com_media's assumes the new item is a file.
@@ -159,7 +159,7 @@ class MediumModel extends BaseModel
                     );
 
                 $resultPath = $dirname . '/' . $name;
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND',
@@ -167,7 +167,7 @@ class MediumModel extends BaseModel
                     ),
                     404
                 );
-            } catch (FileExistsException $e) {
+            } catch (FileExistsException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_FILE_EXISTS',
@@ -175,7 +175,7 @@ class MediumModel extends BaseModel
                     ),
                     400
                 );
-            } catch (InvalidPathException $e) {
+            } catch (InvalidPathException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE',
@@ -192,7 +192,7 @@ class MediumModel extends BaseModel
             // com_media expects separate directory and file name.
             // If we moved the file before, we must use the new path.
             $basename = basename($resultPath ?: $oldPath);
-            $dirname  = dirname($resultPath ?: $oldPath);
+            $dirname  = \dirname($resultPath ?: $oldPath);
 
             try {
                 $this->mediaApiModel->updateFile(
@@ -201,7 +201,7 @@ class MediumModel extends BaseModel
                     $dirname,
                     $content
                 );
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND',
@@ -209,7 +209,7 @@ class MediumModel extends BaseModel
                     ),
                     404
                 );
-            } catch (InvalidPathException $e) {
+            } catch (InvalidPathException) {
                 throw new Save(
                     Text::sprintf(
                         'WEBSERVICE_COM_MEDIA_BAD_FILE_TYPE',
@@ -232,7 +232,8 @@ class MediumModel extends BaseModel
             );
         }
 
-        return $resultPath;
+        // Return resulting path with the requested adapter in it
+        return $adapterName . ':/' . $resultPath;
     }
 
     /**
@@ -249,7 +250,7 @@ class MediumModel extends BaseModel
 
         try {
             $this->mediaApiModel->delete($adapterName, $path);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             throw new Save(
                 Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
                 404

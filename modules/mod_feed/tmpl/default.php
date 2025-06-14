@@ -10,9 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filter\OutputFilter;
 
 // Check if feed URL has been set
 if (empty($rssurl)) {

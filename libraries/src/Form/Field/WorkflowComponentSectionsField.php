@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -48,7 +48,7 @@ class WorkflowComponentSectionsField extends ComponentsField
         $options[] = HTMLHelper::_('select.option', ' ', Text::_('JNONE'));
 
         foreach ($items as $item) {
-            if (substr($item->value, 0, 4) !== 'com_') {
+            if (!str_starts_with($item->value, 'com_')) {
                 continue;
             }
 

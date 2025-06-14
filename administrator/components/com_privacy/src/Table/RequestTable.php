@@ -13,6 +13,7 @@ namespace Joomla\Component\Privacy\Administrator\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -44,13 +45,14 @@ class RequestTable extends Table
     /**
      * The class constructor.
      *
-     * @param   DatabaseDriver  $db  DatabaseDriver connector object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.9.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__privacy_requests', 'id', $db);
+        parent::__construct('#__privacy_requests', 'id', $db, $dispatcher);
     }
 
     /**

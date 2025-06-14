@@ -12,9 +12,11 @@ namespace Joomla\Component\Contact\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,11 +33,12 @@ class ContactsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -65,7 +68,7 @@ class ContactsModel extends ListModel
             }
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -135,7 +138,7 @@ class ContactsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -155,7 +158,7 @@ class ContactsModel extends ListModel
                         'list.select',
                         'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
                         ', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
-                        ', a.publish_up, a.publish_down'
+                        ', a.publish_up, a.publish_down, a.modified_by'
                     )
                 )
             )
@@ -222,7 +225,7 @@ class ContactsModel extends ListModel
         // Filter by featured.
         $featured = (string) $this->getState('filter.featured');
 
-        if (in_array($featured, ['0','1'])) {
+        if (\in_array($featured, ['0','1'])) {
             $query->where($db->quoteName('a.featured') . ' = ' . (int) $featured);
         }
 
@@ -316,14 +319,14 @@ class ContactsModel extends ListModel
         $categoryId = $this->getState('filter.category_id', []);
         $level      = $this->getState('filter.level');
 
-        if (!is_array($categoryId)) {
+        if (!\is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
-        if (count($categoryId)) {
+        if (\count($categoryId)) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = Table::getInstance('Category', 'JTable');
+            $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $subCatItemsWhere = [];
 
             // @todo: Convert to prepared statement

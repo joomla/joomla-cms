@@ -23,9 +23,9 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
         <?php $url = '<a href="' . Route::_(
             RouteHelper::getCategoryRoute($displayData['item']->parent_id, $displayData['item']->parent_language)
         )
-            . '" itemprop="genre">' . $title . '</a>'; ?>
+            . '">' . $title . '</a>'; ?>
         <?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
     <?php else : ?>
-        <?php echo Text::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
+        <?php echo Text::sprintf('COM_CONTENT_PARENT', '<span>' . $title . '</span>'); ?>
     <?php endif; ?>
 </dd>

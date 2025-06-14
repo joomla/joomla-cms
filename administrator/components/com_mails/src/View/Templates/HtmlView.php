@@ -11,15 +11,15 @@
 namespace Joomla\Component\Mails\Administrator\View\Templates;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
+use Joomla\Component\Mails\Administrator\Model\TemplatesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -92,16 +92,19 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->items         = $this->get('Items');
-        $this->languages     = $this->get('Languages');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
-        $extensions          = $this->get('Extensions');
+        /** @var TemplatesModel $model */
+        $model = $this->getModel();
+
+        $this->items         = $model->getItems();
+        $this->languages     = $model->getLanguages();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $extensions          = $model->getExtensions();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -115,8 +118,10 @@ class HtmlView extends BaseHtmlView
             }
         }
 
+        $currentLanguageTag = Factory::getApplication()->getLanguage()->getTag();
+
         foreach ($extensions as $extension) {
-            MailsHelper::loadTranslationFiles($extension);
+            MailsHelper::loadTranslationFiles($extension, $currentLanguageTag);
         }
 
         $this->addToolbar();
@@ -134,7 +139,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
         $user    = $this->getCurrentUser();
 
         ToolbarHelper::title(Text::_('COM_MAILS_MAILS_TITLE'), 'envelope');

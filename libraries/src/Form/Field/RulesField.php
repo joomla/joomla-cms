@@ -16,7 +16,7 @@ use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -294,7 +294,7 @@ class RulesField extends FormField
         $this->groups = $this->getUserGroups();
 
         // Trim the trailing line in the layout file
-        return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
+        return trim($this->getRenderer($this->layout)->render($this->collectLayoutData()));
     }
 
     /**

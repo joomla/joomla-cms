@@ -70,3 +70,24 @@ span[lang] {
     content: attr(lang);
   }
 }
+
+.float-start {
+  float: left;
+}
+
+.float-end {
+  float: right;
+}
+
+.float-none {
+  float: none;
+}
+
+.mx-auto {
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.d-block {
+  display: block !important;
+}

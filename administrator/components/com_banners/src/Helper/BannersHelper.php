@@ -38,10 +38,10 @@ class BannersHelper extends ContentHelper
      */
     public static function updateReset()
     {
-        $db   = Factory::getDbo();
-        $date = Factory::getDate();
-        $app  = Factory::getApplication();
-        $user = $app->getIdentity();
+        $db      = Factory::getDbo();
+        $nowDate = Factory::getDate()->toSql();
+        $app     = Factory::getApplication();
+        $user    = $app->getIdentity();
 
         $query = $db->getQuery(true)
             ->select('*')
@@ -52,7 +52,7 @@ class BannersHelper extends ContentHelper
                     $db->quoteName('reset') . ' IS NOT NULL',
                 ]
             )
-            ->bind(':date', $date)
+            ->bind(':date', $nowDate)
             ->extendWhere(
                 'AND',
                 [

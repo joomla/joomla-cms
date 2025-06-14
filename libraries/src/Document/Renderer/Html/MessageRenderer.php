@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -82,7 +82,7 @@ class MessageRenderer extends DocumentRenderer
         // Build the sorted message list
         if (\is_array($messages) && !empty($messages)) {
             foreach ($messages as $msg) {
-                if (isset($msg['type']) && isset($msg['message'])) {
+                if (isset($msg['type'], $msg['message'])) {
                     $lists[$msg['type']][] = $msg['message'];
                 }
             }

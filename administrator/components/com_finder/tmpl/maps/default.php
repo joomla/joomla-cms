@@ -18,6 +18,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
+/** @var \Joomla\Component\Finder\Administrator\View\Maps\HtmlView $this */
+
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = Factory::getLanguage();
@@ -26,7 +28,7 @@ $branchFilter  = $this->escape($this->state->get('filter.branch'));
 Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_finder.maps')
     ->useScript('table.columns')
     ->useScript('multiselect');
@@ -81,7 +83,7 @@ $wa->useScript('com_finder.maps')
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $canChange = Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_finder'); ?>
+                        <?php $canChange = $this->getCurrentUser()->authorise('core.manage', 'com_finder'); ?>
                         <?php foreach ($this->items as $i => $item) : ?>
                         <tr class="row<?php echo $i % 2; ?>">
                             <td class="text-center">
@@ -112,7 +114,7 @@ $wa->useScript('com_finder.maps')
                                 <?php if ($item->rgt - $item->lft > 1) : ?>
                                 <a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>"
                                     aria-describedby="tip-map<?php echo $i; ?>">
-                                    <span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span>
+                                    <span class="btn btn-primary"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span>
                                 </a>
                                 <div role="tooltip" id="tip-map<?php echo $i; ?>">
                                     <?php echo Text::_('COM_FINDER_HEADING_CHILDREN'); ?>

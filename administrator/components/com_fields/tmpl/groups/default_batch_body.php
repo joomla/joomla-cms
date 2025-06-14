@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 ?>
 
@@ -29,4 +30,9 @@ use Joomla\CMS\Layout\LayoutHelper;
             </div>
         </div>
     </div>
+</div>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="group.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
 </div>

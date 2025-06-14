@@ -44,7 +44,6 @@ Joomla.toggleAllNextElements = (element, className) => {
       return;
     }
 
-    const transitions = [].slice.call(dropDownBtn.querySelectorAll('.button-transition'));
     const headline = dropDownBtn.querySelector('.button-transition-headline');
     const separator = dropDownBtn.querySelector('.button-transition-separator');
     const itemList = document.querySelector('table.itemList');
@@ -53,7 +52,7 @@ Joomla.toggleAllNextElements = (element, className) => {
     let transitionIds = [];
 
     if (itemList) {
-      itemListRows = [].slice.call(itemList.querySelectorAll('tbody tr'));
+      itemListRows = itemList.querySelectorAll('tbody tr');
     }
 
     function enableTransitions() {
@@ -94,7 +93,7 @@ Joomla.toggleAllNextElements = (element, className) => {
     // listen to click event to get selected rows
     if (itemList) {
       itemList.addEventListener('click', () => {
-        transitions.forEach((trans) => {
+        dropDownBtn.querySelectorAll('.button-transition').forEach((trans) => {
           trans.parentNode.classList.add('d-none');
         });
         if (headline) {

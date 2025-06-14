@@ -11,7 +11,7 @@
 	<description>MOD_WRAPPER_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Wrapper</namespace>
 	<files>
-		<filename module="mod_wrapper">mod_wrapper.php</filename>
+		<folder module="mod_wrapper">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -25,7 +25,10 @@
 			<fieldset name="basic">
 				<field
 					name="url"
-					type="text"
+					type="url"
+					validate="url"
+					filter="url"
+					relative="true"
 					label="MOD_WRAPPER_FIELD_URL_LABEL"
 					required="true"
 				/>

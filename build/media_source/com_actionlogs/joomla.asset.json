@@ -6,23 +6,11 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_actionlogs.admin-actionlogs.es5",
-      "type": "script",
-      "uri": "com_actionlogs/admin-actionlogs-default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_actionlogs.admin-actionlogs",
       "type": "script",
       "uri": "com_actionlogs/admin-actionlogs-default.min.js",
       "dependencies": [
-        "com_actionlogs.admin-actionlogs.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

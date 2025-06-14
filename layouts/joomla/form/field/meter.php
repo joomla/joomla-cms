@@ -57,8 +57,8 @@ $class .= $active ? ' active' : '';
 $class = 'class="' . $class . '"';
 
 $value = (float) $value;
-$value = $value < $min ? $min : $value;
-$value = $value > $max ? $max : $value;
+$value = max($value, $min);
+$value = min($value, $max);
 
 $data = '';
 $data .= 'aria-valuemax="' . $max . '"';
@@ -67,7 +67,7 @@ $data .= ' aria-valuenow="' . $value . '"';
 
 $attributes = [
     $class,
-    !empty($width) ? ' style="width:' . $width . ';"' : '',
+    !empty($width) ? 'style="width:' . $width . ';"' : '',
     $data,
     $dataAttribute,
 ];

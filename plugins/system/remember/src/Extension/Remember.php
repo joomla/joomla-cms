@@ -10,11 +10,15 @@
 
 namespace Joomla\Plugin\System\Remember\Extension;
 
+use Joomla\CMS\Event\Application\AfterInitialiseEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
+use Joomla\CMS\Event\User\LogoutEvent;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,34 +29,54 @@ use Joomla\Database\DatabaseAwareTrait;
  *
  * @since  1.5
  */
-final class Remember extends CMSPlugin
+final class Remember extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onAfterInitialise' => 'onAfterInitialise',
+            'onUserLogout'      => 'onUserLogout',
+            'onUserBeforeSave'  => 'onUserBeforeSave',
+        ];
+    }
 
     /**
      * Remember me method to run onAfterInitialise
      * Only purpose is to initialise the login authentication process if a cookie is present
      *
+     * @param   AfterInitialiseEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   1.5
      *
-     * @throws  InvalidArgumentException
+     * @throws  \InvalidArgumentException
      */
-    public function onAfterInitialise()
+    public function onAfterInitialise(AfterInitialiseEvent $event): void
     {
         // No remember me for admin.
         if (!$this->getApplication()->isClient('site')) {
             return;
         }
 
+        $app = $this->getApplication();
+
         // Check for a cookie if user is not logged in
-        if ($this->getApplication()->getIdentity()->guest) {
+        if ($app->getIdentity()->guest) {
             $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
             // Check for the cookie
-            if ($this->getApplication()->getInput()->cookie->get($cookieName)) {
-                $this->getApplication()->login(['username' => ''], ['silent' => true]);
+            if ($app->getInput()->cookie->get($cookieName)) {
+                $app->login(['username' => ''], ['silent' => true]);
             }
         }
     }
@@ -60,16 +84,15 @@ final class Remember extends CMSPlugin
     /**
      * Imports the authentication plugin on user logout to make sure that the cookie is destroyed.
      *
-     * @param   array  $user     Holds the user data.
-     * @param   array  $options  Array holding options (remember, autoregister, group).
+     * @param   LogoutEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      */
-    public function onUserLogout($user, $options)
+    public function onUserLogout(LogoutEvent $event): void
     {
         // No remember me for admin
         if (!$this->getApplication()->isClient('site')) {
-            return true;
+            return;
         }
 
         $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
@@ -79,32 +102,32 @@ final class Remember extends CMSPlugin
             // Make sure authentication group is loaded to process onUserAfterLogout event
             PluginHelper::importPlugin('authentication');
         }
-
-        return true;
     }
 
     /**
      * Method is called before user data is stored in the database
      * Invalidate all existing remember-me cookies after a password change
      *
-     * @param   array    $user   Holds the old user data.
-     * @param   boolean  $isnew  True if a new user is stored.
-     * @param   array    $data   Holds the new user data.
+     * @param   BeforeSaveEvent $event  The event instance.
      *
      * @return  boolean
      *
      * @since   3.8.6
      */
-    public function onUserBeforeSave($user, $isnew, $data)
+    public function onUserBeforeSave(BeforeSaveEvent $event): void
     {
+        $user  = $event->getUser();
+        $isnew = $event->getIsNew();
+        $data  = $event->getData();
+
         // Irrelevant on new users
         if ($isnew) {
-            return true;
+            return;
         }
 
         // Irrelevant, because password was not changed by user
         if (empty($data['password_clear'])) {
-            return true;
+            return;
         }
 
         // But now, we need to do something - Delete all tokens for this user!
@@ -119,12 +142,10 @@ final class Remember extends CMSPlugin
         } catch (\RuntimeException $e) {
             // Log an alert for the site admin
             Log::add(
-                sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
+                \sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
                 Log::WARNING,
                 'security'
             );
         }
-
-        return true;
     }
 }

@@ -42,7 +42,7 @@ class WorkflowcontextsField extends ListField
      */
     protected function getInput()
     {
-        if (count($this->getOptions()) < 2) {
+        if (\count($this->getOptions()) < 2) {
             $this->layout = 'joomla.form.field.hidden';
         }
 

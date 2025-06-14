@@ -13,7 +13,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Helper\UserGroupsHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -54,7 +54,7 @@ class UsergrouplistField extends ListField
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
-        if (\is_string($value) && strpos($value, ',') !== false) {
+        if (\is_string($value) && str_contains($value, ',')) {
             $value = explode(',', $value);
         }
 

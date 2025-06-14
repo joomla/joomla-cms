@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
+
 $input = Factory::getApplication()->getInput();
 ?>
 <form method="post" action="">
