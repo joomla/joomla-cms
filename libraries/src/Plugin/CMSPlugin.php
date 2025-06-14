@@ -279,6 +279,10 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @return  void
      *
      * @since   4.0.0
+     *
+     * @deprecated  5.4.0 will be removed in 7.0
+     *              Plugin should implement SubscriberInterface.
+     *              These plugins will be added to dispatcher in PluginHelper::import().
      */
     public function registerListeners()
     {
@@ -288,6 +292,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
             return;
         }
+
+        @trigger_error('The plugin should implement SubscriberInterface.', \E_USER_DEPRECATED);
 
         $reflectedObject = new \ReflectionObject($this);
         $methods         = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
@@ -344,6 +350,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @return  void
      *
      * @since   4.0.0
+     *
+     * @deprecated  5.4.0 will be removed in 7.0
+     *              Plugin should implement SubscriberInterface.
      */
     final protected function registerLegacyListener(string $methodName)
     {
@@ -392,6 +401,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @return  void
      *
      * @since   4.0.0
+     *
+     * @deprecated  5.4.0 will be removed in 7.0
+     *              Plugin should implement SubscriberInterface.
      */
     final protected function registerListener(string $methodName)
     {
@@ -406,6 +418,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @return  boolean
      *
      * @since   4.0.0
+     *
+     * @deprecated  5.4.0 will be removed in 7.0
+     *              Plugin should implement SubscriberInterface.
      */
     private function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
     {
