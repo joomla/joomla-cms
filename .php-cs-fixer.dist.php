@@ -76,7 +76,7 @@ $config
             // Arrays on multiline should have a trailing comma
             'trailing_comma_in_multiline'                      => ['elements' => ['arrays']],
             // Align elements in multiline array and variable declarations on new lines below each other
-            'binary_operator_spaces'                           => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
+            'binary_operator_spaces'                           => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align', '??=' => 'align']],
             // The "No break" comment in switch statements
             'no_break_comment'                                 => ['comment_text' => 'No break'],
             // Remove unused imports
@@ -91,6 +91,14 @@ $config
             'native_function_invocation'                       => ['include' => ['@compiler_optimized']],
             // Adds null to type declarations when parameter have a default null value
             'nullable_type_declaration_for_default_null_value' => true,
+            // Removes unneeded parentheses around control statements
+            'no_unneeded_control_parentheses'                  => true,
+            // Using isset($var) && multiple times should be done in one call.
+            'combine_consecutive_issets'                       => true,
+            // Calling unset on multiple items should be done in one call
+            'combine_consecutive_unsets'                       => true,
+            // There must be no sprintf calls with only the first argument
+            'no_useless_sprintf'                               => true,
         ]
     )
     ->setFinder($finder);

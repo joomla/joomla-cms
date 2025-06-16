@@ -44,7 +44,7 @@ class ExceptionHandler
         if ($errorNumber === E_USER_DEPRECATED) {
             try {
                 Log::add("$errorMessage - $errorFile - Line $errorLine", Log::WARNING, 'deprecated');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Silence
             }
 
@@ -115,7 +115,7 @@ class ExceptionHandler
 
             try {
                 $renderer = AbstractRenderer::getRenderer($format);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
                 // Default to the HTML renderer
                 $renderer = AbstractRenderer::getRenderer('html');
             }
@@ -225,7 +225,7 @@ class ExceptionHandler
                 Log::CRITICAL,
                 'error'
             );
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             // Logging failed, don't make a stink about it though
         }
     }

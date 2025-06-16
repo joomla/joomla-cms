@@ -293,7 +293,7 @@ abstract class Access
             $name,
             [
                 'id'          => $config['id'] ?? 'assetgroups_' . (++$count),
-                'list.attr'   => $attribs === null ? 'class="inputbox" size="3"' : $attribs,
+                'list.attr'   => $attribs ?? 'class="inputbox" size="3"',
                 'list.select' => (int) $selected,
             ]
         );

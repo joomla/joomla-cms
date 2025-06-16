@@ -15,7 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
@@ -52,12 +52,12 @@ class CoreContent extends Table implements CurrentUserInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__ucm_content', 'core_content_id', $db, $dispatcher);
 
@@ -116,7 +116,7 @@ class CoreContent extends Table implements CurrentUserInterface
             $this->core_publish_up !== null
             && $this->core_publish_down !== null
             && $this->core_publish_down < $this->core_publish_up
-            && $this->core_publish_down > $this->_db->getNullDate()
+            && $this->core_publish_down > $this->getDatabase()->getNullDate()
         ) {
             // Swap the dates.
             $temp                    = $this->core_publish_up;
@@ -166,7 +166,7 @@ class CoreContent extends Table implements CurrentUserInterface
      */
     public function delete($pk = null)
     {
-        $baseTable = new Ucm($this->getDbo(), $this->getDispatcher());
+        $baseTable = new Ucm($this->getDatabase(), $this->getDispatcher());
 
         return parent::delete($pk) && $baseTable->delete($pk);
     }
@@ -194,7 +194,7 @@ class CoreContent extends Table implements CurrentUserInterface
             throw new \UnexpectedValueException('Null type alias not allowed.');
         }
 
-        $db    = $this->getDbo();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
@@ -281,7 +281,7 @@ class CoreContent extends Table implements CurrentUserInterface
     protected function storeUcmBase($updateNulls = true, $isNew = false)
     {
         // Store the ucm_base row
-        $db         = $this->getDbo();
+        $db         = $this->getDatabase();
         $query      = $db->getQuery(true);
         $languageId = ContentHelper::getLanguageId($this->core_language);
 

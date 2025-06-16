@@ -80,7 +80,7 @@ $n         = count($this->items);
         <?php endif; ?>
     </form>
 
-    <?php if ($this->items == false || $n === 0) : ?>
+    <?php if (!$this->items || $n === 0) : ?>
         <div class="alert alert-info">
             <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
             <?php echo Text::_('COM_TAGS_NO_TAGS'); ?>

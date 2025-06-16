@@ -288,7 +288,7 @@ class ModuleAdapter extends InstallerAdapter
         try {
             // Clean up any other ones that might exist as well
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Ignore the error...
         }
 
@@ -677,7 +677,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }
@@ -708,7 +708,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }
