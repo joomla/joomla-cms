@@ -315,7 +315,7 @@ class TagModel extends AdminModel
             }
 
             // Set the new parent id if parent id not matched OR while New/Save as Copy .
-            if ($table->parent_id != $data['parent_id'] || $data['id'] == 0) {
+            if ($table->parent_id != $data['parent_id'] || (isset($data['id']) && $data['id'] == 0)) {
                 $table->setLocation($data['parent_id'], 'last-child');
             }
 
