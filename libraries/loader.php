@@ -281,10 +281,6 @@ abstract class JLoader
      * @return  void
      *
      * @since       1.7.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
-     *              register an autoloader for your files.
      */
     public static function register($class, $path, $force = true)
     {
