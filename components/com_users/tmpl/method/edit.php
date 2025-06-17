@@ -32,7 +32,7 @@ $headingLevel = 2;
 $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
 ?>
 <div class="card card-body">
-    <form action="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.save&id=%d&method=%s&user_id=%d", $recordId, $method, $userId)) ?>"
+    <form action="<?php echo Route::_(sprintf("index.php?option=com_users&view=method&task=method.save&id=%d&method=%s&user_id=%d", $recordId, $method, $userId)) ?>"
           class="form form-horizontal" id="com-users-method-edit" method="post">
         <?php echo HTMLHelper::_('form.token') ?>
         <?php if (!empty($this->returnURL)) : ?>
