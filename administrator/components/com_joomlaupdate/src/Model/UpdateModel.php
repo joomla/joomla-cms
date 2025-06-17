@@ -1746,7 +1746,7 @@ ENDDATA;
     }
 
     /**
-     * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
+     * Called by controller's batchextensioncompatibility, which is called via AJAX.
      *
      * @param   string  $extensionID          The ID of the checked extension
      * @param   string  $joomlaTargetVersion  Target version of Joomla
