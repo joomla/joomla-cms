@@ -256,7 +256,7 @@ function run_and_check(string $command): void
  */
 function capture_or_fail(string $command): string
 {
-    $output = [];
+    $output   = [];
     $exitCode = 0;
 
     exec($command, $output, $exitCode);
