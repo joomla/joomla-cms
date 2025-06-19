@@ -163,7 +163,7 @@ class CoreContent extends Table implements CurrentUserInterface
      * @return  boolean  True on success.
      *
      * @throws  \UnexpectedValueException
-     * @since      3.1
+     * @since   3.1
      */
     public function deleteByContentId($contentItemId = null, $typeAlias = null)
     {
