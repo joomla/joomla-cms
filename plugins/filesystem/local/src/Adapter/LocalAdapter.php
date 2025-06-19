@@ -17,7 +17,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
