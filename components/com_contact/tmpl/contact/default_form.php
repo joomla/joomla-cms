@@ -22,7 +22,7 @@ $wa->useScript('keepalive')
 
 ?>
 <div class="com-contact__form contact-form">
-    <form id="contact-form" action="<?php echo Route::_('index.php?option=com_contact&view=contact'); ?>" method="post" class="form-validate form-horizontal well">
+    <form id="contact-form" action="<?php echo Route::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <?php if ($fieldset->name === 'captcha' && $this->captchaEnabled) : ?>
                 <?php continue; ?>

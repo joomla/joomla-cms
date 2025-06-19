@@ -35,7 +35,7 @@ $this->useCoreUI        = true;
         </div>
     <?php endif; ?>
 
-    <form action="<?php echo Route::_('index.php?option=com_contact&view=form&layout=edit&id=' . (int) $this->item->id); ?>" method="post"
+    <form action="<?php echo Route::_('index.php?id=' . (int) $this->item->id); ?>" method="post"
         name="adminForm" id="adminForm" class="form-validate form-vertical">
         <fieldset>
             <?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>

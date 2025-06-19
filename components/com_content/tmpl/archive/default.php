@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
     </div>
 <?php endif; ?>
 
-<form id="adminForm" action="<?php echo Route::_('index.php?option=com_content&view=archive'); ?>" method="post" class="com-content-archive__form">
+<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="com-content-archive__form">
     <fieldset class="com-content-archive__filters filters">
         <legend class="visually-hidden">
             <?php echo Text::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?>
