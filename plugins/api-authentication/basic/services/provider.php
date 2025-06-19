@@ -36,7 +36,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Basic(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('api-authentication', 'basic'),
                 );
                 $plugin->setApplication(Factory::getApplication());

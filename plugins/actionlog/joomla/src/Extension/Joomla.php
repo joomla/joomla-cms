@@ -78,14 +78,13 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher  The dispatcher
      * @param   array                $config      An optional associative array of configuration settings
      *
      * @since   3.9.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config)
+    public function __construct(array $config)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
