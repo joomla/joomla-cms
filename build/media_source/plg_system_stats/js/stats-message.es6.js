@@ -77,7 +77,7 @@ Joomla = window.Joomla || {};
             initStatsEvents(getJson);
           }
         } catch (e) {
-          throw new Error(e);
+          throw new Error(response);
         }
       },
       onError: (xhr) => {
