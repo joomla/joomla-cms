@@ -68,16 +68,15 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
      * @param   array                 $config       An optional associative array of configuration settings
      * @param   InputFilter           $filter       The input filter
      * @param   CMSHelper             $helper       The CMS helper
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter, CMSHelper $helper)
+    public function __construct(array $config, InputFilter $filter, CMSHelper $helper)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->filter = $filter;
         $this->helper = $helper;

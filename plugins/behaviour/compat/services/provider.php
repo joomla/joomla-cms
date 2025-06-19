@@ -32,10 +32,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = PluginHelper::getPlugin('behaviour', 'compat');
-                $dispatcher = $container->get(DispatcherInterface::class);
-
-                $plugin = new Compat($dispatcher, (array) $plugin);
+                $plugin = new Compat((array) PluginHelper::getPlugin('behaviour', 'compat'));
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;

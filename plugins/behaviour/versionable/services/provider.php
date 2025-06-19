@@ -36,7 +36,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Versionable(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('behaviour', 'versionable'),
                     new InputFilter(),
                     new CMSHelper()
