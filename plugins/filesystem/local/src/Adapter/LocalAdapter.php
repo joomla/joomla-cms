@@ -817,9 +817,6 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
         }
 
-        // Transform filename to punycode
-        $name = PunycodeHelper::toPunycode($name);
-
         // Get the extension
         $extension = File::getExt($name);
 
