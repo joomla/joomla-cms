@@ -36,7 +36,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin = new Cookie(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('authentication', 'cookie')
                 );
                 $plugin->setApplication(Factory::getApplication());
