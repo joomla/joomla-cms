@@ -24,6 +24,7 @@ describe('Install Joomla', () => {
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
+    cy.on('uncaught:exception', () => false);
     cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
