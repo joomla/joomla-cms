@@ -600,7 +600,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
     if (!$excludeZip) {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
         echo "Building " . $packageName . "... ";
-        $command = "cd {$time} && zip ../packages/{$packageName} -@ < ../diffconvert/{$version}.{$num}";
+        $command = "cd {$time} && zip -q ../packages/{$packageName} -@ < ../diffconvert/{$version}.{$num}";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
@@ -633,7 +633,7 @@ chdir($time);
 // Create full archive packages.
 if (!$excludeZip) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
-    $command     = "zip -r ../packages/{$packageName} *";
+    $command     = "zip -qr ../packages/{$packageName} *";
     build_and_check($packageName, $command);
     $checksums[$packageName] = [];
 }
@@ -672,7 +672,7 @@ if (!$debugBuild) {
 
     if (!$excludeZip) {
         $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
-        $command     = "zip -r ../packages/{$packageName} *";
+        $command     = "zip -qr ../packages/{$packageName} *";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
