@@ -272,7 +272,6 @@ function capture_or_fail(string $command): string
 $time = time();
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
-ob_start();
 $systemGit = trim(
     capture_or_fail('which git')
 );
