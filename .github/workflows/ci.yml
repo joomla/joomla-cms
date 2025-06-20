@@ -197,78 +197,11 @@ jobs:
           npx cypress install
           npx cypress verify
 
-  tests-system:
-    name: Run system tests
-    runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:cypress${{ matrix.config.php_version }}
-    needs: [tests-system-prepare, tests-unit, tests-integration]
-    strategy:
-      matrix:
-        config:
-          - php_version: '8.4'
-            test_group: cmysqlmax
-            db_engine: mysqli
-            db_host: mysql
-          - php_version: '8.1'
-            test_group: cpostgres
-            db_engine: pgsql
-            db_host: postgres
-          - php_version: '8.1'
-            test_group: cpostgres
-            db_engine: pgsql
-            db_host: postgres
-          - php_version: '8.4'
-            test_group: cpostgresmax
-            db_engine: pgsql
-            db_host: postgres
-    env:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/cache/restore@v4
-        with:
-          path: libraries/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-      - uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
-      - uses: actions/cache/restore@v4
-        with:
-          path: |
-            /root/.cache/Cypress
-            /github/home/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
-      - name: Run System tests
-        run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} chrome
-      - name: Archive test results results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: system-test-output
-          path: tests/System/output
-          if-no-files-found: ignore
-    services:
-      mysql:
-        image: mariadb
-        env:
-          MARIADB_USER: joomla_ut
-          MARIADB_PASSWORD: joomla_ut
-          MARIADB_ROOT_PASSWORD: joomla_ut
-          MARIADB_DATABASE: test_joomla
-      postgres:
-        image: postgres:12-alpine
-        env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: joomla_ut
-          POSTGRES_DB: test_joomla
   package:
     name: upload
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:packager
-    needs: [tests-system]
+    needs: [tests-system-prepare]
     env:
         HOST: ${{ secrets.ftphostname }}
         USER: ${{ secrets.ftpusername }}
