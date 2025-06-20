@@ -210,9 +210,9 @@ jobs:
             db_engine: mysqli
             db_host: mysql
           - php_version: '8.1'
-            test_group: cpostgres
-            db_engine: pgsql
-            db_host: postgres
+            test_group: cmysql
+            db_engine: mysqli
+            db_host: mysql
           - php_version: '8.1'
             test_group: cpostgres
             db_engine: pgsql
