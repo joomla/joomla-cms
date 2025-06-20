@@ -57,7 +57,7 @@ jobs:
     name: Check PHP code style
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
-    needs: [composer, npm]
+    needs: [composer]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -71,8 +71,8 @@ jobs:
           ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff
           ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
 
-  code-style-js:
-    name: Check Javascript code style
+  code-style-js-css:
+    name: Check Javascript & CSS code style
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer, npm]
@@ -91,23 +91,6 @@ jobs:
         run: |
           npm run lint:js
           npm run lint:testjs
-
-  code-style-css:
-    name: Check CSS code style
-    runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
-    needs: [composer, npm]
-    steps:
-      - uses: actions/setup-node@v4
-        with:
-          node-version: latest
-      - uses: actions/checkout@v4
-      - uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            media
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
       - name: Check CSS code style
         run: npm run lint:css
 
@@ -130,7 +113,7 @@ jobs:
     name: Run Unit tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php${{ matrix.php_version }}
-    needs: [code-style-php, code-style-js, code-style-css]
+    needs: [code-style-php]
     strategy:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4']
@@ -147,7 +130,7 @@ jobs:
     name: Run integration tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php${{ matrix.php_version }}
-    needs: [code-style-php, code-style-js, code-style-css]
+    needs: [code-style-php]
     strategy:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4']
@@ -189,6 +172,7 @@ jobs:
     name: Prepare system tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:cypress8.4
+    needs: [composer, npm]
     env:
       CYPRESS_VERIFY_TIMEOUT: 100000
     steps:
@@ -216,7 +200,7 @@ jobs:
     name: Run system tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:cypress${{ matrix.config.php_version }}
-    needs: [tests-system-prepare, tests-unit, tests-integration]
+    needs: [tests-system-prepare]
     strategy:
       matrix:
         config:
