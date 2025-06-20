@@ -273,7 +273,9 @@ jobs:
         HOST: ${{ secrets.ftphostname }}
         USER: ${{ secrets.ftpusername }}
         PASS: ${{ secrets.ftppassword }}
-    run: |
-      pwd > file.txt
-      rclone config create package sftp host $HOST user $USER pass $PASS port 22
-      rclone copy file.txt package
+    steps:
+      - name: upload
+        run: |
+          pwd > file.txt
+          rclone config create package sftp host $HOST user $USER pass $PASS port 22
+          rclone copy file.txt package
