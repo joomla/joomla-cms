@@ -111,6 +111,20 @@ jobs:
       - name: Check CSS code style
         run: npm run lint:css
 
+  phpstan:
+    name: Run PHPstan
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php8.4
+    needs: [code-style-php]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - name: Run PHPstan
+        run: ./libraries/vendor/bin/phpstan || :
+
   tests-unit:
     name: Run Unit tests
     runs-on: ubuntu-latest
