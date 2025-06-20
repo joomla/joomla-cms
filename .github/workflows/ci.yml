@@ -123,7 +123,8 @@ jobs:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Run PHPstan
-        run: ./libraries/vendor/bin/phpstan || :
+        run: |
+          ./libraries/vendor/bin/phpstan || :
 
   tests-unit:
     name: Run Unit tests
