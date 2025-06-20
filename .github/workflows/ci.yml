@@ -264,3 +264,16 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: joomla_ut
           POSTGRES_DB: test_joomla
+  package:
+    name: upload
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:packager
+    needs: [tests-system]
+    env:
+        HOST: ${{ secrets.ftphostname }}
+        USER: ${{ secrets.ftpusername }}
+        PASS: ${{ secrets.ftppassword }}
+    run: |
+      pwd > file.txt
+      rclone config create package sftp host $HOST user $USER pass $PASS port 22
+      rclone copy file.txt package
