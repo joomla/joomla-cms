@@ -70,7 +70,7 @@ jobs:
           PHP_CS_FIXER_IGNORE_ENV: true
         run: |
           ./libraries/vendor/bin/php-cs-fixer fix --show-progress=dots && ./libraries/vendor/bin/phpcbf --extensions=php -p --standard=ruleset.xml .
-      - uses: parkerbxyz/suggest-changes@v1
+      - uses: parkerbxyz/suggest-changes@v2
         with:
           comment: 'Your code does not comply with our codestyle. Please commit the suggested changes.'
 
