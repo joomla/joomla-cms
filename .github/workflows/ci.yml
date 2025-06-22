@@ -55,7 +55,6 @@ jobs:
   code-style-php:
     name: Check PHP code style
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
     needs: [composer]
     steps:
       - uses: actions/checkout@v4
@@ -64,10 +63,9 @@ jobs:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Check PHP code style
-        env:
-          PHP_CS_FIXER_IGNORE_ENV: true
-        run: |
-          ./libraries/vendor/bin/php-cs-fixer fix --show-progress=dots && ./libraries/vendor/bin/phpcbf --extensions=php -p --standard=ruleset.xml .
+        uses: erkenes/php-cs-fixer-action@main
+        with:
+          args: --show-progress=dots
       - uses: parkerbxyz/suggest-changes@v1
         with:
           comment: 'Your code does not comply with our codestyle. Please commit the suggested changes.'
