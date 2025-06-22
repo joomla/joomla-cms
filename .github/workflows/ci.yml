@@ -12,7 +12,6 @@ jobs:
   composer:
     name: Install PHP dependencies
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
