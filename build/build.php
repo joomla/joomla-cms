@@ -55,139 +55,139 @@ function clean_checkout(string $dir)
     echo "Cleaning checkout in $dir.\n";
 
     // Removes .DS_Store; .git sources; testing, CI, and IDE configuration files; Changelogs; GitHub Meta; and README files
-    system('find . -name .appveyor.yml | xargs rm -rf -');
-    system('find . -name .coveralls.yml | xargs rm -rf -');
-    system('find . -name .DS_Store | xargs rm -rf -');
-    system('find . -name .editorconfig | xargs rm -rf -');
-    system('find . -name .gitattributes | xargs rm -rf -');
-    system('find . -name .github | xargs rm -rf -');
-    system('find . -name .gitignore | xargs rm -rf -');
-    system('find . -name .gitmodules | xargs rm -rf -');
-    system('find . -name .phan | xargs rm -rf -');
-    system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
-    system('find . -name .scrutinizer.yml | xargs rm -rf -');
-    system('find . -name .travis.yml | xargs rm -rf -');
-    system('find . -name appveyor.yml | xargs rm -rf -');
-    system('find . -name CHANGELOG.md | xargs rm -rf -');
-    system('find . -name CONTRIBUTING.md | xargs rm -rf -');
-    system('find . -name psalm.xml | xargs rm -rf -');
-    system('find . -name psalm.xml.dist | xargs rm -rf -');
-    system('find . -name phpcs.xml | xargs rm -rf -');
-    system('find . -name phpcs.xml.dist | xargs rm -rf -');
-    system('find . -name phpstan.neon | xargs rm -rf -');
-    system('find . -name phpunit.xml | xargs rm -rf -');
-    system('find . -name phpunit.*.xml | xargs rm -rf -');
-    system('find . -name phpunit.xml.dist | xargs rm -rf -');
-    system('find . -name README.md | xargs rm -rf -');
-    system('find . -name SECURITY.md | xargs rm -rf -');
+    run_and_check('find . -name .appveyor.yml | xargs rm -rf -');
+    run_and_check('find . -name .coveralls.yml | xargs rm -rf -');
+    run_and_check('find . -name .DS_Store | xargs rm -rf -');
+    run_and_check('find . -name .editorconfig | xargs rm -rf -');
+    run_and_check('find . -name .gitattributes | xargs rm -rf -');
+    run_and_check('find . -name .github | xargs rm -rf -');
+    run_and_check('find . -name .gitignore | xargs rm -rf -');
+    run_and_check('find . -name .gitmodules | xargs rm -rf -');
+    run_and_check('find . -name .phan | xargs rm -rf -');
+    run_and_check('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
+    run_and_check('find . -name .scrutinizer.yml | xargs rm -rf -');
+    run_and_check('find . -name .travis.yml | xargs rm -rf -');
+    run_and_check('find . -name appveyor.yml | xargs rm -rf -');
+    run_and_check('find . -name CHANGELOG.md | xargs rm -rf -');
+    run_and_check('find . -name CONTRIBUTING.md | xargs rm -rf -');
+    run_and_check('find . -name psalm.xml | xargs rm -rf -');
+    run_and_check('find . -name psalm.xml.dist | xargs rm -rf -');
+    run_and_check('find . -name phpcs.xml | xargs rm -rf -');
+    run_and_check('find . -name phpcs.xml.dist | xargs rm -rf -');
+    run_and_check('find . -name phpstan.neon | xargs rm -rf -');
+    run_and_check('find . -name phpunit.xml | xargs rm -rf -');
+    run_and_check('find . -name phpunit.*.xml | xargs rm -rf -');
+    run_and_check('find . -name phpunit.xml.dist | xargs rm -rf -');
+    run_and_check('find . -name README.md | xargs rm -rf -');
+    run_and_check('find . -name SECURITY.md | xargs rm -rf -');
 
     echo "Cleaning vendors.\n";
 
-    system('find libraries/vendor -name CODE_OF_CONDUCT.md | xargs rm -rf -');
-    system('find libraries/vendor -name CONDUCT.md | xargs rm -rf -');
-    system('find libraries/vendor -name docker-compose.yml | xargs rm -rf -');
-    system('find libraries/vendor -name phpunit.xml | xargs rm -rf -');
-    system('find libraries/vendor -name README.md | xargs rm -rf -');
-    system('find libraries/vendor -name readme.md | xargs rm -rf -');
-    system('find libraries/vendor -name UPGRADING.md | xargs rm -rf -');
-    system('find libraries/vendor -name SUMMARY.md | xargs rm -rf -');
-    system('find libraries/vendor -name .travis.yml | xargs rm -rf -');
-    system('find libraries/vendor -name .git | xargs rm -rf -');
-    system('find libraries/vendor -name .gitignore | xargs rm -rf -');
-    system('find libraries/vendor -name .gitmodules | xargs rm -rf -');
-    system('find libraries/vendor -name ISSUE_TEMPLATE | xargs rm -rf -');
-    system('find libraries/vendor -name CONTRIBUTING.md | xargs rm -rf -');
-    system('find libraries/vendor -name CHANGES.md | xargs rm -rf -');
-    system('find libraries/vendor -name CHANGELOG.md | xargs rm -rf -');
-    system('find libraries/vendor -name SECURITY.md | xargs rm -rf -');
-    system('find libraries/vendor -name psalm.md | xargs rm -rf -');
-    system('find libraries/vendor -name psalm-baseline.md | xargs rm -rf -');
-    system('find libraries/vendor -name psalm-baseline.xml | xargs rm -rf -');
-    system('find libraries/vendor -name .yamllint | xargs rm -rf -');
-    system('find libraries/vendor -name .remarkrc | xargs rm -rf -');
-    system('find libraries/vendor -name .editorconfig | xargs rm -rf -');
-    system('find libraries/vendor -name appveyor.yml | xargs rm -rf -');
-    system('find libraries/vendor -name phpunit.xml.dist | xargs rm -rf -');
-    system('find libraries/vendor -name .php_cs | xargs rm -rf -');
-    system('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
-    system('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
-    system('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
-    system('find libraries/vendor -name build.xml | xargs rm -rf -');
-    system('find libraries/vendor -name infection.json.dist | xargs rm -rf -');
-    system('find libraries/vendor -name phpbench.json | xargs rm -rf -');
-    system('find libraries/vendor -name phpstan.neon.dist | xargs rm -rf -');
-    system('find libraries/vendor -name .doctrine-project.json | xargs rm -rf -');
-    system('find libraries/vendor -name .pullapprove.yml | xargs rm -rf -');
-    system('find libraries/vendor -name phpstan.neon | xargs rm -rf -');
-    system('find libraries/vendor -name _config.yml | xargs rm -rf -');
-    system('find libraries/vendor -name .bowerrc | xargs rm -rf -');
-    system('find libraries/vendor -name bower.json | xargs rm -rf -');
-    system('find libraries/vendor -name .drone.yml | xargs rm -rf -');
-    system('find libraries/vendor -name .drone.jsonnet | xargs rm -rf -');
-    system('rm -rf libraries/vendor/bin');
+    run_and_check('find libraries/vendor -name CODE_OF_CONDUCT.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name CONDUCT.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name docker-compose.yml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name phpunit.xml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name README.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name readme.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name UPGRADING.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name SUMMARY.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .travis.yml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .git | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .gitignore | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .gitmodules | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name ISSUE_TEMPLATE | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name CONTRIBUTING.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name CHANGES.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name CHANGELOG.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name SECURITY.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name psalm.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name psalm-baseline.md | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name psalm-baseline.xml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .yamllint | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .remarkrc | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .editorconfig | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name appveyor.yml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name phpunit.xml.dist | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .php_cs | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name build.xml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name infection.json.dist | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name phpbench.json | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name phpstan.neon.dist | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .doctrine-project.json | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .pullapprove.yml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name phpstan.neon | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name _config.yml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .bowerrc | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name bower.json | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .drone.yml | xargs rm -rf -');
+    run_and_check('find libraries/vendor -name .drone.jsonnet | xargs rm -rf -');
+    run_and_check('rm -rf libraries/vendor/bin');
 
     // aldo26-matthias/idna-convert
-    system('rm -rf libraries/vendor/algo26-matthias/idna-convert/tests');
+    run_and_check('rm -rf libraries/vendor/algo26-matthias/idna-convert/tests');
 
     // defuse/php-encryption
-    system('rm -rf libraries/vendor/defuse/php-encryption/docs');
+    run_and_check('rm -rf libraries/vendor/defuse/php-encryption/docs');
 
     // doctrine/inflector
-    system('rm -rf libraries/vendor/doctrine/inflector/docs');
+    run_and_check('rm -rf libraries/vendor/doctrine/inflector/docs');
 
     // fig/link-util
-    system('rm -rf libraries/vendor/fig/link-util/test');
+    run_and_check('rm -rf libraries/vendor/fig/link-util/test');
 
     // google/recaptcha
-    system('rm -rf libraries/vendor/google/recaptcha/examples');
-    system('rm -rf libraries/vendor/google/recaptcha/tests');
+    run_and_check('rm -rf libraries/vendor/google/recaptcha/examples');
+    run_and_check('rm -rf libraries/vendor/google/recaptcha/tests');
 
     // jakeasmith/http_build_url
-    system('rm -rf libraries/vendor/jakeasmith/http_build_url/tests');
+    run_and_check('rm -rf libraries/vendor/jakeasmith/http_build_url/tests');
 
     // joomla/*
-    system('rm -rf libraries/vendor/joomla/*/docs');
-    system('rm -rf libraries/vendor/joomla/*/tests');
-    system('rm -rf libraries/vendor/joomla/*/Tests');
-    system('rm -rf libraries/vendor/joomla/*/ruleset.xml');
+    run_and_check('rm -rf libraries/vendor/joomla/*/docs');
+    run_and_check('rm -rf libraries/vendor/joomla/*/tests');
+    run_and_check('rm -rf libraries/vendor/joomla/*/Tests');
+    run_and_check('rm -rf libraries/vendor/joomla/*/ruleset.xml');
 
     // testing sampledata
-    system('rm -rf plugins/sampledata/testing');
-    system('rm -rf images/sampledata/parks');
-    system('rm -rf images/sampledata/fruitshop');
+    run_and_check('rm -rf plugins/sampledata/testing');
+    run_and_check('rm -rf images/sampledata/parks');
+    run_and_check('rm -rf images/sampledata/fruitshop');
 
     // paragonie/sodium_compat
-    system('rm -rf libraries/vendor/paragonie/sodium_compat/build-phar.sh');
+    run_and_check('rm -rf libraries/vendor/paragonie/sodium_compat/build-phar.sh');
 
     // phpmailer/phpmailer
-    system('rm -rf libraries/vendor/phpmailer/phpmailer/language');
-    system('rm -rf libraries/vendor/phpmailer/phpmailer/get_oauth_token.php');
+    run_and_check('rm -rf libraries/vendor/phpmailer/phpmailer/language');
+    run_and_check('rm -rf libraries/vendor/phpmailer/phpmailer/get_oauth_token.php');
 
     // psr/log
-    system('rm -rf libraries/vendor/psr/log/Psr/Log/Test');
+    run_and_check('rm -rf libraries/vendor/psr/log/Psr/Log/Test');
 
     // symfony/*
-    system('rm -rf libraries/vendor/symfony/*/Resources/doc');
-    system('rm -rf libraries/vendor/symfony/*/Tests');
-    system('rm -rf libraries/vendor/symfony/console/Resources');
-    system('rm -rf libraries/vendor/symfony/string/Resources/bin');
+    run_and_check('rm -rf libraries/vendor/symfony/*/Resources/doc');
+    run_and_check('rm -rf libraries/vendor/symfony/*/Tests');
+    run_and_check('rm -rf libraries/vendor/symfony/console/Resources');
+    run_and_check('rm -rf libraries/vendor/symfony/string/Resources/bin');
 
     // tobscure/json-api
-    system('rm -rf libraries/vendor/tobscure/json-api/tests');
+    run_and_check('rm -rf libraries/vendor/tobscure/json-api/tests');
 
     // wamania/php-stemmer
-    system('rm -rf libraries/vendor/wamania/php-stemmer/test');
+    run_and_check('rm -rf libraries/vendor/wamania/php-stemmer/test');
 
     // willdurand/negotiation
-    system('rm -rf libraries/vendor/willdurand/negotiation/tests');
+    run_and_check('rm -rf libraries/vendor/willdurand/negotiation/tests');
 
     // jfcherng
-    system('rm -rf libraries/vendor/jfcherng/php-color-output/demo.php');
-    system('rm -rf libraries/vendor/jfcherng/php-color-output/UPGRADING_v2.md');
-    system('rm -rf libraries/vendor/jfcherng/php-diff/CHANGELOG');
-    system('rm -rf libraries/vendor/jfcherng/php-diff/example');
-    system('rm -rf libraries/vendor/jfcherng/php-diff/UPGRADING');
-    system('rm -rf libraries/vendor/jfcherng/php-mb-string/CHANGELOG');
+    run_and_check('rm -rf libraries/vendor/jfcherng/php-color-output/demo.php');
+    run_and_check('rm -rf libraries/vendor/jfcherng/php-color-output/UPGRADING_v2.md');
+    run_and_check('rm -rf libraries/vendor/jfcherng/php-diff/CHANGELOG');
+    run_and_check('rm -rf libraries/vendor/jfcherng/php-diff/example');
+    run_and_check('rm -rf libraries/vendor/jfcherng/php-diff/UPGRADING');
+    run_and_check('rm -rf libraries/vendor/jfcherng/php-mb-string/CHANGELOG');
 
     echo "Cleanup complete.\n";
 
@@ -203,8 +203,8 @@ function clean_composer(string $dir)
     echo "Cleaning Composer manifests in $dir.\n";
 
     // Removes Composer manifests
-    system('find . -name composer.json | xargs rm -rf -');
-    system('find . -name composer.lock | xargs rm -rf -');
+    run_and_check('find . -name composer.json | xargs rm -rf -');
+    run_and_check('find . -name composer.lock | xargs rm -rf -');
 
     echo "Cleanup complete.\n";
 
@@ -214,7 +214,6 @@ function clean_composer(string $dir)
 /**
  * Executes a system command to build a package file.
  * Shows a start and a finish message and terminates if an error occurs.
- * Captures all outputs (stdout+stderr) and only displays them if an error has occurred.
  *
  * @param string $packageName Name of the package file to be created.
  * @param string $command The full system command to execute.
@@ -224,32 +223,58 @@ function clean_composer(string $dir)
 function build_and_check(string $packageName, string $command): void
 {
     echo "Building {$packageName} ... ";
+    run_and_check($command);
+    echo "done.\n";
+}
 
-    // Redirect stderr to stdout
-    $fullCommand = $command . ' 2>&1';
-    $output      = [];
+/**
+ * Executes a system command and exits the script if the command fails.
+ *
+ * @param string $command The full system command to execute.
+ *
+ * @return void
+ */
+function run_and_check(string $command): void
+{
     $exitCode    = 0;
 
-    exec($fullCommand, $output, $exitCode);
+    // Let stdout/stderr pass through to the terminal
+    passthru($command, $exitCode);
 
     if ($exitCode !== 0) {
         echo "failed.\n";
-        fwrite(STDERR, "ERROR: Command failed ($exitCode): $command\n");
-        if (!empty($output)) {
-            fwrite(STDERR, "Output:\n" . implode("\n", $output) . "\n");
-        }
+        fwrite(STDERR, "ERROR: Command failed (exit code: $exitCode): $command\n");
+        exit($exitCode);
+    }
+}
+
+/**
+ * Executes a command, returns output, and exits the script if the command fails.
+ *
+ * @param string $command
+ * @return string Output from the command
+ */
+function capture_or_fail(string $command): string
+{
+    $output   = [];
+    $exitCode = 0;
+
+    exec($command, $output, $exitCode);
+
+    if ($exitCode !== 0) {
+        fwrite(STDERR, "ERROR: Command failed (exit code $exitCode): $command\n");
         exit($exitCode);
     }
 
-    echo "done.\n";
+    return implode("\n", $output);
 }
 
 $time = time();
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
-ob_start();
-passthru('which git', $systemGit);
-$systemGit = trim(ob_get_clean());
+$systemGit = trim(
+    capture_or_fail('which git')
+);
 
 // Make sure file and folder permissions are set correctly
 umask(022);
@@ -285,7 +310,7 @@ if ($showHelp) {
 // If not given a remote, assume we are looking for the latest local tag
 if (!$remote) {
     chdir($repo);
-    $tagVersion = system($systemGit . ' describe --tags `' . $systemGit . ' rev-list --tags --max-count=1`', $tagVersion);
+    $tagVersion = capture_or_fail($systemGit . ' describe --tags `' . $systemGit . ' rev-list --tags --max-count=1`');
     $remote     = 'tags/' . $tagVersion;
     chdir($here);
 
@@ -300,22 +325,16 @@ if (!$debugBuild) {
 
 echo "Start build for remote $remote.\n";
 echo "Delete old release folder.\n";
-system('rm -rf ' . $tmp);
+run_and_check('rm -rf ' . $tmp);
 mkdir($tmp);
 mkdir($fullpath);
 
 echo "Copy the files from the git repository.\n";
 chdir($repo);
-system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
-system('cp build/fido.jwt ' . $fullpath . '/plugins/system/webauthn/fido.jwt');
+run_and_check($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
 // Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
 chdir($fullpath);
-system('composer install --no-autoloader --ignore-platform-reqs' . $composerOptions, $composerReturnCode);
-
-if ($composerReturnCode !== 0) {
-    echo "`composer install` did not complete as expected.\n";
-    exit(1);
-}
+run_and_check('composer install --no-autoloader --ignore-platform-reqs' . $composerOptions);
 
 // Try to update the fido.jwt file
 if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt')) {
@@ -324,31 +343,16 @@ if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
     exit(1);
 }
 
-system('npm install --unsafe-perm', $npmReturnCode);
-
-if ($npmReturnCode !== 0) {
-    echo "`npm install` did not complete as expected.\n";
-    exit(1);
-}
+run_and_check('npm install --unsafe-perm');
 
 // Create version entries of the urls inside the static css files
-system('npm run cssversioning', $verReturnCode);
+run_and_check('npm run cssversioning');
 
 // Create gzipped version of the static assets
-system('npm run gzip', $gzipReturnCode);
-
-if ($gzipReturnCode !== 0) {
-    echo "`npm run gzip` did not complete as expected.\n";
-    exit(1);
-}
+run_and_check('npm run gzip');
 
 // Create version entries of the static assets in their respective joomla.asset.json
-system('npm run versioning', $verReturnCode);
-
-if ($verReturnCode !== 0) {
-    echo "`npm run versioning` did not complete as expected.\n";
-    exit(1);
-}
+run_and_check('npm run versioning');
 
 // Clean the checkout of extra resources
 if (!$debugBuild) {
@@ -356,7 +360,7 @@ if (!$debugBuild) {
 }
 
 // Regenerate the Composer autoloader without deleted files
-system('composer dump-autoload --optimize --no-scripts' . $composerOptions);
+run_and_check('composer dump-autoload --optimize --no-scripts' . $composerOptions);
 
 // Clean the Composer manifests now
 if (!$debugBuild) {
@@ -365,7 +369,7 @@ if (!$debugBuild) {
 
 // And cleanup the Node installation
 if (!$debugBuild) {
-    system('rm -rf node_modules');
+    run_and_check('rm -rf node_modules');
 }
 
 echo "Workspace built.\n";
@@ -387,9 +391,9 @@ if ($previousRelease < 0) {
 }
 
 chdir($tmp);
-system('mkdir diffdocs');
-system('mkdir diffconvert');
-system('mkdir packages');
+run_and_check('mkdir diffdocs');
+run_and_check('mkdir diffconvert');
+run_and_check('mkdir packages');
 
 echo "Create list of changed files from git repository for version $fullVersion.\n";
 
@@ -497,7 +501,7 @@ echo "Delete folders not included in packages.\n";
 
 if (!$debugBuild) {
     foreach ($doNotPackage as $removeFile) {
-        system('rm -rf ' . $time . '/' . $removeFile);
+        run_and_check('rm -rf ' . $time . '/' . $removeFile);
     }
 }
 
@@ -514,7 +518,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
     $previousTag = $version . '.' . $num;
     $command     = $systemGit . ' diff tags/' . $previousTag . ' ' . $remote . ' --name-status > diffdocs/' . $version . '.' . $num;
 
-    system($command);
+    run_and_check($command);
 
     // $filesArray will hold the array of files to include in diff package
     $deletedFiles = [];
@@ -596,7 +600,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
     if (!$excludeZip) {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
         echo "Building " . $packageName . "... ";
-        $command = "cd {$time} && zip ../packages/{$packageName} -@ < ../diffconvert/{$version}.{$num}";
+        $command = "cd {$time} && zip -q ../packages/{$packageName} -@ < ../diffconvert/{$version}.{$num}";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
@@ -629,7 +633,7 @@ chdir($time);
 // Create full archive packages.
 if (!$excludeZip) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
-    $command     = "zip -r ../packages/{$packageName} *";
+    $command     = "zip -qr ../packages/{$packageName} *";
     build_and_check($packageName, $command);
     $checksums[$packageName] = [];
 }
@@ -658,17 +662,17 @@ if (!$excludeZstd) {
 // Create full update file without the default logs directory, installation folder, or sample images.
 if (!$debugBuild) {
     echo "Build full update package.\n";
-    system('rm -r administrator/logs');
-    system('rm -r installation');
-    system('rm -r images/banners');
-    system('rm -r images/headers');
-    system('rm -r images/sampledata');
-    system('rm images/joomla_black.png');
-    system('rm images/powered_by.png');
+    run_and_check('rm -r administrator/logs');
+    run_and_check('rm -r installation');
+    run_and_check('rm -r images/banners');
+    run_and_check('rm -r images/headers');
+    run_and_check('rm -r images/sampledata');
+    run_and_check('rm images/joomla_black.png');
+    run_and_check('rm images/powered_by.png');
 
     if (!$excludeZip) {
         $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
-        $command     = "zip -r ../packages/{$packageName} *";
+        $command     = "zip -qr ../packages/{$packageName} *";
         build_and_check($packageName, $command);
         $checksums[$packageName] = [];
     }
