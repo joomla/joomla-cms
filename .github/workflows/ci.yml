@@ -55,6 +55,8 @@ jobs:
   code-style-php:
     name: Check PHP code style
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     container: joomlaprojects/docker-images:cypress8.4
     needs: [composer]
     steps:
