@@ -66,7 +66,6 @@ jobs:
       - uses: parkerbxyz/suggest-changes@v1
         with:
           comment: 'Your code does not comply with our codestyle. Please commit the suggested changes.'
-          event: 'REQUEST_CHANGES'
       - name: Check PHP code style
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
