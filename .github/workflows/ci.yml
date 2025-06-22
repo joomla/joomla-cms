@@ -69,6 +69,7 @@ jobs:
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
         run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           ./libraries/vendor/bin/php-cs-fixer fix --show-progress=dots
           ./libraries/vendor/bin/phpcbf --extensions=php -p --standard=ruleset.xml .
       - uses: parkerbxyz/suggest-changes@v2
