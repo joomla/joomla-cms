@@ -21,12 +21,11 @@ jobs:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Install PHP dependencies
+        uses: php-actions/composer@v6
         if: steps.cache-php.outputs.cache-hit != 'true'
-        run: |
-          git config --global --add safe.directory $GITHUB_WORKSPACE
-          composer config --global home
-          composer validate --no-check-all --strict
-          composer install --no-progress --ignore-platform-reqs
+        with:
+          php_version: '8.1'
+          args: --ignore-platform-reqs --no-progress
 
   npm:
     name: Install JS/CSS dependencies and build assets
@@ -68,13 +67,12 @@ jobs:
         with:
           comment: 'Your code does not comply with our codestyle. Please commit the suggested changes.'
           event: 'REQUEST_CHANGES'
-        if: failure()
       - name: Check PHP code style
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
         run: |
-          ./libraries/vendor/bin/php-cs-fixer fix -vvv --diff
-          ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
+          ./libraries/vendor/bin/php-cs-fixer fix --show-progress=dots
+          ./libraries/vendor/bin/phpcbf --extensions=php -p --standard=ruleset.xml .
 
   code-style-js-css:
     name: Check Javascript & CSS code style
