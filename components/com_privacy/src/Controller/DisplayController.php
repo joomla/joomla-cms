@@ -39,7 +39,7 @@ class DisplayController extends BaseController
         $view = $this->input->get('view', $this->default_view);
 
         // Set a Referrer-Policy header for views which require it
-        if (\in_array($view, ['confirm', 'remind'])) {
+        if(\in_array($view, ['confirm', 'remind'])) {
             $this->app->setHeader('Referrer-Policy', 'no-referrer', true);
         }
 

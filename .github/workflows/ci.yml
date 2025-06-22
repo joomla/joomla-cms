@@ -70,6 +70,17 @@ jobs:
         run: |
           ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff
           ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
+      - name: Suggest code style fixes
+        if: failure()
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: true
+        run: |
+          ./libraries/vendor/bin/php-cs-fixer fix -vvv
+          ./libraries/vendor/bin/phpcbf --extensions=php -p --standard=ruleset.xml .
+      - uses: parkerbxyz/suggest-changes@v1
+        with:
+          comment: 'Your code does not comply with our codestyle. Please commit the suggested changes.'
+          event: 'REQUEST_CHANGES'
 
   code-style-js-css:
     name: Check Javascript & CSS code style
