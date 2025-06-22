@@ -56,6 +56,9 @@ jobs:
   code-style-php:
     name: Check PHP code style
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     container: joomlaprojects/docker-images:php8.4
     needs: [composer]
     steps:
@@ -68,8 +71,13 @@ jobs:
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
         run: |
-          ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff
-          ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
+          ./libraries/vendor/bin/php-cs-fixer fix --show-progress=dots
+          ./libraries/vendor/bin/phpcbf --extensions=php -p --standard=ruleset.xml .
+      - uses: parkerbxyz/suggest-changes@v2
+        env:
+          ACTIONS_STEP_DEBUG: true
+        with:
+          comment: 'Your code does not comply with our codestyle. Please commit the suggested changes.'
 
   code-style-js-css:
     name: Check Javascript & CSS code style
