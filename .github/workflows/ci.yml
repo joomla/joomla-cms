@@ -55,7 +55,7 @@ jobs:
   code-style-php:
     name: Check PHP code style
     runs-on: ubuntu-latest
-    container: joomlaprojects/docker-images:php8.4
+    container: joomlaprojects/docker-images:cypress8.4
     needs: [composer]
     steps:
       - uses: actions/checkout@v4
