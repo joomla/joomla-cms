@@ -40,6 +40,7 @@ $displayData = [
     'textPrefix' => 'COM_CATEGORIES',
     'formURL'    => 'index.php?option=com_categories&extension=' . $extension,
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Category',
+    'tourUID'    => 'joomla-categories',
     'title'      => $title,
     'icon'       => 'icon-folder categories content-categories',
 ];
