@@ -18,6 +18,7 @@ $displayData = [
     'textPrefix' => 'COM_NEWSFEEDS',
     'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:News_Feeds',
+    'tourUID'    => 'joomla-newsfeeds',
     'icon'       => 'icon-rss newsfeeds',
 ];
 
