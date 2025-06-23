@@ -10,14 +10,12 @@
 
 namespace Joomla\Tests\Unit\Plugin\Task\Requests\Extension;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Language\Language;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Event\Dispatcher;
 use Joomla\Filesystem\Folder;
 use Joomla\Http\HttpFactory;
 use Joomla\Http\TransportInterface;
@@ -112,7 +110,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests([], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -168,7 +166,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests([], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -224,7 +222,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests([], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -273,7 +271,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests([], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -321,7 +319,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, '/proc/invalid');
+        $plugin = new Requests([], $factory, '/proc/invalid');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
