@@ -18,6 +18,7 @@ $displayData = [
     'textPrefix' => 'COM_GUIDEDTOURS_TOURS_LIST',
     'formURL'    => 'index.php?option=com_guidedtours&view=tours',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Guided_Tours',
+    'tourUID'    => 'joomla-guidedtours',
     'icon'       => 'icon-map-signs',
 ];
 
