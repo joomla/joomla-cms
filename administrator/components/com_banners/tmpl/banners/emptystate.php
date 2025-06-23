@@ -18,6 +18,7 @@ $displayData = [
     'textPrefix' => 'COM_BANNERS',
     'formURL'    => 'index.php?option=com_banners&view=banners',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Banners',
+    'tourUID'    => 'joomla-banners',
     'icon'       => 'icon-bookmark banners',
 ];
 
