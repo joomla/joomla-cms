@@ -72,7 +72,7 @@ class LdapPluginTest extends IntegrationTestCase
             'type'   => 'authentication',
         ];
 
-        $plugin = new LdapPlugin(new LdapFactory(), new Dispatcher(), $pluginObject);
+        $plugin = new LdapPlugin(new LdapFactory(), $pluginObject);
         $plugin->setApplication($app);
 
         return $plugin;
