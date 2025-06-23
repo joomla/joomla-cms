@@ -15,7 +15,6 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Language\Language;
-use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap as LdapPlugin;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactory;
 use Joomla\Tests\Integration\IntegrationTestCase;
