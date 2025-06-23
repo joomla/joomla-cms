@@ -460,6 +460,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         $this->current_lang = $lang_code;
 
         // Set the request var.
+        $app = $this->getApplication();
         $app->getInput()->set('language', $lang_code);
         $app->set('language', $lang_code);
         $language = $app->getLanguage();
