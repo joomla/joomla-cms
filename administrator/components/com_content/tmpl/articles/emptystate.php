@@ -18,6 +18,7 @@ $displayData = [
     'textPrefix' => 'COM_CONTENT',
     'formURL'    => 'index.php?option=com_content&view=articles',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Adding_a_new_article',
+    'tourUID'    => 'joomla-articles',
     'icon'       => 'icon-copy article',
 ];
 
