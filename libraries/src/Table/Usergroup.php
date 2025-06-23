@@ -72,7 +72,7 @@ class Usergroup extends Table
 
         // Check for a duplicate parent_id, title.
         // There is a unique index on the (parent_id, title) field in the table.
-        $db       = $this->_db;
+        $db       = $this->getDatabase();
         $parentId = (int) $this->parent_id;
         $title    = trim($this->title);
         $id       = (int) $this->id;
@@ -95,7 +95,7 @@ class Usergroup extends Table
 
         // We do not allow to move non public to root and public to non-root
         if (!empty($this->id)) {
-            $table = new self($this->getDbo(), $this->getDispatcher());
+            $table = new self($db, $this->getDispatcher());
 
             $table->load($this->id);
 
@@ -113,7 +113,7 @@ class Usergroup extends Table
 
         // The new parent_id has to be a valid group
         if ($this->parent_id) {
-            $table = new self($this->getDbo(), $this->getDispatcher());
+            $table = new self($db, $this->getDispatcher());
             $table->load($this->parent_id);
 
             if ($table->id != $this->parent_id) {
@@ -139,7 +139,7 @@ class Usergroup extends Table
     public function rebuild($parentId = 0, $left = 0)
     {
         // Get the database object
-        $db       = $this->_db;
+        $db       = $this->getDatabase();
         $query    = $db->getQuery(true);
         $parentId = (int) $parentId;
 
@@ -242,7 +242,7 @@ class Usergroup extends Table
             throw new \UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
         }
 
-        $db = $this->_db;
+        $db = $this->getDatabase();
 
         $lft = (int) $this->lft;
         $rgt = (int) $this->rgt;
