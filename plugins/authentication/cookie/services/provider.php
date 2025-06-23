@@ -17,7 +17,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Authentication\Cookie\Extension\Cookie;
 
 return new class () implements ServiceProviderInterface {

@@ -14,7 +14,6 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Symfony\Component\Ldap\Entry;

@@ -24,7 +24,6 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;

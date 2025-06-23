@@ -17,7 +17,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Filter\InputFilter;
 use Joomla\Plugin\ApiAuthentication\Token\Extension\Token;
 

@@ -17,7 +17,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
