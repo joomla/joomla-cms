@@ -19,16 +19,12 @@
 		},
 		"80": {
 			"label": "Joomla! (internal)"
-		},
-		"81": {
-			"label": "phpMyAdmin"
 		}
 	},
   "forwardPorts": [
 		80,
-		81,
 		3306,
-    9003
+    		9003
 	],
   "remoteUser": "joomla"
 }
