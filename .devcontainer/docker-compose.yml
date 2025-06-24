@@ -33,20 +33,8 @@ services:
     networks:
       - joomla_network
 
-  phpmyadmin:
-    image: phpmyadmin
-    depends_on:
-      - db
-    ports:
-      - 81:80
-    environment:
-      PMA_HOST: db
-    networks:
-      - joomla_network
-
 volumes:
   db:
-
 
 networks:
   joomla_network:
