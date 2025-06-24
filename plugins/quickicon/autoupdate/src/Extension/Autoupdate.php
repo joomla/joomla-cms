@@ -104,6 +104,7 @@ class Autoupdate extends CMSPlugin implements SubscriberInterface
         Text::script('PLG_QUICKICON_AUTOUPDATE_ERROR');
         Text::script('PLG_QUICKICON_AUTOUPDATE_OK');
         Text::script('PLG_QUICKICON_AUTOUPDATE_OUTDATED');
+        Text::script('PLG_QUICKICON_AUTOUPDATE_UNAVAILABLE');
         Text::script('PLG_QUICKICON_AUTOUPDATE_DISABLED');
         Text::script('MESSAGE');
         Text::script('ERROR');
