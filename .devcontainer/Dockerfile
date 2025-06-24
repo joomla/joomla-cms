@@ -1,34 +1,5 @@
 # Usa l'immagine ufficiale PHP con Apache
-FROM php:8.3-apache
-
-# Installa le dipendenze necessarie e Node.js
-RUN apt-get update && \
-    apt-get install -y \
-        libgtk2.0-0 \
-        libgtk-3-0 \
-        libgbm-dev \
-        libnotify-dev \
-        libgconf-2-4 \
-        libnss3 \
-        libxss1 \
-        libasound2 \
-        libxtst6 \
-        xauth \
-        xvfb \
-        git \
-        unzip \
-        libpng-dev \
-        libjpeg-dev \
-        software-properties-common \
-        curl \
-        libfreetype6-dev && \
-    curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g npm@latest && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install gd mysqli pdo pdo_mysql && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+FROM joomlaprojects/docker-images:cypress8.4
 
 # Installa Xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
