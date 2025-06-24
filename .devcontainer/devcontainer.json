@@ -12,7 +12,7 @@
     "ghcr.io/cirolosapio/devcontainers-features/alpine-php-composer:0": {}
   },
   "onCreateCommand": "sudo chmod +x .devcontainer/install-tools.sh && .devcontainer/install-tools.sh",
-  "postCreateCommand": "sudo chmod +x .devcontainer/setup.sh && .devcontainer/setup.sh && npm install --save-dev cypress",
+  "postCreateCommand": "sudo chmod +x .devcontainer/setup.sh && .devcontainer/setup.sh",
   "portsAttributes": {
 		"3306": {
 			"label": "Database (internal)"
