@@ -1,8 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: joomlaprojects/docker-images:cypress8.4
     restart: always
     ports:
       - 8080:80
