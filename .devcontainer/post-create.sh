@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo chmod -R 777 /workspaces/joomla-cms
+
 # Auto-detect PR branch from GitHub environment variables
 if [ -n "$GITHUB_HEAD_REF" ]; then
     PR_BRANCH="$GITHUB_HEAD_REF"  # For PRs
@@ -40,8 +42,8 @@ sudo service mariadb start
 
 # Configure database
 sudo mysql -e "CREATE DATABASE IF NOT EXISTS joomla_db;"
-sudo mysql -e "CREATE USER IF NOT EXISTS 'joomla_user'@'localhost' IDENTIFIED BY 'joomla_pass';"
-sudo mysql -e "GRANT ALL PRIVILEGES ON joomla_db.* TO 'joomla_user'@'localhost';"
+sudo mysql -e "CREATE USER IF NOT EXISTS 'joomla_user'@'%' IDENTIFIED BY 'joomla_pass';"
+sudo mysql -e "GRANT ALL PRIVILEGES ON joomla_db.* TO 'joomla_user'@'%';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
 # Secure MariaDB (optional)
@@ -49,5 +51,5 @@ sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '';"
 
 
 # install joomla
-php installation/joomla.php install --verbose --site-name="Joomla CMS test" --admin-email=admin@example.org --admin-username=ci-admin --admin-user="jane doe" --admin-password=joomla-17082005 --db-type=mysqli --db-host=mysql --db-name=joomla_db --db-pass=joomla_pass --db-user=joomla_user --db-encryption=0 --db-prefix=jos_
+php installation/joomla.php install --verbose --site-name="Joomla CMS test" --admin-email=admin@example.org --admin-username=ci-admin --admin-user="jane doe" --admin-password=joomla-17082005 --db-type=mysqli --db-host=127.0.0.1 --db-name=joomla_db --db-pass=joomla_pass --db-user=joomla_user --db-encryption=0 --db-prefix=jos_
 echo "Joomla CMS is ready at http://localhost:8080"
