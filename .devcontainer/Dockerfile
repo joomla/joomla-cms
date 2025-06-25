@@ -1,37 +1,39 @@
-# Usa l'immagine ufficiale PHP con Apache
-FROM joomlaprojects/docker-images:cypress8.4
+FROM mcr.microsoft.com/vscode/devcontainers/php:8.1
+RUN apt-get update && apt-get install -y \
+mariadb-server \
+mariadb-client \
+git \
+unzip \
+libzip-dev \
+libpng-dev \
+libjpeg-dev \
+libfreetype6-dev \
+libonig-dev \
+libxml2-dev \
+libicu-dev \
+zlib1g-dev \
+&& rm -rf /var/lib/apt/lists/*
 
-#RUN apt-get update && apt-get install -y php-pear php-dev gcc make autoconf libc-dev pkg-config
-# Installa Xdebug
-#RUN pecl install xdebug && docker-php-ext-enable xdebug
+# Install PHP extensions (corrected list)
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+    pdo_mysql \
+    mysqli \
+    gd \
+    intl \
+    zip \
+    opcache \
+    mbstring \
+    bcmath \
+    && a2enmod rewrite
 
-# Configura Xdebug (host configurabile tramite variabile d'ambiente)
-#ENV XDEBUG_CLIENT_HOST=host.docker.internal
-#RUN echo "zend_extension=xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini && \
-#    echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/xdebug.ini && \
-#    echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/xdebug.ini && \
-#    echo "xdebug.client_host=\${XDEBUG_CLIENT_HOST}" >> /usr/local/etc/php/conf.d/xdebug.ini && \
-#    echo "xdebug.client_port=9003" >> /usr/local/etc/php/conf.d/xdebug.ini && \
-#    echo "xdebug.log=/tmp/xdebug.log" >> /usr/local/etc/php/conf.d/xdebug.ini
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- \
+    --install-dir=/usr/local/bin --filename=composer
 
-# Espone la porta Xdebug
-EXPOSE 9003
+# 3. Install Node.js (npm) - Latest LTS version
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest
 
-# Abilita mod_rewrite di Apache
-RUN a2enmod rewrite
-
-# Imposta la working directory
-WORKDIR /var/www/html
-
-# Copia il codice nel container
-COPY . /var/www/html
-
-# Imposta i permessi corretti
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html
-
-# Espone la porta 80
-EXPOSE 80
-
-# Avvia Apache
-CMD ["apache2-foreground"]
+WORKDIR /workspaces/joomla-cms
