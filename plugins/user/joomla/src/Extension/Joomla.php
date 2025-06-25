@@ -390,7 +390,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $userid = (int) $user['id'];
 
         // Make sure we're a valid user first
-        if ($user['id'] === 0 && !$my->get('tmp_user')) {
+        if ($user['id'] === 0 && !empty($my->tmp_user)) {
             return;
         }
 

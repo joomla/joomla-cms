@@ -704,7 +704,7 @@ class User
         // Create the user table object
         $table        = static::getTable();
         $this->params = (string) $this->_params;
-        $table->bind($this->getProperties());
+        $table->bind(ArrayHelper::fromObject($this, false));
 
         // Allow an exception to be thrown.
         try {
@@ -773,9 +773,9 @@ class User
             PluginHelper::importPlugin('user', null, true, $dispatcher);
 
             $saveEvent = new BeforeSaveEvent('onUserBeforeSave', [
-                'subject' => $oldUser->getProperties(),
+                'subject' => ArrayHelper::fromObject($oldUser, false),
                 'isNew'   => $isNew,
-                'data'    => $this->getProperties(),
+                'data'    => ArrayHelper::fromObject($this, false),
             ]);
             $dispatcher->dispatch('onUserBeforeSave', $saveEvent);
             $result = $saveEvent['result'] ?? [];
@@ -800,7 +800,7 @@ class User
 
             // Fire the onUserAfterSave event
             $dispatcher->dispatch('onUserAfterSave', new AfterSaveEvent('onUserAfterSave', [
-                'subject'      => $this->getProperties(),
+                'subject'      => ArrayHelper::fromObject($this),
                 'isNew'        => $isNew,
                 'savingResult' => $result,
                 'errorMessage' => $this->getError() ?? '',
@@ -828,7 +828,7 @@ class User
 
         // Trigger the onUserBeforeDelete event
         $dispatcher->dispatch('onUserBeforeDelete', new BeforeDeleteEvent('onUserBeforeDelete', [
-            'subject' => $this->getProperties(),
+            'subject' => ArrayHelper::fromObject($this, false),
         ]));
 
         // Create the user table object
@@ -840,7 +840,7 @@ class User
 
         // Trigger the onUserAfterDelete event
         $dispatcher->dispatch('onUserAfterDelete', new AfterDeleteEvent('onUserAfterDelete', [
-            'subject'        => $this->getProperties(),
+            'subject'        => ArrayHelper::fromObject($this, false),
             'deletingResult' => $result,
             'errorMessage'   => $this->getError() ?? '',
         ]));
