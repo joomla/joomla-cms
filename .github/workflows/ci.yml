@@ -56,6 +56,8 @@ jobs:
   code-style-php:
     name: Check PHP code style
     runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php8.4
+    needs: [composer]
     strategy:
       matrix:
         command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
