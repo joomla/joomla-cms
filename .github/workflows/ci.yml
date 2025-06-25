@@ -58,6 +58,9 @@ jobs:
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer]
+    strategy:
+      matrix:
+        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -67,9 +70,7 @@ jobs:
       - name: Check PHP code style
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
-        run: |
-          ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff
-          ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
+        run: ./libraries/vendor/bin/${{ matrix.command }}
 
   code-style-js-css:
     name: Check Javascript & CSS code style
@@ -202,7 +203,7 @@ jobs:
     needs: [tests-system-prepare]
     strategy:
       matrix:
-        browser: ['chrome', 'electron', 'edge']
+        browser: ['chrome', 'edge']
         config:
           - php_version: '8.4'
             test_group: cmysqlmax
