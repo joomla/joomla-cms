@@ -1,0 +1,82 @@
+image: Visual Studio 2022
+build: false
+platform:
+  - x64
+clone_folder: C:\projects\joomla-cms
+
+## Build matrix for lowest and highest possible targets
+environment:
+  PHPBuild: "x64"
+  matrix:
+  - php_ver_target: 8.1
+
+
+init:
+  - SET PATH=C:\Tools\php;%PATH%
+  - SET COMPOSER_NO_INTERACTION=1
+  - SET ANSICON=121x90 (121x90)
+
+## Install PHP and composer, and run the appropriate composer command
+install:
+    - ps: >-
+        appveyor-retry choco install --no-progress --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
+    - cd C:\tools\php
+    - copy php.ini-production php.ini /Y
+    - echo date.timezone="UTC" >> php.ini
+    - echo extension_dir=ext >> php.ini
+    - echo extension=php_openssl.dll >> php.ini
+    - echo extension=php_mbstring.dll >> php.ini
+    - echo extension=php_fileinfo.dll >> php.ini
+    - IF %php_ver_target% LSS 8 echo extension=php_gd2.dll >> php.ini
+    - IF %php_ver_target% GEQ 8 echo extension=gd >> php.ini
+    - echo extension=php_gmp.dll >> php.ini
+    - echo extension=php_pgsql.dll >> php.ini
+    - echo extension=php_pdo_pgsql.dll >> php.ini
+    - echo extension=php_pdo_mysql.dll >> php.ini
+    - echo extension=php_mysqli.dll >> php.ini
+    - echo extension=php_curl.dll >> php.ini
+    - echo zend_extension=php_opcache.dll >> php.ini
+    - echo opcache.enable_cli=1 >> php.ini
+    - echo extension=php_ldap.dll >> php.ini
+    - choco install composer
+    - cd C:\projects\joomla-cms
+    - refreshenv
+    - echo "TODO Ignore platform reqs till all composer dependencies are compatible with php 8.1"
+    - composer install --no-progress --profile --ignore-platform-req=ext-sodium --ignore-platform-reqs
+
+hosts:
+  openldap: 127.0.0.1
+
+services:
+  - iis
+
+before_test:
+#  Run openldap docker image
+  - ps: docker pull bitnami/openldap:2.6.3
+  - ps: docker run --rm --name openldap --publish 1389:1389 --publish 1636:1636 -v ${pwd}\tests\certs:/certificates --env LDAP_ADMIN_USERNAME=admin --env LDAP_ADMIN_PASSWORD=adminpassword --env LDAP_USERS=customuser --env LDAP_PASSWORDS=custompassword --env LDAP_ENABLE_TLS=yes --env LDAP_TLS_CERT_FILE=/certificates/openldap.crt --env LDAP_TLS_KEY_FILE=/certificates/openldap.key --env LDAP_TLS_CA_FILE=/certificates/CA.crt --env BITNAMI_DEBUG=true --env LDAP_CONFIG_ADMIN_ENABLED=yes --env LDAP_CONFIG_ADMIN_USERNAME=admin --env LDAP_CONFIG_ADMIN_PASSWORD=configpassword -d bitnami/openldap:2.6.3
+#  Database setup for MySQL via PowerShell tools
+  - ps: Start-Service MySQL80
+  - >
+    "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql" -u root -p"Password12!" -e "CREATE DATABASE IF NOT EXISTS test_joomla;"
+# Wait till slapd has started
+  - ps: |
+      $Counter=0
+      $Found=$false
+      While ( ! $Found -and $Counter -lt 60 ) {
+        $Found = ( docker logs openldap 2>&1 | Select-String -Quiet "\*\* Starting slapd \*\*" )
+        Start-Sleep -Seconds 1
+        $Counter++
+        "$Counter Waiting for slapd"
+      }
+      if ( ! $Found ) {
+        Write-Error -Message "`nERROR: slapd not started (in time)!" -ErrorAction Stop
+        exit 1
+      }
+
+test_script:
+  - cd C:\projects\joomla-cms
+  - libraries/vendor/bin/phpunit --testsuite Unit
+  - libraries/vendor/bin/phpunit --testsuite Integration  --configuration tests/phpunit-appveyor.xml.dist
+
+on_failure:
+  - ps: docker logs openldap 2>&1
