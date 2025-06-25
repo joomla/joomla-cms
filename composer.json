@@ -32,11 +32,6 @@
       "type": "vcs",
       "url": "https://github.com/joomla-backports/php-tuf.git",
       "no-api": true
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/heelc29/joomla-framework-database.git",
-      "no-api": true
     }
   ],
   "autoload": {
@@ -58,7 +53,7 @@
     "joomla/console": "^3.0.1",
     "joomla/crypt": "^3.0.1",
     "joomla/data": "^3.0.1",
-    "joomla/database": "dev-4/interface-createquery as 4-dev",
+    "joomla/database": "dev-4.x-dev",
     "joomla/di": "^3.0.1",
     "joomla/event": "^3.0.1",
     "joomla/filter": "^3.0.2",

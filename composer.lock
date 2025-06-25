@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d889c982e4d7216005effc6d5b6635e5",
+    "content-hash": "2968bda8becf56803f64e62e3c7c834e",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1503,16 +1503,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "dev-4/interface-createquery",
+            "version": "dev-4.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/heelc29/joomla-framework-database.git",
-                "reference": "e36197cc7deaf2f467946e9bf6cd41213f7a2dc8"
+                "url": "https://github.com/joomla-framework/database.git",
+                "reference": "cf50ddaec67d90cb3faff674aed25b382781d361"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heelc29/joomla-framework-database/zipball/e36197cc7deaf2f467946e9bf6cd41213f7a2dc8",
-                "reference": "e36197cc7deaf2f467946e9bf6cd41213f7a2dc8",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/cf50ddaec67d90cb3faff674aed25b382781d361",
+                "reference": "cf50ddaec67d90cb3faff674aed25b382781d361",
                 "shasum": ""
             },
             "require": {
@@ -1557,11 +1557,7 @@
                     "Joomla\\Database\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Joomla\\Database\\Tests\\": "Tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1572,7 +1568,11 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2025-05-19T20:41:40+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/database/issues",
+                "source": "https://github.com/joomla-framework/database/tree/4.x-dev"
+            },
+            "time": "2025-06-25T18:27:01+00:00"
         },
         {
             "name": "joomla/di",
@@ -9854,14 +9854,7 @@
             "time": "2024-03-03T12:36:25+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "joomla/database",
-            "version": "dev-4/interface-createquery",
-            "alias": "4-dev",
-            "alias_normalized": "4.0.0.0-dev"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "joomla/database": 20,
