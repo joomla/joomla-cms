@@ -21,7 +21,7 @@ services:
       - joomla_network
 
   db:
-    image: mysql
+    image: mysql:latest
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: joomla_db
