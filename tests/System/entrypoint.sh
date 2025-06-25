@@ -21,6 +21,10 @@ chown -R www-data /tests/www/$TEST_GROUP/
 # Required for media manager tests
 chmod -R 777 /tests/www/$TEST_GROUP/images
 
+# Disable opcache for configuration.php, otherwise there are issues when the config is changed in a test
+echo "/tests/www/$TEST_GROUP/configuration.php" > /tmp/blacklist.ini
+echo "opcache.blacklist_filename=/tmp/blacklist.ini" >> /etc/php/*/apache2/conf.d/10-opcache.ini
+
 echo "[RUNNER] Start Apache"
 a2enmod rewrite
 apache2ctl -D FOREGROUND &
