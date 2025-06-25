@@ -202,6 +202,7 @@ jobs:
     needs: [tests-system-prepare]
     strategy:
       matrix:
+        browser: ['chrome', 'electron', 'edge']
         config:
           - php_version: '8.4'
             test_group: cmysqlmax
@@ -240,7 +241,7 @@ jobs:
             /github/home/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
       - name: Run System tests
-        run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} chrome
+        run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} ${{ matrix.browser }}
       - name: Archive test results results
         uses: actions/upload-artifact@v4
         if: always()
