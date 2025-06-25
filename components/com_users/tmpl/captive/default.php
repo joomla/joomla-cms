@@ -59,8 +59,8 @@ $this->getDocument()->getWebAssetManager()
     <?php endif; ?>
 
     <form action="<?php echo Route::_('index.php?task=captive.validate&record_id=' . ((int) $this->record->id)) ?>"
-            id="users-mfa-captive-form"
             method="post"
+            id="users-mfa-captive-form"
             class="form-horizontal"
     >
         <?php echo HTMLHelper::_('form.token') ?>
