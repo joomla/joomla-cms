@@ -195,7 +195,7 @@ abstract class UpdateAdapter
             return;
         }
 
-        $db    = $this->parent->getDbo();
+        $db    = $this->db;
         $query = $db->createQuery()
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('enabled') . ' = :enabled')
@@ -226,7 +226,7 @@ abstract class UpdateAdapter
             return '';
         }
 
-        $db    = $this->parent->getDbo();
+        $db    = $this->db;
         $query = $db->createQuery()
             ->select($db->quoteName('name'))
             ->from($db->quoteName('#__update_sites'))

@@ -188,7 +188,7 @@ class Updater implements DatabaseAwareInterface
             }
 
             // Make sure there is no update left over in the database.
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $query = $db->createQuery()
                 ->delete($db->quoteName('#__updates'))
                 ->where($db->quoteName('update_site_id') . ' = :id')
@@ -257,7 +257,7 @@ class Updater implements DatabaseAwareInterface
      */
     private function getUpdateSites($eid = 0)
     {
-        $db    = $this->getDbo();
+        $db    = $this->getDatabase();
         $query = $db->createQuery();
 
         $query->select(
