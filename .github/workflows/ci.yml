@@ -58,6 +58,9 @@ jobs:
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer]
+    strategy:
+      matrix:
+        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -67,15 +70,16 @@ jobs:
       - name: Check PHP code style
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
-        run: |
-          ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff
-          ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
+        run: ./libraries/vendor/bin/${{ matrix.command }}
 
   code-style-js-css:
     name: Check Javascript & CSS code style
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer, npm]
+    strategy:
+      matrix:
+        check: ['lint:js', 'lint:testjs', 'lint:css']
     steps:
       - uses: actions/setup-node@v4
         with:
@@ -87,12 +91,8 @@ jobs:
             node_modules
             media
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
-      - name: Check JS code style
-        run: |
-          npm run lint:js
-          npm run lint:testjs
-      - name: Check CSS code style
-        run: npm run lint:css
+      - name: Check code style
+        run: npm run ${{ matrix.check }}
 
   phpstan:
     name: Run PHPstan
@@ -264,6 +264,7 @@ jobs:
     needs: [tests-system-prepare]
     strategy:
       matrix:
+        browser: ['chrome', 'edge']
         config:
           - php_version: '8.4'
             test_group: cmysqlmax
@@ -302,7 +303,7 @@ jobs:
             /github/home/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
       - name: Run System tests
-        run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} chrome
+        run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} ${{ matrix.browser }}
       - name: Archive test results results
         uses: actions/upload-artifact@v4
         if: always()
