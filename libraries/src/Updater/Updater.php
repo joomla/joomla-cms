@@ -84,7 +84,7 @@ class Updater implements DatabaseAwareInterface
      * Array of installer adapters
      *
      * @var    string[]|UpdateAdapter[]
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     private $adapters = [];
 
@@ -92,7 +92,7 @@ class Updater implements DatabaseAwareInterface
      * Adapter Class Prefix
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     private $classprefix = '\\Joomla\\CMS\\Updater\\Adapter';
 
@@ -100,7 +100,7 @@ class Updater implements DatabaseAwareInterface
      * Base Path for the installer adapters
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     private $adapterfolder;
 
@@ -489,7 +489,7 @@ class Updater implements DatabaseAwareInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected function loadAdapters()
     {
@@ -568,7 +568,7 @@ class Updater implements DatabaseAwareInterface
      * @return  UpdateAdapter
      *
      * @throws  \InvalidArgumentException
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function getAdapter($name, $options = [])
     {
@@ -609,7 +609,7 @@ class Updater implements DatabaseAwareInterface
      *
      * @return  boolean  True if successful
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function setAdapter($name, $adapter)
     {

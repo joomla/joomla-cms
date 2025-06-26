@@ -70,7 +70,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         if (!empty($filterGroups)) {
             $userGroups = $this->getApplication()
                 ->getIdentity()
-                ->get('groups');
+                ->groups;
 
             if (!array_intersect($filterGroups, $userGroups)) {
                 $result = false;
