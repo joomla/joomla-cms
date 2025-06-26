@@ -723,10 +723,10 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             return false;
         }
 
-        $langKey = $this->text_prefix . (empty($recordId) && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
+        $langKey = $this->text_prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
         $prefix  = $this->app->getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
 
-        $this->setMessage(Text::_($prefix . (empty($recordId) && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
+        $this->setMessage(Text::_($prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
         // Redirect the user and adjust session state based on the chosen task.
         switch ($task) {
