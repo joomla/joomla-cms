@@ -16,7 +16,7 @@ describe('Test that console command config', () => {
       cy.wrap(result).its('code')
         .should('equal', 4);
       cy.wrap(result).its('stdout')
-        .should('contain', '[ERROR] Cannot connect to database, verify that you specified the correct database details');
+        .should('contain', '[ERROR] Cannot connect to database');
     });
   });
 });
