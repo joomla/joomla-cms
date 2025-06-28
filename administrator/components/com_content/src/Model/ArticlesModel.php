@@ -352,8 +352,13 @@ class ArticlesModel extends ListModel
 
         if ($params->get('workflow_enabled') && is_numeric($workflowStage)) {
             $workflowStage = (int) $workflowStage;
-            $query->where($db->quoteName('wa.stage_id') . ' = :stage')
-                ->bind(':stage', $workflowStage, ParameterType::INTEGER);
+
+            if ($workflowStage === 0) {
+                $query->where($db->quoteName('wa.stage_id') . 'IS NULL');
+            } else {
+                $query->where($db->quoteName('wa.stage_id') . ' = :stage')
+                    ->bind(':stage', $workflowStage, ParameterType::INTEGER);
+            }
         }
 
         $published = (string) $this->getState('filter.published');
