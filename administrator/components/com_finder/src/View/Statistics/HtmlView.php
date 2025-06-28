@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Statistics;
 
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Finder\Administrator\Model\StatisticsModel;
 

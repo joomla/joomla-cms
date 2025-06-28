@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\Compare;
 
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contenthistory\Administrator\Model\CompareModel;
 

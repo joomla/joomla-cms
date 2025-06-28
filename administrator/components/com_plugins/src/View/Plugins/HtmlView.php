@@ -12,7 +12,6 @@ namespace Joomla\Component\Plugins\Administrator\View\Plugins;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Plugins\Administrator\Model\PluginsModel;

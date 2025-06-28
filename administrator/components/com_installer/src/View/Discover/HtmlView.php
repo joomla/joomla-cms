@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 

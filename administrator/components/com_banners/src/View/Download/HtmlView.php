@@ -11,7 +11,6 @@
 namespace Joomla\Component\Banners\Administrator\View\Download;
 
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Banners\Administrator\Model\DownloadModel;
 

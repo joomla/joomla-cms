@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\View\Updatesites;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
