@@ -17,7 +17,7 @@
     <template #body>
       <div class="p-3">
         <div class="desc">
-          {{ translate('JGLOBAL_CONFIRM_DELETE') }}
+          {{ translate('COM_MEDIA_DELETE') }}
         </div>
       </div>
     </template>
