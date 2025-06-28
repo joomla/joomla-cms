@@ -209,6 +209,12 @@ class ArticlesModel extends ListModel
 
         $params = ComponentHelper::getParams('com_content');
 
+        // Subquery for workflows
+        $workflowQuery = $db->getQuery(true)
+            ->select([$db->quoteName('wa1.stage_id'), $db->quoteName('wa1.item_id')])
+            ->from($db->quoteName('#__workflow_associations', 'wa1'))
+            ->where($db->quoteName('wa1.extension') . ' = ' . $db->quote('com_content.article'));
+
         // Select the required fields from the table.
         $query->select(
             $this->getState(
@@ -268,7 +274,6 @@ class ArticlesModel extends ListModel
                 ]
             )
             ->from($db->quoteName('#__content', 'a'))
-            ->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article'))
             ->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
             ->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
             ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
@@ -276,9 +281,9 @@ class ArticlesModel extends ListModel
             ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
             ->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
             ->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
-            ->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-            ->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
-            ->join('INNER', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
+            ->join('LEFT', '(' . $workflowQuery . ') AS ' . $db->quoteName('wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+            ->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+            ->join('LEFT', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
 
         if (PluginHelper::isEnabled('content', 'vote')) {
             $query->select(
