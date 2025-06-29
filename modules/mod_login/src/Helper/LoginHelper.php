@@ -36,7 +36,7 @@ class LoginHelper
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getModuleType(CMSApplicationInterface $app)
+    public function getLayoutType(CMSApplicationInterface $app)
     {
         $user = $app->getIdentity();
 
@@ -129,14 +129,14 @@ class LoginHelper
      * @return     string
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
-     *             Use the non-static method getModuleType
+     *             Use the non-static method getLayoutType
      *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
      *                          ->getHelper('LoginHelper')
-     *                          ->getModuleType(Factory::getApplication())
+     *                          ->getLayoutType(Factory::getApplication())
      */
     public static function getType()
     {
-        return (new self())->getModuleType(Factory::getApplication());
+        return (new self())->getLayoutType(Factory::getApplication());
     }
 
     /**
