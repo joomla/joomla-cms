@@ -209,12 +209,6 @@ class ArticlesModel extends ListModel
 
         $params = ComponentHelper::getParams('com_content');
 
-        // Subquery for workflows
-        $workflowQuery = $db->getQuery(true)
-            ->select([$db->quoteName('wa1.stage_id'), $db->quoteName('wa1.item_id')])
-            ->from($db->quoteName('#__workflow_associations', 'wa1'))
-            ->where($db->quoteName('wa1.extension') . ' = ' . $db->quote('com_content.article'));
-
         // Select the required fields from the table.
         $query->select(
             $this->getState(
@@ -281,7 +275,7 @@ class ArticlesModel extends ListModel
             ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
             ->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
             ->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
-            ->join('LEFT', '(' . $workflowQuery . ') AS ' . $db->quoteName('wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+            ->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
             ->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
             ->join('LEFT', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
 
@@ -356,9 +350,12 @@ class ArticlesModel extends ListModel
             if ($workflowStage === 0) {
                 $query->where($db->quoteName('wa.stage_id') . ' IS NULL');
             } else {
+                $query->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article'));
                 $query->where($db->quoteName('wa.stage_id') . ' = :stage')
                     ->bind(':stage', $workflowStage, ParameterType::INTEGER);
             }
+        } else {
+            $query->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article'));
         }
 
         $published = (string) $this->getState('filter.published');
