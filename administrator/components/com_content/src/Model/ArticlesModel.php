@@ -355,7 +355,10 @@ class ArticlesModel extends ListModel
                     ->bind(':stage', $workflowStage, ParameterType::INTEGER);
             }
         } else {
-            $query->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article'));
+            $query->where(
+                $db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article')
+                . ' OR ' . $db->quoteName('wa.extension') . ' IS NULL'
+            );
         }
 
         $published = (string) $this->getState('filter.published');
