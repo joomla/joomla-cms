@@ -466,7 +466,7 @@ class SysinfoModel extends BaseDatabaseModel
         } catch (\Exception $e) {
             try {
                 Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 Factory::getApplication()->enqueueMessage(
                     Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
                     'warning'

@@ -52,6 +52,7 @@ if ($params->get('show_autosuggest', 1)) {
     $wa->usePreset('awesomplete');
     $app->getDocument()->addScriptOptions('finder-search', ['url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false)]);
 
+    Text::script('COM_FINDER_SEARCH_FORM_LIST_LABEL');
     Text::script('JLIB_JS_AJAX_ERROR_OTHER');
     Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 }

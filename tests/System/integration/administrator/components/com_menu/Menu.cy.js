@@ -1,4 +1,4 @@
-describe('Test in backend that the user form', () => {
+describe('Test in backend that the menu form', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__menu_types WHERE menutype = 'test'"));
 
@@ -10,7 +10,7 @@ describe('Test in backend that the user form', () => {
     cy.get('#jform_menudescription').clear().type('test description');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Menu saved').should('exist');
+    cy.checkForSystemMessage('Menu saved');
     cy.contains('test menu');
   });
 });

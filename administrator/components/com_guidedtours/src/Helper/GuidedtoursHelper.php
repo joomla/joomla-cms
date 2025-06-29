@@ -24,7 +24,7 @@ use Joomla\CMS\Factory;
 class GuidedtoursHelper
 {
     /**
-     * Load the translation files for an Guided Tour
+     * Load the translation files for a Guided Tour
      *
      * @param   string  $uid    Guided Tour Unique Identifier
      * @param   boolean $steps  Should tour steps language file be loaded
@@ -46,7 +46,7 @@ class GuidedtoursHelper
 
         // The uid has an extension separator so we need to check the extension language files
         if (strpos($uid, '.') > 0) {
-            list($extension, $tourid) = explode('.', $uid, 2);
+            [$extension, $tourid] = explode('.', $uid, 2);
 
             $source = '';
 

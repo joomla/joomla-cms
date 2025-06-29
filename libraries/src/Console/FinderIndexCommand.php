@@ -245,7 +245,7 @@ EOF;
 
         try {
             $language = $this->getLanguage();
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             @trigger_error(\sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
             $language = Factory::getLanguage();
         }

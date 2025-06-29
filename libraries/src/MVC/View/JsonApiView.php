@@ -215,7 +215,7 @@ abstract class JsonApiView extends JsonView
             $item  = $this->prepareItem($model->getItem());
         }
 
-        if ($item->id === null) {
+        if (!$item || $item->id === null) {
             throw new RouteNotFoundException('Item does not exist');
         }
 

@@ -288,8 +288,7 @@ class Changelog
                         $this->$key = $val;
                     }
 
-                    unset($this->latest);
-                    unset($this->currentChangelog);
+                    unset($this->latest, $this->currentChangelog);
                 } elseif (isset($this->currentChangelog)) {
                     // The update might be for an older version of j!
                     unset($this->currentChangelog);
@@ -354,7 +353,7 @@ class Changelog
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -368,9 +367,8 @@ class Changelog
         $this->currentChangelog = new \stdClass();
 
         $this->xmlParser = xml_parser_create('');
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, 'startElement', 'endElement');
-        xml_set_character_data_handler($this->xmlParser, 'characterData');
+        xml_set_element_handler($this->xmlParser, [$this, 'startElement'], [$this, 'endElement']);
+        xml_set_character_data_handler($this->xmlParser, [$this, 'characterData']);
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             Log::add(
