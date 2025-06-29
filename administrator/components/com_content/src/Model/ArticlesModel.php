@@ -357,7 +357,7 @@ class ArticlesModel extends ListModel
         } else {
             $query->where(
                 '(' . $db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article')
-                . ' OR ' . $db->quoteName('wa.extension') . ' IS NULL)'
+                . ' OR ' . $db->quoteName('wa.item_id') . ' IS NULL)'
             );
         }
 
