@@ -354,7 +354,7 @@ class ArticlesModel extends ListModel
             $workflowStage = (int) $workflowStage;
 
             if ($workflowStage === 0) {
-                $query->where($db->quoteName('wa.stage_id') . 'IS NULL');
+                $query->where($db->quoteName('wa.stage_id') . ' IS NULL');
             } else {
                 $query->where($db->quoteName('wa.stage_id') . ' = :stage')
                     ->bind(':stage', $workflowStage, ParameterType::INTEGER);
