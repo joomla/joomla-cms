@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -32,14 +33,13 @@ class LoginHelper
      *
      * @param   CMSApplicationInterface  $app  The application
      *
+     *
      * @return string
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getMenuItemType(CMSApplicationInterface $app)
+    public function getMenuItemType(CMSApplicationInterface $app, User $user)
     {
-        $user = $app->getIdentity();
-
         return (!$user->guest) ? 'logout' : 'login';
     }
 
@@ -136,7 +136,10 @@ class LoginHelper
      */
     public static function getType()
     {
-        return (new self())->getMenuItemType(Factory::getApplication());
+        $app  = Factory::getApplication();
+        $user = $app->getIdentity();
+
+        return (new self())->getMenuItemType($app, $user);
     }
 
     /**

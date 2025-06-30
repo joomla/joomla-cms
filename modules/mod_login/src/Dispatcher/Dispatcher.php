@@ -44,11 +44,11 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         // HTML IDs
         $formId               = 'login-form-' . $data['module']->id;
-        $type                 = $helper->getMenuItemType($data['app']);
+        $data['user']         = $data['app']->getIdentity();
+        $type                 = $helper->getMenuItemType($data['app'], $data['user']);
         $data['return']       = $helper->getReturnUrlString($data['params'], $type, $data['app']);
         $data['registerLink'] = $helper->getRegistrationUrlString($data['params'], $data['app']);
         $data['extraButtons'] = AuthenticationHelper::getLoginButtons($formId);
-        $data['user']         = $data['app']->getIdentity();
         $layout               = $data['params']->get('layout', 'default');
 
         // Logged users must load the logout sublayout
