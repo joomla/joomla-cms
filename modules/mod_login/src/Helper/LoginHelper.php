@@ -37,7 +37,7 @@ class LoginHelper
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getMenuItemType(User $user)
+    public function getReturnType(User $user)
     {
         return (!$user->guest) ? 'logout' : 'login';
     }
@@ -128,16 +128,16 @@ class LoginHelper
      * @return     string
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
-     *             Use the non-static method getMenuItemType
+     *             Use the non-static method getReturnType
      *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
      *                          ->getHelper('LoginHelper')
-     *                          ->getMenuItemType(Factory::getApplication())
+     *                          ->getReturnType(Factory::getApplication())
      */
     public static function getType()
     {
         $user = Factory::getApplication()->getIdentity();
 
-        return (new self())->getMenuItemType($user);
+        return (new self())->getReturnType($user);
     }
 
     /**
