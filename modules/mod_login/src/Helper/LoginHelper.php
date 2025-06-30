@@ -31,14 +31,13 @@ class LoginHelper
     /**
      * Returns the current users type
      *
-     * @param   CMSApplicationInterface  $app  The application
-     *
+     * @param   User  $user  The user object
      *
      * @return string
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getMenuItemType(CMSApplicationInterface $app, User $user)
+    public function getMenuItemType(User $user)
     {
         return (!$user->guest) ? 'logout' : 'login';
     }
@@ -136,10 +135,9 @@ class LoginHelper
      */
     public static function getType()
     {
-        $app  = Factory::getApplication();
-        $user = $app->getIdentity();
+        $user = Factory::getApplication()->getIdentity();
 
-        return (new self())->getMenuItemType($app, $user);
+        return (new self())->getMenuItemType($user);
     }
 
     /**
