@@ -44,7 +44,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         // HTML IDs
         $formId               = 'login-form-' . $data['module']->id;
-        $type                 = $helper->getLayoutType($data['app']);
+        $type                 = $helper->getMenuItemType($data['app']);
         $data['return']       = $helper->getReturnUrlString($data['params'], $type, $data['app']);
         $data['registerLink'] = $helper->getRegistrationUrlString($data['params'], $data['app']);
         $data['extraButtons'] = AuthenticationHelper::getLoginButtons($formId);
