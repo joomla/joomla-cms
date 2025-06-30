@@ -24,8 +24,8 @@ describe('Install Joomla', () => {
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
-    cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
+    cy.disableStatistics();
     cy.doAdministratorLogout();
 
     // Update to the correct secret for the API tests because of the bearer token
