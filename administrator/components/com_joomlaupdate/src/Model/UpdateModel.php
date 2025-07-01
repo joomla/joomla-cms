@@ -614,8 +614,8 @@ class UpdateModel extends BaseDatabaseModel
             Factory::getApplication()->enqueueMessage(
                 Text::sprintf(
                     'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_ERROR',
-                    $result['message'] ?: '',
-                    $result['status'] ?: ''
+                    !empty($result['message']) ? $result['message'] : '',
+                    !empty($result['status']) ? $result['status'] : ''
                 ),
                 'error'
             );
