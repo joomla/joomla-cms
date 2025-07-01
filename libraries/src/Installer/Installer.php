@@ -208,6 +208,11 @@ class Installer implements DatabaseAwareInterface
         $this->loadAdapters();
 
         $this->extension = Table::getInstance('Extension');
+
+        if ($this instanceof DatabaseAwareInterface) {
+            $this->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+        }
+
     }
 
     /**
