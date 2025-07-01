@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
  * Returns true it is disabled.
  *
  * @return  bool
- * @since   __DEPLOY_VERSION__
+ * @since   5.4.0
  */
 function com_joomlaupdate_postinstall_autoupdate_condition(): bool
 {
@@ -39,7 +39,7 @@ function com_joomlaupdate_postinstall_autoupdate_condition(): bool
  * Enables the Automated Update.
  *
  * @return  void
- * @since   __DEPLOY_VERSION__
+ * @since   5.4.0
  */
 function com_joomlaupdate_postinstall_autoupdate_action(): void
 {

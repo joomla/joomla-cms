@@ -263,6 +263,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         if ($table = $this->_createTable($name, $prefix, $options)) {
+            if ($this->shouldUseExceptions()) {
+                $table->setUseExceptions(true);
+            }
+
             return $table;
         }
 
