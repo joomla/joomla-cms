@@ -412,7 +412,8 @@ trait DisplayTrait
 
         // Set the default classes for the image class dropdown
         $imgClasses = [
-            ['title' => TEXT::_('PLG_TINY_FIELD_IMG_CLASS_NONE'), 'value' => ''],
+            ['title' => TEXT::_('PLG_TINY_FIELD_IMG_CLASS_NO_CLASS'), 'value' => ''],
+            ['title' => 'None', 'value' => 'float-none'],
             ['title' => 'Left', 'value' => 'float-start'],
             ['title' => 'Right', 'value' => 'float-end'],
             ['title' => 'Center', 'value' => 'mx-auto d-block'],
