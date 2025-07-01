@@ -624,7 +624,6 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
                     try {
                         $db->execute();
                     } catch (\RuntimeException $e) {
-
                         try {
                             Log::add(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), Log::WARNING, 'joomla_registration');
                         } catch (\RuntimeException $exception) {
