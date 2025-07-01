@@ -525,7 +525,7 @@ class UpdateCoreCommand extends AbstractCommand
      *
      * @return  boolean  True if success
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.4.0
      */
     public function checkMajorUpgrade(): bool
     {

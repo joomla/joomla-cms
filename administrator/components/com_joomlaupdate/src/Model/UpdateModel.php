@@ -614,8 +614,8 @@ class UpdateModel extends BaseDatabaseModel
             Factory::getApplication()->enqueueMessage(
                 Text::sprintf(
                     'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_ERROR',
-                    $result['message'] ?: '',
-                    $result['status'] ?: ''
+                    $result['message'] ?? '',
+                    $result['status'] ?? ''
                 ),
                 'error'
             );
@@ -641,7 +641,7 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * Update the autoupdate activation and registration states
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     protected function updateAutoUpdateParams(AutoupdateRegisterState $registrationState, bool $enableUpdate): void
     {
