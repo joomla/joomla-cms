@@ -14,7 +14,6 @@ use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\Module\Whosonline\Site\Helper\WhosonlineHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
