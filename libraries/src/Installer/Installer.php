@@ -212,7 +212,6 @@ class Installer implements DatabaseAwareInterface
         if ($this instanceof DatabaseAwareInterface) {
             $this->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
         }
-
     }
 
     /**
