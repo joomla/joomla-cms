@@ -497,7 +497,7 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
-                'image_class_list' => $imgClasses,
+                'image_class_list'      => $imgClasses,
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,
