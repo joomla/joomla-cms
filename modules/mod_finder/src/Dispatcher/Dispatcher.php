@@ -4,7 +4,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,7 +74,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         LanguageHelper::loadPluginLanguage();
 
         // Get Smart Search query object.
-        $data['query'] = $data['app']->bootModule('mod_finder', 'site')->getHelper('FinderHelper')->getSearchQuery($data['params'], $data['app']);
+        $data['query'] = $this->getHelperFactory()->getHelper('FinderHelper')->getSearchQuery($data['params'], $data['app']);
 
         return $data;
     }
