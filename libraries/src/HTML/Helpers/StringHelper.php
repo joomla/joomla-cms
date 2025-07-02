@@ -163,7 +163,7 @@ abstract class StringHelper
             return $html;
         }
 
-        // Special case: very short cutoff, plain text
+        // Special case: very short cutoff, plain text.
         if ($maxLength <= 3 && $html[0] !== '<' && !str_contains(substr($html, 0, max(0, $maxLength - 1)), '<')) {
             return '...';
         }
