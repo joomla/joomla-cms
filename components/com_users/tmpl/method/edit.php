@@ -25,14 +25,11 @@ if (!empty($this->returnURL)) {
     $cancelURL = $this->escape(base64_decode($this->returnURL));
 }
 
-$recordId     = (int) $this->record->id ?? 0;
-$method       = $this->record->method ?? $this->getModel()->getState('method');
-$userId       = (int) $this->user->id ?? 0;
 $headingLevel = 2;
 $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
 ?>
 <div class="card card-body">
-    <form action="<?php echo Route::_(sprintf("index.php?task=method.save&id=%d&method=%s&user_id=%d", $recordId, $method, $userId)) ?>"
+    <form action="<?php echo Route::_('index.php') ?>"
         method="post" id="com-users-method-edit" class="form form-horizontal">
         <?php echo HTMLHelper::_('form.token') ?>
         <?php if (!empty($this->returnURL)) : ?>
