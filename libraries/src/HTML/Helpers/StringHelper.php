@@ -154,7 +154,7 @@ abstract class StringHelper
      *
      * @since   3.1
      */
-    public static function truncateComplex(string $html, int $maxLength = 0, bool $noSplit = true): string
+    public static function truncateComplex(string $html, $maxLength = 0, bool $noSplit = true): string
     {
         $baseLength = \strlen($html);
 
