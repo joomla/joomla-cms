@@ -12,7 +12,7 @@ describe('Test in backend that the banner clients form', () => {
     cy.get('#jform_contact').clear().type('test banner client');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Client saved.').should('exist');
+    cy.checkForSystemMessage('Client saved.');
     cy.contains('test banner client');
   });
 

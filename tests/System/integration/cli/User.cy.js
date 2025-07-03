@@ -10,6 +10,24 @@ describe('Test that console command user', () => {
       .its('stdout')
       .should('contain', 'User created!');
   });
+  it('can reset password', () => {
+    const para = '--username=test --password=abcdefghilmno -n';
+    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php user:reset-password ${para}`)
+      .its('stdout')
+      .should('contain', 'Password changed!');
+  });
+  it('can add a user to user group', () => {
+    const para = '--username=test --group=Registered -n';
+    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php user:addtogroup ${para}`)
+      .its('stdout')
+      .should('contain', "Added 'test' to group 'Registered'!");
+  });
+  it('can remove a user from user group', () => {
+    const para = '--username=test --group=Registered -n';
+    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php user:removefromgroup ${para}`)
+      .its('stdout')
+      .should('contain', "Removed 'test' from group 'Registered'!");
+  });
   it('can delete a user', () => {
     const para = '--username=test -n';
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php user:delete ${para}`)

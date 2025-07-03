@@ -33,7 +33,7 @@ class LogModel extends AdminModel
      *
      * @return Form|boolean  A Form object on success, false on failure.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      * @throws \Exception
      */
     public function getForm($data = [], $loadData = true)
@@ -50,7 +50,7 @@ class LogModel extends AdminModel
      *
      * @return Table
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      * @throws \Exception
      */
     public function getTable($name = 'Log', $prefix = 'Administrator', $options = []): Table

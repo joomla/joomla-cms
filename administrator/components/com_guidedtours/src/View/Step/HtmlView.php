@@ -23,7 +23,7 @@ use Joomla\Component\Guidedtours\Administrator\Model\StepModel;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit an Step
+ * View to edit a Step
  *
  * @since 4.3.0
  */

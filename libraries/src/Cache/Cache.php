@@ -380,7 +380,7 @@ class Cache
          */
         $handler = $this->_getStorage();
 
-        if ($this->_options['locking'] == true) {
+        if ($this->_options['locking']) {
             $locked = $handler->lock($id, $group, $locktime);
 
             if ($locked !== false) {
@@ -397,7 +397,7 @@ class Cache
         $looptime = $locktime * 10;
         $id2      = $id . '_lock';
 
-        if ($this->_options['locking'] == true) {
+        if ($this->_options['locking']) {
             $data_lock = $handler->get($id2, $group, $this->_options['checkTime']);
         } else {
             $data_lock         = false;
@@ -421,7 +421,7 @@ class Cache
             }
         }
 
-        if ($this->_options['locking'] == true) {
+        if ($this->_options['locking']) {
             $returning->locked = $handler->store($id2, $group, 1);
         }
 

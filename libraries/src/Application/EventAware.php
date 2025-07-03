@@ -60,7 +60,7 @@ trait EventAware
     {
         try {
             $this->getDispatcher()->addListener($event, $handler);
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // No dispatcher is registered, don't throw an error (mimics old behavior)
         }
 
@@ -93,7 +93,7 @@ trait EventAware
     {
         try {
             $dispatcher = $this->getDispatcher();
-        } catch (\UnexpectedValueException $exception) {
+        } catch (\UnexpectedValueException) {
             $this->getLogger()->error(\sprintf('Dispatcher not set in %s, cannot trigger events.', \get_class($this)));
 
             return [];

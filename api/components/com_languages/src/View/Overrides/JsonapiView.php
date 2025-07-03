@@ -97,8 +97,7 @@ class JsonapiView extends BaseApiView
     {
         $item->id    = $item->key;
         $item->value = $item->override;
-        unset($item->key);
-        unset($item->override);
+        unset($item->key, $item->override);
 
         return parent::prepareItem($item);
     }

@@ -65,7 +65,7 @@ class IndexerController extends BaseController
         // Log the start
         try {
             Log::add('Starting the indexer', Log::INFO);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -137,7 +137,7 @@ class IndexerController extends BaseController
         // Log the start
         try {
             Log::add('Starting the indexer batch process', Log::INFO);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -196,7 +196,7 @@ class IndexerController extends BaseController
             // Log batch completion and memory high-water mark.
             try {
                 Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
 
@@ -293,7 +293,7 @@ class IndexerController extends BaseController
         if ($data instanceof \Exception) {
             try {
                 Log::add($data->getMessage(), Log::ERROR);
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
 

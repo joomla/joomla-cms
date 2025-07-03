@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
             try {
                 $this->image = $model->getImage();
                 $this->type  = 'image';
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
                 $this->type = 'home';
             }
