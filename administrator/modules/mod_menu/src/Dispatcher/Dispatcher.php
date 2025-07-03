@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,9 +35,9 @@ class Dispatcher extends AbstractModuleDispatcher
     {
         $data = parent::getLayoutData();
 
-        $data['enabled'] = !$this->getApplication()->getInput()->getBool('hidemainmenu');
+        $data['enabled'] = !$data['app']->getInput()->getBool('hidemainmenu');
 
-        $data['menu']        = new CssMenu($this->getApplication());
+        $data['menu']        = new CssMenu($data['app']);
         $data['root']        = $data['menu']->load($data['params'], $data['enabled']);
         $data['root']->level = 0;
 
