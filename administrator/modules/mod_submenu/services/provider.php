@@ -16,7 +16,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The sample data module service provider.
+ * The administrator dashboard menu module service provider.
  *
  * @since  __DEPLOY_VERSION__
  */
