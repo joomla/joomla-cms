@@ -40,7 +40,7 @@ abstract class StringHelper
      */
     public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
     {
-        // Assume a lone open tag is invalid HTML.
+        // Assume a lone open tag is invalid HTML
         if ($length === 1 && $text[0] === '<') {
             return '...';
         }
