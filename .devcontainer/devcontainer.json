@@ -12,6 +12,12 @@
     "eamodio.gitlens",                    // Git integration
     "dbaeumer.vscode-eslint"              // JavaScript linting
   ],
-  "forwardPorts": [8080],
+  "forwardedPorts": [
+    {
+      "name": "My pull request Joomla CMS instance",
+      "port": 80,
+      "onAutoForward": "openPreview"
+    }
+  ],
   "postCreateCommand": "bash .devcontainer/post-create.sh"
 }
