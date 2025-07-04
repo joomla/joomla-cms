@@ -235,6 +235,7 @@ abstract class StringHelper
 
         return '';
     }
+
     /**
      * Abridges text strings over the specified character limit. The
      * behavior will insert an ellipsis into the text replacing a section
