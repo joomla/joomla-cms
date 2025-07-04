@@ -6,7 +6,7 @@ describe('Test that console command extension', () => {
   });
 
   it('cannot disable a non existent extension', () => {
-    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extension:disable 2025`)
+    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extension:disable 2025`, { failOnNonZeroExit: false })
       .its('stdout')
       .should('contain', '[ERROR] Extension with ID of 2025 not found');
   });
@@ -18,7 +18,7 @@ describe('Test that console command extension', () => {
   });
 
   it('cannot enable a non existent extension', () => {
-    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extension:disable 2025`)
+    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php extension:disable 2025, { failOnNonZeroExit: false }`)
       .its('stdout')
       .should('contain', '[ERROR] Extension with ID of 2025 not found');
   });
