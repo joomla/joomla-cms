@@ -55,6 +55,7 @@ use Joomla\Database\ParameterType;
  * @property-read  string  $core_typeid
  *
  * @since  3.1
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
  */
 class UCMType implements UCM
 {
@@ -63,6 +64,7 @@ class UCMType implements UCM
      *
      * @var    UCMType
      * @since  3.1
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public $type;
 
@@ -71,6 +73,7 @@ class UCMType implements UCM
      *
      * @var    DatabaseDriver
      * @since  3.1
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     protected $db;
 
@@ -79,6 +82,7 @@ class UCMType implements UCM
      *
      * @var    string
      * @since  3.1
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     protected $alias;
 
@@ -90,6 +94,7 @@ class UCMType implements UCM
      * @param   ?AbstractApplication  $application  The application object
      *
      * @since   3.1
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function __construct($alias = null, ?DatabaseDriver $database = null, ?AbstractApplication $application = null)
     {
@@ -109,6 +114,7 @@ class UCMType implements UCM
      * @return  object  The UCM Type data
      *
      * @since   3.1
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function getType($pk = null)
     {
@@ -135,6 +141,7 @@ class UCMType implements UCM
      * @return  object  The UCM Type data
      *
      * @since   3.2
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function getTypeByAlias($typeAlias = null)
     {
@@ -157,6 +164,7 @@ class UCMType implements UCM
      * @return  mixed  The UCM Type data if found, false if no match is found
      *
      * @since   3.2
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function getTypeByTable($tableName)
     {
@@ -187,6 +195,7 @@ class UCMType implements UCM
      * @return  mixed  The ID of the requested type or false if type is not found
      *
      * @since   3.1
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function getTypeId($alias = null)
     {
@@ -219,6 +228,7 @@ class UCMType implements UCM
      * @return  mixed  Array or object with field mappings. Defaults to object.
      *
      * @since   3.2
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function fieldmapExpand($assoc = false)
     {
@@ -237,6 +247,7 @@ class UCMType implements UCM
      * @return  string  The name mapped to the $ucmField for a given content type
      *
      * @since   3.2
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function __get($ucmField)
     {
