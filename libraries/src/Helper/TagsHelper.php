@@ -101,7 +101,7 @@ class TagsHelper extends CMSHelper
         $db     = $table->getDbo();
         $key    = $table->getKeyName();
         $item   = $table->$key;
-        $query  = $db->getQuery(true)
+        $query  = $db->createQuery()
             ->select($db->quoteName('ct') . '.type_id')
             ->from($db->quoteName('#__content_types', 'ct'))
             ->where($db->quoteName('ct.type_alias') . ' = :alias')
@@ -870,7 +870,7 @@ class TagsHelper extends CMSHelper
                 $coreContentTable = new CoreContent(Factory::getDbo());
                 $db               = Factory::getDbo();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('ct') . '.*')
                     ->from($db->quoteName('#__content_types', 'ct'))
                     ->where($db->quoteName('ct.type_alias') . ' = :alias')
@@ -909,7 +909,7 @@ class TagsHelper extends CMSHelper
                     $ucmData['special']['ucm_id'] = $ucmData['common']['ucm_id'];
                 }
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('ucm_id'))
                     ->from($db->quoteName('#__ucm_base'))
                     ->where(
