@@ -83,7 +83,5 @@ $options = [
         </div>
     </div>
 
-    <input type="hidden" name="task" value="">
-    <input type="hidden" name="target-id" id="target-id" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php echo $this->form->renderControlFields(); ?>
 </form>
