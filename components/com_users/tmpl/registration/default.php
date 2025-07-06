@@ -57,6 +57,7 @@ $wa->useScript('keepalive')
                 <input type="hidden" name="task" value="registration.register">
             </div>
         </div>
-        <?php echo HTMLHelper::_('form.token'); ?>
+
+        <?php echo $this->form->renderControlFields(); ?>
     </form>
 </div>

@@ -45,6 +45,7 @@ $wa->useScript('keepalive')
                 </button>
             </div>
         </div>
-        <?php echo HTMLHelper::_('form.token'); ?>
+
+        <?php echo $this->form->renderControlFields(); ?>
     </form>
 </div>
