@@ -41,6 +41,6 @@ $wa->useScript('keepalive')
             </div>
         </div>
     </div>
-    <input type="hidden" name="task" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+
+    <?php echo $this->form->renderControlFields(); ?>
 </form>
