@@ -109,6 +109,11 @@ class HtmlView extends BaseHtmlView
             $this->addModalToolbar();
         }
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('forcedLanguage', $forcedLanguage ?? '');
+
         parent::display($tpl);
     }
 
