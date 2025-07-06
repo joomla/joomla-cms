@@ -140,6 +140,7 @@ abstract class FieldsPlugin extends CMSPlugin
             return $types_cache[$this->_type . $this->_name];
         }
 
+        $app   = $this->getApplication() ?: $this->app;
         $types = [];
 
         // The root of the plugin
@@ -162,11 +163,11 @@ abstract class FieldsPlugin extends CMSPlugin
             // Needed attributes
             $data['type'] = $layout;
 
-            if ($this->app->getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL')) {
+            if ($app->getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL')) {
                 $data['label'] = Text::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
 
                 // Fix wrongly set parentheses in RTL languages
-                if ($this->app->getLanguage()->isRtl()) {
+                if ($app->getLanguage()->isRtl()) {
                     $data['label'] .= '&#x200E;';
                 }
             } else {
