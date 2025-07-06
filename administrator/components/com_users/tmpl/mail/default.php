@@ -57,6 +57,6 @@ $comUserParams = ComponentHelper::getParams('com_users');
             <?php echo $this->form->renderField('group'); ?>
         </div>
     </div>
-    <input type="hidden" name="task" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+
+    <?php echo $this->form->renderControlFields(); ?>
 </form>
