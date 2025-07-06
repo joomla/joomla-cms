@@ -60,9 +60,9 @@ $controlFields = $displayData['controlFields'] ?? '';
         echo $append;
     ?>
 
-    <?php if ($controlFields): ?>
+    <?php if ($controlFields) : ?>
         <?php echo $controlFields; ?>
-    <?php else: ?>
+    <?php else : ?>
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
         <?php echo HTMLHelper::_('form.token'); ?>
