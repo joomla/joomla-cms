@@ -22,7 +22,6 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Asset;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -164,11 +163,12 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                             return false;
                         }
 
-                        $this->item->set('user_id_to', $message->user_id_from);
+                        $this->item->user_id_to = $message->user_id_from;
+
                         $re = Text::_('COM_MESSAGES_RE');
 
                         if (stripos($message->subject, $re) !== 0) {
-                            $this->item->set('subject', $re . ' ' . $message->subject);
+                            $this->item->subject = $re . ' ' . $message->subject;
                         }
                     }
                 } elseif ($this->item->user_id_to != $this->getCurrentUser()->id) {
@@ -189,7 +189,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
             // Get the user name for an existing message.
             if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from)) {
-                $this->item->set('from_user_name', $fromUser->name);
+                $this->item->from_user_name = $fromUser->name;
             }
         }
 
@@ -430,8 +430,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         try {
-            /** @var Asset $table */
-            $table  = Table::getInstance('Asset');
+            $table  = new Asset($db);
             $rootId = $table->getRootId();
 
             /** @var Rule[] $rules */

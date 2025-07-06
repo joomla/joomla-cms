@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
@@ -389,7 +389,7 @@ class AssociationsModel extends ListModel
         $baselevel = 1;
 
         if ($categoryId = $this->getState('filter.category_id')) {
-            $categoryTable = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $categoryTable = new Category($db);
             $categoryTable->load($categoryId);
             $baselevel = (int) $categoryTable->level;
 

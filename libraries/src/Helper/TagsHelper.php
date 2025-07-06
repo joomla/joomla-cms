@@ -12,7 +12,6 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -327,10 +326,8 @@ class TagsHelper extends CMSHelper
             throw new \InvalidArgumentException('Multiple primary keys are not supported as a content item id');
         }
 
-        $result = $this->unTagItem($contentItemId[$key], $table);
-
-        /** @var  CoreContent $coreContentTable */
-        $coreContentTable = Table::getInstance('CoreContent');
+        $result           = $this->unTagItem($contentItemId[$key], $table);
+        $coreContentTable = new CoreContent(Factory::getDbo());
 
         return $result && $coreContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
     }
@@ -831,6 +828,26 @@ class TagsHelper extends CMSHelper
      */
     public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {
+        @trigger_error('7.0 Method postStoreProcess() is deprecated, use postStore() instead.', \E_USER_DEPRECATED);
+
+        $this->postStore($table, (array) $newTags, (bool) $replace);
+    }
+
+    /**
+     * Function that handles saving tags used in a table class after a store().
+     *
+     * @param   TableInterface  $table    Table being processed.
+     * @param   array           $newTags  Array of new tags.
+     * @param   boolean         $replace  Flag indicating if all existing tags should be replaced.
+     *                                    This flag takes precedence before $remove.
+     * @param   boolean         $remove   Flag indicating if the tags in $newTags should be removed.
+     *
+     * @return  boolean
+     *
+     * @since   6.0.0
+     */
+    public function postStore(TableInterface $table, array $newTags = [], bool $replace = true, bool $remove = false): bool
+    {
         if (!empty($table->newTags) && empty($newTags)) {
             $newTags = $table->newTags;
         }
@@ -850,7 +867,7 @@ class TagsHelper extends CMSHelper
             } else {
                 // Process the tags
                 $data             = $this->getRowData($table);
-                $coreContentTable = Table::getInstance('CoreContent');
+                $coreContentTable = new CoreContent(Factory::getDbo());
                 $db               = Factory::getDbo();
 
                 $query = $db->getQuery(true)
@@ -913,7 +930,11 @@ class TagsHelper extends CMSHelper
                 $ucmId     = $coreContentTable->core_content_id;
 
                 // Store the tag data if the article data was saved and run related methods.
-                $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                if ($remove) {
+                    $result = $result && $this->unTagItem($ucmId, $table, $newTags);
+                } else {
+                    $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                }
             }
         }
 
