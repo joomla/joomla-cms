@@ -426,8 +426,8 @@ class TagModel extends AdminModel
 
         if ($return) {
             // Now check to see if this tag have an history if so delete it from the #__history table
-            $db        = $this->getDatabase();
-            
+            $db = $this->getDatabase();
+
             foreach ($pks as $pk) {
                 $row   = 'com_tags.tag.' . $pk;
                 $query = $db->getQuery(true)
