@@ -557,7 +557,7 @@ class UpdateModel extends BaseDatabaseModel
             )
         );
 
-        if ($eventResult->getArgument('stopUpdate')) {
+        if ($eventResult->getArgument('stoppedUpdate')) {
             throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), 503);
         }
 

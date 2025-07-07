@@ -32,7 +32,7 @@ class BeforeJoomlaAutoupdateEvent extends AbstractJoomlaUpdateEvent
      */
     public function __construct($name, array $arguments = [])
     {
-        $arguments['stopUpdate'] = false;
+        $arguments['stoppedUpdate'] = false;
 
         parent::__construct($name, $arguments);
     }
@@ -44,9 +44,9 @@ class BeforeJoomlaAutoupdateEvent extends AbstractJoomlaUpdateEvent
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function setStopUpdate()
+    public function stopUpdate()
     {
-        $this->arguments['stopUpdate'] = true;
+        $this->arguments['stoppedUpdate'] = true;
         $this->stopPropagation();
     }
 }
