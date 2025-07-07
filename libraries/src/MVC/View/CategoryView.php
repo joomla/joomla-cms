@@ -58,7 +58,7 @@ class CategoryView extends HtmlView
      * @var    CategoryNode
      * @since  3.2
      */
-    protected $category;
+    public $category;
 
     /**
      * The list of other categories for this extension.
@@ -82,7 +82,7 @@ class CategoryView extends HtmlView
      * @var    array
      * @since  3.2
      */
-    protected $children;
+    public $children;
 
     /**
      * The name of the extension for the category
@@ -145,10 +145,10 @@ class CategoryView extends HtmlView
         $paramsModel->set('check_access_rights', 0);
         $model->setState('params', $paramsModel);
 
-        $state       = $this->get('State');
-        $category    = $this->get('Category');
-        $children    = $this->get('Children');
-        $parent      = $this->get('Parent');
+        $state       = $model->getState();
+        $category    = $model->getCategory();
+        $children    = $model->getChildren();
+        $parent      = $model->getParent();
 
         if (!$category) {
             throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
@@ -165,11 +165,11 @@ class CategoryView extends HtmlView
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $items      = $this->get('Items');
-        $pagination = $this->get('Pagination');
+        $items      = $model->getItems();
+        $pagination = $model->getPagination();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
