@@ -545,6 +545,8 @@ class UpdateModel extends BaseDatabaseModel
             throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_COULD_NOT_WRITE_UPDATE_FILE'), 410);
         }
 
+        $app = Factory::getApplication();
+
         // Run preparation plugin trigger
         PluginHelper::importPlugin('installer');
 
@@ -558,9 +560,6 @@ class UpdateModel extends BaseDatabaseModel
         if ($eventResult->getArgument('stopUpdate')) {
             throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), 503);
         }
-
-        $app = Factory::getApplication();
-
         return [
             'password' => $app->getUserState('com_joomlaupdate.password'),
             'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
