@@ -410,4 +410,35 @@ class TagModel extends AdminModel
 
         return [$title, $alias];
     }
+
+    /**
+     * Delete #__history items if the deleted tag have history
+     *
+     * @param   array  $pks  The primary key related to the tag that was deleted.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function delete(&$pks)
+    {
+        $return = parent::delete($pks);
+
+        if ($return) {
+            // Now check to see if this tag have an history if so delete it from the #__history table
+            $db        = $this->getDatabase();
+            
+            foreach ($pks as $pk) {
+                $row   = 'com_tags.tag.' . $pk;
+                $query = $db->getQuery(true)
+                    ->delete($db->quoteName('#__history'))
+                    ->where($db->quoteName('item_id') . '= :row')
+                    ->bind(':row', $row);
+                $db->setQuery($query);
+                $db->execute();
+            }
+        }
+
+        return $return;
+    }
 }
