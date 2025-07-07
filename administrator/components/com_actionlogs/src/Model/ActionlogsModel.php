@@ -342,7 +342,7 @@ class ActionlogsModel extends ListModel
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
             return false;
         }
