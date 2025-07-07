@@ -1339,5 +1339,4 @@ class CategoryModel extends AdminModel
 
         return $return;
     }
-
 }
