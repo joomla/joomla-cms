@@ -13,6 +13,7 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Extension\AfterJoomlaUpdateEvent;
+use Joomla\CMS\Event\Extension\BeforeJoomlaAutoupdateEvent;
 use Joomla\CMS\Event\Extension\BeforeJoomlaUpdateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
@@ -541,7 +542,21 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         if (!$this->createUpdateFile($fileInformation['basename'])) {
-            throw new \Exception('Could not write update file', 410);
+            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_COULD_NOT_WRITE_UPDATE_FILE'), 410);
+        }
+
+        // Run preparation plugin trigger
+        PluginHelper::importPlugin('installer');
+
+        $eventResult = $app->getDispatcher()->dispatch(
+            'onBeforeJoomlaAutoupdate',
+            new BeforeJoomlaAutoupdateEvent(
+                'onBeforeJoomlaAutoupdate'
+            )
+        );
+
+        if ($eventResult->getArgument('stopUpdate')) {
+            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), 503);
         }
 
         $app = Factory::getApplication();
