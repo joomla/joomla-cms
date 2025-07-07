@@ -560,6 +560,7 @@ class UpdateModel extends BaseDatabaseModel
         if ($eventResult->getArgument('stopUpdate')) {
             throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), 503);
         }
+
         return [
             'password' => $app->getUserState('com_joomlaupdate.password'),
             'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
