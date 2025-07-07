@@ -301,7 +301,7 @@ class InstallationController extends JSONController
     }
 
     /**
-     * Opt out from automated updartes
+     * Opt out from automated updates
      *
      * @return  void
      *
@@ -315,7 +315,7 @@ class InstallationController extends JSONController
         $model = $this->getModel('AutomatedUpdates');
 
         if (!$model->disable()) {
-            // We can't send a response with sendJsonResponse because our installation classes might not now exist
+            // We can't send a response with sendJsonResponse because our installation classes might not exist yet
             $error = [
                 'token' => Session::getFormToken(true),
                 'error' => true,
@@ -336,7 +336,7 @@ class InstallationController extends JSONController
 
         $this->app->getSession()->destroy();
 
-        // We can't send a response with sendJsonResponse because our installation classes now do not exist
+        // We can't send a response with sendJsonResponse because our installation classes do not exist yet
         echo json_encode(['error' => false]);
     }
 }
