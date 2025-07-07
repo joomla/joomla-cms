@@ -50,7 +50,7 @@ class AutomatedUpdatesModel extends BaseInstallationModel implements DatabaseAwa
     {
         // Get the params of com_joomlaupdate
         $db        = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query     = $db->getQuery(true);
 
         $query->select('params')
             ->from($db->quoteName('#__extensions'))
