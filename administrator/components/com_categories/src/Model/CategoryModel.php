@@ -1308,4 +1308,36 @@ class CategoryModel extends AdminModel
 
         return $this->hasAssociation;
     }
+
+    /**
+     * Delete #__history items if the deleted category have history
+     *
+     * @param   array  $pks  The primary key related to the category that was deleted.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function delete(&$pks)
+    {
+        $return = parent::delete($pks);
+
+        if ($return) {
+            // Now check to see if this category have an history if so delete it from the #__history table
+            $db        = $this->getDatabase();
+            $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
+            foreach ($pks as $pk) {
+                $row   = $extension . '.category.' . $pk;
+                $query = $db->getQuery(true)
+                    ->delete($db->quoteName('#__history'))
+                    ->where($db->quoteName('item_id') . '= :row')
+                    ->bind(':row', $row);
+                $db->setQuery($query);
+                $db->execute();
+            }
+        }
+
+        return $return;
+    }
+
 }
