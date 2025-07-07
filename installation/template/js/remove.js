@@ -41,6 +41,17 @@ if (document.getElementById('removeInstallationFolder')) {
 		});
 }
 
+if (document.getElementById('automatedUpdatesDisableButton')) {
+  document.getElementById('automatedUpdatesDisableButton')
+    .addEventListener('click', function (e) {
+      e.preventDefault();
+      let confirm = window.confirm(Joomla.Text._('INSTL_DISABLE_AUTOUPDATE').replace('%s', 'installation'));
+      if (confirm) {
+        Joomla.disableAutomatedUpdates();
+      }
+    });
+}
+
 const completeInstallationOptions = document.querySelectorAll('.complete-installation');
 
 completeInstallationOptions.forEach(function(item) {
@@ -58,6 +69,34 @@ completeInstallationOptions.forEach(function(item) {
         return false;
     });
 });
+
+
+Joomla.disableAutomatedUpdates = function () {
+  Joomla.request({
+    method: "POST",
+    url: Joomla.installationBaseUrl + '?task=installation.disableAutomatedUpdates&format=json',
+    perform: true,
+    token: true,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    onSuccess: function (response) {
+      const successresponse = JSON.parse(response);
+      if (successresponse.error === true) {
+        if (successresponse.messages) {
+          Joomla.renderMessages(successresponse.messages);
+          Joomla.loadOptions({'csrf.token': successresponse.token});
+        } else {
+          // Stuff went wrong. No error messages. Just panic bail!
+          Joomla.renderMessages({error:['Unknown error disabling the automated updates.']});
+        }
+      } else {
+        document.getElementById('automatedUpdates').remove()
+      }
+    },
+    onError: function (xhr) {
+      Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+    }
+  });
+}
 
 Joomla.deleteJoomlaInstallationDirectory = function (redirectUrl) {
     Joomla.request({
