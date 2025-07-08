@@ -304,8 +304,8 @@ final class Authentication
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
         }
 
-        /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
         try {
+            /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
             $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
         } catch (\Exception) {
             Log::add('The plg_system_webauthn.publicKeyCredentialCreationOptions in the session is invalid', Log::NOTICE, 'webauthn.system');

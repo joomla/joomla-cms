@@ -84,8 +84,7 @@ trait AjaxHandler
             }
 
             // Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
-            /** @var AbstractEvent|ResultAwareInterface $triggerEvent */
-            $eventName    = 'onAjaxWebauthn' . ucfirst($akaction);
+            $eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 
             switch ($eventName) {
                 case 'onAjaxWebauthn':
