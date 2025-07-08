@@ -274,4 +274,4 @@ jobs:
     - name: Spell Check Repository
       uses: crate-ci/typos@v1.34.0
       with:
-        config: ./.github/workflows/typos.yml
+        config: .github/workflows/typos.toml
