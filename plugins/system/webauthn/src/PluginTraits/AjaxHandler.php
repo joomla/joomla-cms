@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
