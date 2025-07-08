@@ -13,6 +13,7 @@ namespace Joomla\CMS\WebAuthn;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+use \Lcobucci\Clock\SystemClock;
 use Cose\Algorithm\Algorithm;
 use Cose\Algorithm\ManagerFactory;
 use Cose\Algorithm\Signature\ECDSA;
@@ -418,7 +419,7 @@ final class Server
         $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport());
         $attestationStatementSupportManager->add(new AppleAttestationStatementSupport());
         $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport());
-        $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
+        $attestationStatementSupportManager->add(new TPMAttestationStatementSupport(new SystemClock(new \DateTimeZone('UTC'))));
         $attestationStatementSupportManager->add(new PackedAttestationStatementSupport($coseAlgorithmManager));
 
         return $attestationStatementSupportManager;
