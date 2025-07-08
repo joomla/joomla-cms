@@ -77,15 +77,14 @@ class CategoriesView extends HtmlView
      */
     public function display($tpl = null)
     {
-        $model  = $this->getModel();
-        $state  = $model->getState();
-        $items  = $model->getItems();
-        $parent = $model->getParent();
+        $state  = $this->get('State');
+        $items  = $this->get('Items');
+        $parent = $this->get('Parent');
 
         $app = Factory::getApplication();
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $this->get('Errors'))) {
             $app->enqueueMessage($errors, 'error');
 
             return false;

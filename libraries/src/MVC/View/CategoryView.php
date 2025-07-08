@@ -145,10 +145,10 @@ class CategoryView extends HtmlView
         $paramsModel->set('check_access_rights', 0);
         $model->setState('params', $paramsModel);
 
-        $state       = $model->getState();
-        $category    = $model->getCategory();
-        $children    = $model->getChildren();
-        $parent      = $model->getParent();
+        $state       = $this->get('State');
+        $category    = $this->get('Category');
+        $children    = $this->get('Children');
+        $parent      = $this->get('Parent');
 
         if (!$category) {
             throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
@@ -165,11 +165,11 @@ class CategoryView extends HtmlView
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $items      = $model->getItems();
-        $pagination = $model->getPagination();
+        $items      = $this->get('Items');
+        $pagination = $this->get('Pagination');
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
