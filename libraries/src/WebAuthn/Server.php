@@ -48,7 +48,6 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
-use Webauthn\TokenBinding\IgnoreTokenBindingHandler;
 use Webauthn\TokenBinding\TokenBindingHandler;
 
 /**
@@ -106,7 +105,7 @@ final class Server
      * @since 5.0.0
      * @deprecated 6.0 Will be removed when we upgrade to WebAuthn library 5.0 or later
      */
-    private TokenBindingHandler $tokenBindingHandler;
+    private ?TokenBindingHandler $tokenBindingHandler;
 
     /**
      * Authentication extension output checker
@@ -161,7 +160,7 @@ final class Server
 
         $this->selectedAlgorithms                  = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
         $this->publicKeyCredentialSourceRepository = $publicKeyCredentialSourceRepository;
-        $this->tokenBindingHandler                 = new IgnoreTokenBindingHandler();
+        $this->tokenBindingHandler                 = null;
         $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
         $this->metadataStatementRepository         = $metadataStatementRepository;
     }
