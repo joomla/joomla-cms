@@ -19,7 +19,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\WebAuthn\Server;
 use Joomla\Session\SessionInterface;
-use Laminas\Diactoros\ServerRequestFactory;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\MetadataService\MetadataStatementRepository;
@@ -273,7 +272,7 @@ final class Authentication
             $data,
             $this->getPKCredentialRequestOptions(),
             $this->getUserEntity($user),
-            ServerRequestFactory::fromGlobals()
+            Uri::getInstance()->toString(['host'])
         );
     }
 
@@ -333,7 +332,7 @@ final class Authentication
         return $this->getWebauthnServer()->loadAndCheckAttestationResponse(
             base64_decode($data),
             $publicKeyCredentialCreationOptions,
-            ServerRequestFactory::fromGlobals()
+            Uri::getInstance()->toString(['host'])
         );
     }
 

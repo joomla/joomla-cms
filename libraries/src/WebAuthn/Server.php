@@ -281,7 +281,7 @@ final class Server
      *
      * @param string $data The data received from the browser
      * @param PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions The PK creation options used to request attestation.
-     * @param ServerRequestInterface $serverRequest Abstraction of the request data
+     * @param ServerRequestInterface|string $serverRequest Abstraction of the request data
      *
      * @return PublicKeyCredentialSource
      * @since 5.0.0
@@ -289,7 +289,7 @@ final class Server
      * @throws \JsonException
      * @throws \Throwable
      */
-    public function loadAndCheckAttestationResponse(string $data, PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions, ServerRequestInterface $serverRequest): PublicKeyCredentialSource
+    public function loadAndCheckAttestationResponse(string $data, PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions, ServerRequestInterface|string $serverRequest): PublicKeyCredentialSource
     {
         // Remove padding from the response data
         $temp                              = json_decode($data);
@@ -341,7 +341,7 @@ final class Server
      * @param string $data The data received from the browser
      * @param PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions THE PK request options used during authentication
      * @param PublicKeyCredentialUserEntity|null $userEntity The user we are checking against
-     * @param ServerRequestInterface $serverRequest Abstraction of the request data
+     * @param ServerRequestInterface|string $serverRequest Abstraction of the request data
      *
      * @return PublicKeyCredentialSource
      * @since 5.0.0
@@ -349,7 +349,7 @@ final class Server
      * @throws \JsonException
      * @throws \Throwable
      */
-    public function loadAndCheckAssertionResponse(string $data, PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions, ?PublicKeyCredentialUserEntity $userEntity, ServerRequestInterface $serverRequest): PublicKeyCredentialSource
+    public function loadAndCheckAssertionResponse(string $data, PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions, ?PublicKeyCredentialUserEntity $userEntity, ServerRequestInterface|string $serverRequest): PublicKeyCredentialSource
     {
         /**
          * The library expects $data to be a JSON-encoded array with a 'response' key which is an array of Base64Url-
