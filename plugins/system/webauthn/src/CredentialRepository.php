@@ -469,7 +469,8 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
             ->from($db->quoteName('#__webauthn_credentials'))
-            ->where($db->quoteName('user_id') . ' = ' . $db->q($userHandle));
+            ->where($db->quoteName('user_id') . ' = :userHandle')
+            ->bind(':userHandle', $userHandle);
 
         try {
             $numRecords = $db->setQuery($query)->loadResult();
@@ -490,7 +491,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
                 '(' .
                 $db->quoteName('activation') . ' IS NULL OR ' .
                 $db->quoteName('activation') . ' = 0 OR ' .
-                $db->quoteName('activation') . ' = ' . $db->q('') .
+                $db->quoteName('activation') . ' = ' . $db->quote('') .
                 ')'
             );
 
