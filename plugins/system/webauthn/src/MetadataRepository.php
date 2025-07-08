@@ -138,9 +138,9 @@ final class MetadataRepository implements MetadataStatementRepository
 
         unset($rawJwt);
 
-        $entriesMapper = function (object $entry) {
+        $entriesMapper = function (array $entry): ?MetadataStatement {
             try {
-                $array = json_decode(json_encode($entry->metadataStatement), true);
+                $array = json_decode(json_encode($entry['metadataStatement']), true);
 
                 /**
                  * This prevents an error when we're asking for attestation on authenticators which
