@@ -12,7 +12,7 @@ ADMIN_USER="ci-admin"
 ADMIN_REAL_NAME="john doe"
 ADMIN_PASS="joomla-17082005"
 ADMIN_EMAIL="admin@example.org"
-WORKSPACE_ROOT="/workspaces/weblinks-codespaces"
+WORKSPACE_ROOT="/workspaces/joomla-cms"
 JOOMLA_ROOT="/var/www/html"
 
 git config --global --add safe.directory $WORKSPACE_ROOT
@@ -30,8 +30,9 @@ npm install
 
 # --- 3. Install Joomla ---
 echo "--> Installing Joomla..."
-rm -f $JOOMLA_ROOT/index.html
-cd $JOOMLA_ROOT
+rm -f $WORKSPACE_ROOT/index.html
+rm -f $WORKSPACE_ROOT/configuration.php
+cd $WORKSPACE_ROOT
 
 php installation/joomla.php install \
     --site-name="Joomla CMS Test" \
@@ -66,7 +67,7 @@ sed -i "/\['AllowNoPassword'\] = false/a \$cfg['Servers'][\$i]['host'] = 'mysql'
 # --- 6. Codespaces Fix ---
 echo "--> Applying Codespaces fix..."
 
-cat > $JOOMLA_ROOT/fix.php << 'EOF'
+cat > $WORKSPACE_ROOT/fix.php << 'EOF'
 <?php
 if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost:80') {
     if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
@@ -77,18 +78,18 @@ if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost:80') {
 EOF
 
 # Include fix in both entry points
-cp $JOOMLA_ROOT/fix.php $JOOMLA_ROOT/administrator/fix.php
-sed -i '2i require_once __DIR__ . "/fix.php";' $JOOMLA_ROOT/index.php
-sed -i '2i require_once __DIR__ . "/../fix.php";' $JOOMLA_ROOT/administrator/index.php
+cp $WORKSPACE_ROOT/fix.php $WORKSPACE_ROOT/administrator/fix.php
+sed -i '2i require_once __DIR__ . "/fix.php";' $WORKSPACE_ROOT/index.php
+sed -i '2i require_once __DIR__ . "/../fix.php";' $WORKSPACE_ROOT/administrator/index.php
 
 
 # --- 7. Finalize and setup Cypress ---
 echo "--> Finalizing and setting up Cypress..."
-git update-index --assume-unchanged ./node_modules/.bin/cypress
+# git update-index --assume-unchanged ./node_modules/.bin/cypress
 chmod +x ./node_modules/.bin/cypress
 chown -R www-data:www-data $JOOMLA_ROOT
 npx cypress install
-cp cypress.config.dist.js cypress.config.js
+cp cypress.config.dist.mjs cypress.config.mjs
 service apache2 restart
 
 # Save details
