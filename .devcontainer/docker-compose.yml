@@ -1,32 +1,27 @@
 services:
   app:
-    image: joomlaprojects/docker-images:php8.4
-    restart: always
-    ports:
-      - 8080:80
-    environment:
-      JOOMLA_DB_HOST: db
-      JOOMLA_DB_USER: joomla
-      JOOMLA_DB_PASSWORD: examplepass
-      JOOMLA_DB_NAME: joomla_db
-      JOOMLA_SITE_NAME: Joomla
-      JOOMLA_ADMIN_USER: Joomla Hero
-      JOOMLA_ADMIN_USERNAME: joomla
-      JOOMLA_ADMIN_PASSWORD: joomla@secured
-      JOOMLA_ADMIN_EMAIL: joomla@example.com
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - ../..:/workspaces:cached
+      - ..:/workspaces/weblinks-codespaces:cached
+    ports:
+      - "80:80"
+      - "3306:3306"
+      - "6080:6080"
+    command: sleep infinity
 
-  db:
-    image: mysql
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: joomla_db
-      MYSQL_USER: joomla
-      MYSQL_PASSWORD: examplepass
-      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_joomla
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
     volumes:
-      - db:/var/lib/mysql
+      - "mysql-data:/var/lib/mysql"
 
 volumes:
-  db:
+  mysql-data:
