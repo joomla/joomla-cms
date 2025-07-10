@@ -2,7 +2,7 @@
     "name": "Joomla Dev Environment",
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
-    "workspaceFolder": "/workspaces/weblinks-codespaces",
+    "workspaceFolder": "/workspaces/joomla-cms",
     "features": {
         "ghcr.io/devcontainers/features/desktop-lite:1": {}
     },

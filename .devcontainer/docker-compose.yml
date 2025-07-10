@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ..:/workspaces/weblinks-codespaces:cached
+      - ..:/workspaces/joomla-cms:cached
     ports:
       - "80:80"
       - "3306:3306"
