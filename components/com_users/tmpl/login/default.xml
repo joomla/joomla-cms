@@ -180,6 +180,7 @@
 					description="COM_USERS_FIELD_IMAGE_ALT_EMPTY_DESC"
 				/>
 			</fieldset>
+
       <fieldset name="registration" label="COM_USERS_FIELD_OPTIONS_REGISTRATION">
 				<field
 					name="customRegLinkMenu"
