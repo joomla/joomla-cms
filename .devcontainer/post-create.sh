@@ -92,6 +92,10 @@ npx cypress install
 cp cypress.config.dist.mjs cypress.config.mjs
 chown -R www-data:www-data /workspaces/joomla-cms
 chmod -R a+rx /workspaces/joomla-cms
+echo '<Directory /workspaces/joomla-cms>
+    AllowOverride All
+    Require all granted
+</Directory>' | sudo tee -a /etc/apache2/apache2.conf
 service apache2 restart
 
 # Save details
