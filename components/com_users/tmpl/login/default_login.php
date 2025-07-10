@@ -124,25 +124,25 @@ $usersConfig = ComponentHelper::getParams('com_users');
         </a>
         <?php
         if ($usersConfig->get('allowUserRegistration')) :
-                $regLinkMenuId = $this->params->get('customRegLinkMenu');
-                $regLink = 'index.php?option=com_users&view=registration';
+            $regLinkMenuId = $this->params->get('customRegLinkMenu');
+            $regLink = 'index.php?option=com_users&view=registration';
 
-                if ($regLinkMenuId) {
-                    $menu = Factory::getApplication()->getMenu();
-                    $item = $menu->getItem($regLinkMenuId);
+            if ($regLinkMenuId) {
+                $menu = Factory::getApplication()->getMenu();
+                $item = $menu->getItem($regLinkMenuId);
 
-                    if ($item) {
-                            $regLink = 'index.php?Itemid=' . $regLinkMenuId;
+                if ($item) {
+                    $regLink = 'index.php?Itemid=' . $regLinkMenuId;
 
-                            if ($item->language !== '*' && MultiLanguage::isEnabled()) {
-                                    $regLink .= '&lang=' . $item->language;
-                            }
+                    if ($item->language !== '*' && MultiLanguage::isEnabled()) {
+                        $regLink .= '&lang=' . $item->language;
                     }
                 }
-                ?>
-                <a class="com-users-login__register list-group-item" href="<?php echo Route::_($regLink); ?>">
-                        <?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?>
-                </a>
+            }
+            ?>
+            <a class="com-users-login__register list-group-item" href="<?php echo Route::_($regLink); ?>">
+                <?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?>
+            </a>
         <?php endif; ?>
     </div>
 </div>
