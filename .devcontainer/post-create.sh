@@ -63,6 +63,7 @@ tar xf /tmp/phpmyadmin.tar.gz --strip-components=1 -C $PMA_ROOT
 rm /tmp/phpmyadmin.tar.gz
 cp $PMA_ROOT/config.sample.inc.php $PMA_ROOT/config.inc.php
 sed -i "/\['AllowNoPassword'\] = false/a \$cfg['Servers'][\$i]['host'] = 'mysql';" $PMA_ROOT/config.inc.php
+ln -s /var/www/html/phpmyadmin /workspaces/joomla-cms/phpmyadmin
 
 # --- 6. Codespaces Fix ---
 echo "--> Applying Codespaces fix..."
