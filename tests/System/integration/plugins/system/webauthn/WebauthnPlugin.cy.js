@@ -34,6 +34,7 @@ describe('Test that the webauthn system plugin', { browser: '!firefox' }, () => 
     cy.get('.mod-login-logout button[type=submit]').should('exist').should('contain', 'Log out');
     cy.visit('/index.php?option=com_users&view=profile');
     cy.get('.com-users-profile__edit.btn-toolbar').contains('Edit Profile').click();
+    cy.get('#plg_system_webauthn-management-interface table img').should('be.visible');
     cy.get('.plg_system_webauthn-manage-delete').contains('Remove').click();
     cy.get('.plg_system_webauthn-manage-delete').should('not.exist');
   });
@@ -59,6 +60,7 @@ describe('Test that the webauthn system plugin', { browser: '!firefox' }, () => 
     cy.get('.header-profile:visible').click();
     cy.get('.header-profile a.dropdown-item').contains('Edit Account').click();
     cy.get('#myTab div[role="tablist"] button[aria-controls="attrib-webauthn"]').contains('Passkey Login').click();
+    cy.get('#plg_system_webauthn-management-interface table img').should('be.visible');
     cy.get('.plg_system_webauthn-manage-delete').contains('Remove').click();
     cy.get('.plg_system_webauthn-manage-delete').should('not.exist');
   });
