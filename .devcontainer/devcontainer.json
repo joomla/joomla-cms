@@ -1,17 +1,30 @@
 {
-  "name": "Joomla CMS Development",
-  "dockerFile": "Dockerfile",
-  "remoteUser": "vscode",
-  "workspaceFolder": "/workspaces/joomla-cms",
-  "settings": {
-    "php.validate.executablePath": "/usr/bin/php"
-  },
-  "extensions": [
-    "bmewburn.vscode-intelephense-client", // PHP IntelliSense
-    "felixfbecker.php-debug",             // PHP Debugging
-    "eamodio.gitlens",                    // Git integration
-    "dbaeumer.vscode-eslint"              // JavaScript linting
-  ],
-  "forwardedPorts": [8080],
-  "postCreateCommand": "bash .devcontainer/post-create.sh"
+    "name": "Joomla Dev Environment",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspaces/weblinks-codespaces",
+    "features": {
+        "ghcr.io/devcontainers/features/desktop-lite:1": {}
+    },
+    "portsAttributes": {
+        "80" : {
+            "label": "Web Server (Joomla & phpmyadmin)",
+            "onAutoForward": "silent"
+        },
+        "6080": {
+            "label": "Cypress GUI",
+            "onAutoForward": "silent"
+        }
+    },
+    "postCreateCommand": "bash ./.devcontainer/post-create.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "xdebug.php-debug",
+                "bmewburn.vscode-intelephense-client",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    },
+    "remoteUser": "root"
 }
