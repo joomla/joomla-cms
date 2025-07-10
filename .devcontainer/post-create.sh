@@ -90,6 +90,8 @@ chmod +x ./node_modules/.bin/cypress
 chown -R www-data:www-data $JOOMLA_ROOT
 npx cypress install
 cp cypress.config.dist.mjs cypress.config.mjs
+chown -R www-data:www-data /workspaces/joomla-cms
+chmod -R a+rx /workspaces/joomla-cms
 service apache2 restart
 
 # Save details
