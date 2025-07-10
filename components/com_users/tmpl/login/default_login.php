@@ -128,16 +128,16 @@ $usersConfig = ComponentHelper::getParams('com_users');
                 $regLink = 'index.php?option=com_users&view=registration';
 
                 if ($regLinkMenuId) {
-                        $menu = Factory::getApplication()->getMenu();
-                        $item = $menu->getItem($regLinkMenuId);
+                    $menu = Factory::getApplication()->getMenu();
+                    $item = $menu->getItem($regLinkMenuId);
 
-                        if ($item) {
-                                $regLink = 'index.php?Itemid=' . $regLinkMenuId;
+                    if ($item) {
+                            $regLink = 'index.php?Itemid=' . $regLinkMenuId;
 
-                                if ($item->language !== '*' && MultiLanguage::isEnabled()) {
-                                        $regLink .= '&lang=' . $item->language;
-                                }
-                        }
+                            if ($item->language !== '*' && MultiLanguage::isEnabled()) {
+                                    $regLink .= '&lang=' . $item->language;
+                            }
+                    }
                 }
                 ?>
                 <a class="com-users-login__register list-group-item" href="<?php echo Route::_($regLink); ?>">
