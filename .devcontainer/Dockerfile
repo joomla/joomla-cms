@@ -28,9 +28,11 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     libxtst6 \
     xauth \
+    libldap2-dev \
+    libgd-dev \
     && \
     # Install the required PHP extensions for Zip and MySQL
-    docker-php-ext-install zip mysqli && \
+    docker-php-ext-install zip mysqli gd ldap && \
     # Install Node.js (LTS version)
     curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
     apt-get install -y nodejs && \
