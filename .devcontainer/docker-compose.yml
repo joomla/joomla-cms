@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ..:/workspaces/joomla-cms:cached
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug.ini
     ports:
       - "80:80"
       - "3306:3306"
