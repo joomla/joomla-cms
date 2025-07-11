@@ -45,7 +45,7 @@ php installation/joomla.php install \
     --db-name="$DB_NAME" \
     --db-user="$DB_USER" \
     --db-pass="$DB_PASS" \
-    --db-prefix="mysql_" \
+    --db-prefix="jos_" \
     --db-encryption="0" \
     --public-folder=""
 
@@ -91,8 +91,8 @@ chmod +x ./node_modules/.bin/cypress
 chown -R www-data:www-data $JOOMLA_ROOT
 npx cypress install
 cp cypress.config.dist.mjs cypress.config.js
-# Update baseUrl in cypress.config.js (simple replacement)
-sed -i "s|baseUrl:.*|baseUrl: 'http://localhost:80',|" cypress.config.js
+# Update baseUrl in cypress.config.js (and db user)
+sed -i -e "s|baseUrl:.*|baseUrl: 'http://localhost:80',|" -e "s/db_host: 'localhost'/db_host: 'mysql'/g" -e "s/db_user: 'root'/db_user: 'joomla_ut'/g" -e "s/db_password: ''/db_password: 'joomla_ut'/g" cypress.config.js
 chown -R www-data:www-data /workspaces/joomla-cms
 chmod -R a+rx /workspaces/joomla-cms
 echo '<Directory /workspaces/joomla-cms>
