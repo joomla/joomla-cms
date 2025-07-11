@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Tags\Administrator\View\Tags\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_TAGS',
     'formURL'    => 'index.php?option=com_tags&task=tag.add',

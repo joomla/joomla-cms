@@ -57,12 +57,12 @@ class AliastagField extends ListField
 
         $lang = Factory::getLanguage();
 
-        foreach ($options as $i => $item) {
+        foreach ($options as $item) {
             $parts     = explode('.', $item->value);
             $extension = $parts[0];
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
             || $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension));
-            $options[$i]->text = Text::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
+            $item->text = Text::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
         }
 
         // Merge any additional options in the XML definition.

@@ -22,8 +22,7 @@
    * Register events
    */
   const registerEvents = () => {
-    const sectionTogglers = [].slice.call(document.querySelectorAll(debugSectionTogglerSelector));
-    sectionTogglers.forEach((toggler) => {
+    document.querySelectorAll(debugSectionTogglerSelector).forEach((toggler) => {
       toggler.addEventListener('click', (event) => {
         event.preventDefault();
         toggle(toggler.getAttribute(toggleTargetAttribute));
@@ -31,7 +30,5 @@
     });
   };
 
-  document.addEventListener('DOMContentLoaded', () => {
-    registerEvents();
-  });
+  document.addEventListener('DOMContentLoaded', registerEvents);
 })(document);

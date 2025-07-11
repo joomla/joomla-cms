@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Plugin\Fields\Radio\Extension\Radio $this */
 $value = $field->value;
 
 if ($value == '') {

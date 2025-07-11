@@ -84,7 +84,7 @@ abstract class AbstractEvent extends Event
          * the onTableBeforeLoad event name.
          */
         if (!$eventClassName || !class_exists($eventClassName, true)) {
-            $bareName       = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
+            $bareName       = str_starts_with($eventName, 'on') ? substr($eventName, 2) : $eventName;
             $parts          = Normalise::fromCamelCase($bareName, true);
             $eventClassName = __NAMESPACE__ . '\\' . ucfirst(array_shift($parts)) . '\\';
             $eventClassName .= implode('', $parts);
@@ -144,7 +144,7 @@ abstract class AbstractEvent extends Event
             }
 
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s argument %s',
                     \get_class($this),
                     $name
@@ -166,7 +166,7 @@ abstract class AbstractEvent extends Event
 
         if (method_exists($this, $methodName2)) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
                     $methodName2,
                     $methodName1,
@@ -209,7 +209,7 @@ abstract class AbstractEvent extends Event
             }
 
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s argument %s',
                     \get_class($this),
                     $name
@@ -227,7 +227,7 @@ abstract class AbstractEvent extends Event
             $value = $this->{$methodName1}($value);
         } elseif (method_exists($this, $methodName2)) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
                     $methodName2,
                     $methodName1,

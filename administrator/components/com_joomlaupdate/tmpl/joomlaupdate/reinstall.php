@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')
     ->useScript('bootstrap.popover');

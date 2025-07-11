@@ -15,8 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Banners\Administrator\View\Tracks\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
 
 /** @var \Joomla\Component\Banners\Administrator\View\Tracks\HtmlView $this */

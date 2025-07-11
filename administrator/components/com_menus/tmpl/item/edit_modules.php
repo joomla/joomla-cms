@@ -13,15 +13,17 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Menus\Administrator\View\Item\HtmlView;
 
+/** @var HtmlView $this */
 foreach ($this->levels as $key => $value) {
     $allLevels[$value->id] = $value->title;
 }
 
-$this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => (int) $this->item->id]);
+$this->getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => (int) $this->item->id]);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_menus.admin-item-edit-modules')
     ->useScript('joomla.dialog-autocreate');
 

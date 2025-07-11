@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Error\JsonApi;
 
-use Exception;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;

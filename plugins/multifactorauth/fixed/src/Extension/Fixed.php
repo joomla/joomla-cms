@@ -24,7 +24,6 @@ use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

@@ -155,17 +155,21 @@ Joomla.JoomlaTinyMCE = {
       options.target = element;
     }
 
+    // Check for a skin that suits best for the active color scheme
     const skinLight = options.skin_light;
     const skinDark = options.skin_dark;
-
-    if ('colorSchemeOs' in document.body.dataset) {
-      options.skin = (window.matchMedia('(prefers-color-scheme: dark)').matches ? skinDark : skinLight);
-    } else {
-      options.skin = skinLight;
-    }
-
     delete options.skin_light;
     delete options.skin_dark;
+    // Set light as default
+    options.skin = skinLight;
+
+    // For templates with OS preferred color scheme
+    if ('colorSchemeOs' in document.documentElement.dataset) {
+      const mql = window.matchMedia('(prefers-color-scheme: dark)');
+      options.skin = mql.matches ? skinDark : skinLight;
+    } else if (document.documentElement.dataset.colorScheme === 'dark') {
+      options.skin = skinDark;
+    }
 
     // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
     let readOnlyMode = false;

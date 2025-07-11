@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Languages\Administrator\View\Multilangstatus\HtmlView $this */
+
 $notice_disabled  = !$this->language_filter && ($this->homes > 1 || $this->switchers != 0);
 $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_filter);
 
@@ -52,13 +54,6 @@ $home_pages        = array_column($this->homepages, 'language');
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
-        <?php endif; ?>
-        <?php if ($this->defaultHome == true) : ?>
-            <div class="alert alert-warning">
-                <span class="icon-exclamation-triangle" aria-hidden="true"></span>
-                <span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
-                <?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
-            </div>
         <?php endif; ?>
         <?php foreach ($this->statuses as $status) : ?>
             <?php // Displays error when Site language and Content language are published but Home page is unpublished, trashed or missing. ?>

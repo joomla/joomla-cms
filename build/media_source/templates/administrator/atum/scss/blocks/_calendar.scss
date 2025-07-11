@@ -1,16 +1,25 @@
+// Calendar
+
 :root {
-  --calendar-bg: var(--body-bg);
-  --calendar-week-bg: #f4f4f4;
-  --calendar-buttons-color: #495057;
-  --calendar-select-bg-color: #{$form-select-bg};
+  --calendar-week-bg: #{$atum-calendar-week-bg}; // #f4f4f4; rgba(255,255,255,.1);
+  --calendar-bg: #{$atum-calendar-bg};
+
+  --calendar-buttons-color: #{$atum-calendar-buttons-color}; // #495057; var(--btn-primary-bg);
+
+  --calendar-select-bg-color: #{$atum-calendar-select-bg}; //$form-select-bg
   --calendar-select-color: var(--body-color);
+
+  --calendar-disabled-color: #{$atum-calendar-disabled-color}; // #999; #4b4b4b;
+  --calendar-disabled-bg: #{$atum-calendar-disabled-bg}; // #fff; rgba(0,0,0,.5);
+
+  --calendar-select-bg-url: #{$atum-calendar-select-bg-url} #{"/* rtl:"}$atum-calendar-select-bg-url-rtl#{"*/"};
+
 }
 
-@if $enable-dark-mode {
-  @include color-mode(dark, true) {
-    --calendar-week-bg: var(--gray-700);
-    --calendar-buttons-color: var(--template-bg-dark-20);
-    --calendar-select-bg-url: url("../../images/calendar-select-bg-dark.svg") /*rtl:url("../../images/calendar-select-bg-dark-rtl.svg")*/;
-    --calendar-select-bg-color: #{$form-select-bg-dark};
+.calendar-container {
+  tr.time {
+    &:hover, &:focus, &:active {
+      background-color: transparent;
+    }
   }
 }

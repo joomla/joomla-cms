@@ -12,10 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Banners\Administrator\View\Clients\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_BANNERS_CLIENT',
     'formURL'    => 'index.php?option=com_banners&view=clients',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners:_Clients',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Banners:_Clients',
     'icon'       => 'icon-bookmark banners',
 ];
 

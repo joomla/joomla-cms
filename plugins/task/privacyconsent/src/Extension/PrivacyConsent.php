@@ -23,7 +23,6 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
@@ -134,7 +133,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         try {
             $users = $db->setQuery($query)->loadObjectList();
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             return Status::KNOCKOUT;
         }
 
@@ -184,10 +183,10 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
                 try {
                     $db->execute();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return Status::KNOCKOUT;
                 }
-            } catch (MailDisabledException | phpmailerException $exception) {
+            } catch (MailDisabledException | phpmailerException) {
                 return Status::KNOCKOUT;
             }
         }
@@ -223,7 +222,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         try {
             $users = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return Status::KNOCKOUT;
         }
 
@@ -247,7 +246,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return Status::KNOCKOUT;
             }
 

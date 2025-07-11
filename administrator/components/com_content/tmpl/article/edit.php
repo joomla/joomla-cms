@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 $wa->useScript('keepalive')
     ->useScript('form.validate')
@@ -179,9 +179,6 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
             <div class="hidden"><?php echo $hidden_fields; ?></div>
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="return" value="<?php echo $input->getBase64('return'); ?>">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->form->renderControlFields(); ?>
     </div>
 </form>

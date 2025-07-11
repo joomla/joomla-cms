@@ -89,8 +89,8 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
         $this->initialised = true;
 
         $options['subject']         = $this;
-        $options['editorType']      = $options['editorType'] ?? '';
-        $options['disabledButtons'] = $options['disabledButtons'] ?? [];
+        $options['editorType']      ??= '';
+        $options['disabledButtons'] ??= [];
 
         $event      = new EditorButtonsSetupEvent('onEditorButtonsSetup', $options);
         $dispatcher = $this->getDispatcher();
@@ -129,7 +129,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
             }
 
             if (\is_array($legacyButton)) {
-                foreach ($legacyButton as $item) {
+                foreach ($legacyButton as $i => $item) {
                     // Extract button properties
                     if ($item instanceof CMSObject) {
                         $props = $item->getProperties();
@@ -144,7 +144,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
                     $options = \is_array($options) ? $options : [];
                     unset($props['options']);
 
-                    $button = new Button($plugin->name, $props, $options);
+                    $button = new Button($plugin->name . $i, $props, $options);
                     $this->add($button);
                 }
             }

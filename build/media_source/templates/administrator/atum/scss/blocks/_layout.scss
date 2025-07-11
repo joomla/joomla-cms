@@ -2,32 +2,18 @@
   width: 100%;
   padding: 1vw 2vw;
   margin-bottom: 1rem;
-  color: var(--template-text-dark);
-  border: 1px solid var(--template-bg-dark-20);
+  color: $options-form-color;
+  background: $options-form-bg;
+  border: $options-form-border;
 
   > legend {
     float: none;
     width: auto;
     padding: 0 1rem;
     font-weight: $font-weight-bold;
-    color: var(--template-text-dark);
-    background-color: var(--body-bg);
-  }
-
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      > legend {
-        color: var(--template-text-light);
-      }
-    }
+    color: $options-form-legend-color;
+    background-color: $options-form-legend-bg;
   }
 }
 
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    .options-form {
-      color: var(--template-text-light);
-    }
-  }
-}
 

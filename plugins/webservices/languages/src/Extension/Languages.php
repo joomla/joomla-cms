@@ -10,9 +10,10 @@
 
 namespace Joomla\Plugin\WebServices\Languages\Extension;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,19 +25,35 @@ use Joomla\Router\Route;
  *
  * @since  4.0.0
  */
-final class Languages extends CMSPlugin
+final class Languages extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.1.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeApiRoute' => 'onBeforeApiRoute',
+        ];
+    }
+
     /**
      * Registers com_languages's API's routes in the application
      *
-     * @param   ApiRouter  &$router  The API Routing object
+     * @param   BeforeApiRouteEvent  $event  The event object
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onBeforeApiRoute(&$router)
+    public function onBeforeApiRoute(BeforeApiRouteEvent $event): void
     {
+        $router = $event->getRouter();
+
         $router->createCRUDRoutes(
             'v1/languages/content',
             'languages',
@@ -56,7 +73,7 @@ final class Languages extends CMSPlugin
      *
      * @since   4.0.0
      */
-    private function createLanguageOverridesRoutes(&$router)
+    private function createLanguageOverridesRoutes(&$router): void
     {
         $defaults = ['component' => 'com_languages'];
 
@@ -68,7 +85,7 @@ final class Languages extends CMSPlugin
         $router->addRoutes($routes);
 
         /** @var \Joomla\Component\Languages\Administrator\Model\LanguagesModel $model */
-        $model = Factory::getApplication()->bootComponent('com_languages')
+        $model = $this->getApplication()->bootComponent('com_languages')
             ->getMVCFactory()->createModel('Languages', 'Administrator', ['ignore_request' => true]);
 
         foreach ($model->getItems() as $item) {
@@ -112,7 +129,7 @@ final class Languages extends CMSPlugin
      *
      * @since   4.0.0
      */
-    private function createLanguageInstallerRoutes(&$router)
+    private function createLanguageInstallerRoutes(&$router): void
     {
         $defaults    = ['component' => 'com_installer'];
         $getDefaults = array_merge(['public' => false], $defaults);

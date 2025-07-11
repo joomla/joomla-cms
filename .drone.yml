@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php8.3
+    image: joomlaprojects/docker-images:php8.4
     volumes:
       - name: certificates
         path: /certificates
@@ -14,7 +14,7 @@ steps:
       - cp -v tests/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php8.3
+    image: joomlaprojects/docker-images:php8.4
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -31,12 +31,12 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
-  - name: phan
-    image: joomlaprojects/docker-images:php8.1-ast
+  - name: phpstan
+    image: joomlaprojects/docker-images:php8.2
     depends_on: [ phpcs ]
     failure: ignore
     commands:
-      - ./libraries/vendor/bin/phan
+      - ./libraries/vendor/bin/phpstan
 
   - name: npm
     image: node:20-bullseye-slim
@@ -70,6 +70,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php84-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.4
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php81-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -87,6 +94,13 @@ steps:
   - name: php83-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php84-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.4
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -112,6 +126,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
+  - name: php84-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.4
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
   - name: scss-cs
     depends_on: [ npm ]
     image: node:current-alpine
@@ -128,14 +149,14 @@ steps:
   - name: prepare_system_tests
     depends_on:
       - npm
-    image: joomlaprojects/docker-images:systemtests8.1
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.js cypress.config.js
+      - cp cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -149,34 +170,24 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysql mysqli mysql
 
   - name: phpmax-system-mysql
     depends_on:
       - phpmin-system-mysql
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysqlmax mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
 
-  - name: phpnext-system-mysql
-    depends_on:
-      - phpmax-system-mysql
-    image: joomlaprojects/docker-images:cypress8.3
-    volumes:
-      - name: cypress-cache
-        path: /root/.cache/Cypress
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    failure: ignore
-    commands:
-      - echo "This test is disabled because php next is not stable yet"
-      - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
 
   - name: phpmin-system-postgres
     depends_on:
@@ -188,58 +199,57 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgres pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
 
   - name: phpmax-system-postgres
     depends_on:
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
-
-  - name: phpnext-system-postgres
-    depends_on:
-      - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.3
-    volumes:
-      - name: cypress-cache
-        path: /root/.cache/Cypress
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    failure: ignore
-    commands:
-      - echo "This test is disabled because php next is not stable yet"
-      - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgresmax pgsql postgres
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
     depends_on:
-      - phpnext-system-mysql
-      - phpnext-system-postgres
       - phpmax-system-mysql
       - phpmax-system-postgres
       - phpmin-system-mysql
       - phpmin-system-postgres
     environment:
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
+      WEB_SERVER:
+        from_secret: webserver
+      FTP_KEY:
+        from_secret: ftp_key
+      FTP_USER:
+        from_secret: ftp_user
+      FTP_HOST:
+        from_secret: ftp_host
+      ARTIFACTS_ROOT:
+        from_secret: artifacts_root
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - export PLUGIN_DEST_DIR=/artifacts/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
-      - echo https://ci.joomla.org$PLUGIN_DEST_DIR
-      - rclone config create artifacts ftp host ci.joomla.org user $FTP_USERNAME port 21 pass $FTP_PASSWORD
-      - rclone mkdir artifacts:$PLUGIN_DEST_DIR
-      - rclone copy tests/System/output/ artifacts:$PLUGIN_DEST_DIR
-      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
+      - export PLUGIN_DEST_DIR=$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - echo https://$WEB_SERVER/drone/$PLUGIN_DEST_DIR
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$FTP_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create artifacts sftp host $FTP_HOST user $FTP_USER port 22
+      - rclone mkdir artifacts:$ARTIFACTS_ROOT/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - rclone copy tests/System/output/ artifacts:$ARTIFACTS_ROOT/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://$WEB_SERVER/drone/$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
         - failure
@@ -260,7 +270,7 @@ volumes:
 
 services:
   - name: mysql
-    image: mysql:8
+    image: mysql:8.0
     command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
       MYSQL_USER: joomla_ut
@@ -356,6 +366,8 @@ steps:
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
       - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - mv build/tmp/packages/* transfer/
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -380,7 +392,7 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.1](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -388,11 +400,11 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.1](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
-
 
 trigger:
   event:
@@ -403,6 +415,6 @@ trigger:
 
 ---
 kind: signature
-hmac: c1434b09300896f8627ccb11c92e97878caf7a303772db01a647dca53a92fa3f
+hmac: 99da78521b10f37ddf6731e695fe52f85ee3db142bccac66901ae5372e332aae
 
 ...

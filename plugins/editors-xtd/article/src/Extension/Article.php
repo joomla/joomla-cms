@@ -46,7 +46,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.0.0
      */
-    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event)
+    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event): void
     {
         $subject  = $event->getButtonsRegistry();
         $disabled = $event->getDisabledButtons();
@@ -73,7 +73,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
      *
      * @since   1.5
      *
-     * @deprecated  6.0 Use onEditorButtonsSetup event
+     * @deprecated  5.0 Use onEditorButtonsSetup event
      */
     public function onDisplay($name)
     {

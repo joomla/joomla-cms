@@ -3,12 +3,15 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-const treeselectmenu = document.getElementById('treeselectmenu').innerHTML;
+const treeselectmenu = document.getElementById('treeselectmenu');
 const direction = (document.dir !== undefined) ? document.dir : document.documentElement.dir;
 
 document.querySelectorAll('.treeselect li').forEach((li) => {
   // Add icons
   const icon = document.createElement('span');
+  // add tabindex to the span
+  icon.setAttribute('tabindex', '0');
+
   icon.classList.add('icon-');
   li.prepend(icon);
 
@@ -17,11 +20,14 @@ document.querySelectorAll('.treeselect li').forEach((li) => {
     li.querySelector('span.icon-').classList.add('treeselect-toggle', 'icon-chevron-down');
 
     // Append drop down menu in nodes
-    li.querySelector('div.treeselect-item label').insertAdjacentHTML('afterend', treeselectmenu);
+    if (treeselectmenu) {
+      li.querySelector('div.treeselect-item label').insertAdjacentHTML('afterend', treeselectmenu.innerHTML);
+    }
 
     const sub = li.querySelector('ul.treeselect-sub');
-    if (!sub.querySelector('ul.treeselect-sub')) {
-      li.querySelector('div.treeselect-menu-expand').remove();
+    const expand = li.querySelector('div.treeselect-menu-expand');
+    if (!sub.querySelector('ul.treeselect-sub') && expand) {
+      expand.remove();
     }
   }
 });
@@ -50,6 +56,12 @@ document.querySelectorAll('span.treeselect-toggle').forEach((toggle) => {
         item.classList.remove('icon-chevron-down');
         item.classList.add(chevron);
       });
+    }
+  });
+
+  toggle.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      toggle.click();
     }
   });
 });

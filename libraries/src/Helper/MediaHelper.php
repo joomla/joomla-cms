@@ -12,10 +12,10 @@ namespace Joomla\CMS\Helper;
 use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -103,7 +103,7 @@ class MediaHelper
                 $mime  = finfo_file($finfo, $file);
                 finfo_close($finfo);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we have any kind of error here => false;
             return false;
         }
@@ -185,7 +185,7 @@ class MediaHelper
         $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
-        if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
+        if ($extension === '' || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
             return false;
         }
 
@@ -240,6 +240,9 @@ class MediaHelper
             $executables = array_diff($executables, $allowedExecutables);
         }
 
+        // Ensure lowercase extension
+        $filetypes = array_map('strtolower', $filetypes);
+
         $check = array_intersect($filetypes, $executables);
 
         if (!empty($check)) {
@@ -250,10 +253,10 @@ class MediaHelper
 
         $filetype = array_pop($filetypes);
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
-        if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored))) {
+        if ($filetype === '' || !$filetype || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored))) {
             $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
             return false;
@@ -274,10 +277,10 @@ class MediaHelper
                 // If tmp_name is empty, then the file was bigger than the PHP limit
                 if (!empty($file['tmp_name'])) {
                     // Get the mime type this is an image file
-                    $mime = static::getMimeType($file['tmp_name'], true);
+                    $mime = static::getMimeType($file['tmp_name'], static::isImage($file['tmp_name']));
 
                     // Did we get anything useful?
-                    if ($mime != false) {
+                    if ($mime !== false) {
                         $result = $this->checkMimeType($mime, $component);
 
                         // If the mime type is not allowed we don't upload it and show the mime code error to the user
@@ -302,7 +305,7 @@ class MediaHelper
                 $mime = static::getMimeType($file['tmp_name'], false);
 
                 // Did we get anything useful?
-                if ($mime != false) {
+                if ($mime !== false) {
                     $result = $this->checkMimeType($mime, $component);
 
                     // If the mime type is not allowed we don't upload it and show the mime code error to the user
@@ -382,7 +385,7 @@ class MediaHelper
             $d = dir($dir);
 
             while (($entry = $d->read()) !== false) {
-                if ($entry[0] !== '.' && strpos($entry, '.html') === false && strpos($entry, '.php') === false && is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
+                if ($entry[0] !== '.' && !str_contains($entry, '.html') && !str_contains($entry, '.php') && is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
                     $total_file++;
                 }
 

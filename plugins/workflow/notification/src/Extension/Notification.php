@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Workflow\Notification\Extension;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -211,7 +210,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
                     // Load language for messaging
                     $lang = $this->languageFactory->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
                     $lang->load('plg_workflow_notification');
-                    $messageText = sprintf(
+                    $messageText = \sprintf(
                         $lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
                         $title,
                         $lang->_($transitionName),
@@ -226,7 +225,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
                     $message = [
                         'id'         => 0,
                         'user_id_to' => $receiver->id,
-                        'subject'    => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
+                        'subject'    => \sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
                         'message'    => $messageText,
                     ];
 

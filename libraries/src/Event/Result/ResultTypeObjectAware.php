@@ -74,7 +74,7 @@ trait ResultTypeObjectAware
         }
 
         if (!\is_object($data)) {
-            throw new \InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts object results.', $this->getName()));
         }
 
         if (empty($this->resultAcceptableClasses)) {
@@ -89,6 +89,6 @@ trait ResultTypeObjectAware
 
         $acceptableTypes = implode(', ', $this->resultAcceptableClasses);
         $messageTemplate = 'Event %s only accepts object results which are instances of one of %s.';
-        throw new \InvalidArgumentException(sprintf($messageTemplate, $this->getName(), $acceptableTypes));
+        throw new \InvalidArgumentException(\sprintf($messageTemplate, $this->getName(), $acceptableTypes));
     }
 }

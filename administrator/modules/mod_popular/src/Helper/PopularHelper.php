@@ -58,7 +58,7 @@ abstract class PopularHelper
         }
 
         // Set User Filter.
-        $userId = $user->get('id');
+        $userId = $user->id;
 
         switch ($params->get('user_id', '0')) {
             case 'by_me':

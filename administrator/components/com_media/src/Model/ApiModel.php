@@ -12,10 +12,8 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Event\FetchMediaItemEvent;
 use Joomla\Component\Media\Administrator\Event\FetchMediaItemsEvent;
@@ -24,6 +22,7 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -170,7 +169,7 @@ class ApiModel extends BaseDatabaseModel
     {
         try {
             $file = $this->getFile($adapter, $path . '/' . $name);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             // Do nothing
         }
 
@@ -180,7 +179,7 @@ class ApiModel extends BaseDatabaseModel
         }
 
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->name      = $name;
         $object->path      = $path;
@@ -220,7 +219,7 @@ class ApiModel extends BaseDatabaseModel
     {
         try {
             $file = $this->getFile($adapter, $path . '/' . $name);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             // Do nothing
         }
 
@@ -235,7 +234,7 @@ class ApiModel extends BaseDatabaseModel
         }
 
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->name      = $name;
         $object->path      = $path;
@@ -283,7 +282,7 @@ class ApiModel extends BaseDatabaseModel
         }
 
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->name      = $name;
         $object->path      = $path;
@@ -330,7 +329,7 @@ class ApiModel extends BaseDatabaseModel
 
         $type              = $file->type === 'file' ? 'file' : 'folder';
         $app               = Factory::getApplication();
-        $object            = new CMSObject();
+        $object            = new \stdClass();
         $object->adapter   = $adapter;
         $object->path      = $path;
 
@@ -489,7 +488,7 @@ class ApiModel extends BaseDatabaseModel
                     ',',
                     ComponentHelper::getParams('com_media')->get(
                         'image_extensions',
-                        'bmp,gif,jpg,jpeg,png,webp'
+                        'bmp,gif,jpg,jpeg,png,webp,avif'
                     )
                 )
             );

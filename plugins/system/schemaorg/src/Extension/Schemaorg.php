@@ -28,6 +28,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -40,11 +42,12 @@ use Joomla\Registry\Registry;
  *
  * @since  5.0.0
  */
-final class Schemaorg extends CMSPlugin implements SubscriberInterface
+final class Schemaorg extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
     use DatabaseAwareTrait;
-    use SchemaorgPrepareImageTrait;
+    use DispatcherAwareTrait;
     use SchemaorgPrepareDateTrait;
+    use SchemaorgPrepareImageTrait;
     use UserFactoryAwareTrait;
 
     /**
@@ -61,6 +64,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             'onContentPrepareData' => 'onContentPrepareData',
             'onContentPrepareForm' => 'onContentPrepareForm',
             'onContentAfterSave'   => 'onContentAfterSave',
+            'onContentAfterDelete' => 'onContentAfterDelete',
         ];
     }
 
@@ -204,16 +208,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $itemId = (int) $table->id;
 
         if (empty($data['schema']) || empty($data['schema']['schemaType']) || $data['schema']['schemaType'] === 'None') {
-            $query = $db->getQuery(true);
-
-            $query->delete($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
-
-            $db->setQuery($query)->execute();
-
+            $this->deleteSchemaOrg($itemId, $context);
             return;
         }
 
@@ -531,6 +526,52 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $parts     = explode('.', $context, 2);
         $component = $this->getApplication()->bootComponent($parts[0]);
 
-        return $component instanceof SchemaorgServiceInterface;
+        if ($component instanceof SchemaorgServiceInterface) {
+            return \in_array($context, array_keys($component->getSchemaorgContexts()));
+        }
+
+        return false;
+    }
+
+    /**
+     * The delete event.
+     *
+     * @param   Object    $event  The event
+     *
+     * @return  void
+     *
+     * @since   5.1.3
+     */
+    public function onContentAfterDelete(Model\AfterDeleteEvent $event)
+    {
+        if (!$this->isSupported($event->getContext())) {
+            return;
+        }
+
+        $this->deleteSchemaOrg($event->getItem()->id, $event->getContext());
+    }
+
+    /**
+     * Delete SchemaOrg record from Database.
+     *
+     * @param   Integer   $itemId
+     * @param   String    $context
+     *
+     * @return  void
+     *
+     * @since   5.1.3
+     */
+    public function deleteSchemaOrg($itemId, $context)
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
+
+        $query->delete($db->quoteName('#__schemaorg'))
+            ->where($db->quoteName('itemId') . '= :itemId')
+            ->where($db->quoteName('context') . '= :context')
+            ->bind(':itemId', $itemId, ParameterType::INTEGER)
+            ->bind(':context', $context, ParameterType::STRING);
+
+        $db->setQuery($query)->execute();
     }
 }

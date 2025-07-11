@@ -11,13 +11,12 @@
 namespace Joomla\Component\Contenthistory\Administrator\Helper;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
-use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -189,7 +188,7 @@ class ContenthistoryHelper
     {
         $result = false;
 
-        if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn) && isset($lookup->displayColumn)) {
+        if (isset($lookup->sourceColumn, $lookup->targetTable, $lookup->targetColumn, $lookup->displayColumn)) {
             $db    = Factory::getDbo();
             $value = (int) $value;
             $query = $db->getQuery(true);
@@ -201,7 +200,7 @@ class ContenthistoryHelper
 
             try {
                 $result = $db->loadResult();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Ignore any errors and just return false
                 return false;
             }
@@ -320,7 +319,7 @@ class ContenthistoryHelper
     public static function prepareData(ContentHistory $table)
     {
         $object     = static::decodeFields($table->version_data);
-        $typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
+        $typesTable = new ContentType(Factory::getDbo());
         $typeAlias  = explode('.', $table->item_id);
         array_pop($typeAlias);
         $typesTable->load(['type_alias' => implode('.', $typeAlias)]);

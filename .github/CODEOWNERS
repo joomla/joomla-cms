@@ -6,26 +6,22 @@ plugins/content/finder/*  @hackwar
 plugins/finder/*  @hackwar
 
 # Release Tools
-build.xml  @fancyFranci
 build/build.php  @rdeutz
 build/bump.php  @rdeutz
 build/deleted_file_check.php  @rdeutz
 
 # Core/Extension Install/Update Tools
-administrator/components/com_joomlaupdate/*  @rdeutz @zero-24
-libraries/src/Installer/*  @rdeutz @zero-24
-libraries/src/Updater/*  @rdeutz @zero-24
+administrator/components/com_joomlaupdate/*  @rdeutz
+libraries/src/Installer/*  @rdeutz
+libraries/src/Updater/*  @rdeutz
 
 # Automated Testing
-tests/*  @hackwar @fancyFranci
-tests/Unit/*  @rdeutz @fancyFranci
-.appveyor.yml  @rdeutz @hackwar @fancyFranci
-.drone.yml  @rdeutz @hackwar @fancyFranci
-phpunit.xml.dist  @rdeutz @hackwar @fancyFranci
-phpunit-pgsql.xml.dist  @rdeutz @hackwar @fancyFranci
-
-# HttpHeaders Plugin
-plugins/system/httpheaders/*  @zero-24
+tests/*  @hackwar @laoneo
+tests/Unit/*  @rdeutz @laoneo
+.appveyor.yml  @rdeutz @hackwar @laoneo
+.drone.yml  @rdeutz @hackwar @laoneo
+phpunit.xml.dist  @rdeutz @hackwar @laoneo
+phpunit-pgsql.xml.dist  @rdeutz @hackwar @laoneo
 
 # Workflow
 administrator/components/com_workflow/*	@bembelimen @hleithner

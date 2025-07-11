@@ -15,6 +15,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\CMS\Layout\FileLayout $this */
+
 $data = $displayData;
 
 // Receive overridable options

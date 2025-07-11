@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 
@@ -82,11 +81,11 @@ class TemplatesHelper
      * @param   string  $templateBaseDir
      * @param   string  $templateDir
      *
-     * @return boolean|CMSObject
+     * @return \stdClass|false
      */
     public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
     {
-        $data = new CMSObject();
+        $data = new \stdClass();
 
         // Check of the xml file exists
         $filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
@@ -99,7 +98,7 @@ class TemplatesHelper
             }
 
             foreach ($xml as $key => $value) {
-                $data->set($key, $value);
+                $data->$key = $value;
             }
         }
 

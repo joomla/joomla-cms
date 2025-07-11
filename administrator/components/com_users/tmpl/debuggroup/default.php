@@ -15,11 +15,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Administrator\View\Debuggroup\HtmlView $this */
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
 
 ?>
@@ -34,6 +36,8 @@ $wa->useScript('table.columns');
         <?php else : ?>
             <?php
             // Split the actions table
+            $loginActions = [];
+            $actions      = [];
             foreach ($this->actions as $action) :
                 $name = $action[0];
                 if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.offline', 'core.login.api', 'core.admin'])) :

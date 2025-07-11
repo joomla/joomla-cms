@@ -15,9 +15,9 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Templates\Administrator\Model\StyleModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -31,9 +31,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
     /**
-     * The CMSObject (on success, false on failure)
+     * The item
      *
-     * @var   CMSObject
+     * @var   \stdClass
      */
     protected $item;
 
@@ -61,6 +61,15 @@ class HtmlView extends BaseHtmlView
     protected $canDo;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -71,13 +80,16 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
-        $this->form  = $this->get('Form');
+        /** @var StyleModel $model */
+        $model = $this->getModel();
+
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
+        $this->form  = $model->getForm();
         $this->canDo = ContentHelper::getActions('com_templates');
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -99,7 +111,7 @@ class HtmlView extends BaseHtmlView
 
         $isNew   = ($this->item->id == 0);
         $canDo   = $this->canDo;
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(
             $isNew ? Text::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
@@ -138,7 +150,10 @@ class HtmlView extends BaseHtmlView
 
         // Get the help information for the template item.
         $lang = $this->getLanguage();
-        $help = $this->get('Help');
+
+        /** @var StyleModel $model */
+        $model = $this->getModel();
+        $help  = $model->getHelp();
 
         if ($lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);

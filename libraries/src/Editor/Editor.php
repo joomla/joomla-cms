@@ -86,18 +86,18 @@ class Editor implements DispatcherAwareInterface
     /**
      * Constructor
      *
-     * @param   string                    $editor      The editor name
-     * @param   DispatcherInterface|null  $dispatcher  The event dispatcher we're going to use
-     * @param   EditorsRegistry|null      $registry    The editors registry
+     * @param   string                $editor      The editor name
+     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher we're going to use
+     * @param   ?EditorsRegistry      $registry    The editors registry
      *
      * @since  1.5
      */
-    public function __construct(string $editor = 'none', DispatcherInterface $dispatcher = null, EditorsRegistry $registry = null)
+    public function __construct(string $editor = 'none', ?DispatcherInterface $dispatcher = null, ?EditorsRegistry $registry = null)
     {
         $this->_name = $editor;
 
         /** @var  EditorsRegistry  $registry */
-        $registry = $registry ?? Factory::getContainer()->get(EditorsRegistry::class);
+        $registry ??= Factory::getContainer()->get(EditorsRegistry::class);
 
         if ($registry->has($editor)) {
             $this->provider = $registry->get($editor);
@@ -203,9 +203,9 @@ class Editor implements DispatcherAwareInterface
     public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
     {
         if ($this->provider) {
-            $params['buttons'] = $params['buttons'] ?? $buttons;
-            $params['asset']   = $params['asset'] ?? $asset;
-            $params['author']  = $params['author'] ?? $author;
+            $params['buttons'] ??= $buttons;
+            $params['asset']   ??= $asset;
+            $params['author']  ??= $author;
             $content           = $html ?? '';
 
             return $this->provider->display($name, $content, [

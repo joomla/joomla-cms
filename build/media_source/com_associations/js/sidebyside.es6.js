@@ -87,34 +87,40 @@ document.getElementById('reference-association').addEventListener('load', ({ tar
   const content = target.contentDocument.body || target.contentWindow.document.body;
 
   // If copy button used
-  if (content.querySelector('#jform_id').value !== target.getAttribute('data-id')) {
+  if (content.querySelector('#jform_id') && content.querySelector('#jform_id').value !== target.getAttribute('data-id')) {
     const targetAssociation = document.getElementById('target-association');
     targetAssociation.src = `${targetAssociation.getAttribute('data-editurl')}&task=${targetAssociation.getAttribute('data-item')}.edit&id=${content.querySelector('#jform_id').value}`;
     target.src = `${target.getAttribute('data-editurl')}&task=${target.getAttribute('data-item')}.edit&id=${target.getAttribute('data-id')}`;
   }
 
   // Disable language field.
-  content.querySelector('#jform_language').setAttribute('disabled', 'disabled');
+  if (content.querySelector('#jform_language')) {
+    content.querySelector('#jform_language').setAttribute('disabled', 'disabled');
+  }
 
   // Remove modal buttons on the reference
-  content.querySelector('#associations .btn').remove();
+  const associationBtn = content.querySelector('#associations .btn');
+  if (associationBtn) {
+    associationBtn.remove();
+  }
 
-  document.querySelectorAll('#jform_itemlanguage option').forEach((option) => {
-    const parse = option.value.split(':');
-
-    if (typeof parse[0] !== 'undefined') {
-      // - For modal association selectors.
-      const langAssociation = parse[0].replace(/-/, '_');
-
-      const langAssociationId = content.querySelector(`#jform_associations_${langAssociation}_id`);
-      if (langAssociationId && langAssociationId.value === '') {
-        const referenceAssociation = document.getElementById('reference-association');
-        if (referenceAssociation.hasAttribute('data-no-assoc')) {
-          content.querySelector(`#jform_associations_${langAssociation}_name`).value = referenceAssociation.getAttribute('data-no-assoc');
+  const itemLanguageOptions = document.querySelectorAll('#jform_itemlanguage option');
+  if (itemLanguageOptions) {
+    itemLanguageOptions.forEach((option) => {
+      const parse = option.value.split(':');
+      if (typeof parse[0] !== 'undefined') {
+        // - For modal association selectors.
+        const langAssociation = parse[0].replace(/-/, '_');
+        const langAssociationId = content.querySelector(`#jform_associations_${langAssociation}_id`);
+        if (langAssociationId && langAssociationId.value === '') {
+          const referenceAssociation = document.getElementById('reference-association');
+          if (referenceAssociation.hasAttribute('data-no-assoc')) {
+            content.querySelector(`#jform_associations_${langAssociation}_name`).value = referenceAssociation.getAttribute('data-no-assoc');
+          }
         }
       }
-    }
-  });
+    });
+  }
 
   // Iframe load finished, hide Joomla loading layer.
   const spinner = document.querySelector('joomla-core-loader');
@@ -143,17 +149,20 @@ document.getElementById('target-association').addEventListener('load', ({ target
     // content.querySelector('#associations .btn').forEach(btn => btn.remove());
 
     // Always show General tab first if associations tab is selected on the reference
-    if (content.querySelector('#associations').classList.contains('active')) {
+    const associations = content.querySelector('#associations');
+    if (associations && associations.classList.contains('active')) {
       content.querySelector('a[href="#associations"]').parentNode.classList.remove('active');
-      content.querySelector('#associations').classList.remove('active');
+      associations.classList.remove('active');
 
       content.querySelector('.nav-tabs li').classList.add('active');
       content.querySelector('.tab-content .tab-pane').classList.add('active');
     }
 
     // Update language field with the selected language and them disable it.
-    content.querySelector('#jform_language').value = targetLanguage;
-    content.querySelector('#jform_language').setAttribute('disabled', 'disabled');
+    if (content.querySelector('#jform_language')) {
+      content.querySelector('#jform_language').value = targetLanguage;
+      content.querySelector('#jform_language').setAttribute('disabled', 'disabled');
+    }
 
     // If we are creating a new association (before save) we need to add the new association.
     if (targetLoadedId === '0') {
@@ -174,7 +183,10 @@ document.getElementById('target-association').addEventListener('load', ({ target
       // If we created a new association (after save).
       if (targetLoadedId !== targetId) {
         // Refresh the language selector with the new id (used after save).
-        document.querySelector(`#jform_itemlanguage option[value^="${targetLanguage}:${targetId}:add"]`).value = `${targetLanguage}:${targetLoadedId}:edit`;
+        const languageSelector = document.querySelector(`#jform_itemlanguage option[value^="${targetLanguage}:${targetId}:add"]`);
+        if (languageSelector) {
+          languageSelector.value = `${targetLanguage}:${targetLoadedId}:edit`;
+        }
 
         // Update main frame data-id attribute (used after save).
         target.setAttribute('data-id', targetLoadedId);
@@ -221,8 +233,10 @@ document.getElementById('target-association').addEventListener('load', ({ target
 
     // - For chosen association selectors (menus).
     let chosenField = content.querySelector(`#jform_associations_${referenceLanguageCode}`);
-    chosenField.appendChild(createOption(referenceId, referenceTitle));
-    chosenField.value = referenceId;
+    if (chosenField) {
+      chosenField.appendChild(createOption(referenceId, referenceTitle));
+      chosenField.value = referenceId;
+    }
 
     document.querySelectorAll('#jform_itemlanguage option').forEach((option) => {
       const parse = option.value.split(':');
@@ -230,14 +244,20 @@ document.getElementById('target-association').addEventListener('load', ({ target
       if (typeof parse[1] !== 'undefined' && parse[1] !== '0') {
         // - For modal association selectors.
         const langAssociation = parse[0].replace(/-/, '_');
-        // eslint-disable-next-line prefer-destructuring
-        content.querySelector(`#jform_associations_${langAssociation}_id`).value = parse[1];
+
+        const formAssociationId = content.querySelector(`#jform_associations_${langAssociation}_id`);
+        if (formAssociationId) {
+          // eslint-disable-next-line prefer-destructuring
+          content.querySelector(`#jform_associations_${langAssociation}_id`).value = parse[1];
+        }
 
         // - For chosen association selectors (menus).
         chosenField = content.querySelector(`#jform_associations_${langAssociation}`);
-        chosenField.appendChild(createOption(parse[1], ''));
-        // eslint-disable-next-line prefer-destructuring
-        chosenField.value = parse[1];
+        if (chosenField) {
+          chosenField.appendChild(createOption(parse[1], ''));
+          // eslint-disable-next-line prefer-destructuring
+          chosenField.value = parse[1];
+        }
       }
     });
 
@@ -297,10 +317,17 @@ Joomla.submitbutton = (task) => {
       if (lang) {
         lang = lang.replace(/-/, '_');
 
-        // - For modal association selectors.
-        target.querySelector(`#jform_associations_${lang}_id`).value = '';
-        // - For chosen association selectors (menus).
-        target.querySelector(`#jform_associations_${lang}`).value = '';
+        const formAssociationId = target.querySelector(`#jform_associations_${lang}_id`);
+        if (formAssociationId) {
+          // - For modal association selectors.
+          formAssociationId.value = '';
+        }
+
+        const formAssociation = target.querySelector(`#jform_associations_${lang}`);
+        if (formAssociation) {
+          // - For chosen association selectors (menus).
+          formAssociation.value = '';
+        }
       }
     });
 
@@ -325,7 +352,10 @@ Joomla.submitbutton = (task) => {
     const currentLangSelect = document.getElementById('jform_itemlanguage');
     const currentSwitcher = currentLangSelect.value;
     const currentLang = targetLang.replace(/_/, '-');
-    document.querySelector(`#jform_itemlanguage option[value="${currentSwitcher}"]`).value = `${currentLang}:0:add`;
+    const itemLanguageItem = document.querySelector(`#jform_itemlanguage option[value="${currentSwitcher}"]`);
+    if (itemLanguageItem) {
+      itemLanguageItem.value = `${currentLang}:0:add`;
+    }
     currentLangSelect.value = '';
     currentLangSelect.dispatchEvent(new CustomEvent('change', {
       bubbles: true,
@@ -339,7 +369,10 @@ Joomla.submitbutton = (task) => {
     // We need to re-enable the language field to save.
     const el = document.getElementById(`${task}-association`);
     const content = el.contentDocument.body || el.contentWindow.document.body;
-    content.querySelector('#jform_language').removeAttribute('disabled');
+    const languageButton = content.querySelector('#jform_language');
+    if (languageButton) {
+      languageButton.removeAttribute('disabled');
+    }
     window.frames[`${task}-association`].Joomla.submitbutton(`${document.getElementById('adminForm').getAttribute('data-associatedview')}.apply`);
   }
 

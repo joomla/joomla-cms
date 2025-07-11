@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
@@ -61,15 +60,15 @@ class QueryHelper
     /**
      * Translate an order code to a field for article ordering.
      *
-     * @param   string             $orderby    The ordering code.
-     * @param   string             $orderDate  The ordering code for the date.
-     * @param   DatabaseInterface  $db         The database
+     * @param   string              $orderby    The ordering code.
+     * @param   string              $orderDate  The ordering code for the date.
+     * @param   ?DatabaseInterface  $db         The database
      *
      * @return  string  The SQL field(s) to order by.
      *
      * @since   1.5
      */
-    public static function orderbySecondary($orderby, $orderDate = 'created', DatabaseInterface $db = null)
+    public static function orderbySecondary($orderby, $orderDate = 'created', ?DatabaseInterface $db = null)
     {
         $db = $db ?: Factory::getDbo();
 
@@ -163,17 +162,15 @@ class QueryHelper
     /**
      * Translate an order code to a field for date ordering.
      *
-     * @param   string             $orderDate  The ordering code.
-     * @param   DatabaseInterface  $db         The database
+     * @param   string              $orderDate  The ordering code.
+     * @param   ?DatabaseInterface  $db         The database
      *
      * @return  string  The SQL field(s) to order by.
      *
      * @since   1.6
      */
-    public static function getQueryDate($orderDate, DatabaseInterface $db = null)
+    public static function getQueryDate($orderDate, ?DatabaseInterface $db = null)
     {
-        $db = $db ?: Factory::getDbo();
-
         switch ($orderDate) {
             case 'modified':
                 $queryDate = ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END';
@@ -194,37 +191,5 @@ class QueryHelper
         }
 
         return $queryDate;
-    }
-
-    /**
-     * Get join information for the voting query.
-     *
-     * @param   \Joomla\Registry\Registry  $params  An options object for the article.
-     *
-     * @return  array  A named array with "select" and "join" keys.
-     *
-     * @since   1.5
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Will be removed without replacement
-     */
-    public static function buildVotingQuery($params = null)
-    {
-        if (!$params) {
-            $params = ComponentHelper::getParams('com_content');
-        }
-
-        $voting = $params->get('show_vote');
-
-        if ($voting) {
-            // Calculate voting count
-            $select = ' , ROUND(v.rating_sum / v.rating_count) AS rating, v.rating_count';
-            $join   = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
-        } else {
-            $select = '';
-            $join   = '';
-        }
-
-        return ['select' => $select, 'join' => $join];
     }
 }

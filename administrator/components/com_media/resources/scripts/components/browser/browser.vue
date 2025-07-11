@@ -30,7 +30,7 @@
     <div
       v-if="isEmpty"
       class="text-center"
-      style="display: grid; justify-content: center; align-content: center; margin-top: -1rem; color: var(--gray-200); height: 100%;"
+      style="display: grid; justify-content: center; align-content: center; color: var(--gray-200); height: 100%;"
     >
       <span
         class="fa-8x icon-cloud-upload upload-icon"
@@ -64,6 +64,7 @@
           v-for="item in localItems"
           :key="item.path"
           :item="item"
+          :local-items="localItems"
         />
       </div>
     </div>
@@ -218,6 +219,7 @@ export default {
               bubbles: true,
               cancelable: false,
               detail: {
+                name: '',
                 path: '',
                 thumb: false,
                 fileType: false,

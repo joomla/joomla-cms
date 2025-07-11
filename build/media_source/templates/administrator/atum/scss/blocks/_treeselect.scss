@@ -7,15 +7,7 @@
 
   .nav-header {
     font-weight: $font-weight-bold;
-    color: var(--template-bg-dark);
-  }
-
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      .nav-header {
-        color: var(--body-color);
-      }
-    }
+    color: $nav-header-color;
   }
 
   li {
@@ -32,7 +24,7 @@
       height: 1px;
       margin: auto;
       content: "";
-      background-color: $treeselect-line-color;
+      background-color: var(--treeselect-line-color);
     }
 
     &::after {
@@ -43,7 +35,7 @@
       width: 1px;
       height: 100%;
       content: "";
-      background-color: $treeselect-line-color;
+      background-color: var(--treeselect-line-color);
     }
 
     &:last-child {
@@ -72,6 +64,7 @@
     display: inline-block;
     padding: 0;
     margin-right: .1rem;
+    color: var(--template-link-color);
     text-align: center;
     cursor: pointer;
   }
@@ -101,7 +94,7 @@
     &::after {
       margin-left: 0;
       font-size: 1rem;
-      color: var(--template-text-dark);
+      color: var(--treeselect-dropdown-toggle);
     }
   }
 }
