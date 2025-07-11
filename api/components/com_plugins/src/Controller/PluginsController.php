@@ -71,7 +71,7 @@ class PluginsController extends ApiController
 
         /** @var \Joomla\Component\Plugins\Administrator\Model\PluginModel $model */
         $inflector = InflectorFactory::create()->build();
-        $model = $this->getModel($inflector->singularize($this->contentType), '', ['ignore_request' => true]);
+        $model     = $this->getModel($inflector->singularize($this->contentType), '', ['ignore_request' => true]);
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
