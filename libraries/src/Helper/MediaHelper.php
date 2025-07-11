@@ -182,7 +182,7 @@ class MediaHelper
             return false;
         }
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
+        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,webm,doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
         if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
@@ -271,7 +271,7 @@ class MediaHelper
         }
 
         if ($params->get('restrict_uploads', 1)) {
-            $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+            $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,webm,doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
 
             if (\in_array($filetype, $allowedExtensions)) {
                 // If tmp_name is empty, then the file was bigger than the PHP limit

@@ -121,7 +121,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
                         ',',
                         ComponentHelper::getParams('com_media')->get(
                             'image_extensions',
-                            'bmp,gif,jpg,jpeg,png,webp'
+                            'bmp,gif,jpg,jpeg,png,webp,avif'
                         )
                     )
                 );
