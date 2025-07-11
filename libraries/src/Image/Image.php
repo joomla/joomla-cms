@@ -225,10 +225,10 @@ class Image
     private static function getOrientationString(int $width, int $height): string
     {
         switch (true) {
-            case ($width > $height):
+            case $width > $height:
                 return self::ORIENTATION_LANDSCAPE;
 
-            case ($width < $height):
+            case $width < $height:
                 return self::ORIENTATION_PORTRAIT;
 
             default:
@@ -668,9 +668,8 @@ class Image
 
         /**
          * Check if handle has been created successfully
-         * @todo: Remove check for resource when we only support PHP 8
          */
-        if (!(\is_object($handle) || \is_resource($handle))) {
+        if (!\is_object($handle)) {
             throw new \RuntimeException('Unable to process ' . $type . ' image.');
         }
 
@@ -1081,7 +1080,7 @@ class Image
     protected function sanitizeHeight($height, $width)
     {
         // If no height was given we will assume it is a square and use the width.
-        $height = ($height === null) ? $width : $height;
+        $height = $height ?? $width;
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height)) {
@@ -1120,7 +1119,7 @@ class Image
     protected function sanitizeWidth($width, $height)
     {
         // If no width was given we will assume it is a square and use the height.
-        $width = ($width === null) ? $height : $width;
+        $width = $width ?? $height;
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width)) {

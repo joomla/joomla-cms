@@ -237,8 +237,8 @@ final class Server
             );
         }
 
-        $criteria   = $criteria ?? new AuthenticatorSelectionCriteria();
-        $extensions = $extensions ?? new AuthenticationExtensionsClientInputs();
+        $criteria   ??= new AuthenticatorSelectionCriteria();
+        $extensions ??= new AuthenticationExtensionsClientInputs();
         $challenge  = random_bytes($this->challengeSize);
 
         return (new PublicKeyCredentialCreationOptions(
@@ -358,16 +358,16 @@ final class Server
          */
         try {
             $data = @json_decode($data, true) ?? [];
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $data = [];
         }
 
-        $data['response'] = $data['response'] ?? [];
+        $data['response'] ??= [];
 
         foreach (['authenticatorData', 'clientDataJSON', 'signature', 'userHandle'] as $key) {
             try {
                 $value = Base64::decode($data['response'][$key] ?? '');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $value = '';
             }
             $data['response'][$key] = Base64UrlSafe::encodeUnpadded($value);

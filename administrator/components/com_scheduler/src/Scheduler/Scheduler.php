@@ -139,7 +139,7 @@ class Scheduler
 
         try {
             $task->run();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // We suppress the exception here, it's still accessible with `$task->getContent()['exception']`.
         }
 
@@ -221,7 +221,7 @@ class Scheduler
 
             /** @var TaskModel $model */
             $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         if (!isset($model)) {
@@ -293,7 +293,7 @@ class Scheduler
             /** @var TasksModel $model */
             $model = $component->getMVCFactory()
                 ->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         if (!$model) {

@@ -246,7 +246,7 @@ abstract class AdminModel extends FormModel
             $this->event_before_batch = 'onBeforeBatch';
         }
 
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $this->events_map = array_merge(
             [
@@ -693,6 +693,8 @@ abstract class AdminModel extends FormModel
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
      * @since   3.1
+     *
+     * @deprecated  5.3 will be removed in 7.0
      */
     protected function batchTag($value, $pks, $contexts)
     {
@@ -1114,7 +1116,7 @@ abstract class AdminModel extends FormModel
                  */
                 $publishedColumnName = $table->getColumnAlias('published');
 
-                if (property_exists($table, $publishedColumnName) && (isset($table->$publishedColumnName) ? $table->$publishedColumnName : $value) == $value) {
+                if (property_exists($table, $publishedColumnName) && ($table->$publishedColumnName ?? $value) == $value) {
                     unset($pks[$i]);
                 }
             }
@@ -1250,7 +1252,7 @@ abstract class AdminModel extends FormModel
         }
 
         $key   = $table->getKeyName();
-        $pk    = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk    = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
         $isNew = true;
 
         // Include the plugins for the save events.

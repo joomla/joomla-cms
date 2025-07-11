@@ -193,7 +193,7 @@ class BannerModel extends BaseDatabaseModel
 
             try {
                 $this->_item = $cache->get($loader, [$id], md5(__METHOD__ . $id));
-            } catch (CacheExceptionInterface $e) {
+            } catch (CacheExceptionInterface) {
                 $this->_item = $loader($id);
             }
         }

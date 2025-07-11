@@ -49,7 +49,7 @@ class WhosonlineHelper
 
         try {
             $sessions = (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $sessions = [];
         }
 
@@ -113,7 +113,7 @@ class WhosonlineHelper
 
         try {
             return (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
     }

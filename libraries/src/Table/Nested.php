@@ -1556,7 +1556,7 @@ class Nested extends Table
     protected function _getTreeRepositionData($referenceNode, $nodeWidth, $position = 'before')
     {
         // Make sure the reference an object with a left and right id.
-        if (!\is_object($referenceNode) || !(isset($referenceNode->lft) && isset($referenceNode->rgt))) {
+        if (!\is_object($referenceNode) || !(isset($referenceNode->lft, $referenceNode->rgt))) {
             return false;
         }
 
