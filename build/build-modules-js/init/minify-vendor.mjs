@@ -9,18 +9,16 @@ const RootPath = process.cwd();
 const folders = [
   'media/vendor/accessibility/js',
   'media/vendor/chosen/js',
-  'media/vendor/codemirror',
   'media/vendor/debugbar',
   'media/vendor/diff/js',
   'media/vendor/es-module-shims/js',
   'media/vendor/qrcode/js',
-  'media/vendor/short-and-sweet/js',
   'media/vendor/webcomponentsjs/js',
 ];
 
 let allFiles = [];
 
-const noMinified = ['accessibility.min.js', 'short-and-sweet.min.js'];
+const noMinified = ['accessibility.min.js'];
 
 const alreadyMinified = [
   'media/vendor/webcomponentsjs/js/webcomponents-bundle.js',

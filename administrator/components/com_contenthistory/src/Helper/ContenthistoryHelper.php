@@ -188,7 +188,7 @@ class ContenthistoryHelper
     {
         $result = false;
 
-        if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn) && isset($lookup->displayColumn)) {
+        if (isset($lookup->sourceColumn, $lookup->targetTable, $lookup->targetColumn, $lookup->displayColumn)) {
             $db    = Factory::getDbo();
             $value = (int) $value;
             $query = $db->getQuery(true);

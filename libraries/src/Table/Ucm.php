@@ -20,6 +20,7 @@ use Joomla\Event\DispatcherInterface;
  * UCM map table
  *
  * @since  3.1
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
  */
 class Ucm extends Table
 {
@@ -30,6 +31,7 @@ class Ucm extends Table
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
      */
     public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {

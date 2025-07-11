@@ -160,8 +160,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 
             foreach ($this->sefs as $sef => $language) {
                 if (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
-                    unset($this->lang_codes[$language->lang_code]);
-                    unset($this->sefs[$language->sef]);
+                    unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
                 }
             }
         }
@@ -514,7 +513,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             $language_new = $this->languageFactory->createLanguage($lang_code, (bool) $app->get('debug_lang'));
 
             foreach ($language->getPaths() as $extension => $files) {
-                if (str_contains($extension, 'plg_system')) {
+                if (str_starts_with($extension, 'plg_system')) {
                     $extension_name = substr($extension, 11);
 
                     $language_new->load($extension, JPATH_ADMINISTRATOR)

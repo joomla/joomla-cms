@@ -121,7 +121,7 @@ class Indexer
     public function __construct(?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 

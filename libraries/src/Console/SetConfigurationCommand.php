@@ -133,7 +133,7 @@ class SetConfigurationCommand extends AbstractCommand
                 return false;
             }
 
-            list($option, $value) = explode('=', $option);
+            [$option, $value] = explode('=', $option);
 
             $collected[$option] = $value;
         }
@@ -205,7 +205,7 @@ class SetConfigurationCommand extends AbstractCommand
      */
     public function getInitialConfigurationOptions(): Registry
     {
-        return (new Registry(new \JConfig()));
+        return new Registry(new \JConfig());
     }
 
 
