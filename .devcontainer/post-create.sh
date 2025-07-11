@@ -90,7 +90,9 @@ echo "--> Finalizing and setting up Cypress..."
 chmod +x ./node_modules/.bin/cypress
 chown -R www-data:www-data $JOOMLA_ROOT
 npx cypress install
-cp cypress.config.dist.mjs cypress.config.mjs
+cp cypress.config.dist.mjs cypress.config.js
+# Update baseUrl in cypress.config.js (simple replacement)
+sed -i "s|baseUrl:.*|baseUrl: 'http://localhost:80',|" cypress.config.js
 chown -R www-data:www-data /workspaces/joomla-cms
 chmod -R a+rx /workspaces/joomla-cms
 echo '<Directory /workspaces/joomla-cms>
