@@ -40,11 +40,13 @@ RUN apt-get update && apt-get install -y \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     # Install Xdebug
     pecl install xdebug && \
-    # After installing everything
-    RUN sed -i 's|/var/www/html|/workspaces/joomla-cms|g' /etc/apache2/sites-available/000-default.conf \
-    && sed -i 's|/var/www/html|/workspaces/joomla-cms|g' /etc/apache2/apache2.conf
-    # Enable Apache's rewrite module and set the ServerName to prevent warnings
-    a2enmod rewrite && \
-    echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
     # Clean up apt cache to reduce image size
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# After installing everything
+RUN sed -i 's|/var/www/html|/workspaces/joomla-cms|g' /etc/apache2/sites-available/000-default.conf \
+    && sed -i 's|/var/www/html|/workspaces/joomla-cms|g' /etc/apache2/apache2.conf
+
+# Enable Apache's rewrite module and set the ServerName to prevent warnings
+RUN a2enmod rewrite \
+    && echo "ServerName localhost" >> /etc/apache2/apache2.conf
