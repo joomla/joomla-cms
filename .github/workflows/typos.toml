@@ -1,0 +1,50 @@
+# Custom configuration file for the typos action
+# Excludes some folders with non-english language content
+# Excludes certain words as false-positives - mainly in js or
+# that can't be changed for b/c
+
+[files]
+extend-exclude = [
+    "/templates/system/*.html",
+	"/administrator/components/com_admin/sql/*",
+	"/build/media_source/vendor/tinymce/langs/*",
+	"/installation/language/*",
+	"includes/*.html",
+	"/plugins/sampledata/testing/*",
+]
+
+[default.extend-words]
+cachable="cachable"
+linke="linke"
+exept="exept"
+hilight="hilight"
+Querys="Querys"
+childs="childs"
+assigments="assigments"
+ue="ue"
+hel="hel"
+fof="fof"
+discernable="discernable"
+requestor="requestor"
+credate="credate"
+rgba="rgba"
+occurence="occurence"
+shepard="shepard"
+chck="chck"
+datas="datas"
+deactive="deactive"
+ba="ba"
+crypted="crypted"
+cose="cose"
+accordian="accordian"
+wheres="wheres"
+supercedes="supercedes"
+vertexes="vertexes"
+Formater="Formater"
+ot="ot"
+cript="cript"
+mis="mis"
+cll="cll"
+identicals="identicals"
+# deprecated strings
+configurated="configurated"
