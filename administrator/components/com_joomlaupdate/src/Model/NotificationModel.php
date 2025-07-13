@@ -21,6 +21,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -48,11 +49,20 @@ final class NotificationModel extends BaseDatabaseModel
     {
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        // Send a notification to all super users
-        $superUsers = $this->getSuperUsers();
+        // User groups to notify. Default is superuser group.
+        $emailGroups = $params->get('automated_updates_email_groups', 8, 'array');
 
-        if (empty($superUsers)) {
-            throw new \RuntimeException();
+        // If the emailGroups is not an array, convert it to an array
+        if (!is_array($emailGroups)) {
+            $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
+        }
+	
+		// Get all users in these groups who can receive e-mails
+        $emailReceivers = $this->getEmailReceivers($emailGroups);
+
+        // If no email receivers are found, we do not send any notification
+        if (empty($emailReceivers)) {
+            return;
         }
 
         $app        = Factory::getApplication();
@@ -81,98 +91,54 @@ final class NotificationModel extends BaseDatabaseModel
     }
 
     /**
-     * Returns the Super Users email information. If you provide a comma separated $email list
-     * we will check that these emails do belong to Super Users and that they have not blocked
-     * system emails.
+     * Returns the email information of receivers. Receiver can be any users who is not blocked.
      *
-     * @param null|string $email A list of Super Users to email
+     * @param   array $emailGroups A list of usergroups to email
      *
-     * @return  array  The list of Super User emails
+     * @return  array  The list of email receivers. Can be empty if no users are found.
      *
      * @since   5.4.0
      */
-    private function getSuperUsers($email = null): array
+    private function getEmailReceivers($emailGroups): array
     {
-        $db     = $this->getDatabase();
-        $emails = [];
+        if (empty($emailGroups)) {
+            return [];
+        }
+        
+		$emailReceivers = [];
+		
+        $groupModel = Factory::getApplication()->bootComponent('com_users')
+            ->getMVCFactory()->createModel('Group', 'Administrator');
 
-        // Convert the email list to an array
-        if (!empty($email)) {
-            $temp = explode(',', $email);
+		// Get the emails of all groups in the emailGroups
+        foreach ($emailGroups as $group) {
+            $usersInGroup = $groupModel->getUsersInGroup($group);
 
-            foreach ($temp as $entry) {
-                if (!MailHelper::isEmailAddress(trim($entry))) {
-                    continue;
+            if (empty($usersInGroup)) {
+                return [];
+            }
+
+			// Only users with valid email address who are not blocked can receive the email
+			foreach ($usersInGroup as $user) {
+                if (MailHelper::isEmailAddress($user->email) && !$user->block) {
+                    $user->email = strtolower(trim($user->email));
+
+                    // Check if the email already exists in the emailReceivers array
+                    $exist = false;
+                    for ($i = 0; $i < count($emailReceivers); $i++) {
+                        if ($emailReceivers[$i]->email === $user->email) {
+                            $exist = true;
+                            break;
+                        }
+                    }
+                    // Add to the list if it is not already in the list
+                    if (!$exist) {
+                        $emailReceivers[] = $user;
+                    }
                 }
-
-                $emails[] = trim($entry);
             }
-
-            $emails = array_unique($emails);
         }
-
-        // Get a list of groups which have Super User privileges
-        $ret = [];
-
-        try {
-            $rootId    = (new Asset($db))->getRootId();
-            $rules     = Access::getAssetRules($rootId)->getData();
-            $rawGroups = $rules['core.admin']->getData();
-            $groups    = [];
-
-            if (empty($rawGroups)) {
-                return $ret;
-            }
-
-            foreach ($rawGroups as $g => $enabled) {
-                if ($enabled) {
-                    $groups[] = $g;
-                }
-            }
-
-            if (empty($groups)) {
-                return $ret;
-            }
-        } catch (\Exception $exc) {
-            return $ret;
-        }
-
-        // Get the user IDs of users belonging to the SA groups
-        try {
-            $query = $db->getQuery(true)
-                ->select($db->quoteName('user_id'))
-                ->from($db->quoteName('#__user_usergroup_map'))
-                ->whereIn($db->quoteName('group_id'), $groups);
-
-            $db->setQuery($query);
-            $userIDs = $db->loadColumn(0);
-
-            if (empty($userIDs)) {
-                return $ret;
-            }
-        } catch (\Exception $exc) {
-            return $ret;
-        }
-
-        // Get the user information for the Super Administrator users
-        try {
-            $query = $db->getQuery(true)
-                ->select($db->quoteName(['id', 'username', 'email', 'params']))
-                ->from($db->quoteName('#__users'))
-                ->whereIn($db->quoteName('id'), $userIDs)
-                ->where($db->quoteName('block') . ' = 0')
-                ->where($db->quoteName('sendEmail') . ' = 1');
-
-            if (!empty($emails)) {
-                $lowerCaseEmails = array_map('strtolower', $emails);
-                $query->whereIn('LOWER(' . $db->quoteName('email') . ')', $lowerCaseEmails, ParameterType::STRING);
-            }
-
-            $ret = $db->setQuery($query)->loadObjectList();
-        } catch (\Exception) {
-            return $ret;
-        }
-
-        return $ret;
+echo '<pre> emailReceivers: ' . print_r($emailReceivers, true) . '</pre>'; exit;
+            return $emailReceivers;
     }
 }
