@@ -33,7 +33,6 @@ echo "✅ Dependencies installed."
 
 # --- 3. Install Joomla from Repository Source ---
 echo "--> Installing Joomla using the local repository source..."
-rm -f configuration.php
 php installation/joomla.php install \
     --site-name="Joomla Core Dev" \
     --admin-user="$ADMIN_REAL_NAME" \
