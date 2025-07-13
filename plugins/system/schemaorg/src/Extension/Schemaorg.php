@@ -26,6 +26,7 @@ use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherAwareInterface;
@@ -386,7 +387,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         // We support Breadcrumb linking
         $breadcrumbs = ModuleHelper::getModule('mod_breadcrumbs');
 
-        if (!empty($breadcrumbs->id)) {
+        $positions = TemplatesHelper::getPositions(0, $app->getTemplate(true)->template);
+
+        if (!empty($breadcrumbs->id) && \in_array($breadcrumbs->position, $positions)) {
             $webPageSchema['breadcrumb'] = ['@id' => $domain . '#/schema/BreadcrumbList/' . (int) $breadcrumbs->id];
         }
 
