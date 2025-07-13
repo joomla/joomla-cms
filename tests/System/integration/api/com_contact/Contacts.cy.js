@@ -62,7 +62,7 @@ describe('Test that contacts API endpoint', () => {
       cy.wrap(mails[0].receivers).should('have.property', Cypress.env('email'));
       cy.wrap(mails[0].headers.subject).should('equal', `${Cypress.env('sitename')}: automated test subject`);
       cy.wrap(mails[0].body).should('have.string', 'This is an enquiry email via');
-      cy.wrap(mails[0].body).should('have.string', `${Cypress.env('name')} <${Cypress.env('email')}>`);
+      cy.wrap(mails[0].body).should('have.string', `${Cypress.env('name')} ${Cypress.env('email')}`);
       cy.wrap(mails[0].body).should('have.string', 'automated test message');
     });
   });

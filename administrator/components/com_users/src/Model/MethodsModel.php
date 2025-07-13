@@ -197,7 +197,7 @@ class MethodsModel extends BaseDatabaseModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 

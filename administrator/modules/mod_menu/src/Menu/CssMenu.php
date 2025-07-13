@@ -132,7 +132,7 @@ class CssMenu
 
                 // In recovery mode, load the preset inside a special root node.
                 $this->root = new AdministratorMenuItem(['level' => 0]);
-                $heading    = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
+                $heading    = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading', 'class' => 'class:fa fa-notes-medical']);
                 $this->root->addChild($heading);
 
                 MenusHelper::loadPreset('default', true, $heading);
@@ -236,7 +236,7 @@ class CssMenu
 
             $table->load(['menutype' => $menutype]);
 
-            $menutype = isset($table->title) ? $table->title : $menutype;
+            $menutype = $table->title ?? $menutype;
             $message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
 
             $this->application->enqueueMessage($message, 'warning');
@@ -284,8 +284,8 @@ class CssMenu
                 continue;
             }
 
-            $item->scope = $item->scope ?? 'default';
-            $item->icon  = $item->icon ?? '';
+            $item->scope ??= 'default';
+            $item->icon  ??= '';
 
             // Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
             if (($item->scope === 'help' && $this->params->get('showhelp', 1) == 0) || ($item->scope === 'edit' && !$this->params->get('shownew', 1))) {
@@ -293,7 +293,7 @@ class CssMenu
                 continue;
             }
 
-            if (substr($item->link, 0, 8) === 'special:') {
+            if (!empty($item->link) && str_starts_with($item->link, 'special:')) {
                 $special = substr($item->link, 8);
 
                 if ($special === 'language-forum') {
@@ -311,12 +311,10 @@ class CssMenu
              * processing. It is needed for links from menu items of third party extensions link to Joomla! core
              * components like com_categories, com_fields...
              */
-            if ($option = $uri->getVar('option')) {
-                $item->element = $option;
-            }
+            $item->element = !empty($uri->getVar('option')) ? $uri->getVar('option') : '';
 
             // Exclude item if is not enabled
-            if ($item->element && !ComponentHelper::isEnabled($item->element)) {
+            if ($item->element !== '' && !ComponentHelper::isEnabled($item->element)) {
                 $parent->removeChild($item);
                 continue;
             }
@@ -355,7 +353,7 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : ['com_fields'];
+                [$assetName] = isset($query['context']) ? explode('.', $query['context'], 2) : ['com_fields'];
             } elseif ($item->element === 'com_cpanel' && $item->link === 'index.php') {
                 continue;
             } elseif (
@@ -384,7 +382,7 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : ['com_workflow'];
+                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : ['com_workflow'];
             } elseif (\in_array($item->element, ['com_config', 'com_privacy', 'com_actionlogs'], true) && !$user->authorise('core.admin')) {
                 // Special case for components which only allow super user access
                 $parent->removeChild($item);
@@ -413,7 +411,7 @@ class CssMenu
             }
 
             // Exclude if link is invalid
-            if (\is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
+            if (!isset($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
                 $parent->removeChild($item);
                 continue;
             }
@@ -460,7 +458,7 @@ class CssMenu
             }
 
             // Ok we passed everything, load language at last only
-            if ($item->element) {
+            if (!empty($item->element)) {
                 $language->load($item->element . '.sys', JPATH_ADMINISTRATOR) ||
                 $language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element);
             }
@@ -492,7 +490,7 @@ class CssMenu
      */
     public function getIconClass($node)
     {
-        $identifier = $node->class;
+        $identifier = !empty($node->class) ? $node->class : '';
 
         // Top level is special
         if (trim($identifier) == '') {
@@ -500,7 +498,7 @@ class CssMenu
         }
 
         // We were passed a class name
-        if (substr($identifier, 0, 6) == 'class:') {
+        if (str_starts_with($identifier, 'class:')) {
             $class = substr($identifier, 6);
         } else {
             // We were passed background icon url. Build the CSS class for the icon
@@ -518,7 +516,7 @@ class CssMenu
     }
 
     /**
-     * Create unique identifier
+     * Increase the counter and return the new value
      *
      * @return  string
      *

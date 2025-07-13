@@ -10,9 +10,11 @@
 
 namespace Joomla\Plugin\System\PrivacyConsent\Extension;
 
+use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Privacy\CheckPrivacyPolicyPublishedEvent;
+use Joomla\CMS\Event\User;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
@@ -21,6 +23,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -32,27 +35,48 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-final class PrivacyConsent extends CMSPlugin
+final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareForm'                 => 'onContentPrepareForm',
+            'onUserBeforeSave'                     => 'onUserBeforeSave',
+            'onUserAfterSave'                      => 'onUserAfterSave',
+            'onUserAfterDelete'                    => 'onUserAfterDelete',
+            'onAfterRoute'                         => 'onAfterRoute',
+            'onPrivacyCheckPrivacyPolicyPublished' => 'onPrivacyCheckPrivacyPolicyPublished',
+        ];
+    }
+
+    /**
      * Adds additional fields to the user editing form
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   Model\PrepareFormEvent  $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event): void
     {
+        $form = $event->getForm();
+        $data = $event->getData();
+
         // Check we are manipulating a valid form - we only display this on user registration form and user profile form.
         $name = $form->getName();
 
         if (!\in_array($name, ['com_users.profile', 'com_users.registration'])) {
-            return true;
+            return;
         }
 
         // Load plugin language files
@@ -63,7 +87,7 @@ final class PrivacyConsent extends CMSPlugin
             $userId = $data->id ?? 0;
 
             if ($userId > 0 && $this->isUserConsented($userId)) {
-                return true;
+                return;
             }
         }
 
@@ -84,22 +108,21 @@ final class PrivacyConsent extends CMSPlugin
     /**
      * Method is called before user data is stored in the database
      *
-     * @param   array    $user   Holds the old user data.
-     * @param   boolean  $isNew  True if a new user is stored.
-     * @param   array    $data   Holds the new user data.
+     * @param   User\BeforeSaveEvent  $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      * @throws  \InvalidArgumentException on missing required data.
      */
-    public function onUserBeforeSave($user, $isNew, $data)
+    public function onUserBeforeSave(User\BeforeSaveEvent $event): void
     {
         // // Only check for front-end user creation/update profile
         if ($this->getApplication()->isClient('administrator')) {
-            return true;
+            return;
         }
 
+        $user   = $event->getUser();
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
         // Load plugin language files
@@ -107,7 +130,7 @@ final class PrivacyConsent extends CMSPlugin
 
         // User already consented before, no need to check it further
         if ($userId > 0 && $this->isUserConsented($userId)) {
-            return true;
+            return;
         }
 
         // Check that the privacy is checked if required ie only in registration from frontend.
@@ -122,23 +145,18 @@ final class PrivacyConsent extends CMSPlugin
         ) {
             throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
         }
-
-        return true;
     }
 
     /**
      * Saves user privacy confirmation
      *
-     * @param   array    $data    entered user data
-     * @param   boolean  $isNew   true if this is a new user
-     * @param   boolean  $result  true if saving the user worked
-     * @param   string   $error   error message
+     * @param   User\AfterSaveEvent  $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterSave($data, $isNew, $result, $error): void
+    public function onUserAfterSave(User\AfterSaveEvent $event): void
     {
         // Only create an entry on front-end user creation/update profile
         if ($this->getApplication()->isClient('administrator')) {
@@ -146,6 +164,7 @@ final class PrivacyConsent extends CMSPlugin
         }
 
         // Get the user's ID
+        $data   = $event->getUser();
         $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
         // If user already consented before, no need to check it further
@@ -181,7 +200,7 @@ final class PrivacyConsent extends CMSPlugin
 
             try {
                 $this->getDatabase()->insertObject('#__privacy_consents', $userNote);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Do nothing if the save fails
             }
 
@@ -208,20 +227,19 @@ final class PrivacyConsent extends CMSPlugin
      *
      * Method is called after user data is deleted from the database
      *
-     * @param   array    $user     Holds the user data
-     * @param   boolean  $success  True if user was successfully stored in the database
-     * @param   string   $msg      Message
+     * @param   User\AfterDeleteEvent  $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterDelete($user, $success, $msg): void
+    public function onUserAfterDelete(User\AfterDeleteEvent $event): void
     {
-        if (!$success) {
+        if (!$event->getDeletingResult()) {
             return;
         }
 
+        $user   = $event->getUser();
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
         if ($userId) {
@@ -239,18 +257,21 @@ final class PrivacyConsent extends CMSPlugin
      * If logged in users haven't agreed to privacy consent, redirect them to profile edit page, ask them to agree to
      * privacy consent before allowing access to any other pages
      *
+     * @param   AfterRouteEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onAfterRoute()
+    public function onAfterRoute(AfterRouteEvent $event): void
     {
         // Run this in frontend only
         if (!$this->getApplication()->isClient('site')) {
             return;
         }
 
-        $userId = $this->getApplication()->getIdentity()->id;
+        $app    = $this->getApplication();
+        $userId = $app->getIdentity()->id;
 
         // Check to see whether user already consented, if not, redirect to user profile page
         if ($userId > 0) {
@@ -262,7 +283,7 @@ final class PrivacyConsent extends CMSPlugin
                 return;
             }
 
-            $input  = $this->getApplication()->getInput();
+            $input  = $app->getInput();
             $option = $input->getCmd('option');
             $task   = $input->get('task', '');
             $view   = $input->getString('view', '');
@@ -280,23 +301,24 @@ final class PrivacyConsent extends CMSPlugin
                 'method', 'methods', 'captive', 'callback',
             ];
             $isAllowedUserTask = \in_array($task, $allowedUserTasks)
-                || substr($task, 0, 8) === 'captive.'
-                || substr($task, 0, 8) === 'methods.'
-                || substr($task, 0, 7) === 'method.'
-                || substr($task, 0, 9) === 'callback.';
+                || str_starts_with($task, 'captive.')
+                || str_starts_with($task, 'methods.')
+                || str_starts_with($task, 'method.')
+                || str_starts_with($task, 'callback.');
 
             if (
                 ($option == 'com_users' && $isAllowedUserTask)
                 || ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
                 || ($option == 'com_users' && $view == 'profile' && $layout == 'edit')
+                || ($option == 'com_users' && $view == 'captive')
             ) {
                 return;
             }
 
             // Redirect to com_users profile edit
-            $this->getApplication()->enqueueMessage($this->getRedirectMessage(), 'notice');
+            $app->enqueueMessage($this->getRedirectMessage(), 'notice');
             $link = 'index.php?option=com_users&view=profile&layout=edit';
-            $this->getApplication()->redirect(Route::_($link, false));
+            $app->redirect(Route::_($link, false));
         }
     }
 

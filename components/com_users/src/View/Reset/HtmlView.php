@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Users\Site\Model\ResetModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -69,24 +70,27 @@ class HtmlView extends BaseHtmlView
         // This name will be used to get the model
         $name = $this->getLayout();
 
+        /** @var ResetModel $model */
+        $model = $this->getModel();
+
         // Check that the name is valid - has an associated model.
         if (!\in_array($name, ['confirm', 'complete'])) {
             $name = 'default';
         }
 
         if ('default' === $name) {
-            $formname = 'Form';
-        } else {
-            $formname = ucfirst($this->_name) . ucfirst($name) . 'Form';
+            $this->form = $model->getForm();
+        } elseif ($name === 'confirm') {
+            $this->form = $model->getResetConfirmForm();
+        } elseif ($name === 'complete') {
+            $this->form = $model->getResetCompleteForm();
         }
 
-        // Get the view data.
-        $this->form   = $this->get($formname);
-        $this->state  = $this->get('State');
+        $this->state  = $model->getState();
         $this->params = $this->state->params;
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

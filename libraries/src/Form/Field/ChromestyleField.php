@@ -155,8 +155,6 @@ class ChromestyleField extends GroupedlistField
             }
         }
 
-        reset($groups);
-
         return $groups;
     }
 

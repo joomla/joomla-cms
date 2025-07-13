@@ -1,23 +1,3 @@
-.mod-articles-item-card .mod-articles-link::before {
-  position: absolute;
-  z-index: 1;
-  content: "";
-  inset: 0;
-}
-.mod-articles-item-card {
-  position: relative;
-}
-.mod-articles-item-card:focus-within {
-  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
-}
-.mod-articles-item-card:focus-within :focus {
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-.mod-articles-item-card:hover {
-  box-shadow: 1px 1px 4px #0000001a;
-}
 .mod-articles-item {
   display: flex;
   flex-direction: column;
@@ -29,8 +9,8 @@
   margin-bottom: .5rem;
 }
 @supports (container-type: inline-size) {
-  div:has(.mod-articles-grid),
-  section:has(.mod-articles-grid) {
+  div:has(> .mod-articles-grid),
+  section:has(> .mod-articles-grid) {
     container-type: inline-size;
   }
 }

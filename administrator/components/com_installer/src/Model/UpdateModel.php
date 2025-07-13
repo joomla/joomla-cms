@@ -24,6 +24,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -285,7 +286,7 @@ class UpdateModel extends ListModel
 
         try {
             $db->truncateTable('#__updates');
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->_message = Text::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
             return false;
@@ -358,10 +359,24 @@ class UpdateModel extends ListModel
                 $update->set('extra_query', $updateSiteInstance->extra_query);
             }
 
-            $this->preparePreUpdate($update, $instance);
+            try {
+                $this->preparePreUpdate($update, $instance);
 
-            // Install sets state and enqueues messages
-            $res = $this->install($update);
+                // Install sets state and enqueues messages
+                $res = $this->install($update);
+            } catch (\Throwable $t) {
+                $res = false;
+
+                Factory::getApplication()->enqueueMessage(
+                    Text::sprintf(
+                        'COM_INSTALLER_UPDATE_ERROR',
+                        $instance->name,
+                        $t->getMessage(),
+                        (JDEBUG ? str_replace(JPATH_ROOT, 'JROOT', Path::clean($t->getFile())) . ':' . $t->getLine() : '')
+                    ),
+                    'error'
+                );
+            }
 
             if ($res) {
                 $instance->delete($uid);
@@ -406,7 +421,7 @@ class UpdateModel extends ListModel
         $sources = $update->get('downloadSources', []);
 
         if ($extra_query = $update->get('extra_query')) {
-            $url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+            $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
             $url .= $extra_query;
         }
 
@@ -417,7 +432,7 @@ class UpdateModel extends ListModel
             $url  = trim($name->url);
 
             if ($extra_query) {
-                $url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+                $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
                 $url .= $extra_query;
             }
 

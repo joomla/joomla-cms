@@ -197,7 +197,7 @@ class MenuItemByTypeField extends GroupedlistField
 
             try {
                 $menuTitle = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $menuTitle = $menuType;
             }
 

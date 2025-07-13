@@ -21,9 +21,7 @@ $this->getWebAssetManager()
     ->useScript('core')
     ->useScript('keepalive')
     ->useScript('form.validate')
-    ->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate']);
-
-$this->getWebAssetManager()
+    ->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate'])
     ->useStyle('webcomponent.joomla-alert')
     ->useScript('messages')
     ->useScript('webcomponent.core-loader')

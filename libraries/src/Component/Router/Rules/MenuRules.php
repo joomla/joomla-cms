@@ -63,7 +63,12 @@ class MenuRules implements RulesInterface
     {
         $this->router    = $router;
         $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
-        $this->sefparams = new Registry($sefPlugin->params);
+
+        if ($sefPlugin) {
+            $this->sefparams = new Registry($sefPlugin->params);
+        } else {
+            $this->sefparams = new Registry();
+        }
 
         $this->buildLookup();
     }

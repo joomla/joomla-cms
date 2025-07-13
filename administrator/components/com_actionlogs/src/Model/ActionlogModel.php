@@ -55,7 +55,13 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             @trigger_error(\sprintf('User ID must be an integer in %s.', __METHOD__), E_USER_DEPRECATED);
         }
 
-        $user   = $userId ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();
+        try {
+            $user = $userId ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();
+        } catch (\UnexpectedValueException $e) {
+            @trigger_error('UserFactory must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
+            $user = Factory::getUser($userId);
+        }
+
         $db     = $this->getDatabase();
         $date   = Factory::getDate();
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
@@ -85,7 +91,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             try {
                 $db->insertObject('#__action_logs', $logMessage);
                 $loggedMessages[] = $logMessage;
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Ignore it
             }
         }
@@ -93,7 +99,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         try {
             // Send notification email to users who choose to be notified about the action logs
             $this->sendNotificationEmails($loggedMessages, $user->name, $context);
-        } catch (MailDisabledException | phpMailerException $e) {
+        } catch (MailDisabledException | phpMailerException) {
             // Ignore it
         }
     }
@@ -157,7 +163,8 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             $m              = [];
             $m['extension'] = Text::_($extension);
             $m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
-            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
+            $tzOffset       = Factory::getApplication()->get('offset');
+            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', $tzOffset);
             $m['username']  = $username;
             $temp[]         = $m;
 
