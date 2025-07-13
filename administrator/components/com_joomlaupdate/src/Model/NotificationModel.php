@@ -138,7 +138,7 @@ final class NotificationModel extends BaseDatabaseModel
                 }
             }
         }
-echo '<pre> emailReceivers: ' . print_r($emailReceivers, true) . '</pre>'; exit;
+
             return $emailReceivers;
     }
 }
