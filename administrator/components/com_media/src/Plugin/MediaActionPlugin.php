@@ -40,7 +40,7 @@ class MediaActionPlugin extends CMSPlugin
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -57,7 +57,7 @@ class MediaActionPlugin extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function onContentPrepareFormListener(PrepareFormEvent $event): void
     {

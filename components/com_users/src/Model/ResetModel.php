@@ -24,6 +24,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -76,7 +77,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
     public function getResetCompleteForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = ['control' => 'jform']);
+        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
@@ -99,7 +100,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
     public function getResetConfirmForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = ['control' => 'jform']);
+        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
@@ -469,7 +470,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         $link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
         // Put together the email template data.
-        $data              = $user->getProperties();
+        $data              = ArrayHelper::fromObject($user, false);
         $data['sitename']  = $app->get('sitename');
         $data['link_text'] = Route::_($link, false, $mode);
         $data['link_html'] = Route::_($link, true, $mode);
@@ -527,7 +528,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         $resetHours = (int) $params->get('reset_time');
         $result     = true;
 
-        $lastResetTime       = strtotime($user->lastResetTime) ?: 0;
+        $lastResetTime       = $user->lastResetTime === null ? 0 : strtotime($user->lastResetTime);
         $hoursSinceLastReset = (strtotime(Factory::getDate()->toSql()) - $lastResetTime) / 3600;
 
         if ($hoursSinceLastReset > $resetHours) {

@@ -13,10 +13,10 @@ use Joomla\CMS\Event\Application\AfterExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\DaemonForkEvent;
 use Joomla\CMS\Event\Application\DaemonReceiveSignalEvent;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -517,7 +517,7 @@ abstract class DaemonApplication extends CliApplication
                 $this->processId = (int) posix_getpid();
                 $this->parentId  = $this->processId;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add('Unable to fork.', Log::EMERGENCY);
 
             return false;
@@ -671,7 +671,7 @@ abstract class DaemonApplication extends CliApplication
 
             // Attach the signal handler for the signal.
             if (!$this->pcntlSignal(\constant($signal), ['DaemonApplication', 'signal'])) {
-                Log::add(sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
+                Log::add(\sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
 
                 return false;
             }

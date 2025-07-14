@@ -165,7 +165,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                 </button>
 
                 <a href="<?php echo $cancelURL ?>"
-                   class="btn btn-sm btn-danger">
+                   class="btn btn-danger">
                     <span class="icon icon-cancel-2" aria-hidden="true"></span>
                     <?php echo Text::_('JCANCEL'); ?>
                 </a>

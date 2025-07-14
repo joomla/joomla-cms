@@ -31,7 +31,7 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -72,13 +72,18 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
 
         $imgObject = new Image(imagecreatefromstring($item->data));
 
-        if ($imgObject->getWidth() < $this->params->get('batch_width', 0) && $imgObject->getHeight() < $this->params->get('batch_height', 0)) {
+        $maxWidth  = (int) $this->params->get('batch_width', 0);
+        $maxHeight = (int) $this->params->get('batch_height', 0);
+        if (
+            !(($maxWidth && $imgObject->getWidth() > $maxWidth)
+            || ($maxHeight && $imgObject->getHeight() > $maxHeight))
+        ) {
             return;
         }
 
         $imgObject->resize(
-            $this->params->get('batch_width', 0),
-            $this->params->get('batch_height', 0),
+            $maxWidth,
+            $maxHeight,
             false,
             Image::SCALE_INSIDE
         );

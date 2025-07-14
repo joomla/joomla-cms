@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Model\FeaturedModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -71,17 +72,6 @@ class HtmlView extends BaseHtmlView
     protected $link_items = [];
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     * @since  3.6.3
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Will be removed without replacement use database from the container instead
-     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
-     */
-    protected $db;
-
-    /**
      * The user object
      *
      * @var \Joomla\CMS\User\User|null
@@ -117,20 +107,22 @@ class HtmlView extends BaseHtmlView
     {
         $user = $this->getCurrentUser();
 
-        $state      = $this->get('State');
-        $items      = $this->get('Items');
-        $pagination = $this->get('Pagination');
+        /** @var FeaturedModel $model */
+        $model      = $this->getModel();
+        $state      = $model->getState();
+        $items      = $model->getItems();
+        $pagination = $model->getPagination();
 
         // Flag indicates to not add limitstart=0 to URL
         $pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         /** @var \Joomla\Registry\Registry $params */
-        $params = &$state->params;
+        $params = $state->params;
 
         // PREPARE THE DATA
 
@@ -202,7 +194,6 @@ class HtmlView extends BaseHtmlView
         $this->items      = &$items;
         $this->pagination = &$pagination;
         $this->user       = &$user;
-        $this->db         = Factory::getDbo();
 
         $this->_prepareDocument();
 

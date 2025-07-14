@@ -44,7 +44,7 @@ final class Override extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -175,7 +175,7 @@ final class Override extends CMSPlugin implements SubscriberInterface
         try {
             /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $templateModel */
             $templateModel = $this->getModel();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 

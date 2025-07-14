@@ -19,7 +19,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The articles module service provider.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -29,7 +29,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __ DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function register(Container $container)
     {

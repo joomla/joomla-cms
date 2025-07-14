@@ -199,7 +199,7 @@ class HtmlView extends BaseHtmlView
             $button = (new LinkButton('user-mfa-edit-cancel'))
                 ->url(
                     Route::_(
-                        sprintf(
+                        \sprintf(
                             "index.php?option=com_users&task=method.regenerateBackupCodes&user_id=%s&%s=1&returnurl=%s",
                             $this->user->id,
                             Factory::getApplication()->getFormToken(),

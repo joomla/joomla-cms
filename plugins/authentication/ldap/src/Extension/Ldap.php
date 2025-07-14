@@ -64,7 +64,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -125,10 +125,10 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
             } else {
                 $cacertfile = $cacert;
                 $cacertdir  = $cacert;
-                Log::add(sprintf('Certificate path for LDAP client is neither an existing file nor directory: "%s"', $cacert), Log::ERROR, $logcategory);
+                Log::add(\sprintf('Certificate path for LDAP client is neither an existing file nor directory: "%s"', $cacert), Log::ERROR, $logcategory);
             }
         } else {
-            Log::add(sprintf('Not setting any LDAP TLS CA certificate options because %s, system wide settings are used', $ignore_reqcert_tls ? "certificate is ignored" : "no certificate location is configured"), Log::DEBUG, $logcategory);
+            Log::add(\sprintf('Not setting any LDAP TLS CA certificate options because %s, system wide settings are used', $ignore_reqcert_tls ? "certificate is ignored" : "no certificate location is configured"), Log::DEBUG, $logcategory);
         }
 
         $options = [
@@ -143,21 +143,21 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
             ],
         ];
         // if these are not set, the system defaults are used
-        if (isset($cacertdir) && isset($cacertfile)) {
+        if (isset($cacertdir, $cacertfile)) {
             $options['options']['x_tls_cacertdir']  = $cacertdir;
             $options['options']['x_tls_cacertfile'] = $cacertfile;
         }
 
-        Log::add(sprintf('Creating LDAP session with options: %s', json_encode($options)), Log::DEBUG, $logcategory);
-        $connection_string = sprintf('ldap%s://%s:%s', 'ssl' === $options['encryption'] ? 's' : '', $options['host'], $options['port']);
-        Log::add(sprintf('Creating LDAP session to connect to "%s" while binding', $connection_string), Log::DEBUG, $logcategory);
+        Log::add(\sprintf('Creating LDAP session with options: %s', json_encode($options)), Log::DEBUG, $logcategory);
+        $connection_string = \sprintf('ldap%s://%s:%s', 'ssl' === $options['encryption'] ? 's' : '', $options['host'], $options['port']);
+        Log::add(\sprintf('Creating LDAP session to connect to "%s" while binding', $connection_string), Log::DEBUG, $logcategory);
         $ldap = $this->factory->createLdap($options);
 
         switch ($auth_method) {
             case 'search':
                 try {
                     $dn = $this->params->get('username', '');
-                    Log::add(sprintf('Binding to LDAP server with administrative dn "%s" and given administrative password (anonymous if user dn is blank)', $dn), Log::DEBUG, $logcategory);
+                    Log::add(\sprintf('Binding to LDAP server with administrative dn "%s" and given administrative password (anonymous if user dn is blank)', $dn), Log::DEBUG, $logcategory);
                     $ldap->bind($dn, $this->params->get('password', ''));
                 } catch (ConnectionException | LdapException $exception) {
                     $response->status        = Authentication::STATUS_FAILURE;
@@ -174,7 +174,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
                         str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
                         $this->params->get('search_string', '')
                     );
-                    Log::add(sprintf('Searching LDAP entry with filter: "%s"', $searchstring), Log::DEBUG, $logcategory);
+                    Log::add(\sprintf('Searching LDAP entry with filter: "%s"', $searchstring), Log::DEBUG, $logcategory);
                     $entry = $this->searchByString($searchstring, $ldap);
                 } catch (LdapException $exception) {
                     $response->status        = Authentication::STATUS_FAILURE;
@@ -193,11 +193,11 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
                     return;
                 }
 
-                Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
+                Log::add(\sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
 
                 try {
                     // Verify Users Credentials
-                    Log::add(sprintf('Binding to LDAP server with found user dn "%s" and user entered password', $entry->getDn()), Log::DEBUG, $logcategory);
+                    Log::add(\sprintf('Binding to LDAP server with found user dn "%s" and user entered password', $entry->getDn()), Log::DEBUG, $logcategory);
                     $ldap->bind($entry->getDn(), $credentials['password']);
                 } catch (ConnectionException $exception) {
                     $response->status        = Authentication::STATUS_FAILURE;
@@ -222,7 +222,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
                         );
                     }
 
-                    Log::add(sprintf('Direct binding to LDAP server with entered user dn "%s" and user entered password', $dn), Log::DEBUG, $logcategory);
+                    Log::add(\sprintf('Direct binding to LDAP server with entered user dn "%s" and user entered password', $dn), Log::DEBUG, $logcategory);
                     $ldap->bind($dn, $credentials['password']);
                 } catch (ConnectionException | LdapException $exception) {
                     $response->status        = Authentication::STATUS_FAILURE;
@@ -238,7 +238,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
                         str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
                         $this->params->get('search_string', '')
                     );
-                    Log::add(sprintf('Searching LDAP entry with filter: "%s"', $searchstring), Log::DEBUG, $logcategory);
+                    Log::add(\sprintf('Searching LDAP entry with filter: "%s"', $searchstring), Log::DEBUG, $logcategory);
                     $entry = $this->searchByString($searchstring, $ldap);
                 } catch (LdapException $exception) {
                     $response->status        = Authentication::STATUS_FAILURE;
@@ -257,7 +257,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
                     return;
                 }
 
-                Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
+                Log::add(\sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
 
                 break;
 
@@ -276,7 +276,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
         $response->fullname = $entry->getAttribute($ldap_fullname)[0] ?? $credentials['username'];
 
         // Were good - So say so.
-        Log::add(sprintf('LDAP login succeeded; username: "%s", email: "%s", fullname: "%s"', $response->username, $response->email, $response->fullname), Log::DEBUG, $logcategory);
+        Log::add(\sprintf('LDAP login succeeded; username: "%s", email: "%s", fullname: "%s"', $response->username, $response->email, $response->fullname), Log::DEBUG, $logcategory);
         $response->status        = Authentication::STATUS_SUCCESS;
         $response->error_message = '';
 

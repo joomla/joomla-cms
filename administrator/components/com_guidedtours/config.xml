@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Guided_Tours:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset name="guidedtours_config" label="COM_GUIDEDTOURS">
 		<field
 			name="allowTourAutoStart"
@@ -15,11 +17,13 @@
 
 		<field
 			name="delayed_time"
-			type="text"
+			type="number"
 			label="COM_GUIDEDTOURS_CONFIG_DELAYED_TIME_LABEL"
 			description="COM_GUIDEDTOURS_CONFIG_DELAYED_TIME_DESCRIPTION"
 			default="60"
-			size="small"
+			min="1"
+			filter="integer"
+			validate="number"
 			showon="allowTourAutoStart:1"
 		/>
 	</fieldset>

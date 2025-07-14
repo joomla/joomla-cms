@@ -13,12 +13,12 @@ namespace Joomla\Component\Languages\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
+use Joomla\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -288,7 +288,7 @@ class InstalledModel extends ListModel
             $params = ComponentHelper::getParams('com_languages');
             $params->set($client->name, $cid);
 
-            $table = Table::getInstance('extension', 'Joomla\\CMS\\Table\\');
+            $table = new Extension($this->getDatabase());
             $id    = $table->find(['element' => 'com_languages']);
 
             // Load.

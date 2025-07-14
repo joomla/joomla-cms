@@ -52,10 +52,8 @@ class ProfileController extends BaseController
             return false;
         }
 
-        $cookieLogin = $user->get('cookieLogin');
-
         // Check if the user logged in with a cookie
-        if (!empty($cookieLogin)) {
+        if (isset($user->cookieLogin) && !empty($user->cookieLogin)) {
             // If so, the user must login to edit the password and other data.
             $app->enqueueMessage(Text::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
             $this->setRedirect(Route::_('index.php?option=com_users&view=login', false));

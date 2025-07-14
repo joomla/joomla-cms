@@ -11,17 +11,16 @@
 namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\UpdateSite as UpdateSiteTable;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -444,8 +443,7 @@ class UpdatesitesModel extends InstallerModel
         array_walk(
             $items,
             static function ($item) {
-                $data              = new CMSObject($item);
-                $item->downloadKey = InstallerHelper::getDownloadKey($data);
+                $item->downloadKey = InstallerHelper::getDownloadKey($item);
             }
         );
 

@@ -242,7 +242,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
             if (!$connection) {
                 // Error but nothing from php? Create our own
                 if (!$err) {
-                    $err = sprintf('Could not connect to host: %s:%s', $host, $port);
+                    $err = \sprintf('Could not connect to host: %s:%s', $host, $port);
                 }
 
                 throw new \Exception($err);

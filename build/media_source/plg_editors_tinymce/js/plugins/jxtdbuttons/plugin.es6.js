@@ -9,10 +9,13 @@ import { JoomlaEditor, JoomlaEditorButton } from 'editor-api';
  * @param {Editor} editor
  */
 const pluginSetUp = (editor) => {
-  editor.options.register('joomlaExtButtons', { processor: 'object', default: { names: [] } });
+  editor.options.register('joomlaExtButtons', {
+    // Check for Object with list of buttons, or empty list
+    processor: (val) => (typeof val === 'object' && Array.isArray(val.names)) || (Array.isArray(val) && val.length === 0),
+  });
 
   // Get buttons list
-  const buttons = editor.options.get('joomlaExtButtons').names || [];
+  const buttons = editor.options.get('joomlaExtButtons')?.names || [];
 
   if (!buttons.length) {
     return;

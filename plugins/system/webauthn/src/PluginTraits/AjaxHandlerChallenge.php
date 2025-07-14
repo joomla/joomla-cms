@@ -89,7 +89,7 @@ trait AjaxHandlerChallenge
 
         try {
             $myUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $myUser = new User();
         }
 

@@ -19,7 +19,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 /**
  * Base class for Joomla Update events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 abstract class AbstractJoomlaUpdateEvent extends AbstractImmutableEvent
 {
@@ -30,8 +30,8 @@ abstract class AbstractJoomlaUpdateEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @since  5.2.0
+     * @deprecated 5.2.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = [];
 
@@ -41,7 +41,7 @@ abstract class AbstractJoomlaUpdateEvent extends AbstractImmutableEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function __construct($name, array $arguments = [])
     {

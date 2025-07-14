@@ -63,7 +63,7 @@ class ContentmapField extends GroupedlistField
 
         try {
             $contentMap = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
 

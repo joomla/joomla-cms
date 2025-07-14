@@ -8,6 +8,7 @@ describe('Install Joomla', () => {
       email: Cypress.env('email'),
       db_type: Cypress.env('db_type'),
       db_host: Cypress.env('db_host'),
+      db_port: Cypress.env('db_port'),
       db_user: Cypress.env('db_user'),
       db_password: Cypress.env('db_password'),
       db_name: Cypress.env('db_name'),
@@ -17,6 +18,9 @@ describe('Install Joomla', () => {
     // If exists, delete PHP configuration file to force a new installation
     cy.task('deleteRelativePath', 'configuration.php');
     cy.installJoomla(config);
+
+    // Disable compat plugin
+    cy.db_enableExtension(0, 'plg_behaviour_compat6');
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();

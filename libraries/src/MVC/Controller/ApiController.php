@@ -17,8 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\JsonApiView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -106,7 +106,7 @@ class ApiController extends BaseController
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
-        $this->modelState = new CMSObject();
+        $this->modelState = new Registry();
 
         parent::__construct($config, $factory, $app, $input);
 
@@ -204,13 +204,15 @@ class ApiController extends BaseController
         $offset         = null;
 
         if (\array_key_exists('offset', $paginationInfo)) {
-            $offset = $paginationInfo['offset'];
-            $this->modelState->set($this->context . '.limitstart', $offset);
+            $offset                      = $paginationInfo['offset'];
+            $property                    = $this->context . '.limitstart';
+            $this->modelState->$property = $offset;
         }
 
         if (\array_key_exists('limit', $paginationInfo)) {
-            $limit = $paginationInfo['limit'];
-            $this->modelState->set($this->context . '.list.limit', $limit);
+            $limit                       = $paginationInfo['limit'];
+            $property                    = $this->context . '.list.limit';
+            $this->modelState->$property = $limit;
         }
 
         $viewType   = $this->app->getDocument()->getType();
@@ -420,7 +422,7 @@ class ApiController extends BaseController
         $data = $this->preprocessSaveData($data);
 
         // @todo: Not the cleanest thing ever but it works...
-        Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
+        Form::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/forms');
 
         // Needs to be set because com_fields needs the data in jform to determine the assigned catid
         $this->input->set('jform', $data);

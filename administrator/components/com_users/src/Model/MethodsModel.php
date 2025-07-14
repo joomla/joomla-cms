@@ -170,7 +170,7 @@ class MethodsModel extends BaseDatabaseModel
             }
         }
 
-        return sprintf($containerString, $jDate->format($formatString, true));
+        return \sprintf($containerString, $jDate->format($formatString, true));
     }
 
     /**
@@ -197,7 +197,7 @@ class MethodsModel extends BaseDatabaseModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 

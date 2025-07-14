@@ -16,8 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
@@ -87,9 +87,12 @@ class ModuleModel extends AdminModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
             [
@@ -105,7 +108,7 @@ class ModuleModel extends AdminModel
             $config
         );
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -593,12 +596,12 @@ class ModuleModel extends AdminModel
 
             // Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
             if (!$data->id) {
-                $clientId = $input->getInt('client_id', 0);
-                $filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
-                $data->set('published', $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('position', $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
-                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('access', $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
+                $clientId        = $input->getInt('client_id', 0);
+                $filters         = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
+                $data->published = $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null));
+                $data->position  = $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null));
+                $data->language  = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access    = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
 
             // Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -607,7 +610,7 @@ class ModuleModel extends AdminModel
                 $params = $app->getUserState('com_modules.add.module.params');
 
                 if (\is_array($params)) {
-                    $data->set('params', $params);
+                    $data->params = $params;
                 }
             }
         }
@@ -622,7 +625,7 @@ class ModuleModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      *
      * @since   1.6
      */
@@ -680,9 +683,9 @@ class ModuleModel extends AdminModel
                 }
             }
 
-            // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
+            // Convert to an object before adding other data.
             $properties        = $table->getProperties(1);
-            $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
+            $this->_cache[$pk] = ArrayHelper::toObject($properties);
 
             // Convert the params field to an array.
             $registry                  = new Registry($table->params);
@@ -1086,15 +1089,13 @@ class ModuleModel extends AdminModel
     /**
      * Custom clean cache method for different clients
      *
-     * @param   string   $group     The name of the plugin group to import (defaults to null).
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_modules');
     }

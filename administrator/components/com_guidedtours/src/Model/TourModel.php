@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
@@ -63,12 +62,12 @@ class TourModel extends AdminModel
         $input = Factory::getApplication()->getInput();
 
         // Language keys must include GUIDEDTOUR to prevent save issues
-        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
+        if (str_contains($data['description'], 'GUIDEDTOUR')) {
             $data['description'] = strip_tags($data['description']);
         }
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             $data['published'] = 0;
@@ -201,7 +200,8 @@ class TourModel extends AdminModel
         $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 
         $table = $this->getTable();
-        if (\is_integer($pk)) {
+
+        if (\is_int($pk)) {
             $result = $table->load((int) $pk);
         } else {
             // Attempt to load the row by uid.
@@ -220,9 +220,9 @@ class TourModel extends AdminModel
             return false;
         }
 
-        // Convert to the CMSObject before adding other data.
+        // Convert to an object before adding other data.
         $properties = $table->getProperties(1);
-        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
@@ -561,7 +561,7 @@ class TourModel extends AdminModel
             if ($result === null) {
                 return false;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -576,7 +576,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public function saveTourUserState($id, $state = ''): bool
     {
@@ -596,7 +596,7 @@ class TourModel extends AdminModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

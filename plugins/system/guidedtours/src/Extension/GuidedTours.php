@@ -15,7 +15,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\SubscriberRegistrationCheckerInterface;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
@@ -201,7 +200,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface, Subscr
 
                     try {
                         $result = $db->setQuery($query)->loadResult();
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Do not start the tour.
                         continue;
                     }
@@ -270,7 +269,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface, Subscr
     /**
      * Return a tour and its steps or null if not found
      *
-     * @param   CMSObject  $item  The tour to load
+     * @param   \stdClass  $item  The tour to load
      *
      * @return null|object
      *
@@ -313,13 +312,15 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface, Subscr
         $temp->id          = 0;
         $temp->title       = $this->getApplication()->getLanguage()->_($item->title);
         $temp->description = $this->getApplication()->getLanguage()->_($item->description);
+        $temp->description = $this->fixImagePaths($temp->description);
         $temp->url         = $item->url;
-
-        // Replace 'images/' to '../images/' when using an image from /images in backend.
-        $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
 
         // Set the start label for the tour.
         $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_START');
+        // What's new tours have a different label.
+        if (str_contains($item->uid, 'joomla-whatsnew')) {
+            $temp->start_label = Text::_('PLG_SYSTEM_GUIDEDTOURS_NEXT');
+        }
 
         $tour->steps[] = $temp;
 
@@ -329,6 +330,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface, Subscr
             $temp->id               = $i + 1;
             $temp->title            = $this->getApplication()->getLanguage()->_($step->title);
             $temp->description      = $this->getApplication()->getLanguage()->_($step->description);
+            $temp->description      = $this->fixImagePaths($temp->description);
             $temp->position         = $step->position;
             $temp->target           = $step->target;
             $temp->type             = $this->stepType[$step->type];
@@ -338,12 +340,33 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface, Subscr
             $temp->tour_id          = $step->tour_id;
             $temp->step_id          = $step->id;
 
-            // Replace 'images/' to '../images/' when using an image from /images in backend.
-            $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
-
             $tour->steps[] = $temp;
         }
 
         return $tour;
+    }
+
+    /**
+     * Return a modified version of a given string with usable image paths for tours
+     *
+     * @param   string  $description  The string to fix
+     *
+     * @return  string
+     *
+     * @since  5.2.0
+     */
+    private function fixImagePaths($description)
+    {
+        return preg_replace(
+            [
+                '*src="(?!administrator\/)images/*',
+                '*src="media/*',
+            ],
+            [
+                'src="../images/',
+                'src="../media/',
+            ],
+            $description
+        );
     }
 }

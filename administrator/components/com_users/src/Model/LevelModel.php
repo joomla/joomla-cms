@@ -68,7 +68,7 @@ class LevelModel extends AdminModel
                      * than the 'access' field they are on their own unfortunately.
                      * Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
                      */
-                    if (strpos($checktable, $prefix) === 0 && isset($fields['access'])) {
+                    if (str_starts_with($checktable, $prefix) && isset($fields['access'])) {
                         // Lookup the distinct values of the field.
                         $query->clear('from')
                             ->from($db->quoteName($checktable));
@@ -300,11 +300,11 @@ class LevelModel extends AdminModel
 
             $rules = ArrayHelper::toInteger($rules);
 
-            for ($i = 0, $n = \count($groups); $i < $n; ++$i) {
-                if (Access::checkGroup((int) $groups[$i]->id, 'core.admin')) {
-                    if (\in_array((int) $groups[$i]->id, $rules) && !\in_array((int) $groups[$i]->id, $data['rules'])) {
-                        $data['rules'][] = (int) $groups[$i]->id;
-                    } elseif (!\in_array((int) $groups[$i]->id, $rules) && \in_array((int) $groups[$i]->id, $data['rules'])) {
+            foreach ($groups as $value) {
+                if (Access::checkGroup((int) $value->id, 'core.admin')) {
+                    if (\in_array((int) $value->id, $rules) && !\in_array((int) $value->id, $data['rules'])) {
+                        $data['rules'][] = (int) $value->id;
+                    } elseif (!\in_array((int) $value->id, $rules) && \in_array((int) $value->id, $data['rules'])) {
                         $this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
                         return false;

@@ -96,7 +96,7 @@ final class Contacts extends Adapter implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function getSubscribedEvents(): array
     {

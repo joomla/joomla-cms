@@ -113,7 +113,7 @@ class SearchModel extends ListModel
         $results = [];
 
         // Convert the rows to result objects.
-        foreach ($items as $rk => $row) {
+        foreach ($items as $row) {
             // Build the result object.
             if (\is_resource($row->object)) {
                 $result = unserialize(stream_get_contents($row->object));
@@ -198,8 +198,8 @@ class SearchModel extends ListModel
                 ->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
 
             // Iterate through each taxonomy group.
-            for ($i = 0, $c = \count($groups); $i < $c; $i++) {
-                $query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $groups[$i]) . ') THEN 1 ELSE 0 END) > 0');
+            foreach ($groups as $group) {
+                $query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $group) . ') THEN 1 ELSE 0 END) > 0');
             }
         }
 
@@ -259,6 +259,12 @@ class SearchModel extends ListModel
         }
 
         $query->order('ordering ' . $db->escape($direction));
+
+        /*
+         * Prevent invalid records from being returned in the final query.
+         * This can happen if the search results are queried while the indexer is running.
+         */
+        $query->where($db->quoteName('object') . ' != ' . $db->quote(''));
 
         /*
          * If there are no optional or required search terms in the query, we
@@ -537,7 +543,7 @@ class SearchModel extends ListModel
                 $this->setState('list.ordering', 'l.sale_price');
                 break;
 
-            case ($order === 'relevance' && !empty($this->includedTerms)):
+            case $order === 'relevance' && !empty($this->includedTerms):
                 $this->setState('list.ordering', 'm.weight');
                 break;
 

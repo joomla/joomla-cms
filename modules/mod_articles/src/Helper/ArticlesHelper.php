@@ -14,7 +14,8 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\HTML\Helpers\StringHelper as SpecialStringHelper;
+use Joomla\CMS\Event\Content;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -24,6 +25,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -32,7 +34,7 @@ use Joomla\String\StringHelper;
 /**
  * Helper for mod_articles
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.2.0
  */
 class ArticlesHelper implements DatabaseAwareInterface
 {
@@ -46,7 +48,7 @@ class ArticlesHelper implements DatabaseAwareInterface
      *
      * @return  object[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function getArticles(Registry $params, SiteApplication $app)
     {
@@ -67,13 +69,67 @@ class ArticlesHelper implements DatabaseAwareInterface
         $articles->setState('list.limit', (int) $params->get('count', 0));
         $articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
+        // Get the user object
+        $user = $app->getIdentity();
+
         // Access filter
         $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
+        $authorised = Access::getAuthorisedViewLevels($user->id);
         $articles->setState('filter.access', $access);
 
-        $catids = $params->get('catid');
-        $articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
+        // Prep for Normal or Dynamic Modes
+        $mode = $params->get('mode', 'normal');
+
+        switch ($mode) {
+            case 'dynamic':
+                $option = $input->get('option');
+                $view   = $input->get('view');
+
+                if ($option === 'com_content') {
+                    switch ($view) {
+                        case 'category':
+                        case 'categories':
+                            $catids = [$input->getInt('id')];
+                            break;
+                        case 'article':
+                            if ($params->get('show_on_article_page', 1)) {
+                                $article_id = $input->getInt('id');
+                                $catid      = $input->getInt('catid');
+
+                                if (!$catid) {
+                                    // Get an instance of the generic article model
+                                    $article = $factory->createModel('Article', 'Site', ['ignore_request' => true]);
+
+                                    $article->setState('params', $appParams);
+                                    $article->setState('filter.published', 1);
+                                    $article->setState('article.id', (int) $article_id);
+                                    $item   = $article->getItem();
+                                    $catids = [$item->catid];
+                                } else {
+                                    $catids = [$catid];
+                                }
+                            } else {
+                                // Return right away if show_on_article_page option is off
+                                return;
+                            }
+                            break;
+
+                        default:
+                            // Return right away if not on the category or article views
+                            return;
+                    }
+                } else {
+                    // Return right away if not on a com_content page
+                    return;
+                }
+
+                break;
+
+            default:
+                $catids = $params->get('catid');
+                $articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
+                break;
+        }
 
         // Category filter
         if ($catids) {
@@ -137,9 +193,17 @@ class ArticlesHelper implements DatabaseAwareInterface
         // Filter by multiple tags
         $articles->setState('filter.tag', $params->get('filter_tag', []));
 
+        // Filter by featured
         $articles->setState('filter.featured', $params->get('show_featured', 'show'));
-        $articles->setState('filter.author_id', $params->get('created_by', []));
-        $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
+
+        // Filter by author
+        if ($params->get('author_filtering_type', 1) === 2) {
+            $articles->setState('filter.author_id', [$user->id]);
+        } else {
+            $articles->setState('filter.author_id', $params->get('created_by', []));
+            $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
+        }
+
         $articles->setState('filter.author_alias', $params->get('created_by_alias', []));
         $articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 
@@ -148,33 +212,54 @@ class ArticlesHelper implements DatabaseAwareInterface
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
         }
 
-        // Filter by id in case it should be excluded
-        $excluded_articles = $params->get('excluded_articles', '');
-        if (
-            $params->get('exclude_current', true)
+        // Check if we include or exclude articles and process data
+        $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
+        $filterInclude          = true;
+        $articlesList           = [];
+        $currentArticleId       = $input->get('id', 0, 'UINT');
+
+        $isArticleAndShouldExcluded = $params->get('exclude_current', 1) === 1
             && $input->get('option') === 'com_content'
-            && $input->get('view') === 'article'
+            && $input->get('view') === 'article';
+
+        $articlesListToProcess = $params->get('included_articles', '');
+
+        if ($ex_or_include_articles === 0) {
+            $filterInclude = false;
+
+            if ($isArticleAndShouldExcluded) {
+                $articlesList[] = $currentArticleId;
+            }
+
+            $articlesListToProcess = $params->get('excluded_articles', '');
+        }
+
+        foreach (ArrayHelper::fromObject($articlesListToProcess) as $article) {
+            if (
+                $ex_or_include_articles === 1
+                && $isArticleAndShouldExcluded
+                && (int) $article['id'] === $currentArticleId
+            ) {
+                continue;
+            }
+
+            $articlesList[] = (int) $article['id'];
+        }
+
+        // Edge case when the user select include mode but didn't add an article,
+        // we might have to exclude the current article
+        if (
+            $ex_or_include_articles === 1
+            && $isArticleAndShouldExcluded
+            && empty($articlesList)
         ) {
-            // Add current article to excluded list
-            $excluded_articles .= "\r\n" . $input->get('id', 0, 'UINT');
+            $filterInclude  = false;
+            $articlesList[] = $currentArticleId;
         }
 
-        if ($excluded_articles) {
-            $excluded_articles = explode("\r\n", $excluded_articles);
-            $articles->setState('filter.article_id', $excluded_articles);
-
-            // Exclude
-            $articles->setState('filter.article_id.include', false);
-        }
-
-        // Filter by id in case it should be included only
-        $included_articles = $params->get('included_articles', '');
-        if ($included_articles) {
-            $included_articles = explode("\r\n", $included_articles);
-            $articles->setState('filter.article_id', $included_articles);
-
-            // Include
-            $articles->setState('filter.article_id.include', true);
+        if (!empty($articlesList)) {
+            $articles->setState('filter.article_id', $articlesList);
+            $articles->setState('filter.article_id.include', $filterInclude);
         }
 
         $date_filtering = $params->get('date_filtering', 'off');
@@ -238,6 +323,40 @@ class ArticlesHelper implements DatabaseAwareInterface
                 $item->link = Route::_('index.php?option=com_users&view=login&Itemid=' . $Itemid . '&return=' . $return);
             }
 
+            $item->event   = new \stdClass();
+
+            // Check if we should trigger additional plugin events
+            if ($params->get('trigger_events', 0)) {
+                $dispatcher = Factory::getApplication()->getDispatcher();
+
+                // Process the content plugins.
+                PluginHelper::importPlugin('content', null, true, $dispatcher);
+
+                $contentEventArguments = [
+                    'context' => 'com_content.article',
+                    'subject' => $item,
+                    'params'  => $item->params,
+                ];
+
+                // Extra content from events
+
+                $contentEvents = [
+                    'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+                    'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+                    'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+                ];
+
+                foreach ($contentEvents as $resultKey => $event) {
+                    $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+                    $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
+                }
+            } else {
+                $item->event->afterDisplayTitle    = '';
+                $item->event->beforeDisplayContent = '';
+                $item->event->afterDisplayContent  = '';
+            }
+
             // Used for styling the active article
             $item->active      = $item->id == $active_article_id ? 'active' : '';
 
@@ -264,11 +383,12 @@ class ArticlesHelper implements DatabaseAwareInterface
 
                 // Remove any images belongs to the text
                 if (!$params->get('image')) {
-                    $item->displayIntrotext = preg_replace('/<img[^>]*>/', '', $item->displayIntrotext);
+                    // Remove any images and empty links from the intro text
+                    $item->displayIntrotext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->displayIntrotext);
                 }
 
                 if ($introtext_limit != 0) {
-                    $item->displayIntrotext = SpecialStringHelper::truncate($item->introtext, $introtext_limit, true, false);
+                    $item->displayIntrotext = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
                 }
             }
 
@@ -331,7 +451,7 @@ class ArticlesHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
     {
@@ -375,7 +495,7 @@ class ArticlesHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
     {
@@ -438,7 +558,7 @@ class ArticlesHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public static function groupByTags($list, $direction = 'ksort')
     {
