@@ -102,42 +102,42 @@ final class NotificationModel extends BaseDatabaseModel
             return [];
         }
         
-		$emailReceivers = [];
-		
-		// Get the users of all groups in the emailGroups
+        $emailReceivers = [];
+
+        // Get the users of all groups in the emailGroups
         $usersModel = Factory::getApplication()->bootComponent('com_users')
             ->getMVCFactory()->createModel('Users', 'Administrator');
-			
-		$usersModel->setState('filter.groups', $emailGroups);
-		$usersModel->setState('filter.block', (int) 0);
-		
-		$usersInGroup = $usersModel->getItems();
+            
+        $usersModel->setState('filter.groups', $emailGroups);
+        $usersModel->setState('filter.block', (int) 0);
 
-		if (empty($usersInGroup)) {
-			return [];
-		}
+        $usersInGroup = $usersModel->getItems();
 
-		// Only users with valid email address who are not blocked can receive the email
-		foreach ($usersInGroup as $user) {
-			if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
-				$user->email = strtolower(trim($user->email));
-				
-				// Check if the email already exists in the emailReceivers array
-				$exist = false;
-				foreach ($emailReceivers as $rec) {
-					if ($rec->email === $user->email) {
-						$exist = true;
-						break;
-					}
-				}
+        if (empty($usersInGroup)) {
+            return [];
+        }
 
-				// Add to the list if it is not already in the list
-				if (!$exist) {
-					$emailReceivers[] = $user;
-				}
-			}
-		}
+        // Only users with valid email address who are not blocked can receive the email
+        foreach ($usersInGroup as $user) {
+            if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
+                $user->email = strtolower(trim($user->email));
 
-		return $emailReceivers;
+                // Check if the email already exists in the emailReceivers array
+                $exist = false;
+                foreach ($emailReceivers as $rec) {
+                    if ($rec->email === $user->email) {
+                        $exist = true;
+                        break;
+                    }
+                }
+
+                // Add to the list if it is not already in the list
+                if (!$exist) {
+                    $emailReceivers[] = $user;
+                }
+            }
+        }
+
+        return $emailReceivers;
     }
 }
