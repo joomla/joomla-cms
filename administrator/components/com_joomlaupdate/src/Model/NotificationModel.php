@@ -119,7 +119,7 @@ final class NotificationModel extends BaseDatabaseModel
 
 		// Only users with valid email address who are not blocked can receive the email
 		foreach ($usersInGroup as $user) {
-			if (MailHelper::isEmailAddress($user->email) && !$user->block) {
+			if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
 				$user->email = strtolower(trim($user->email));
 				
 				// Check if the email already exists in the emailReceivers array
