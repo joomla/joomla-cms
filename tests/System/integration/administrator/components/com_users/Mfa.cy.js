@@ -1,21 +1,8 @@
 import { TOTP } from 'totp-generator';
 
-before(() => {
-  Cypress.automation('remote:debugger:protocol', { command: 'WebAuthn.enable', params: {} }).then(() => {
-    Cypress.automation('remote:debugger:protocol', {
-      command: 'WebAuthn.addVirtualAuthenticator',
-      params: {
-        options: {
-          protocol: 'ctap2', transport: 'internal', hasResidentKey: true, hasUserVerification: true, isUserVerified: true,
-        },
-      },
-    });
-  });
-});
-afterEach(() => cy.db_getUserId().then((uid) => cy.task('queryDB', `DELETE FROM #__user_mfa WHERE user_id = ${uid}`)));
-after(() => Cypress.automation('remote:debugger:protocol', { command: 'WebAuthn.disable', params: {} }));
-
 describe('Test in backend that the user', () => {
+  afterEach(() => cy.db_getUserId().then((uid) => cy.task('queryDB', `DELETE FROM #__user_mfa WHERE user_id = ${uid}`)));
+
   it('can login with Multi-factor Authentication (email)', () => {
     cy.doAdministratorLogin();
     cy.visit('/administrator/index.php?option=com_users&view=users');
@@ -93,7 +80,17 @@ describe('Test in backend that the user', () => {
     cy.get('#com-users-methods-reset-message').contains('not enabled');
   });
 
-  it('can login with Multi-factor Authentication (passkey)', () => {
+  it('can login with Multi-factor Authentication (passkey)', { browser: '!firefox' }, () => {
+    Cypress.automation('remote:debugger:protocol', { command: 'WebAuthn.enable', params: {} }).then(() => {
+      Cypress.automation('remote:debugger:protocol', {
+        command: 'WebAuthn.addVirtualAuthenticator',
+        params: {
+          options: {
+            protocol: 'ctap2', transport: 'internal', hasResidentKey: true, hasUserVerification: true, isUserVerified: true,
+          },
+        },
+      });
+    });
     cy.doAdministratorLogin();
     cy.visit('/administrator/index.php?option=com_users&view=users');
     cy.get('.header-profile:visible').click();
@@ -118,6 +115,7 @@ describe('Test in backend that the user', () => {
     cy.get('.com-users-methods-list-method-name-webauthn a.com-users-methods-list-method-record-delete').click();
     cy.on('window:confirm', (text) => expect(text).to.contains('Are you sure you want to delete?'));
     cy.get('#com-users-methods-reset-message').contains('not enabled');
+    cy.then(() => Cypress.automation('remote:debugger:protocol', { command: 'WebAuthn.disable', params: {} }));
   });
 
   it('can login with Multi-factor Authentication (backup codes)', () => {
