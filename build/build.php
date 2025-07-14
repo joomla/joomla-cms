@@ -454,6 +454,7 @@ $doNotPackage = [
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',
+    'phpstan-baseline.neon',
     'phpstan.neon',
     'phpunit.xml.dist',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
