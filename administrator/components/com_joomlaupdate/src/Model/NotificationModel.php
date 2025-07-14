@@ -50,7 +50,7 @@ final class NotificationModel extends BaseDatabaseModel
         $emailGroups = $params->get('automated_updates_email_groups', 8, 'array');
 
         // If the emailGroups is not an array, convert it to an array
-        if (!is_array($emailGroups)) {
+        if (!\is_array($emailGroups)) {
             $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
         }
 	
