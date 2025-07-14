@@ -107,7 +107,7 @@ final class NotificationModel extends BaseDatabaseModel
         // Get the users of all groups in the emailGroups
         $usersModel = Factory::getApplication()->bootComponent('com_users')
             ->getMVCFactory()->createModel('Users', 'Administrator');
-            
+
         $usersModel->setState('filter.groups', $emailGroups);
         $usersModel->setState('filter.block', (int) 0);
 
