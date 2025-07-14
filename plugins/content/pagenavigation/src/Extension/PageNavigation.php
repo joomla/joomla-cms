@@ -158,12 +158,12 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             $query->order($orderby);
 
             $case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias'), '!=', '0')
-                . ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('a.id')), $db->quoteName('a.alias')], ':')
-                . ' ELSE ' . $query->castAsChar('a.id') . ' END AS ' . $db->quoteName('slug');
+                . ' THEN ' . $query->concatenate([$query->castAs('Char', $db->quoteName('a.id')), $db->quoteName('a.alias')], ':')
+                . ' ELSE ' . $query->castAs('Char', 'a.id') . ' END AS ' . $db->quoteName('slug');
 
             $case_when1 = ' CASE WHEN ' . $query->charLength($db->quoteName('cc.alias'), '!=', '0')
-                . ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('cc.id')), $db->quoteName('cc.alias')], ':')
-                . ' ELSE ' . $query->castAsChar('cc.id') . ' END AS ' . $db->quoteName('catslug');
+                . ' THEN ' . $query->concatenate([$query->castAs('Char', $db->quoteName('cc.id')), $db->quoteName('cc.alias')], ':')
+                . ' ELSE ' . $query->castAs('Char', 'cc.id') . ' END AS ' . $db->quoteName('catslug');
 
             $query->select($db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']))
                 ->select([$case_when, $case_when1])
