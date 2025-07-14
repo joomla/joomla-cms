@@ -10,16 +10,14 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Table\Asset;
+
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -78,13 +76,13 @@ final class NotificationModel extends BaseDatabaseModel
         ];
 
         // Send the emails to the Super Users
-        foreach ($superUsers as $superUser) {
-            $params = new Registry($superUser->params);
+        foreach ($emailReceivers as $receiver) {
+            $params = new Registry($receiver->params);
             $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
             $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $params->get('admin_language', null), true, true);
 
             $mailer = new MailTemplate('com_joomlaupdate.update.' . $type, $jLanguage->getTag());
-            $mailer->addRecipient($superUser->email);
+            $mailer->addRecipient($receiver->email);
             $mailer->addTemplateData($substitutions);
             $mailer->send();
         }
@@ -107,38 +105,40 @@ final class NotificationModel extends BaseDatabaseModel
         
 		$emailReceivers = [];
 		
-        $groupModel = Factory::getApplication()->bootComponent('com_users')
-            ->getMVCFactory()->createModel('Group', 'Administrator');
+		// Get the users of all groups in the emailGroups
+        $usersModel = Factory::getApplication()->bootComponent('com_users')
+            ->getMVCFactory()->createModel('Users', 'Administrator');
+			
+		$usersModel->setState('filter.groups', $emailGroups);
+		$usersModel->setState('filter.block', (int) 0);
+		
+		$usersInGroup = $usersModel->getItems();
 
-		// Get the emails of all groups in the emailGroups
-        foreach ($emailGroups as $group) {
-            $usersInGroup = $groupModel->getUsersInGroup($group);
+		if (empty($usersInGroup)) {
+			return [];
+		}
 
-            if (empty($usersInGroup)) {
-                return [];
-            }
+		// Only users with valid email address who are not blocked can receive the email
+		foreach ($usersInGroup as $user) {
+			if (MailHelper::isEmailAddress($user->email) && !$user->block) {
+				$user->email = strtolower(trim($user->email));
+				
+				// Check if the email already exists in the emailReceivers array
+				$exist = false;
+				foreach ($emailReceivers as $rec) {
+					if ($rec->email === $user->email) {
+						$exist = true;
+						break;
+					}
+				}
 
-			// Only users with valid email address who are not blocked can receive the email
-			foreach ($usersInGroup as $user) {
-                if (MailHelper::isEmailAddress($user->email) && !$user->block) {
-                    $user->email = strtolower(trim($user->email));
+				// Add to the list if it is not already in the list
+				if (!$exist) {
+					$emailReceivers[] = $user;
+				}
+			}
+		}
 
-                    // Check if the email already exists in the emailReceivers array
-                    $exist = false;
-                    for ($i = 0; $i < count($emailReceivers); $i++) {
-                        if ($emailReceivers[$i]->email === $user->email) {
-                            $exist = true;
-                            break;
-                        }
-                    }
-                    // Add to the list if it is not already in the list
-                    if (!$exist) {
-                        $emailReceivers[] = $user;
-                    }
-                }
-            }
-        }
-
-            return $emailReceivers;
+		return $emailReceivers;
     }
 }
