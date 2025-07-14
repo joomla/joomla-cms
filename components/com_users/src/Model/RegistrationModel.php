@@ -31,6 +31,7 @@ use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -138,7 +139,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             $linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
             // Compile the admin notification mail values.
-            $data               = $user->getProperties();
+            $data               = ArrayHelper::fromObject($user, false);
             $data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
             $user->activation   = $data['activation'];
             $data['siteurl']    = Uri::base();
@@ -209,7 +210,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
             $user->block      = '0';
 
             // Compile the user activated notification mail values.
-            $data = $user->getProperties();
+            $data = ArrayHelper::fromObject($user, false);
             $user->setParam('activate', 0);
             $data['fromname'] = $app->get('fromname');
             $data['mailfrom'] = $app->get('mailfrom');
@@ -466,7 +467,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
         $query = $db->getQuery(true);
 
         // Compile the notification mail values.
-        $data             = $user->getProperties();
+        $data             = ArrayHelper::fromObject($user, false);
         $data['fromname'] = $app->get('fromname');
         $data['mailfrom'] = $app->get('mailfrom');
         $data['sitename'] = $app->get('sitename');
