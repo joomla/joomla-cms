@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
