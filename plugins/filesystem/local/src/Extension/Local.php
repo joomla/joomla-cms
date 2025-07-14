@@ -13,6 +13,7 @@ namespace Joomla\Plugin\Filesystem\Local\Extension;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,7 +27,7 @@ use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
  *
  * @since  4.0.0
  */
-final class Local extends CMSPlugin implements ProviderInterface
+final class Local extends CMSPlugin implements SubscriberInterface, ProviderInterface
 {
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -35,6 +36,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
+
     /**
      * The root directory path
      *
@@ -42,6 +44,20 @@ final class Local extends CMSPlugin implements ProviderInterface
      * @since  4.3.0
      */
     private $rootDirectory;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onSetupProviders' => 'onSetupProviders',
+        ];
+    }
 
     /**
      * Constructor.
@@ -93,7 +109,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      */
     public function getDisplayName()
     {
-        return $this->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+        return $this->getApplication()->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
     }
 
     /**
