@@ -421,9 +421,9 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 'joomla_user_state',
                 '',
                 [
-                    'expires'  => 1,
-                    'path'     => $this->getApplication()->get('cookie_path', '/'),
-                    'domain'   => $this->getApplication()->get('cookie_domain', ''),
+                    'expires' => 1,
+                    'path'    => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'  => $this->getApplication()->get('cookie_domain', ''),
                 ]
             );
         }

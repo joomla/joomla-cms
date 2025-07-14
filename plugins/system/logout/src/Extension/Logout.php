@@ -54,9 +54,9 @@ final class Logout extends CMSPlugin implements SubscriberInterface
                 $hash,
                 '',
                 [
-                    'expires'  => 1,
-                    'path'     => $this->getApplication()->get('cookie_path', '/'),
-                    'domain'   => $this->getApplication()->get('cookie_domain', ''),
+                    'expires' => 1,
+                    'path'    => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'  => $this->getApplication()->get('cookie_domain', ''),
                 ]
             );
         }
