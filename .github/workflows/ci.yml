@@ -1,0 +1,266 @@
+name: CI Joomla
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  composer:
+    name: Install PHP dependencies
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php8.4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        id: cache-php
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - name: Install PHP dependencies
+        if: steps.cache-php.outputs.cache-hit != 'true'
+        run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
+          composer config --global home
+          composer validate --no-check-all --strict
+          composer install --no-progress --ignore-platform-reqs
+
+  npm:
+    name: Install JS/CSS dependencies and build assets
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php8.4
+    needs: [composer]
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        id: cache-assets
+        with:
+          path: |
+            node_modules
+            media
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - name: Build assets
+        if: steps.cache-assets.outputs.cache-hit != 'true'
+        run: npm ci --unsafe-perm
+
+  code-style-php:
+    name: Check PHP code style
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php8.4
+    needs: [composer]
+    strategy:
+      matrix:
+        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - name: Check PHP code style
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: true
+        run: ./libraries/vendor/bin/${{ matrix.command }}
+
+  code-style-js-css:
+    name: Check Javascript & CSS code style
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php8.4
+    needs: [composer, npm]
+    strategy:
+      matrix:
+        check: ['lint:js', 'lint:testjs', 'lint:css']
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            media
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+      - name: Check code style
+        run: npm run ${{ matrix.check }}
+
+  phpstan:
+    name: Run PHPstan
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php8.4
+    needs: [code-style-php]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - name: Run PHPstan
+        run: |
+          ./libraries/vendor/bin/phpstan --error-format=github || :
+
+  tests-unit:
+    name: Run Unit tests
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php${{ matrix.php_version }}
+    needs: [code-style-php]
+    strategy:
+      matrix:
+        php_version: ['8.1', '8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+      - name: Run Unit tests
+        run: ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  tests-integration:
+    name: Run integration tests
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:php${{ matrix.php_version }}
+    needs: [code-style-php]
+    strategy:
+      matrix:
+        php_version: ['8.1', '8.2', '8.3', '8.4']
+        config: ['phpunit.xml.dist', 'phpunit-pgsql.xml.dist']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start LDAP container
+        uses: docker://docker
+        with:
+          args: docker run -d --name openldap --network ${{ job.container.network }} --network-alias openldap -e "LDAP_ADMIN_USERNAME=admin" -e "LDAP_ADMIN_PASSWORD=adminpassword" -e "LDAP_USERS=customuser" -e "LDAP_PASSWORDS=custompassword" -e "LDAP_ENABLE_TLS=yes" -e "LDAP_TLS_CERT_FILE=/certs/openldap.crt" -e "LDAP_TLS_KEY_FILE=/certs/openldap.key" -e "LDAP_TLS_CA_FILE=/certs/CA.crt" -e "BITNAMI_DEBUG=true" -e "LDAP_CONFIG_ADMIN_ENABLED=yes" -e "LDAP_CONFIG_ADMIN_USERNAME=admin" -e "LDAP_CONFIG_ADMIN_PASSWORD=configpassword" -v "${{ github.workspace }}/tests/certs/openldap.crt":"/certs/openldap.crt" -v "${{ github.workspace }}/tests/certs/openldap.key":"/certs/openldap.key" -v "${{ github.workspace }}/tests/certs/CA.crt":"/certs/CA.crt" bitnami/openldap:latest
+      - uses: actions/cache/restore@v4
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+      - name: Run Integration tests
+        run: |
+         sleep 3
+          ./libraries/vendor/bin/phpunit --testsuite Integration --configuration ${{ matrix.config }}
+      - name: Stop LDAP container
+        uses: docker://docker
+        with:
+          args: docker kill openldap
+    services:
+      mysql:
+        image: mariadb
+        env:
+          MARIADB_USER: joomla_ut
+          MARIADB_PASSWORD: joomla_ut
+          MARIADB_ROOT_PASSWORD: joomla_ut
+          MARIADB_DATABASE: test_joomla
+      postgres:
+        image: postgres:12-alpine
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: joomla_ut
+          POSTGRES_DB: test_joomla
+
+  tests-system-prepare:
+    name: Prepare system tests
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:cypress8.4
+    needs: [composer, npm]
+    env:
+      CYPRESS_VERIFY_TIMEOUT: 100000
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            media
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+      - uses: actions/cache@v4
+        id: cache-cypress
+        with:
+          path: |
+            /root/.cache/Cypress
+            /github/home/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
+      - name: Install Cypress dependencies
+        if: steps.cache-cypress.outputs.cache-hit != 'true'
+        run: |
+          npx cypress install
+          npx cypress verify
+
+  tests-system:
+    name: Run system tests
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:cypress${{ matrix.config.php_version }}
+    needs: [tests-system-prepare]
+    strategy:
+      matrix:
+        browser: ['chrome', 'edge']
+        config:
+          - php_version: '8.4'
+            test_group: cmysqlmax
+            db_engine: mysqli
+            db_host: mysql
+          - php_version: '8.1'
+            test_group: cmysql
+            db_engine: mysqli
+            db_host: mysql
+          - php_version: '8.1'
+            test_group: cpostgres
+            db_engine: pgsql
+            db_host: postgres
+          - php_version: '8.4'
+            test_group: cpostgresmax
+            db_engine: pgsql
+            db_host: postgres
+    env:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            media
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'build/media_source/**', 'administrator/components/com_media/resources/**') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            /root/.cache/Cypress
+            /github/home/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
+      - name: Run System tests
+        run: bash tests/System/entrypoint.sh "$(pwd)" ${{ matrix.config.test_group }} ${{ matrix.config.db_engine }} ${{ matrix.config.db_host }} ${{ matrix.browser }}
+      - name: Archive test results results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: system-test-output
+          path: tests/System/output
+          if-no-files-found: ignore
+    services:
+      mysql:
+        image: mariadb
+        env:
+          MARIADB_USER: joomla_ut
+          MARIADB_PASSWORD: joomla_ut
+          MARIADB_ROOT_PASSWORD: joomla_ut
+          MARIADB_DATABASE: test_joomla
+      postgres:
+        image: postgres:12-alpine
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: joomla_ut
+          POSTGRES_DB: test_joomla

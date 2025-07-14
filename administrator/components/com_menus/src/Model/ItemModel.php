@@ -567,7 +567,7 @@ class ItemModel extends AdminModel
 
         // Only merge if there is a session and itemId or itemid is null.
         if (
-            isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
+            isset($sessionData['id'], $itemData['id']) && $sessionData['id'] === $itemData['id']
             || \is_null($itemData['id'])
         ) {
             $data = array_merge($itemData, $sessionData);
@@ -579,10 +579,10 @@ class ItemModel extends AdminModel
         if (empty($data['id'])) {
             // Get selected fields
             $filters           = Factory::getApplication()->getUserState('com_menus.items.filter');
-            $data['parent_id'] = $data['parent_id'] ?? ($filters['parent_id'] ?? null);
-            $data['published'] = $data['published'] ?? ($filters['published'] ?? null);
-            $data['language']  = $data['language'] ?? ($filters['language'] ?? null);
-            $data['access']    = $data['access'] ?? ($filters['access'] ?? Factory::getApplication()->get('access'));
+            $data['parent_id'] ??= $filters['parent_id'] ?? null;
+            $data['published'] ??= $filters['published'] ?? null;
+            $data['language']  ??= $filters['language'] ?? null;
+            $data['access']    ??= $filters['access'] ?? Factory::getApplication()->get('access');
         }
 
         if (isset($data['menutype']) && !$this->getState('item.menutypeid')) {
@@ -1146,7 +1146,7 @@ class ItemModel extends AdminModel
             // If an XML file was found in the component, load it first.
             // We need to qualify the full path to avoid collisions with component file names.
 
-            if ($form->loadFile($formFile, true, '/metadata') == false) {
+            if (!$form->loadFile($formFile, true, '/metadata')) {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
 
@@ -1746,15 +1746,13 @@ class ItemModel extends AdminModel
     /**
      * Custom clean the cache
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_menus');
         parent::cleanCache('com_modules');

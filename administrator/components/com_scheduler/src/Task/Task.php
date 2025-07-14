@@ -207,7 +207,7 @@ class Task implements LoggerAwareInterface
         }
 
         $this->snapshot['status']      = Status::RUNNING;
-        $this->snapshot['taskStart']   = $this->snapshot['taskStart'] ?? microtime(true);
+        $this->snapshot['taskStart']   ??= microtime(true);
         $this->snapshot['netDuration'] = 0;
 
         /** @var ExecuteTaskEvent $event */
@@ -307,7 +307,7 @@ class Task implements LoggerAwareInterface
         $db    = $this->db;
         $query = $db->getQuery(true);
         $id    = $this->get('id');
-        $now   = Factory::getDate('now', 'GMT');
+        $now   = Factory::getDate('now', 'UTC');
 
         $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
         $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));

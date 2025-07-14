@@ -164,7 +164,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing
         }
     }
@@ -349,7 +349,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // The old session is already invalidated, don't let this block logging in
         }
 
@@ -390,7 +390,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $userid = (int) $user['id'];
 
         // Make sure we're a valid user first
-        if ($user['id'] === 0 && !$my->get('tmp_user')) {
+        if ($user['id'] === 0 && !empty($my->tmp_user)) {
             return;
         }
 

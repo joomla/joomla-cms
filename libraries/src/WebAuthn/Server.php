@@ -237,7 +237,7 @@ final class Server
             );
         }
 
-        $criteria ??= new AuthenticatorSelectionCriteria();
+        $criteria   ??= new AuthenticatorSelectionCriteria();
         $extensions ??= new AuthenticationExtensionsClientInputs();
         $challenge  = random_bytes($this->challengeSize);
 

@@ -204,8 +204,8 @@ class Editor implements DispatcherAwareInterface
     {
         if ($this->provider) {
             $params['buttons'] ??= $buttons;
-            $params['asset'] ??= $asset;
-            $params['author'] ??= $author;
+            $params['asset']   ??= $asset;
+            $params['author']  ??= $author;
             $content           = $html ?? '';
 
             return $this->provider->display($name, $content, [

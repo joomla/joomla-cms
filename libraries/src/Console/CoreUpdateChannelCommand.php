@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
@@ -134,7 +134,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
         }
 
         // Storing the parameters in the DB
-        $table = Table::getInstance('extension');
+        $table = new Extension($this->db);
         $table->load(['type' => 'component', 'element' => 'com_joomlaupdate']);
         $table->params = $params->toString();
         $table->store();
@@ -142,7 +142,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
         /** @var UpdateModel $updatemodel */
         $app         = $this->getApplication();
         $updatemodel = $app->bootComponent('com_joomlaupdate')->getMVCFactory($app)->createModel('Update', 'Administrator');
-        $updatemodel->applyUpdateSite();
+        $updatemodel->applyUpdateSite($channel);
 
         if ($channel == 'custom') {
             $symfonyStyle->success('The update channel for this site has been set to the custom url "' . $params->get('customurl') . '".');

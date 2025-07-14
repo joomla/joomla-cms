@@ -193,7 +193,7 @@ class AssociationsHelper extends ContentHelper
      */
     private static function getExtensionRealName($extensionName)
     {
-        return !str_contains($extensionName, 'com_') ? $extensionName : substr($extensionName, 4);
+        return !str_starts_with($extensionName, 'com_') ? $extensionName : substr($extensionName, 4);
     }
 
     /**
@@ -593,7 +593,7 @@ class AssociationsHelper extends ContentHelper
 
         $userId = Factory::getUser()->id;
 
-        return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
+        return $item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0;
     }
 
     /**

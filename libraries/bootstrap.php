@@ -10,14 +10,6 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Set the platform root path as a constant if necessary.
- *
- * @deprecated 4.4.0 will be removed in 6.0
- *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
- **/
-defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
-
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
@@ -60,17 +52,6 @@ $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
 // Register the error handler which processes E_USER_DEPRECATED errors
 if (error_reporting() & E_USER_DEPRECATED) {
     set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
-}
-
-// Suppress phar stream wrapper for non .phar files
-$behavior = new \TYPO3\PharStreamWrapper\Behavior();
-\TYPO3\PharStreamWrapper\Manager::initialize(
-    $behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor())
-);
-
-if (in_array('phar', stream_get_wrappers())) {
-    stream_wrapper_unregister('phar');
-    stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
 }
 
 // Define the Joomla version if not already defined.

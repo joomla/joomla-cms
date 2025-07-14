@@ -163,7 +163,7 @@ class ExecRuleHelper
     private function dateTimeToSql(\DateTime $dateTime): string
     {
         static $db;
-        $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
+        $db ??= Factory::getContainer()->get(DatabaseInterface::class);
 
         return $dateTime->format($db->getDateFormat());
     }

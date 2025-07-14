@@ -5,6 +5,7 @@ describe('Test in frontend that the users registration view', () => {
   });
   afterEach(() => {
     cy.db_updateExtensionParameter('allowUserRegistration', '0', 'com_users');
+    cy.task('queryDB', "DELETE FROM #__user_usergroup_map WHERE user_id = (SELECT id FROM #__users WHERE username = 'testuser')");
     cy.task('queryDB', "DELETE FROM #__users WHERE username = 'testuser'");
   });
 

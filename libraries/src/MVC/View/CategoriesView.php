@@ -96,7 +96,7 @@ class CategoriesView extends HtmlView
             return false;
         }
 
-        if ($parent == false) {
+        if ($parent === null) {
             $app->enqueueMessage(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
             return false;

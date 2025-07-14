@@ -1466,7 +1466,7 @@ class Form implements CurrentUserInterface
             try {
                 $field->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException) {
-                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -1706,11 +1706,11 @@ class Form implements CurrentUserInterface
 
             // Load the data.
             if (str_starts_with($data, '<')) {
-                if ($forms[$name]->load($data, $replace, $xpath) == false) {
+                if (!$forms[$name]->load($data, $replace, $xpath)) {
                     throw new \RuntimeException(\sprintf('%s() could not load form', __METHOD__));
                 }
             } else {
-                if ($forms[$name]->loadFile($data, $replace, $xpath) == false) {
+                if (!$forms[$name]->loadFile($data, $replace, $xpath)) {
                     throw new \RuntimeException(\sprintf('%s() could not load file', __METHOD__));
                 }
             }

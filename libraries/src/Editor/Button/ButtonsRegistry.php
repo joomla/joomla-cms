@@ -89,7 +89,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
         $this->initialised = true;
 
         $options['subject']         = $this;
-        $options['editorType'] ??= '';
+        $options['editorType']      ??= '';
         $options['disabledButtons'] ??= [];
 
         $event      = new EditorButtonsSetupEvent('onEditorButtonsSetup', $options);

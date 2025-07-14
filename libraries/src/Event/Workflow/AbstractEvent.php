@@ -50,7 +50,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
             $parts = explode('.', $arguments['extension']);
 
             $arguments['extensionName'] ??= $parts[0];
-            $arguments['section'] ??= $parts[1];
+            $arguments['section']       ??= $parts[1];
         }
 
         parent::__construct($name, $arguments);

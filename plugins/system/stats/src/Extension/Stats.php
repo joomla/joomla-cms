@@ -498,7 +498,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (\Exception $exc) {
+        } catch (\Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -507,7 +507,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -585,7 +585,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
 
                 $cache = Cache::getInstance('callback', $options);
                 $cache->clean();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Ignore it
             }
         }
@@ -623,7 +623,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (\Exception $exc) {
+        } catch (\Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -632,7 +632,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }

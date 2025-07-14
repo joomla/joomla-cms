@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
         // @todo Move and clean up
         $module = (new \Joomla\Component\Modules\Administrator\Model\ModuleModel())->getItem(Factory::getApplication()->getInput()->getInt('id'));
 
-        $moduleData = $module->getProperties();
+        $moduleData = get_object_vars($module);
         unset($moduleData['xml']);
 
         /** @var \Joomla\Component\Config\Site\Model\ModulesModel $model */

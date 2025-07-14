@@ -426,7 +426,7 @@ class CaptiveModel extends BaseDatabaseModel
         $maxTries   = (int) $params->get('mfatrycount', 10);
         $blockHours = (int) $params->get('mfatrytime', 1);
 
-        $lastTryTime       = strtotime($method->last_try) ?: 0;
+        $lastTryTime       = $method->last_try !== null ? strtotime($method->last_try) : 0;
         $hoursSinceLastTry = (strtotime(Factory::getDate()->toSql()) - $lastTryTime) / 3600;
 
         if ($method->last_try !== null && $hoursSinceLastTry > $blockHours) {

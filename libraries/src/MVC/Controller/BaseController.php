@@ -302,7 +302,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         // Check for a controller.task command.
         if (str_contains($command, '.')) {
             // Explode the controller.task command.
-            list($type, $task) = explode('.', $command);
+            [$type, $task] = explode('.', $command);
 
             // Define the controller filename and path.
             $file       = self::createFileName('controller', ['name' => $type, 'format' => $format]);

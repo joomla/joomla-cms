@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Menu;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
@@ -368,7 +368,7 @@ class MenusHelper extends ContentHelper
                 if ($menuitem->link = \in_array($menuitem->type, ['separator', 'heading', 'container']) ? '#' : trim($menuitem->link)) {
                     $menuitem->submenu = [];
                     $menuitem->class   = $menuitem->img ?? '';
-                    $menuitem->scope   = $menuitem->scope ?? null;
+                    $menuitem->scope   ??= null;
                     $menuitem->target  = $menuitem->browserNav ? '_blank' : '';
                 }
 
@@ -455,8 +455,7 @@ class MenusHelper extends ContentHelper
         ]))->getArgument('subject', $items);
 
         foreach ($items as $item) {
-            /** @var \Joomla\CMS\Table\Menu $table */
-            $table = Table::getInstance('Menu');
+            $table = new Menu($db);
 
             $item->alias = $menutype . '-' . $item->title;
 
@@ -750,7 +749,7 @@ class MenusHelper extends ContentHelper
 
         if ($item->link = \in_array($item->type, ['separator', 'heading', 'container']) ? '#' : trim($item->link)) {
             $item->class  = $item->img ?? '';
-            $item->scope  = $item->scope ?? null;
+            $item->scope  ??= null;
             $item->target = $item->browserNav ? '_blank' : '';
         }
     }
