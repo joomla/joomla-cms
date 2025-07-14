@@ -1,5 +1,6 @@
 
 includes:
+	- phpstan-baseline.neon
 	- libraries/vendor/phpstan/phpstan-deprecation-rules/rules.neon
 	- build/phpstan/phpstan.neon
 
