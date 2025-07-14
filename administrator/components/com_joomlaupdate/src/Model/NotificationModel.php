@@ -54,7 +54,7 @@ final class NotificationModel extends BaseDatabaseModel
             $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
         }
 	
-		// Get all users in these groups who can receive e-mails
+		// Get all users in these groups who can receive emails
         $emailReceivers = $this->getEmailReceivers($emailGroups);
 
         // If no email receivers are found, we do not send any notification
