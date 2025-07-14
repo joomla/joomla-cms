@@ -276,7 +276,7 @@ class TagsModel extends ListModel
         $items = parent::getItems();
 
         if ($items != false) {
-            $extension = $this->getState('filter.extension');
+            $extension = $this->getState('filter.extension', '');
 
             $this->countItems($items, $extension);
         }

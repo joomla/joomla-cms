@@ -527,7 +527,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         $resetHours = (int) $params->get('reset_time');
         $result     = true;
 
-        $lastResetTime       = strtotime($user->lastResetTime) ?: 0;
+        $lastResetTime       = $user->lastResetTime === null ? 0 : strtotime($user->lastResetTime);
         $hoursSinceLastReset = (strtotime(Factory::getDate()->toSql()) - $lastResetTime) / 3600;
 
         if ($hoursSinceLastReset > $resetHours) {

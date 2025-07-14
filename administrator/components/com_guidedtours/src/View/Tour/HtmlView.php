@@ -23,7 +23,7 @@ use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit an tour.
+ * View to edit a tour.
  *
  * @since 4.3.0
  */

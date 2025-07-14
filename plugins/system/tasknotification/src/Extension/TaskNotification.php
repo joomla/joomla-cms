@@ -207,7 +207,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.3.0
      * @throws \Exception
      */
     public function notifyWillResume(Event $event): void

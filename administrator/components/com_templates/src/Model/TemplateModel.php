@@ -238,8 +238,6 @@ class TemplateModel extends FormModel
         // Initialize the array variable to store core file list.
         $this->coreFileList = [];
 
-        $app = Factory::getApplication();
-
         foreach ($templates as $template) {
             $client  = ApplicationHelper::getClientInfo($template->client_id);
             $element = Path::clean($client->path . '/templates/' . $template->element . '/');
@@ -473,7 +471,6 @@ class TemplateModel extends FormModel
      */
     public function getCoreFile($file, $client_id)
     {
-        $app          = Factory::getApplication();
         $filePath     = Path::clean($file);
         $explodeArray = explode(DIRECTORY_SEPARATOR, $filePath);
 

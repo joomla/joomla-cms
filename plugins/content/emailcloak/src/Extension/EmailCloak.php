@@ -160,7 +160,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
         $mode = $mode === 1;
 
         // Example: any@example.org
-        $searchEmail = "([\p{L}\p{N}\.\'\-\+]+\@(?:[\.\-\p{L}\p{N}]+\.)+(?:[\-\p{L}\p{N}]{2,24}))";
+        $searchEmail = "([\p{L}\p{N}\.\'\-\+\_]+\@(?:[\.\-\p{L}\p{N}]+\.)+(?:[\-\p{L}\p{N}]{2,24}))";
 
         // Example: any@example.org?subject=anyText
         $searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';

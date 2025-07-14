@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
 /**
  * The extension plugin for com_joomlaupdate
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.3.0
  */
 final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 {
@@ -32,7 +32,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
      *
      * @var    boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     protected $autoloadLanguage = true;
 
@@ -41,7 +41,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -57,7 +57,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function onExtensionAfterSave(AfterSaveEvent $event): void
     {
