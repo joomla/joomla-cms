@@ -21,7 +21,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -344,45 +343,5 @@ class GroupModel extends AdminModel
         }
 
         return $title;
-    }
-
-    /**
-     * Method to get all users in a group.
-     *
-     * @param   integer  $groupId  The id of the group.
-     *
-     * @return  array  Returns an array of users on success, an empty array on failure.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function getUsersInGroup($groupId)
-    {
-        $db = $this->getDatabase();
-
-        // Get the userId's in the group
-        $db->setQuery(
-            $db->getQuery(true)
-                ->select($db->quoteName('user_id'))
-                ->from($db->quoteName('#__user_usergroup_map'))
-                ->where($db->quoteName('group_id') . ' = :id')
-                ->bind(':id', $groupId, ParameterType::INTEGER)
-        );
-
-        $group = $db->loadColumn(); 
-
-        if (empty($group)) {
-            // No users in the group
-            return [];
-        }
-
-        // Get the users information of the users in the group
-        $query = $db->getQuery(true)
-            ->select($db->quoteName(['id', 'name', 'username', 'email', 'block', 'sendEmail', 'params']))
-            ->from($db->quoteName('#__users'))
-            ->whereIn($db->quoteName('id'), $group);
-
-        $db->setQuery($query);
-
-        return $db->loadObjectList();
     }
 }
