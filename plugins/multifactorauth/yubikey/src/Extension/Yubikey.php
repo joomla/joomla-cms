@@ -319,7 +319,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                     return $rec->method === $record->method;
                 }
             );
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $records = [];
         }
 
@@ -409,7 +409,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                 } else {
                     continue;
                 }
-            } catch (\Exception $exc) {
+            } catch (\Exception) {
                 // No response, continue with the next server
                 continue;
             }

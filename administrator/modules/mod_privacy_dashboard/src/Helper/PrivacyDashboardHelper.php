@@ -50,7 +50,7 @@ class PrivacyDashboardHelper
 
         try {
             return $db->loadObjectList();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return [];
         }
     }

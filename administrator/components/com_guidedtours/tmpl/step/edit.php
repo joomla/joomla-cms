@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Guidedtours\Administrator\View\Step\HtmlView $this */
 

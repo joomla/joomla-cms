@@ -73,7 +73,7 @@ class LinksModel extends ListModel
 
         try {
             $db->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

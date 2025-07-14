@@ -13,7 +13,6 @@ namespace Joomla\Component\Installer\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
@@ -233,19 +232,19 @@ class InstallerHelper
     /**
      * Get the download key of an extension going through their installation xml
      *
-     * @param   CMSObject  $extension  element of an extension
+     * @param   \stdClass  $extension  element of an extension
      *
      * @return  array  An array with the prefix, suffix and value of the download key
      *
      * @since   4.0.0
      */
-    public static function getDownloadKey(CMSObject $extension): array
+    public static function getDownloadKey(\stdClass $extension): array
     {
         $installXmlFile = self::getInstallationXML(
-            $extension->get('element'),
-            $extension->get('type'),
-            $extension->get('client_id'),
-            $extension->get('folder')
+            $extension->element,
+            $extension->type,
+            $extension->client_id,
+            $extension->folder
         );
 
         if (!$installXmlFile) {
@@ -264,7 +263,7 @@ class InstallerHelper
 
         $prefix = (string) $installXmlFile->dlid['prefix'];
         $suffix = (string) $installXmlFile->dlid['suffix'];
-        $value  = substr($extension->get('extra_query'), \strlen($prefix));
+        $value  = substr($extension->extra_query ?? '', \strlen($prefix));
 
         if ($suffix) {
             $value = substr($value, 0, -\strlen($suffix));
@@ -309,7 +308,7 @@ class InstallerHelper
             ];
         }
 
-        // Try to retrieve the extension information as a CMSObject
+        // Try to retrieve the extension information
         $query = $db->getQuery(true)
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
@@ -323,7 +322,7 @@ class InstallerHelper
         $query->bind(':folder', $folder, ParameterType::STRING);
 
         try {
-            $extension = new CMSObject($db->setQuery($query)->loadAssoc());
+            $extension = $db->setQuery($query)->loadObject();
         } catch (\Exception $e) {
             return [
                 'supported' => false,
@@ -355,15 +354,15 @@ class InstallerHelper
 
         $extensions = self::getUpdateSitesInformation($onlyEnabled);
 
-        $filterClosure = function (CMSObject $extension) {
+        $filterClosure = function ($extension) {
             $dlidInfo = self::getDownloadKey($extension);
 
             return $dlidInfo['supported'];
         };
         $extensions = array_filter($extensions, $filterClosure);
 
-        $mapClosure = function (CMSObject $extension) {
-            return $extension->get('update_site_id');
+        $mapClosure = function ($extension) {
+            return $extension->update_site_id ?? null;
         };
 
         return array_map($mapClosure, $extensions);
@@ -391,7 +390,7 @@ class InstallerHelper
         $extensions = self::getUpdateSitesInformation($onlyEnabled);
 
         // Filter the extensions by what supports Download Keys
-        $filterClosure = function (CMSObject $extension) use ($exists) {
+        $filterClosure = function ($extension) use ($exists) {
             $dlidInfo = self::getDownloadKey($extension);
 
             if (!$dlidInfo['supported']) {
@@ -403,8 +402,8 @@ class InstallerHelper
         $extensions = array_filter($extensions, $filterClosure);
 
         // Return only the update site IDs
-        $mapClosure = function (CMSObject $extension) {
-            return $extension->get('update_site_id');
+        $mapClosure = function ($extension) {
+            return $extension->update_site_id ?? null;
         };
 
         return array_map($mapClosure, $extensions);
@@ -416,7 +415,7 @@ class InstallerHelper
      *
      * @param   bool  $onlyEnabled  Only return enabled update sites
      *
-     * @return  CMSObject[]  List of update site and linked extension information
+     * @return  \stdClass[]  List of update site and linked extension information
      * @since   4.0.0
      */
     protected static function getUpdateSitesInformation(bool $onlyEnabled): array
@@ -473,14 +472,9 @@ class InstallerHelper
 
         // Try to get all of the update sites, including related extension information
         try {
-            $items = [];
             $db->setQuery($query);
 
-            foreach ($db->getIterator() as $item) {
-                $items[] = new CMSObject($item);
-            }
-
-            return $items;
+            return $db->loadObjectList();
         } catch (\Exception $e) {
             return [];
         }
