@@ -696,7 +696,7 @@ abstract class Bootstrap
         // Setup options object
         $opt           = [];
         $opt['parent'] = isset($options['parent']) ?
-            ($options['parent'] == true ? '#' . preg_replace('/^[\.#]/', '', $selector) : $options['parent']) : '';
+            ($options['parent'] ? '#' . preg_replace('/^[\.#]/', '', $selector) : $options['parent']) : '';
         $opt['toggle'] = isset($options['toggle']) ? (bool) $options['toggle'] : !($opt['parent'] === false || isset($options['active']));
         $opt['active'] = (string) ($options['active'] ?? '');
 
