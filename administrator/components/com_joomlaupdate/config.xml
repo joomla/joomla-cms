@@ -130,7 +130,6 @@
 			layout="joomla.form.field.list-fancy-select"
 			default="8"
 			showon="updatesource:default[AND]minimum_stability:4[AND]autoupdate:1"
-		>
-		</field>
+		/>
 	</fieldset>
 </config>
