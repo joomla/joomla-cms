@@ -85,7 +85,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/forms');
+        Form::addFormPath(JPATH_BASE . '/forms');
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);
