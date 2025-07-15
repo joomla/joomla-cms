@@ -438,7 +438,6 @@ $doNotPackage = [
     '.editorconfig',
     '.github',
     '.gitignore',
-    '.phan',
     '.php-cs-fixer.dist.php',
     'acceptance.suite.yml',
     // Media Manager Node Assets
