@@ -34,7 +34,6 @@ steps:
   - name: phpstan
     image: joomlaprojects/docker-images:php8.2
     depends_on: [ phpcs ]
-    failure: ignore
     commands:
       - ./libraries/vendor/bin/phpstan
 
@@ -415,6 +414,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 99da78521b10f37ddf6731e695fe52f85ee3db142bccac66901ae5372e332aae
+hmac: e7e97cddd98bd4db561056d6eb59c5eea2ae3fd55e20870bf800beaa773fbf6b
 
 ...
