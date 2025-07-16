@@ -847,6 +847,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getTypeByAlias\(\) of class Joomla\\CMS\\UCM\\UCMType\:
+				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: administrator/components/com_categories/src/Model/CategoryModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 6\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -875,6 +884,15 @@ parameters:
 				             Example\: Factory\:\:getApplication\(\)\-\>getDispatcher\(\)\-\>dispatch\(\$eventName, \$event\);$#
 			'''
 			identifier: method.deprecated
+			count: 2
+			path: administrator/components/com_categories/src/Model/CategoryModel.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\UCM\\UCMType\:
+				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+			'''
+			identifier: new.deprecated
 			count: 2
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
@@ -1507,6 +1525,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getTypeByTable\(\) of class Joomla\\CMS\\UCM\\UCMType\:
+				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_content/src/Model/ArticleModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -1525,6 +1552,15 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 2
+			path: administrator/components/com_content/src/Model/ArticleModel.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\UCM\\UCMType\:
+				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+			'''
+			identifier: new.deprecated
+			count: 1
 			path: administrator/components/com_content/src/Model/ArticleModel.php
 
 		-
@@ -1587,10 +1623,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
+				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -7122,18 +7156,6 @@ parameters:
 			path: administrator/modules/mod_latest/src/Helper/LatestHelper.php
 
 		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/modules/mod_menu/src/Menu/CssMenu.php
-
-		-
 			message: '#^Access to protected property Joomla\\Module\\Menu\\Administrator\\Menu\\CssMenu\:\:\$application\.$#'
 			identifier: property.protected
 			count: 1
@@ -8725,7 +8747,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 14
+			count: 8
 			path: components/com_users/src/Model/RegistrationModel.php
 
 		-
@@ -12676,7 +12698,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 12
+			count: 13
 			path: libraries/src/Helper/TagsHelper.php
 
 		-
@@ -13412,6 +13434,24 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getTypeByAlias\(\) of class Joomla\\CMS\\UCM\\UCMType\:
+				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/MVC/Model/AdminModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method getTypeByTable\(\) of class Joomla\\CMS\\UCM\\UCMType\:
+				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/MVC/Model/AdminModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -13419,6 +13459,15 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 40
+			path: libraries/src/MVC/Model/AdminModel.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\UCM\\UCMType\:
+				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+			'''
+			identifier: new.deprecated
+			count: 1
 			path: libraries/src/MVC/Model/AdminModel.php
 
 		-
@@ -13461,6 +13510,15 @@ parameters:
 				4\.3 will be removed in 6\.0
 				             Use setDatabase\(\) instead
 				             Example\: \$model\-\>setDatabase\(\$db\);$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/MVC/Model/BaseDatabaseModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -13630,6 +13688,18 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 2
+			path: libraries/src/MVC/View/CategoryFeedView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 6\.0
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
 			path: libraries/src/MVC/View/CategoryFeedView.php
 
 		-
@@ -14546,51 +14616,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
+				#^Class Joomla\\CMS\\UCM\\UCMContent extends deprecated class Joomla\\CMS\\UCM\\UCMBase\:
+				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
 			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/UCM/UCMBase.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
-			path: libraries/src/UCM/UCMContent.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead or instantiate the table class directly\.
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
-				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
-			'''
-			identifier: staticMethod.deprecated
+			identifier: class.extendsDeprecatedClass
 			count: 1
 			path: libraries/src/UCM/UCMContent.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/UCM/UCMType.php
 
 		-
 			message: '''
@@ -15288,16 +15319,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: plugins/filesystem/local/src/Adapter/LocalAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
-				5\.2 will be removed in 7\.0
-				             Plugin should use the language from Application, and only after the app is initialised\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/filesystem/local/src/Extension/Local.php
 
 		-
 			message: '''
