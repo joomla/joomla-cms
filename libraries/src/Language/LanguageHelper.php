@@ -501,7 +501,7 @@ class LanguageHelper
             if ($bytesWritten === false || $bytesWritten < \strlen($data)) {
                 throw new FilesystemException('Unable to write cache file');
             }
-        } catch (\FilesystemException $e) {
+        } catch (FilesystemException $e) {
             // We ignore the error, as the file is for caching only.
         }
 

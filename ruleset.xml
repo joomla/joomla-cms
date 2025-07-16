@@ -9,7 +9,7 @@
     <exclude-pattern type="relative">^cache/*</exclude-pattern>
     <exclude-pattern type="relative">^media/*</exclude-pattern>
     <exclude-pattern type="relative">^node_modules/*</exclude-pattern>
-    <exclude-pattern type="relative">^plugins/behaviour/compat/classes/*</exclude-pattern>
+    <exclude-pattern type="relative">^plugins/behaviour/compat6/classes/*</exclude-pattern>
     <exclude-pattern type="relative">^tmp/*</exclude-pattern>
 
     <!-- Exclude 3rd party libraries and Framework code. -->
