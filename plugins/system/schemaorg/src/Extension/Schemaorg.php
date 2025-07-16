@@ -28,7 +28,6 @@ use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
-use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherAwareInterface;
