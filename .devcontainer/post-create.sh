@@ -10,9 +10,9 @@ DB_NAME="test_joomla"
 DB_USER="joomla_ut"
 DB_PASS="joomla_ut"
 ADMIN_USER="ci-admin"
-ADMIN_REAL_NAME="john doe"
+ADMIN_REAL_NAME="jane doe"
 ADMIN_PASS="joomla-17082005"
-ADMIN_EMAIL="admin@example.org"
+ADMIN_EMAIL="admin@example.com"
 JOOMLA_ROOT="/workspaces/joomla-cms"
 
 # Allow git commands to run safely in the container
@@ -34,7 +34,7 @@ echo "✅ Dependencies installed."
 # --- 3. Install Joomla from Repository Source ---
 echo "--> Installing Joomla using the local repository source..."
 php installation/joomla.php install \
-    --site-name="Joomla Core Dev" \
+    --site-name="Joomla CMS Test" \
     --admin-user="$ADMIN_REAL_NAME" \
     --admin-username="$ADMIN_USER" \
     --admin-password="$ADMIN_PASS" \
@@ -52,7 +52,7 @@ echo "✅ Joomla installed."
 # --- 4. Configure Joomla for Development ---
 echo "--> Applying development settings..."
 # Enable debug mode and maximum error reporting for easier troubleshooting.
-php cli/joomla.php config:set debug=true error_reporting=maximum
+php cli/joomla.php config:set error_reporting=maximum
 echo "✅ Development settings applied."
 
 # --- 5. Install and Configure phpMyAdmin ---
@@ -90,6 +90,8 @@ echo "--> Ignoring local changes..."
 git update-index --assume-unchanged "index.php"
 git update-index --assume-unchanged "administrator/index.php"
 git update-index --assume-unchanged "package-lock.json"
+git update-index --assume-unchanged "tests/System/integration/install/Installation.cy.js"
+git update-index --assume-unchanged "tests/System/support/commands/config.mjs"
 
 # For NEW UNTRACKED files, add them to the local exclude file
 echo "cypress.config.js" >> ".git/info/exclude"
@@ -100,9 +102,16 @@ echo "codespace-details.txt" >> ".git/info/exclude"
 
 # --- 7. Finalize Permissions and Testing Tools ---
 echo "--> Setting up file permissions and Cypress..."
+sed -i \
+  -e "/\/\/ If exists, delete PHP configuration file to force a new installation/d" \
+  -e "/cy.task('deleteRelativePath', 'configuration.php');/d" \
+  -e "/cy.installJoomla(config);/d" \
+  tests/System/integration/install/Installation.cy.js
+sed -i "s/return cy.task('writeRelativeFile', { path: 'configuration.php', content });/return cy.task('writeRelativeFile', { path: 'configuration.php', content, mode: 0o775 });/" tests/System/support/commands/config.mjs
+
 # Ensure Cypress is executable and owned by the web server user
-cp cypress.config.dist.mjs cypress.config.js
 chmod +x ./node_modules/.bin/cypress
+cp cypress.config.dist.mjs cypress.config.js
 npx cypress install
 sed -i -e "s|baseUrl:.*|baseUrl: 'http://localhost:80',|" -e "s/db_host: 'localhost'/db_host: 'mysql'/g" -e "s/db_user: 'root'/db_user: 'joomla_ut'/g" -e "s/db_password: ''/db_password: 'joomla_ut'/g" cypress.config.js
 
