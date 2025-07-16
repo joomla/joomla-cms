@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\UCM\UCMType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -45,8 +44,15 @@ class CategoryFeedView extends AbstractView
         $extension      = $app->getInput()->getString('option');
         $contentType    = $extension . '.' . $this->viewName;
 
-        $ucmType      = new UCMType();
-        $ucmRow       = $ucmType->getTypeByAlias($contentType);
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('ct') . '.*')
+            ->from($db->quoteName('#__content_types', 'ct'))
+            ->where($db->quoteName('ct.type_alias') . ' = :alias')
+            ->bind(':alias', $contentType);
+
+        $db->setQuery($query);
+        $ucmRow       = $db->loadObject();
         $ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
         $createdField = null;
         $titleField   = null;
