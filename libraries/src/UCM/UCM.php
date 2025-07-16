@@ -17,6 +17,7 @@ namespace Joomla\CMS\UCM;
  * Interface to handle UCM
  *
  * @since  3.1
+ * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
  */
 interface UCM
 {
