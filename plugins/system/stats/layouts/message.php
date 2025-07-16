@@ -35,7 +35,7 @@ extract($displayData);
                 <summary>
                     <?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?>
                 </summary>
-                <?php echo $plugin->render('stats', compact('statsData'));?>
+                <?php echo $plugin->render('stats', compact('statsData')); ?>
             </details>
             <p class="fw-bold"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_ALLOW_SENDING_DATA'); ?></p>
             <p class="actions">
