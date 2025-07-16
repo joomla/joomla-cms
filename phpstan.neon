@@ -45,3 +45,4 @@ parameters:
 				- plugins/*
 		-
 			message: '#Call to deprecated method \_\(\) of class Joomla\\CMS\\Language\\Language.*#'
+
