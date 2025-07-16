@@ -53,7 +53,7 @@ const DefaultAllowlist = {
   select: ['name'],
   textarea: ['name'],
   option: ['value', 'selected'],
-  details: [],
+  details: ['open'],
   summary: [],
 };
 

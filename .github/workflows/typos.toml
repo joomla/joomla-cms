@@ -6,45 +6,44 @@
 [files]
 extend-exclude = [
     "/templates/system/*.html",
-	"/administrator/components/com_admin/sql/*",
-	"/build/media_source/vendor/tinymce/langs/*",
-	"/installation/language/*",
-	"includes/*.html",
-	"/plugins/sampledata/testing/*",
+    "/administrator/components/com_admin/sql/*",
+    "/build/media_source/vendor/tinymce/langs/*",
+    "/installation/language/*",
+    "includes/*.html",
+    "/plugins/sampledata/testing/*",
 ]
 
 [default.extend-words]
-cachable="cachable"
-linke="linke"
-exept="exept"
-hilight="hilight"
-Querys="Querys"
-childs="childs"
-assigments="assigments"
-ue="ue"
-hel="hel"
-fof="fof"
-discernable="discernable"
-requestor="requestor"
-credate="credate"
-rgba="rgba"
-occurence="occurence"
-shepard="shepard"
-chck="chck"
-datas="datas"
-deactive="deactive"
-ba="ba"
-crypted="crypted"
-cose="cose"
-accordian="accordian"
-wheres="wheres"
-supercedes="supercedes"
-vertexes="vertexes"
-Formater="Formater"
-ot="ot"
-cript="cript"
-mis="mis"
-cll="cll"
-identicals="identicals"
-# deprecated strings
+accordian="accordian"       # Not changed for B/C see #36821
+assigments="assigments"     # Not changed for B/C see #36822
+ba="ba"                     # Used for filename for Bosnian flag
+cachable="cachable"         # Not changed for B/C see #29808#discussion_r446681316
+cll="cll"                   # Mysql version name
+chck="chck"                 # Used in modal-content-select-field.es6.js
+childs="childs"             # Used in config-filters.es6.js and language string
+cose="cose"                 # Webauthn COSE algorithm
+credate="credate"           # Selector in queries
+cript="cript"               # Used in regex for htaccess.txt and web.config.txt
+crypted="crypted"           # Used in MD5Handler
+datas="datas"               # Used in showon.es6.js
+deactive="deactive"         # Used in searchtools.es6.js
+exept="exept"               # Used in El.php Greek language stemmer
+fof="fof"                   # To be fixed - outdated code comment in com_postinstall
+Formater="Formater"         # Used in AbstractDataCollector of debug plugin
+hel="hel"                   # Variable name in MenusHelper
+identicals="identicals"     # administrator\components\com_templates\tmpl\template\default.php
+linke="linke"               # name of com_content field
+occurence="occurence"       # Used in plg_system_debug\widgets\languageStrings\widget.es5.js
+ot="ot"                     # Valid use as OTP and Livelap[bB]ot
+Querys="Querys"             # $backupExtraQuerys in administrator\components\com_installer\src\Model\UpdatesitesModel.php
+shepard="shepard"           # CSS filename reference to upstream library
+supercedes="supercedes"     # Valid spelling rejected https://github.com/crate-ci/typos/issues/1325
+ue="ue"                     # selector in queries
+vertexes="vertexes"         # Valid spelling waiting fix https://github.com/crate-ci/typos/issues/1150
+wheres="wheres"             # $wheres in modules\mod_related_items\src\Helper\RelatedItemsHelper.php
+
+# deprecated strings can be removed in 6.0
 configurated="configurated"
+discernable="discernable"
+hilight="hilight"
+mis="mis"
