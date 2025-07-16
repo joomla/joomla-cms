@@ -116,8 +116,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
         if (\array_key_exists('table_path', $config)) {
             static::addTablePath($config['table_path']);
         } elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR')) {
-            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
+            static::addTablePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/tables');
+            static::addTablePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/table');
         }
 
         // Set the clean cache event
