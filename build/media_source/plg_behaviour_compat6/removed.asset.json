@@ -6,12 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_scheduler.admin-view-select-task-css",
-      "type": "style",
-      "deprecated": true,
-      "uri": ""
-    },
-    {
       "name": "wcpolyfill",
       "type": "script",
       "uri": ""
