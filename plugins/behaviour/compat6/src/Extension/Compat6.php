@@ -15,7 +15,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Plugin\Behaviour\Compat\HTMLHelper\Bootstrap;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -44,6 +43,7 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
          */
         return [
             'onAfterInitialiseDocument' => ['onAfterInitialiseDocument', Priority::HIGH],
+            'onAfterRoute'              => ['onAfterRoute', Priority::HIGH],
         ];
     }
 
@@ -101,15 +101,6 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
     public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event)
     {
         /**
-         * Load the deprecated HTMLHelper classes/functions
-         * likely be removed in Joomla 7.0
-         */
-        if ($this->params->get('html_helpers', '1')) {
-            // Restore HTMLHelper::Bootstrap('framework')
-            new Bootstrap();
-        }
-
-        /**
          * Load the removed assets stubs, they are needed if an extension
          * directly uses a core asset from Joomla 5 which is not present in Joomla 6
          * and only provides an empty asset to not throw an exception
@@ -119,6 +110,29 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
                 ->getWebAssetManager()
                 ->getRegistry()
                 ->addRegistryFile('media/plg_behaviour_compat6/removed.asset.json');
+        }
+    }
+
+    /**
+
+
+     * The after Route logic
+     *
+     * @param  AfterRouteEvent $event
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function onAfterRoute($event)
+    {
+        /**
+         * Load the deprecated HTMLHelper classes/functions
+         * likely be removed in Joomla 7.0
+         */
+        if ($this->params->get('html_helpers', '1')) {
+            // Restore HTMLHelper::Bootstrap('framework')
+            Factory::getContainer()->get(\Joomla\CMS\HTML\Registry::class)
+                ->register('bootstrap', \Joomla\Plugin\Behaviour\Compat\HTMLHelper\Bootstrap::class, true);
         }
     }
 }
