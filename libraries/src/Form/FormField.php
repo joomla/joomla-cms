@@ -447,6 +447,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     public function __get($name)
     {
         switch ($name) {
+            case 'default':
             case 'description':
             case 'hint':
             case 'formControl':
