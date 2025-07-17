@@ -473,6 +473,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             case 'spellcheck':
             case 'validationtext':
             case 'showon':
+            case 'default':
             case 'parentclass':
                 return $this->$name;
 
