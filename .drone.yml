@@ -23,7 +23,7 @@ steps:
       - composer install --no-progress --ignore-platform-reqs
 
   - name: phpcs
-    image: joomlaprojects/docker-images:php8.1
+    image: joomlaprojects/docker-images:php8.3
     depends_on: [ composer ]
     commands:
       - echo $(date)
@@ -32,7 +32,7 @@ steps:
       - echo $(date)
 
   - name: phpstan
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.3
     depends_on: [ phpcs ]
     commands:
       - ./libraries/vendor/bin/phpstan
@@ -48,20 +48,6 @@ steps:
     commands:
       - npm ci --unsafe-perm
 
-  - name: php81-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.1
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php82-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
   - name: php83-unit
     depends_on: [ phpcs ]
     image: joomlaprojects/docker-images:php8.3
@@ -76,20 +62,6 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
-  - name: php81-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.1
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php82-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
   - name: php83-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.3
@@ -103,20 +75,6 @@ steps:
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php81-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.1
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php82-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php83-integration-pgsql
     depends_on: [ npm ]
@@ -162,7 +120,7 @@ steps:
   - name: phpmin-system-mysql
     depends_on:
       - prepare_system_tests
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -191,7 +149,7 @@ steps:
   - name: phpmin-system-postgres
     depends_on:
       - prepare_system_tests
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
