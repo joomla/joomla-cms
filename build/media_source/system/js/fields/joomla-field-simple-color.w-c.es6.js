@@ -3,10 +3,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-function getText(translateableText, fallbackText) {
-  const translatedText = typeof Joomla?.Text?._ === 'function' ? Joomla.Text._(translateableText) : '';
+function getText(translatableText, fallbackText) {
+  const translatedText = typeof Joomla?.Text?._ === 'function' ? Joomla.Text._(translatableText) : '';
 
-  return translatedText !== translateableText ? translatedText : fallbackText;
+  return translatedText !== translatableText ? translatedText : fallbackText;
 }
 
 const texts = {
