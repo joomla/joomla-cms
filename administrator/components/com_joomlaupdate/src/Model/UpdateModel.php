@@ -23,6 +23,7 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -41,6 +42,7 @@ use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -534,15 +536,15 @@ class UpdateModel extends BaseDatabaseModel
         $fileInformation = $this->download();
 
         if ($fileInformation['version'] !== $targetVersion) {
-            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG'), 410);
+            throw new InvalidParameterException(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG'), 410);
         }
 
         if ($fileInformation['check'] === false) {
-            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG'), 410);
+            throw new InvalidParameterException(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG'), 410);
         }
 
         if (!$this->createUpdateFile($fileInformation['basename'])) {
-            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_COULD_NOT_WRITE_UPDATE_FILE'), 410);
+            throw new InvalidParameterException(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_COULD_NOT_WRITE_UPDATE_FILE'), 410);
         }
 
         $app = Factory::getApplication();
@@ -558,7 +560,7 @@ class UpdateModel extends BaseDatabaseModel
         );
 
         if ($eventResult->getArgument('stoppedUpdate')) {
-            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), 503);
+            throw new CheckinCheckout(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), 503);
         }
 
         return [
