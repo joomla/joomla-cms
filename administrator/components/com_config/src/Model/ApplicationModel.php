@@ -585,11 +585,11 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // Give a warning if the cache-folder can not be opened
-        if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false) {
+        if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) === false) {
             $error = true;
 
             // If a custom path is in use, try using the system default instead of disabling cache
-            if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) != false) {
+            if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) !== false) {
                 try {
                     Log::add(
                         Text::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),

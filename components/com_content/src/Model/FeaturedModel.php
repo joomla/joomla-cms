@@ -93,7 +93,7 @@ class FeaturedModel extends ArticlesModel
         }
 
         // Check for category selection
-        if ($params->get('featured_categories') && implode(',', $params->get('featured_categories')) == true) {
+        if ($params->get('featured_categories') && implode(',', $params->get('featured_categories'))) {
             $featuredCategories = $params->get('featured_categories');
             $this->setState('filter.frontpage.categories', $featuredCategories);
         }

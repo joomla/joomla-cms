@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit an Step
+ * View to edit a Step
  *
  * @since 4.3.0
  */
