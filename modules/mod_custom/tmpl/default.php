@@ -26,6 +26,6 @@ if ($params->get('backgroundimage')) {
 
 ?>
 
-<div id="<?php echo $modId; ?>" class="mod-custom custom">
+<div id="<?php echo $modId; ?>" class="mod-custom custom <?php echo $params->get('moduleclass_sfx'); ?>">
     <?php echo $module->content; ?>
 </div>
