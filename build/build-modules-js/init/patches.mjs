@@ -10,7 +10,7 @@ const RootPath = process.cwd();
  *
  * @returns {Promise}
  */
-export const patchPackages = async (options) => {
+export const patchPackages = async () => {
   const mediaVendorPath = join(RootPath, 'media/vendor');
 
   // Include the v5 shim for Font Awesome
