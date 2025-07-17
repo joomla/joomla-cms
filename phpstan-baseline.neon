@@ -15029,8 +15029,8 @@ parameters:
 			path: plugins/actionlog/joomla/src/Extension/Joomla.php
 
 		-
-			message: '#^Property Joomla\\CMS\\Application\\BaseApplication\:\:\$input is not writable\.$#'
-			identifier: assign.propertyReadOnly
+			message: '#^Access to an undefined property Joomla\\CMS\\Application\\BaseApplication\:\:\$input\.$#'
+			identifier: property.notFound
 			count: 1
 			path: plugins/behaviour/compat6/classes/Application/BaseApplication.php
 
