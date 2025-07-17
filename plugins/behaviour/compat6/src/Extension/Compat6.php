@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Behaviour\Compat6\Extension;
 
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
