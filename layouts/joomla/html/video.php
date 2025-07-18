@@ -33,8 +33,8 @@ if (isset($displayData['source']) && is_array($displayData['source'])) {
 
 echo '<video ' . ArrayHelper::toString($displayData) . '>';
 if (!empty($source)) {
-    foreach ($source as $sourseData) {
-        echo '<source src="' . $this->escape($sourseData['src']) . '" type="' . $sourseData['type'] . '" />';
+    foreach ($source as $sourceData) {
+        echo '<source src="' . $this->escape($sourceData['src']) . '" type="' . $sourceData['type'] . '" />';
     }
 }
 echo '</video>';
