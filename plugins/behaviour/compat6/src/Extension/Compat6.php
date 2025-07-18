@@ -44,7 +44,7 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
          */
         return [
             'onAfterInitialiseDocument' => ['onAfterInitialiseDocument', Priority::HIGH],
-            'onAfterRoute'              => ['onAfterRoute', Priority::HIGH],
+            'onAfterInitialise'         => ['onAfterRoute', Priority::HIGH],
         ];
     }
 
