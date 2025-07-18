@@ -44,7 +44,7 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
          */
         return [
             'onAfterInitialiseDocument' => ['onAfterInitialiseDocument', Priority::HIGH],
-            'onAfterInitialise'         => ['onAfterRoute', Priority::HIGH],
+            'onAfterInitialise'         => ['onAfterInitialise', Priority::HIGH],
         ];
     }
 
@@ -117,14 +117,14 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
     /**
 
 
-     * The after Route logic
+     * The after Initialise logic
      *
-     * @param  AfterRouteEvent $event
+     * @param  After Initialise $event
      * @return void
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function onAfterRoute($event)
+    public function onAfterInitialise($event)
     {
         /**
          * Load the deprecated HTMLHelper classes/functions
