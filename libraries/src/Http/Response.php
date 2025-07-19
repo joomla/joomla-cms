@@ -54,7 +54,7 @@ class Response extends FrameworkResponse
                 $trace = debug_backtrace();
 
                 trigger_error(
-                    sprintf(
+                    \sprintf(
                         'Undefined property via __get(): %s in %s on line %s',
                         $name,
                         $trace[0]['file'],
