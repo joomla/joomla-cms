@@ -527,7 +527,7 @@ class TourModel extends AdminModel
         }
 
         $authorised = $this->getCurrentUser()->getAuthorisedViewLevels();
-        if (!in_array($tour->access, $authorised)) {
+        if (!\in_array($tour->access, $authorised)) {
             return false;
         }
 
