@@ -90,7 +90,7 @@ if ($readonly) {
         $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
     }
 } else {
-    if ($multiple && $emptyValueWhenUnselected) {
+    if ($multiple && !empty($emptyValueWhenUnselected)) {
         // Submit an empty value when nothing is selected,
         // because browser does not submit anything when <select multiple> is empty.
         $html[] = '<input type="hidden" name="' . preg_replace('#\[\]$#', '', $name) . '" value="">';

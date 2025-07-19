@@ -68,7 +68,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
     <?php
     // Submit an empty value when nothing is checked,
     // because browser does not submit anything when <input type="checkbox"> is unchecked.
-    if ($emptyValueWhenUnselected) : ?>
+    if (!empty($emptyValueWhenUnselected)) : ?>
     <input type="hidden" name="<?php echo preg_replace('#\[\]$#', '', $name); ?>" value="">
     <?php endif; ?>
 

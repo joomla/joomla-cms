@@ -64,7 +64,7 @@ $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
     <?php
     // Submit an empty value when nothing is checked,
     // because browser does not submit anything when <input type="checkbox"> is unchecked.
-    if ($emptyValueWhenUnselected) : ?>
+    if (!empty($emptyValueWhenUnselected)) : ?>
     <input type="hidden" name="<?php echo $name; ?>" value="">
     <?php endif; ?>
     <input
