@@ -17,7 +17,6 @@ const texts = {
 const checker = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3ggRDQENU0dyawAAACZJREFUGNNjPHXqDAMSMDY2ROYyMeAFNJVm/Pv3LzL/7Nnzg8VpAKebCGpIIxHBAAAAAElFTkSuQmCC")';
 const template = Object.assign(document.createElement('template'), {
   innerHTML: `
-    <style>[part=close] svg { padding-block-start: .2rem; }</style>
     <button type="button" part="opener" aria-expanded="false"></button>
     <div part="panel">
       <slot name="colors"></slot>
@@ -26,6 +25,9 @@ const template = Object.assign(document.createElement('template'), {
       </button>
     </div>`,
 });
+
+const sheet = new CSSStyleSheet();
+sheet.replaceSync('[part=close] svg { padding-block-start: .2rem; }');
 
 // Expand any short code
 function getColorName(value) {
@@ -51,6 +53,7 @@ class JoomlaFieldSimpleColor extends HTMLElement {
 
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.adoptedStyleSheets = [sheet];
 
     this.internals = null;
     this.show = this.show.bind(this);
