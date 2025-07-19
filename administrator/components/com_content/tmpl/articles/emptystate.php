@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var \Joomla\Component\Content\Administrator\View\Articles\HtmlView $this */
@@ -18,7 +19,6 @@ $displayData = [
     'textPrefix' => 'COM_CONTENT',
     'formURL'    => 'index.php?option=com_content&view=articles',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Adding_a_new_article',
-    'tourUID'    => 'joomla-articles',
     'icon'       => 'icon-copy article',
 ];
 
@@ -26,6 +26,17 @@ $user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_content&task=article.add';
+}
+
+$factory = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory();
+
+// Get an instance of the guided tour model
+$tourModel = $factory->createModel('Tour', 'Administrator', ['ignore_request' => true]);
+
+$tourUid = 'joomla-articles';
+
+if ($tourModel->isAvailable($tourUid) !== false) {
+    $displayData['tourUID'] = $tourUid;
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
