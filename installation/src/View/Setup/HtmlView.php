@@ -29,7 +29,7 @@ class HtmlView extends DefaultView
      * @var    boolean
      * @since  __DEPLOY_VERSION__
      */
-    protected $hideDbSection = false;
+    public $hideDbSection = false;
 
     /**
      * Execute and display a template script.
