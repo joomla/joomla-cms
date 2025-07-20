@@ -15,6 +15,10 @@ Date.HOUR   = 60 * Date.MINUTE;
 Date.DAY    = 24 * Date.HOUR;
 Date.WEEK   =  7 * Date.DAY;
 
+/** Constant used to switch between 1900 and 2000 when entered only 2 digits */
+/** history: November 2016 : 29, July 2025 : 38
+const TWODIGITYEAR = 38;
+
 /** MODIFY ONLY THE MARKED PARTS OF THE METHODS **/
 /************ START *************/
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/

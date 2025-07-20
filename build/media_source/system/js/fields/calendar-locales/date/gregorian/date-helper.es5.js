@@ -11,6 +11,11 @@
 	Date.DAY    = 24 * Date.HOUR;
 	Date.WEEK   =  7 * Date.DAY;
 
+	/** Constant used to switch between 1900 and 2000 when entered only 2 digits */
+	/** e.g. y < 35 -> 2000+y else 1900+y */
+	/** history: November 2016 : 29, July 2025 : 38
+	const TWODIGITYEAR = 38;
+
 	/** MODIFY ONLY THE MARKED PARTS OF THE METHODS **/
 	/************ START *************/
 	/** INTERFACE METHODS FOR THE CALENDAR PICKER **/
@@ -270,7 +275,9 @@
 				case "%Y":
 				case "%y":
 					y = parseInt(a[i], 10);
-					(y < 100) && (y += (y > 29) ? 1900 : 2000);
+					(y < 100) && (y += (y > TWODIGITYEAR) ? 1900 : 2000);
+					if (y > 9999)
+						y = 0;
 					break;
 
 				case "%b":
@@ -334,7 +341,9 @@
 				m = a[i]-1;
 			} else if (parseInt(a[i], 10) > 31 && y == 0) {
 				y = parseInt(a[i], 10);
-				(y < 100) && (y += (y > 29) ? 1900 : 2000);
+				(y < 100) && (y += (y > TWODIGITYEAR) ? 1900 : 2000);
+				if (y > 9999)
+					y = 0;
 			} else if (d == 0) {
 				d = a[i];
 			}
@@ -403,7 +412,7 @@
 		// FIXME: %x : preferred date representation for the current locale without the time
 		// FIXME: %X : preferred time representation for the current locale without the date
 		s["%y"] = ('' + y).substring(2);                                                            // year without the century (range 00 to 99)
-		s["%Y"] = y;                                                                                // year with the century
+		s["%Y"] = y % 10000;                                                                        // year with the century (secured to max 9999)
 		s["%%"] = "%";                                                                              // a literal '%' character
 
 		var re = /%./g;
