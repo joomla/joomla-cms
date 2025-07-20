@@ -402,9 +402,9 @@ class CalendarField extends FormField
         }
 
         $app = Factory::getApplication();
-        
+
         if ($this->filterFormat) {
-            $_value = \DateTime::createFromFormat(format: $this->filterFormat, datetime: $value);
+            $_value = \DateTime::createFromFormat($this->filterFormat, $value);
             if ($_value === false) {
                 $msg = Text::_('JERROR_AN_ERROR_HAS_OCCURRED');
                 $label = $this->getAttribute('label');
