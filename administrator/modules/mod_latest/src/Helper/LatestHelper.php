@@ -162,7 +162,7 @@ class LatestHelper
     /**
      * Get the alternate title for the module.
      *
-     * @param   \Joomla\Registry\Registry  $params  The module parameters.
+     * @param   Registry  $params  The module parameters.
      *
      * @return  string  The alternate title for the module.
      *
