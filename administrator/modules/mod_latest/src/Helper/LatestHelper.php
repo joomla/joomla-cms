@@ -110,8 +110,8 @@ class LatestHelper
     /**
      * Get the alternate title for the module.
      *
-     * @param   Registry  $params  The module parameters.
-     * @param   CMSApplicationInterface  $app  The application instance.
+     * @param   Registry                 $params  The module parameters.
+     * @param   CMSApplicationInterface  $app     The application instance.
      *
      * @return  string    The alternate title for the module.
      *
