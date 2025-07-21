@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80cd93465bad84c1e2cb4926d6ca01ba",
+    "content-hash": "683973bd803be91688ed30ebc8ed1d8c",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2814,16 +2814,16 @@
         },
         {
             "name": "php-debugbar/php-debugbar",
-            "version": "v2.2.2",
+            "version": "v2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-debugbar/php-debugbar.git",
-                "reference": "cd618a4181186ea627903863164394ed83de097b"
+                "reference": "86eb2323a2a9b7eefb1b63ae5737f778f9fc3a4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-debugbar/php-debugbar/zipball/cd618a4181186ea627903863164394ed83de097b",
-                "reference": "cd618a4181186ea627903863164394ed83de097b",
+                "url": "https://api.github.com/repos/php-debugbar/php-debugbar/zipball/86eb2323a2a9b7eefb1b63ae5737f778f9fc3a4c",
+                "reference": "86eb2323a2a9b7eefb1b63ae5737f778f9fc3a4c",
                 "shasum": ""
             },
             "require": {
@@ -2881,9 +2881,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-debugbar/php-debugbar/issues",
-                "source": "https://github.com/php-debugbar/php-debugbar/tree/v2.2.2"
+                "source": "https://github.com/php-debugbar/php-debugbar/tree/v2.2.3"
             },
-            "time": "2025-05-13T14:37:23+00:00"
+            "time": "2025-07-21T09:20:28+00:00"
         },
         {
             "name": "php-tuf/php-tuf",
