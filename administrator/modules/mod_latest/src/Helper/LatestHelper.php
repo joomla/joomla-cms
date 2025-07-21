@@ -39,7 +39,7 @@ class LatestHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getArticles(Registry $params, ArticlesModel $model, CMSApplicationInterface $app)
+    public function getArticles(Registry $params, ArticlesModel $model, CMSApplicationInterface $app): mixed
     {
         $user = $app->getIdentity();
 
@@ -113,11 +113,11 @@ class LatestHelper
      * @param   Registry                 $params  The module parameters.
      * @param   CMSApplicationInterface  $app     The application instance.
      *
-     * @return  string    The alternate title for the module.
+     * @return  string  The alternate title for the module.
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getModuleTitle(Registry $params, CMSApplicationInterface $app)
+    public function getModuleTitle(Registry $params, CMSApplicationInterface $app): string
     {
         $who   = $params->get('user_id', 0);
         $catid = (int) $params->get('catid', null);
