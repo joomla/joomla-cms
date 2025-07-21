@@ -408,7 +408,7 @@ class CalendarField extends FormField
             if ($_value === false) {
                 $msg    = Text::_('JERROR_AN_ERROR_HAS_OCCURRED');
                 $label  = $this->getAttribute('label');
-                $msg   .= ' > ' . Text::_($label) . ' ' . $value;
+                $msg .= ' > ' . Text::_($label) . ' ' . $value;
                 $app->enqueueMessage($msg, 'error');
                 return '';
             }
