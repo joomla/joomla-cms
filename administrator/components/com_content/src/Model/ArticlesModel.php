@@ -145,6 +145,7 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
         $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+        $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'filter_checked_out', '');
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -179,6 +180,7 @@ class ArticlesModel extends ListModel
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
         $id .= ':' . serialize($this->getState('filter.tag'));
+        $id .= ':' . $this->getState('filter.checked_out');
 
         return parent::getStoreId($id);
     }
@@ -449,6 +451,18 @@ class ArticlesModel extends ListModel
         if ($language = $this->getState('filter.language')) {
             $query->where($db->quoteName('a.language') . ' = :language')
                 ->bind(':language', $language);
+        }
+
+        // Filter by checked out status.
+        $checkedOut = $this->getState('filter.checked_out');
+        if ($checkedOut !== '' && $checkedOut !== null) {
+            if ($checkedOut == '1') {
+                // Only checked out articles
+                $query->where($db->quoteName('a.checked_out') . ' > 0');
+            } elseif ($checkedOut == '0') {
+                // Only not checked out articles
+                $query->where($db->quoteName('a.checked_out') . ' = 0');
+            }
         }
 
         // Filter by a single or group of tags.
