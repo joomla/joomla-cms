@@ -196,6 +196,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         }
 
         $toolbar->divider();
+        $toolbar->inlinehelp();
         $toolbar->help('Users:_Edit_Profile');
     }
 }
