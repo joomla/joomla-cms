@@ -940,7 +940,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getTypeByAlias\(\) of class Joomla\\CMS\\UCM\\UCMType\:
-				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+				5.4.0 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: method.deprecated
 			count: 2
@@ -982,7 +982,7 @@ parameters:
 		-
 			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\UCM\\UCMType\:
-				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+				5.4.0 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: new.deprecated
 			count: 2
@@ -1646,7 +1646,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getTypeByTable\(\) of class Joomla\\CMS\\UCM\\UCMType\:
-				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+				5.4.0 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -1677,7 +1677,7 @@ parameters:
 		-
 			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\UCM\\UCMType\:
-				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+				5.4.0 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: new.deprecated
 			count: 1
@@ -14700,7 +14700,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getTypeByAlias\(\) of class Joomla\\CMS\\UCM\\UCMType\:
-				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+				5.4.0 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -14709,7 +14709,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getTypeByTable\(\) of class Joomla\\CMS\\UCM\\UCMType\:
-				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+				5.4.0 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -14740,7 +14740,7 @@ parameters:
 		-
 			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\UCM\\UCMType\:
-				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+				5.4.0 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: new.deprecated
 			count: 1
@@ -15931,7 +15931,7 @@ parameters:
 		-
 			message: '''
 				#^Class Joomla\\CMS\\UCM\\UCMContent extends deprecated class Joomla\\CMS\\UCM\\UCMBase\:
-				__DEPLOY_VERSION__ will be removed in 7\.0 without replacement$#
+				5.4.0 will be removed in 7\.0 without replacement$#
 			'''
 			identifier: class.extendsDeprecatedClass
 			count: 1
