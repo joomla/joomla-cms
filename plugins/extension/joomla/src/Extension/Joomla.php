@@ -80,12 +80,13 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
      * @param   string   $location    The URI for the site
      * @param   boolean  $enabled     If this site is enabled
      * @param   string   $extraQuery  Any additional request query to use when updating
+     * @param   int      $total       The total of update sites
      *
      * @return  void
      *
      * @since   1.6
      */
-    private function addUpdateSite($name, $type, $location, $enabled, $extraQuery = '')
+    private function addUpdateSite($name, $type, $location, $enabled, $extraQuery = '', int $total = 1)
     {
         // Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
         $db    = $this->getDatabase();
@@ -100,7 +101,32 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         $update_site_id = (int) $db->loadResult();
 
-        // If it doesn't exist, add it!
+        // If it doesn't exist and there is an extension, use that site
+        if (!$update_site_id && $this->eid && $total === 1) {
+            $query->clear();
+            $query->select($db->quoteName('update_site_id'))
+                ->from($db->quoteName('#__update_sites_extensions'))
+                ->where($db->quoteName('extension_id') . ' = :extension_id')
+                ->bind(':extension_id', $this->eid, ParameterType::INTEGER);
+
+            $db->setQuery($query);
+
+            // When there is an existing update site, update the location and return
+            if ($id = $db->loadResult()) {
+                $query->clear()
+                    ->update($db->quoteName('#__update_sites'))
+                    ->set($db->quoteName('location') . ' = :location')
+                    ->where($db->quoteName('update_site_id') . ' = :update_site_id')
+                    ->bind(':location', $location)
+                    ->bind(':update_site_id', $id, ParameterType::INTEGER);
+
+                $db->setQuery($query);
+                $db->execute();
+
+                return;
+            }
+        }
+
         if (!$update_site_id) {
             $enabled = (int) $enabled;
             $query->clear()
@@ -302,7 +328,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         if (\count($children)) {
             foreach ($children as $child) {
                 $attrs = $child->attributes();
-                $this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery);
+                $this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery, \count($children));
             }
         } else {
             $data = trim((string) $updateservers);

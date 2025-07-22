@@ -94,7 +94,7 @@ describe('Test in backend that the content history list', () => {
       .should('contain.text', 'Please select two versions');
   });
 
-  it('can delete an history content item', () => {
+  it('can delete a history content item', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');

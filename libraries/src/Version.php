@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'alpha1-dev';
+    public const EXTRA_VERSION = 'alpha3-dev';
 
     /**
      * Development status.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '14-August-2024';
+    public const RELDATE = '24-June-2025';
 
     /**
      * Release time.
@@ -99,7 +99,7 @@ final class Version
      * @since  3.5
      */
 
-    public const RELTIME = '08:38';
+    public const RELTIME = '17:01';
 
     /**
      * Release timezone.
