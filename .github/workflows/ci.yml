@@ -107,7 +107,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Run PHPstan
         run: |
-          ./libraries/vendor/bin/phpstan --error-format=github || :
+          ./libraries/vendor/bin/phpstan --error-format=github
 
   tests-unit:
     name: Run Unit tests
