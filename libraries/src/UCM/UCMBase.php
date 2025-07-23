@@ -22,7 +22,7 @@ use Joomla\CMS\Table\TableInterface;
  * Base class for implementing UCM
  *
  * @since  3.1
- * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
+ * @deprecated  5.4.0 will be removed in 7.0 without replacement
  */
 class UCMBase implements UCM
 {
@@ -31,7 +31,7 @@ class UCMBase implements UCM
      *
      * @var    UCMType
      * @since  3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected $type;
 
@@ -40,7 +40,7 @@ class UCMBase implements UCM
      *
      * @var    string
      * @since  3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected $alias;
 
@@ -51,7 +51,7 @@ class UCMBase implements UCM
      * @param   ?UCMType  $type   The type object
      *
      * @since   3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     public function __construct($alias = null, ?UCMType $type = null)
     {
@@ -73,7 +73,7 @@ class UCMBase implements UCM
      *
      * @throws  \Exception
      * @since       3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected function store($data, ?TableInterface $table = null, $primaryKey = null)
     {
@@ -109,7 +109,7 @@ class UCMBase implements UCM
      * @return  UCMType  The UCM content type
      *
      * @since   3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     public function getType()
     {
@@ -129,7 +129,7 @@ class UCMBase implements UCM
      * @return  array  Data array of UCM mappings
      *
      * @since   3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     public function mapBase($original, ?UCMType $type = null)
     {
