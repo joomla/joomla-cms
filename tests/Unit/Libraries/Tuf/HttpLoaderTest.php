@@ -98,7 +98,6 @@ class HttpLoaderTest extends UnitTestCase
     protected function getHttpMock(int $responseCode, Stream $responseBody, string $expectedFile)
     {
         $responseMock = $this->createMock(Response::class);
-        $responseMock->method('__get')->with('code')->willReturn($responseCode);
         $responseMock->method('getBody')->willReturn($responseBody);
 
         $httpClientMock = $this->createMock(Http::class);
