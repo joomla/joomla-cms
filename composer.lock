@@ -1591,12 +1591,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/event.git",
-                "reference": "e9c7f4bd8da9737119aff75bd2893df98a095812"
+                "reference": "3122058d3b5ecc143fe5734b599706a94d7bfe0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/e9c7f4bd8da9737119aff75bd2893df98a095812",
-                "reference": "e9c7f4bd8da9737119aff75bd2893df98a095812",
+                "url": "https://api.github.com/repos/joomla-framework/event/zipball/3122058d3b5ecc143fe5734b599706a94d7bfe0c",
+                "reference": "3122058d3b5ecc143fe5734b599706a94d7bfe0c",
                 "shasum": ""
             },
             "require": {
@@ -1643,7 +1643,7 @@
                 "issues": "https://github.com/joomla-framework/event/issues",
                 "source": "https://github.com/joomla-framework/event/tree/4.x-dev"
             },
-            "time": "2025-07-13T15:47:59+00:00"
+            "time": "2025-07-22T11:01:26+00:00"
         },
         {
             "name": "joomla/filesystem",
