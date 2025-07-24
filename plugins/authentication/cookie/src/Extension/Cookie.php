@@ -172,8 +172,8 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                 '',
                 [
                     'expires' => 1,
-                    'path' => $app->get('cookie_path', '/'),
-                    'domain' => $app->get('cookie_domain', ''),
+                    'path'    => $app->get('cookie_path', '/'),
+                    'domain'  => $app->get('cookie_domain', ''),
                 ]
             );
             $response->status = Authentication::STATUS_FAILURE;
@@ -210,8 +210,8 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                 '',
                 [
                     'expires' => 1,
-                    'path' => $app->get('cookie_path', '/'),
-                    'domain' => $app->get('cookie_domain', ''),
+                    'path'    => $app->get('cookie_path', '/'),
+                    'domain'  => $app->get('cookie_domain', ''),
                 ]
             );
 
@@ -302,8 +302,8 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                     '',
                     [
                         'expires' => 1,
-                        'path' => $app->get('cookie_path', '/'),
-                        'domain' => $app->get('cookie_domain', ''),
+                        'path'    => $app->get('cookie_path', '/'),
+                        'domain'  => $app->get('cookie_domain', ''),
                     ]
                 );
             }
@@ -361,10 +361,10 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             $cookieName,
             $cookieValue,
             [
-                'expires' => time() + $lifetime,
-                'path' => $app->get('cookie_path', '/'),
-                'domain' => $app->get('cookie_domain', ''),
-                'secure' => $app->isHttpsForced(),
+                'expires'  => time() + $lifetime,
+                'path'     => $app->get('cookie_path', '/'),
+                'domain'   => $app->get('cookie_domain', ''),
+                'secure'   => $app->isHttpsForced(),
                 'httponly' => true
             ]
         );
@@ -460,8 +460,8 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             '',
             [
                 'expires' => 1,
-                'path' => $app->get('cookie_path', '/'),
-                'domain' => $app->get('cookie_domain', ''),
+                'path'    => $app->get('cookie_path', '/'),
+                'domain'  => $app->get('cookie_domain', ''),
             ]
         );
     }

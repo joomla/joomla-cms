@@ -55,8 +55,8 @@ final class Logout extends CMSPlugin implements SubscriberInterface
                 '',
                 [
                     'expires' => 1,
-                    'path' => $this->getApplication()->get('cookie_path', '/'),
-                    'domain' => $this->getApplication()->get('cookie_domain', ''),
+                    'path'    => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'  => $this->getApplication()->get('cookie_domain', ''),
                 ]
             );
         }
@@ -93,10 +93,10 @@ final class Logout extends CMSPlugin implements SubscriberInterface
                 ApplicationHelper::getHash('PlgSystemLogout'),
                 true,
                 [
-                    'expires' => time() + 86400,
-                    'path' => $this->getApplication()->get('cookie_path', '/'),
-                    'domain' => $this->getApplication()->get('cookie_domain', ''),
-                    'secure' => $this->getApplication()->isHttpsForced(),
+                    'expires'  => time() + 86400,
+                    'path'     => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'   => $this->getApplication()->get('cookie_domain', ''),
+                    'secure'   => $this->getApplication()->isHttpsForced(),
                     'httponly' => true,
                 ]
             );
