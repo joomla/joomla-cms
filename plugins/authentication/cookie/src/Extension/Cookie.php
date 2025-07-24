@@ -365,7 +365,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                 'path'     => $app->get('cookie_path', '/'),
                 'domain'   => $app->get('cookie_domain', ''),
                 'secure'   => $app->isHttpsForced(),
-                'httponly' => true
+                'httponly' => true,
             ]
         );
 
