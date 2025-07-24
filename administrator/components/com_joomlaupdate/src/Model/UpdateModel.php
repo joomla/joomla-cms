@@ -632,7 +632,7 @@ class UpdateModel extends BaseDatabaseModel
             ($targetState === AutoupdateRegisterState::Subscribe)
                 ? AutoupdateRegisterState::Subscribed
                 : AutoupdateRegisterState::Unsubscribed,
-            ($targetState === AutoupdateRegisterState::Unsubscribed)
+            ($targetState === AutoupdateRegisterState::Subscribe)
         );
 
         return AutoupdateRegisterResultState::Success;
