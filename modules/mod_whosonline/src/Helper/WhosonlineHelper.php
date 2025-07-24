@@ -82,12 +82,12 @@ class WhosonlineHelper implements DatabaseAwareInterface
     }
 
     /**
-     * Fetch online user details
+     * Fetch online user names
      *
      * @param   CMSApplicationInterface  $app     The application instance
      * @param   Registry                 $params  The parameters
      *
-     * @return  array   (array) $db->loadObjectList()  The details of the online users.
+     * @return  array   (array) $db->loadObjectList()  The names of the online users.
      *
      * @since   __DEPLOY_VERSION__
      **/
