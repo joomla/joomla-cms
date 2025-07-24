@@ -490,12 +490,10 @@ class ArticlesModel extends ListModel
             $checkedOut = (int) $checkedOut;
             if ($checkedOut === 1) {
                 // Only checked out articles
-                $query->where($db->quoteName('a.checked_out') . ' > :checkedOutMin')
-                    ->bind(':checkedOutMin', 0, ParameterType::INTEGER);
+                $query->where($db->quoteName('a.checked_out') . ' > 0');
             } elseif ($checkedOut === 0) {
                 // Only not checked out articles (checked_out is 0 or NULL)
-                $query->where('(' . $db->quoteName('a.checked_out') . ' = :checkedOutZero OR ' . $db->quoteName('a.checked_out') . ' IS NULL)')
-                    ->bind(':checkedOutZero', 0, ParameterType::INTEGER);
+                $query->where('(' . $db->quoteName('a.checked_out') . ' = 0 OR ' . $db->quoteName('a.checked_out') . ' IS NULL)');
             }
         }
 

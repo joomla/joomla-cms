@@ -502,7 +502,9 @@ class ArticlesModel extends ListModel
                 $query->where($db->quoteName('a.checked_out') . ' = 0');
             } else {
                 // Checked out by specific user
-                $query->where($db->quoteName('a.checked_out') . ' = ' . (int) $checkedOut);
+                $checkedOut = (int) $checkedOut;
+                $query->where($db->quoteName('a.checked_out') . ' = :checkedOutUser')
+                    ->bind(':checkedOutUser', $checkedOut, ParameterType::INTEGER);
             }
         }
 
