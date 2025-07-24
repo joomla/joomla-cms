@@ -94,7 +94,7 @@ class RequestsPluginTest extends UnitTestCase
             {
                 $this->url = $uri->toString();
 
-                return (object)['code' => 200, 'body' => 'test'];
+                return new Response('data://text/plain,test', 200);
             }
 
             public static function isSupported()
@@ -150,7 +150,7 @@ class RequestsPluginTest extends UnitTestCase
             {
                 $this->url = $uri->toString();
 
-                return (object)['code' => 404, 'body' => 'test'];
+                return new Response('data://text/plain,test', 404);
             }
 
             public static function isSupported()
