@@ -366,7 +366,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     'path'     => $this->getApplication()->get('cookie_path', '/'),
                     'domain'   => $this->getApplication()->get('cookie_domain', ''),
                     'secure'   => $this->getApplication()->isHttpsForced(),
-                    'httponly' => true
+                    'httponly' => true,
                 ]
             );
         }
