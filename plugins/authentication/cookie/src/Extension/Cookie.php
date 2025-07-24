@@ -112,7 +112,13 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         // Check for valid cookie value
         if (\count($cookieArray) !== 2) {
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+            $app->getInput()->cookie->set($cookieName, '',
+                [
+                    'expires' => 1,
+                    'path'    => $app->get('cookie_path', '/'),
+                    'domain'  => $app->get('cookie_domain', ''),
+                ]
+            );
             Log::add('Invalid cookie detected.', Log::WARNING, 'error');
 
             return;
@@ -159,7 +165,13 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         if (\count($results) !== 1) {
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+            $app->getInput()->cookie->set($cookieName, '',
+                [
+                    'expires' => 1,
+                    'path' => $app->get('cookie_path', '/'),
+                    'domain' => $app->get('cookie_domain', ''),
+                ]
+            );
             $response->status = Authentication::STATUS_FAILURE;
 
             return;
@@ -189,7 +201,13 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             }
 
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+            $app->getInput()->cookie->set($cookieName, '',
+                [
+                    'expires' => 1,
+                    'path' => $app->get('cookie_path', '/'),
+                    'domain' => $app->get('cookie_domain', ''),
+                ]
+            );
 
             // Issue warning by email to user and/or admin?
             Log::add(Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
@@ -273,7 +291,13 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                 $cookieValue   = $app->getInput()->cookie->get($oldCookieName);
 
                 // Destroy the old cookie in the browser
-                $app->getInput()->cookie->set($oldCookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+                $app->getInput()->cookie->set($cookieName, '',
+                    [
+                        'expires' => 1,
+                        'path' => $app->get('cookie_path', '/'),
+                        'domain' => $app->get('cookie_domain', ''),
+                    ]
+                );
             }
 
             $cookieArray = explode('.', $cookieValue);
@@ -325,14 +349,14 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         $cookieValue = $token . '.' . $series;
 
         // Overwrite existing cookie with new value
-        $app->getInput()->cookie->set(
-            $cookieName,
-            $cookieValue,
-            time() + $lifetime,
-            $app->get('cookie_path', '/'),
-            $app->get('cookie_domain', ''),
-            $app->isHttpsForced(),
-            true
+        $app->getInput()->cookie->set($cookieName, $cookieValue,
+            [
+                'expires' => time() + $lifetime,
+                'path' => $app->get('cookie_path', '/'),
+                'domain' => $app->get('cookie_domain', ''),
+                'secure' => $app->isHttpsForced(),
+                'httponly' => true
+            ]
         );
 
         $query = $db->getQuery(true);
@@ -421,6 +445,12 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         }
 
         // Destroy the cookie
-        $app->getInput()->cookie->set($cookieName, '', 1, $app->get('cookie_path', '/'), $app->get('cookie_domain', ''));
+        $app->getInput()->cookie->set($cookieName, '',
+            [
+                'expires' => 1,
+                'path' => $app->get('cookie_path', '/'),
+                'domain' => $app->get('cookie_domain', ''),
+            ]
+        );
     }
 }
