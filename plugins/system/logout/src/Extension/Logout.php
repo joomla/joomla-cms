@@ -50,7 +50,9 @@ final class Logout extends CMSPlugin implements SubscriberInterface
 
         if ($this->getApplication()->getInput()->cookie->getString($hash)) {
             // Destroy the cookie.
-            $this->getApplication()->getInput()->cookie->set($hash, '',
+            $this->getApplication()->getInput()->cookie->set(
+                $hash,
+                '',
                 [
                     'expires' => 1,
                     'path' => $this->getApplication()->get('cookie_path', '/'),

@@ -112,7 +112,9 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         // Check for valid cookie value
         if (\count($cookieArray) !== 2) {
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '',
+            $app->getInput()->cookie->set(
+                $cookieName,
+                '',
                 [
                     'expires' => 1,
                     'path'    => $app->get('cookie_path', '/'),
@@ -165,7 +167,9 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         if (\count($results) !== 1) {
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '',
+            $app->getInput()->cookie->set(
+                $cookieName,
+                '',
                 [
                     'expires' => 1,
                     'path' => $app->get('cookie_path', '/'),
@@ -201,7 +205,9 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
             }
 
             // Destroy the cookie in the browser.
-            $app->getInput()->cookie->set($cookieName, '',
+            $app->getInput()->cookie->set(
+                $cookieName,
+                '',
                 [
                     'expires' => 1,
                     'path' => $app->get('cookie_path', '/'),
@@ -291,7 +297,9 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                 $cookieValue   = $app->getInput()->cookie->get($oldCookieName);
 
                 // Destroy the old cookie in the browser
-                $app->getInput()->cookie->set($cookieName, '',
+                $app->getInput()->cookie->set(
+                    $cookieName,
+                    '',
                     [
                         'expires' => 1,
                         'path' => $app->get('cookie_path', '/'),
@@ -349,7 +357,9 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         $cookieValue = $token . '.' . $series;
 
         // Overwrite existing cookie with new value
-        $app->getInput()->cookie->set($cookieName, $cookieValue,
+        $app->getInput()->cookie->set(
+            $cookieName,
+            $cookieValue,
             [
                 'expires' => time() + $lifetime,
                 'path' => $app->get('cookie_path', '/'),
@@ -445,7 +455,9 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
         }
 
         // Destroy the cookie
-        $app->getInput()->cookie->set($cookieName, '',
+        $app->getInput()->cookie->set(
+            $cookieName,
+            '',
             [
                 'expires' => 1,
                 'path' => $app->get('cookie_path', '/'),
