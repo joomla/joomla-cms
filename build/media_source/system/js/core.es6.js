@@ -53,6 +53,8 @@ const DefaultAllowlist = {
   select: ['name'],
   textarea: ['name'],
   option: ['value', 'selected'],
+  details: ['open'],
+  summary: [],
 };
 
 // Only define the Joomla namespace if not defined.

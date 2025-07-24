@@ -48,19 +48,8 @@ final class NotificationModel extends BaseDatabaseModel
     {
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        // Load the parameters.
-        $specificEmail = $params->get('automated_updates_email');
-
-        // Let's find out the email addresses to notify
-        $superUsers = [];
-
-        if (!empty($specificEmail)) {
-            $superUsers = $this->getSuperUsers($specificEmail);
-        }
-
-        if (empty($superUsers)) {
-            $superUsers = $this->getSuperUsers();
-        }
+        // Send a notification to all super users
+        $superUsers = $this->getSuperUsers();
 
         if (empty($superUsers)) {
             throw new \RuntimeException();
