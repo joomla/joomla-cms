@@ -433,7 +433,6 @@ $filesArray = [
  * Because this is a fresh copy from a git tag, local environment files may be ignored
  */
 $doNotPackage = [
-    '.appveyor.yml',
     '.drone.yml',
     '.editorconfig',
     '.github',
@@ -443,7 +442,6 @@ $doNotPackage = [
     'acceptance.suite.yml',
     // Media Manager Node Assets
     'administrator/components/com_media/resources',
-    'appveyor-phpunit.xml',
     'build',
     'build.xml',
     'CODE_OF_CONDUCT.md',

@@ -18,7 +18,6 @@ libraries/src/Updater/*  @rdeutz
 # Automated Testing
 tests/*  @hackwar @laoneo
 tests/Unit/*  @rdeutz @laoneo
-.appveyor.yml  @rdeutz @hackwar @laoneo
 .drone.yml  @rdeutz @hackwar @laoneo
 phpunit.xml.dist  @rdeutz @hackwar @laoneo
 phpunit-pgsql.xml.dist  @rdeutz @hackwar @laoneo
