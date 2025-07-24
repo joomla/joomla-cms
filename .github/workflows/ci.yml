@@ -248,7 +248,9 @@ jobs:
         if: always()
         with:
           name: system-test-output
-          path: tests/System/output
+          path: |
+            tests/System/output
+            /var/log/apache2/error.log
           if-no-files-found: ignore
     services:
       mysql:
