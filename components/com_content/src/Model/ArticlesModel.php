@@ -493,7 +493,7 @@ class ArticlesModel extends ListModel
 
         // Filter by checked_out status
         $checkedOut = $this->getState('filter.checked_out', null);
-        if ($checkedOut !== null) {
+        if ($checkedOut !== null && $checkedOut !== '' && $checkedOut !== false) {
             if ($checkedOut === 1) {
                 // Only checked out articles
                 $query->where($db->quoteName('a.checked_out') . ' > 0');
