@@ -361,11 +361,13 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $this->getApplication()->getInput()->cookie->set(
                 'joomla_user_state',
                 'logged_in',
-                0,
-                $this->getApplication()->get('cookie_path', '/'),
-                $this->getApplication()->get('cookie_domain', ''),
-                $this->getApplication()->isHttpsForced(),
-                true
+                [
+                    'expires'  => 0,
+                    'path'     => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'   => $this->getApplication()->get('cookie_domain', ''),
+                    'secure'   => $this->getApplication()->isHttpsForced(),
+                    'httponly' => true
+                ]
             );
         }
     }
