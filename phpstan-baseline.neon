@@ -83,7 +83,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -103,7 +103,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -195,7 +195,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -306,7 +306,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -323,7 +323,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -430,7 +430,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -441,7 +441,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -452,7 +452,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -463,7 +463,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -474,7 +474,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -485,7 +485,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -519,7 +519,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -530,7 +530,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -552,7 +552,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -574,7 +574,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -585,7 +585,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -596,7 +596,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -607,7 +607,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -618,7 +618,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -629,7 +629,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -640,7 +640,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -651,7 +651,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -662,7 +662,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -673,7 +673,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -684,7 +684,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -695,7 +695,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -706,7 +706,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -717,7 +717,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -751,7 +751,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -762,7 +762,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -806,7 +806,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -817,7 +817,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -906,7 +906,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -939,6 +939,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getTypeByAlias\(\) of class Joomla\\CMS\\UCM\\UCMType\:
+				5.4.0 will be removed in 7\.0 without replacement$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: administrator/components/com_categories/src/Model/CategoryModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 6\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -951,7 +960,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -972,6 +981,15 @@ parameters:
 
 		-
 			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\UCM\\UCMType\:
+				5.4.0 will be removed in 7\.0 without replacement$#
+			'''
+			identifier: new.deprecated
+			count: 2
+			path: administrator/components/com_categories/src/Model/CategoryModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the database service in the DI container
@@ -985,7 +1003,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -996,7 +1014,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -1031,7 +1049,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -1042,7 +1060,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -1053,7 +1071,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1268,7 +1286,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1279,7 +1297,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1290,7 +1308,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1333,7 +1351,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1344,7 +1362,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1366,7 +1384,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -1436,7 +1454,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -1447,7 +1465,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -1458,7 +1476,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -1486,7 +1504,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1497,7 +1515,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1508,7 +1526,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1519,7 +1537,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1595,7 +1613,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1606,7 +1624,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1627,8 +1645,17 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getTypeByTable\(\) of class Joomla\\CMS\\UCM\\UCMType\:
+				5.4.0 will be removed in 7\.0 without replacement$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_content/src/Model/ArticleModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -1645,6 +1672,15 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 2
+			path: administrator/components/com_content/src/Model/ArticleModel.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\UCM\\UCMType\:
+				5.4.0 will be removed in 7\.0 without replacement$#
+			'''
+			identifier: new.deprecated
+			count: 1
 			path: administrator/components/com_content/src/Model/ArticleModel.php
 
 		-
@@ -1673,7 +1709,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -1708,7 +1744,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -1718,10 +1754,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
+				#^Call to deprecated method setUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
 			'''
 			identifier: method.deprecated
 			count: 1
@@ -1742,7 +1776,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -1783,7 +1817,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1840,7 +1874,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -1861,7 +1895,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1872,7 +1906,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -1894,7 +1928,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -1916,7 +1950,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -1927,7 +1961,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -1938,7 +1972,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2018,7 +2052,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2051,7 +2085,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2086,7 +2120,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2109,7 +2143,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2126,7 +2160,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2137,7 +2171,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2148,7 +2182,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2159,7 +2193,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2223,7 +2257,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2234,7 +2268,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2245,7 +2279,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2267,7 +2301,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2450,7 +2484,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2483,7 +2517,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2494,7 +2528,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2505,7 +2539,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2516,7 +2550,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2527,7 +2561,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2549,7 +2583,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2560,7 +2594,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2571,7 +2605,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2593,7 +2627,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2710,7 +2744,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2731,7 +2765,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2742,7 +2776,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2753,7 +2787,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2764,7 +2798,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2775,7 +2809,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2786,7 +2820,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2797,7 +2831,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2862,7 +2896,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2873,7 +2907,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -2894,7 +2928,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -2951,7 +2985,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2962,7 +2996,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2973,7 +3007,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -2984,7 +3018,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3085,7 +3119,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3096,7 +3130,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3226,7 +3260,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -3257,7 +3291,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -3268,7 +3302,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -3319,17 +3353,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
-				             Will be removed without replacement
-				             Throw an Exception instead of using setError$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_installer/src/Model/UpdateModel.php
-
-		-
-			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
 				4\.3 will be removed in 6\.0
 				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
@@ -3342,7 +3365,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -3353,7 +3376,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -3386,7 +3409,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3409,7 +3432,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3420,7 +3443,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3448,7 +3471,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3459,7 +3482,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3481,6 +3504,17 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_joomlaupdate/postinstall/autoupdate.php
+
+		-
+			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Adapter\\Adapter\:
 				4\.3\.0 will be removed in 6\.0
 				            Create a proper getter function for the property$#
@@ -3492,7 +3526,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3524,12 +3558,12 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 2
+			count: 4
 			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
 
 		-
@@ -3568,7 +3602,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -3741,7 +3775,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -3775,7 +3809,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -3786,7 +3820,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -3797,7 +3831,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -3849,7 +3883,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -3869,7 +3903,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -3901,7 +3935,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -3954,7 +3988,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -3976,7 +4010,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -3987,7 +4021,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -4004,7 +4038,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4015,7 +4049,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4026,7 +4060,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4097,7 +4131,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4108,7 +4142,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4209,7 +4243,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4220,7 +4254,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4242,7 +4276,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4263,7 +4297,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -4296,7 +4330,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4307,7 +4341,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4392,7 +4426,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Object\\CMSObject\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4493,7 +4527,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4504,7 +4538,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4515,7 +4549,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4526,7 +4560,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4537,7 +4571,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4548,7 +4582,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4559,7 +4593,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4593,7 +4627,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4624,7 +4658,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4657,7 +4691,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -4700,7 +4734,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4732,7 +4766,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -4765,7 +4799,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -4822,7 +4856,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -4833,7 +4867,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4850,7 +4884,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4861,7 +4895,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4872,7 +4906,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4918,7 +4952,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4929,7 +4963,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -4940,7 +4974,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -4962,7 +4996,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -4995,7 +5029,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5018,7 +5052,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5029,7 +5063,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5040,7 +5074,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5051,7 +5085,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5107,7 +5141,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5151,7 +5185,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5208,7 +5242,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5231,7 +5265,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5254,7 +5288,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5265,7 +5299,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5318,7 +5352,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5329,7 +5363,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5363,7 +5397,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5385,7 +5419,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5431,7 +5465,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5442,7 +5476,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5453,7 +5487,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5566,7 +5600,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5577,7 +5611,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5696,7 +5730,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5707,7 +5741,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5730,7 +5764,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5741,7 +5775,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5775,7 +5809,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5786,7 +5820,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5797,7 +5831,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5808,7 +5842,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5819,7 +5853,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5853,7 +5887,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5864,7 +5898,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5875,7 +5909,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5886,7 +5920,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5897,7 +5931,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5908,7 +5942,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5931,7 +5965,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -5954,7 +5988,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5977,7 +6011,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -5988,7 +6022,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -5999,7 +6033,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6010,7 +6044,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6021,7 +6055,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6032,7 +6066,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6077,7 +6111,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6111,7 +6145,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6128,7 +6162,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6247,7 +6281,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6258,7 +6292,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6269,7 +6303,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6291,7 +6325,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6325,7 +6359,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6342,7 +6376,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6353,7 +6387,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6388,7 +6422,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6399,7 +6433,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6410,7 +6444,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6421,7 +6455,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6475,7 +6509,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6497,7 +6531,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6531,7 +6565,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6542,7 +6576,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6553,7 +6587,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6570,7 +6604,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6599,7 +6633,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6616,7 +6650,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -6711,7 +6745,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6722,7 +6756,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6733,7 +6767,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6744,7 +6778,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6755,7 +6789,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6833,7 +6867,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6844,7 +6878,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6855,7 +6889,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -6887,7 +6921,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6909,7 +6943,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6931,7 +6965,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6953,7 +6987,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6976,7 +7010,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -6998,7 +7032,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -7020,7 +7054,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -7031,7 +7065,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -7042,7 +7076,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\User\\User\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -7073,18 +7107,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3\.0 will be removed in 6\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_users/src/Model/UserModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -7106,7 +7130,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -7153,7 +7177,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -7176,7 +7200,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -7187,7 +7211,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7198,7 +7222,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7209,7 +7233,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7220,7 +7244,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7231,7 +7255,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7242,7 +7266,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7253,7 +7277,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7264,7 +7288,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7275,7 +7299,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7309,7 +7333,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7578,7 +7602,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -7600,7 +7624,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -7623,7 +7647,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -7675,7 +7699,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -7686,7 +7710,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -7709,7 +7733,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -7720,7 +7744,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7731,7 +7755,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7742,7 +7766,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7753,7 +7777,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7764,7 +7788,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7775,7 +7799,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -7798,7 +7822,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -7830,17 +7854,6 @@ parameters:
 			path: administrator/modules/mod_latest/src/Helper/LatestHelper.php
 
 		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/modules/mod_menu/src/Menu/CssMenu.php
-
-		-
 			message: '#^Access to protected property Joomla\\Module\\Menu\\Administrator\\Menu\\CssMenu\:\:\$application\.$#'
 			identifier: property.protected
 			count: 1
@@ -7861,7 +7874,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -8131,7 +8144,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -8222,7 +8235,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -8233,7 +8246,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -8244,7 +8257,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -8342,7 +8355,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -8416,7 +8429,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -8449,7 +8462,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -8495,7 +8508,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -8506,7 +8519,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -8571,7 +8584,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -8582,7 +8595,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -8692,7 +8705,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -8736,7 +8749,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -8747,7 +8760,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -8768,7 +8781,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -8801,7 +8814,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -8823,7 +8836,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -8908,7 +8921,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -8930,7 +8943,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9109,7 +9122,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9205,7 +9218,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -9251,7 +9264,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9297,7 +9310,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9308,7 +9321,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -9319,7 +9332,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -9330,7 +9343,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9341,7 +9354,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -9352,7 +9365,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9363,7 +9376,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9374,7 +9387,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9417,7 +9430,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -9460,7 +9473,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9482,7 +9495,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9493,7 +9506,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9504,7 +9517,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9515,7 +9528,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9526,7 +9539,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9537,7 +9550,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9548,7 +9561,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9559,7 +9572,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9570,7 +9583,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\User\\User\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9581,7 +9594,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -9592,7 +9605,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\User\\User\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9614,23 +9627,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3\.0 will be removed in 6\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 3
-			path: components/com_users/src/Model/RegistrationModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 14
+			count: 8
 			path: components/com_users/src/Model/RegistrationModel.php
 
 		-
@@ -9647,7 +9650,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -9658,7 +9661,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\User\\User\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -9668,18 +9671,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3\.0 will be removed in 6\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: components/com_users/src/Model/ResetModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -9690,7 +9683,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9724,7 +9717,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9746,7 +9739,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9757,7 +9750,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -9768,7 +9761,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -10941,7 +10934,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\Categories\\CategoryNode\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
 			'''
@@ -10963,7 +10956,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\Changelog\\Changelog\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
 			'''
@@ -11049,7 +11042,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\User\\User\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -11082,7 +11075,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\User\\User\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -11216,7 +11209,7 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
+			count: 2
 			path: libraries/src/Console/UpdateCoreCommand.php
 
 		-
@@ -14040,7 +14033,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14062,7 +14055,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14117,7 +14110,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14139,7 +14132,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14161,7 +14154,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14193,7 +14186,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14215,7 +14208,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14341,7 +14334,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\Installer\\InstallerExtension\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
 			'''
@@ -14385,7 +14378,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14537,7 +14530,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14548,7 +14541,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14559,7 +14552,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -14609,7 +14602,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14620,7 +14613,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getErrors$#
 			'''
@@ -14664,7 +14657,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14675,7 +14668,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14706,8 +14699,26 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getTypeByAlias\(\) of class Joomla\\CMS\\UCM\\UCMType\:
+				5.4.0 will be removed in 7\.0 without replacement$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/MVC/Model/AdminModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method getTypeByTable\(\) of class Joomla\\CMS\\UCM\\UCMType\:
+				5.4.0 will be removed in 7\.0 without replacement$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/MVC/Model/AdminModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -14723,6 +14734,15 @@ parameters:
 				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
 			'''
 			identifier: classConstant.deprecatedClass
+			count: 1
+			path: libraries/src/MVC/Model/AdminModel.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Joomla\\CMS\\UCM\\UCMType\:
+				5.4.0 will be removed in 7\.0 without replacement$#
+			'''
+			identifier: new.deprecated
 			count: 1
 			path: libraries/src/MVC/Model/AdminModel.php
 
@@ -14773,6 +14793,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method shouldUseExceptions\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				7\.0$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/MVC/Model/BaseDatabaseModel.php
+
+		-
+			message: '''
 				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\Model\\State\:
 				5\.0\.0 will be removed in 7\.0, use the Registry directly$#
 			'''
@@ -14793,7 +14822,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
 			'''
@@ -14815,7 +14844,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -14826,7 +14855,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -14857,7 +14886,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -14878,7 +14907,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\MVC\\View\\AbstractView\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
 			'''
@@ -14935,6 +14964,18 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 2
+			path: libraries/src/MVC/View/CategoryFeedView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 6\.0
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
 			path: libraries/src/MVC/View/CategoryFeedView.php
 
 		-
@@ -15154,20 +15195,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to deprecated property \$allowLegacyListeners of class Joomla\\CMS\\Plugin\\CMSPlugin\:
-				4\.3 will be removed in 6\.0
-				             Implement your plugin methods accepting an AbstractEvent object
-				             Example\:
-				             onEventTriggerName\(AbstractEvent \$event\) \{
-				                 \$context \= \$event\-\>getArgument\(\.\.\.\);
-				             \}$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: libraries/src/Plugin/CMSPlugin.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the database service in the DI container
@@ -15176,16 +15203,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
-			path: libraries/src/Plugin/CMSPlugin.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDispatcher\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
-				5\.2 will be removed in 7\.0
-				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
-			'''
-			identifier: method.deprecated
-			count: 3
 			path: libraries/src/Plugin/CMSPlugin.php
 
 		-
@@ -15253,6 +15270,17 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: libraries/src/Plugin/PluginHelper.php
+
+		-
+			message: '''
+				#^Call to deprecated method registerListeners\(\) of interface Joomla\\CMS\\Extension\\PluginInterface\:
+				5\.4\.0 will be removed in 7\.0
+				             Plugin should implement SubscriberInterface\.
+				             These plugins will be added to dispatcher in PluginHelper\:\:import\(\)\.$#
+			'''
+			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Plugin/PluginHelper.php
 
@@ -15446,7 +15474,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15469,7 +15497,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15492,7 +15520,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15515,7 +15543,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15538,7 +15566,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15549,7 +15577,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15560,7 +15588,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15571,7 +15599,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15605,7 +15633,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15622,7 +15650,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15633,7 +15661,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -15644,13 +15672,24 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
 			count: 12
 			path: libraries/src/Table/Nested.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$_db of class Joomla\\CMS\\Table\\Table\:
+				5\.4\.0 will be removed in 7\.0
+				             Use setDatabase\(\) and getDatabase\(\) instead
+				             Example\: \$this\-\>setDatabase\(\$db\);$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: libraries/src/Table/Table.php
 
 		-
 			message: '''
@@ -15675,8 +15714,19 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Table\\Table\:
+				5\.4\.0 will be removed in 7\.0
+				              Use getDatabase\(\) instead
+				              Example\: \$this\-\>getDatabase\(\);$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/Table/Table.php
+
+		-
+			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -15697,7 +15747,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15708,7 +15758,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
 			'''
@@ -15730,7 +15780,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15741,7 +15791,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15752,7 +15802,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15763,7 +15813,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15774,7 +15824,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -15880,49 +15930,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				#^Class Joomla\\CMS\\UCM\\UCMContent extends deprecated class Joomla\\CMS\\UCM\\UCMBase\:
+				5.4.0 will be removed in 7\.0 without replacement$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: class.extendsDeprecatedClass
 			count: 1
-			path: libraries/src/UCM/UCMBase.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
 			path: libraries/src/UCM/UCMContent.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: libraries/src/UCM/UCMContent.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/UCM/UCMType.php
 
 		-
 			message: '''
@@ -15996,7 +16009,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\Updater\\Update\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
 			'''
@@ -16093,7 +16106,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -16104,7 +16117,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\User\\User\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -16135,16 +16148,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\User\\User\:
-				4\.3\.0 will be removed in 6\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 6
-			path: libraries/src/User/User.php
-
-		-
-			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -16168,7 +16171,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\User\\User\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of using setError$#
 			'''
@@ -16179,7 +16182,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\User\\User\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Will be removed without replacement
 				             Throw an Exception instead of setError$#
 			'''
@@ -16213,7 +16216,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\User\\User\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -16655,16 +16658,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
-				5\.2 will be removed in 7\.0
-				             Plugin should use the language from Application, and only after the app is initialised\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: plugins/filesystem/local/src/Extension/Local.php
-
-		-
-			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 6\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -16717,7 +16710,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -16728,7 +16721,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
@@ -16760,7 +16753,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 6\.0
+				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
