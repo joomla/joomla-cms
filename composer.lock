@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4e57df3c98237495bf98ada99554285",
+    "content-hash": "7c0daaacf470ce3414251c46713813a5",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1054,21 +1054,21 @@
         },
         {
             "name": "joomla/application",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "48ac4333b2336675cb6999740b34e9b619f67007"
+                "reference": "878d1f4a2dc03b6197d0e6cfb4a969ec06a3314d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/48ac4333b2336675cb6999740b34e9b619f67007",
-                "reference": "48ac4333b2336675cb6999740b34e9b619f67007",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/878d1f4a2dc03b6197d0e6cfb4a969ec06a3314d",
+                "reference": "878d1f4a2dc03b6197d0e6cfb4a969ec06a3314d",
                 "shasum": ""
             },
             "require": {
-                "joomla/event": "dev-4.x-dev",
-                "joomla/registry": "dev-4.x-dev",
+                "joomla/event": "^4.0",
+                "joomla/registry": "^4.0",
                 "laminas/laminas-diactoros": "^3.6.0",
                 "php": "^8.3.0",
                 "psr/http-message": "^2.0",
@@ -1077,13 +1077,13 @@
             },
             "require-dev": {
                 "ext-json": "*",
-                "joomla/controller": "dev-4.x-dev",
-                "joomla/di": "dev-4.x-dev",
-                "joomla/input": "dev-4.x-dev",
-                "joomla/router": "dev-4.x-dev",
-                "joomla/session": "dev-4.x-dev",
-                "joomla/test": "dev-4.x-dev",
-                "joomla/uri": "dev-4.x-dev",
+                "joomla/controller": "^4.0",
+                "joomla/di": "^4.0",
+                "joomla/input": "^4.0",
+                "joomla/router": "^4.0",
+                "joomla/session": "^4.0",
+                "joomla/test": "^4.0",
+                "joomla/uri": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^10.0",
@@ -1100,13 +1100,6 @@
                 "psr/container": "^2.0 To use the ContainerControllerResolver, install any PSR-11 compatible container"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Application\\": "src/"
@@ -1147,32 +1140,32 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-07-13T16:37:36+00:00"
+            "time": "2025-07-24T09:55:44+00:00"
         },
         {
             "name": "joomla/archive",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/archive.git",
-                "reference": "239a9e40c912b2471dca4724477cacff807c6a60"
+                "reference": "7a8d0eda637bd37bc3de744aa3e4ce516d4356b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/239a9e40c912b2471dca4724477cacff807c6a60",
-                "reference": "239a9e40c912b2471dca4724477cacff807c6a60",
+                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/7a8d0eda637bd37bc3de744aa3e4ce516d4356b0",
+                "reference": "7a8d0eda637bd37bc3de744aa3e4ce516d4356b0",
                 "shasum": ""
             },
             "require": {
-                "joomla/filesystem": "dev-4.x-dev",
+                "joomla/filesystem": "^4.0",
                 "php": "^8.3.0"
             },
             "require-dev": {
-                "joomla/test": "dev-4.x-dev",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^12.0",
-                "squizlabs/php_codesniffer": "~3.10.2"
+                "squizlabs/php_codesniffer": "^3.10.2"
             },
             "suggest": {
                 "ext-bz2": "To extract bzip2 compressed packages",
@@ -1180,13 +1173,6 @@
                 "ext-zlib": "To extract gzip or zip compressed packages"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Archive\\": "src/"
@@ -1205,30 +1191,30 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/archive/issues",
-                "source": "https://github.com/joomla-framework/archive/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/archive/tree/4.0.0"
             },
-            "time": "2025-07-13T19:14:09+00:00"
+            "time": "2025-07-24T08:04:38+00:00"
         },
         {
             "name": "joomla/authentication",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/authentication.git",
-                "reference": "c10ec32a9695ff016a97ef4cb5fdba76cb4b2ea3"
+                "reference": "1d9b946410ac43c8d206d9d6bf741173b83a8e4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/c10ec32a9695ff016a97ef4cb5fdba76cb4b2ea3",
-                "reference": "c10ec32a9695ff016a97ef4cb5fdba76cb4b2ea3",
+                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/1d9b946410ac43c8d206d9d6bf741173b83a8e4c",
+                "reference": "1d9b946410ac43c8d206d9d6bf741173b83a8e4c",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.3.0"
             },
             "require-dev": {
-                "joomla/database": "dev-4.x-dev",
-                "joomla/input": "dev-4.x-dev",
+                "joomla/database": "^4.0",
+                "joomla/input": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^12.0",
@@ -1240,13 +1226,6 @@
                 "joomla/input": "Required if you want to use classes in the Joomla\\Authentication\\Strategies namespace"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Authentication\\": "src/"
@@ -1265,34 +1244,34 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/authentication/issues",
-                "source": "https://github.com/joomla-framework/authentication/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/authentication/tree/4.0.0"
             },
-            "time": "2025-07-13T19:07:45+00:00"
+            "time": "2025-07-24T08:02:13+00:00"
         },
         {
             "name": "joomla/console",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "225530f0807f15bec1b04d8e77bdb264abeefb06"
+                "reference": "b58fb572436ad9e230061ff6929aa1446849efe8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/225530f0807f15bec1b04d8e77bdb264abeefb06",
-                "reference": "225530f0807f15bec1b04d8e77bdb264abeefb06",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/b58fb572436ad9e230061ff6929aa1446849efe8",
+                "reference": "b58fb572436ad9e230061ff6929aa1446849efe8",
                 "shasum": ""
             },
             "require": {
-                "joomla/application": "dev-4.x-dev",
-                "joomla/event": "dev-4.x-dev",
-                "joomla/string": "dev-4.x-dev",
+                "joomla/application": "^4.0",
+                "joomla/event": "^4.0",
+                "joomla/string": "^4.0",
                 "php": "^8.3.0",
                 "symfony/console": "^v7.0.0",
                 "symfony/error-handler": "^7"
             },
             "require-dev": {
-                "joomla/test": "dev-4.x-dev",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "2.1.17",
                 "phpstan/phpstan-deprecation-rules": "2.0.3",
                 "phpunit/phpunit": "^12.0",
@@ -1303,13 +1282,6 @@
                 "psr/container-implementation": "To use the ContainerLoader"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Console\\": "src/"
@@ -1328,22 +1300,22 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/console/issues",
-                "source": "https://github.com/joomla-framework/console/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/console/tree/4.0.0"
             },
-            "time": "2025-07-13T20:02:36+00:00"
+            "time": "2025-07-24T08:33:34+00:00"
         },
         {
             "name": "joomla/crypt",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/crypt.git",
-                "reference": "be62b85b8d49a69287da574b9d72587b286bfd38"
+                "reference": "9b069827a7875ae3bff409695624071f4d356aca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/crypt/zipball/be62b85b8d49a69287da574b9d72587b286bfd38",
-                "reference": "be62b85b8d49a69287da574b9d72587b286bfd38",
+                "url": "https://api.github.com/repos/joomla-framework/crypt/zipball/9b069827a7875ae3bff409695624071f4d356aca",
+                "reference": "9b069827a7875ae3bff409695624071f4d356aca",
                 "shasum": ""
             },
             "require": {
@@ -1365,13 +1337,6 @@
                 "paragonie/sodium_compat": "To use Sodium cipher if neither ext/sodium or ext/libsodium are available"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Crypt\\": "src/"
@@ -1390,43 +1355,36 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/crypt/issues",
-                "source": "https://github.com/joomla-framework/crypt/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/crypt/tree/4.0.0"
             },
-            "time": "2025-07-11T12:06:04+00:00"
+            "time": "2025-07-24T07:56:55+00:00"
         },
         {
             "name": "joomla/data",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/data.git",
-                "reference": "54627ad8257869567d5f2c421af69cd5e1e22417"
+                "reference": "e00293048e893dc3c5e793b091e87da84faf3963"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/data/zipball/54627ad8257869567d5f2c421af69cd5e1e22417",
-                "reference": "54627ad8257869567d5f2c421af69cd5e1e22417",
+                "url": "https://api.github.com/repos/joomla-framework/data/zipball/e00293048e893dc3c5e793b091e87da84faf3963",
+                "reference": "e00293048e893dc3c5e793b091e87da84faf3963",
                 "shasum": ""
             },
             "require": {
-                "joomla/registry": "dev-4.x-dev",
+                "joomla/registry": "^4.0",
                 "php": "^8.3.0"
             },
             "require-dev": {
-                "joomla/test": "dev-4.x-dev",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "2.1.17",
                 "phpstan/phpstan-deprecation-rules": "2.0.3",
                 "phpunit/phpunit": "^12.0",
                 "squizlabs/php_codesniffer": "~3.10.2"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Data\\": "src/"
@@ -1445,41 +1403,42 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/data/issues",
-                "source": "https://github.com/joomla-framework/data/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/data/tree/4.0.0"
             },
-            "time": "2025-07-13T20:09:50+00:00"
+            "time": "2025-07-24T08:48:07+00:00"
         },
         {
             "name": "joomla/database",
-            "version": "dev-4.x-update",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "ad1e06ed2442f7995519ba69ddc0e6f9c464d084"
+                "reference": "2e744e7959368891fe52ccb35790e201251f6f39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/ad1e06ed2442f7995519ba69ddc0e6f9c464d084",
-                "reference": "ad1e06ed2442f7995519ba69ddc0e6f9c464d084",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/2e744e7959368891fe52ccb35790e201251f6f39",
+                "reference": "2e744e7959368891fe52ccb35790e201251f6f39",
                 "shasum": ""
             },
             "require": {
-                "joomla/event": "dev-4.x-dev",
+                "joomla/event": "^4.0",
                 "php": "^8.3.0",
                 "symfony/deprecation-contracts": "^2|^3"
             },
             "require-dev": {
-                "joomla/archive": "dev-4.x-dev",
-                "joomla/console": "dev-4.x-dev",
-                "joomla/di": "dev-4.x-dev",
-                "joomla/filesystem": "dev-4.x-dev",
-                "joomla/registry": "dev-4.x-dev",
-                "joomla/test": "dev-4.x-dev",
+                "colinodell/psr-testlogger": "^1.3.0",
+                "joomla/archive": "^4.0",
+                "joomla/console": "^4.0",
+                "joomla/di": "^4.0",
+                "joomla/filesystem": "^4.0",
+                "joomla/registry": "^4.0",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^12.0",
                 "psr/log": "^3.0.2",
-                "squizlabs/php_codesniffer": "~3.10.2",
+                "squizlabs/php_codesniffer": "^3.10.2",
                 "symfony/phpunit-bridge": "^8.0"
             },
             "suggest": {
@@ -1494,13 +1453,6 @@
                 "psr/log": "To use the LoggingMonitor, install psr/log."
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Database\\": "src/"
@@ -1519,22 +1471,22 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/4.x-update"
+                "source": "https://github.com/joomla-framework/database/tree/4.0.0"
             },
-            "time": "2025-07-13T14:07:13+00:00"
+            "time": "2025-07-24T09:46:18+00:00"
         },
         {
             "name": "joomla/di",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "4fd73203c374f768fab9271bcf0a5f8bca5e58bf"
+                "reference": "e8511111e2b5b239f75116f9ff75b43c18809868"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/4fd73203c374f768fab9271bcf0a5f8bca5e58bf",
-                "reference": "4fd73203c374f768fab9271bcf0a5f8bca5e58bf",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/e8511111e2b5b239f75116f9ff75b43c18809868",
+                "reference": "e8511111e2b5b239f75116f9ff75b43c18809868",
                 "shasum": ""
             },
             "require": {
@@ -1546,20 +1498,13 @@
                 "psr/container-implementation": "~1.0"
             },
             "require-dev": {
-                "joomla/test": "dev-4.x-dev",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^12.2.6",
                 "squizlabs/php_codesniffer": "~3.7.2"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\DI\\": "src/"
@@ -1581,22 +1526,22 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/di/issues",
-                "source": "https://github.com/joomla-framework/di/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/di/tree/4.0.0"
             },
-            "time": "2025-07-11T22:13:47+00:00"
+            "time": "2025-07-24T07:51:22+00:00"
         },
         {
             "name": "joomla/event",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/event.git",
-                "reference": "3122058d3b5ecc143fe5734b599706a94d7bfe0c"
+                "reference": "4bbbfb0a3444cb3e3f9abd57d623caa06e9207b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/3122058d3b5ecc143fe5734b599706a94d7bfe0c",
-                "reference": "3122058d3b5ecc143fe5734b599706a94d7bfe0c",
+                "url": "https://api.github.com/repos/joomla-framework/event/zipball/4bbbfb0a3444cb3e3f9abd57d623caa06e9207b5",
+                "reference": "4bbbfb0a3444cb3e3f9abd57d623caa06e9207b5",
                 "shasum": ""
             },
             "require": {
@@ -1604,25 +1549,18 @@
                 "symfony/deprecation-contracts": "^2|^3"
             },
             "require-dev": {
-                "joomla/console": "dev-4.x-dev",
+                "joomla/console": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^12.2.7",
                 "psr/container": "^2.0",
-                "squizlabs/php_codesniffer": "~3.7.2"
+                "squizlabs/php_codesniffer": "^3.7.2"
             },
             "suggest": {
                 "joomla/console": "If you want to use the DebugEventDispatcherCommand class, please install joomla/console",
                 "psr/container-implementation": "If you want to use the LazyServiceEventListener class, please install a PSR-11 container"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Event\\": "src/"
@@ -1641,29 +1579,29 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/event/issues",
-                "source": "https://github.com/joomla-framework/event/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/event/tree/4.0.0"
             },
-            "time": "2025-07-22T11:01:26+00:00"
+            "time": "2025-07-24T09:34:33+00:00"
         },
         {
             "name": "joomla/filesystem",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "d91be7c356c55b98b722c5ac118b87be315735eb"
+                "reference": "e69674bafd7818afa2537ef12019c56207018a26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/d91be7c356c55b98b722c5ac118b87be315735eb",
-                "reference": "d91be7c356c55b98b722c5ac118b87be315735eb",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/e69674bafd7818afa2537ef12019c56207018a26",
+                "reference": "e69674bafd7818afa2537ef12019c56207018a26",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.3.0"
             },
             "require-dev": {
-                "joomla/test": "dev-4.x-dev",
+                "joomla/test": "^4.0",
                 "mikey179/vfsstream": "^1.6.11",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
@@ -1671,13 +1609,6 @@
                 "squizlabs/php_codesniffer": "^3.13.2"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Filesystem\\": "src/"
@@ -1696,30 +1627,30 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/filesystem/tree/4.0.0"
             },
-            "time": "2025-07-13T20:42:50+00:00"
+            "time": "2025-07-23T19:06:55+00:00"
         },
         {
             "name": "joomla/filter",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "16007fdd29a7d207334060448012eaf9cbbc7f88"
+                "reference": "63a30dd72de04a76f34fa09f475135fe708c75d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/16007fdd29a7d207334060448012eaf9cbbc7f88",
-                "reference": "16007fdd29a7d207334060448012eaf9cbbc7f88",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/63a30dd72de04a76f34fa09f475135fe708c75d4",
+                "reference": "63a30dd72de04a76f34fa09f475135fe708c75d4",
                 "shasum": ""
             },
             "require": {
-                "joomla/string": "dev-4.x-dev",
+                "joomla/string": "^4.0",
                 "php": "^8.3.0"
             },
             "require-dev": {
-                "joomla/language": "dev-4.x-dev",
+                "joomla/language": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^12.2.7",
@@ -1729,13 +1660,6 @@
                 "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Filter\\": "src/"
@@ -1754,34 +1678,34 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/filter/tree/4.0.0"
             },
-            "time": "2025-07-13T20:49:23+00:00"
+            "time": "2025-07-23T19:57:09+00:00"
         },
         {
             "name": "joomla/http",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "5d510277c2ee81b3b050c5591c741fbc2c95bfbf"
+                "reference": "c1631de6f88f5cb0c720360f6dc63a832359a1f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/5d510277c2ee81b3b050c5591c741fbc2c95bfbf",
-                "reference": "5d510277c2ee81b3b050c5591c741fbc2c95bfbf",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/c1631de6f88f5cb0c720360f6dc63a832359a1f7",
+                "reference": "c1631de6f88f5cb0c720360f6dc63a832359a1f7",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "^1.3.5",
-                "joomla/uri": "dev-4.x-dev",
+                "joomla/uri": "^4.0",
                 "laminas/laminas-diactoros": "^3.6.0",
                 "php": "^8.3.0",
                 "psr/http-client": "^1.0",
                 "psr/http-message": "^2.0"
             },
             "require-dev": {
-                "joomla/test": "dev-4.x-dev",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^12.2.6",
@@ -1791,13 +1715,6 @@
                 "ext-curl": "To use cURL for HTTP connections"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Http\\": "src/"
@@ -1816,44 +1733,37 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/http/tree/4.0.0"
             },
-            "time": "2025-07-14T09:56:34+00:00"
+            "time": "2025-07-23T20:11:41+00:00"
         },
         {
             "name": "joomla/input",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/input.git",
-                "reference": "a2977b9ec5fcd95067a491caf4ecfd48c7526797"
+                "reference": "f366f97b143bd9d15f57dad74b21f72ac99d89ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/input/zipball/a2977b9ec5fcd95067a491caf4ecfd48c7526797",
-                "reference": "a2977b9ec5fcd95067a491caf4ecfd48c7526797",
+                "url": "https://api.github.com/repos/joomla-framework/input/zipball/f366f97b143bd9d15f57dad74b21f72ac99d89ec",
+                "reference": "f366f97b143bd9d15f57dad74b21f72ac99d89ec",
                 "shasum": ""
             },
             "require": {
-                "joomla/filter": "dev-4.x-dev",
+                "joomla/filter": "^4.0",
                 "php": "^8.3.0",
                 "symfony/deprecation-contracts": "^2|^3"
             },
             "require-dev": {
-                "joomla/test": "dev-4.x-dev",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "2.1.17",
                 "phpstan/phpstan-deprecation-rules": "2.0.3",
                 "phpunit/phpunit": "^12.0",
                 "squizlabs/php_codesniffer": "^3.10.2"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Input\\": "src/"
@@ -1872,34 +1782,34 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/input/issues",
-                "source": "https://github.com/joomla-framework/input/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/input/tree/4.0.0"
             },
-            "time": "2025-07-14T09:54:12+00:00"
+            "time": "2025-07-23T19:52:44+00:00"
         },
         {
             "name": "joomla/language",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/language.git",
-                "reference": "bf30e5face5f973f50f80c3e69b3601d86220e29"
+                "reference": "371507d84103e9e7b48253e72b3bcc8d91cf5a63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/language/zipball/bf30e5face5f973f50f80c3e69b3601d86220e29",
-                "reference": "bf30e5face5f973f50f80c3e69b3601d86220e29",
+                "url": "https://api.github.com/repos/joomla-framework/language/zipball/371507d84103e9e7b48253e72b3bcc8d91cf5a63",
+                "reference": "371507d84103e9e7b48253e72b3bcc8d91cf5a63",
                 "shasum": ""
             },
             "require": {
                 "ext-xml": "*",
-                "joomla/string": "dev-4.x-dev",
+                "joomla/string": "^4.0",
                 "php": "^8.3.0",
                 "symfony/deprecation-contracts": "^2|^3"
             },
             "require-dev": {
-                "joomla/di": "dev-4.x-dev",
-                "joomla/registry": "dev-4.x-dev",
-                "joomla/test": "dev-4.x-dev",
+                "joomla/di": "^4.0",
+                "joomla/registry": "^4.0",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^12.2.6",
@@ -1909,13 +1819,6 @@
                 "joomla/di": "To use the Language ServiceProviderInterface objects, install joomla/di."
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Language\\": "src/"
@@ -1934,49 +1837,42 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/language/issues",
-                "source": "https://github.com/joomla-framework/language/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/language/tree/4.0.0"
             },
-            "time": "2025-07-11T22:45:15+00:00"
+            "time": "2025-07-23T19:48:37+00:00"
         },
         {
             "name": "joomla/oauth1",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth1.git",
-                "reference": "03d8e524ce562649e0c9a1cb56f8a9d7eb423406"
+                "reference": "063b29c9f28de266fbadc7b8fc56ede4ae63b563"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/03d8e524ce562649e0c9a1cb56f8a9d7eb423406",
-                "reference": "03d8e524ce562649e0c9a1cb56f8a9d7eb423406",
+                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/063b29c9f28de266fbadc7b8fc56ede4ae63b563",
+                "reference": "063b29c9f28de266fbadc7b8fc56ede4ae63b563",
                 "shasum": ""
             },
             "require": {
-                "joomla/application": "dev-4.x-dev",
-                "joomla/http": "dev-4.x-dev",
-                "joomla/input": "dev-4.x-dev",
-                "joomla/registry": "dev-4.x-dev",
-                "joomla/session": "dev-4.x-dev",
-                "joomla/uri": "dev-4.x-dev",
+                "joomla/application": "^4.0",
+                "joomla/http": "^4.0",
+                "joomla/input": "^4.0",
+                "joomla/registry": "^4.0",
+                "joomla/session": "^4.0",
+                "joomla/uri": "^4.0",
                 "php": "^8.3.0"
             },
             "require-dev": {
-                "joomla/event": "dev-4.x-dev",
-                "joomla/test": "dev-4.x-dev",
+                "joomla/event": "^4.0",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
-                "phpunit/phpunit": "^12.0",
-                "squizlabs/php_codesniffer": "^3.10.2"
+                "phpunit/phpunit": "^12.2.7",
+                "squizlabs/php_codesniffer": "^3.13.2"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\OAuth1\\": "src/"
@@ -1995,30 +1891,30 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/oauth1/issues",
-                "source": "https://github.com/joomla-framework/oauth1/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/oauth1/tree/4.0.0"
             },
-            "time": "2025-07-14T16:27:52+00:00"
+            "time": "2025-07-24T09:04:45+00:00"
         },
         {
             "name": "joomla/oauth2",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "45950bbdc71303647cee276a671173431172e03a"
+                "reference": "defa8a72060e007c8b18ba537856610a1fc46cc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/45950bbdc71303647cee276a671173431172e03a",
-                "reference": "45950bbdc71303647cee276a671173431172e03a",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/defa8a72060e007c8b18ba537856610a1fc46cc8",
+                "reference": "defa8a72060e007c8b18ba537856610a1fc46cc8",
                 "shasum": ""
             },
             "require": {
-                "joomla/application": "dev-4.x-dev",
-                "joomla/http": "dev-4.x-dev",
-                "joomla/input": "dev-4.x-dev",
-                "joomla/session": "dev-4.x-dev",
-                "joomla/uri": "dev-4.x-dev",
+                "joomla/application": "^4.0",
+                "joomla/http": "^4.0",
+                "joomla/input": "^4.0",
+                "joomla/session": "^4.0",
+                "joomla/uri": "^4.0",
                 "php": "^8.3.0"
             },
             "require-dev": {
@@ -2028,13 +1924,6 @@
                 "squizlabs/php_codesniffer": "^3.10.2"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\OAuth2\\": "src/"
@@ -2053,26 +1942,26 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/oauth2/issues",
-                "source": "https://github.com/joomla-framework/oauth2/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/oauth2/tree/4.0.0"
             },
-            "time": "2025-07-14T10:44:07+00:00"
+            "time": "2025-07-24T09:07:53+00:00"
         },
         {
             "name": "joomla/registry",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "61916c9b6887ef732df2d9b04a591f2d147feef4"
+                "reference": "5692d8423c9b568627df701e9fd505eae5ea8f72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/61916c9b6887ef732df2d9b04a591f2d147feef4",
-                "reference": "61916c9b6887ef732df2d9b04a591f2d147feef4",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/5692d8423c9b568627df701e9fd505eae5ea8f72",
+                "reference": "5692d8423c9b568627df701e9fd505eae5ea8f72",
                 "shasum": ""
             },
             "require": {
-                "joomla/utilities": "dev-4.x-dev",
+                "joomla/utilities": "^4.0",
                 "php": "^8.3.0"
             },
             "require-dev": {
@@ -2088,13 +1977,6 @@
                 "symfony/yaml": "Install symfony/yaml if you require YAML support."
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Registry\\": "src/"
@@ -2113,29 +1995,29 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/registry/issues",
-                "source": "https://github.com/joomla-framework/registry/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/registry/tree/4.0.0"
             },
-            "time": "2025-07-11T23:38:30+00:00"
+            "time": "2025-07-23T19:26:22+00:00"
         },
         {
             "name": "joomla/router",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/router.git",
-                "reference": "3a11e33019b8dc7bd389c4d0e1ddeaab528dd879"
+                "reference": "d0552ac09b92712a140fff2323579b84fbaa12b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/router/zipball/3a11e33019b8dc7bd389c4d0e1ddeaab528dd879",
-                "reference": "3a11e33019b8dc7bd389c4d0e1ddeaab528dd879",
+                "url": "https://api.github.com/repos/joomla-framework/router/zipball/d0552ac09b92712a140fff2323579b84fbaa12b8",
+                "reference": "d0552ac09b92712a140fff2323579b84fbaa12b8",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.3.0"
             },
             "require-dev": {
-                "joomla/console": "dev-4.x-dev",
+                "joomla/console": "^4.0",
                 "opis/closure": "^4.3.1",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
@@ -2147,13 +2029,6 @@
                 "opis/closure": "If you use Closure based controllers and want to be able to serialize the router, please install opis/closure"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Router\\": "src/"
@@ -2172,22 +2047,22 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/router/issues",
-                "source": "https://github.com/joomla-framework/router/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/router/tree/4.0.0"
             },
-            "time": "2025-07-08T12:35:25+00:00"
+            "time": "2025-07-23T19:21:30+00:00"
         },
         {
             "name": "joomla/session",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "c91d1dd738f8b711aea9ba40a6221132aa199484"
+                "reference": "3d1d8bc093d659053c46eec4962bef4c1e9e0206"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/c91d1dd738f8b711aea9ba40a6221132aa199484",
-                "reference": "c91d1dd738f8b711aea9ba40a6221132aa199484",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/3d1d8bc093d659053c46eec4962bef4c1e9e0206",
+                "reference": "3d1d8bc093d659053c46eec4962bef4c1e9e0206",
                 "shasum": ""
             },
             "require": {
@@ -2195,12 +2070,12 @@
                 "symfony/deprecation-contracts": "^2|^3"
             },
             "require-dev": {
-                "joomla/console": "dev-4.x-dev",
-                "joomla/database": "dev-4.x-dev",
-                "joomla/event": "dev-4.x-dev",
-                "joomla/input": "dev-4.x-dev",
-                "joomla/test": "dev-4.x-dev",
-                "joomla/utilities": "dev-4.x-dev",
+                "joomla/console": "^4.0",
+                "joomla/database": "^4.0",
+                "joomla/event": "^4.0",
+                "joomla/input": "^4.0",
+                "joomla/test": "^4.0",
+                "joomla/utilities": "^4.0",
                 "phpstan/phpstan": "2.1.17",
                 "phpstan/phpstan-deprecation-rules": "2.0.3",
                 "phpunit/phpunit": "^12.0",
@@ -2218,13 +2093,6 @@
                 "joomla/input": "The joomla/input package is required to use Address and Forwarded session validators."
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.x-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Session\\": "src/"
@@ -2243,22 +2111,22 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/session/issues",
-                "source": "https://github.com/joomla-framework/session/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/session/tree/4.0.0"
             },
-            "time": "2025-07-14T06:32:34+00:00"
+            "time": "2025-07-23T19:16:20+00:00"
         },
         {
             "name": "joomla/string",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "5c9184fbe367bc417dbdf4e6c5e12109ba14d84f"
+                "reference": "da2329e05f1f5fc98b709f8638f279513bcd1108"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/5c9184fbe367bc417dbdf4e6c5e12109ba14d84f",
-                "reference": "5c9184fbe367bc417dbdf4e6c5e12109ba14d84f",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/da2329e05f1f5fc98b709f8638f279513bcd1108",
+                "reference": "da2329e05f1f5fc98b709f8638f279513bcd1108",
                 "shasum": ""
             },
             "require": {
@@ -2266,12 +2134,9 @@
                 "symfony/deprecation-contracts": "^2|^3",
                 "symfony/polyfill-mbstring": "^1.31.0"
             },
-            "conflict": {
-                "doctrine/inflector": "<1.2"
-            },
             "require-dev": {
                 "doctrine/inflector": "^2.0.10",
-                "joomla/test": "dev-4.x-dev",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "2.1.17",
                 "phpstan/phpstan-deprecation-rules": "2.0.3",
                 "phpunit/phpunit": "^12.2.6",
@@ -2282,13 +2147,6 @@
                 "ext-mbstring": "For improved processing"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.x-dev",
-                    "dev-4.x-dev": "4.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\String\\": "src/"
@@ -2307,22 +2165,22 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/string/issues",
-                "source": "https://github.com/joomla-framework/string/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/string/tree/4.0.0"
             },
-            "time": "2025-07-12T11:07:35+00:00"
+            "time": "2025-07-23T18:42:26+00:00"
         },
         {
             "name": "joomla/uri",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "dea3f198e53ffb634664c18effa3c53e0d25a057"
+                "reference": "9fa4fac811bf63e830d46d83031c353cf2765bcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/dea3f198e53ffb634664c18effa3c53e0d25a057",
-                "reference": "dea3f198e53ffb634664c18effa3c53e0d25a057",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/9fa4fac811bf63e830d46d83031c353cf2765bcd",
+                "reference": "9fa4fac811bf63e830d46d83031c353cf2765bcd",
                 "shasum": ""
             },
             "require": {
@@ -2338,13 +2196,6 @@
                 "ext-mbstring": "Used to speed up url parsing"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Uri\\": "src/"
@@ -2363,26 +2214,26 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/uri/issues",
-                "source": "https://github.com/joomla-framework/uri/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/uri/tree/4.0.0"
             },
-            "time": "2025-07-12T12:04:02+00:00"
+            "time": "2025-07-23T19:02:38+00:00"
         },
         {
             "name": "joomla/utilities",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "81e60e65a09804621c264e97b13c9b107ad4df87"
+                "reference": "5f234527f7dad7111830b091aef52787c3c07cc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/81e60e65a09804621c264e97b13c9b107ad4df87",
-                "reference": "81e60e65a09804621c264e97b13c9b107ad4df87",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/5f234527f7dad7111830b091aef52787c3c07cc8",
+                "reference": "5f234527f7dad7111830b091aef52787c3c07cc8",
                 "shasum": ""
             },
             "require": {
-                "joomla/string": "dev-4.x-dev",
+                "joomla/string": "^4.0",
                 "php": "^8.3.0"
             },
             "require-dev": {
@@ -2392,13 +2243,6 @@
                 "squizlabs/php_codesniffer": "^3.7.2"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Utilities\\": "src/"
@@ -2417,9 +2261,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/utilities/issues",
-                "source": "https://github.com/joomla-framework/utilities/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/utilities/tree/4.0.0"
             },
-            "time": "2025-07-14T06:23:45+00:00"
+            "time": "2025-07-23T18:52:12+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -6717,40 +6561,33 @@
         },
         {
             "name": "joomla/mediawiki",
-            "version": "dev-4.x-dev",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/mediawiki-api.git",
-                "reference": "2a243f233bc6186d2af564a18b50674003f8fda2"
+                "reference": "b628a4d52a56833de83f9fedab625e2222c56f7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/2a243f233bc6186d2af564a18b50674003f8fda2",
-                "reference": "2a243f233bc6186d2af564a18b50674003f8fda2",
+                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/b628a4d52a56833de83f9fedab625e2222c56f7b",
+                "reference": "b628a4d52a56833de83f9fedab625e2222c56f7b",
                 "shasum": ""
             },
             "require": {
-                "joomla/http": "dev-4.x-dev",
-                "joomla/registry": "dev-4.x-dev",
-                "joomla/uri": "dev-4.x-dev",
+                "joomla/http": "^4.0",
+                "joomla/registry": "^4.0",
+                "joomla/uri": "^4.0",
                 "php": "^8.3.0"
             },
             "require-dev": {
                 "ext-simplexml": "*",
-                "joomla/test": "dev-4.x-dev",
+                "joomla/test": "^4.0",
                 "phpstan/phpstan": "^2.1.17",
                 "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^12.2.6",
                 "squizlabs/php_codesniffer": "^3.7.2"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Mediawiki\\": "src/"
@@ -6769,32 +6606,29 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/mediawiki-api/issues",
-                "source": "https://github.com/joomla-framework/mediawiki-api/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/mediawiki-api/tree/4.0.0"
             },
-            "time": "2025-07-11T23:24:42+00:00"
+            "time": "2025-07-23T20:06:22+00:00"
         },
         {
             "name": "joomla/test",
-            "version": "dev-4.x-dev",
+            "version": "4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/test.git",
-                "reference": "d0b74665eb84a6b0573700c93130686f712b026f"
+                "reference": "5c5651800bed4a657d596929db56a200da063600"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/test/zipball/d0b74665eb84a6b0573700c93130686f712b026f",
-                "reference": "d0b74665eb84a6b0573700c93130686f712b026f",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/5c5651800bed4a657d596929db56a200da063600",
+                "reference": "5c5651800bed4a657d596929db56a200da063600",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.3.0"
             },
-            "conflict": {
-                "joomla/database": "<2.0"
-            },
             "require-dev": {
-                "joomla/database": "dev-4.x-dev",
+                "joomla/database": "^4.0",
                 "phpstan/phpstan": "2.1.17",
                 "phpstan/phpstan-deprecation-rules": "2.0.3",
                 "phpunit/phpunit": "^12.0",
@@ -6805,13 +6639,6 @@
                 "phpunit/phpunit": "To use the database test case, install phpunit/phpunit"
             },
             "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev",
-                    "dev-3.x-dev": "3.0-dev",
-                    "dev-4.x-dev": "4.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Test\\": "src/"
@@ -6832,9 +6659,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/test/issues",
-                "source": "https://github.com/joomla-framework/test/tree/4.x-dev"
+                "source": "https://github.com/joomla-framework/test/tree/4.0"
             },
-            "time": "2025-07-14T06:28:34+00:00"
+            "time": "2025-07-23T18:26:34+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -9643,30 +9470,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "joomla/application": 20,
-        "joomla/archive": 20,
-        "joomla/authentication": 20,
-        "joomla/console": 20,
-        "joomla/crypt": 20,
-        "joomla/data": 20,
-        "joomla/database": 20,
-        "joomla/di": 20,
-        "joomla/event": 20,
-        "joomla/filesystem": 20,
-        "joomla/filter": 20,
-        "joomla/http": 20,
-        "joomla/input": 20,
-        "joomla/language": 20,
-        "joomla/mediawiki": 20,
-        "joomla/oauth1": 20,
-        "joomla/oauth2": 20,
-        "joomla/registry": 20,
-        "joomla/router": 20,
-        "joomla/session": 20,
-        "joomla/string": 20,
-        "joomla/test": 20,
-        "joomla/uri": 20,
-        "joomla/utilities": 20,
         "tobscure/json-api": 20
     },
     "prefer-stable": false,
