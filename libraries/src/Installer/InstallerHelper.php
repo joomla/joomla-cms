@@ -94,7 +94,7 @@ abstract class InstallerHelper
         }
 
         // Convert keys of headers to lowercase, to accommodate for case variations
-        $headers = array_change_key_case($response->headers, CASE_LOWER);
+        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
 
         if (302 == $response->getStatusCode() && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
