@@ -250,7 +250,7 @@ abstract class UpdateAdapter
      *
      * @param   array  $options  The update options, see findUpdate() in children classes
      *
-     * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
+     * @return  \Joomla\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
      *
      * @throws  \Exception
      */
@@ -321,7 +321,7 @@ abstract class UpdateAdapter
             'updater'
         );
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
             if (!$this->appendExtension && (!str_ends_with($url, '.xml'))) {
                 $options['append_extension'] = true;

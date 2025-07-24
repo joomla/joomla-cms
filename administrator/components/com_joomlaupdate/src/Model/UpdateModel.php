@@ -395,8 +395,8 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Follow the Location headers until the actual download URL is known
-        while (isset($head->headers['location'])) {
-            $packageURL = (string) $head->headers['location'][0];
+        while (isset($head->getHeaders()['location'])) {
+            $packageURL = (string) $head->getHeaders()['location'][0];
 
             try {
                 $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
@@ -589,7 +589,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Decode response
-        $result = json_decode((string)$response->getBody(), true);
+        $result = json_decode($response->getBody()->getContents(), true);
 
         // Handle validation issue
         if ($response->getStatusCode() === 422) {
@@ -765,12 +765,12 @@ class UpdateModel extends BaseDatabaseModel
             return false;
         }
 
-        if (!$result || ($result->code != 200 && $result->code != 310)) {
+        if (!$result || ($result->getStatusCode() != 200 && $result->getStatusCode() != 310)) {
             return false;
         }
 
         // Fix Indirect Modification of Overloaded Property
-        $body = $result->body;
+        $body = $result->getBody()->getContents();
 
         // Write the file to disk
         try {

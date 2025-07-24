@@ -96,12 +96,12 @@ abstract class InstallerHelper
         // Convert keys of headers to lowercase, to accommodate for case variations
         $headers = array_change_key_case($response->headers, CASE_LOWER);
 
-        if (302 == $response->code && !empty($headers['location'])) {
+        if (302 == $response->getStatusCode() && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
         }
 
-        if (200 != $response->code) {
-            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
+        if (200 != $response->getStatusCode()) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -125,7 +125,7 @@ abstract class InstallerHelper
         }
 
         // Fix Indirect Modification of Overloaded Property
-        $body = $response->body;
+        $body = $response->getBody()->getContents();
 
         // Write buffer to file
         File::write($target, $body);

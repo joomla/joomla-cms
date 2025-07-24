@@ -425,7 +425,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // Parse response
-        $lines = explode("\n", $response->body);
+        $lines = explode("\n", $response->getBody()->getContents());
         $data  = [];
 
         foreach ($lines as $line) {
