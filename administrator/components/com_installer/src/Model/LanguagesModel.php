@@ -146,6 +146,7 @@ class LanguagesModel extends ListModel
             return;
         }
 
+        $response->getBody()->rewind();
         $updateSiteXML = simplexml_load_string($response->getBody()->getContents());
 
         if (!$updateSiteXML) {
