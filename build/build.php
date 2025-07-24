@@ -454,6 +454,7 @@ $doNotPackage = [
     'phpstan-baseline.neon',
     'phpstan.neon',
     'phpunit-pgsql.xml.dist',
+    'phpunit-windows.xml.dist',
     'phpunit.xml.dist',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
