@@ -233,7 +233,7 @@ jobs:
     name: Prepare system tests
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:cypress8.4
-    needs: [tests-integration, tests-integration-windows]
+    needs: [composer, npm]
     env:
       CYPRESS_VERIFY_TIMEOUT: 100000
     steps:
