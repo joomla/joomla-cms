@@ -1856,11 +1856,11 @@ ENDDATA;
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             return $return;
         }
 
-        $updateSiteXML = simplexml_load_string($response->body);
+        $updateSiteXML = simplexml_load_string($response->getBody()->getContents());
 
         foreach ($updateSiteXML->extension as $extension) {
             $attribs = new \stdClass();
