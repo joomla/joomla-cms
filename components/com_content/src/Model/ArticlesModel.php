@@ -494,15 +494,15 @@ class ArticlesModel extends ListModel
         // Filter by checked_out status
         $checkedOut = $this->getState('filter.checked_out', null);
         if ($checkedOut !== null && $checkedOut !== '' && $checkedOut !== false) {
-            $checkedOut = (int) $checkedOut;
-            if ($checkedOut === 1) {
+            if ($checkedOut == 1) {
                 // Only checked out articles
                 $query->where($db->quoteName('a.checked_out') . ' > 0');
-            } elseif ($checkedOut === 0) {
+            } elseif ($checkedOut == 0) {
                 // Only not checked out articles
                 $query->where($db->quoteName('a.checked_out') . ' = 0');
             } else {
                 // Checked out by specific user
+                $checkedOut = (int) $checkedOut;
                 $query->where($db->quoteName('a.checked_out') . ' = :checkedOutUser')
                     ->bind(':checkedOutUser', $checkedOut, ParameterType::INTEGER);
             }
