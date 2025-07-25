@@ -123,6 +123,16 @@ class Versioning
             Factory::getApplication()->getDispatcher()->dispatch('onContentVersioningPrepareTable', $event);
         }
 
+        // Fix for null ordering - set to 0 if null
+        $ordering = is_object($data) ? $data->ordering ?? null : ($data['ordering'] ?? null);
+        if ($ordering === null) {
+            if (is_object($data)) {
+                $data->ordering = 0;
+            } elseif (is_array($data)) {
+                $data['ordering'] = 0;
+            }
+        }
+
         $historyTable->version_data = json_encode($data);
         $historyTable->version_note = $note;
 
