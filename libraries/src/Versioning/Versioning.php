@@ -129,7 +129,7 @@ class Versioning
                 $data->ordering = 0;
             }
         } elseif (\is_array($data)) {
-            if (array_key_exists('ordering', $data) && $data['ordering'] === null) {
+            if (\array_key_exists('ordering', $data) && $data['ordering'] === null) {
                 $data['ordering'] = 0;
             }
         }
