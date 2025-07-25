@@ -128,7 +128,7 @@ class Versioning
             if (property_exists($data, 'ordering') && $data->ordering === null) {
                 $data->ordering = 0;
             }
-        } elseif (is_array($data)) {
+        } elseif (\is_array($data)) {
             if (array_key_exists('ordering', $data) && $data['ordering'] === null) {
                 $data['ordering'] = 0;
             }
