@@ -80,7 +80,7 @@ trait VersionableModelTrait
         }
 
         // Fix null ordering when restoring history
-        if (array_key_exists('ordering', $rowArray) && $rowArray['ordering'] === null) {
+        if (\array_key_exists('ordering', $rowArray) && $rowArray['ordering'] === null) {
             $rowArray['ordering'] = 0;
         }
 
