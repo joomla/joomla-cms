@@ -124,11 +124,12 @@ class Versioning
         }
 
         // Fix for null ordering - set to 0 if null
-        $ordering = is_object($data) ? $data->ordering ?? null : ($data['ordering'] ?? null);
-        if ($ordering === null) {
-            if (is_object($data)) {
+        if (is_object($data)) {
+            if (property_exists($data, 'ordering') && $data->ordering === null) {
                 $data->ordering = 0;
-            } elseif (is_array($data)) {
+            }
+        } elseif (is_array($data)) {
+            if (array_key_exists('ordering', $data) && $data['ordering'] === null) {
                 $data['ordering'] = 0;
             }
         }
