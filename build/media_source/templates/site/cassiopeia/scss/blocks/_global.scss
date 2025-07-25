@@ -1,4 +1,14 @@
 // Global
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
 :root {
   scroll-behavior: smooth;
   font-size: $font-size-root;
