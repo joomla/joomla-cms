@@ -28,7 +28,6 @@ crypted="crypted"           # Used in MD5Handler
 datas="datas"               # Used in showon.es6.js
 deactive="deactive"         # Used in searchtools.es6.js
 exept="exept"               # Used in El.php Greek language stemmer
-fof="fof"                   # To be fixed - outdated code comment in com_postinstall
 Formater="Formater"         # Used in AbstractDataCollector of debug plugin
 hel="hel"                   # Variable name in MenusHelper
 identicals="identicals"     # administrator\components\com_templates\tmpl\template\default.php
