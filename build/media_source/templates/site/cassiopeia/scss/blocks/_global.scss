@@ -1,11 +1,7 @@
 // Global
-@view-transition {
-  navigation: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
+@media screen and (prefers-reduced-motion: no-preference) {
   @view-transition {
-    navigation: none;
+    navigation: auto;
   }
 }
 
