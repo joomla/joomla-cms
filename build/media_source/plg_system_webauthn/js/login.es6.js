@@ -189,7 +189,6 @@ window.Joomla = window.Joomla || {};
    *
    * @returns {boolean}  Always FALSE to prevent BUTTON elements from reloading the page.
    */
-  // eslint-disable-next-line no-unused-vars
   Joomla.plgSystemWebauthnLogin = (formId) => {
     // Get the username
     const elFormContainer = document.getElementById(formId);
