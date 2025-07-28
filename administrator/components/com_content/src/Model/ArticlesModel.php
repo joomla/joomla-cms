@@ -488,7 +488,7 @@ class ArticlesModel extends ListModel
         $checkedOut = $this->getState('filter.checked_out');
 
         if (is_numeric($checkedOut)) {
-            if ($checkedOut == 1) {
+            if ($checkedOut == -1) {
                 // Only checked out articles
                 $query->where($db->quoteName('a.checked_out') . ' > 0');
             } elseif ($checkedOut == 0) {
