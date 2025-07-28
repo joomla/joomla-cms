@@ -168,6 +168,67 @@ jobs:
           POSTGRES_PASSWORD: joomla_ut
           POSTGRES_DB: test_joomla
 
+  tests-unit-windows:
+    name: Run Unit tests (Windows)
+    runs-on: windows-latest
+    needs: [code-style-php]
+    strategy:
+      matrix:
+        php_version: ['8.1', '8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        id: cache-php-windows
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
+          ini-values: post_max_size=256M, date.timezone="UTC"
+      - name: Install Composer dependencies
+        if: steps.cache-php-windows.outputs.cache-hit != 'true'
+        run: composer install --no-progress --ignore-platform-reqs
+      - name: Run Unit tests
+        run: php libraries/vendor/bin/phpunit --testsuite Unit
+
+  tests-integration-windows:
+    name: Run integration tests (Windows)
+    runs-on: windows-latest
+    needs: [code-style-php]
+    strategy:
+      matrix:
+        php_version: ['8.1', '8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+      - uses: shogo82148/actions-setup-mysql@v1
+        with:
+          mysql-version: "mariadb-10.4"
+          root-password: "joomla_ut"
+          user: "joomla_ut"
+          password: "joomla_ut"
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          extensions: openssl, mbstring, fileinfo, gd, gmp, pgsql, mysql, mysqli, curl, opcache, ldap
+          ini-values: post_max_size=256M, date.timezone="UTC"
+      - name: Install Composer dependencies
+        if: steps.cache-php-windows.outputs.cache-hit != 'true'
+        run: |
+          composer install --no-progress --ignore-platform-reqs
+          mysql -uroot -pjoomla_ut -e 'CREATE DATABASE IF NOT EXISTS test_joomla;'
+      - name: Run Integration tests
+        run: |
+          sleep 3
+          php libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-windows.xml.dist
+
   tests-system-prepare:
     name: Prepare system tests
     runs-on: ubuntu-latest
