@@ -110,9 +110,7 @@ class LoggedHelper
      */
     public static function getList(Registry $params, CMSApplication $app, DatabaseInterface $db)
     {
-        return $app->bootModule('mod_logged', 'administrator')
-                    ->getHelper('LoggedHelper')
-                    ->getUsers($params, $app, $db);
+        return (new self())->getUsers($params, $app, $db);
     }
 
     /**
