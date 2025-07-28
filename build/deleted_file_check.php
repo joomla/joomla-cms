@@ -63,9 +63,10 @@ if (empty($options['to'])) {
 $previousReleaseExclude = [
     $options['from'] . '/images/sampledata',
     $options['from'] . '/installation',
+    $options['from'] . '/media/com_guidedtours/images',
+    $options['from'] . '/media/plg_behaviour_compat',
     $options['from'] . '/media/plg_captcha_recaptcha',
     $options['from'] . '/media/plg_captcha_recaptcha_invisible',
-    $options['from'] . '/media/plg_behaviour_compat',
     $options['from'] . '/plugins/behaviour/compat',
 ];
 
@@ -145,6 +146,10 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 // Specific files (e.g. language files) that we want to keep on upgrade
 $filesToKeep = [
     // Example: "'/administrator/language/en-GB/en-GB.com_search.ini',",
+    "'/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2.ini',",
+    "'/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2_steps.ini',",
+    "'/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3.ini',",
+    "'/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3_steps.ini',",
     "'/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4.ini',",
     "'/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4_steps.ini',",
     "'/administrator/language/en-GB/plg_behaviour_compat.ini',",
