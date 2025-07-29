@@ -35,7 +35,7 @@ class PrivacyDashboardHelper implements DatabaseAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getPrivacyRequests()
+    public function getPrivacyRequests(): array
     {
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
