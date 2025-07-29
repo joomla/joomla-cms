@@ -177,7 +177,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         }
 
         // Verify that the alias is unique
-        $table = new self($this->getDbo());
+        $table = new self($this->getDatabase());
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing newsfeed trashed?

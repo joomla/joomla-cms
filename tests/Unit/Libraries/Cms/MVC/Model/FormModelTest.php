@@ -93,6 +93,7 @@ class FormModelTest extends UnitTestCase
         $table->method('hasField')->willReturn(true);
         $table->method('checkIn')->willReturn(false);
         $table->method('getColumnAlias')->willReturn('checked_out');
+        $table->method('getError')->willReturn('ERROR MESSAGE');
 
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
@@ -106,6 +107,10 @@ class FormModelTest extends UnitTestCase
         $model->setCurrentUser(new User());
 
         $this->assertFalse($model->checkin(1));
+
+        $this->expectException(\Exception::class);
+        $model->setUseExceptions(true);
+        $model->checkin(1);
     }
 
     /**
@@ -298,6 +303,7 @@ class FormModelTest extends UnitTestCase
         $table->method('hasField')->willReturn(true);
         $table->method('checkIn')->willReturn(false);
         $table->method('getColumnAlias')->willReturn('checked_out');
+        $table->method('getError')->willReturn('ERROR MESSAGE');
 
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
@@ -315,6 +321,10 @@ class FormModelTest extends UnitTestCase
         $model->setCurrentUser($user);
 
         $this->assertFalse($model->checkout(1));
+
+        $this->expectException(\Exception::class);
+        $model->setUseExceptions(true);
+        $model->checkout(1);
     }
 
     /**
