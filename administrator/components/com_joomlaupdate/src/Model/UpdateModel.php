@@ -614,8 +614,8 @@ class UpdateModel extends BaseDatabaseModel
             Factory::getApplication()->enqueueMessage(
                 Text::sprintf(
                     'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_ERROR',
-                    $result['message'] ?: '',
-                    $result['status'] ?: ''
+                    $result['message'] ?? '',
+                    $result['status'] ?? ''
                 ),
                 'error'
             );
@@ -632,7 +632,7 @@ class UpdateModel extends BaseDatabaseModel
             ($targetState === AutoupdateRegisterState::Subscribe)
                 ? AutoupdateRegisterState::Subscribed
                 : AutoupdateRegisterState::Unsubscribed,
-            ($targetState === AutoupdateRegisterState::Unsubscribed)
+            ($targetState === AutoupdateRegisterState::Subscribe)
         );
 
         return AutoupdateRegisterResultState::Success;
@@ -641,7 +641,7 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * Update the autoupdate activation and registration states
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function updateAutoUpdateParams(AutoupdateRegisterState $registrationState, bool $enableUpdate): void
     {
@@ -922,8 +922,6 @@ ENDDATA;
         $db                   = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
-
-        $installer->setAdapter($installer->extension->type);
 
         $installer->setPath('manifest', JPATH_MANIFESTS . '/files/joomla.xml');
         $installer->setPath('source', JPATH_MANIFESTS . '/files');
@@ -1748,7 +1746,7 @@ ENDDATA;
     }
 
     /**
-     * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
+     * Called by controller's batchextensioncompatibility, which is called via AJAX.
      *
      * @param   string  $extensionID          The ID of the checked extension
      * @param   string  $joomlaTargetVersion  Target version of Joomla
