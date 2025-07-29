@@ -65,7 +65,7 @@ class FileModel extends FormModel
      */
     public function getFileInformation($path)
     {
-        list($adapter, $path) = explode(':', $path, 2);
+        [$adapter, $path] = explode(':', $path, 2);
 
         return $this->bootComponent('com_media')->getMVCFactory()->createModel('Api', 'Administrator')
             ->getFile($adapter, $path, ['url' => true, 'content' => true]);

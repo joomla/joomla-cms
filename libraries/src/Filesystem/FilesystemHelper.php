@@ -316,7 +316,7 @@ class FilesystemHelper
                 $max_size = $upload_max;
             }
 
-            if ($unitOutput == true) {
+            if ($unitOutput) {
                 $max_size = self::parseSizeUnit($max_size);
             }
 

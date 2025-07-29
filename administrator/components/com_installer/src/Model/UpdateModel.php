@@ -286,7 +286,7 @@ class UpdateModel extends ListModel
 
         try {
             $db->truncateTable('#__updates');
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->_message = Text::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
             return false;
@@ -421,7 +421,7 @@ class UpdateModel extends ListModel
         $sources = $update->get('downloadSources', []);
 
         if ($extra_query = $update->get('extra_query')) {
-            $url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+            $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
             $url .= $extra_query;
         }
 
@@ -432,7 +432,7 @@ class UpdateModel extends ListModel
             $url  = trim($name->url);
 
             if ($extra_query) {
-                $url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+                $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
                 $url .= $extra_query;
             }
 
@@ -532,13 +532,6 @@ class UpdateModel extends ListModel
         Form::addFormPath(JPATH_COMPONENT . '/models/forms');
         Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
         $form = Form::getInstance('com_installer.update', 'update', ['load_data' => $loadData]);
-
-        // Check for an error.
-        if ($form == false) {
-            $this->setError($form->getMessage());
-
-            return false;
-        }
 
         // Check the session for previously entered form data.
         $data = $this->loadFormData();

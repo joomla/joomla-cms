@@ -487,8 +487,7 @@ class Update
                         $this->$key = $val;
                     }
 
-                    unset($this->latest);
-                    unset($this->currentUpdate);
+                    unset($this->latest, $this->currentUpdate);
                 } elseif (isset($this->currentUpdate)) {
                     // The update might be for an older version of j!
                     unset($this->currentUpdate);
@@ -643,7 +642,7 @@ class Update
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -658,9 +657,8 @@ class Update
         $this->channel           = $channel;
 
         $this->xmlParser = xml_parser_create('');
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
-        xml_set_character_data_handler($this->xmlParser, '_characterData');
+        xml_set_element_handler($this->xmlParser, [$this, '_startElement'], [$this, '_endElement']);
+        xml_set_character_data_handler($this->xmlParser, [$this, '_characterData']);
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             Log::add(

@@ -166,7 +166,7 @@ abstract class InstallerHelper
         try {
             $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
             $extract = $archive->extract($archivename, $extractdir);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             if ($alwaysReturnArray) {
                 return [
                     'extractdir'  => null,
@@ -290,7 +290,7 @@ abstract class InstallerHelper
     {
         $default = uniqid();
 
-        if (!\is_string($url) || strpos($url, '/') === false) {
+        if (!\is_string($url) || !str_contains($url, '/')) {
             return $default;
         }
 
