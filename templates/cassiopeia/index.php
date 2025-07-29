@@ -119,7 +119,8 @@ if ($paramsColorSettings) {
 $paramsFontSettings = $this->params->get('fontSettings', false);
 
 if ($paramsFontSettings) {
-    $wa->addInlineStyle(':root {
+    $wa->registerAndUseStyle('font_advanced', 'global/' . 'font_advanced.css')
+    ->addInlineStyle(':root {
         --body-font-size: ' . $this->params->get('bodysize') . 'rem;
         --h1size: ' . $this->params->get('h1size') . 'rem;
         --h2size: ' . $this->params->get('h2size') . 'rem;
