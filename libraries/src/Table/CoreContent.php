@@ -258,7 +258,7 @@ class CoreContent extends Table implements CurrentUserInterface
      * @return  boolean  True on success.
      *
      * @since   3.1
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 without replacement
+     * @deprecated  5.4.0 will be removed in 7.0 without replacement
      */
     protected function storeUcmBase($updateNulls = true, $isNew = false)
     {
