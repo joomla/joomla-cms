@@ -73,7 +73,7 @@ class FinderHelper implements DatabaseAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getHiddenFields($route = null)
+    public function getHiddenFields($route = null): string
     {
         $fields = [];
         $uri    = Uri::getInstance(Route::_($route));
