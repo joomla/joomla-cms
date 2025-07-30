@@ -35,6 +35,30 @@ class FinderHelper implements DatabaseAwareInterface
     use DatabaseAwareTrait;
 
     /**
+     * Method to get hidden input fields for a get form so that control variables
+     * are not lost upon form submission.
+     *
+     * @param   string   $route      The route to the page. [optional]
+     *
+     * @return  string  A string of hidden input form fields
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getHiddenFields($route = null): string
+    {
+        $fields = [];
+        $uri    = Uri::getInstance(Route::_($route));
+        $uri->delVar('q');
+
+        // Create hidden input elements for each part of the URI.
+        foreach ($uri->getQuery(true) as $n => $v) {
+            $fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '">';
+        }
+
+        return implode('', $fields);
+    }
+
+    /**
      * Get Smart Search query object.
      *
      * @param   Registry                 $params    Module parameters.
@@ -61,30 +85,6 @@ class FinderHelper implements DatabaseAwareInterface
 
         // Instantiate a query object.
         return new Query($options, $this->getDatabase());
-    }
-
-    /**
-     * Method to get hidden input fields for a get form so that control variables
-     * are not lost upon form submission.
-     *
-     * @param   string   $route      The route to the page. [optional]
-     *
-     * @return  string  A string of hidden input form fields
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function getHiddenFields($route = null): string
-    {
-        $fields = [];
-        $uri    = Uri::getInstance(Route::_($route));
-        $uri->delVar('q');
-
-        // Create hidden input elements for each part of the URI.
-        foreach ($uri->getQuery(true) as $n => $v) {
-            $fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '">';
-        }
-
-        return implode('', $fields);
     }
 
     /**
