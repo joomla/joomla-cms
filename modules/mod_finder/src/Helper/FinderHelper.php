@@ -44,7 +44,7 @@ class FinderHelper implements DatabaseAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getSearchQuery(Registry $params, CMSApplicationInterface $app)
+    public function getSearchQuery(Registry $params, CMSApplicationInterface $app): Query
     {
         $request = $app->getInput()->request;
         $filter  = InputFilter::getInstance();
