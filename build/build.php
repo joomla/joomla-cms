@@ -433,17 +433,14 @@ $filesArray = [
  * Because this is a fresh copy from a git tag, local environment files may be ignored
  */
 $doNotPackage = [
-    '.appveyor.yml',
     '.drone.yml',
     '.editorconfig',
     '.github',
     '.gitignore',
-    '.phan',
     '.php-cs-fixer.dist.php',
     'acceptance.suite.yml',
     // Media Manager Node Assets
     'administrator/components/com_media/resources',
-    'appveyor-phpunit.xml',
     'build',
     'build.xml',
     'CODE_OF_CONDUCT.md',
@@ -453,8 +450,10 @@ $doNotPackage = [
     'cypress.config.dist.mjs',
     'package-lock.json',
     'package.json',
-    'phpunit-pgsql.xml.dist',
+    'phpstan-baseline.neon',
     'phpstan.neon',
+    'phpunit-pgsql.xml.dist',
+    'phpunit-windows.xml.dist',
     'phpunit.xml.dist',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
