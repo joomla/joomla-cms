@@ -40,8 +40,9 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     {
         $data = parent::getLayoutData();
         /** @var PopularHelper $helper */
-        $helper = $this->getHelperFactory()->getHelper('PopularHelper', $data);
-        $articleModel = $this->getApplication()
+        $helper       = $this->getHelperFactory()->getHelper('PopularHelper', $data);
+        $articleModel = $this
+            ->getApplication()
             ->bootComponent('com_content')
             ->getMVCFactory()
             ->createModel('Articles', 'Administrator', ['ignore_request' => true]);
@@ -50,8 +51,8 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
             $data['module']->title = $helper->getModuleTitle($data['params']);
         }
 
-        $data['list'] = $helper->getArticles($data['params'], $articleModel);
-        $data['record_hits'] = (int)ComponentHelper::getParams('com_content')->get('record_hits', 1);
+        $data['list']        = $helper->getArticles($data['params'], $articleModel);
+        $data['record_hits'] = (int) ComponentHelper::getParams('com_content')->get('record_hits', 1);
 
         return $data;
     }
