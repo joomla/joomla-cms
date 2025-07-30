@@ -390,27 +390,27 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         // Support Breadcrumb Schema linking
         try {
             try {
-                $breadcrumbAsset = $wa->getRegistry()->get('script', 'inline.breadcrumb-schemaorg');
+                $breadcrumbsAsset = $wa->getRegistry()->get('script', 'inline.breadcrumbs-schemaorg');
             } catch (UnknownAssetException $e) {
                 // Fallback for older versions of the breadcrumbs module
-                $breadcrumbAsset = $wa->getRegistry()->get('script', 'inline.mod_breadcrumbs-schemaorg');
+                $breadcrumbsAsset = $wa->getRegistry()->get('script', 'inline.mod_breadcrumbs-schemaorg');
                 trigger_deprecation(
                     'joomla/schemaorg',
                     '5.4',
-                    'The inline.mod_breadcrumbs-schemaorg asset name is deprecated. Please use the generic inline.breadcrumb-schemaorg asset name instead.'
+                    'The inline.mod_breadcrumbs-schemaorg asset name is deprecated. Please use the generic inline.breadcrumbs-schemaorg asset name instead.'
                 );
             }
 
-            $breadcrumb = json_decode($breadcrumbAsset->getOption('content'), true, 512, JSON_THROW_ON_ERROR);
+            $breadcrumbs = json_decode($breadcrumbsAsset->getOption('content'), true, 512, JSON_THROW_ON_ERROR);
 
-            if ($breadcrumb['@type'] !== 'BreadcrumbList') {
-                trigger_error('The breadcrumb schema is not of type BreadcrumbList', E_USER_WARNING);
+            if ($breadcrumbs['@type'] !== 'BreadcrumbList') {
+                trigger_error('The breadcrumbs schema is not of type BreadcrumbList', E_USER_WARNING);
                 throw new UnknownAssetException();
             }
 
-            $webPageSchema['breadcrumb'] = ['@id' => $breadcrumb['@id']];
+            $webPageSchema['breadcrumbs'] = ['@id' => $breadcrumbs['@id']];
         } catch (UnknownAssetException $e) {
-            // No Breadcrumb Schema found, so we don't add it
+            // No Breadcrumbs Schema found, so we don't add it
         }
 
         $baseSchema['@graph'][] = $webPageSchema;
