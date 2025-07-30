@@ -202,6 +202,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: administrator/components/com_admin/script.php
+
+		-
+			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -276,6 +285,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 3
+			path: administrator/components/com_associations/src/Helper/AssociationsHelper.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 2
 			path: administrator/components/com_associations/src/Helper/AssociationsHelper.php
 
 		-
@@ -487,6 +505,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
+			path: administrator/components/com_banners/src/Helper/BannersHelper.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 4
 			path: administrator/components/com_banners/src/Helper/BannersHelper.php
 
 		-
@@ -901,6 +928,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: administrator/components/com_categories/src/Helper/CategoriesHelper.php
+
+		-
+			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 6\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -1030,6 +1066,15 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: administrator/components/com_categories/src/Service/HTML/AdministratorService.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/components/com_categories/src/Service/HTML/AdministratorService.php
 
@@ -1496,6 +1541,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: administrator/components/com_contact/src/Service/HTML/AdministratorService.php
+
+		-
+			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -1680,6 +1734,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 2
+			path: administrator/components/com_content/src/Helper/ContentHelper.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
 				4\.3 will be removed in 6\.0
 				             Use getDatabase\(\) instead
@@ -1824,6 +1887,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: administrator/components/com_content/src/Service/HTML/AdministratorService.php
+
+		-
+			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -1904,6 +1976,15 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: administrator/components/com_contenthistory/src/Helper/ContenthistoryHelper.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/components/com_contenthistory/src/Helper/ContenthistoryHelper.php
 
@@ -2105,6 +2186,15 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: administrator/components/com_fields/src/Helper/FieldsHelper.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/components/com_fields/src/Helper/FieldsHelper.php
 
@@ -2523,6 +2613,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 3
+			path: administrator/components/com_finder/src/Indexer/Indexer.php
+
+		-
+			message: '''
 				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 6\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -2595,6 +2694,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
+			path: administrator/components/com_finder/src/Indexer/Taxonomy.php
+
+		-
+			message: '''
+				#^Call to method setLimit\(\) of deprecated interface Joomla\\Database\\Query\\LimitableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
 			path: administrator/components/com_finder/src/Indexer/Taxonomy.php
 
 		-
@@ -3259,6 +3367,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 4
+			path: administrator/components/com_installer/src/Helper/InstallerHelper.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 5
 			path: administrator/components/com_installer/src/Helper/InstallerHelper.php
 
 		-
@@ -3947,6 +4064,15 @@ parameters:
 			path: administrator/components/com_languages/src/Helper/MultilangstatusHelper.php
 
 		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 2
+			path: administrator/components/com_languages/src/Helper/MultilangstatusHelper.php
+
+		-
 			message: '#^Method Joomla\\Component\\Languages\\Administrator\\Helper\\MultilangstatusHelper\:\:getDefaultHomeModule\(\) should return bool but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1
@@ -4318,6 +4444,15 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: administrator/components/com_login/src/Model/LoginModel.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/components/com_login/src/Model/LoginModel.php
 
@@ -4729,7 +4864,7 @@ parameters:
 				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 1
+			count: 7
 			path: administrator/components/com_menus/src/Helper/MenusHelper.php
 
 		-
@@ -4921,6 +5056,15 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: administrator/components/com_menus/src/Service/HTML/Menus.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/components/com_menus/src/Service/HTML/Menus.php
 
@@ -5201,6 +5345,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
+			path: administrator/components/com_modules/src/Helper/ModulesHelper.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 4
 			path: administrator/components/com_modules/src/Helper/ModulesHelper.php
 
 		-
@@ -5496,6 +5649,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 3
+			path: administrator/components/com_newsfeeds/src/Helper/NewsfeedsHelper.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
 				4\.3 will be removed in 6\.0
 				             Use getDatabase\(\) instead
@@ -5556,6 +5718,15 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 1
+			path: administrator/components/com_newsfeeds/src/Service/HTML/AdministratorService.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/components/com_newsfeeds/src/Service/HTML/AdministratorService.php
 
@@ -6758,6 +6929,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: administrator/components/com_templates/src/Helper/TemplatesHelper.php
+
+		-
+			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -7594,6 +7774,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
+			path: administrator/components/com_users/src/Service/HTML/Users.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 2
 			path: administrator/components/com_users/src/Service/HTML/Users.php
 
 		-
@@ -9541,6 +9730,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 5
+			path: components/com_finder/src/Helper/FinderHelper.php
+
+		-
+			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -10930,6 +11128,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
+			path: libraries/src/Access/Access.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 10
 			path: libraries/src/Access/Access.php
 
 		-
@@ -13321,6 +13528,24 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 4
+			path: libraries/src/Extension/ExtensionHelper.php
+
+		-
+			message: '''
+				#^Call to method setLimit\(\) of deprecated interface Joomla\\Database\\Query\\LimitableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: libraries/src/Extension/ExtensionHelper.php
+
+		-
+			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 6\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -14032,6 +14257,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 6
+			path: libraries/src/HTML/Helpers/Category.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the database service in the DI container
@@ -14249,6 +14483,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 6
+			path: libraries/src/HTML/Helpers/Menu.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the document service in the DI container or get from the application object
@@ -14281,6 +14524,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
+			path: libraries/src/HTML/Helpers/Tag.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 3
 			path: libraries/src/HTML/Helpers/Tag.php
 
 		-
@@ -14379,6 +14631,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: libraries/src/Helper/CMSHelper.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the database service in the DI container
@@ -14408,6 +14669,15 @@ parameters:
 			'''
 			identifier: method.deprecatedClass
 			count: 1
+			path: libraries/src/Helper/ContentHelper.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 2
 			path: libraries/src/Helper/ContentHelper.php
 
 		-
@@ -14462,6 +14732,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
+			path: libraries/src/Helper/ModuleHelper.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 4
 			path: libraries/src/Helper/ModuleHelper.php
 
 		-
@@ -14521,7 +14800,7 @@ parameters:
 				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 1
+			count: 18
 			path: libraries/src/Helper/TagsHelper.php
 
 		-
@@ -14540,6 +14819,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 3
+			path: libraries/src/Helper/UserGroupsHelper.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
 			path: libraries/src/Helper/UserGroupsHelper.php
 
 		-
@@ -15016,6 +15304,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 4
+			path: libraries/src/Installer/InstallerScript.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the database service in the DI container
@@ -15024,6 +15321,15 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
+			path: libraries/src/Language/Associations.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 5
 			path: libraries/src/Language/Associations.php
 
 		-
@@ -15582,6 +15888,15 @@ parameters:
 			path: libraries/src/MVC/View/CategoryFeedView.php
 
 		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: libraries/src/MVC/View/CategoryFeedView.php
+
+		-
 			message: '#^Access to an undefined property Joomla\\CMS\\MVC\\View\\CategoryView\:\:\$maxLevel\.$#'
 			identifier: property.notFound
 			count: 1
@@ -15799,6 +16114,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 2
+			path: libraries/src/Mail/MailTemplate.php
+
+		-
+			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 6\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -15828,6 +16152,15 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticMethod.deprecated
+			count: 2
+			path: libraries/src/Menu/SiteMenu.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
 			count: 2
 			path: libraries/src/Menu/SiteMenu.php
 
@@ -16776,6 +17109,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 3
+			path: libraries/src/Updater/UpdateAdapter.php
+
+		-
+			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 6\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -16919,6 +17261,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: libraries/src/User/User.php
+
+		-
+			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 6\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -17047,11 +17398,29 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 5
+			path: libraries/src/User/UserHelper.php
+
+		-
+			message: '''
 				#^Call to method checkIfRehashNeeded\(\) of deprecated class Joomla\\CMS\\Authentication\\Password\\PHPassHandler\:
 				4\.0 will be removed in 6\.0
 				             Support for PHPass hashed passwords will be removed without replacement$#
 			'''
 			identifier: method.deprecatedClass
+			count: 1
+			path: libraries/src/User/UserHelper.php
+
+		-
+			message: '''
+				#^Call to method setLimit\(\) of deprecated interface Joomla\\Database\\Query\\LimitableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
 			count: 1
 			path: libraries/src/User/UserHelper.php
 
@@ -17139,6 +17508,15 @@ parameters:
 
 		-
 			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: libraries/src/Versioning/Versioning.php
+
+		-
+			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 6\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -17176,6 +17554,15 @@ parameters:
 			identifier: new.deprecatedClass
 			count: 1
 			path: libraries/src/WebAuthn/Server.php
+
+		-
+			message: '''
+				#^Call to method bind\(\) of deprecated interface Joomla\\Database\\Query\\PreparableInterface\:
+				3\.0  Capabilities will be required in Joomla\\Database\\QueryInterface$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 11
+			path: libraries/src/Workflow/Workflow.php
 
 		-
 			message: '''
