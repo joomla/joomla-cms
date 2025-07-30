@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @package     Joomla.Site
- * @subpackage  mod_random_image
+ * @package     Joomla.Administrator
+ * @subpackage  mod_latest
  *
  * @copyright   (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -17,9 +17,9 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The random image module service provider.
+ * The latest articles module service provider.
  *
- * @since  5.4.0
+ * @since  __DEPLOY_VERSION__
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -29,12 +29,12 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function register(Container $container)
     {
-        $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\RandomImage'));
-        $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\RandomImage\\Site\\Helper'));
+        $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Latest'));
+        $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Latest\\Administrator\\Helper'));
 
         $container->registerServiceProvider(new Module());
     }
