@@ -17,12 +17,12 @@ use Joomla\CMS\Layout\LayoutHelper;
 $moduleId = str_replace(' ', '', $module->title) . $module->id;
 
 ?>
-<?php if($record_hits === 0) :?>
+<?php if ($record_hits === 0) : ?>
     <?php echo LayoutHelper::render('joomla.content.emptystate_module', [
     'title' => 'JGLOBAL_RECORD_HITS_DISABLED',
     'icon'  => 'icon-minus-circle',
     ]); ?>
-<?php else: ?>
+<?php else : ?>
     <?php if (\count($list)) : ?>
         <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
             <caption class="visually-hidden"><?php echo $module->title; ?></caption>

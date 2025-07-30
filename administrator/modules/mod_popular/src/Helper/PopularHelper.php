@@ -44,7 +44,7 @@ class PopularHelper
     /**
      * Helper class constructor
      *
-     * @param   array  $config  Paramters we are using
+     * @param   array  $config  Parameters we are using
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -133,7 +133,7 @@ class PopularHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getModuleTitle(Registry $params):string
+    public function getModuleTitle(Registry $params): string
     {
         $who   = $params->get('user_id', 0);
         $catid = (int) $params->get('catid', null);
