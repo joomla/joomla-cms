@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Site
- * @subpackage  mod_random_image
+ * @subpackage  mod_whosonline
  *
  * @copyright   (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -17,9 +17,9 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The random image module service provider.
+ * The who's online module service provider.
  *
- * @since  5.4.0
+ * @since  __DEPLOY_VERSION__
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -29,12 +29,12 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   5.4.0
+     * @since   __DEPLOY_VERSION__
      */
-    public function register(Container $container)
+    public function register(Container $container): void
     {
-        $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\RandomImage'));
-        $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\RandomImage\\Site\\Helper'));
+        $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Whosonline'));
+        $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Whosonline\\Site\\Helper'));
 
         $container->registerServiceProvider(new Module());
     }
