@@ -353,6 +353,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                     $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
                 }
             } else {
+                $item->event->onContentPrepare     = '';
                 $item->event->afterDisplayTitle    = '';
                 $item->event->beforeDisplayContent = '';
                 $item->event->afterDisplayContent  = '';
