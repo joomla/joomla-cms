@@ -361,11 +361,13 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $this->getApplication()->getInput()->cookie->set(
                 'joomla_user_state',
                 'logged_in',
-                0,
-                $this->getApplication()->get('cookie_path', '/'),
-                $this->getApplication()->get('cookie_domain', ''),
-                $this->getApplication()->isHttpsForced(),
-                true
+                [
+                    'expires'  => 0,
+                    'path'     => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'   => $this->getApplication()->get('cookie_domain', ''),
+                    'secure'   => $this->getApplication()->isHttpsForced(),
+                    'httponly' => true,
+                ]
             );
         }
     }
@@ -390,7 +392,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $userid = (int) $user['id'];
 
         // Make sure we're a valid user first
-        if ($user['id'] === 0 && !$my->get('tmp_user')) {
+        if ($user['id'] === 0 && !empty($my->tmp_user)) {
             return;
         }
 
@@ -415,7 +417,15 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
         if ($this->getApplication()->isClient('site')) {
-            $this->getApplication()->getInput()->cookie->set('joomla_user_state', '', 1, $this->getApplication()->get('cookie_path', '/'), $this->getApplication()->get('cookie_domain', ''));
+            $this->getApplication()->getInput()->cookie->set(
+                'joomla_user_state',
+                '',
+                [
+                    'expires' => 1,
+                    'path'    => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'  => $this->getApplication()->get('cookie_domain', ''),
+                ]
+            );
         }
     }
 

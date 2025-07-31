@@ -410,6 +410,27 @@ trait DisplayTrait
             }
         }
 
+        // Set the default classes for the image class dropdown
+        $imgClasses = [
+            ['title' => TEXT::_('PLG_TINY_FIELD_IMG_CLASS_NO_CLASS'), 'value' => ''],
+            ['title' => 'None', 'value' => 'float-none'],
+            ['title' => 'Left', 'value' => 'float-start'],
+            ['title' => 'Right', 'value' => 'float-end'],
+            ['title' => 'Center', 'value' => 'mx-auto d-block'],
+        ];
+
+        // Load the image classes list
+        if (isset($extraOptions->img_classes_list) && $extraOptions->img_classes_list) {
+            $imgClassesList = $extraOptions->img_classes_list;
+
+            if ($imgClassesList) {
+                // Create an array for the image classes
+                foreach ($imgClassesList as $imgClassList) {
+                    array_push($imgClasses, ['title' => $imgClassList->img_class_name, 'value' => $imgClassList->img_class_list]);
+                }
+            }
+        }
+
         // Build the final options set
         $scriptOptions   = array_merge(
             $scriptOptions,
@@ -476,12 +497,7 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
-                'image_class_list'      => [
-                    ['title' => 'None', 'value' => 'float-none'],
-                    ['title' => 'Left', 'value' => 'float-start'],
-                    ['title' => 'Right', 'value' => 'float-end'],
-                    ['title' => 'Center', 'value' => 'mx-auto d-block'],
-                ],
+                'image_class_list'      => $imgClasses,
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,
