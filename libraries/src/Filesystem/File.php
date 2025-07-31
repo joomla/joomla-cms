@@ -56,7 +56,7 @@ class File
         $ext = substr($file, $dot + 1);
 
         // Extension cannot contain slashes.
-        if (strpos($ext, '/') !== false || (DIRECTORY_SEPARATOR === '\\' && strpos($ext, '\\') !== false)) {
+        if (str_contains($ext, '/') || (DIRECTORY_SEPARATOR === '\\' && str_contains($ext, '\\'))) {
             return '';
         }
 
@@ -409,7 +409,7 @@ class File
 
         // If the destination directory doesn't exist we need to create it
         if (!file_exists(\dirname($file))) {
-            if (Folder::create(\dirname($file)) == false) {
+            if (!Folder::create(\dirname($file))) {
                 return false;
             }
         }

@@ -11,6 +11,7 @@
 namespace Joomla\Module\RandomImage\Site\Helper;
 
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,12 +28,14 @@ class RandomImageHelper
     /**
      * Retrieves a random image
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters object
-     * @param   array                      $images   list of images
+     * @param   Registry  &$params  module parameters object
+     * @param   array     $images   list of images
      *
      * @return  mixed
+     *
+     * @since   5.4.0
      */
-    public static function getRandomImage(&$params, $images)
+    public function getImage(Registry &$params, array $images): mixed
     {
         $width  = $params->get('width', 100);
         $height = $params->get('height', null);
@@ -75,12 +78,14 @@ class RandomImageHelper
     /**
      * Retrieves images from a specific folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params
-     * @param   string                     $folder   folder to get the images from
+     * @param   Registry  &$params  module params
+     * @param   string    $folder   folder to get the images from
      *
      * @return  array
+     *
+     * @since   5.4.0
      */
-    public static function getImages(&$params, $folder)
+    public function getImagesFromFolder(Registry &$params, string $folder): array
     {
         $type   = $params->get('type', 'jpg');
         $files  = [];
@@ -119,18 +124,20 @@ class RandomImageHelper
     /**
      * Get sanitized folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params objects
+     * @param   Registry  &$params  module params objects
      *
      * @return  mixed
+     *
+     * @since   5.4.0
      */
-    public static function getFolder(&$params)
+    public function getSanitizedFolder(Registry &$params): mixed
     {
         $folder   = $params->get('folder');
-        $LiveSite = Uri::base();
+        $liveSite = Uri::base();
 
         // If folder includes livesite info, remove
-        if (StringHelper::strpos($folder, $LiveSite) === 0) {
-            $folder = str_replace($LiveSite, '', $folder);
+        if (StringHelper::strpos($folder, $liveSite) === 0) {
+            $folder = str_replace($liveSite, '', $folder);
         }
 
         // If folder includes absolute path, remove
@@ -139,5 +146,61 @@ class RandomImageHelper
         }
 
         return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $folder);
+    }
+
+    /**
+     * Retrieves a random image
+     *
+     * @param   Registry  &$params  module parameters object
+     * @param   array     $images   list of images
+     *
+     * @return  mixed
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getImage
+     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
+     *                            ->getHelper('RandomImageHelper')
+     *                            ->getImage($params, $images)
+     */
+    public static function getRandomImage(&$params, $images)
+    {
+        return (new self())->getImage($params, $images);
+    }
+
+    /**
+     * Retrieves images from a specific folder
+     *
+     * @param   Registry  &$params  module params
+     * @param   string    $folder   folder to get the images from
+     *
+     * @return  array
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getImagesFromFolder
+     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
+     *                            ->getHelper('RandomImageHelper')
+     *                            ->getImagesFromFolder($params, $folder)
+     */
+    public static function getImages(&$params, $folder)
+    {
+        return (new self())->getImagesFromFolder($params, $folder);
+    }
+
+    /**
+     * Get sanitized folder
+     *
+     * @param   Registry  &$params  module params objects
+     *
+     * @return  mixed
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getSanitizedFolder
+     *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
+     *                            ->getHelper('RandomImageHelper')
+     *                            ->getSanitizedFolder($params)
+     */
+    public static function getFolder(&$params)
+    {
+        return (new self())->getSanitizedFolder($params);
     }
 }

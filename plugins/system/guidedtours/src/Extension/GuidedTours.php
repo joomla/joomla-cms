@@ -214,7 +214,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
                     try {
                         $result = $db->setQuery($query)->loadResult();
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Do not start the tour.
                         continue;
                     }

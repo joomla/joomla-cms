@@ -71,7 +71,7 @@ class Dispatcher extends ComponentDispatcher
     public function getController(string $name, string $client = '', array $config = []): BaseController
     {
         if ($this->input->get('task') === 'orderPosition') {
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_modules';
             $client              = 'Administrator';
         }
 

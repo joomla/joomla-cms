@@ -60,7 +60,7 @@ jobs:
 
       - name: Update static error pages
         run: |
-          npm ci --ignore-scripts && node build/build.js --build-pages
+          npm ci --ignore-scripts && node build/build.mjs --build-pages
 
       - name: Create commit
         continue-on-error: true

@@ -291,7 +291,7 @@ class SqlField extends ListField
 
             try {
                 $items = $db->loadObjectList();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
             }
         }
@@ -299,7 +299,7 @@ class SqlField extends ListField
         // Build the field options.
         if (!empty($items)) {
             foreach ($items as $item) {
-                if ($this->translate == true) {
+                if ($this->translate) {
                     $options[] = HTMLHelper::_('select.option', $item->$key, Text::_($item->$value));
                 } else {
                     $options[] = HTMLHelper::_('select.option', $item->$key, $item->$value);

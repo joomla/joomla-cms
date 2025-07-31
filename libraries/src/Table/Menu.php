@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Filesystem\Folder;
@@ -42,12 +42,12 @@ class Menu extends Nested
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__menu', 'id', $db, $dispatcher);
 
@@ -171,7 +171,7 @@ class Menu extends Nested
      */
     public function store($updateNulls = true)
     {
-        $db = $this->getDbo();
+        $db = $this->getDatabase();
 
         // Verify that the alias is unique
         $table = new self($db, $this->getDispatcher());
@@ -242,7 +242,7 @@ class Menu extends Nested
 
             // The alias already exists. Enqueue an error message.
             if ($error) {
-                $menuTypeTable = new MenuType($this->getDbo(), $this->getDispatcher());
+                $menuTypeTable = new MenuType($db, $this->getDispatcher());
                 $menuTypeTable->load(['menutype' => $table->menutype]);
                 $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
 

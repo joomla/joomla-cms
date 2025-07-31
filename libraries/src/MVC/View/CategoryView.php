@@ -58,7 +58,7 @@ class CategoryView extends HtmlView
      * @var    CategoryNode
      * @since  3.2
      */
-    protected $category;
+    public $category;
 
     /**
      * The list of other categories for this extension.
@@ -82,7 +82,7 @@ class CategoryView extends HtmlView
      * @var    array
      * @since  3.2
      */
-    protected $children;
+    public $children;
 
     /**
      * The name of the extension for the category
@@ -150,11 +150,11 @@ class CategoryView extends HtmlView
         $children    = $this->get('Children');
         $parent      = $this->get('Parent');
 
-        if ($category == false) {
+        if (!$category) {
             throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
         }
 
-        if ($parent == false) {
+        if (!$parent) {
             throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
         }
 

@@ -66,7 +66,7 @@ class LogsModel extends ListModel
     {
         try {
             $this->getDatabase()->truncateTable('#__scheduler_logs');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

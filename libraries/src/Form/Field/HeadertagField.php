@@ -48,8 +48,6 @@ class HeadertagField extends ListField
             $options[] = $tmp;
         }
 
-        reset($options);
-
         return $options;
     }
 }

@@ -264,7 +264,6 @@ final class SiteApplication extends CMSApplication
                 ['option' => 'com_users', 'view' => 'method'],
                 ['option' => 'com_users', 'task' => 'method.add'],
                 ['option' => 'com_users', 'task' => 'method.save'],
-                ['option' => 'com_users', 'view' => 'profile', 'layout' => 'edit'],
             ]);
         }
 
@@ -691,7 +690,6 @@ final class SiteApplication extends CMSApplication
                 ['option' => 'com_users', 'view' => 'method'],
                 ['option' => 'com_users', 'task' => 'method.add'],
                 ['option' => 'com_users', 'task' => 'method.save'],
-                ['option' => 'com_users', 'view' => 'profile', 'layout' => 'edit'],
             ]);
         }
 

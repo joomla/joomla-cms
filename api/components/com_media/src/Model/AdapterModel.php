@@ -35,7 +35,7 @@ class AdapterModel extends BaseModel
      */
     public function getItem(): \stdClass
     {
-        list($provider, $account) = array_pad(explode('-', $this->getState('id'), 2), 2, null);
+        [$provider, $account] = array_pad(explode('-', $this->getState('id'), 2), 2, null);
 
         if ($account === null) {
             throw new \Exception('Account was not set');

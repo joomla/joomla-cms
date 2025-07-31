@@ -11,7 +11,7 @@ describe('Test in backend that the category form', () => {
     cy.get('#jform_title').should('exist').type('Test category');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Category saved.').should('exist');
+    cy.checkForSystemMessage('Category saved.');
     cy.contains('Test category');
   });
 

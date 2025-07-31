@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 
@@ -40,12 +40,12 @@ class StageTable extends Table
     protected $_supportNullValue = true;
 
     /**
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__workflow_stages', 'id', $db, $dispatcher);
     }
@@ -63,7 +63,7 @@ class StageTable extends Table
      */
     public function delete($pk = null)
     {
-        $db  = $this->getDbo();
+        $db  = $this->getDatabase();
         $app = Factory::getApplication();
         $pk  = (int) $pk;
 
@@ -134,7 +134,7 @@ class StageTable extends Table
                 return false;
             }
         } else {
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true);
 
             $query
@@ -176,7 +176,7 @@ class StageTable extends Table
      */
     public function store($updateNulls = true)
     {
-        $table = new StageTable($this->getDbo(), $this->getDispatcher());
+        $table = new StageTable($this->getDatabase(), $this->getDispatcher());
 
         if ($this->default == '1') {
             // Verify that the default is unique for this workflow
@@ -225,7 +225,7 @@ class StageTable extends Table
     protected function _getAssetName()
     {
         $k        = $this->_tbl_key;
-        $workflow = new WorkflowTable($this->getDbo(), $this->getDispatcher());
+        $workflow = new WorkflowTable($this->getDatabase(), $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
         $parts = explode('.', $workflow->extension);
@@ -259,9 +259,10 @@ class StageTable extends Table
      */
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
-        $asset = new Asset($this->getDbo(), $this->getDispatcher());
+        $db    = $this->getDatabase();
+        $asset = new Asset($db, $this->getDispatcher());
 
-        $workflow = new WorkflowTable($this->getDbo(), $this->getDispatcher());
+        $workflow = new WorkflowTable($db, $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
         $parts = explode('.', $workflow->extension);

@@ -122,7 +122,7 @@ class Indexer
     public function __construct(?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -186,7 +186,7 @@ class Indexer
                      */
                     $memory_table_limit = (int) ($heapsize->Value / 800);
                     $data->options->set('memory_table_limit', $memory_table_limit);
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     // Something failed. We fall back to a reasonable guess.
                     $data->options->set('memory_table_limit', 7500);
                 }
@@ -1008,7 +1008,7 @@ class Indexer
                 // Set the tokens aggregate table to Memory.
                 $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
                 $db->execute();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $supported = false;
 
                 return true;

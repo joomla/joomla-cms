@@ -180,9 +180,9 @@ class HtmlView extends BaseHtmlView
         try {
             $feed         = new FeedFactory();
             $this->rssDoc = $feed->getFeed($item->link);
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
             $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
         }
 
