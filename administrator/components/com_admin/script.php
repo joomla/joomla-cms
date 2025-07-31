@@ -2465,6 +2465,11 @@ class JoomlaInstallerScript
             '/libraries/vendor/joomla/uri/.drone.yml',
             '/libraries/vendor/joomla/utilities/.drone.jsonnet',
             '/libraries/vendor/joomla/utilities/.drone.yml',
+            // From 5.3.0-rc1 to 5.3.0-rc2
+            '/libraries/vendor/algo26-matthias/idna-convert/Dockerfile',
+            '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
+            '/libraries/vendor/algo26-matthias/idna-convert/src/Exception/Std3AsciiRulesViolationException.php',
+            '/libraries/vendor/algo26-matthias/idna-convert/src/TranscodeUnicode/ByteLengthTrait.php',
         ];
 
         $folders = [
