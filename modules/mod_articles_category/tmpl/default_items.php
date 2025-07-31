@@ -63,7 +63,7 @@ use Joomla\CMS\Layout\LayoutHelper;
     <?php if ($params->get('show_readmore')) : ?>
         <p class="mod-articles-category-readmore">
             <a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-                <?php if ($item->params->get('access-view') == false) : ?>
+                <?php if (!$item->params->get('access-view')) : ?>
                     <?php echo Text::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE'); ?>
                 <?php elseif ($item->alternative_readmore) : ?>
                     <?php echo $item->alternative_readmore; ?>

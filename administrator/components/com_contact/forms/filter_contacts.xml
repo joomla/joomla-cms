@@ -74,7 +74,10 @@
 			custom="false"
 			hint="JOPTION_SELECT_TAG"
 			class="js-select-submit-on-change"
-		/>
+			default=""
+			>
+			<option value="0">JNONE_FILTER</option>
+		</field>
 
 		<field
 			name="level"
