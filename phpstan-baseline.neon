@@ -16866,10 +16866,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
+				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\MVC\\Model\\State\:
+				5\.0\.0 will be removed in 7\.0, use the Registry directly$#
 			'''
 			identifier: method.deprecatedClass
 			count: 1
@@ -16883,10 +16881,8 @@ parameters:
 
 		-
 			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
+				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\Model\\State\:
+				5\.0\.0 will be removed in 7\.0, use the Registry directly$#
 			'''
 			identifier: new.deprecatedClass
 			count: 1
