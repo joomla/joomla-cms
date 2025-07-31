@@ -256,7 +256,7 @@ class JFormValidator {
 
     // Run custom form validators if present
     if (Object.keys(this.customValidators).length) {
-      Object.keys(this.customValidators).foreach((key) => {
+      Object.keys(this.customValidators).forEach((key) => {
         if (this.customValidators[key].exec() !== true) {
           valid = false;
         }
