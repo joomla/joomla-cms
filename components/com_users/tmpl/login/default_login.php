@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
@@ -133,10 +132,6 @@ $usersConfig = ComponentHelper::getParams('com_users');
 
                 if ($item) {
                     $regLink = 'index.php?Itemid=' . $regLinkMenuId;
-
-                    if ($item->language !== '*' && MultiLanguage::isEnabled()) {
-                        $regLink .= '&lang=' . $item->language;
-                    }
                 }
             }
             ?>
