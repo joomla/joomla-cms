@@ -75,7 +75,7 @@
     "mediaelement": "^5.1.2",
     "metismenujs": "^1.4.0",
     "punycode": "^2.3.1",
-    "qrcode-generator": "^2.0.2",
+    "qrcode-generator": "^1.5.2",
     "roboto-fontface": "^0.10.0",
     "sa11y": "^4.1.10",
     "shepherd.js": "^11.2.0",

@@ -797,9 +797,9 @@
       "qrcode-generator": {
         "name": "qrcode",
         "js": {
-          "dist/qrcode.js": "js/qrcode.js",
-          "dist/qrcode_SJIS.js": "js/qrcode_SJIS.js",
-          "dist/qrcode_UTF8.js": "js/qrcode_UTF8.js"
+          "qrcode.js": "js/qrcode.js",
+          "qrcode_SJIS.js": "js/qrcode_SJIS.js",
+          "qrcode_UTF8.js": "js/qrcode_UTF8.js"
         },
         "provideAssets": [
           {
