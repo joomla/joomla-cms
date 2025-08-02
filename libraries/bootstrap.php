@@ -42,7 +42,9 @@ $loader->unregister();
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
 // Checking whether loading of the environment variables from the file is enabled. Then parse them.
-if (is_file(JPATH_ROOT . '/.env')) {
+$environment = $_ENV['JOOMLA_ENVIRONMENT'] ?? $_SERVER['JOOMLA_ENVIRONMENT'] ?? false;
+
+if ($environment || is_file(JPATH_ROOT . '/.env')) {
     /**
      * Some PHP configurations set variables_order="GPCS" not "EGPCS", in which case $_ENV is NOT populated.
      * Detect if the $_ENV  was empty and handle it by explicitly populating through getenv() for CLI,
@@ -54,8 +56,9 @@ if (is_file(JPATH_ROOT . '/.env')) {
         $_ENV = PHP_SAPI === 'cli' ? getenv() : array_filter($_SERVER, fn ($k) => str_starts_with($k, 'JOOMLA_'), ARRAY_FILTER_USE_KEY);
     }
 
-    Dotenv\Dotenv::createImmutable(JPATH_ROOT, ['.env', '.env.dev'], false)->safeLoad();
+    Dotenv\Dotenv::createImmutable(JPATH_ROOT, ['.env', '.env.' . $environment ?: 'production'], false)->safeLoad();
 }
+unset($environment);
 
 /**
  * Register the global exception handler. And set error level to server default error level.
