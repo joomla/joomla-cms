@@ -2475,6 +2475,9 @@ class JoomlaInstallerScript
             '/modules/mod_random_image/mod_random_image.php',
             // From 5.4.0-alpha3 to 5.4.0-alpha4
             '/administrator/modules/mod_latest/mod_latest.php',
+            '/administrator/modules/mod_logged/mod_logged.php',
+            '/administrator/modules/mod_privacy_dashboard/mod_privacy_dashboard.php',
+            '/modules/mod_finder/mod_finder.php',
             '/modules/mod_whosonline/mod_whosonline.php',
         ];
 
