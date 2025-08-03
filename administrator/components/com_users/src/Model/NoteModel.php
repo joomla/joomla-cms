@@ -12,6 +12,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\VersionableModelInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 
@@ -24,7 +25,7 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
  *
  * @since  2.5
  */
-class NoteModel extends AdminModel
+class NoteModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
