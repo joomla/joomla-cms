@@ -830,6 +830,7 @@ class JoomlaInstallerScript
             // From 6.0.0-alpha3 to 6.0.0-beta1
             '/administrator/modules/mod_latest/mod_latest.php',
             '/administrator/modules/mod_logged/mod_logged.php',
+            '/administrator/modules/mod_popular/mod_popular.php',
             '/administrator/modules/mod_privacy_dashboard/mod_privacy_dashboard.php',
             '/modules/mod_finder/mod_finder.php',
             '/modules/mod_whosonline/mod_whosonline.php',
