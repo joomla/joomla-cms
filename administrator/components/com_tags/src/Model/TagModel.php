@@ -29,7 +29,7 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class TagModel extends AdminModel  implements VersionableModelInterface
+class TagModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
