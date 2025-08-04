@@ -82,7 +82,12 @@ class ContenthistoryHelper
                         continue;
                     }
 
-                    $object->$name = json_decode($value);
+                    if (str_starts_with($value, '{')) {
+                        $object->$name = json_decode($value);
+                        continue;
+                    }
+
+                    $object->$name = $value;
                 }
             }
         }
