@@ -128,10 +128,10 @@ class LoginHelper
      * @return     string
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
-     *             Use the non-static method getReturnType
+     *             Use the non-static method getUserType
      *             Example: Factory::getApplication()->bootModule('mod_login', 'site')
      *                          ->getHelper('LoginHelper')
-     *                          ->getReturnType(Factory::getApplication())
+     *                          ->getUserType(Factory::getApplication())
      */
     public static function getType()
     {
