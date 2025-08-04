@@ -39,7 +39,7 @@ class LoginHelper
      *
      * @return  string
      */
-    public function getReturnUrlString(Registry $params, $type, CMSApplicationInterface $app)
+    public function getReturnUrlString(Registry $params, $type, CMSApplicationInterface $app): string
     {
         $item = $app->getMenu()->getItem($params->get($type));
 
@@ -68,7 +68,7 @@ class LoginHelper
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getReturnType(User $user)
+    public function getReturnType(User $user): string
     {
         return (!$user->guest) ? 'logout' : 'login';
     }
@@ -82,7 +82,7 @@ class LoginHelper
      *
      * @return  string
      */
-    public function getRegistrationUrlString(Registry $params, CMSApplicationInterface $app)
+    public function getRegistrationUrlString(Registry $params, CMSApplicationInterface $app): string
     {
         $regLink       = 'index.php?option=com_users&view=registration';
         $regLinkMenuId = $params->get('customRegLinkMenu');
