@@ -29,20 +29,6 @@ use Joomla\Registry\Registry;
 class LoginHelper
 {
     /**
-     * Returns the current users type
-     *
-     * @param   User  $user  The user object
-     *
-     * @return string
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function getReturnType(User $user)
-    {
-        return (!$user->guest) ? 'logout' : 'login';
-    }
-
-    /**
      * Retrieve the URL where the user should be returned after logging in
      *
      * @param   Registry  $params  module parameters
@@ -71,6 +57,20 @@ class LoginHelper
         }
 
         return base64_encode($url);
+    }
+
+    /**
+     * Returns the current users type
+     *
+     * @param   User  $user  The user object
+     *
+     * @return string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getReturnType(User $user)
+    {
+        return (!$user->guest) ? 'logout' : 'login';
     }
 
     /**
