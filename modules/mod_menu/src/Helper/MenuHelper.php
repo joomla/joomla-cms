@@ -32,7 +32,7 @@ class MenuHelper
     /**
      * Get a list of the menu items.
      *
-     * @param   Registry                   &$params  The module options.
+     * @param   Registry                  &$params  The module options.
      * @param   CMSApplicationInterface   $app      The application
      *
      * @return  array
@@ -250,7 +250,7 @@ class MenuHelper
     /**
      * Get a list of the menu items.
      *
-     * @param   \Joomla\Registry\Registry  &$params  The module options.
+     * @param   Registry  &$params  The module options.
      *
      * @return  array
      *
@@ -270,7 +270,7 @@ class MenuHelper
     /**
      * Get base menu item.
      *
-     * @param   \Joomla\Registry\Registry  &$params  The module options.
+     * @param   Registry  &$params  The module options.
      *
      * @return  object
      *
@@ -290,7 +290,7 @@ class MenuHelper
     /**
      * Get active menu item.
      *
-     * @param   \Joomla\Registry\Registry  &$params  The module options.
+     * @param   Registry  &$params  The module options.
      *
      * @return  object
      *
