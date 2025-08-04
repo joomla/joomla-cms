@@ -1,5 +1,6 @@
 
 includes:
+	- phpstan-baseline.neon
 	- libraries/vendor/phpstan/phpstan-deprecation-rules/rules.neon
 	- build/phpstan/phpstan.neon
 
@@ -44,3 +45,4 @@ parameters:
 				- plugins/*
 		-
 			message: '#Call to deprecated method \_\(\) of class Joomla\\CMS\\Language\\Language.*#'
+
