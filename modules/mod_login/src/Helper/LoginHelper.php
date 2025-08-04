@@ -68,7 +68,7 @@ class LoginHelper
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getReturnType(User $user): string
+    public function getUserType(User $user): string
     {
         return (!$user->guest) ? 'logout' : 'login';
     }
@@ -137,7 +137,7 @@ class LoginHelper
     {
         $user = Factory::getApplication()->getIdentity();
 
-        return (new self())->getReturnType($user);
+        return (new self())->getUserType($user);
     }
 
     /**
