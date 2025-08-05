@@ -99,6 +99,18 @@
 			</field>
 
 			<field
+				name="filter_field_years"
+				type="list"
+				label="COM_CONTENT_FIELD_YEAR_ORDER_LABEL"
+				description="COM_CONTENT_FIELD_YEAR_ORDER_DESC"
+				default="ASC"
+				validate="options"
+				>
+				<option value="ASC">JGLOBAL_OLDEST_FIRST</option>
+				<option value="DESC">JGLOBAL_MOST_RECENT_FIRST</option>
+			</field>
+
+			<field
 				name="introtext_limit"
 				type="number"
 				label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
