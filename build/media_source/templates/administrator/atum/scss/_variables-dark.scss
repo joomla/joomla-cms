@@ -284,6 +284,7 @@ $atum-colors-dark: (
   btn-secondary-bg:                      $info-dark,
   btn-secondary-border:                  1px solid color.adjust($info-dark, $lightness: 10%),
   btn-secondary-bg-hvr:                  color.adjust($info-dark, $lightness: -10%),
+  btn-secondary-color-hvr:               var(--template-text-light),
   btn-secondary-border-hvr:              1px solid color.adjust($info-dark, $lightness: 10%),
 
   btn-dark-border:                     1px solid rgba(0,0,0,.85),
