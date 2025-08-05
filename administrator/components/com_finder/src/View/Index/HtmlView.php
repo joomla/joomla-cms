@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     protected $finderPlugins = true;
 

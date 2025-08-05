@@ -61,7 +61,7 @@ abstract class Menu
         ]))->getArgument('subject', $children);
 
         foreach ($children as $item) {
-            if (substr($item->link, 0, 8) === 'special:') {
+            if (str_starts_with($item->link, 'special:')) {
                 $special = substr($item->link, 8);
 
                 if ($special === 'language-forum') {
@@ -203,10 +203,10 @@ abstract class Menu
                 $iconImage = $item->icon;
 
                 if ($iconImage) {
-                    if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home') {
+                    if (str_starts_with($iconImage, 'class:') && substr($iconImage, 6) === 'icon-home') {
                         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
                         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
-                    } elseif (substr($iconImage, 0, 6) === 'image:') {
+                    } elseif (str_starts_with($iconImage, 'image:')) {
                         $iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
                     }
 

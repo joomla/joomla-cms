@@ -152,10 +152,13 @@ class CategoryeditField extends ListField
         // Let's get the id for the current item, either category or content item.
         $jinput = Factory::getApplication()->getInput();
 
+        // Is this field used to select parent category for a category ?
+        $isParentCategoryField = isset($this->element['parent']) || $jinput->getCmd('option') === 'com_categories';
+
         // Load the category options for a given extension.
 
         // For categories the old category is the category id or 0 for new category.
-        if ($this->element['parent'] || $jinput->get('option') == 'com_categories') {
+        if ($isParentCategoryField) {
             $oldCat    = $jinput->get('id', 0);
             $oldParent = $this->form->getValue($name, 0);
             $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
@@ -186,7 +189,7 @@ class CategoryeditField extends ListField
             ->from($db->quoteName('#__categories', 'a'));
 
         // Filter by the extension type
-        if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories') {
+        if ($isParentCategoryField) {
             $query->where('(' . $db->quoteName('a.extension') . ' = :extension OR ' . $db->quoteName('a.parent_id') . ' = 0)')
                 ->bind(':extension', $extension);
         } else {
@@ -195,8 +198,8 @@ class CategoryeditField extends ListField
         }
 
         // Filter language
-        if (!empty($this->element['language'])) {
-            if (strpos($this->element['language'], ',') !== false) {
+        if (isset($this->element['language'])) {
+            if (str_contains($this->element['language'], ',')) {
                 $language = explode(',', $this->element['language']);
             } else {
                 $language = $this->element['language'];
@@ -219,7 +222,7 @@ class CategoryeditField extends ListField
         $query->order($db->quoteName('a.lft') . ' ASC');
 
         // If parent isn't explicitly stated but we are in com_categories assume we want parents
-        if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')) {
+        if ($oldCat != 0 && $isParentCategoryField) {
             // Prevent parenting to children of this item.
             // To rearrange parents and children move the children up, not the parents down.
             $query->join(
@@ -244,10 +247,8 @@ class CategoryeditField extends ListField
         // Pad the option text with spaces using depth level as a multiplier.
         foreach ($options as $option) {
             // Translate ROOT
-            if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories') {
-                if ($option->level == 0) {
-                    $option->text = Text::_('JGLOBAL_ROOT_PARENT');
-                }
+            if ($isParentCategoryField && $option->level == 0) {
+                $option->text = Text::_('JGLOBAL_ROOT_PARENT');
             }
 
             if ($option->published == 1) {
@@ -311,7 +312,7 @@ class CategoryeditField extends ListField
         }
 
         if (
-            $oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
+            $oldCat != 0 && $isParentCategoryField
             && !isset($options[0])
             && isset($this->element['show_root'])
         ) {

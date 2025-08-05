@@ -15,30 +15,20 @@ Cypress.Commands.add('api_patch', (path, body) => cy.api_getBearerToken().then((
 
 Cypress.Commands.add('api_delete', (path) => cy.api_getBearerToken().then((token) => cy.request({ method: 'DELETE', url: `/api/index.php/v1${path}`, headers: { Authorization: `Bearer ${token}` } })));
 
-Cypress.Commands.add('api_getBearerToken', () => cy.task('queryDB', "SELECT id FROM #__users WHERE username = 'api'").then((user) => {
-  if (user.length > 0) {
-    return 'c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==';
-  }
-
-  return cy.db_createUser({
-    id: 3,
-    name: 'API',
-    email: 'api@example.com',
-    username: 'api',
-    password: '123',
-    block: 0,
-    registerDate: '2000-01-01',
-    params: '{}',
-    group_id: 8,
-  }).then((id) => {
-    cy.task(
-      'queryDB',
-      'INSERT INTO #__user_profiles (user_id, profile_key, profile_value) VALUES '
-        + `('${id}', 'joomlatoken.token', 'dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4=')`,
-    );
-    return cy.task(
-      'queryDB',
-      `INSERT INTO #__user_profiles (user_id, profile_key, profile_value) VALUES ('${id}', 'joomlatoken.enabled', 1)`,
-    );
-  }).then(() => 'c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
-}));
+Cypress.Commands.add('api_getBearerToken', () => {
+  cy.session('apiToken', () => {
+    cy.db_getUserId().then((uid) => {
+      cy.doAdministratorLogin();
+      cy.visit(`/administrator/index.php?option=com_users&task=user.edit&id=${uid}#attrib-joomlatoken`);
+      cy.get('#fieldset-joomlatoken').then((fieldset) => {
+        if (fieldset.find('#jform_joomlatoken_reset1').length > 0) {
+          cy.get('#jform_joomlatoken_reset1').click();
+        }
+      });
+      cy.clickToolbarButton('Save');
+      cy.get('#jform_joomlatoken_token').invoke('val').then((token) => {
+        window.localStorage.setItem('authToken', token);
+      });
+    });
+  }).then(() => window.localStorage.getItem('authToken'));
+});

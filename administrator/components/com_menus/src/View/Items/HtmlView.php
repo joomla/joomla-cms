@@ -177,7 +177,7 @@ class HtmlView extends BaseHtmlView
                                 }
                             }
 
-                            $vars['layout'] = $vars['layout'] ?? 'default';
+                            $vars['layout'] ??= 'default';
 
                             // Attempt to load the layout xml file.
                             // If Alternative Menu Item, get template folder for layout file

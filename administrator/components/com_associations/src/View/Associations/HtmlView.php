@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
         } elseif ($this->state->get('itemtype') != '' && $this->state->get('language') != '') {
             $type = null;
 
-            list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
+            [$extensionName, $typeName] = explode('.', $this->state->get('itemtype'), 2);
 
             $extension = AssociationsHelper::getSupportedExtension($extensionName);
 
@@ -174,8 +174,7 @@ class HtmlView extends BaseHtmlView
 
                 // Dynamic filter form.
                 // This selectors doesn't have to activate the filter bar.
-                unset($this->activeFilters['itemtype']);
-                unset($this->activeFilters['language']);
+                unset($this->activeFilters['itemtype'], $this->activeFilters['language']);
 
                 // Remove filters options depending on selected type.
                 if (empty($support['state'])) {
@@ -249,7 +248,7 @@ class HtmlView extends BaseHtmlView
     {
         $user = $this->getCurrentUser();
 
-        if (isset($this->typeName) && isset($this->extensionName)) {
+        if (isset($this->typeName, $this->extensionName)) {
             $helper = AssociationsHelper::getExtensionHelper($this->extensionName);
             $title  = $helper->getTypeTitle($this->typeName);
 
