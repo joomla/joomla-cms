@@ -64,7 +64,6 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
              * @var   Registry   $params
              */
 
-
             // Logged users must load the logout sublayout
             if (!$user->guest) {
                 $layout .= '_logout';
