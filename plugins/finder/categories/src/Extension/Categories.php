@@ -439,7 +439,7 @@ final class Categories extends Adapter implements SubscriberInterface
         $case_when_item_alias = ' CASE WHEN ';
         $case_when_item_alias .= $query->charLength($db->quoteName('a.alias'), '!=', '0');
         $case_when_item_alias .= ' THEN ';
-        $a_id = $query->castAsChar($db->quoteName('a.id'));
+        $a_id = $query->castAs('CHAR', $db->quoteName('a.id'));
         $case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
         $case_when_item_alias .= ' ELSE ';
         $case_when_item_alias .= $a_id . ' END AS slug';
