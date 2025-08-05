@@ -174,6 +174,7 @@ class ExtensionHelper
 
         // Core plugin extensions - behaviour
         ['plugin', 'compat', 'behaviour', 0],
+        ['plugin', 'compat6', 'behaviour', 0],
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
 
@@ -266,6 +267,7 @@ class ExtensionHelper
         ['plugin', 'user', 'privacy', 0],
 
         // Core plugin extensions - quick icon
+        ['plugin', 'autoupdate', 'quickicon', 0],
         ['plugin', 'downloadkey', 'quickicon', 0],
         ['plugin', 'extensionupdate', 'quickicon', 0],
         ['plugin', 'joomlaupdate', 'quickicon', 0],
@@ -339,6 +341,7 @@ class ExtensionHelper
         ['plugin', 'contact', 'webservices', 0],
         ['plugin', 'content', 'webservices', 0],
         ['plugin', 'installer', 'webservices', 0],
+        ['plugin', 'joomlaupdate', 'webservices', 0],
         ['plugin', 'languages', 'webservices', 0],
         ['plugin', 'media', 'webservices', 0],
         ['plugin', 'menus', 'webservices', 0],

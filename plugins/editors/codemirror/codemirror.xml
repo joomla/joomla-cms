@@ -152,13 +152,13 @@
 							name="module"
 							type="text"
 							label="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_MODULE_LABEL"
-							description="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_MODULE_DESCR"
+							description="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_MODULE_DESC"
 						/>
 						<field
 							name="methods"
 							type="text"
 							label="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_METHOD_LABEL"
-							description="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_METHOD_DESCR"
+							description="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_METHOD_DESC"
 						/>
 					</form>
 				</field>
