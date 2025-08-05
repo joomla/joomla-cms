@@ -11,7 +11,6 @@ if (!Joomla) {
 const url = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_ajax&group=quickicon&plugin=eos&format=json`);
 
 async function onMutatedMessagesContainer(mutationList, observer) {
-  // eslint-disable-next-line no-restricted-syntax
   for (const mutation of mutationList) {
     const nodes = Array.from(mutation.addedNodes);
     if (!nodes.length) {

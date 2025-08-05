@@ -24,6 +24,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -469,7 +470,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         $link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
         // Put together the email template data.
-        $data              = $user->getProperties();
+        $data              = ArrayHelper::fromObject($user, false);
         $data['sitename']  = $app->get('sitename');
         $data['link_text'] = Route::_($link, false, $mode);
         $data['link_html'] = Route::_($link, true, $mode);

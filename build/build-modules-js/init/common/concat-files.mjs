@@ -13,7 +13,6 @@ const RootPath = process.cwd();
 export const concatFiles = async (files, output) => {
   const promises = [];
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const file of files) {
     if (existsSync(`${RootPath}/${file}`)) {
       promises.push(readFile(`${RootPath}/${file}`, { encoding: 'utf8' }));
