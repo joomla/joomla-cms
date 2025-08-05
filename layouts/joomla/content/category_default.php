@@ -20,7 +20,7 @@ use Joomla\CMS\Layout\LayoutHelper;
  * layout you need to close this div either by overriding this file or in your main layout.
  */
 $params    = $displayData->params;
-$category  = $displayData->get('category');
+$category  = $displayData->category;
 $extension = $category->extension;
 $canEdit   = $params->get('access-edit');
 $className = substr($extension, 4);
@@ -89,7 +89,7 @@ $tagsData = $category->tags->itemTags;
     <?php endif; ?>
     <?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
 
-    <?php if ($displayData->maxLevel != 0 && $displayData->get('children')) : ?>
+    <?php if ($displayData->maxLevel != 0 && $displayData->children) : ?>
         <div class="cat-children">
             <?php if ($params->get('show_category_heading_title_text', 1) == 1) : ?>
                 <h3>
