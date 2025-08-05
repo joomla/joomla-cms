@@ -367,7 +367,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
 
                 // If available in HTTPS check also the status code.
-                if (!\in_array($response->code, [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
+                if (!\in_array($response->getStatusCode(), [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
                     throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
                 }
             } catch (\RuntimeException $e) {
