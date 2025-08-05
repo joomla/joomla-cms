@@ -63,7 +63,6 @@ window.Joomla = window.Joomla || {};
    * That URL must re-render the management interface.
    * These contents will replace the element identified by the interface_selector CSS selector.
    */
-  // eslint-disable-next-line no-unused-vars
   Joomla.plgSystemWebauthnInitCreateCredentials = () => {
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
@@ -199,7 +198,7 @@ window.Joomla = window.Joomla || {};
    * @param   {String}  storeID  CSS ID for the element storing the configuration in its data
    *                              properties
    */
-  // eslint-disable-next-line no-unused-vars
+
   Joomla.plgSystemWebauthnEditLabel = (that) => {
     const paths = Joomla.getOptions('system.paths');
     const postURL = `${paths ? `${paths.base}/index.php` : window.location.pathname}`;
@@ -307,7 +306,7 @@ window.Joomla = window.Joomla || {};
    *
    * @param   {Element} that      The button being clicked
    */
-  // eslint-disable-next-line no-unused-vars
+
   Joomla.plgSystemWebauthnDelete = (that) => {
     if (!window.confirm(Joomla.Text._('JGLOBAL_CONFIRM_DELETE'))) {
       return false;
