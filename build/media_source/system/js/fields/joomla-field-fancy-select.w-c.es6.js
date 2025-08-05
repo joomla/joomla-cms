@@ -121,7 +121,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     }
 
     // Init Choices
-    // eslint-disable-next-line no-undef
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
       searchPlaceholderValue: this.searchPlaceholder,
@@ -153,9 +152,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       // This workaround can be removed when choices.js
       // will have an option that allow to disable it.
 
-      // eslint-disable-next-line no-underscore-dangle, prefer-destructuring
       const _highlightChoice = this.choicesInstance._highlightChoice;
-      // eslint-disable-next-line no-underscore-dangle
       this.choicesInstance._highlightChoice = (el) => {
         // Prevent auto-highlight of first element, if nothing actually highlighted
         if (!el) return;
@@ -178,7 +175,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
           choice.setAttribute('aria-selected', 'false');
         });
 
-        // eslint-disable-next-line no-underscore-dangle
         this.choicesInstance._highlightPosition = 0;
       });
       // END workaround for issue #29459
@@ -191,7 +187,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         }
         event.preventDefault();
 
-        // eslint-disable-next-line no-underscore-dangle
         if (this.choicesInstance._highlightPosition || !event.target.value) {
           return;
         }
@@ -310,10 +305,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         // Remove duplications
         let item;
-        // eslint-disable-next-line no-plusplus
         for (let i = items.length - 1; i >= 0; i--) { // The loop must be form the end !!!
           item = items[i];
-          // eslint-disable-next-line prefer-template
           item.value = '' + item.value; // Make sure the value is a string, choices.js expect a string.
 
           if (this.choicesCache[item.value]) {
@@ -337,7 +330,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   disableAllOptions() {
     // Choices.js does not offer a public API for accessing the choices
     // So we have to access the private store => don't eslint
-    // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
 
     choices.forEach((elem, index) => {
@@ -353,7 +345,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   enableAllOptions() {
     // Choices.js does not offer a public API for accessing the choices
     // So we have to access the private store => don't eslint
-    // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
 
@@ -371,7 +362,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   disableByValue($val) {
     // Choices.js does not offer a public API for accessing the choices
     // So we have to access the private store => don't eslint
-    // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
 
@@ -398,7 +388,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   enableByValue($val) {
     // Choices.js does not offer a public API for accessing the choices
     // So we have to access the private store => don't eslint
-    // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
 
