@@ -160,10 +160,10 @@ class ArchiveModel extends ArticlesModel
         $query       = $db->getQuery(true);
         $queryDate   = QueryHelper::getQueryDate($this->state->params->get('order_date'), $db);
         $years       = $query->year($queryDate);
-        $filterYears = $this->state->params->get('filter_field_years', 'ASC');
+        $yearSort    = $this->state->params->get('year_sort_order', 'ASC');
 
-        // Validate the filter years parameter for security
-        $filterYears = \in_array($filterYears, ['ASC', 'DESC']) ? $filterYears : 'ASC';
+        // Validate the year sort parameter for security
+        $yearSort = \in_array($yearSort, ['ASC', 'DESC']) ? $yearSort : 'ASC';
 
         $query->select('DISTINCT ' . $years)
             ->from($db->quoteName('#__content', 'a'))
@@ -186,7 +186,7 @@ class ArchiveModel extends ArticlesModel
             )
             ->bind(':publishUp', $nowDate)
             ->bind(':publishDown', $nowDate)
-            ->order('1 ' . $filterYears);
+            ->order('1 ' . $yearSort);
 
         $db->setQuery($query);
 
