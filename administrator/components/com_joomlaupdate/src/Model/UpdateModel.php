@@ -394,8 +394,8 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Follow the Location headers until the actual download URL is known
-        while (isset($head->headers['location'])) {
-            $packageURL = (string) $head->headers['location'][0];
+        while (isset($head->getHeaders()['location'])) {
+            $packageURL = (string) $head->getHeaders()['location'][0];
 
             try {
                 $head = (new HttpFactory())->getHttp($httpOptions)->head($packageURL);
@@ -588,7 +588,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Decode response
-        $result = json_decode((string)$response->getBody(), true);
+        $result = json_decode((string) $response->getBody(), true);
 
         // Handle validation issue
         if ($response->getStatusCode() === 422) {
@@ -764,12 +764,12 @@ class UpdateModel extends BaseDatabaseModel
             return false;
         }
 
-        if (!$result || ($result->code != 200 && $result->code != 310)) {
+        if (!$result || ($result->getStatusCode() != 200 && $result->getStatusCode() != 310)) {
             return false;
         }
 
         // Fix Indirect Modification of Overloaded Property
-        $body = $result->body;
+        $body = (string) $result->getBody();
 
         // Write the file to disk
         try {
@@ -1855,11 +1855,11 @@ ENDDATA;
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             return $return;
         }
 
-        $updateSiteXML = simplexml_load_string($response->body);
+        $updateSiteXML = simplexml_load_string((string) $response->getBody());
 
         foreach ($updateSiteXML->extension as $extension) {
             $attribs = new \stdClass();

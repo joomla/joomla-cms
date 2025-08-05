@@ -27,10 +27,8 @@ export const compressFile = async (file, enableBrotli) => {
       if (enableBrotli) {
         await writeFile(`${file}.br`, await brotliEncode(data));
       }
-      // eslint-disable-next-line no-console
       console.log(file);
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.info(`Error on ${file}: ${err.code}`);
     }
   }
