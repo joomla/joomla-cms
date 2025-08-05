@@ -162,9 +162,6 @@ class ArchiveModel extends ArticlesModel
         $years       = $query->year($queryDate);
         $yearSort    = $this->state->params->get('year_sort_order', 'ASC');
 
-        // Validate the year sort parameter for security
-        $yearSort = \in_array($yearSort, ['ASC', 'DESC']) ? $yearSort : 'ASC';
-
         $query->select('DISTINCT ' . $years)
             ->from($db->quoteName('#__content', 'a'))
             ->where($db->quoteName('a.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
