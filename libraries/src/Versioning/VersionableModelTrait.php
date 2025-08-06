@@ -119,6 +119,11 @@ trait VersionableModelTrait
             return false;
         }
 
+        // Fix null ordering when restoring history
+        if (\array_key_exists('ordering', $rowArray) && $rowArray['ordering'] === null) {
+            $rowArray['ordering'] = 0;
+        }
+
         [$extension, $type] = explode('.', $this->typeAlias);
 
         $app  = Factory::getApplication();
@@ -130,5 +135,8 @@ trait VersionableModelTrait
         $this->setState('version_note', $historyTable->version_note);
 
         return true;
+
+
+        return $table->bind($rowArray);
     }
 }

@@ -19,6 +19,8 @@ $displayData = [
     'formURL'    => 'index.php?option=com_contact',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Contacts',
     'icon'       => 'icon-address-book contact',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 $user = $this->getCurrentUser();
