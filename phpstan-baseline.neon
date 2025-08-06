@@ -97,6 +97,12 @@ parameters:
 			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
 
 		-
+			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
+			identifier: class.notFound
+			count: 1
+			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
+
+		-
 			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
 			identifier: class.notFound
 			count: 2
@@ -300,7 +306,7 @@ parameters:
 		-
 			message: '#^Access to property \$form on an unknown class HtmlView\.$#'
 			identifier: class.notFound
-			count: 3
+			count: 4
 			path: administrator/components/com_associations/tmpl/association/edit.php
 
 		-
@@ -2811,6 +2817,12 @@ parameters:
 			path: administrator/components/com_guidedtours/tmpl/step/edit.php
 
 		-
+			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
+			identifier: class.notFound
+			count: 1
+			path: administrator/components/com_guidedtours/tmpl/steps/default.php
+
+		-
 			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
 			identifier: class.notFound
 			count: 4
@@ -2851,6 +2863,12 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_guidedtours/tmpl/tour/edit.php
+
+		-
+			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
+			identifier: class.notFound
+			count: 1
+			path: administrator/components/com_guidedtours/tmpl/tours/default.php
 
 		-
 			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
@@ -3461,17 +3479,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_languages/src/Controller/InstalledController.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
 				4\.3 will be removed in 6\.0
 				             Use the language factory instead
@@ -3514,17 +3521,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_languages/src/Controller/OverrideController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_languages/src/Controller/OverridesController.php
 
 		-
 			message: '''
@@ -5675,7 +5671,7 @@ parameters:
 		-
 			message: '#^Access to property \$form on an unknown class HtmlView\.$#'
 			identifier: class.notFound
-			count: 10
+			count: 11
 			path: administrator/components/com_scheduler/tmpl/task/edit.php
 
 		-
@@ -5701,6 +5697,12 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: administrator/components/com_scheduler/tmpl/task/edit.php
+
+		-
+			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
+			identifier: class.notFound
+			count: 1
+			path: administrator/components/com_scheduler/tmpl/tasks/default.php
 
 		-
 			message: '#^Access to property \$hasDueTasks on an unknown class HtmlView\.$#'
