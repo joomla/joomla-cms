@@ -1,4 +1,9 @@
 // Global
+@media screen and (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
 
 html {
   height: 100%;
