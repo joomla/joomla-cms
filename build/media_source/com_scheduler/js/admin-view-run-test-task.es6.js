@@ -10,7 +10,6 @@
  *
  * @since    4.1.0
  */
-// eslint-disable-next-line import/no-unresolved
 import JoomlaDialog from 'joomla.dialog';
 
 /**

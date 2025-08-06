@@ -57,7 +57,6 @@ class WebInstaller {
       return false;
     }
 
-    // eslint-disable-next-line prefer-regex-literals
     const pattern1 = new RegExp(webInstallerOptions.options.base_url);
     const pattern2 = /^index\.php/;
 
@@ -126,9 +125,7 @@ class WebInstaller {
 
           document.getElementById('search-reset').innerHTML = Joomla.sanitizeHtml(Joomla.Text._('JSEARCH_FILTER_CLEAR'));
 
-          // eslint-disable-next-line no-shadow
           const orderingSelect = document.getElementById('com-apps-ordering');
-          // eslint-disable-next-line no-shadow
           const versionSelect = document.getElementById('com-apps-filter-joomla-version');
 
           if (orderingSelect) {
@@ -366,7 +363,6 @@ class WebInstaller {
     return true;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   submitButtonUrl() {
     const form = document.getElementById('adminForm');
 
