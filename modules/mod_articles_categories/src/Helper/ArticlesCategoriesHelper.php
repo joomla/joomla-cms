@@ -13,7 +13,6 @@ namespace Joomla\Module\ArticlesCategories\Site\Helper;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\CategoryNode;
-use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;

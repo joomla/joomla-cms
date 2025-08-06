@@ -11,7 +11,6 @@
 namespace Joomla\Module\UsersLatest\Site\Helper;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;

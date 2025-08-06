@@ -10,9 +10,7 @@
 
 namespace Joomla\Module\Breadcrumbs\Site\Helper;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 
