@@ -1843,16 +1843,16 @@
         },
         {
             "name": "joomla/oauth1",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth1.git",
-                "reference": "063b29c9f28de266fbadc7b8fc56ede4ae63b563"
+                "reference": "e48c0af2173222494cbac414e971c807f32a9eb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/063b29c9f28de266fbadc7b8fc56ede4ae63b563",
-                "reference": "063b29c9f28de266fbadc7b8fc56ede4ae63b563",
+                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/e48c0af2173222494cbac414e971c807f32a9eb9",
+                "reference": "e48c0af2173222494cbac414e971c807f32a9eb9",
                 "shasum": ""
             },
             "require": {
@@ -1891,22 +1891,22 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/oauth1/issues",
-                "source": "https://github.com/joomla-framework/oauth1/tree/4.0.0"
+                "source": "https://github.com/joomla-framework/oauth1/tree/4.0.1"
             },
-            "time": "2025-07-24T09:04:45+00:00"
+            "time": "2025-08-06T11:59:19+00:00"
         },
         {
             "name": "joomla/oauth2",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "defa8a72060e007c8b18ba537856610a1fc46cc8"
+                "reference": "5c665f53aeafb2d3a0168534932ace9573a0abe7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/defa8a72060e007c8b18ba537856610a1fc46cc8",
-                "reference": "defa8a72060e007c8b18ba537856610a1fc46cc8",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/5c665f53aeafb2d3a0168534932ace9573a0abe7",
+                "reference": "5c665f53aeafb2d3a0168534932ace9573a0abe7",
                 "shasum": ""
             },
             "require": {
@@ -1942,9 +1942,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/oauth2/issues",
-                "source": "https://github.com/joomla-framework/oauth2/tree/4.0.0"
+                "source": "https://github.com/joomla-framework/oauth2/tree/4.0.1"
             },
-            "time": "2025-07-24T09:07:53+00:00"
+            "time": "2025-08-06T10:09:51+00:00"
         },
         {
             "name": "joomla/registry",
@@ -6524,16 +6524,16 @@
         },
         {
             "name": "joomla/mediawiki",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/mediawiki-api.git",
-                "reference": "b628a4d52a56833de83f9fedab625e2222c56f7b"
+                "reference": "34f5b81eb61586938df86388fee2236f8fbc7131"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/b628a4d52a56833de83f9fedab625e2222c56f7b",
-                "reference": "b628a4d52a56833de83f9fedab625e2222c56f7b",
+                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/34f5b81eb61586938df86388fee2236f8fbc7131",
+                "reference": "34f5b81eb61586938df86388fee2236f8fbc7131",
                 "shasum": ""
             },
             "require": {
@@ -6569,9 +6569,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/mediawiki-api/issues",
-                "source": "https://github.com/joomla-framework/mediawiki-api/tree/4.0.0"
+                "source": "https://github.com/joomla-framework/mediawiki-api/tree/4.0.1"
             },
-            "time": "2025-07-23T20:06:22+00:00"
+            "time": "2025-08-06T10:10:33+00:00"
         },
         {
             "name": "joomla/test",
