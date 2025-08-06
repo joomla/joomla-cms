@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Users\Site\View\Methods\HtmlView $this */
 ?>
 <div id="com-users-methods-list">
-    <?php if (isset($this->forHMVC) && !$this->forHMVC) : ?>
+    <?php if (!isset($this->forHMVC) || !$this->forHMVC) : ?>
         <h2 id="com-users-methods-list-head">
             <?php echo Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'); ?>
         </h2>
