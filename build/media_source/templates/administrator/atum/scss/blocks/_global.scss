@@ -239,9 +239,9 @@ details {
   }
 
   &::details-content {
+    overflow-y: clip;
     opacity: 0;
     block-size: 0;
-    overflow-y: clip;
     transition: content-visibility var(--_duration) allow-discrete,
       opacity var(--_duration),
       block-size var(--_duration);
