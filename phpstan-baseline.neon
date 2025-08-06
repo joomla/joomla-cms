@@ -15366,8 +15366,8 @@ parameters:
 			path: plugins/actionlog/joomla/src/Extension/Joomla.php
 
 		-
-			message: '#^Property Joomla\\CMS\\Application\\BaseApplication\:\:\$input is not writable\.$#'
-			identifier: assign.propertyReadOnly
+			message: '#^Access to an undefined property Joomla\\CMS\\Application\\BaseApplication\:\:\$input\.$#'
+			identifier: property.notFound
 			count: 1
 			path: plugins/behaviour/compat6/classes/Application/BaseApplication.php
 
@@ -15891,10 +15891,58 @@ parameters:
 			path: plugins/system/webauthn/src/MetadataRepository.php
 
 		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\Checkfiles\\Extension\\Checkfiles\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/checkfiles/src/Extension/Checkfiles.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\DeleteActionLogs\\Extension\\DeleteActionLogs\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/deleteactionlogs/src/Extension/DeleteActionLogs.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\PrivacyConsent\\Extension\\PrivacyConsent\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/privacyconsent/src/Extension/PrivacyConsent.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\Requests\\Extension\\Requests\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/requests/src/Extension/Requests.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\RotateLogs\\Extension\\RotateLogs\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/rotatelogs/src/Extension/RotateLogs.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\SessionGC\\Extension\\SessionGC\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/sessiongc/src/Extension/SessionGC.php
+
+		-
 			message: '#^Instantiated class JConfig not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: plugins/task/sitestatus/services/provider.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\SiteStatus\\Extension\\SiteStatus\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/sitestatus/src/Extension/SiteStatus.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\UpdateNotification\\Extension\\UpdateNotification\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/updatenotification/src/Extension/UpdateNotification.php
 
 		-
 			message: '''
