@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Utility\Utility;
 
-/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Upload\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
