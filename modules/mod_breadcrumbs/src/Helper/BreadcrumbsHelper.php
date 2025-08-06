@@ -86,46 +86,4 @@ class BreadcrumbsHelper
 
         return $item;
     }
-
-    /**
-     * Retrieve breadcrumb items
-     *
-     * @param   Registry        $params  The module parameters
-     * @param   CMSApplication  $app     The application
-     *
-     * @return  array
-     *
-     * @since   1.5
-     *
-     * @deprecated 4.4.0 will be removed in 6.0
-     *             Use the non-static method getBreadcrumbs
-     *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
-     *                          ->getHelper('BreadcrumbsHelper')
-     *                          ->getBreadcrumbs($params, Factory::getApplication())
-     */
-    public static function getList(Registry $params, CMSApplication $app)
-    {
-        return (new self())->getBreadcrumbs($params, Factory::getApplication());
-    }
-
-    /**
-     * Retrieve home item (start page)
-     *
-     * @param   Registry        $params  The module parameters
-     * @param   CMSApplication  $app     The application
-     *
-     * @return  object
-     *
-     * @since   4.2.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0
-     *             Use the non-static method getHomeItem
-     *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
-     *                          ->getHelper('BreadcrumbsHelper')
-     *                          ->getHomeItem($params, Factory::getApplication())
-     */
-    public static function getHome(Registry $params, CMSApplication $app)
-    {
-        return (new self())->getHomeItem($params, Factory::getApplication());
-    }
 }
