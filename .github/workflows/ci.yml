@@ -116,7 +116,7 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4']
+        php_version: ['8.3', '8.4']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -133,7 +133,7 @@ jobs:
     needs: [code-style-php]
     strategy:
       matrix:
-        php_version: ['8.1', '8.2', '8.3', '8.4']
+        php_version: ['8.3', '8.4']
         config: ['phpunit.xml.dist', 'phpunit-pgsql.xml.dist']
     steps:
       - uses: actions/checkout@v4
@@ -270,11 +270,11 @@ jobs:
             test_group: cmysqlmax
             db_engine: mysqli
             db_host: mysql
-          - php_version: '8.1'
+          - php_version: '8.3'
             test_group: cmysql
             db_engine: mysqli
             db_host: mysql
-          - php_version: '8.1'
+          - php_version: '8.3'
             test_group: cpostgres
             db_engine: pgsql
             db_host: postgres

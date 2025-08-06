@@ -195,6 +195,26 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             $toolbar->cancel('user.cancel');
         }
 
+        // Check lastvisitDate for allow resend the activation email
+        $userIsNotActive = !empty($this->item->activation) || \is_null($this->item->lastvisitDate);
+
+        if ($this->item->id > 0 && $userIsNotActive) {
+            $buttonText = !empty($this->item->activation)
+                ? Text::_('COM_USERS_USER_ACTIVATE_AND_MAIL')
+                : Text::_('COM_USERS_USER_ACTIVATION_REMINDER');
+
+            $toolbar->standardButton('activate', $buttonText)
+                ->buttonClass('btn activate-send-mail')
+                ->attributes([
+                    'data-option' => 'com_users',
+                    'data-task'   => 'user.active',
+                    'data-format' => 'json',
+                    'data-userid' => $this->item->id,
+                ])
+                ->icon('icon-mail')
+                ->onclick('');
+        }
+
         $toolbar->divider();
         $toolbar->help('Users:_Edit_Profile');
     }
