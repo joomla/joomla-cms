@@ -32,15 +32,6 @@ abstract class PrivacyPlugin extends CMSPlugin
     use DatabaseAwareTrait;
 
     /**
-     * Database object
-     *
-     * @var    \Joomla\Database\DatabaseDriver
-     * @since  3.9.0
-     * @deprecated  4.4.0 will be removed in 6.0 use $this->getDatabase() instead
-     */
-    protected $db;
-
-    /**
      * Affects constructor behaviour. If true, language files will be loaded automatically.
      *
      * @var    boolean
