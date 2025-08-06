@@ -42,6 +42,5 @@ ${contents}`,
   await ensureDir(dirname(cssFile.replace('.css', '.min.css')), {});
   await writeFile(cssFile.replace('.css', '.min.css'), `@charset "UTF-8";${cssMin}`, { encoding: 'utf8', mode: 0o644 });
 
-  // eslint-disable-next-line no-console
   console.log(`✅ SCSS File compiled: ${cssFile}`);
 };
