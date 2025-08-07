@@ -86,7 +86,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
             ]
         );
 
-        $view->document = $this->app->getDocument();
+        $view->setDocument($this->app->getDocument());
 
         // If we're already logged in go to the site's home page
         if ((int) $this->app->getSession()->get('com_users.mfa_checked', 0) === 1) {

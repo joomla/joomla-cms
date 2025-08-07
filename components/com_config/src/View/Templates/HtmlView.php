@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
         $view->setModel($factory->createModel('Style', 'Administrator'), true);
         $view->setLanguage($app->getLanguage());
 
-        $view->document = $this->getDocument();
+        $view->setDocument($this->getDocument());
 
         $json = $view->display();
 

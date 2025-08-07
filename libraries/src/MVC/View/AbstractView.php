@@ -46,11 +46,8 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      *
      * @var    Document
      * @since  3.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0
-     *             Use $this->getDocument() instead
      */
-    public $document;
+    private $document;
 
     /**
      * The URL option for the component. It is usually passed by controller while it creates the view
