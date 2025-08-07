@@ -64,7 +64,7 @@ class FeedFactory
             }
 
             // Set the value to the XMLReader parser
-            if (!$reader->XML($response->getBody()->getContents(), null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING)) {
+            if (!$reader->XML((string) $response->getBody(), null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING)) {
                 throw new \RuntimeException('Unable to parse the feed.');
             }
         }

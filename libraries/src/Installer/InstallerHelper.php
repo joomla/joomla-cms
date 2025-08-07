@@ -125,8 +125,7 @@ abstract class InstallerHelper
         }
 
         // Fix Indirect Modification of Overloaded Property
-        $response->getBody()->rewind();
-        $body = $response->getBody()->getContents();
+        $body = (string) $response->getBody();
 
         // Write buffer to file
         File::write($target, $body);
