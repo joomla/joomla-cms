@@ -951,6 +951,11 @@ abstract class AdminModel extends FormModel
                         return false;
                     }
 
+                    if (Factory::getApplication()->isClient('api')) {
+                        $session = Factory::getApplication()->getSession();
+                        $session->set('http_status_code_409', true);
+                    }
+
                     Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
                     return false;
