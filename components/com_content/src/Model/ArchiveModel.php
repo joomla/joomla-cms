@@ -160,6 +160,7 @@ class ArchiveModel extends ArticlesModel
         $query     = $db->getQuery(true);
         $queryDate = QueryHelper::getQueryDate($this->state->params->get('order_date'), $db);
         $years     = $query->year($queryDate);
+        $yearSort  = $this->state->params->get('year_sort_order', 'ASC');
 
         $query->select('DISTINCT ' . $years)
             ->from($db->quoteName('#__content', 'a'))
@@ -182,7 +183,7 @@ class ArchiveModel extends ArticlesModel
             )
             ->bind(':publishUp', $nowDate)
             ->bind(':publishDown', $nowDate)
-            ->order('1 ASC');
+            ->order('1 ' . $yearSort);
 
         $db->setQuery($query);
 
