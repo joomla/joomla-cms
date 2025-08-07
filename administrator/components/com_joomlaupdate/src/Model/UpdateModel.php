@@ -395,8 +395,8 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Follow the Location headers until the actual download URL is known
-        while (isset($head->headers['location'])) {
-            $packageURL = (string) $head->headers['location'][0];
+        while (isset($head->getHeaders()['location'])) {
+            $packageURL = (string) $head->getHeaders()['location'][0];
 
             try {
                 $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
@@ -589,7 +589,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Decode response
-        $result = json_decode((string)$response->getBody(), true);
+        $result = json_decode((string) $response->getBody(), true);
 
         // Handle validation issue
         if ($response->getStatusCode() === 422) {
@@ -614,8 +614,8 @@ class UpdateModel extends BaseDatabaseModel
             Factory::getApplication()->enqueueMessage(
                 Text::sprintf(
                     'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_ERROR',
-                    $result['message'] ?: '',
-                    $result['status'] ?: ''
+                    $result['message'] ?? '',
+                    $result['status'] ?? ''
                 ),
                 'error'
             );
@@ -632,7 +632,7 @@ class UpdateModel extends BaseDatabaseModel
             ($targetState === AutoupdateRegisterState::Subscribe)
                 ? AutoupdateRegisterState::Subscribed
                 : AutoupdateRegisterState::Unsubscribed,
-            ($targetState === AutoupdateRegisterState::Unsubscribed)
+            ($targetState === AutoupdateRegisterState::Subscribe)
         );
 
         return AutoupdateRegisterResultState::Success;
@@ -641,7 +641,7 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * Update the autoupdate activation and registration states
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function updateAutoUpdateParams(AutoupdateRegisterState $registrationState, bool $enableUpdate): void
     {
@@ -765,12 +765,12 @@ class UpdateModel extends BaseDatabaseModel
             return false;
         }
 
-        if (!$result || ($result->code != 200 && $result->code != 310)) {
+        if (!$result || ($result->getStatusCode() != 200 && $result->getStatusCode() != 310)) {
             return false;
         }
 
         // Fix Indirect Modification of Overloaded Property
-        $body = $result->body;
+        $body = (string) $result->getBody();
 
         // Write the file to disk
         try {
@@ -922,8 +922,6 @@ ENDDATA;
         $db                   = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
-
-        $installer->setAdapter($installer->extension->type);
 
         $installer->setPath('manifest', JPATH_MANIFESTS . '/files/joomla.xml');
         $installer->setPath('source', JPATH_MANIFESTS . '/files');
@@ -1748,7 +1746,7 @@ ENDDATA;
     }
 
     /**
-     * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
+     * Called by controller's batchextensioncompatibility, which is called via AJAX.
      *
      * @param   string  $extensionID          The ID of the checked extension
      * @param   string  $joomlaTargetVersion  Target version of Joomla
@@ -1858,11 +1856,11 @@ ENDDATA;
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             return $return;
         }
 
-        $updateSiteXML = simplexml_load_string($response->body);
+        $updateSiteXML = simplexml_load_string((string) $response->getBody());
 
         foreach ($updateSiteXML->extension as $extension) {
             $attribs = new \stdClass();

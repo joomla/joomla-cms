@@ -12,9 +12,6 @@ namespace Joomla\Tests\Unit\Libraries\Cms\MVC\View;
 
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\AbstractView;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
-use Joomla\Event\EventInterface;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -219,32 +216,5 @@ class AbstractViewTest extends UnitTestCase
         $view->setModel($model, true);
 
         $this->assertEquals('test', $view->get('unit'));
-    }
-
-    /**
-     * @testdox  can dispatch an event
-     *
-     * @return  void
-     *
-     * @since   4.2.0
-     */
-    public function testDispatchEvent()
-    {
-        $event      = new Event('test');
-        $dispatcher = $this->createMock(DispatcherInterface::class);
-        $dispatcher->expects($this->once())->method('dispatch')->with($this->equalTo('test'), $this->equalTo($event));
-
-        $view = new class () extends AbstractView {
-            public function dispatchEvent(EventInterface $event)
-            {
-                parent::dispatchEvent($event);
-            }
-
-            public function display($tpl = null)
-            {
-            }
-        };
-        $view->setDispatcher($dispatcher);
-        $view->dispatchEvent($event);
     }
 }

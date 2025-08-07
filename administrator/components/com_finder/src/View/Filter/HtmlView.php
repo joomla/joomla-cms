@@ -110,6 +110,11 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', Factory::getApplication()->getInput()->get('return', '', 'BASE64'));
+
         // Configure the toolbar.
         $this->addToolbar();
 
