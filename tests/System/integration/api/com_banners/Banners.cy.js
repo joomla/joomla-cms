@@ -51,7 +51,7 @@ describe('Test that banners API endpoint', () => {
 
   it('cannot delete a banner not trashed', () => {
     cy.db_createBanner({ name: 'automated test banner'})
-      .then((banner) => cy.api_delete(`/banners/${banner.id}`))
+      .then((banner) => cy.api_delete(`/banners/${banner.id}`, { failOnStatusCode: false }))
       .then((response) => cy.wrap(response).its('status').should('equal', 409));
   });
 });
