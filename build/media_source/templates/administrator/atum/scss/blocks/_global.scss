@@ -1,4 +1,9 @@
 // Global
+@media screen and (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
 
 html {
   height: 100%;
@@ -225,19 +230,38 @@ a[target="_blank"]::before {
 }
 
 // details
-
 details {
+  --_duration: .2s;
+
   padding: .5rem 1rem;
   margin: 0 0 2rem;
   background: $details-bg;
   border: $details-border;
   border-radius: $border-radius;
 
+  @media (prefers-reduced-motion: no-preference) {
+    interpolate-size: allow-keywords;
+  }
+
+  &::details-content {
+    overflow-y: clip;
+    opacity: 0;
+    block-size: 0;
+    transition: content-visibility var(--_duration) allow-discrete,
+      opacity var(--_duration),
+      block-size var(--_duration);
+  }
+
+  &[open]::details-content {
+    opacity: 1;
+    block-size: auto;
+  }
+
   summary {
     color: var(--template-link-color);
 
     ~ * {
-      margin-top: 1rem;
+      padding-top: 1rem;
     }
   }
 }
