@@ -303,19 +303,19 @@ class ApiController extends BaseController
                 throw new \RuntimeException($model->getError(), 500);
             }
 
-            // If the model has set a 409 status code in the session, we return a 409 http status code
+            // If the model has set a 409 status code in the session, we return a 409 http status codee
             if ($this->app->getSession()->get('http_status_code_409', false)) {
                 $this->app->getSession()->clear('http_status_code_409');
                 $this->app->setHeader('status', 409, true);
                 $this->app->setHeader('Content-Type', 'application/json');
                 $this->app->sendHeaders();
                 $body = [
-                    'status'  => 'Conflict',
-                    'code'    => 409,
+                    'status' => 'Conflict',
+                    'code' => 409,
                     'message' => 'Resource not in state that can be deleted, must be trashed before it can be deleted',
                 ];
                 echo new JsonResponse($body);
-                $this->app->close();          
+                $this->app->close();
             } else {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DELETE'), 500);
             }
