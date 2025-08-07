@@ -315,7 +315,7 @@ class ApiController extends BaseController
                     'message' => 'Resource not in state that can be deleted, must be trashed before it can be deleted',
                 ];
                 echo new JsonResponse($body);
-                $this->app->close();                
+                $this->app->close();          
             } else {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DELETE'), 500);
             }
