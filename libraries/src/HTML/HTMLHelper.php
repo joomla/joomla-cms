@@ -124,7 +124,7 @@ abstract class HTMLHelper
      */
     final public static function _(string $key, ...$methodArgs)
     {
-        list($key, $prefix, $file, $func) = static::extract($key);
+        [$key, $prefix, $file, $func] = static::extract($key);
 
         if (\array_key_exists($key, static::$registry)) {
             $function = static::$registry[$key];
@@ -215,7 +215,7 @@ abstract class HTMLHelper
             E_USER_DEPRECATED
         );
 
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         static::$registry[$key] = $function;
 
@@ -240,7 +240,7 @@ abstract class HTMLHelper
             E_USER_DEPRECATED
         );
 
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         if (isset(static::$registry[$key])) {
             unset(static::$registry[$key]);
@@ -262,7 +262,7 @@ abstract class HTMLHelper
      */
     public static function isRegistered($key)
     {
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         return isset(static::$registry[$key]);
     }
@@ -480,12 +480,12 @@ abstract class HTMLHelper
                         // If the file contains any /: it can be in a media extension subfolder
                         if (strpos($file, '/')) {
                             // Divide the file extracting the extension as the first part before /
-                            list($extension, $file) = explode('/', $file, 2);
+                            [$extension, $file] = explode('/', $file, 2);
 
                             // If the file yet contains any /: it can be a plugin
                             if (strpos($file, '/')) {
                                 // Divide the file extracting the element as the first part before /
-                                list($element, $file) = explode('/', $file, 2);
+                                [$element, $file] = explode('/', $file, 2);
 
                                 // Try to deal with plugins group in the media folder
                                 $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
@@ -761,8 +761,8 @@ abstract class HTMLHelper
                 }
 
                 // Set the attribute
-                list($key, $value) = explode('=', $attribute);
-                $attributes[$key]  = trim($value, '"');
+                [$key, $value]    = explode('=', $attribute);
+                $attributes[$key] = trim($value, '"');
             }
 
             // Add the attributes from the string to the original attributes
@@ -1038,7 +1038,7 @@ abstract class HTMLHelper
         if ($content !== '' || $title !== '') {
             // Split title into title and content if the title contains '::' (old Mootools format).
             if ($content === '' && !(!str_contains($title, '::'))) {
-                list($title, $content) = explode('::', $title, 2);
+                [$title, $content] = explode('::', $title, 2);
             }
 
             // Pass texts through Text if required.

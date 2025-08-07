@@ -200,7 +200,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
             try {
                 $this->getDatabase()->insertObject('#__privacy_consents', $userNote);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Do nothing if the save fails
             }
 

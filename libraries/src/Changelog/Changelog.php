@@ -283,8 +283,7 @@ class Changelog
                         $this->$key = $val;
                     }
 
-                    unset($this->latest);
-                    unset($this->currentChangelog);
+                    unset($this->latest, $this->currentChangelog);
                 } elseif (isset($this->currentChangelog)) {
                     // The update might be for an older version of j!
                     unset($this->currentChangelog);
@@ -353,7 +352,7 @@ class Changelog
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // @todo: Add a 'mark bad' setting here somehow
             Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
@@ -363,11 +362,10 @@ class Changelog
         $this->currentChangelog = new \stdClass();
 
         $this->xmlParser = xml_parser_create('');
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, 'startElement', 'endElement');
-        xml_set_character_data_handler($this->xmlParser, 'characterData');
+        xml_set_element_handler($this->xmlParser, [$this, 'startElement'], [$this, 'endElement']);
+        xml_set_character_data_handler($this->xmlParser, [$this, 'characterData']);
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
             Log::add(
                 \sprintf(
                     'XML error: %s at line %d',

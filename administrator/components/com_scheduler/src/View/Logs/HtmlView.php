@@ -97,6 +97,11 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         $this->addToolbar();
         parent::display($tpl);
     }
@@ -111,7 +116,6 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         $canDo   = ContentHelper::getActions('com_scheduler');
-        $user    = Factory::getApplication()->getIdentity();
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_SCHEDULER_FIELDSET_EXEC_HIST'), 'list');

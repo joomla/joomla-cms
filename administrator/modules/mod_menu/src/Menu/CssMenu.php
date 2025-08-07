@@ -13,11 +13,9 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Table\MenuType;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
@@ -232,12 +230,12 @@ class CssMenu
             $uri = clone Uri::getInstance();
             $uri->setVar('recover_menu', 1);
 
-            $table    = new MenuType(Factory::getDbo());
+            $table    = $this->application->bootComponent('com_menu')->getMVCFactory()->createTable('MenuType');
             $menutype = $params->get('menutype');
 
             $table->load(['menutype' => $menutype]);
 
-            $menutype = isset($table->title) ? $table->title : $menutype;
+            $menutype = $table->title ?? $menutype;
             $message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
 
             $this->application->enqueueMessage($message, 'warning');
@@ -285,8 +283,8 @@ class CssMenu
                 continue;
             }
 
-            $item->scope = $item->scope ?? 'default';
-            $item->icon  = $item->icon ?? '';
+            $item->scope ??= 'default';
+            $item->icon  ??= '';
 
             // Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
             if (($item->scope === 'help' && $this->params->get('showhelp', 1) == 0) || ($item->scope === 'edit' && !$this->params->get('shownew', 1))) {
@@ -354,7 +352,7 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : ['com_fields'];
+                [$assetName] = isset($query['context']) ? explode('.', $query['context'], 2) : ['com_fields'];
             } elseif ($item->element === 'com_cpanel' && $item->link === 'index.php') {
                 continue;
             } elseif (
@@ -383,7 +381,7 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : ['com_workflow'];
+                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : ['com_workflow'];
             } elseif (\in_array($item->element, ['com_config', 'com_privacy', 'com_actionlogs'], true) && !$user->authorise('core.admin')) {
                 // Special case for components which only allow super user access
                 $parent->removeChild($item);

@@ -43,7 +43,7 @@ class FeedHelper
         // Get RSS parsed object
         try {
             $rssDoc = $feed->getFeed($rssurl);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
         }
 

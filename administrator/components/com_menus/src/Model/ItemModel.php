@@ -567,7 +567,7 @@ class ItemModel extends AdminModel
 
         // Only merge if there is a session and itemId or itemid is null.
         if (
-            isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
+            isset($sessionData['id'], $itemData['id']) && $sessionData['id'] === $itemData['id']
             || \is_null($itemData['id'])
         ) {
             $data = array_merge($itemData, $sessionData);
@@ -1146,7 +1146,7 @@ class ItemModel extends AdminModel
             // If an XML file was found in the component, load it first.
             // We need to qualify the full path to avoid collisions with component file names.
 
-            if ($form->loadFile($formFile, true, '/metadata') == false) {
+            if (!$form->loadFile($formFile, true, '/metadata')) {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
 

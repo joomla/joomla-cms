@@ -2,7 +2,7 @@
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-// eslint-disable-next-line import/no-unresolved
+
 import JoomlaDialog from 'joomla.dialog';
 
 class JoomlaFieldUser extends HTMLElement {
@@ -91,7 +91,6 @@ class JoomlaFieldUser extends HTMLElement {
       // Check for onchange callback,
       this.onchangeStr = this.input.getAttribute('data-onchange');
       if (this.onchangeStr) {
-        // eslint-disable-next-line no-new-func
         this.onUserSelect = new Function(this.onchangeStr);
         this.input.addEventListener('change', this.onUserSelect);
       }

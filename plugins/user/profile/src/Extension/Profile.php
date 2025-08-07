@@ -328,7 +328,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
             try {
                 $date       = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Throw an exception if date is not valid.
                 throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
             }

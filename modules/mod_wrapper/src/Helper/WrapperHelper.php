@@ -52,7 +52,7 @@ class WrapperHelper
             if (str_starts_with($url, '/')) {
                 // Relative URL in component. use server http_host.
                 $url = 'http://' . $app->getInput()->server->get('HTTP_HOST') . $url;
-            } elseif (!str_contains($url, 'http') && !str_contains($url, 'https')) {
+            } elseif (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
                 $url = 'http://' . $url;
             }
         }

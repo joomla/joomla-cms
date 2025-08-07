@@ -46,7 +46,7 @@ const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
 
 const handleError = (err, terminateCode) => {
-  console.error(err); // eslint-disable-line no-console
+  console.error(err);
   process.exitCode = terminateCode;
 };
 
@@ -149,12 +149,12 @@ if (cliOptions.compileJs) {
   scripts(options, Program.args[0]).catch((err) => handleError(err, 1));
 }
 
-// Compress/transpile the javascript files
+// Watch & Compile the javascript files in the media_source folder
 if (cliOptions.watch) {
   watching(Program.args[0]);
 }
 
-// Gzip js/css files
+// Compile the Bootstrap javascript components
 if (cliOptions.compileBs) {
   bootstrapJs();
 }

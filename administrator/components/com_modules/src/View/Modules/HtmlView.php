@@ -156,10 +156,14 @@ class HtmlView extends BaseHtmlView
 
             // If in the frontend state and language should not activate the search tools.
             if (Factory::getApplication()->isClient('site')) {
-                unset($this->activeFilters['state']);
-                unset($this->activeFilters['language']);
+                unset($this->activeFilters['state'], $this->activeFilters['language']);
             }
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
     }

@@ -68,7 +68,7 @@ class NewsfeedController extends FormController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         // Since there is no asset tracking, fallback to the component permissions.
         if (!$recordId) {

@@ -134,6 +134,10 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '');
+
         if (!Associations::isEnabled()) {
             $link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
@@ -174,8 +178,7 @@ class HtmlView extends BaseHtmlView
 
                 // Dynamic filter form.
                 // This selectors doesn't have to activate the filter bar.
-                unset($this->activeFilters['itemtype']);
-                unset($this->activeFilters['language']);
+                unset($this->activeFilters['itemtype'], $this->activeFilters['language']);
 
                 // Remove filters options depending on selected type.
                 if (empty($support['state'])) {
@@ -212,6 +215,11 @@ class HtmlView extends BaseHtmlView
                         if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
                             $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
                         }
+
+                        // Add extra form control fields for modal
+                        $this->filterForm
+                            ->addControlField('forcedItemType', Factory::getApplication()->getInput()->get('forcedItemType', '', 'string'))
+                            ->addControlField('forcedLanguage', $forcedLanguage);
                     }
                 }
 
@@ -249,7 +257,7 @@ class HtmlView extends BaseHtmlView
     {
         $user = $this->getCurrentUser();
 
-        if (isset($this->typeName) && isset($this->extensionName)) {
+        if (isset($this->typeName, $this->extensionName)) {
             $helper = AssociationsHelper::getExtensionHelper($this->extensionName);
             $title  = $helper->getTypeTitle($this->typeName);
 

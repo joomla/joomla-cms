@@ -237,7 +237,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         try {
             $db = $this->getDatabase();
         } catch (DatabaseNotFoundException) {
-            @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -292,7 +292,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $case_when = ' CASE WHEN ';
         $case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
         $case_when .= ' THEN ';
-        $c_id = $query->castAsChar($db->quoteName('c.id'));
+        $c_id = $query->castAs('CHAR', $db->quoteName('c.id'));
         $case_when .= $query->concatenate([$c_id, $db->quoteName('c.alias')], ':');
         $case_when .= ' ELSE ';
         $case_when .= $c_id . ' END as ' . $db->quoteName('slug');
