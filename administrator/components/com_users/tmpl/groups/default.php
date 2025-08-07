@@ -137,9 +137,7 @@ $wa->useScript('com_users.admin-users-groups')
 
                 <?php endif; ?>
 
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>
