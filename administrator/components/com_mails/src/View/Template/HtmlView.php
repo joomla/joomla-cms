@@ -88,9 +88,9 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        list($extension, $template_id) = explode('.', $this->item->template_id, 2);
-        $fields                        = ['subject', 'body', 'htmlbody'];
-        $this->templateData            = [];
+        [$extension, $template_id] = explode('.', $this->item->template_id, 2);
+        $fields                    = ['subject', 'body', 'htmlbody'];
+        $this->templateData        = [];
 
         MailsHelper::loadTranslationFiles($extension, $this->item->language);
 
@@ -115,6 +115,11 @@ class HtmlView extends BaseHtmlView
                 $this->form->setValue($field, null, $this->item->$field);
             }
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', Factory::getApplication()->getInput()->get('return', '', 'BASE64'));
 
         $this->addToolbar();
 

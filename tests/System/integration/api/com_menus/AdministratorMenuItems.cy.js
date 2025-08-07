@@ -45,7 +45,7 @@ describe('Test that menu items administrator API endpoint', () => {
 
   it('can update an administrator menu item', () => {
     cy.db_createMenuItem({ title: 'automated test administrator menu item', type: 'component', client_id: 1 })
-      .then((id) => cy.api_patch(`/menus/administrator/items/${id}`, { title: 'updated automated test administrator menu item', type: 'component' }))
+      .then((id) => cy.api_patch(`/menus/administrator/items/${id}`, { title: 'updated automated test administrator menu item', type: 'component', menuordering: id }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'updated automated test administrator menu item'));

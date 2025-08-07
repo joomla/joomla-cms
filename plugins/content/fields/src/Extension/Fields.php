@@ -32,7 +32,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -74,17 +74,17 @@ final class Fields extends CMSPlugin implements SubscriberInterface
         }
 
         // Prepare the text
-        if (property_exists($item, 'text') && strpos($item->text, 'field') !== false) {
+        if (property_exists($item, 'text') && str_contains($item->text, 'field')) {
             $item->text = $this->prepare($item->text, $context, $item);
         }
 
         // Prepare the intro text
-        if (property_exists($item, 'introtext') && \is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
+        if (property_exists($item, 'introtext') && \is_string($item->introtext) && str_contains($item->introtext, 'field')) {
             $item->introtext = $this->prepare($item->introtext, $context, $item);
         }
 
         // Prepare the full text
-        if (!empty($item->fulltext) && strpos($item->fulltext, 'field') !== false) {
+        if (!empty($item->fulltext) && str_contains($item->fulltext, 'field')) {
             $item->fulltext = $this->prepare($item->fulltext, $context, $item);
         }
     }

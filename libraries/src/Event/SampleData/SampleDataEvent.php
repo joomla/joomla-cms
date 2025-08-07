@@ -18,7 +18,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Base class for Sample data events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.3.0
  */
 abstract class SampleDataEvent extends AbstractImmutableEvent
 {
@@ -30,7 +30,7 @@ abstract class SampleDataEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function __construct($name, array $arguments = [])
     {

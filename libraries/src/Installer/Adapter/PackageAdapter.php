@@ -228,7 +228,7 @@ class PackageAdapter extends InstallerAdapter
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
             }
         }
@@ -721,7 +721,7 @@ class PackageAdapter extends InstallerAdapter
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

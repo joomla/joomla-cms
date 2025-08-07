@@ -23,7 +23,7 @@ use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 /**
  * Dispatcher class for mod_privacy_status
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.3.0
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
@@ -34,7 +34,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function dispatch()
     {
@@ -61,7 +61,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     protected function getLayoutData()
     {
