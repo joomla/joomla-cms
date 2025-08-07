@@ -49,9 +49,18 @@ describe('Test that banners API endpoint', () => {
       .then((banner) => cy.api_delete(`/banners/${banner.id}`));
   });
 
-  it('cannot delete a banner not trashed', () => {
-    cy.db_createBanner({ name: 'automated test banner'})
-      .then((banner) => cy.api_delete(`/banners/${banner.id}`, { failOnStatusCode: false }))
-      .then((response) => cy.wrap(response).its('status').should('equal', 409));
-  });
+  it('cannot delete a banner that is not trashed', () => {
+  cy.db_createBanner({ name: 'automated test banner' })
+    .then((banner) => {
+      // Use cy.request directly to ensure failOnStatusCode is respected
+      cy.request({
+        method: 'DELETE',
+        url: `/banners/${banner.id}`,
+        failOnStatusCode: false
+      }).then((response) => {
+        expect(response.status).to.equal(409);
+        expect(response.body.data.message).to.include('must be trashed before it can be deleted');
+      });
+    });
+});
 });
