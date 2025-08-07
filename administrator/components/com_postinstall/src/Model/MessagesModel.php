@@ -508,8 +508,7 @@ class MessagesModel extends BaseDatabaseModel
      * enabled             Must be 1 for this message to be enabled. If you omit it, it defaults to 1.
      *
      * condition_file      The RAD path to a PHP file containing a PHP function which determines whether this message should be shown to
-     *                     the user. @see FOFTemplateUtils::parsePath() for RAD path format. Joomla! will include this file before calling
-     *                     the condition_method.
+     *                     the user. Joomla! will include this file before calling the condition_method.
      *                     Example:   admin://components/com_foobar/helpers/postinstall.php
      *
      * condition_method    The name of a PHP function which will be used to determine whether to show this message to the user. This must be
