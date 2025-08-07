@@ -310,8 +310,8 @@ class ApiController extends BaseController
                 $this->app->setHeader('Content-Type', 'application/json');
                 $this->app->sendHeaders();
                 $body = [
-                    'status' => 'Conflict',
-                    'code' => 409,
+                    'status'  => 'Conflict',
+                    'code'    => 409,
                     'message' => 'Resource not in state that can be deleted, must be trashed before it can be deleted',
                 ];
                 echo new JsonResponse($body);
