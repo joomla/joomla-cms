@@ -3,7 +3,7 @@ import {
 } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { transform } from 'esbuild';
-import rimraf from 'rimraf';
+import { rimrafSync } from 'rimraf';
 import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
@@ -35,7 +35,6 @@ const createMinified = async (file) => {
 };
 
 const build = async () => {
-  // eslint-disable-next-line no-console
   console.log('Building ES6 Components...');
 
   const domImports = await readdir(resolve('node_modules/bootstrap', 'js/src/dom'));
@@ -65,6 +64,13 @@ const build = async () => {
         ],
       }),
     ],
+  });
+
+  await bundle.write({
+    format: 'es',
+    sourcemap: false,
+    dir: outputFolder,
+    chunkFileNames: '[name].js',
     manualChunks: {
       alert: ['build/media_source/vendor/bootstrap/js/alert.es6.js'],
       button: ['build/media_source/vendor/bootstrap/js/button.es6.js'],
@@ -86,25 +92,17 @@ const build = async () => {
     },
   });
 
-  await bundle.write({
-    format: 'es',
-    sourcemap: false,
-    dir: outputFolder,
-    chunkFileNames: '[name].js',
-  });
-
   // closes the bundle
   await bundle.close();
 };
 
 export const bootstrapJs = async () => {
-  rimraf.sync(resolve(outputFolder));
+  rimrafSync(resolve(outputFolder));
 
   try {
     await build(resolve(inputFolder, 'index.es6.js'));
     await unlink(resolve(outputFolder, 'index.es6.js'));
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(error);
     process.exitCode = 1;
   }
@@ -114,7 +112,6 @@ export const bootstrapJs = async () => {
   });
 
   return Promise.all(tasks).catch((er) => {
-    // eslint-disable-next-line no-console
     console.log(er);
     process.exitCode = 1;
   });

@@ -13,7 +13,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 
@@ -92,10 +93,10 @@ class Versioning
      */
     public static function store($typeAlias, $id, $data, $note = '')
     {
-        $typeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
+        $typeTable = new ContentType(Factory::getDbo());
         $typeTable->load(['type_alias' => $typeAlias]);
 
-        $historyTable          = Table::getInstance('ContentHistory', '\\Joomla\\CMS\\Table\\');
+        $historyTable          = new ContentHistory(Factory::getDbo());
         $historyTable->item_id = $typeAlias . '.' . $id;
 
         $aliasParts = explode('.', $typeAlias);
@@ -121,6 +122,17 @@ class Versioning
             );
 
             Factory::getApplication()->getDispatcher()->dispatch('onContentVersioningPrepareTable', $event);
+        }
+
+        // Fix for null ordering - set to 0 if null
+        if (\is_object($data)) {
+            if (property_exists($data, 'ordering') && $data->ordering === null) {
+                $data->ordering = 0;
+            }
+        } elseif (\is_array($data)) {
+            if (\array_key_exists('ordering', $data) && $data['ordering'] === null) {
+                $data['ordering'] = 0;
+            }
         }
 
         $historyTable->version_data = json_encode($data);

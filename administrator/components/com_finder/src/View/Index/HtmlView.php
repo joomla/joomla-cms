@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     protected $finderPlugins = true;
 
@@ -170,6 +170,11 @@ class HtmlView extends BaseHtmlView
         if (!PluginHelper::getPlugin('finder')) {
             $this->finderPlugins = false;
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         // Configure the toolbar.
         $this->addToolbar();

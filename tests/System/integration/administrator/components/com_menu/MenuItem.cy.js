@@ -50,7 +50,7 @@ describe('Test in backend that the menu list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
 
-      cy.get('#system-message-container').contains('Menu item trashed.').should('exist');
+      cy.checkForSystemMessage('Menu item trashed.');
     });
   });
 });

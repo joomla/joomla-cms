@@ -179,7 +179,7 @@ class HtmlView extends BaseHtmlView
         $offset = (int) $this->state->get('list.offset');
 
         // Check the view access to the article (the model has already computed the values).
-        if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0')) {
+        if (!$item->params->get('access-view') && ($item->params->get('show_noauth', '0') == '0')) {
             $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
             $app->setHeader('status', 403, true);
 
@@ -192,7 +192,7 @@ class HtmlView extends BaseHtmlView
          * - Deny access to logged users with 403 code
          * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
          */
-        if ($item->params->get('access-view') == false && !\strlen($item->fulltext)) {
+        if (!$item->params->get('access-view') && !\strlen($item->fulltext)) {
             if ($this->user->guest) {
                 $return                = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);

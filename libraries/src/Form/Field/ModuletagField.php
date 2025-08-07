@@ -39,16 +39,14 @@ class ModuletagField extends ListField
      */
     protected function getOptions()
     {
-        $options = [];
-        $tags    = ['address', 'article', 'aside', 'details', 'div', 'footer', 'header', 'main', 'nav', 'section', 'summary'];
+        $options = parent::getOptions();
+        $tags    = ['address', 'article', 'aside', 'details', 'div', 'footer', 'header', 'main', 'nav', 'search', 'section', 'summary'];
 
         // Create one new option object for each tag
         foreach ($tags as $tag) {
             $tmp       = HTMLHelper::_('select.option', $tag, $tag);
             $options[] = $tmp;
         }
-
-        reset($options);
 
         return $options;
     }

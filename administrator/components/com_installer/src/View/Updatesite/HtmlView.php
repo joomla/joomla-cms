@@ -70,7 +70,7 @@ class HtmlView extends InstallerViewDefault
 
         // Remove the extra_query field if it's a free download extension
         $dlidSupportingSites = InstallerHelper::getDownloadKeySupportedSites(false);
-        $update_site_id      = $this->item->get('update_site_id');
+        $update_site_id      = $this->item->update_site_id;
 
         if (!\in_array($update_site_id, $dlidSupportingSites)) {
             $this->form->removeField('extra_query');
@@ -80,6 +80,10 @@ class HtmlView extends InstallerViewDefault
         if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
 
         parent::display($tpl);
     }

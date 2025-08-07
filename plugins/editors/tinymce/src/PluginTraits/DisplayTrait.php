@@ -164,7 +164,7 @@ trait DisplayTrait
 
                 // if we have a name and path, add it to the list
                 if ($external['name'] != '' && $path != '') {
-                    $externalPlugins[$external['name']] = substr($path, 0, 1) == '/' ? Uri::root() . substr($path, 1) : $path;
+                    $externalPlugins[$external['name']] = str_starts_with($path, '/') ? Uri::root() . substr($path, 1) : $path;
                 }
             }
         }
@@ -205,7 +205,7 @@ trait DisplayTrait
              * If URL, just pass it to $content_css
              * else, assume it is a file name in the current template folder
              */
-            $content_css = strpos($content_css_custom, 'http') !== false
+            $content_css = str_contains($content_css_custom, 'http')
                 ? $content_css_custom
                 : $this->includeRelativeFiles('css', $content_css_custom);
         } else {
@@ -383,11 +383,11 @@ trait DisplayTrait
         $custom_button = trim($levelParams->get('custom_button', ''));
 
         if ($custom_plugin) {
-            $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
+            $plugins   = array_merge($plugins, explode(str_contains($custom_plugin, ',') ? ',' : ' ', $custom_plugin));
         }
 
         if ($custom_button) {
-            $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
+            $toolbar1  = array_merge($toolbar1, explode(str_contains($custom_button, ',') ? ',' : ' ', $custom_button));
         }
 
         // Merge the two toolbars for backwards compatibility
@@ -406,6 +406,27 @@ trait DisplayTrait
                 // Create an array for the link classes
                 foreach ($linksClassesList as $linksClassList) {
                     array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
+                }
+            }
+        }
+
+        // Set the default classes for the image class dropdown
+        $imgClasses = [
+            ['title' => TEXT::_('PLG_TINY_FIELD_IMG_CLASS_NO_CLASS'), 'value' => ''],
+            ['title' => 'None', 'value' => 'float-none'],
+            ['title' => 'Left', 'value' => 'float-start'],
+            ['title' => 'Right', 'value' => 'float-end'],
+            ['title' => 'Center', 'value' => 'mx-auto d-block'],
+        ];
+
+        // Load the image classes list
+        if (isset($extraOptions->img_classes_list) && $extraOptions->img_classes_list) {
+            $imgClassesList = $extraOptions->img_classes_list;
+
+            if ($imgClassesList) {
+                // Create an array for the image classes
+                foreach ($imgClassesList as $imgClassList) {
+                    array_push($imgClasses, ['title' => $imgClassList->img_class_name, 'value' => $imgClassList->img_class_list]);
                 }
             }
         }
@@ -476,12 +497,7 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
-                'image_class_list'      => [
-                    ['title' => 'None', 'value' => 'float-none'],
-                    ['title' => 'Left', 'value' => 'float-start'],
-                    ['title' => 'Right', 'value' => 'float-end'],
-                    ['title' => 'Center', 'value' => 'mx-auto d-block'],
-                ],
+                'image_class_list'      => $imgClasses,
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,

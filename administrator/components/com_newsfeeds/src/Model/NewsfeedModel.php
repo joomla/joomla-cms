@@ -156,8 +156,8 @@ class NewsfeedModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('newsfeed.id') == 0) {
-                $app = Factory::getApplication();
-                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
+                $app         = Factory::getApplication();
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int');
             }
         }
 
@@ -191,7 +191,7 @@ class NewsfeedModel extends AdminModel
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with($data['catid'], '#new#') ? substr($data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_newsfeeds',
                 'language'  => $data['language'],
@@ -215,13 +215,13 @@ class NewsfeedModel extends AdminModel
 
         // Alter the name for save as copy
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-                $data['name']       = $name;
-                $data['alias']      = $alias;
+                [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                $data['name']   = $name;
+                $data['alias']  = $alias;
             } else {
                 if ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';

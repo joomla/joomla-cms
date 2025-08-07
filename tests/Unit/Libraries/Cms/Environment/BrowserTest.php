@@ -17,20 +17,11 @@ use Joomla\Tests\Unit\UnitTestCase;
  * Test class for JBrowser.
  *
  * @since   4.0.0
+ *
+ * @backupGlobals enabled
  */
 class BrowserTest extends UnitTestCase
 {
-    /**
-     * Backup of the SERVER superglobal
-     *
-     * @var  array
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    protected $backupServer;
-
     /**
      * Object being tested
      *

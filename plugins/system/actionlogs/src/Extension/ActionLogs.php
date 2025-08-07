@@ -11,6 +11,9 @@
 namespace Joomla\Plugin\System\ActionLogs\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterInitialiseEvent;
+use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\User;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -21,7 +24,8 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
-use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Priority;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -32,41 +36,60 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  3.9.0
  */
-final class ActionLogs extends CMSPlugin
+final class ActionLogs extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
 
     /**
-     * Constructor.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @param   DispatcherInterface  $dispatcher   The dispatcher
-     * @param   array                $config       An optional associative array of configuration settings
+     * @return array
      *
-     * @since   3.9.0
+     * @since   5.3.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config)
+    public static function getSubscribedEvents(): array
     {
-        parent::__construct($dispatcher, $config);
+        return [
+            'onAfterInitialise'    => ['onAfterInitialise', Priority::ABOVE_NORMAL],
+            'onContentPrepareForm' => 'onContentPrepareForm',
+            'onContentPrepareData' => 'onContentPrepareData',
+            'onUserAfterSave'      => 'onUserAfterSave',
+            'onUserAfterDelete'    => 'onUserAfterDelete',
+            'onExtensionAfterSave' => 'onExtensionAfterSave',
+        ];
+    }
 
+    /**
+     * After initialise listener.
+     *
+     * @param   AfterInitialiseEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since   5.3.0
+     */
+    public function onAfterInitialise(AfterInitialiseEvent $event): void
+    {
         // Import actionlog plugin group so that these plugins will be triggered for events
-        PluginHelper::importPlugin('actionlog');
+        PluginHelper::importPlugin('actionlog', null, true, $event->getApplication()->getDispatcher());
     }
 
     /**
      * Adds additional fields to the user editing form for logs e-mail notifications
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   Model\PrepareFormEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      *
      * @throws  \Exception
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event): void
     {
+        $form     = $event->getForm();
+        $data     = $event->getData();
         $formName = $form->getName();
 
         $allowedFormNames = [
@@ -75,7 +98,7 @@ final class ActionLogs extends CMSPlugin
         ];
 
         if (!\in_array($formName, $allowedFormNames, true)) {
-            return true;
+            return;
         }
 
         /**
@@ -85,7 +108,7 @@ final class ActionLogs extends CMSPlugin
         $user = $this->getApplication()->getIdentity();
 
         if (!$user || !$user->authorise('core.admin')) {
-            return true;
+            return;
         }
 
         // Load plugin language files.
@@ -103,7 +126,7 @@ final class ActionLogs extends CMSPlugin
         }
 
         if (empty($data->id) || !$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
-            return true;
+            return;
         }
 
         Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
@@ -111,68 +134,68 @@ final class ActionLogs extends CMSPlugin
         if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && ($this->getApplication()->isClient('administrator'))) {
             $form->loadFile('information', false);
 
-            return true;
+            return;
         }
 
         if (!PluginHelper::isEnabled('actionlog', 'joomla')) {
-            return true;
+            return;
         }
 
         $form->loadFile('actionlogs', false);
-
-        return true;
     }
 
     /**
      * Runs on content preparation
      *
-     * @param   string  $context  The context for the data
-     * @param   object  $data     An object containing the data for the form.
+     * @param   Model\PrepareDataEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onContentPrepareData($context, $data)
+    public function onContentPrepareData(Model\PrepareDataEvent $event): void
     {
+        $context = $event->getContext();
+
         if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
-            return true;
+            return;
         }
+
+        $data = $event->getData();
 
         if (\is_array($data)) {
             $data = (object) $data;
         }
 
         if (empty($data->id) || !$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
-            return true;
+            return;
         }
 
         $db = $this->getDatabase();
         $id = (int) $data->id;
 
         $query = $db->getQuery(true)
-            ->select($db->quoteName(['notify', 'extensions', 'exclude_self']))
+            ->select($db->quoteName(['notify', 'extensions']))
             ->from($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')
             ->bind(':userid', $id, ParameterType::INTEGER);
 
         try {
             $values = $db->setQuery($query)->loadObject();
-        } catch (ExecutionFailureException $e) {
-            return false;
+        } catch (ExecutionFailureException) {
+            return;
         }
 
         if (!$values) {
-            return true;
+            return;
         }
 
         // Load plugin language files.
         $this->loadLanguage();
 
-        $data->actionlogs                        = new \stdClass();
-        $data->actionlogs->actionlogsNotify      = $values->notify;
-        $data->actionlogs->actionlogsExtensions  = $values->extensions;
-        $data->actionlogs->actionlogsExcludeSelf = $values->exclude_self;
+        $data->actionlogs                       = new \stdClass();
+        $data->actionlogs->actionlogsNotify     = $values->notify;
+        $data->actionlogs->actionlogsExtensions = $values->extensions;
 
         if (!HTMLHelper::isRegistered('users.actionlogsNotify')) {
             HTMLHelper::register('users.actionlogsNotify', [__CLASS__, 'renderActionlogsNotify']);
@@ -181,31 +204,24 @@ final class ActionLogs extends CMSPlugin
         if (!HTMLHelper::isRegistered('users.actionlogsExtensions')) {
             HTMLHelper::register('users.actionlogsExtensions', [__CLASS__, 'renderActionlogsExtensions']);
         }
-
-        if (!HTMLHelper::isRegistered('users.actionlogsExcludeSelf')) {
-            HTMLHelper::register('users.actionlogsExcludeSelf', [__CLASS__, 'renderActionlogsExcludeSelf']);
-        }
-
-        return true;
     }
 
     /**
      * Utility method to act on a user after it has been saved.
      *
-     * @param   array    $user     Holds the new user data.
-     * @param   boolean  $isNew    True if a new user is stored.
-     * @param   boolean  $success  True if user was successfully stored in the database.
-     * @param   string   $msg      Message.
+     * @param   User\AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterSave($user, $isNew, $success, $msg): void
+    public function onUserAfterSave(User\AfterSaveEvent $event): void
     {
-        if (!$success) {
+        if (!$event->getSavingResult()) {
             return;
         }
+
+        $user = $event->getUser();
 
         // Clear access rights in case user groups were changed.
         $userObject = $this->getUserFactory()->loadUserById($user['id']);
@@ -232,10 +248,9 @@ final class ActionLogs extends CMSPlugin
         // If preferences don't exist, insert.
         if (!$exists && $authorised && isset($user['actionlogs'])) {
             $notify  = (int) $user['actionlogs']['actionlogsNotify'];
-            $exclude = (int) $user['actionlogs']['actionlogsExcludeSelf'];
-            $values  = [':userid', ':notify', ':exclude'];
-            $bind    = [$userid, $notify, $exclude];
-            $columns = ['user_id', 'notify', 'exclude_self'];
+            $values  = [':userid', ':notify'];
+            $bind    = [$userid, $notify];
+            $columns = ['user_id', 'notify'];
 
             $query->bind($values, $bind, ParameterType::INTEGER);
 
@@ -255,11 +270,6 @@ final class ActionLogs extends CMSPlugin
             $values = [$db->quoteName('notify') . ' = :notify'];
 
             $query->bind(':notify', $notify, ParameterType::INTEGER);
-
-            $exclude  = (int) $user['actionlogs']['actionlogsExcludeSelf'];
-            $values[] = $db->quoteName('exclude_self') . ' = :exclude';
-
-            $query->bind(':exclude', $exclude, ParameterType::INTEGER);
 
             if (isset($user['actionlogs']['actionlogsExtensions'])) {
                 $values[]  = $db->quoteName('extensions') . ' = :extension';
@@ -282,7 +292,7 @@ final class ActionLogs extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -292,20 +302,19 @@ final class ActionLogs extends CMSPlugin
      *
      * Method is called after user data is deleted from the database
      *
-     * @param   array    $user     Holds the user data
-     * @param   boolean  $success  True if user was successfully stored in the database
-     * @param   string   $msg      Message
+     * @param   User\AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterDelete($user, $success, $msg): void
+    public function onUserAfterDelete(User\AfterDeleteEvent $event): void
     {
-        if (!$success) {
+        if (!$event->getDeletingResult()) {
             return;
         }
 
+        $user   = $event->getUser();
         $db     = $this->getDatabase();
         $userid = (int) $user['id'];
 
@@ -316,7 +325,7 @@ final class ActionLogs extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -331,20 +340,6 @@ final class ActionLogs extends CMSPlugin
      * @since   3.9.16
      */
     public static function renderActionlogsNotify($value)
-    {
-        return Text::_($value ? 'JYES' : 'JNO');
-    }
-
-    /**
-     * Method to render a value.
-     *
-     * @param   integer|string  $value  The value (0 or 1).
-     *
-     * @return  string  The rendered value.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public static function renderActionlogsExcludeSelf($value)
     {
         return Text::_($value ? 'JYES' : 'JNO');
     }
@@ -375,19 +370,20 @@ final class ActionLogs extends CMSPlugin
     }
 
     /**
-     * On Saving extensions logging method
+     * On Saving extensions logging method.
      * Method is called when an extension is being saved
      *
-     * @param   string                   $context  The extension
-     * @param   \Joomla\CMS\Table\Table  $table    DataBase Table object
-     * @param   boolean                  $isNew    If the extension is new or not
+     * @param   Model\AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   5.1.0
      */
-    public function onExtensionAfterSave($context, $table, $isNew): void
+    public function onExtensionAfterSave(Model\AfterSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $table   = $event->getItem();
+
         if ($context !== 'com_config.component' || $table->name !== 'com_actionlogs') {
             return;
         }
@@ -398,12 +394,12 @@ final class ActionLogs extends CMSPlugin
         $db = $this->getDatabase();
 
         $query = $db->getQuery(true)
-            ->select($db->quoteName(['user_id', 'notify', 'extensions', 'exclude_self']))
+            ->select($db->quoteName(['user_id', 'notify', 'extensions']))
             ->from($db->quoteName('#__action_logs_users'));
 
         try {
             $values = $db->setQuery($query)->loadObjectList();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -424,7 +420,7 @@ final class ActionLogs extends CMSPlugin
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 // Do nothing.
             }
         }
