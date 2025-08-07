@@ -57,16 +57,6 @@ abstract class WebApplication extends AbstractWebApplication
     public $JComponentTitle;
 
     /**
-     * The item associations
-     *
-     * @var    integer
-     * @since  4.3.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
-     */
-    public $item_associations;
-
-    /**
      * The application document object.
      *
      * @var    Document

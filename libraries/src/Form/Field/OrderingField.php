@@ -11,7 +11,6 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 
@@ -152,9 +151,16 @@ class OrderingField extends FormField
      */
     protected function getQuery()
     {
-        $categoryId   = (int) $this->form->getValue('catid');
-        $ucmType      = new UCMType();
-        $ucmRow       = $ucmType->getType($ucmType->getTypeId($this->contentType));
+        $categoryId = (int) $this->form->getValue('catid');
+        $db         = $this->getDatabase();
+        $query      = $db->getQuery(true)
+            ->select($db->quoteName('ct') . '.*')
+            ->from($db->quoteName('#__content_types', 'ct'))
+            ->where($db->quoteName('ct.type_alias') . ' = :alias')
+            ->bind(':alias', $this->contentType);
+
+        $db->setQuery($query);
+        $ucmRow       = $db->loadObject();
         $ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 
         if (\is_object($ucmMapCommon)) {
@@ -165,7 +171,6 @@ class OrderingField extends FormField
             $title    = $ucmMapCommon[0]->core_title;
         }
 
-        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
             ->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))

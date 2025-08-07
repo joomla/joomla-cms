@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit an Step
+ * View to edit a Step
  *
  * @since 4.3.0
  */
@@ -80,6 +80,10 @@ class HtmlView extends BaseHtmlView
         if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
 
         $this->addToolbar();
 

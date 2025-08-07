@@ -124,6 +124,11 @@ class HtmlView extends BaseHtmlView
             MailsHelper::loadTranslationFiles($extension, $currentLanguageTag);
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         $this->addToolbar();
 
         parent::display($tpl);

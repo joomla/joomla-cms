@@ -23,7 +23,7 @@ use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit an tour.
+ * View to edit a tour.
  *
  * @since 4.3.0
  */
@@ -79,6 +79,10 @@ class HtmlView extends BaseHtmlView
         if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
 
         $this->addToolbar();
 
