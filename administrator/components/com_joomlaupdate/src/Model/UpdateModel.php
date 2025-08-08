@@ -552,7 +552,7 @@ class UpdateModel extends BaseDatabaseModel
         // Run preparation plugin trigger
         PluginHelper::importPlugin('installer');
 
-        $eventResult = $app->getDispatcher()->dispatch(
+        $eventResult = $this->getDispatcher()->dispatch(
             'onBeforeJoomlaAutoupdate',
             new BeforeJoomlaAutoupdateEvent(
                 'onBeforeJoomlaAutoupdate'
@@ -840,7 +840,7 @@ class UpdateModel extends BaseDatabaseModel
         $app      = Factory::getApplication();
 
         // Trigger event before joomla update.
-        $app->getDispatcher()->dispatch('onJoomlaBeforeUpdate', new BeforeJoomlaUpdateEvent('onJoomlaBeforeUpdate'));
+        $this->getDispatcher()->dispatch('onJoomlaBeforeUpdate', new BeforeJoomlaUpdateEvent('onJoomlaBeforeUpdate'));
 
         // Get the absolute path to site's root.
         $siteroot = JPATH_SITE;
@@ -1177,7 +1177,7 @@ ENDDATA;
         $oldVersion = $app->getUserState('com_joomlaupdate.oldversion');
 
         // Trigger event after joomla update.
-        $app->getDispatcher()->dispatch('onJoomlaAfterUpdate', new AfterJoomlaUpdateEvent('onJoomlaAfterUpdate', [
+        $this->getDispatcher()->dispatch('onJoomlaAfterUpdate', new AfterJoomlaUpdateEvent('onJoomlaAfterUpdate', [
             'oldVersion' => $oldVersion ?: '',
         ]));
         $app->setUserState('com_joomlaupdate.oldversion', null);
