@@ -540,7 +540,7 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf = self::getApplication();
+        $conf = self::getApplication()->getConfig();
 
         $host     = $conf->get('host');
         $user     = $conf->get('user');
