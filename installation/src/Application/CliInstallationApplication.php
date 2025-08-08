@@ -125,8 +125,6 @@ final class CliInstallationApplication extends Application implements CMSApplica
         \define('JPATH_COMPONENT_SITE', JPATH_SITE);
         \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
 
-        // Register the config to Factory.
-        Factory::$config   = $this->config;
         Factory::$language = $language;
     }
 
