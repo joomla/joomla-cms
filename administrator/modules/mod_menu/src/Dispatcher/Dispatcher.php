@@ -20,7 +20,7 @@ use Joomla\Module\Menu\Administrator\Menu\CssMenu;
 /**
  * Dispatcher class for mod_menu
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.0
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
@@ -29,7 +29,7 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     protected function getLayoutData()
     {
