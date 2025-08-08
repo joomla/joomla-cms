@@ -67,7 +67,7 @@ final class Extensionupdate extends CMSPlugin implements SubscriberInterface
 
         if (
             $context !== $this->params->get('context', 'update_quickicon')
-            || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_installer')
+            || !$this->getApplication()->getIdentity()->authorise('core.admin', 'com_installer')
         ) {
             return;
         }
