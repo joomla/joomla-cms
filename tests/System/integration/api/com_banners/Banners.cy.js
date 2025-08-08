@@ -55,7 +55,7 @@ describe('Test that banners API endpoint', () => {
       // Use cy.request directly to ensure failOnStatusCode is respected
       cy.request({
         method: 'DELETE',
-        url: `/banners/${banner.id}`,
+        url: `/api/index.php/v1/banners/${banner.id}`,
         failOnStatusCode: false
       }).then((response) => {
         expect(response.status).to.equal(409);
