@@ -594,7 +594,7 @@ abstract class Factory
      */
     protected static function createMailer()
     {
-        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getApplication());
+        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getApplication()->getConfig());
 
         // This needs to be set here for backwards compatibility
         Mail::$instances['Joomla'] = $mailer;
