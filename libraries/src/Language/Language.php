@@ -133,22 +133,6 @@ class Language extends BaseLanguage
             if (method_exists($class, 'getPluralSuffixes')) {
                 $this->pluralSuffixesCallback = [$class, 'getPluralSuffixes'];
             }
-
-            if (method_exists($class, 'getIgnoredSearchWords')) {
-                $this->ignoredSearchWordsCallback = [$class, 'getIgnoredSearchWords'];
-            }
-
-            if (method_exists($class, 'getLowerLimitSearchWord')) {
-                $this->lowerLimitSearchWordCallback = [$class, 'getLowerLimitSearchWord'];
-            }
-
-            if (method_exists($class, 'getUpperLimitSearchWord')) {
-                $this->upperLimitSearchWordCallback = [$class, 'getUpperLimitSearchWord'];
-            }
-
-            if (method_exists($class, 'getSearchDisplayedCharactersNumber')) {
-                $this->searchDisplayedCharactersNumberCallback = [$class, 'getSearchDisplayedCharactersNumber'];
-            }
         }
 
         $this->load();
