@@ -50,20 +50,21 @@ describe('Test that banners API endpoint', () => {
   });
 
   it('cannot delete a banner that is not trashed', () => {
-  cy.db_createBanner({ name: 'automated test banner' })
-    .then((banner) => {
-      cy.api_getBearerToken().then((token) => {
-        cy.request({
-          method: 'DELETE',
-          url: `/api/index.php/v1/banners/${banner.id}`,
-          headers: { 
-            Authorization: `Bearer ${token}`,
-          },
-          failOnStatusCode: false
-        }).then((response) => {
-          expect(response.status).to.equal(409);
-          expect(response.body.data.message).to.include('must be trashed before it can be deleted');
+    cy.db_createBanner({ name: 'automated test banner' })
+      .then((banner) => {
+        cy.api_getBearerToken().then((token) => {
+          cy.request({
+            method: 'DELETE',
+            url: `/api/index.php/v1/banners/${banner.id}`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            failOnStatusCode: false
+          }).then((response) => {
+            expect(response.status).to.equal(409);
+            expect(response.body.data.message).to.include('must be trashed before it can be deleted');
+          });
         });
       });
-    });
+  });
 });
