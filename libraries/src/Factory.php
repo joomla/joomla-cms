@@ -85,19 +85,6 @@ abstract class Factory
     public static $dates = [];
 
     /**
-     * Global session object
-     *
-     * @var         Session
-     * @since       1.7.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use the session service in the DI container or get from the application object
-     *              Example:
-     *              Factory::getApplication()->getSession();
-     */
-    public static $session = null;
-
-    /**
      * Global language object
      *
      * @var         Language
@@ -242,37 +229,6 @@ abstract class Factory
         }
 
         return self::$container;
-    }
-
-    /**
-     * Get a session object.
-     *
-     * Returns the global {@link Session} object, only creating it if it doesn't already exist.
-     *
-     * @param   array  $options  An array containing session options
-     *
-     * @return  Session object
-     *
-     * @see         Session
-     * @since       1.7.0
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Use the session service in the DI container or get from the application object
-     *              Example:
-     *              Factory::getApplication()->getSession();
-     */
-    public static function getSession(array $options = [])
-    {
-        @trigger_error(
-            \sprintf(
-                '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
-                __METHOD__,
-                __CLASS__
-            ),
-            E_USER_DEPRECATED
-        );
-
-        return self::getApplication()->getSession();
     }
 
     /**

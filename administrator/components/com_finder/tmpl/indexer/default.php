@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 /** @var \Joomla\Component\Finder\Administrator\View\Indexer\HtmlView $this */
@@ -39,5 +40,5 @@ $wa->useScript('keepalive')
     <dl id="finder-debug-data" class="row">
     </dl>
     <?php endif; ?>
-    <input id="finder-indexer-token" type="hidden" name="<?php echo Factory::getSession()->getFormToken(); ?>" value="1">
+    <?php echo HTMLHelper::_('form.token', ['id' => 'finder-indexer-token']); ?>
 </div>
