@@ -35,6 +35,7 @@ class AutomatedUpdatesModel extends BaseInstallationModel implements DatabaseAwa
     {
         // Overrides application config and set the configuration.php file so tokens and database works.
         if (file_exists(JPATH_BASE . '/configuration.php')) {
+            /** @phpstan-ignore class.notFound */
             Factory::getApplication()->setConfiguration(new Registry(new \JConfig()));
         }
 
