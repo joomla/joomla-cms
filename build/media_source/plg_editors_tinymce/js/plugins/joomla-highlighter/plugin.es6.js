@@ -62,7 +62,6 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
     };
 
     // Import codemirror and open the dialog
-    // eslint-disable-next-line import/no-unresolved
     Promise.all([import('codemirror'), import('@codemirror/view'), import('@codemirror/commands')])
       .then(([{ createFromTextarea }, { keymap }, { indentMore }]) => {
         editor.windowManager.open(dialogConfig);
