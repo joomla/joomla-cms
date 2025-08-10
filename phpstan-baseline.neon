@@ -39,7 +39,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -865,7 +865,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -919,7 +919,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -3465,7 +3465,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -3881,7 +3881,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -8732,7 +8732,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -9974,7 +9974,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -10608,7 +10608,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -10667,7 +10667,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -11148,7 +11148,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -11195,7 +11195,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -11465,7 +11465,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -11806,7 +11806,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -13508,7 +13508,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -13964,7 +13964,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -14959,7 +14959,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -15029,7 +15029,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -15393,7 +15393,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -15909,7 +15909,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -16226,7 +16226,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -17614,7 +17614,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
@@ -17922,7 +17922,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
-				4\.3 will be removed in 6\.0
+				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
 				             register an autoloader for your files\.$#
 			'''
