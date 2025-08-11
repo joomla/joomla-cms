@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\ListView;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -69,7 +70,12 @@ class HtmlView extends ListView
     {
         parent::initializeView();
 
-        $this->total         = $this->get('Total');
+        /**
+         * @var ListModel
+         */
+        $model = $this->getModel();
+
+        $this->total         = $model->getTotal();
         $this->clientId      = (int) $this->state->get('client_id', 0);
 
         $this->canDo = ContentHelper::getActions('com_modules');
