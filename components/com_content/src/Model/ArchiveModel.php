@@ -207,8 +207,8 @@ class ArchiveModel extends ArticlesModel
         return 'CASE WHEN '
             . $query->charLength($db->quoteName($alias), '!=', '0')
             . ' THEN '
-            . $query->concatenate([$query->castAsChar($db->quoteName($id)), $db->quoteName($alias)], ':')
+            . $query->concatenate([$query->castAs('CHAR', $db->quoteName($id)), $db->quoteName($alias)], ':')
             . ' ELSE '
-            . $query->castAsChar($id) . ' END';
+            . $query->castAs('CHAR', $id) . ' END';
     }
 }

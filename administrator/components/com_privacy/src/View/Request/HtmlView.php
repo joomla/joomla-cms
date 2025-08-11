@@ -97,6 +97,10 @@ class HtmlView extends BaseHtmlView
         // Variables only required for the edit layout
         if ($this->getLayout() === 'edit') {
             $this->form = $model->getForm();
+
+            // Add form control fields
+            $this->form
+                ->addControlField('task', '');
         }
 
         // Check for errors.

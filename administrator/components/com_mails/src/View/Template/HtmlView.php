@@ -116,6 +116,11 @@ class HtmlView extends BaseHtmlView
             }
         }
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', Factory::getApplication()->getInput()->get('return', '', 'BASE64'));
+
         $this->addToolbar();
 
         parent::display($tpl);
