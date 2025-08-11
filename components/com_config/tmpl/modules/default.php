@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -164,10 +163,7 @@ if (Multilanguage::isEnabled()) {
                     <?php endif; ?>
                 </div>
 
-                <input type="hidden" name="id" value="<?php echo $this->item['id']; ?>">
-                <input type="hidden" name="return" value="<?php echo Factory::getApplication()->getInput()->get('return', null, 'base64'); ?>">
-                <input type="hidden" name="task" value="">
-                <?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo $this->form->renderControlFields(); ?>
             </div>
             <div class="d-grid gap-2 d-sm-block mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="modules.apply">

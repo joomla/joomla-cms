@@ -143,6 +143,10 @@ class HtmlView extends BaseHtmlView
         // Get the ID of workflow
         $this->workflowID = $this->input->getCmd("workflow_id");
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', 'transition.edit');
+
         // Set the toolbar
         $this->addToolbar();
 
