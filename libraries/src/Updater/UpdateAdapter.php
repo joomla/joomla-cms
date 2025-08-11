@@ -321,7 +321,7 @@ abstract class UpdateAdapter
             'updater'
         );
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
             if (!$this->appendExtension && (!str_ends_with($url, '.xml'))) {
                 $options['append_extension'] = true;
