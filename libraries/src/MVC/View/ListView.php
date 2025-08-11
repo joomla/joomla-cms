@@ -292,7 +292,8 @@ class ListView extends HtmlView
             }
 
             // Add a batch button
-            if ($this->supportsBatch && $user->authorise('core.create', $this->option)
+            if (
+                $this->supportsBatch && $user->authorise('core.create', $this->option)
                 && $user->authorise('core.create', $this->option)
                 && $user->authorise('core.edit', $this->option)
             ) {
@@ -308,8 +309,8 @@ class ListView extends HtmlView
 
         if (
             !$this->isEmptyState
-            && $canDo->get('core.delete') &&
-            (
+            && $canDo->get('core.delete')
+            && (
                 $this->state->get('filter.state') == -2 ||
                 $this->state->get('filter.published') == -2
             )

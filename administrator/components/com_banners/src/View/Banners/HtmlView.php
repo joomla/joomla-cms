@@ -88,6 +88,5 @@ class HtmlView extends ListView
         $this->filterForm
             ->addControlField('task', '')
             ->addControlField('boxchecked', '0');
-
     }
 }
