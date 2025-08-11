@@ -75,7 +75,8 @@
 	<fieldset
 		name="automated-updates"
 		label="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_LABEL"
-	>
+		description="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_DESC"
+		>
 		<field
 			name="autoupdate"
 			type="radio"
@@ -119,13 +120,6 @@
 			label="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_DISABLED_LABEL"
 			class="alert alert-info w-100"
 			showon="updatesource!:default[OR]minimum_stability!:4"
-		/>
-		<field
-			name="automated_updates_email"
-			type="text"
-			label="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_UPDATE_EMAIL_LABEL"
-			description="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_UPDATE_EMAIL_DESCRIPTION"
-			showon="updatesource:default[AND]minimum_stability:4[AND]autoupdate:1"
 		/>
 	</fieldset>
 </config>

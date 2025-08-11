@@ -162,7 +162,7 @@ class ArticlesController extends AdminController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function getQuickiconFeatured()
     {

@@ -136,8 +136,8 @@ final class Requests extends CMSPlugin implements SubscriberInterface
             return TaskStatus::TIMEOUT;
         }
 
-        $responseCode = $response->code;
-        $responseBody = $response->body;
+        $responseCode = $response->getStatusCode();
+        $responseBody = (string) $response->getBody();
 
         // @todo this handling must be rethought and made safe. stands as a good demo right now.
         $responseFilename = Path::clean($this->rootDirectory . "/task_{$id}_response.html");
@@ -160,7 +160,7 @@ EOF;
 
         $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
 
-        if ($response->code !== 200) {
+        if ($response->getStatusCode() !== 200) {
             return TaskStatus::KNOCKOUT;
         }
 
