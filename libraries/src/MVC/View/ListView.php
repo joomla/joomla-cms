@@ -311,8 +311,8 @@ class ListView extends HtmlView
             !$this->isEmptyState
             && $canDo->get('core.delete')
             && (
-                $this->state->get('filter.state') == -2 ||
-                $this->state->get('filter.published') == -2
+                $this->state->get('filter.state') == -2
+                || $this->state->get('filter.published') == -2
             )
         ) {
             $toolbar->delete($viewName . '.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
