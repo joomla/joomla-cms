@@ -699,6 +699,17 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                             $app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
                             $foundAssociation = true;
                         }
+                    } elseif ($this->mode_sef) {
+                        if ($app->getUserState('users.login.form.return')) {
+                            $app->setUserState(
+                                'users.login.form.return',
+                                Route::_(
+                                    $app->getUserState('users.login.form.return'),
+                                    false
+                                )
+                            );
+                            $foundAssociation = true;
+                        }
                     } elseif (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code])) {
                         /**
                          * The login form does not contain a menu item redirection.

@@ -51,7 +51,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
     </div>
     <?php endif; ?>
 
-    <form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well" id="com-users-login__form">
+    <form action="<?php echo Route::_('index.php?task=user.login'); ?>" method="post" id="com-users-login__form" class="com-users-login__form form-validate form-horizontal well">
 
         <fieldset>
             <?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
