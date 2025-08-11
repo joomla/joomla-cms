@@ -109,7 +109,7 @@ class TagModel extends ListModel
             );
 
             // Get display date
-            switch ($this->state->params->get('tag_list_show_date')) {
+            switch ($this->state->get('params')->get('tag_list_show_date')) {
                 case 'modified':
                     $item->displayDate = $item->core_modified_time;
                     break;
@@ -140,7 +140,7 @@ class TagModel extends ListModel
 
         $typesr          = $this->getState('tag.typesr');
         $orderByOption   = $this->getState('list.ordering', 'c.core_title');
-        $includeChildren = $this->state->params->get('include_children', 0);
+        $includeChildren = $this->getState('params')->get('include_children', 0);
         $orderDir        = $this->getState('list.direction', 'ASC');
         $matchAll        = $this->getState('params')->get('return_any_or_all', 1);
         $language        = $this->getState('tag.language');
@@ -232,7 +232,7 @@ class TagModel extends ListModel
 
         $itemid   = $pkString . ':' . $app->getInput()->get('Itemid', 0, 'int');
         $orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
-        $orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
+        $orderCol = !$orderCol ? $this->state->get('params')->get('tag_list_orderby', 'c.core_title') : $orderCol;
 
         if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'c.core_title';
@@ -241,7 +241,7 @@ class TagModel extends ListModel
         $this->setState('list.ordering', $orderCol);
 
         $listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
-        $listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
+        $listOrder = !$listOrder ? $this->state->get('params')->get('tag_list_orderby_direction', 'ASC') : $listOrder;
 
         if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
