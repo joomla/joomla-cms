@@ -560,6 +560,8 @@ class UpdateModel extends BaseDatabaseModel
         );
 
         if ($eventResult->getArgument('stoppedUpdate')) {
+            Log::add(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), Log::ERROR, 'Update');
+
             throw new CheckinCheckout(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), 503);
         }
 
