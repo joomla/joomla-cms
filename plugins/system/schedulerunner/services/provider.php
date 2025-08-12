@@ -31,8 +31,8 @@ return new class () implements ServiceProviderInterface {
     public function register(Container $container): void
     {
         $container->set(
-            ScheduleRunner::class,
-            function (Container $container) {
+            PluginInterface::class,
+            $container->lazy(ScheduleRunner::class, function (Container $container) {
                 $plugin = new ScheduleRunner(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'schedulerunner')
@@ -40,18 +40,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
-        )->set(
-            PluginInterface::class,
-            function (Container $container) {
-                if (PHP_VERSION_ID >= 80400) {
-                    return (new ReflectionClass(ScheduleRunner::class))->newLazyProxy(function () use ($container) {
-                        return $container->get(ScheduleRunner::class);
-                    });
-                }
-
-                return $container->get(ScheduleRunner::class);
-            }
+            })
         );
     }
 };

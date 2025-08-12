@@ -40,8 +40,8 @@ return new class () implements ServiceProviderInterface {
     public function register(Container $container)
     {
         $container->set(
-            Webauthn::class,
-            function (Container $container) {
+            PluginInterface::class,
+            $container->lazy(Webauthn::class, function (Container $container) {
                 $app     = Factory::getApplication();
                 $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
 
@@ -71,18 +71,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication($app);
 
                 return $plugin;
-            }
-        )->set(
-            PluginInterface::class,
-            function (Container $container) {
-                if (PHP_VERSION_ID >= 80400) {
-                    return (new ReflectionClass(Webauthn::class))->newLazyProxy(function () use ($container) {
-                        return $container->get(Webauthn::class);
-                    });
-                }
-
-                return $container->get(Webauthn::class);
-            }
+            })
         );
     }
 

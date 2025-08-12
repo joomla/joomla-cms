@@ -33,8 +33,8 @@ return new class () implements ServiceProviderInterface {
     public function register(Container $container): void
     {
         $container->set(
-            TaskNotification::class,
-            function (Container $container) {
+            PluginInterface::class,
+            $container->lazy(TaskNotification::class, function (Container $container) {
                 $plugin = new TaskNotification(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'tasknotification')
@@ -44,18 +44,7 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
-            }
-        )->set(
-            PluginInterface::class,
-            function (Container $container) {
-                if (PHP_VERSION_ID >= 80400) {
-                    return (new ReflectionClass(TaskNotification::class))->newLazyProxy(function () use ($container) {
-                        return $container->get(TaskNotification::class);
-                    });
-                }
-
-                return $container->get(TaskNotification::class);
-            }
+            })
         );
     }
 };
