@@ -3,7 +3,7 @@
 .editor {
 
   .toggle-editor {
-    margin-top: 1rem;
+    margin-block-start: 1rem;
   }
 
   .mce-tinymce {
@@ -28,7 +28,7 @@
   }
 
   .mce-top-part {
-    margin-bottom: 1rem;
+    margin-block-end: 1rem;
 
     &::before {
       box-shadow: none;
@@ -46,8 +46,8 @@
   .mce-btn-group {
 
     &:not(:first-child) {
-      margin-right: 6px;
-      margin-left: 0;
+      margin-inline-end: 6px;
+      margin-inline-start: 0;
     }
 
     .mce-btn {
@@ -58,7 +58,7 @@
 
   .mce-statusbar .mce-container-body {
     background-color: $white;
-    border-top: var(--template-bg-light) 1px solid;
+    border-block-start: var(--template-bg-light) 1px solid;
   }
 }
 

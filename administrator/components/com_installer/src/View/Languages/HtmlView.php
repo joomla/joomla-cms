@@ -81,6 +81,15 @@ class HtmlView extends InstallerViewDefault
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0')
+            ->addControlField('return', base64_encode('index.php?option=com_installer&view=languages'))
+            ->addControlField('install_url', '', ['id' => 'install_url'])
+            ->addControlField('installtype', 'url')
+            ->addControlField('package', 'language');
+
         parent::display($tpl);
     }
 

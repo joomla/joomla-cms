@@ -344,11 +344,12 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         }
 
         $debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
-        $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
-        $openHandlerUrl .= '&' . ($formToken ?? Session::getFormToken()) . '=1';
 
-        $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
-
+        if ($this->params->get('track_request_history', false)) {
+            $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
+            $openHandlerUrl .= '&' . ($formToken ?? Session::getFormToken()) . '=1';
+            $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
+        }
         /**
          * @todo disable highlightjs from the DebugBar, import it through NPM
          *       and deliver it through Joomla's API
