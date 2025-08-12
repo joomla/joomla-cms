@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Templates\Api\Controller;
 
-use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\Inflector\InflectorFactory;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 

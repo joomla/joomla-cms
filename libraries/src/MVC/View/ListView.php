@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
-use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\Inflector\InflectorFactory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;

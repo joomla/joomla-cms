@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\Inflector\InflectorFactory;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;

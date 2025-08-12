@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\Inflector\InflectorFactory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;

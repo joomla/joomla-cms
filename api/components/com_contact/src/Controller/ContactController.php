@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Contact\Api\Controller;
 
-use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\Inflector\InflectorFactory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;

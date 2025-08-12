@@ -10,7 +10,7 @@
 
 namespace Joomla\Plugin\Workflow\Featuring\Extension;
 
-use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\Inflector\InflectorFactory;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
