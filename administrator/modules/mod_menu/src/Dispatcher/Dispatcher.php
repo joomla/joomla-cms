@@ -11,6 +11,7 @@
 namespace Joomla\Module\Menu\Administrator\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
+use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Module\Menu\Administrator\Menu\CssMenu;
 
