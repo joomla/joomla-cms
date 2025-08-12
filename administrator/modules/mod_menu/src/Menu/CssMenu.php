@@ -103,7 +103,7 @@ class CssMenu implements DatabaseAwareInterface
     {
         if ($db === null) {
             @trigger_error(
-                __CLASS__ . ': The $db parameter must be set for the contructor.',
+                __CLASS__ . ': The $db parameter must be set for the constructor.',
                 \E_USER_DEPRECATED
             );
 
