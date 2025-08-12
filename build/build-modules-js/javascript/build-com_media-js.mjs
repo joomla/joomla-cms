@@ -17,7 +17,6 @@ const inputJS = 'administrator/components/com_media/resources/scripts/mediamanag
 const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';
 
 export const mediaManager = async () => {
-  // eslint-disable-next-line no-console
   console.log('Building Media Manager ES Module...');
 
   const bundle = await rollup({
@@ -77,16 +76,13 @@ export const mediaManager = async () => {
     .then((value) => (isProduction ? minifyCode(value.output[0].code) : value.output[0]))
     .then((content) => {
       if (isProduction) {
-        // eslint-disable-next-line no-console
         console.log('✅ ES2017 Media Manager ready');
         return writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
       }
-      // eslint-disable-next-line no-console
       console.log('✅ ES2017 Media Manager ready');
       return copyFile(resolve('media/com_media/js/media-manager.js'), resolve('media/com_media/js/media-manager.min.js'));
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
       console.error(error);
     });
 
@@ -95,9 +91,7 @@ export const mediaManager = async () => {
 };
 
 export const watchMediaManager = async () => {
-  // eslint-disable-next-line no-console
   console.log('Watching Media Manager js+vue files...');
-  // eslint-disable-next-line no-console
   console.log('=========');
   const watcher = watch({
     input: resolve(inputJS),
@@ -161,9 +155,7 @@ export const watchMediaManager = async () => {
 
   watcher.on('event', ({ code, result, error }) => {
     if (result) result.close();
-    // eslint-disable-next-line no-console
     if (error) console.log(error);
-    // eslint-disable-next-line no-console
     if (code === 'BUNDLE_END') console.log('Files updated ✅');
   });
 };

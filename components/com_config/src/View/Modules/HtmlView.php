@@ -80,6 +80,12 @@ class HtmlView extends BaseHtmlView
 
         if ($this->form) {
             $this->form->bind($moduleData);
+
+            // Add form control fields
+            $this->form
+                ->addControlField('task', '')
+                ->addControlField('return', Factory::getApplication()->getInput()->get('return', null, 'base64'))
+                ->addControlField('id', $this->item['id']);
         }
 
         $this->_prepareDocument();
