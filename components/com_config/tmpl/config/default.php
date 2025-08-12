@@ -34,7 +34,7 @@ $wa->useScript('keepalive')
         </h1>
     </div>
 <?php endif; ?>
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
+<form action="<?php echo Route::_('index.php'); ?>" method="post" name="adminForm" id="application-form" class="form-validate">
 
     <div class="mb-2 d-flex">
         <button type="button" class="btn btn-sm btn-outline-info button-inlinehelp ms-auto">
