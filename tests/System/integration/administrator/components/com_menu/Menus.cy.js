@@ -42,7 +42,7 @@ describe('Test in backend that the menu list', () => {
       .contains('Test Admin Menu')
       .should('be.visible');
   });
-    it('can create a module to display the created site menu', () => {
+  it('can create a module to display the created site menu', () => {
     cy.get('#client_id').select('Site');
 
     cy.get('table#menuList')
@@ -55,8 +55,10 @@ describe('Test in backend that the menu list', () => {
        cy.get('body').then(($body) => {
          cy.get('header').should('contain.text', 'Add a module for this menu');
 
-         cy.get('input[name="jform[title]"]').type('Test Site Menu Module');
-         cy.get('input[name="jform[position]"]').select('sidebar-right');
+         cy.get('iframe').iframe().then(($body) => {
+          cy.wrap($body).find('input[name="jform[title]"]').type('Test Site Menu Module');
+          cy.wrap($body).find('input[name="jform[position]"]').select('sidebar-right');
+         });
 
          cy.clickToolbarButton('Save & Close');
        });
@@ -81,9 +83,10 @@ describe('Test in backend that the menu list', () => {
        cy.get('body').then(($body) => {
          cy.get('header').should('contain.text', 'Add a module for this menu');
 
-         cy.get('input[name="jform[title]"]').type('Test Admin Menu Module');
-         cy.get('input[name="jform[position]"]').select('menu');
-
+         cy.get('iframe').iframe().then(($body) => {
+          cy.wrap($body).find('input[name="jform[title]"]').type('Test Admin Menu Module');
+          cy.wrap($body).find('input[name="jform[position]"]').select('menu');
+         });
          cy.clickToolbarButton('Save & Close');
        });
 
