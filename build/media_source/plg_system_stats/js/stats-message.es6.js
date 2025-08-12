@@ -25,15 +25,6 @@ Joomla = window.Joomla || {};
   const initStatsEvents = (callback) => {
     const messageContainer = document.getElementById('system-message-container');
     const joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
-    const detailsContainer = messageContainer.querySelector('#js-pstats-data-details');
-
-    // Show details about the information being sent
-    document.addEventListener('click', (event) => {
-      if (event.target.classList.contains('js-pstats-btn-details')) {
-        event.preventDefault();
-        detailsContainer.classList.toggle('d-none');
-      }
-    });
 
     // Always allow
     document.addEventListener('click', (event) => {

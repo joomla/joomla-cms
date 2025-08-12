@@ -124,6 +124,11 @@ class HtmlView extends BaseHtmlView
             $item->cparams = new Registry($item->category_params);
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         $this->addToolbar();
         parent::display($tpl);
     }
