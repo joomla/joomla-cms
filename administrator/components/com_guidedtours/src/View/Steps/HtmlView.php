@@ -113,6 +113,11 @@ class HtmlView extends BaseHtmlView
         // Unset the tour_id field from activeFilters as we don't filter by tour here.
         unset($this->activeFilters['tour_id']);
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         $this->addToolbar();
 
         parent::display($tpl);
