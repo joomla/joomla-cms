@@ -445,5 +445,34 @@
 				/>
 			</form>
 		</field>
+
+		<field
+			name="img_classes_list"
+			type="subform"
+			label="PLG_TINY_FIELD_IMG_CLASSES_LIST_LABEL"
+			description="PLG_TINY_FIELD_IMG_CLASSES_LIST_DESC"
+			layout="joomla.form.field.subform.repeatable-table"
+			required="false"
+			multiple="true">
+			<form>
+				<field
+					name="img_class_name"
+					type="text"
+					label="PLG_TINY_FIELD_IMG_CLASS_NAME_LABEL"
+					required="true"
+					filter="string"
+					default=""
+				/>
+				<field
+					name="img_class_list"
+					type="text"
+					label="PLG_TINY_FIELD_IMG_CLASS_LIST_LABEL"
+					required="true"
+					filter="string"
+					validate="CssIdentifier"
+					default=""
+				/>
+			</form>
+		</field>
 	</fieldset>
 </form>
