@@ -171,7 +171,7 @@ final class UserGroupsHelper
      */
     public function has($id)
     {
-        return (\array_key_exists($id, $this->groups) && $this->groups[$id] !== false);
+        return \array_key_exists($id, $this->groups) && $this->groups[$id] !== false;
     }
 
     /**

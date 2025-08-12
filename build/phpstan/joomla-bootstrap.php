@@ -10,7 +10,6 @@
  */
 
 \define('_JEXEC', 1);
-\define('JPATH_PLATFORM', 1);
 \define('JPATH_BASE', \dirname(__DIR__, 2));
 
 // Load the Joomla environment

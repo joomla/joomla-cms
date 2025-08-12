@@ -70,7 +70,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -158,7 +158,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
                 $data->{$this->profileKeyPrefix}[$k] = $v[1];
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // We suppress any database error. It means we get no token saved by default.
         }
 
@@ -428,7 +428,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $query->bind(':profileKey', $profileKey, ParameterType::STRING);
 
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing.
         }
     }
@@ -473,7 +473,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -553,7 +553,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
         try {
             $siteSecret = $this->getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteSecret = '';
         }
 
@@ -620,7 +620,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
 
         try {
             $numRows = $db->setQuery($q)->loadResult() ?? 0;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

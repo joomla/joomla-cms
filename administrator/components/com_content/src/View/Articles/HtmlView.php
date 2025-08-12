@@ -111,28 +111,28 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ArticlesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        $this->items         = $model->getItems();
-        $this->pagination    = $model->getPagination();
-        $this->state         = $model->getState();
-        $this->filterForm    = $model->getFilterForm();
-        $this->activeFilters = $model->getActiveFilters();
-        $this->vote          = PluginHelper::isEnabled('content', 'vote');
-        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
+        try {
+            $this->items         = $model->getItems();
+            $this->pagination    = $model->getPagination();
+            $this->state         = $model->getState();
+            $this->filterForm    = $model->getFilterForm();
+            $this->activeFilters = $model->getActiveFilters();
+            $this->vote          = PluginHelper::isEnabled('content', 'vote');
+            $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
 
-        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
-            $this->setLayout('emptystate');
-        }
+            if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
+                $this->setLayout('emptystate');
+            }
 
-        if (ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
-            PluginHelper::importPlugin('workflow');
+            if (ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
+                PluginHelper::importPlugin('workflow');
 
-            $this->transitions = $model->getTransitions();
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors()) || $this->transitions === false) {
-            throw new GenericDataException(implode("\n", $errors), 500);
+                $this->transitions = $model->getTransitions();
+            }
+        } catch (\Exception $e) {
+            throw new GenericDataException($e->getMessage(), 500, $e);
         }
 
         // We don't need toolbar in the modal window.
@@ -181,9 +181,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-        $user    = $this->getCurrentUser();
-        $toolbar = $this->getDocument()->getToolbar();
+        $canDo    = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+        $user     = $this->getCurrentUser();
+        $toolbar  = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
 
@@ -227,11 +227,9 @@ class HtmlView extends BaseHtmlView
 
                 $childBar->unpublish('articles.unpublish')->listCheck(true);
 
-                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')
-                    ->listCheck(true);
+                $childBar->standardButton('featured', 'JFEATURE', 'articles.featured')->listCheck(true);
 
-                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')
-                    ->listCheck(true);
+                $childBar->standardButton('unfeatured', 'JUNFEATURE', 'articles.unfeatured')->listCheck(true);
 
                 $childBar->archive('articles.archive')->listCheck(true);
 

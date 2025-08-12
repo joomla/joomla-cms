@@ -123,6 +123,11 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         $this->addToolbar();
 
         parent::display($tpl);
@@ -142,7 +147,7 @@ class HtmlView extends BaseHtmlView
         $toolbar  = $this->getDocument()->getToolbar();
 
         // Add a shortcut to the styles list view.
-        $toolbar->linkButton('', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')
+        $toolbar->linkButton('styles', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')
             ->url('index.php?option=com_templates&view=styles&client_id=' . $clientId)
             ->icon('icon-brush thememanager');
 

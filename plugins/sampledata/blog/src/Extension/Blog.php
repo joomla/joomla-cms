@@ -61,7 +61,7 @@ final class Blog extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -1809,8 +1809,8 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                     'cache_time'     => 900,
                     'cachemode'      => 'static',
                     'module_tag'     => 'div',
-                    'bootstrap_size' => 0,
-                    'header_tag'     => 'h3',
+                    'bootstrap_size' => 12,
+                    'header_tag'     => 'h2',
                     'style'          => 0,
                 ],
             ],

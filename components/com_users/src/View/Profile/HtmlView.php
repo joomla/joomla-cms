@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Component\Users\Site\Model\ProfileModel;
-use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,18 +60,6 @@ class HtmlView extends BaseHtmlView
     protected $state;
 
     /**
-     * An instance of DatabaseDriver.
-     *
-     * @var    DatabaseDriver
-     * @since  3.6.3
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Will be removed without replacement use database from the container instead
-     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
-     */
-    protected $db;
-
-    /**
      * The page class suffix
      *
      * @var    string
@@ -109,7 +96,6 @@ class HtmlView extends BaseHtmlView
         $this->state              = $model->getState();
         $this->params             = $this->state->get('params');
         $this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
-        $this->db                 = Factory::getDbo();
 
         // Check for errors.
         if (\count($errors = $model->getErrors())) {
@@ -141,8 +127,8 @@ class HtmlView extends BaseHtmlView
         $active = Factory::getApplication()->getMenu()->getActive();
 
         if (
-            $active && isset($active->query['layout'])
-            && isset($active->query['option']) && $active->query['option'] === 'com_users'
+            $active && isset($active->query['layout'], $active->query['option'])
+            && $active->query['option'] === 'com_users'
             && isset($active->query['view']) && $active->query['view'] === 'profile'
         ) {
             $this->setLayout($active->query['layout']);

@@ -25,11 +25,16 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterResultState;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
@@ -47,6 +52,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class UpdateModel extends BaseDatabaseModel
 {
+    private const AUTOUPDATE_URL = 'https://autoupdate.joomla.org/api/v1';
+
     /**
      * @var   array  $updateInformation  null
      * Holds the update information evaluated in getUpdateInformation.
@@ -85,18 +92,18 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @since    2.5.4
      */
-    public function applyUpdateSite()
+    public function applyUpdateSite(?string $updateSource = null, ?string $updateURL = null)
     {
-        // Determine the intended update URL.
-        $params = ComponentHelper::getParams('com_joomlaupdate');
+        $params       = ComponentHelper::getParams('com_joomlaupdate');
+        $updateSource = $updateSource ?: $params->get('updatesource', 'default');
+        $updateURL    = trim($updateURL ?: $params->get('customurl', ''));
 
-        switch ($params->get('updatesource', 'default')) {
+        // Determine the intended update URL.
+        switch ($updateSource) {
             case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
-                if (trim($params->get('customurl', '')) != '') {
-                    $updateURL = trim($params->get('customurl', ''));
-                } else {
+                if ($updateURL === '') {
                     Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 
                     return;
@@ -134,21 +141,19 @@ class UpdateModel extends BaseDatabaseModel
         $db->setQuery($query);
         $update_site = $db->loadObject();
 
-        if ($update_site->location !== $updateURL || $update_site->type !== $updateType) {
-            // Modify the database record.
-            $update_site->last_check_timestamp = 0;
-            $update_site->location             = $updateURL;
-            $update_site->type                 = $updateType;
-            $db->updateObject('#__update_sites', $update_site, 'update_site_id');
+        // Modify the database record.
+        $update_site->last_check_timestamp = 0;
+        $update_site->location             = $updateURL;
+        $update_site->type                 = $updateType;
+        $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
-            // Remove cached updates.
-            $query->clear()
-                ->delete($db->quoteName('#__updates'))
-                ->where($db->quoteName('extension_id') . ' = :id')
-                ->bind(':id', $id, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $db->execute();
-        }
+        // Remove cached updates.
+        $query->clear()
+            ->delete($db->quoteName('#__updates'))
+            ->where($db->quoteName('extension_id') . ' = :id')
+            ->bind(':id', $id, ParameterType::INTEGER);
+        $db->setQuery($query);
+        $db->execute();
     }
 
     /**
@@ -384,18 +389,18 @@ class UpdateModel extends BaseDatabaseModel
 
         try {
             $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Passing false here -> download failed message
             return $response;
         }
 
         // Follow the Location headers until the actual download URL is known
-        while (isset($head->headers['location'])) {
-            $packageURL = (string) $head->headers['location'][0];
+        while (isset($head->getHeaders()['location'])) {
+            $packageURL = (string) $head->getHeaders()['location'][0];
 
             try {
                 $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Passing false here -> download failed message
                 return $response;
             }
@@ -404,7 +409,7 @@ class UpdateModel extends BaseDatabaseModel
         // Remove protocol, path and query string from URL
         $basename = basename($packageURL);
 
-        if (strpos($basename, '?') !== false) {
+        if (str_contains($basename, '?')) {
             $basename = substr($basename, 0, strpos($basename, '?'));
         }
 
@@ -455,6 +460,242 @@ class UpdateModel extends BaseDatabaseModel
         $response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
 
         return $response;
+    }
+
+    /**
+     * Update the datetime for the last health check run
+     *
+     * @return void
+     *
+     * @since 5.4.0
+     */
+    public function updateLastHealthCheck()
+    {
+        $extension = new Extension($this->getDatabase());
+
+        $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
+
+        $extension->load($extensionId);
+
+        $params = new Registry($extension->params);
+        $params->set('update_last_check', Factory::getDate()->toSql());
+
+        $extension->params = (string) $params;
+
+        $extension->store();
+    }
+
+    /**
+     * Get the latest version for the automated update
+     *
+     * @return string|null
+     *
+     * @since 5.4.0
+     */
+    public function getAutoUpdateVersion(): ?string
+    {
+        $this->refreshUpdates(true);
+
+        $updateInfo = $this->getUpdateInformation();
+
+        return $updateInfo['latest'] ?? null;
+    }
+
+    /**
+     * Check if the hard conditions for an update are met
+     *
+     * @return boolean
+     *
+     * @since 5.4.0
+     */
+    public function getAutoUpdateRequirementsState(): bool
+    {
+        foreach ($this->getPhpOptions() as $option) {
+            if ($option->state !== true) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Download file and request password/filesize information
+     *
+     * @param string $targetVersion
+     *
+     * @return array
+     *
+     * @since 5.4.0
+     */
+    public function prepareAutoUpdate(string $targetVersion): array
+    {
+        $fileInformation = $this->download();
+
+        if ($fileInformation['version'] !== $targetVersion) {
+            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG'), 410);
+        }
+
+        if ($fileInformation['check'] === false) {
+            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG'), 410);
+        }
+
+        if (!$this->createUpdateFile($fileInformation['basename'])) {
+            throw new \Exception('Could not write update file', 410);
+        }
+
+        $app = Factory::getApplication();
+
+        return [
+            'password' => $app->getUserState('com_joomlaupdate.password'),
+            'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
+            'filename' => $app->getUserState('com_joomlaupdate.file'),
+        ];
+    }
+
+    /**
+     * Change the registration state of a site in the update service
+     *
+     * @return AutoupdateRegisterResultState
+     *
+     * @since 5.4.0
+     */
+    public function changeAutoUpdateRegistration(AutoupdateRegisterState $targetState): AutoupdateRegisterResultState
+    {
+        // Purge cache - this makes sure that the changed status will already be available if the health check is performed
+        $this->cleanCache('_system');
+
+        // Prepare connection
+        $http = HttpFactory::getHttp();
+
+        $url = self::AUTOUPDATE_URL;
+        $url .= ($targetState === AutoupdateRegisterState::Subscribe) ? '/register' : '/delete';
+
+        $requestData = [
+            'url' => Uri::root(),
+            'key' => $this->getAutoUpdateToken(),
+        ];
+
+        // JHttp transport throws an exception when there's no response.
+        try {
+            $response = $http->post($url, json_encode($requestData), [
+                'Accept'       => 'application/json',
+                'Content-Type' => 'application/json',
+            ], 20);
+        } catch (\RuntimeException $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+            return AutoupdateRegisterResultState::Failed;
+        }
+
+        // Decode response
+        $result = json_decode((string) $response->getBody(), true);
+
+        // Handle validation issue
+        if ($response->getStatusCode() === 422) {
+            // Append message
+            Factory::getApplication()->enqueueMessage(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_UNAVAILABLE',
+                ),
+                'warning'
+            );
+
+            $this->updateAutoUpdateParams(
+                AutoupdateRegisterState::Unsubscribed,
+                false
+            );
+
+            return AutoupdateRegisterResultState::Unavailable;
+        }
+
+        // Handle other non-success response
+        if ($response->getStatusCode() !== 200) {
+            Factory::getApplication()->enqueueMessage(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_ERROR',
+                    $result['message'] ?? '',
+                    $result['status'] ?? ''
+                ),
+                'error'
+            );
+
+            $this->updateAutoUpdateParams(
+                AutoupdateRegisterState::Unsubscribed,
+                false
+            );
+
+            return AutoupdateRegisterResultState::Failed;
+        }
+
+        $this->updateAutoUpdateParams(
+            ($targetState === AutoupdateRegisterState::Subscribe)
+                ? AutoupdateRegisterState::Subscribed
+                : AutoupdateRegisterState::Unsubscribed,
+            ($targetState === AutoupdateRegisterState::Subscribe)
+        );
+
+        return AutoupdateRegisterResultState::Success;
+    }
+
+    /**
+     * Update the autoupdate activation and registration states
+     *
+     * @since   6.0.0
+     */
+    protected function updateAutoUpdateParams(AutoupdateRegisterState $registrationState, bool $enableUpdate): void
+    {
+        // Get extension row
+        $extension   = new Extension($this->getDatabase());
+        $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
+        $extension->load($extensionId);
+
+        // Set new update registration state
+        $params = new Registry($extension->params);
+
+        $params->set('autoupdate_status', $registrationState->value);
+        $params->set('autoupdate', (int) $enableUpdate);
+
+        $extension->params = $params->toString();
+
+        if (!$extension->store()) {
+            throw new \RuntimeException($extension->getError());
+        }
+    }
+
+    /**
+     * Get the current autoupdate token, set one if none is set
+     *
+     * @return string
+     *
+     * @since 5.4.0
+     */
+    protected function getAutoUpdateToken(): string
+    {
+        // Get extension row
+        $extension   = new Extension($this->getDatabase());
+        $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
+        $extension->load($extensionId);
+
+        $params = new Registry($extension->params);
+
+        if ($params->get('update_token')) {
+            return $params->get('update_token');
+        }
+
+        // Set new token
+        $params->set(
+            'update_token',
+            UserHelper::genRandomPassword(40)
+        );
+
+        $extension->params = $params->toString();
+
+        if (!$extension->store()) {
+            throw new \RuntimeException($extension->getError());
+        }
+
+        return $params->get('update_token');
     }
 
     /**
@@ -512,7 +753,7 @@ class UpdateModel extends BaseDatabaseModel
         if (is_file($target)) {
             try {
                 File::delete($target);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 return false;
             }
         }
@@ -520,21 +761,21 @@ class UpdateModel extends BaseDatabaseModel
         // Download the package
         try {
             $result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
-        if (!$result || ($result->code != 200 && $result->code != 310)) {
+        if (!$result || ($result->getStatusCode() != 200 && $result->getStatusCode() != 310)) {
             return false;
         }
 
         // Fix Indirect Modification of Overloaded Property
-        $body = $result->body;
+        $body = (string) $result->getBody();
 
         // Write the file to disk
         try {
             File::write($target, $body);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             return false;
         }
 
@@ -614,12 +855,12 @@ ENDDATA;
         $data .= '];';
 
         // Remove the old file, if it's there...
-        $configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
+        $configpath = JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/update.php';
 
         if (is_file($configpath)) {
             try {
                 File::delete($configpath);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 return false;
             }
         }
@@ -627,7 +868,7 @@ ENDDATA;
         // Write new file. First try with File.
         try {
             $result = File::write($configpath, $data);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             // In case File failed but direct access could help.
             $fp = @fopen($configpath, 'wt');
 
@@ -681,8 +922,6 @@ ENDDATA;
         $db                   = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
-
-        $installer->setAdapter($installer->extension->type);
 
         $installer->setPath('manifest', JPATH_MANIFESTS . '/files/joomla.xml');
         $installer->setPath('source', JPATH_MANIFESTS . '/files');
@@ -902,8 +1141,8 @@ ENDDATA;
             }
 
             // Remove the update.php file used in Joomla 4.0.3 and later.
-            if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
-                File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
+            if (is_file(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/update.php')) {
+                File::delete(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/update.php');
             }
 
             // Remove joomla.xml from the site's root.
@@ -926,7 +1165,7 @@ ENDDATA;
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
     }
@@ -996,7 +1235,7 @@ ENDDATA;
 
         // Move uploaded file.
         try {
-            File::upload($tmp_src, $tmp_dest, false);
+            File::upload($tmp_src, $tmp_dest);
         } catch (FilesystemException $exception) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500, $exception);
         }
@@ -1075,7 +1314,7 @@ ENDDATA;
             if ($file !== null && is_file($file)) {
                 try {
                     File::delete($file);
-                } catch (FilesystemException $exception) {
+                } catch (FilesystemException) {
                 }
             }
         }
@@ -1143,14 +1382,35 @@ ENDDATA;
         $options[]         = $option;
         $updateInformation = $this->getUpdateInformation();
 
-        // Check if configured database is compatible with the next major version of Joomla
-        $nextMajorVersion = Version::MAJOR_VERSION + 1;
-
-        if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>=')) {
+        // Extra checks when updating to the next major version of Joomla
+        if (version_compare($updateInformation['latest'], (string) Version::MAJOR_VERSION + 1, '>=')) {
+            // Check if configured database is compatible with the next major version of Joomla
             $option         = new \stdClass();
             $option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
             $option->state  = $this->isDatabaseTypeSupported();
             $option->notice = null;
+            $options[]      = $option;
+
+            // Check if the Joomla 5 backwards compatibility plugin is disabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
+
+            $this->translateExtensionName($plugin);
+
+            $option         = new \stdClass();
+            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_TITLE', $plugin->name);
+            $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
+            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_DISABLED_NOTICE', $plugin->folder, $plugin->element);
+            $options[]      = $option;
+
+            // Check if the Joomla 6 backwards compatibility plugin is enabled
+            $plugin = ExtensionHelper::getExtensionRecord('compat6', 'plugin', 0, 'behaviour');
+
+            $this->translateExtensionName($plugin);
+
+            $option         = new \stdClass();
+            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_TITLE', $plugin->name);
+            $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
+            $option->notice = $option->state ? null : Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PLUGIN_ENABLED_NOTICE', $plugin->folder, $plugin->element);
             $options[]      = $option;
         }
 
@@ -1415,9 +1675,7 @@ ENDDATA;
             $decode = json_decode($extension->manifest_cache);
 
             // Remove unused fields so they do not cause javascript errors during pre-update check
-            unset($decode->description);
-            unset($decode->copyright);
-            unset($decode->creationDate);
+            unset($decode->description, $decode->copyright, $decode->creationDate);
 
             $this->translateExtensionName($extension);
             $extension->version
@@ -1476,9 +1734,7 @@ ENDDATA;
             $decode = json_decode($plugin->manifest_cache);
 
             // Remove unused fields so they do not cause javascript errors during pre-update check
-            unset($decode->description);
-            unset($decode->copyright);
-            unset($decode->creationDate);
+            unset($decode->description, $decode->copyright, $decode->creationDate);
 
             $this->translateExtensionName($plugin);
             $plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
@@ -1490,7 +1746,7 @@ ENDDATA;
     }
 
     /**
-     * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
+     * Called by controller's batchextensioncompatibility, which is called via AJAX.
      *
      * @param   string  $extensionID          The ID of the checked extension
      * @param   string  $joomlaTargetVersion  Target version of Joomla
@@ -1596,15 +1852,15 @@ ENDDATA;
 
         try {
             $response = $http->get($updateSiteInfo['location']);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             return $return;
         }
 
-        $updateSiteXML = simplexml_load_string($response->body);
+        $updateSiteXML = simplexml_load_string((string) $response->getBody());
 
         foreach ($updateSiteXML->extension as $extension) {
             $attribs = new \stdClass();

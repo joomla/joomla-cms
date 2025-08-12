@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The application input object.
      *
-     * @var    \Joomla\CMS\Input\Input
+     * @var    \Joomla\Input\Input
      * @since  4.0.0
      */
     protected $input;
@@ -142,6 +142,10 @@ class HtmlView extends BaseHtmlView
 
         // Get the ID of workflow
         $this->workflowID = $this->input->getCmd("workflow_id");
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', 'transition.edit');
 
         // Set the toolbar
         $this->addToolbar();

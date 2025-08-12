@@ -1,0 +1,77 @@
+.container-header {
+  background-color: var(--headerbg);
+  background-image: none;
+  .navbar-brand a {
+    color: var(--headercolor);
+    text-decoration: none;
+  }
+  .mod-menu {
+    color: var(--headercolor);
+  }
+}
+.container-header .metismenu > li > a:hover::after, .container-header .metismenu > li > button:hover::before, .container-header .metismenu > li.active > a::after, .container-header .metismenu > li.active > button::before {
+  background: color-mix(in srgb, currentColor, #fff 25%);
+}
+a:focus-visible,
+.metismenu.mod-menu .metismenu-item > a:focus,
+.metismenu.mod-menu .metismenu-item > button:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.form-control:focus,
+.form-check-input:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  box-shadow: none;
+}
+.form-check-input:checked {
+  background-color: var(--body-color);
+  border-color: var(--body-color);
+}
+.btn-primary {
+  --btn-color: var(--btncolor);
+  --btn-bg: var(--btnbg);
+  --btn-border-color: var(--btnbg);
+  --btn-hover-color: var(--btncolor);
+  --btn-hover-bg: var(--btnbgh);
+  --btn-hover-border-color: var(--btnbgh);
+  --btn-active-color: var(--btncolor);
+  --btn-active-bg: var(--btnbgh);
+  --btn-active-border-color: var(--btnbgh);
+  --btn-disabled-color: var(--btncolor);
+  --btn-disabled-bg: var(--btnbg);
+  --btn-disabled-border-color: var(--btnbg);
+}
+.btn-primary {
+  background-color: var(--btn-bg);
+  border-color: var(--btn-bg);
+  &:hover,
+  &:focus {
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-bg);
+  }
+}
+.btn-primary:focus-visible {
+  outline: 2px solid var(--btn-hover-bg);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+.boxed .blog-item {
+  --cassiopeia-color-primary: var(--link-color);
+}
+.pagination {
+  --pagination-active-bg: var(--link-color);
+}
+.container-footer {
+  color: var(--footercolor);
+  background-color: var(--footerbg);
+  background-image: none;
+  a {
+    color: var(--footercolor);
+  }
+}
+.offline-card .header {
+  color: var(--headercolor);
+  background-color: var(--headerbg);
+  background-image: none;
+}

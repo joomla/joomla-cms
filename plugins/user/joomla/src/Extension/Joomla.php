@@ -51,7 +51,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -164,7 +164,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing
         }
     }
@@ -202,7 +202,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         }
 
         // Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
-        if (strpos($app->get('mailfrom'), '@') === false) {
+        if (!str_contains($app->get('mailfrom'), '@')) {
             $app->enqueueMessage($language->_('JERROR_SENDING_EMAIL'), 'warning');
 
             return;
@@ -349,7 +349,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // The old session is already invalidated, don't let this block logging in
         }
 
@@ -361,11 +361,13 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $this->getApplication()->getInput()->cookie->set(
                 'joomla_user_state',
                 'logged_in',
-                0,
-                $this->getApplication()->get('cookie_path', '/'),
-                $this->getApplication()->get('cookie_domain', ''),
-                $this->getApplication()->isHttpsForced(),
-                true
+                [
+                    'expires'  => 0,
+                    'path'     => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'   => $this->getApplication()->get('cookie_domain', ''),
+                    'secure'   => $this->getApplication()->isHttpsForced(),
+                    'httponly' => true,
+                ]
             );
         }
     }
@@ -390,7 +392,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $userid = (int) $user['id'];
 
         // Make sure we're a valid user first
-        if ($user['id'] === 0 && !$my->get('tmp_user')) {
+        if ($user['id'] === 0 && !empty($my->tmp_user)) {
             return;
         }
 
@@ -415,7 +417,15 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         // Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
         if ($this->getApplication()->isClient('site')) {
-            $this->getApplication()->getInput()->cookie->set('joomla_user_state', '', 1, $this->getApplication()->get('cookie_path', '/'), $this->getApplication()->get('cookie_domain', ''));
+            $this->getApplication()->getInput()->cookie->set(
+                'joomla_user_state',
+                '',
+                [
+                    'expires' => 1,
+                    'path'    => $this->getApplication()->get('cookie_path', '/'),
+                    'domain'  => $this->getApplication()->get('cookie_domain', ''),
+                ]
+            );
         }
     }
 

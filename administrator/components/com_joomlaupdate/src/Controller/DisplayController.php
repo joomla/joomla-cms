@@ -76,8 +76,7 @@ class DisplayController extends BaseController
                 $state->set('log_file', $this->app->get('log_path') . '/joomla_update.php');
             }
 
-            // Perform update source preference check and refresh update information.
-            $model->applyUpdateSite();
+            // Refresh update information.
             $model->refreshUpdates();
 
             // Push the model into the view (as default).

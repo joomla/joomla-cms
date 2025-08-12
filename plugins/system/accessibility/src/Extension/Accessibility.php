@@ -30,7 +30,7 @@ final class Accessibility extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -72,11 +72,13 @@ final class Accessibility extends CMSPlugin implements SubscriberInterface
         // Load language file.
         $this->loadLanguage();
 
+        $language  = $app->getLanguage();
+
         // Determine if it is an LTR or RTL language
-        $direction = $app->getLanguage()->isRtl() ? 'right' : 'left';
+        $direction = $language->isRtl() ? 'right' : 'left';
 
         // Detect the current active language
-        $lang = $app->getLanguage()->getTag();
+        $lang = $language->getTag();
 
         /**
         * Add strings for translations in Javascript.
@@ -86,20 +88,20 @@ final class Accessibility extends CMSPlugin implements SubscriberInterface
             'accessibility-options',
             [
                 'labels' => [
-                    'menuTitle'           => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_MENU_TITLE'),
-                    'increaseText'        => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_TEXT'),
-                    'decreaseText'        => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_TEXT'),
-                    'increaseTextSpacing' => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_SPACING'),
-                    'decreaseTextSpacing' => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_SPACING'),
-                    'invertColors'        => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INVERT_COLORS'),
-                    'grayHues'            => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_GREY'),
-                    'underlineLinks'      => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_UNDERLINE'),
-                    'bigCursor'           => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_CURSOR'),
-                    'readingGuide'        => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_READING'),
-                    'textToSpeech'        => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
-                    'speechToText'        => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_STT'),
-                    'resetTitle'          => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_RESET'),
-                    'closeTitle'          => $app->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_CLOSE'),
+                    'menuTitle'           => $language->_('PLG_SYSTEM_ACCESSIBILITY_MENU_TITLE'),
+                    'increaseText'        => $language->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_TEXT'),
+                    'decreaseText'        => $language->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_TEXT'),
+                    'increaseTextSpacing' => $language->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_SPACING'),
+                    'decreaseTextSpacing' => $language->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_SPACING'),
+                    'invertColors'        => $language->_('PLG_SYSTEM_ACCESSIBILITY_INVERT_COLORS'),
+                    'grayHues'            => $language->_('PLG_SYSTEM_ACCESSIBILITY_GREY'),
+                    'underlineLinks'      => $language->_('PLG_SYSTEM_ACCESSIBILITY_UNDERLINE'),
+                    'bigCursor'           => $language->_('PLG_SYSTEM_ACCESSIBILITY_CURSOR'),
+                    'readingGuide'        => $language->_('PLG_SYSTEM_ACCESSIBILITY_READING'),
+                    'textToSpeech'        => $language->_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
+                    'speechToText'        => $language->_('PLG_SYSTEM_ACCESSIBILITY_STT'),
+                    'resetTitle'          => $language->_('PLG_SYSTEM_ACCESSIBILITY_RESET'),
+                    'closeTitle'          => $language->_('PLG_SYSTEM_ACCESSIBILITY_CLOSE'),
                 ],
                 'icon' => [
                     'position' => [
