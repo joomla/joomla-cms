@@ -945,24 +945,6 @@ parameters:
 			path: administrator/components/com_categories/src/View/Category/HtmlView.php
 
 		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\String\\Inflector\:
-				3\.0  Use static methods without a class instance instead\.$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_categories/tmpl/categories/default.php
-
-		-
-			message: '''
-				#^Call to deprecated method toPlural\(\) of class Joomla\\String\\Inflector\:
-				3\.0  Use Doctrine\\Common\\Inflector\\Inflector\:\:pluralize\(\) instead\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_categories/tmpl/categories/default.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Categories\\Administrator\\View\\Category\\HtmlView\:\:\$useCoreUI\.$#'
 			identifier: property.notFound
 			count: 1
@@ -5864,24 +5846,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\String\\Inflector\:
-				3\.0  Use static methods without a class instance instead\.$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_tags/tmpl/tags/default.php
-
-		-
-			message: '''
-				#^Call to deprecated method toPlural\(\) of class Joomla\\String\\Inflector\:
-				3\.0  Use Doctrine\\Common\\Inflector\\Inflector\:\:pluralize\(\) instead\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_tags/tmpl/tags/default.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -7068,12 +7032,6 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: administrator/components/com_users/tmpl/user/edit_groups.php
-
-		-
-			message: '#^Call to method pluralize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
-			identifier: staticMethod.deprecatedClass
-			count: 1
-			path: administrator/components/com_workflow/src/Controller/DisplayController.php
 
 		-
 			message: '''
@@ -13524,24 +13482,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 6
-			path: libraries/src/MVC/Controller/ApiController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/MVC/Controller/ApiController.php
-
-		-
-			message: '#^Call to method singularize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
-			identifier: staticMethod.deprecatedClass
-			count: 4
+			count: 2
 			path: libraries/src/MVC/Controller/ApiController.php
 
 		-
@@ -15409,6 +15350,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Content\\Finder\\Extension\\Finder\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/content/finder/services/provider.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Content\\Finder\\Extension\\Finder\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -15511,6 +15462,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\CodeMirror\\Extension\\Codemirror\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/editors/codemirror/services/provider.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\CodeMirror\\Extension\\Codemirror\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -15521,6 +15482,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\None\\Extension\\None\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/editors/none/services/provider.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\None\\Extension\\None\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -15528,6 +15499,16 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: plugins/editors/none/src/Extension/None.php
+
+		-
+			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\TinyMCE\\Extension\\TinyMCE\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/editors/tinymce/services/provider.php
 
 		-
 			message: '''
@@ -15725,6 +15706,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Cache\\Extension\\Cache\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/system/cache/src/Extension/Cache.php
+
+		-
+			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -15818,6 +15809,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Schemaorg\\Extension\\Schemaorg\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/system/schemaorg/services/provider.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Schemaorg\\Extension\\Schemaorg\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -15825,6 +15826,16 @@ parameters:
 			identifier: method.deprecated
 			count: 4
 			path: plugins/system/schemaorg/src/Extension/Schemaorg.php
+
+		-
+			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Shortcut\\Extension\\Shortcut\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/system/shortcut/services/provider.php
 
 		-
 			message: '''
@@ -16012,12 +16023,6 @@ parameters:
 			path: plugins/workflow/featuring/src/Extension/Featuring.php
 
 		-
-			message: '#^Call to method singularize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
-			identifier: staticMethod.deprecatedClass
-			count: 1
-			path: plugins/workflow/featuring/src/Extension/Featuring.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Plugin\\Workflow\\Notification\\Extension\\Notification\:\:\$app\.$#'
 			identifier: property.notFound
 			count: 2
@@ -16027,10 +16032,4 @@ parameters:
 			message: '#^Access to an undefined property Joomla\\Plugin\\Workflow\\Publishing\\Extension\\Publishing\:\:\$app\.$#'
 			identifier: property.notFound
 			count: 2
-			path: plugins/workflow/publishing/src/Extension/Publishing.php
-
-		-
-			message: '#^Call to method singularize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
-			identifier: staticMethod.deprecatedClass
-			count: 1
 			path: plugins/workflow/publishing/src/Extension/Publishing.php
