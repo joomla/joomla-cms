@@ -9,7 +9,7 @@ Build Status
 
 | Actions                                                                                                                                         | PHP                                                                           | Node                                                                                 | npm                                                                              |
 |-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=6.0-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
+| [![Build Status](https://github.com/joomla/joomla-cms/actions/workflows/ci.yml/badge.svg?branch=6.0-dev)](https://github.com/joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.3.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V20.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v10.1.0-green)](https://nodejs.org/en/) |
 
 Overview
 ---------------------
