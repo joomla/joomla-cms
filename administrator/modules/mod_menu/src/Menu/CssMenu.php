@@ -94,13 +94,22 @@ class CssMenu implements DatabaseAwareInterface
     /**
      * CssMenu constructor.
      *
-     * @param   CMSApplication     $application  The application
-     * @param   DatabaseInterface  $db           The database
+     * @param   CMSApplication      $application  The application
+     * @param   ?DatabaseInterface  $db           The database
      *
      * @since 4.0.0
      */
-    public function __construct(CMSApplication $application, DatabaseInterface $db)
+    public function __construct(CMSApplication $application, ?DatabaseInterface $db = null)
     {
+        if ($db === null) {
+            @trigger_error(
+                __CLASS__ . ': The $db parameter must be set for the contructor.',
+                \E_USER_DEPRECATED
+            );
+
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
+        }
+
         $this->setDatabase($db);
 
         $this->application = $application;
