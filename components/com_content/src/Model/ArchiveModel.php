@@ -91,7 +91,7 @@ class ArchiveModel extends ArticlesModel
      */
     protected function getListQuery()
     {
-        $params           = $this->state->params;
+        $params           = $this->state->get('params');
         $app              = Factory::getApplication();
         $catids           = $app->getInput()->get('catid', [], 'array');
         $catids           = array_values(array_diff($catids, ['']));
@@ -158,7 +158,7 @@ class ArchiveModel extends ArticlesModel
         $db        = $this->getDatabase();
         $nowDate   = Factory::getDate()->toSql();
         $query     = $db->getQuery(true);
-        $queryDate = QueryHelper::getQueryDate($this->state->params->get('order_date'), $db);
+        $queryDate = QueryHelper::getQueryDate($this->state->get('params')->get('order_date'), $db);
         $years     = $query->year($queryDate);
         $yearSort  = $this->state->params->get('year_sort_order', 'ASC');
 

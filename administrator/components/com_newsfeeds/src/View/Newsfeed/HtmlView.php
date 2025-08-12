@@ -171,7 +171,7 @@ class HtmlView extends BaseHtmlView
         } else {
             $toolbar->cancel('newsfeed.cancel');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $canDo->get('core.edit')) {
                 $toolbar->versions('com_newsfeeds.newsfeed', $this->item->id);
             }
         }
