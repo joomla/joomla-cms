@@ -101,7 +101,7 @@ class CssMenu implements DatabaseAwareInterface
      */
     public function __construct(CMSApplication $application, DatabaseInterface $db)
     {
-        $this->setDatabase($db)
+        $this->setDatabase($db);
 
         $this->application = $application;
         $this->root        = new AdministratorMenuItem();
