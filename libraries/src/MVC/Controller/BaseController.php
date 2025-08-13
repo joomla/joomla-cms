@@ -616,6 +616,10 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
             $view->setLanguage($this->app->getLanguage());
         }
 
+        if ($view instanceof DocumentAwareInterface && $this->app->getDocument()) {
+            $view->setDocument($this->app->getDocument());
+        }
+
         return $view;
     }
 
