@@ -13,7 +13,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -93,6 +95,13 @@ class FormView extends HtmlView
     protected $helpLink;
 
     /**
+     * Holds the extension for categories, if available
+     *
+     * @var string
+     */
+    protected $categorySection;
+
+    /**
      * Constructor
      *
      * @param   array  $config  An optional associative array of configuration settings.
@@ -148,10 +157,15 @@ class FormView extends HtmlView
      */
     protected function initializeView()
     {
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
-        $table       = $this->get('Table');
+        /**
+         * @var AdminModel
+         */
+        $model = $this->getModel();
+
+        $this->form  = $model->getForm();
+        $this->item  = $model->getItem();
+        $this->state = $model->getState();
+        $table       = $model->getTable();
 
         $this->keyName = $table instanceof TableInterface ? $table->getKeyName() : 'id';
         $action        = empty($this->item->{$this->keyName}) ? '_NEW' : '_EDIT';
@@ -178,6 +192,11 @@ class FormView extends HtmlView
         $checkedOut = $this->getModel()->isCheckedOut($this->item);
         $canDo      = $this->canDo;
 
+        /**
+         * @var Toolbar $toolbar
+         */
+        $toolbar = $this->getDocument()->getToolbar();
+
         ToolbarHelper::title(
             $this->toolbarTitle,
             $this->toolbarIcon
@@ -185,6 +204,7 @@ class FormView extends HtmlView
 
         // For new records, check the create permission.
         if ($isNew && $canDo->get('core.create')) {
+
             ToolbarHelper::saveGroup(
                 [
                     ['apply', $viewName . '.apply'],
@@ -194,7 +214,7 @@ class FormView extends HtmlView
                 'btn-success'
             );
 
-            ToolbarHelper::cancel($viewName . '.cancel');
+            $toolbar->cancel($viewName . '.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             if (property_exists($this->item, 'created_by')) {
@@ -227,29 +247,39 @@ class FormView extends HtmlView
             );
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable) {
-                ToolbarHelper::versions($this->option . '.' . $viewName, $this->item->id);
+                $toolbar->versions(
+                    $this->option . '.' . $viewName,
+                    $this->item->{$this->keyName}
+                );
             }
 
             if (!$isNew && $this->previewLink) {
-                ToolbarHelper::preview($this->previewLink, Text::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
+                $toolbar->preview(
+                    $this->previewLink,
+                    Text::_('JGLOBAL_PREVIEW'),
+                    'eye',
+                    80,
+                    90
+                );
             }
 
-            ToolbarHelper::cancel($viewName . '.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel($viewName . '.cancel', 'JTOOLBAR_CANCEL');
         }
 
-        ToolbarHelper::divider();
+        $toolbar->divider();
 
         if ($this->form instanceof Form) {
             $formConfig  = $this->form->getXml()->config->inlinehelp;
 
             if ($formConfig && (string) $formConfig['button'] === 'show') {
                 $targetClass = (string) $formConfig['targetclass'] ?: 'hide-aware-inline-help';
-                ToolbarHelper::inlinehelp($targetClass);
+
+                $toolbar->inlinehelp($targetClass);
             }
         }
 
         if ($this->helpLink) {
-            ToolbarHelper::help($this->helpLink);
+            $toolbar->help($this->helpLink);
         }
     }
 }
