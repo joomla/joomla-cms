@@ -19,7 +19,6 @@ use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Http\HttpFactory;
-use Joomla\Http\Response;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -251,7 +250,7 @@ abstract class UpdateAdapter
      *
      * @param   array  $options  The update options, see findUpdate() in children classes
      *
-     * @return  Response|bool  False if we can't connect to the site, HTTP Response object otherwise
+     * @return  \Joomla\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
      *
      * @throws  \Exception
      */

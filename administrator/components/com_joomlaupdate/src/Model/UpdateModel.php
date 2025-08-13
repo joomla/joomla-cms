@@ -36,7 +36,6 @@ use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
-use Joomla\Http\Http;
 use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -1848,7 +1847,7 @@ ENDDATA;
     {
         $return = [];
 
-        $http = new Http();
+        $http = (new HttpFactory())->getHttp();
 
         try {
             $response = $http->get($updateSiteInfo['location']);
