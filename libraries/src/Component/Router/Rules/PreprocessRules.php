@@ -27,7 +27,7 @@ use Joomla\Database\ParameterType;
  * simply drop the alias from the &id= in the future. Cleaning up
  * every request with this would mean a significant performance impact
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.3.0
  */
 class PreprocessRules implements RulesInterface
 {
@@ -37,7 +37,7 @@ class PreprocessRules implements RulesInterface
      * View to prepare
      *
      * @var   RouterViewConfiguration
-     * @since __DEPLOY_VERSION__
+     * @since 5.3.0
      */
     protected $view;
 
@@ -45,7 +45,7 @@ class PreprocessRules implements RulesInterface
      * DB Table to read the information from
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 5.3.0
      */
     protected $table;
 
@@ -53,7 +53,7 @@ class PreprocessRules implements RulesInterface
      * ID column in the table to read the information from
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 5.3.0
      */
     protected $key;
 
@@ -61,7 +61,7 @@ class PreprocessRules implements RulesInterface
      * Parent ID column in the table to read the information from
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 5.3.0
      */
     protected $parent_key;
 
@@ -73,7 +73,7 @@ class PreprocessRules implements RulesInterface
      * @param   string                   $key         Key in the table to get the information
      * @param   string                   $parent_key  Column name of the parent key
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function __construct(RouterViewConfiguration $view, $table, $key, $parent_key = null)
     {
@@ -90,7 +90,7 @@ class PreprocessRules implements RulesInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function preprocess(&$query)
     {
@@ -146,7 +146,7 @@ class PreprocessRules implements RulesInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      * @codeCoverageIgnore
      */
     public function parse(&$segments, &$vars)
@@ -161,7 +161,7 @@ class PreprocessRules implements RulesInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      * @codeCoverageIgnore
      */
     public function build(&$query, &$segments)

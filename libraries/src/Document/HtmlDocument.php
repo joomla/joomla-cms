@@ -536,7 +536,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
 
         $renderer = $this->loadRenderer($type);
 
-        if ($this->_caching == true && $type === 'modules' && $name !== 'debug') {
+        if ($this->_caching && $type === 'modules' && $name !== 'debug') {
             /** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
             /** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
             $cache  = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_modules']);

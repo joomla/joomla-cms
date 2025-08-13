@@ -14,7 +14,9 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Module;
+use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
@@ -131,7 +133,7 @@ class ModuleAdapter extends InstallerAdapter
         foreach ($site_list as $module) {
             if (file_exists(JPATH_SITE . "/modules/$module/$module.xml")) {
                 $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'module';
                 $extension->client_id      = $site_info->id;
                 $extension->element        = $module;
@@ -147,7 +149,7 @@ class ModuleAdapter extends InstallerAdapter
         foreach ($admin_list as $module) {
             if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml")) {
                 $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'module';
                 $extension->client_id      = $admin_info->id;
                 $extension->element        = $module;
@@ -174,7 +176,7 @@ class ModuleAdapter extends InstallerAdapter
     protected function finaliseInstall()
     {
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
             [
                 'element'   => $this->element,
@@ -262,8 +264,7 @@ class ModuleAdapter extends InstallerAdapter
             }
 
             // Wipe out any instances in the modules table
-            /** @var \Joomla\CMS\Table\Module $module */
-            $module = Table::getInstance('Module');
+            $module = new Module($db);
 
             foreach ($modules as $modInstanceId) {
                 $module->load($modInstanceId);
@@ -288,7 +289,7 @@ class ModuleAdapter extends InstallerAdapter
         try {
             // Clean up any other ones that might exist as well
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Ignore the error...
         }
 
@@ -415,9 +416,11 @@ class ModuleAdapter extends InstallerAdapter
         $manifestPath           = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
+
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         if ($this->parent->extension->store()) {
             return true;
@@ -633,8 +636,7 @@ class ModuleAdapter extends InstallerAdapter
             // Create unpublished module
             $name = preg_replace('#[\*?]#', '', Text::_($this->name));
 
-            /** @var \Joomla\CMS\Table\Module $module */
-            $module            = Table::getInstance('module');
+            $module            = new Module($this->getDatabase());
             $module->title     = $name;
             $module->content   = '';
             $module->module    = $this->element;
@@ -675,7 +677,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }
@@ -706,7 +708,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }

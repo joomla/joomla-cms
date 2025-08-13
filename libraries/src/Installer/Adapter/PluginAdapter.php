@@ -14,7 +14,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
@@ -163,8 +163,7 @@ class PluginAdapter extends InstallerAdapter
     protected function finaliseInstall()
     {
         // Clobber any possible pending updates
-        /** @var Update $update */
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
             [
                 'element' => $this->element,
@@ -545,7 +544,7 @@ class PluginAdapter extends InstallerAdapter
 
                 $element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'plugin';
                 $extension->client_id      = 0;
                 $extension->element        = $element;
@@ -575,7 +574,7 @@ class PluginAdapter extends InstallerAdapter
                     $element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
                     // Ignore example plugins
-                    $extension                 = Table::getInstance('extension');
+                    $extension                 = new Extension($this->getDatabase());
                     $extension->type           = 'plugin';
                     $extension->client_id      = 0;
                     $extension->element        = $element;
@@ -611,10 +610,11 @@ class PluginAdapter extends InstallerAdapter
             . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
+
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
-
-        $this->parent->extension->name = $manifest_details['name'];
+        $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         if ($this->parent->extension->store()) {
             return true;

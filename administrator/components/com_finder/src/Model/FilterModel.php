@@ -45,15 +45,13 @@ class FilterModel extends AdminModel
     /**
      * Custom clean cache method.
      *
-     * @param   string   $group     The component name. [optional]
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param   string  $group  The component name. [optional]
      *
      * @return  void
      *
      * @since   2.5
      */
-    protected function cleanCache($group = 'com_finder', $clientId = 0)
+    protected function cleanCache($group = 'com_finder')
     {
         parent::cleanCache($group);
     }

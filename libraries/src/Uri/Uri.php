@@ -145,10 +145,16 @@ class Uri extends \Joomla\Uri\Uri
                 if (\defined('JPATH_BASE') && \defined('JPATH_API') && JPATH_BASE == JPATH_API) {
                     static::$base['path'] .= '/api';
                 }
+            } elseif (str_contains(PHP_SAPI, 'cli')) {
+                // In CLI mode, the site base path can not be derived from the script name; the static path has to be used
+                static::$base['prefix'] = $uri->toString(['scheme', 'host', 'port']);
+                static::$base['path']   = rtrim($uri->toString(['path']), '/\\');
+
+                return $pathonly === false ? static::$base['prefix'] . static::$base['path'] . '/' : static::$base['path'];
             } else {
                 static::$base['prefix'] = $uri->toString(['scheme', 'host', 'port']);
 
-                if (strpos(PHP_SAPI, 'cgi') !== false && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
+                if (str_contains(PHP_SAPI, 'cgi') && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
                     // PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
 
                     // We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case
@@ -248,9 +254,9 @@ class Uri extends \Joomla\Uri\Uri
 
         // @see UriTest
         if (
-            empty($host) && strpos($uri->path, 'index.php') === 0
+            empty($host) && str_starts_with($uri->path, 'index.php')
             || !empty($host) && preg_match('#^' . preg_quote(static::base(), '#') . '#', $base)
-            || !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
+            || !empty($host) && $host === static::getInstance(static::base())->host && str_contains($uri->path, 'index.php')
             || !empty($host) && $base === $host && preg_match('#^' . preg_quote($base, '#') . '#', static::base())
         ) {
             return true;

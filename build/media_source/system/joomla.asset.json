@@ -173,7 +173,7 @@
       "type": "script",
       "class": "FormValidateAssetItem",
       "attributes": {
-        "defer": true
+        "type": "module"
       },
       "dependencies": [
         "core"
@@ -300,6 +300,14 @@
       "name": "joomla.batch-copymove",
       "type": "script",
       "uri": "layouts/joomla/html/batch/batch-copymove.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "joomla.batch-tag-addremove",
+      "type": "script",
+      "uri": "layouts/joomla/html/batch/batch-tag-addremove.min.js",
       "attributes": {
         "defer": true
       }

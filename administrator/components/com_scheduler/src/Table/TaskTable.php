@@ -13,12 +13,11 @@ namespace Joomla\Component\Scheduler\Administrator\Table;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 use Joomla\Event\DispatcherInterface;
 
@@ -77,12 +76,12 @@ class TaskTable extends Table implements CurrentUserInterface
     /**
      * TaskTable constructor override, needed to pass the DB table name and primary key to {@see Table::__construct()}.
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   4.1.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->setColumnAlias('published', 'state');
 
@@ -168,6 +167,44 @@ class TaskTable extends Table implements CurrentUserInterface
     }
 
     /**
+     * Method to return the title to use for the asset table.
+     *
+     * @return  string
+     *
+     * @since   5.2.3
+     */
+    protected function _getAssetTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * Method to get the parent asset under which to register this one.
+     * By default, all assets are registered to the ROOT node with ID,
+     * which will default to 1 if none exists.
+     * The extended class can define a table and id to lookup.  If the
+     * asset does not exist it will be created.
+     *
+     * @param   Table|null  $table  A Table object for the asset parent.
+     * @param   null        $id     Id to look up
+     *
+     * @return  integer
+     *
+     * @since   5.2.3
+     */
+    protected function _getAssetParentId(?Table $table = null, $id = null): int
+    {
+        $assetId = null;
+        $asset   = new Asset($this->getDatabase(), $this->getDispatcher());
+
+        if ($asset->loadByName('com_scheduler')) {
+            $assetId = $asset->id;
+        }
+
+        return $assetId ?? parent::_getAssetParentId($table, $id);
+    }
+
+    /**
      * Override {@see Table::bind()} to bind some fields even if they're null given they're present in $src.
      * This override is needed specifically for DATETIME fields, of which the `next_execution` field is updated to
      * null if a task is configured to execute only on manual trigger.
@@ -248,19 +285,21 @@ class TaskTable extends Table implements CurrentUserInterface
 
         $lockedField = $this->getColumnAlias('locked');
 
+        $db = $this->getDatabase();
+
         foreach ($pks as $pk) {
             // Update the publishing state for rows with the given primary keys.
-            $query = $this->_db->getQuery(true)
+            $query = $db->getQuery(true)
                 ->update($this->_tbl)
-                ->set($this->_db->quoteName($lockedField) . ' = NULL');
+                ->set($db->quoteName($lockedField) . ' = NULL');
 
             // Build the WHERE clause for the primary keys.
             $this->appendPrimaryKeys($query, $pk);
 
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
             try {
-                $this->_db->execute();
+                $db->execute();
             } catch (\RuntimeException $e) {
                 $this->setError($e->getMessage());
 

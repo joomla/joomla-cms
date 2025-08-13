@@ -11,13 +11,21 @@
 namespace Joomla\Plugin\Content\Joomla\Extension;
 
 use Joomla\CMS\Cache\CacheControllerFactory;
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterChangeStateEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -26,8 +34,10 @@ use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,32 +48,56 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-final class Joomla extends CMSPlugin
+final class Joomla extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentBeforeSave'        => 'onContentBeforeSave',
+            'onContentAfterSave'         => 'onContentAfterSave',
+            'onContentBeforeDelete'      => 'onContentBeforeDelete',
+            'onContentBeforeChangeState' => 'onContentBeforeChangeState',
+            'onContentChangeState'       => 'onContentChangeState',
+            'onSchemaBeforeCompileHead'  => 'onSchemaBeforeCompileHead',
+        ];
+    }
+
+    /**
      * The save event.
      *
-     * @param   string   $context  The context
-     * @param   object   $table    The item
-     * @param   boolean  $isNew    Is new item
-     * @param   array    $data     The validated data
+     * @param   BeforeSaveEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave($context, $table, $isNew, $data)
+    public function onContentBeforeSave(BeforeSaveEvent $event)
     {
+        $context = $event->getContext();
+        $table   = $event->getItem();
+        $isNew   = $event->getIsNew();
+        $data    = $event->getData();
+        $result  = true;
+
         if ($context === 'com_menus.item') {
-            return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
+            $result = $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
+            $event->addResult($result);
+            return;
         }
 
         // Check we are handling the frontend edit form.
         if (!\in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew || !$table->hasField('published')) {
-            return true;
+            return;
         }
 
         $item = clone $table;
@@ -75,14 +109,16 @@ final class Joomla extends CMSPlugin
         if ($item->$publishedField > 0 && isset($data[$publishedField]) && $data[$publishedField] < 1) {
             switch ($context) {
                 case 'com_workflow.workflow':
-                    return $this->workflowNotUsed($item->id);
+                    $result = $this->workflowNotUsed($item->id);
+                    break;
 
                 case 'com_workflow.stage':
-                    return $this->stageNotUsed($item->id);
+                    $result = $this->stageNotUsed($item->id);
+                    break;
             }
         }
 
-        return true;
+        $event->addResult($result);
     }
 
     /**
@@ -90,16 +126,18 @@ final class Joomla extends CMSPlugin
      * Article is passed by reference, but after the save, so no changes will be saved.
      * Method is called right after the content is saved
      *
-     * @param   string   $context  The context of the content passed to the plugin (added in 1.6)
-     * @param   object   $article  A \Joomla\CMS\Table\Table object
-     * @param   boolean  $isNew    If the content is just about to be created
+     * @param   AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onContentAfterSave($context, $article, $isNew): void
+    public function onContentAfterSave(AfterSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $article = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         // Check we are handling the frontend edit form.
         if ($context !== 'com_content.form') {
             return;
@@ -129,26 +167,35 @@ final class Joomla extends CMSPlugin
         }
 
         $user = $this->getApplication()->getIdentity();
+        $this->loadLanguage();
 
-        // Messaging for new items
-
-        $default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-        $debug            = $this->getApplication()->get('debug_lang');
-
+        // Emailing for new items
         foreach ($users as $user_id) {
             if ($user_id != $user->id) {
-                // Load language for messaging
-                $receiver = $this->getUserFactory()->loadUserById($user_id);
-                $lang     = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
-                $lang->load('com_content');
-                $message = [
-                    'user_id_to' => $user_id,
-                    'subject'    => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-                    'message'    => \sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->name, $article->title),
+                $receiver     = $this->getUserFactory()->loadUserById($user_id);
+                $linkMode     = $this->getApplication()->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+                $templateData = [
+                    'sitename' => $this->getApplication()->get('sitename'),
+                    'name'     => $user->name,
+                    'email'    => PunycodeHelper::emailToPunycode($user->email),
+                    'title'    => $article->title,
+                    'url'      => Route::link('administrator', 'index.php?option=com_content&view=articles&filter[search]=id:' . $article->id, false, $linkMode, true),
                 ];
-                $model_message = $this->getApplication()->bootComponent('com_messages')->getMVCFactory()
-                    ->createModel('Message', 'Administrator');
-                $model_message->save($message);
+
+                // Send email
+                try {
+                    $mailer = new MailTemplate('plg_content_joomla.newarticle', $receiver->getParam('admin_language', $this->getLanguage()->getTag()));
+                    $mailer->addTemplateData($templateData);
+                    $mailer->addRecipient($receiver->email, $receiver->name);
+
+                    $mailer->send();
+                } catch (MailDisabledException | phpMailerException $exception) {
+                    try {
+                        Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+                    } catch (\RuntimeException $exception) {
+                        $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                    }
+                }
             }
         }
     }
@@ -156,49 +203,58 @@ final class Joomla extends CMSPlugin
     /**
      * Don't allow categories to be deleted if they contain items or subcategories with items
      *
-     * @param   string  $context  The context for the content passed to the plugin.
-     * @param   object  $data     The data relating to the content that was deleted.
+     * @param   BeforeDeleteEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   1.6
      */
-    public function onContentBeforeDelete($context, $data)
+    public function onContentBeforeDelete(BeforeDeleteEvent $event)
     {
+        $context = $event->getContext();
+        $data    = $event->getItem();
+
         // Skip plugin if we are deleting something other than categories
         if (!\in_array($context, ['com_categories.category', 'com_workflow.stage', 'com_workflow.workflow'])) {
-            return true;
+            return;
         }
+
+        $result = true;
 
         switch ($context) {
             case 'com_categories.category':
-                return $this->canDeleteCategories($data);
+                $result = $this->canDeleteCategories($data);
+                break;
 
             case 'com_workflow.workflow':
-                return $this->workflowNotUsed($data->id);
+                $result = $this->workflowNotUsed($data->id);
+                break;
 
             case 'com_workflow.stage':
-                return $this->stageNotUsed($data->id);
+                $result = $this->stageNotUsed($data->id);
+                break;
         }
 
-        return true;
+        $event->addResult($result);
     }
 
     /**
      * Don't allow workflows/stages to be deleted if they contain items
      *
-     * @param   string  $context  The context for the content passed to the plugin.
-     * @param   object  $pks      The IDs of the records which will be changed.
-     * @param   object  $value    The new state.
+     * @param   BeforeChangeStateEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onContentBeforeChangeState($context, $pks, $value)
+    public function onContentBeforeChangeState(BeforeChangeStateEvent $event)
     {
+        $context = $event->getContext();
+        $pks     = $event->getPks();
+        $value   = $event->getValue();
+
         if ($value > 0 || !\in_array($context, ['com_workflow.workflow', 'com_workflow.stage'])) {
-            return true;
+            return;
         }
 
         $result = true;
@@ -215,7 +271,7 @@ final class Joomla extends CMSPlugin
             }
         }
 
-        return $result;
+        $event->addResult($result);
     }
 
     /**
@@ -415,7 +471,7 @@ final class Joomla extends CMSPlugin
             $author['@type'] = 'Person';
             $author['name']  = $article->created_by_alias ?: $article->author;
 
-            if ($article->params->get('link_author') == true && !empty($article->contact_link)) {
+            if ($article->params->get('link_author') && !empty($article->contact_link)) {
                 $author['url'] = $article->contact_link;
             }
 
@@ -953,26 +1009,29 @@ final class Joomla extends CMSPlugin
     /**
      * Change the state in core_content if the stage in a table is changed
      *
-     * @param   string   $context  The context for the content passed to the plugin.
-     * @param   array    $pks      A list of primary key ids of the content that has changed stage.
-     * @param   integer  $value    The value of the condition that the content has been changed to
+     * @param   AfterChangeStateEvent $event  The event instance.
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.1
      */
-    public function onContentChangeState($context, $pks, $value)
+    public function onContentChangeState(AfterChangeStateEvent $event)
     {
-        $pks = ArrayHelper::toInteger($pks);
+        $context = $event->getContext();
+        $pks     = $event->getPks();
+        $value   = $event->getValue();
+        $pks     = ArrayHelper::toInteger($pks);
 
         if ($context === 'com_workflow.stage' && $value < 1) {
             foreach ($pks as $pk) {
                 if (!$this->stageNotUsed($pk)) {
-                    return false;
+                    $event->addResult(false);
+                    return;
                 }
             }
 
-            return true;
+            $event->addResult(true);
+            return;
         }
 
         $db    = $this->getDatabase();
@@ -988,7 +1047,7 @@ final class Joomla extends CMSPlugin
         $cctable = new CoreContent($db);
         $cctable->publish($ccIds, $value);
 
-        return true;
+        $event->addResult(true);
     }
 
     /**

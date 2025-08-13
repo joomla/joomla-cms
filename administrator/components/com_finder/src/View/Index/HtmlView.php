@@ -113,6 +113,15 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The finder plugins status
+     *
+     * @var    boolean
+     *
+     * @since  5.3.0
+     */
+    protected $finderPlugins = true;
+
+    /**
      * Method to display the view.
      *
      * @param   string  $tpl  A template file to load. [optional]
@@ -156,6 +165,16 @@ class HtmlView extends BaseHtmlView
         if (!PluginHelper::isEnabled('content', 'finder')) {
             $this->finderPluginId = FinderHelper::getFinderPluginId();
         }
+
+        // Check that the finder plugins are enabled
+        if (!PluginHelper::getPlugin('finder')) {
+            $this->finderPlugins = false;
+        }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         // Configure the toolbar.
         $this->addToolbar();
