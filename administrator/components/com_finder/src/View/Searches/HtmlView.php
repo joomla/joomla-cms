@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-        $this->enabled       = $this->state->params->get('gather_search_statistics', 0);
+        $this->enabled       = $this->state->get('params')->get('gather_search_statistics', 0);
         $this->canDo         = ContentHelper::getActions('com_finder');
         $uri                 = Uri::getInstance();
         $link                = 'index.php?option=com_config&view=component&component=com_finder&return=' . base64_encode($uri);
@@ -136,6 +136,11 @@ class HtmlView extends BaseHtmlView
                 $app->enqueueMessage(Text::_('COM_FINDER_LOGGING_DISABLED_NO_AUTH'), 'warning');
             }
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         // Prepare the view.
         $this->addToolbar();

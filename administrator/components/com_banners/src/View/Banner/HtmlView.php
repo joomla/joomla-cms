@@ -82,6 +82,10 @@ class HtmlView extends BaseHtmlView
 
         $this->addToolbar();
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
         parent::display($tpl);
     }
 
@@ -138,7 +142,7 @@ class HtmlView extends BaseHtmlView
         } else {
             $toolbar->cancel('banner.cancel');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $canDo->get('core.edit')) {
                 $toolbar->versions('com_banners.banner', $this->item->id);
             }
         }
