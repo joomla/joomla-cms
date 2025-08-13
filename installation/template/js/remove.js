@@ -45,7 +45,7 @@ if (document.getElementById('automatedUpdatesDisableButton')) {
   document.getElementById('automatedUpdatesDisableButton')
     .addEventListener('click', function (e) {
       e.preventDefault();
-      let confirm = window.confirm(Joomla.Text._('INSTL_DISABLE_AUTOUPDATE').replace('%s', 'installation'));
+      let confirm = window.confirm(Joomla.Text._('INSTL_DISABLE_AUTOUPDATE'));
       if (confirm) {
         Joomla.disableAutomatedUpdates();
       }
