@@ -134,6 +134,10 @@ Joomla.deleteJoomlaInstallationDirectory = function (redirectUrl) {
             } else {
                 const customInstallation = document.getElementById('customInstallation');
                 customInstallation.parentNode.removeChild(customInstallation);
+
+                const automatedUpdates = document.getElementById('automatedUpdates');
+                automatedUpdates.parentNode.removeChild(automatedUpdates);
+
                 const removeInstallationTab = document.getElementById('removeInstallationTab');
 
                 // This will only exist in debug mode
