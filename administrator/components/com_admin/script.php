@@ -828,11 +828,34 @@ class JoomlaInstallerScript
             '/administrator/modules/mod_menu/mod_menu.php',
             '/modules/mod_random_image/mod_random_image.php',
             // From 6.0.0-alpha3 to 6.0.0-beta1
+            '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-08-02.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-08-02.sql',
             '/administrator/modules/mod_latest/mod_latest.php',
             '/administrator/modules/mod_logged/mod_logged.php',
             '/administrator/modules/mod_popular/mod_popular.php',
             '/administrator/modules/mod_privacy_dashboard/mod_privacy_dashboard.php',
+            '/administrator/modules/mod_submenu/mod_submenu.php',
+            '/libraries/src/Adapter/Adapter.php',
+            '/libraries/src/Adapter/AdapterInstance.php',
+            '/libraries/src/MVC/Model/DatabaseAwareTrait.php',
+            '/libraries/vendor/symfony/polyfill-php83/LICENSE',
+            '/libraries/vendor/symfony/polyfill-php83/Php83.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateError.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateException.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateInvalidTimeZoneException.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateMalformedIntervalStringException.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateMalformedPeriodStringException.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateMalformedStringException.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateObjectError.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/DateRangeError.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/Override.php',
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
+            '/libraries/vendor/symfony/polyfill-php83/bootstrap.php',
+            '/libraries/vendor/symfony/polyfill-php83/bootstrap81.php',
             '/modules/mod_finder/mod_finder.php',
+            '/modules/mod_login/mod_login.php',
+            '/modules/mod_menu/mod_menu.php',
             '/modules/mod_whosonline/mod_whosonline.php',
         ];
 
@@ -869,6 +892,11 @@ class JoomlaInstallerScript
             '/libraries/src/Application/CLI',
             '/administrator/components/com_finder/helpers/indexer',
             '/administrator/components/com_content/tmpl/featured',
+            // From 6.0.0-alpha3 to 6.0.0-beta1
+            '/libraries/vendor/symfony/polyfill-php83/Resources/stubs',
+            '/libraries/vendor/symfony/polyfill-php83/Resources',
+            '/libraries/vendor/symfony/polyfill-php83',
+            '/libraries/src/Adapter',
         ];
 
         $status['files_checked']   = $files;
