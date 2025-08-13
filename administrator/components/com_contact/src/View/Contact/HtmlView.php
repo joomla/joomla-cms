@@ -193,7 +193,7 @@ class HtmlView extends BaseHtmlView
 
             $toolbar->cancel('contact.cancel');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $itemEditable) {
                 $toolbar->versions('com_contact.contact', $this->item->id);
             }
 

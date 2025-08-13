@@ -55,7 +55,7 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
      *
      * @since   4.2.0
      *
-     * @deprecated 4.4.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 7.0
      *                Use counterpart with onSet prefix
      */
     public function setContext(string $value)
