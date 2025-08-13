@@ -102,7 +102,7 @@ class DatabaseModel extends BaseInstallationModel
      */
     public function createDatabase(array $options)
     {
-        $db  = $this->initialise($options, false);
+        $db = $this->initialise($options, false);
 
         if ($db === false) {
             // Error messages are enqueued by the initialise function, we just need to tell the controller how to redirect
