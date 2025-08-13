@@ -11,7 +11,7 @@
 	<description>MOD_PRIVACY_DASHBOARD_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\PrivacyDashboard</namespace>
 	<files>
-		<filename module="mod_privacy_dashboard">mod_privacy_dashboard.php</filename>
+		<folder module="mod_privacy_dashboard">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

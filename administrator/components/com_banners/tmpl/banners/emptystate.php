@@ -19,6 +19,8 @@ $displayData = [
     'formURL'    => 'index.php?option=com_banners&view=banners',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Banners',
     'icon'       => 'icon-bookmark banners',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 $user = $this->getCurrentUser();
