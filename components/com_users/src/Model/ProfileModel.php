@@ -22,7 +22,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
