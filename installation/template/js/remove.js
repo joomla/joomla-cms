@@ -116,6 +116,9 @@ Joomla.deleteJoomlaInstallationDirectory = function (redirectUrl) {
             if (document.getElementById('installAddFeatures')) {
                 document.getElementById('installAddFeatures').disabled = true;
             }
+            if (document.getElementById('automatedUpdatesDisableButton')) {
+                document.getElementById('automatedUpdatesDisableButton').disabled = true;
+            }
             if (document.getElementById('removeInstallationFolder')) {
                 document.getElementById('removeInstallationFolder').disabled = true;
             }
