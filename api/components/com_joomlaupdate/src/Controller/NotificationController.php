@@ -51,7 +51,7 @@ class NotificationController extends BaseController
         $this->validateUpdateToken();
 
         $fromVersion = $this->input->json->getString('fromVersion', null);
-        $toVersion = $this->input->json->getString('toVersion', null);
+        $toVersion   = $this->input->json->getString('toVersion', null);
 
         $view = $this->prepareView();
 
@@ -72,7 +72,7 @@ class NotificationController extends BaseController
         $this->validateUpdateToken();
 
         $fromVersion = $this->input->json->getString('fromVersion', null);
-        $toVersion = $this->input->json->getString('toVersion', null);
+        $toVersion   = $this->input->json->getString('toVersion', null);
 
         $view = $this->prepareView();
 
