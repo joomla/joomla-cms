@@ -38,7 +38,12 @@ Joomla = window.Joomla || {};
         elem.value = '';
       });
 
-      form.submit();
+      if (form.requestSubmit) {
+        form.requestSubmit();
+      } else {
+        // Fallback if requestSubmit is not available
+        form.submit();
+      }
     }
   };
 
@@ -187,7 +192,12 @@ Joomla = window.Joomla || {};
         i.addEventListener('change', () => {
           self.checkFilter(i);
           if (i.classList.contains(this.options.listSelectAutoSubmit) || needsFormSubmit) {
-            i.form.submit();
+            if (i.form.requestSubmit) {
+              i.form.requestSubmit();
+            } else {
+              // Fallback if requestSubmit is not available
+              i.form.submit();
+            }
           }
           if (i.classList.contains(this.options.listSelectAutoReset) || needsFormReset) {
             this.clear(i);
@@ -225,7 +235,12 @@ Joomla = window.Joomla || {};
               self.toggleDirection();
             }
 
-            self.theForm.submit();
+            if (self.theForm.requestSubmit) {
+              self.theForm.requestSubmit();
+            } else {
+              // Fallback if requestSubmit is not available
+              self.theForm.submit();
+            }
           }
         });
       });
@@ -288,7 +303,12 @@ Joomla = window.Joomla || {};
         }
       }
 
-      self.theForm.submit();
+      if (self.theForm.requestSubmit) {
+        self.theForm.requestSubmit();
+      } else {
+        // Fallback if requestSubmit is not available
+        self.theForm.submit();
+      }
     }
 
     updateFilterCount(count) {
@@ -563,6 +583,9 @@ Joomla = window.Joomla || {};
       const ariasort = sort.getAttribute('data-sort');
       sort.parentNode.setAttribute('aria-sort', ariasort);
     }
+
+    // Reinitialize for Joomla Updated event
+    document.addEventListener('joomla:updated', onBoot);
 
     // Cleanup
     document.removeEventListener('DOMContentLoaded', onBoot);
