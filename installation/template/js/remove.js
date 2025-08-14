@@ -89,7 +89,8 @@ Joomla.disableAutomatedUpdates = function () {
           Joomla.renderMessages({error:['Unknown error disabling the automated updates.']});
         }
       } else {
-        document.getElementById('automatedUpdates').remove()
+        const automatedUpdates = document.getElementById('automatedUpdates');
+        automatedUpdates.parentNode.removeChild(automatedUpdates);
       }
     },
     onError: function (xhr) {
@@ -136,7 +137,11 @@ Joomla.deleteJoomlaInstallationDirectory = function (redirectUrl) {
                 customInstallation.parentNode.removeChild(customInstallation);
 
                 const automatedUpdates = document.getElementById('automatedUpdates');
-                automatedUpdates.parentNode.removeChild(automatedUpdates);
+
+                // This will only exist if it has not been removed with a previous step
+                if (automatedUpdates) {
+                    automatedUpdates.parentNode.removeChild(automatedUpdates);
+                }
 
                 const removeInstallationTab = document.getElementById('removeInstallationTab');
 
