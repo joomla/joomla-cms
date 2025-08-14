@@ -10,18 +10,11 @@
 
 namespace Joomla\Component\Content\Administrator\View\Article;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\FormView;
-use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
