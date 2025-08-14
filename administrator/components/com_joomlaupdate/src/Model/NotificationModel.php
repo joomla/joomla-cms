@@ -10,12 +10,14 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -43,22 +45,25 @@ final class NotificationModel extends BaseDatabaseModel
      * @since   5.4.0
      */
     public function sendNotification($type, $oldVersion): void
-    {
+    { 
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        // User groups to notify. Default is superuser group.
-        $emailGroups = $params->get('automated_updates_email_groups', 8, 'array');
+        // User groups from input field
+        $emailGroups = $params->get('automated_updates_email_groups');
 
-        // If the emailGroups is not an array, convert it to an array
         if (!\is_array($emailGroups)) {
             $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
         }
+
+        // Add Super User Groups
+        $emailGroups = array_merge($emailGroups, $this->getSuperUserGroups());
 
         // Get all users in these groups who can receive emails
         $emailReceivers = $this->getEmailReceivers($emailGroups);
 
         // If no email receivers are found, we do not send any notification
         if (empty($emailReceivers)) {
+            // Should not happen, as at least one super user must exist in the system
             return;
         }
 
@@ -74,7 +79,7 @@ final class NotificationModel extends BaseDatabaseModel
             'url'        => Uri::root(),
         ];
 
-        // Send the emails to the Super Users
+        // Send emails to all receivers
         foreach ($emailReceivers as $receiver) {
             $params = new Registry($receiver->params);
             $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
@@ -139,5 +144,27 @@ final class NotificationModel extends BaseDatabaseModel
         }
 
         return $emailReceivers;
+    }
+
+    /**
+     * Returns all Super Users
+     *
+     * @return  array  The list of super user groups.
+     *
+     * @since   5.4.0
+     */
+    private function getSuperUserGroups(): array
+    {
+        $groups = UserGroupsHelper::getInstance()->getAll();
+        $ret    = [];
+
+        // Find groups with core.admin rights (super users)
+        foreach ($groups as $group) {
+            if (Access::checkGroup($group->id, 'core.admin')) {
+                $ret[] = $group->id;
+            }
+        }
+
+        return $ret;
     }
 }
