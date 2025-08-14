@@ -16,8 +16,8 @@ namespace Joomla\CMS\Updater\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as MetadataTable;
+use Joomla\CMS\Table\Update;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\CMS\Updater\UpdateAdapter;
@@ -51,7 +51,7 @@ class TufAdapter extends UpdateAdapter
 
         if ($targets) {
             foreach ($targets as $target) {
-                $updateTable                 = Table::getInstance('update');
+                $updateTable                 = new Update($this->db);
                 $updateTable->update_site_id = $options['update_site_id'];
 
                 $updateTable->bind($target);

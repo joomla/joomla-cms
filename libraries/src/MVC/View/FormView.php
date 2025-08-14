@@ -282,7 +282,7 @@ class FormView extends HtmlView
 
             $toolbar->cancel($viewName . '.cancel', 'JTOOLBAR_CLOSE');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $itemEditable) {
                 $toolbar->versions(
                     $this->option . '.' . $viewName,
                     $this->item->{$this->keyName}
