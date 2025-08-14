@@ -143,6 +143,11 @@ class HtmlView extends BaseHtmlView
             $this->redirectPluginId = RedirectHelper::getRedirectPluginId();
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         $this->addToolbar();
 
         parent::display($tpl);
