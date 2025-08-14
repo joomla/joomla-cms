@@ -132,6 +132,14 @@ class FormView extends HtmlView
             $this->helpLink = $config['help_link'];
         }
 
+        if (isset($config['preview_link'])) {
+            $this->previewLink = $config['preview_link'];
+        }
+
+        if (isset($config['jooa11y_link'])) {
+            $this->jooa11yLink = $config['jooa11y_link'];
+        }
+
         if (isset($config['toolbar_icon'])) {
             $this->toolbarIcon = $config['toolbar_icon'];
         } else {
