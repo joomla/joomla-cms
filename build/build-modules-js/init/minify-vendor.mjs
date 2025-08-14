@@ -13,6 +13,7 @@ const folders = [
   'media/vendor/diff/js',
   'media/vendor/es-module-shims/js',
   'media/vendor/qrcode/js',
+  'media/vendor/tinymce/langs',
   'media/vendor/webcomponentsjs/js',
 ];
 
@@ -51,7 +52,6 @@ const minifyJS = async (file) => {
     return;
   }
 
-  // eslint-disable-next-line no-console
   console.log(`Processing Vendor file: ${file}`);
 
   let minified;
