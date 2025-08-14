@@ -328,7 +328,7 @@ class HtmlStringTest extends UnitTestCase
                 '<span>Plain text</span>',
                 8,
                 true,
-                '<span>Plain</span>...',
+                '<span>Plain...</span>',
             ],
             /*
              *  @todo: Check these tests: 'Plain html over the limit splitting first word'
@@ -366,13 +366,13 @@ class HtmlStringTest extends UnitTestCase
                 '<div><span><i>Plain</i> <b>text</b> foo</span></div>',
                 8,
                 false,
-                '<div><span><i>Plain</i> <b>te</b></span></div>...',
+                '<div><span><i>Plain</i> <b>te</b></span>...</div>',
             ],
             'No split' => [
                 '<div><span><i>Plain</i> <b>text</b> foo</span></div>',
                 8,
                 true,
-                '<div><span><i>Plain</i></span></div>...',
+                '<div><span><i>Plain</i></span>...</div>',
             ],
             'First character is < with a maximum length of 1, no split' => [
                 '<div><span><i>Plain</i> <b>text</b> foo</span></div>',

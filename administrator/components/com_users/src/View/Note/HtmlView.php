@@ -81,6 +81,10 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
         parent::display($tpl);
         $this->addToolbar();
     }
@@ -138,7 +142,7 @@ class HtmlView extends BaseHtmlView
         } else {
             $toolbar->cancel('note.cancel');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $canDo->get('core.edit')) {
                 $toolbar->versions('com_users.note', $this->item->id);
             }
         }

@@ -98,6 +98,10 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
         $this->addToolbar();
 
         parent::display($tpl);
@@ -169,7 +173,7 @@ class HtmlView extends BaseHtmlView
 
             $toolbar->cancel('tag.cancel');
 
-            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable) {
+            if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $itemEditable) {
                 $toolbar->versions('com_tags.tag', $this->item->id);
             }
         }

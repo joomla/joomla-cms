@@ -2,7 +2,7 @@
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "atum",
   "version": "4.0.0",
-  "description": "This file contains details of the assets used by Atum, the default Joomla 4 administrator template.",
+  "description": "This file contains details of the assets used by Atum, the default Joomla administrator template.",
   "license": "GPL-2.0-or-later",
   "assets": [
     {
