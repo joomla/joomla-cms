@@ -334,8 +334,6 @@ class InstallationController extends JSONController
             return;
         }
 
-        $this->app->getSession()->destroy();
-
         // We can't send a response with sendJsonResponse because our installation classes do not exist yet
         echo json_encode(['error' => false]);
     }
