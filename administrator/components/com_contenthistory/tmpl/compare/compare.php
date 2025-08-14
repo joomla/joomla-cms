@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var \Joomla\Component\Contenthistory\Administrator\View\Compare\HtmlView $this */
 
@@ -19,11 +20,9 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 $version2 = $this->items[0];
 $version1 = $this->items[1];
-$object1  = \Joomla\Utilities\ArrayHelper::fromObject($version1->data);
-$object2  = \Joomla\Utilities\ArrayHelper::fromObject($version2->data);
+$object1  = ArrayHelper::fromObject($version1->data);
+$object2  = ArrayHelper::fromObject($version2->data);
 
-
-//var_dump($object1);
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_contenthistory.admin-compare-compare');
