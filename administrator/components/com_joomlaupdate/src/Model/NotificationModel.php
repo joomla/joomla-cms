@@ -45,7 +45,7 @@ final class NotificationModel extends BaseDatabaseModel
      * @since   5.4.0
      */
     public function sendNotification($type, $oldVersion): void
-    { 
+    {
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         // User groups from input field
