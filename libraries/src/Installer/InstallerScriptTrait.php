@@ -225,7 +225,7 @@ trait InstallerScriptTrait
     {
         $client = ApplicationHelper::getClientInfo('administrator', true);
 
-        $pathname = 'extension_' . ($client ? $client->name : 'root');
+        $pathname = 'extension_' . $client->name;
 
         $manifestPath = $adapter->getParent()->getPath($pathname) . '/' . $adapter->getParent()->getPath('manifest');
 
