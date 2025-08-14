@@ -158,7 +158,9 @@ class FormView extends HtmlView
         $this->initializeView();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        $errors = $this->get('Errors');
+
+        if (!empty($errors)) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
