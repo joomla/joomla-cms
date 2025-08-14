@@ -11,7 +11,6 @@ namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Event\Installer\BeforeUpdateSiteDownloadEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
@@ -19,6 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -250,7 +250,7 @@ abstract class UpdateAdapter
      *
      * @param   array  $options  The update options, see findUpdate() in children classes
      *
-     * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
+     * @return  \Joomla\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
      *
      * @throws  \Exception
      */
@@ -302,7 +302,7 @@ abstract class UpdateAdapter
 
         // Http transport throws an exception when there's no response.
         try {
-            $http     = HttpFactory::getHttp($httpOption);
+            $http     = (new HttpFactory())->getHttp($httpOption);
             $response = $http->get($newUrl, $headers, 20);
         } catch (\RuntimeException) {
             $response = null;
