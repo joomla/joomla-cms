@@ -13,8 +13,7 @@ use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 
-$displayFrontend = $field->params->get('display_frontend', 0);
-if (!$displayFrontend) {
+if (!$field->params->get('display_frontend', 0)) {
     return;
 }
 
