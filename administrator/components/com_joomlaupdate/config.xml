@@ -128,7 +128,6 @@
 			description="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_UPDATE_EMAIL_DESCRIPTION"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
-			default="8"
 			showon="updatesource:default[AND]minimum_stability:4[AND]autoupdate:1"
 		/>
 	</fieldset>
