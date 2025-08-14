@@ -1558,9 +1558,13 @@ ENDDATA;
     {
         $updateInformation = $this->getUpdateInformation();
 
-        return isset($updateInformation['object']->php_minimum) ?
-            $updateInformation['object']->php_minimum->_data :
-            JOOMLA_MINIMUM_PHP;
+        // Check if php_minimum exists and return its value
+        if (isset($updateInformation['object']) && $updateInformation['object']->get('php_minimum')) {
+            return $updateInformation['object']->get('php_minimum')->_data;
+        }
+
+        // Fallback to JOOMLA_MINIMUM_PHP if php_minimum is not set
+        return JOOMLA_MINIMUM_PHP;
     }
 
     /**
