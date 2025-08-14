@@ -17,6 +17,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Privacy\CollectCapabilitiesEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\BeforeSaveEvent;
@@ -186,6 +187,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
          * might be needed by other plugins
          */
         return [
+            'onBeforeExecute'                   => 'onBeforeExecute',
             'onAfterInitialise'                 => 'onAfterInitialise',
             'onAfterDispatch'                   => 'onAfterDispatch',
             'onAfterRoute'                      => 'onAfterRoute',
@@ -194,6 +196,28 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             'onUserBeforeSave'                  => 'onUserBeforeSave',
             'onUserLogin'                       => 'onUserLogin',
         ];
+    }
+
+    /**
+     * Listener for the onBeforeExecute event
+     *
+     * @param   BeforeExecuteEvent  $event  The Event object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onBeforeExecute(BeforeExecuteEvent $event): void
+    {
+        $app = $event->getApplication();
+
+        if (!$app->isClient('site')) {
+            return;
+        }
+
+        // If a language was specified it has priority, otherwise use user or default language settings
+        $app->setLanguageFilter(true);
+        $app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
     }
 
     /**
