@@ -96,10 +96,10 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                     <?php
                                     echo $value1['label']; ?>
                                 </th>
+                                <?php $currentvalue1 = is_array($value1['value']) ? json_encode($value1['value']) : $value1['value']; ?>
                                 <td class="original"><?php
-                                    echo htmlspecialchars($value1['value']); ?></td>
-                                <?php
-                                $currentvalue2 = is_array($value2) ? implode(' | ', $value2) : $value2; ?>
+                                    echo htmlspecialchars($currentvalue1); ?></td>
+                                <?php $currentvalue2 = is_array($value2) ? json_encode($value2) : $value2; ?>
                                 <td class="changed"><?php
                                     echo htmlspecialchars($currentvalue2, ENT_COMPAT, 'UTF-8'); ?></td>
                                 <td class="diff">&nbsp;</td>
