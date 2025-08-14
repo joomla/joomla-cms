@@ -56,7 +56,13 @@ class HtmlView extends FormView
      */
     protected $categorySection = 'com_content';
 
-
+    /**
+     * Constructor
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function __construct(array $config)
     {
         if (empty($config['option'])) {
@@ -74,6 +80,8 @@ class HtmlView extends FormView
      * Prepare view data
      *
      * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
      */
     protected function initializeView()
     {
