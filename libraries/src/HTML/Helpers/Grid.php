@@ -114,14 +114,14 @@ abstract class Grid
         if ($formId !== null) {
             return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
             . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-            . '<input class="form-check-input" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-                . '" onclick="Joomla.isChecked(this.checked, \'' . $formId . '\');">';
+            . '<input class="form-check-input js-grid-item-is-checked" type="checkbox" id="' . $stub . $rowNum
+            . '" name="' . $name . '[]" value="' . $recId . '" >';
         }
 
         return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
         . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-        . '<input class="form-check-input" autocomplete="off" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-            . '" onclick="Joomla.isChecked(this.checked);">';
+        . '<input class="form-check-input js-grid-item-is-checked" autocomplete="off" type="checkbox" id="' . $stub . $rowNum
+        . '" name="' . $name . '[]" value="' . $recId . '" >';
     }
 
     /**

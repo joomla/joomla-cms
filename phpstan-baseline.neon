@@ -97,6 +97,12 @@ parameters:
 			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
 
 		-
+			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
+			identifier: class.notFound
+			count: 1
+			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
+
+		-
 			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
 			identifier: class.notFound
 			count: 2
@@ -152,15 +158,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method fixFilesystemPermissions\(\) of class JoomlaInstallerScript\:
-				5\.2\.2 will be removed in 6\.0 without replacement$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_admin/script.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the database service in the DI container
@@ -168,7 +165,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 9
+			count: 6
 			path: administrator/components/com_admin/script.php
 
 		-
@@ -180,17 +177,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 2
-			path: administrator/components/com_admin/script.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
 			path: administrator/components/com_admin/script.php
 
 		-
@@ -273,17 +259,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_associations/src/Model/AssociationsModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -331,7 +306,7 @@ parameters:
 		-
 			message: '#^Access to property \$form on an unknown class HtmlView\.$#'
 			identifier: class.notFound
-			count: 3
+			count: 4
 			path: administrator/components/com_associations/tmpl/association/edit.php
 
 		-
@@ -486,14 +461,14 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use getDatabase\(\) instead
+				             Example\: \$model\-\>getDatabase\(\);$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: method.deprecated
 			count: 1
-			path: administrator/components/com_banners/src/Helper/BannersHelper.php
+			path: administrator/components/com_banners/src/Model/BannerModel.php
 
 		-
 			message: '''
@@ -514,18 +489,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_banners/src/Model/BannerModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			count: 3
 			path: administrator/components/com_banners/src/Model/BannerModel.php
 
 		-
@@ -541,12 +505,23 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use getDatabase\(\) instead
+				             Example\: \$model\-\>getDatabase\(\);$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_banners/src/Model/ClientModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_banners/src/Model/ClientModel.php
 
@@ -763,20 +738,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method addIncludePath\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Should not be used anymore as tables are loaded through the MvcFactory$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_categories/src/Controller/AjaxController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -825,18 +791,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_categories/src/Helper/CategoriesHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			count: 2
 			path: administrator/components/com_categories/src/Helper/CategoriesHelper.php
 
 		-
@@ -853,17 +808,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_categories/src/Model/CategoriesModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -875,11 +819,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Categories\\Administrator\\Model\\CategoryModel\:
-				4\.3 will be removed in 6\.0$#
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
+				4\.3 will be removed in 6\.0
+				             Use getDatabase\(\) instead
+				             Example\: \$model\-\>getDatabase\(\);$#
 			'''
 			identifier: method.deprecated
-			count: 3
+			count: 1
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
 		-
@@ -890,18 +836,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 18
-			path: administrator/components/com_categories/src/Model/CategoryModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			count: 19
 			path: administrator/components/com_categories/src/Model/CategoryModel.php
 
 		-
@@ -1010,24 +945,6 @@ parameters:
 			path: administrator/components/com_categories/src/View/Category/HtmlView.php
 
 		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\String\\Inflector\:
-				3\.0  Use static methods without a class instance instead\.$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_categories/tmpl/categories/default.php
-
-		-
-			message: '''
-				#^Call to deprecated method toPlural\(\) of class Joomla\\String\\Inflector\:
-				3\.0  Use Doctrine\\Common\\Inflector\\Inflector\:\:pluralize\(\) instead\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_categories/tmpl/categories/default.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Categories\\Administrator\\View\\Category\\HtmlView\:\:\$useCoreUI\.$#'
 			identifier: property.notFound
 			count: 1
@@ -1128,13 +1045,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
 			'''
-			identifier: staticMethod.deprecated
-			count: 4
+			identifier: method.deprecated
+			count: 2
 			path: administrator/components/com_config/src/Model/ApplicationModel.php
 
 		-
@@ -1154,13 +1071,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
 			'''
-			identifier: staticMethod.deprecated
-			count: 3
+			identifier: method.deprecated
+			count: 5
 			path: administrator/components/com_config/src/Model/ComponentModel.php
 
 		-
@@ -1325,14 +1242,26 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
 			path: administrator/components/com_contact/src/Helper/AssociationsHelper.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
+				4\.3 will be removed in 6\.0
+				             Use getDatabase\(\) instead
+				             Example\: \$model\-\>getDatabase\(\);$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_contact/src/Model/ContactModel.php
 
 		-
 			message: '''
@@ -1353,18 +1282,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_contact/src/Model/ContactModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			count: 2
 			path: administrator/components/com_contact/src/Model/ContactModel.php
 
 		-
@@ -1377,17 +1295,6 @@ parameters:
 			identifier: method.deprecated
 			count: 7
 			path: administrator/components/com_contact/src/Model/ContactModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_contact/src/Model/ContactsModel.php
 
 		-
 			message: '''
@@ -1412,18 +1319,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: administrator/components/com_contact/src/Service/HTML/AdministratorService.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_contact/src/Service/HTML/Icon.php
 
 		-
 			message: '''
@@ -1478,10 +1373,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -1522,17 +1418,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getError$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_content/src/Controller/FeaturedController.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -1564,10 +1449,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
@@ -1599,11 +1485,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Content\\Administrator\\Model\\ArticleModel\:
-				4\.3 will be removed in 6\.0$#
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
+				4\.3 will be removed in 6\.0
+				             Use getDatabase\(\) instead
+				             Example\: \$model\-\>getDatabase\(\);$#
 			'''
 			identifier: method.deprecated
-			count: 2
+			count: 1
 			path: administrator/components/com_content/src/Model/ArticleModel.php
 
 		-
@@ -1625,18 +1513,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 3
-			path: administrator/components/com_content/src/Model/ArticleModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			count: 4
 			path: administrator/components/com_content/src/Model/ArticleModel.php
 
 		-
@@ -1696,17 +1573,6 @@ parameters:
 			identifier: new.deprecatedClass
 			count: 1
 			path: administrator/components/com_content/src/Model/ArticleModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_content/src/Model/ArticlesModel.php
 
 		-
 			message: '''
@@ -1776,29 +1642,6 @@ parameters:
 			path: administrator/components/com_content/src/View/Articles/HtmlView.php
 
 		-
-			message: '#^Access to an undefined property Joomla\\Component\\Content\\Administrator\\View\\Featured\\HtmlView\:\:\$hits\.$#'
-			identifier: property.notFound
-			count: 1
-			path: administrator/components/com_content/src/View/Featured/HtmlView.php
-
-		-
-			message: '#^Access to an undefined property Joomla\\Component\\Content\\Administrator\\View\\Featured\\HtmlView\:\:\$vote\.$#'
-			identifier: property.notFound
-			count: 1
-			path: administrator/components/com_content/src/View/Featured/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_content/src/View/Featured/HtmlView.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Content\\Administrator\\View\\Article\\HtmlView\:\:\$configFieldsets\.$#'
 			identifier: property.notFound
 			count: 1
@@ -1815,18 +1658,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_content/tmpl/article/edit.php
-
-		-
-			message: '#^Access to an undefined property Joomla\\Component\\Content\\Administrator\\View\\Featured\\HtmlView\:\:\$hits\.$#'
-			identifier: property.notFound
-			count: 1
-			path: administrator/components/com_content/tmpl/featured/default.php
-
-		-
-			message: '#^Access to an undefined property Joomla\\Component\\Content\\Administrator\\View\\Featured\\HtmlView\:\:\$vote\.$#'
-			identifier: property.notFound
-			count: 1
-			path: administrator/components/com_content/tmpl/featured/default.php
 
 		-
 			message: '''
@@ -1848,18 +1679,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_contenthistory/src/Helper/ContenthistoryHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			count: 2
 			path: administrator/components/com_contenthistory/src/Helper/ContenthistoryHelper.php
 
 		-
@@ -1878,8 +1698,9 @@ parameters:
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -1932,8 +1753,9 @@ parameters:
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -1954,8 +1776,9 @@ parameters:
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -2053,15 +1876,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: administrator/components/com_fields/src/Helper/FieldsHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Fields\\Administrator\\Model\\FieldModel\:
-				4\.3 will be removed in 6\.0$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_fields/src/Model/FieldModel.php
 
 		-
 			message: '''
@@ -2311,50 +2125,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$batchOffset of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: administrator/components/com_finder/src/Controller/IndexerController.php
-
-		-
-			message: '''
-				#^Access to property \$complete of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 3
-			path: administrator/components/com_finder/src/Controller/IndexerController.php
-
-		-
-			message: '''
-				#^Access to property \$rendered of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/src/Controller/IndexerController.php
-
-		-
-			message: '''
-				#^Access to property \$start of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 4
-			path: administrator/components/com_finder/src/Controller/IndexerController.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -2402,50 +2172,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$batchOffset of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 4
-			path: administrator/components/com_finder/src/Indexer/Adapter.php
-
-		-
-			message: '''
-				#^Access to property \$batchSize of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 3
-			path: administrator/components/com_finder/src/Indexer/Adapter.php
-
-		-
-			message: '''
-				#^Access to property \$pluginState of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 5
-			path: administrator/components/com_finder/src/Indexer/Adapter.php
-
-		-
-			message: '''
-				#^Access to property \$totalItems of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: administrator/components/com_finder/src/Indexer/Adapter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Load the user service from the dependency injection container or get from the application object
@@ -2468,50 +2194,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$batchOffset of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 4
-			path: administrator/components/com_finder/src/Indexer/DebugAdapter.php
-
-		-
-			message: '''
-				#^Access to property \$batchSize of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 3
-			path: administrator/components/com_finder/src/Indexer/DebugAdapter.php
-
-		-
-			message: '''
-				#^Access to property \$pluginState of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 5
-			path: administrator/components/com_finder/src/Indexer/DebugAdapter.php
-
-		-
-			message: '''
-				#^Access to property \$totalItems of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: administrator/components/com_finder/src/Indexer/DebugAdapter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the database service in the DI container
@@ -2519,18 +2201,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/components/com_finder/src/Indexer/Helper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			count: 3
 			path: administrator/components/com_finder/src/Indexer/Helper.php
 
 		-
@@ -2552,28 +2223,6 @@ parameters:
 			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/components/com_finder/src/Indexer/Helper.php
-
-		-
-			message: '''
-				#^Access to property \$options of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 5
-			path: administrator/components/com_finder/src/Indexer/Indexer.php
-
-		-
-			message: '''
-				#^Access to property \$weights of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: administrator/components/com_finder/src/Indexer/Indexer.php
 
 		-
 			message: '''
@@ -2635,7 +2284,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -2775,61 +2424,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$link_count of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/src/Model/StatisticsModel.php
-
-		-
-			message: '''
-				#^Access to property \$taxonomy_branch_count of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/src/Model/StatisticsModel.php
-
-		-
-			message: '''
-				#^Access to property \$taxonomy_node_count of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/src/Model/StatisticsModel.php
-
-		-
-			message: '''
-				#^Access to property \$term_count of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/src/Model/StatisticsModel.php
-
-		-
-			message: '''
-				#^Access to property \$type_list of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/src/Model/StatisticsModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -2837,28 +2431,6 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_finder/src/Model/StatisticsModel.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/src/Model/StatisticsModel.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
 			count: 1
 			path: administrator/components/com_finder/src/Model/StatisticsModel.php
 
@@ -2948,7 +2520,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -3076,61 +2648,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$link_count of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: administrator/components/com_finder/tmpl/statistics/default.php
-
-		-
-			message: '''
-				#^Access to property \$taxonomy_branch_count of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/tmpl/statistics/default.php
-
-		-
-			message: '''
-				#^Access to property \$taxonomy_node_count of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/tmpl/statistics/default.php
-
-		-
-			message: '''
-				#^Access to property \$term_count of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/tmpl/statistics/default.php
-
-		-
-			message: '''
-				#^Access to property \$type_list of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_finder/tmpl/statistics/default.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -3150,17 +2667,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: administrator/components/com_guidedtours/src/Helper/GuidedtoursHelper.php
-
-		-
-			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: administrator/components/com_guidedtours/src/Model/TourModel.php
 
 		-
 			message: '''
@@ -3187,7 +2693,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -3302,6 +2808,12 @@ parameters:
 			path: administrator/components/com_guidedtours/tmpl/step/edit.php
 
 		-
+			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
+			identifier: class.notFound
+			count: 1
+			path: administrator/components/com_guidedtours/tmpl/steps/default.php
+
+		-
 			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
 			identifier: class.notFound
 			count: 4
@@ -3342,6 +2854,12 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_guidedtours/tmpl/tour/edit.php
+
+		-
+			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
+			identifier: class.notFound
+			count: 1
+			path: administrator/components/com_guidedtours/tmpl/tours/default.php
 
 		-
 			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
@@ -3409,61 +2927,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 2
-			path: administrator/components/com_installer/src/Helper/InstallerHelper.php
-
-		-
-			message: '''
-				#^Call to method get\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 7
-			path: administrator/components/com_installer/src/Helper/InstallerHelper.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 2
-			path: administrator/components/com_installer/src/Helper/InstallerHelper.php
-
-		-
-			message: '''
-				#^Parameter \$extension of anonymous function has typehint with deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 4
-			path: administrator/components/com_installer/src/Helper/InstallerHelper.php
-
-		-
-			message: '''
-				#^Parameter \$extension of method Joomla\\Component\\Installer\\Administrator\\Helper\\InstallerHelper\:\:getDownloadKey\(\) has typehint with deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: administrator/components/com_installer/src/Helper/InstallerHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method register\(\) of class JLoader\:
 				4\.3 will be removed in 7\.0
 				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
@@ -3475,32 +2938,32 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method get\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
+				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper getter function for the property$#
 			'''
-			identifier: method.deprecatedClass
+			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_installer/src/Model/DiscoverModel.php
 
 		-
 			message: '''
-				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Updater\\Update\:
-				4\.3\.0 will be removed in 6\.0
+				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
-			count: 1
+			count: 3
 			path: administrator/components/com_installer/src/Model/InstallModel.php
 
 		-
 			message: '''
-				#^Call to method get\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
+				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Updater\\Update\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper getter function for the property$#
 			'''
-			identifier: method.deprecatedClass
-			count: 3
+			identifier: method.deprecated
+			count: 1
 			path: administrator/components/com_installer/src/Model/InstallModel.php
 
 		-
@@ -3529,7 +2992,17 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Changelog\\Changelog\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper getter function for the property$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: administrator/components/com_installer/src/Model/ManageModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -3560,18 +3033,18 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method get\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
+				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper getter function for the property$#
 			'''
-			identifier: method.deprecatedClass
+			identifier: method.deprecated
 			count: 2
-			path: administrator/components/com_installer/src/Model/ManageModel.php
+			path: administrator/components/com_installer/src/Model/UpdateModel.php
 
 		-
 			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Updater\\Update\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -3580,56 +3053,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
-				4\.3 will be removed in 6\.0
-				             Use the FormFactory service from the container
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(FormFactoryInterface\:\:class\)\-\>createForm\(\$name, \$options\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_installer/src/Model/UpdateModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method set\(\) of class Joomla\\CMS\\Updater\\Update\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper setter function for the property$#
 			'''
 			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_installer/src/Model/UpdateModel.php
-
-		-
-			message: '''
-				#^Call to method get\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 2
-			path: administrator/components/com_installer/src/Model/UpdateModel.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: administrator/components/com_installer/src/Model/UpdatesiteModel.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: administrator/components/com_installer/src/Model/UpdatesiteModel.php
 
 		-
 			message: '''
@@ -3650,17 +3080,6 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_installer/src/Model/UpdatesitesModel.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
 			count: 1
 			path: administrator/components/com_installer/src/Model/UpdatesitesModel.php
 
@@ -3671,17 +3090,6 @@ parameters:
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
-			count: 1
-			path: administrator/components/com_installer/src/Model/UpdatesitesModel.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
 			count: 1
 			path: administrator/components/com_installer/src/Model/UpdatesitesModel.php
 
@@ -3733,28 +3141,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Joomla\\Component\\Installer\\Administrator\\View\\Update\\HtmlView\:\:\$paths\.$#'
 			identifier: property.notFound
-			count: 1
-			path: administrator/components/com_installer/src/View/Update/HtmlView.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: administrator/components/com_installer/src/View/Update/HtmlView.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
 			count: 1
 			path: administrator/components/com_installer/src/View/Update/HtmlView.php
 
@@ -3815,6 +3201,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper getter function for the property$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_joomlaupdate/src/Controller/UpdateController.php
+
+		-
+			message: '''
 				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -3826,18 +3222,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method get\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: administrator/components/com_joomlaupdate/src/Controller/UpdateController.php
-
-		-
-			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Updater\\Update\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -3891,6 +3277,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method set\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper setter function for the property$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -3908,26 +3304,6 @@ parameters:
 			'''
 			identifier: method.deprecatedInterface
 			count: 2
-			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
-
-		-
-			message: '''
-				#^Call to method set\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
-
-		-
-			message: '''
-				#^Call to method setAdapter\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
 			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
 
 		-
@@ -4179,13 +3555,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
 			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			identifier: method.deprecated
+			count: 3
 			path: administrator/components/com_languages/src/Model/InstalledModel.php
 
 		-
@@ -4213,26 +3589,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: administrator/components/com_languages/src/Model/LanguageModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Languages\\Administrator\\Model\\LanguageModel\:
-				4\.3 will be removed in 6\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_languages/src/Model/LanguageModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -4244,19 +3600,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_languages/src/Model/LanguageModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -4286,22 +3631,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Languages\\Administrator\\Model\\LanguagesModel\:
-				4\.3 will be removed in 6\.0$#
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: administrator/components/com_languages/src/Model/LanguagesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
 			path: administrator/components/com_languages/src/Model/LanguagesModel.php
 
 		-
@@ -4593,17 +3929,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 2
-			path: administrator/components/com_mails/src/Model/TemplateModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -4616,7 +3941,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -4674,39 +3999,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$template_id of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: administrator/components/com_mails/tmpl/template/edit.php
-
-		-
-			message: '''
-				#^Call to method get\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 2
-			path: administrator/components/com_media/helpers/media.php
-
-		-
-			message: '''
-				#^Parameter \$mediaObject of method MediaHelper\:\:getContentTypeLink\(\) has typehint with deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: administrator/components/com_media/helpers/media.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the document service in the DI container or get from the application object
@@ -4753,72 +4045,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$adapter of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 8
-			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
-				#^Access to property \$data of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 4
-			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
-				#^Access to property \$extension of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
-				#^Access to property \$name of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 10
-			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
-				#^Access to property \$path of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 8
-			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 4
-			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -4829,34 +4055,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method getError\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 4
-			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
 				#^Call to method triggerEvent\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
 			count: 9
-			path: administrator/components/com_media/src/Model/ApiModel.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 4
 			path: administrator/components/com_media/src/Model/ApiModel.php
 
 		-
@@ -4917,10 +4121,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -5005,10 +4210,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -5039,17 +4245,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_menus/src/Helper/MenusHelper.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -5057,15 +4252,6 @@ parameters:
 			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/components/com_menus/src/Helper/MenusHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Menus\\Administrator\\Model\\ItemModel\:
-				4\.3 will be removed in 6\.0$#
-			'''
-			identifier: method.deprecated
-			count: 7
-			path: administrator/components/com_menus/src/Model/ItemModel.php
 
 		-
 			message: '''
@@ -5093,7 +4279,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -5135,26 +4321,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: administrator/components/com_menus/src/Model/MenuModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Menus\\Administrator\\Model\\MenuModel\:
-				4\.3 will be removed in 6\.0$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: administrator/components/com_menus/src/Model/MenuModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -5168,8 +4334,9 @@ parameters:
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -5178,7 +4345,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -5219,39 +4386,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$description of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 7
-			path: administrator/components/com_menus/src/Model/MenutypesModel.php
-
-		-
-			message: '''
-				#^Access to property \$request of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 8
-			path: administrator/components/com_menus/src/Model/MenutypesModel.php
-
-		-
-			message: '''
-				#^Access to property \$title of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 8
-			path: administrator/components/com_menus/src/Model/MenutypesModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -5260,28 +4394,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
-			path: administrator/components/com_menus/src/Model/MenutypesModel.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 8
-			path: administrator/components/com_menus/src/Model/MenutypesModel.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 8
 			path: administrator/components/com_menus/src/Model/MenutypesModel.php
 
 		-
@@ -5358,72 +4470,6 @@ parameters:
 			path: administrator/components/com_menus/src/View/Menus/HtmlView.php
 
 		-
-			message: '''
-				#^Access to property \$description of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 5
-			path: administrator/components/com_menus/src/View/Menutypes/HtmlView.php
-
-		-
-			message: '''
-				#^Access to property \$request of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 5
-			path: administrator/components/com_menus/src/View/Menutypes/HtmlView.php
-
-		-
-			message: '''
-				#^Access to property \$title of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 5
-			path: administrator/components/com_menus/src/View/Menutypes/HtmlView.php
-
-		-
-			message: '''
-				#^Access to property \$type of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 5
-			path: administrator/components/com_menus/src/View/Menutypes/HtmlView.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 5
-			path: administrator/components/com_menus/src/View/Menutypes/HtmlView.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 5
-			path: administrator/components/com_menus/src/View/Menutypes/HtmlView.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Menus\\Administrator\\View\\Item\\HtmlView\:\:\$fields\.$#'
 			identifier: property.notFound
 			count: 1
@@ -5482,28 +4528,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: administrator/components/com_messages/src/Model/ConfigModel.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: administrator/components/com_messages/src/Model/ConfigModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -5519,17 +4543,6 @@ parameters:
 				4\.3 will be removed in 6\.0
 				             Use the language factory instead
 				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_messages/src/Model/MessageModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -5640,26 +4653,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: administrator/components/com_modules/src/Model/ModuleModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Modules\\Administrator\\Model\\ModuleModel\:
-				4\.3 will be removed in 6\.0$#
-			'''
-			identifier: method.deprecated
-			count: 5
-			path: administrator/components/com_modules/src/Model/ModuleModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -5673,8 +4666,9 @@ parameters:
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -5695,7 +4689,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -5881,10 +4875,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
@@ -5904,6 +4899,17 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
+				4\.3 will be removed in 6\.0
+				             Use getDatabase\(\) instead
+				             Example\: \$model\-\>getDatabase\(\);$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_newsfeeds/src/Model/NewsfeedModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -5915,12 +4921,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_newsfeeds/src/Model/NewsfeedModel.php
 
@@ -5946,17 +4952,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: administrator/components/com_newsfeeds/src/Service/HTML/AdministratorService.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_newsfeeds/src/Table/NewsfeedTable.php
 
 		-
 			message: '''
@@ -6029,43 +5024,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: administrator/components/com_plugins/src/Helper/PluginsHelper.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: administrator/components/com_plugins/src/Helper/PluginsHelper.php
-
-		-
-			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: administrator/components/com_plugins/src/Model/PluginModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -6086,7 +5049,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -6572,50 +5535,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$execution_rules of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: administrator/components/com_scheduler/src/Model/TaskModel.php
-
-		-
-			message: '''
-				#^Access to property \$id of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_scheduler/src/Model/TaskModel.php
-
-		-
-			message: '''
-				#^Access to property \$last_execution of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 6
-			path: administrator/components/com_scheduler/src/Model/TaskModel.php
-
-		-
-			message: '''
-				#^Access to property \$next_execution of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 6
-			path: administrator/components/com_scheduler/src/Model/TaskModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -6645,28 +5564,6 @@ parameters:
 			identifier: method.deprecatedInterface
 			count: 2
 			path: administrator/components/com_scheduler/src/Model/TaskModel.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: administrator/components/com_scheduler/src/Model/TasksModel.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: administrator/components/com_scheduler/src/Model/TasksModel.php
 
 		-
 			message: '''
@@ -6787,7 +5684,7 @@ parameters:
 		-
 			message: '#^Access to property \$form on an unknown class HtmlView\.$#'
 			identifier: class.notFound
-			count: 10
+			count: 11
 			path: administrator/components/com_scheduler/tmpl/task/edit.php
 
 		-
@@ -6813,6 +5710,12 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: administrator/components/com_scheduler/tmpl/task/edit.php
+
+		-
+			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
+			identifier: class.notFound
+			count: 1
+			path: administrator/components/com_scheduler/tmpl/tasks/default.php
 
 		-
 			message: '#^Access to property \$hasDueTasks on an unknown class HtmlView\.$#'
@@ -6874,24 +5777,24 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
+				4\.3 will be removed in 6\.0
+				             Use getDatabase\(\) instead
+				             Example\: \$model\-\>getDatabase\(\);$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_tags/src/Model/TagModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 8
-			path: administrator/components/com_tags/src/Model/TagModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			count: 9
 			path: administrator/components/com_tags/src/Model/TagModel.php
 
 		-
@@ -6974,24 +5877,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\String\\Inflector\:
-				3\.0  Use static methods without a class instance instead\.$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_tags/tmpl/tags/default.php
-
-		-
-			message: '''
-				#^Call to deprecated method toPlural\(\) of class Joomla\\String\\Inflector\:
-				3\.0  Use Doctrine\\Common\\Inflector\\Inflector\:\:pluralize\(\) instead\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_tags/tmpl/tags/default.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -7048,37 +5933,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: administrator/components/com_templates/src/Helper/TemplatesHelper.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: administrator/components/com_templates/src/Helper/TemplatesHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Templates\\Administrator\\Model\\StyleModel\:
-				4\.3 will be removed in 6\.0$#
-			'''
-			identifier: method.deprecated
-			count: 5
-			path: administrator/components/com_templates/src/Model/StyleModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -7086,17 +5940,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 8
-			path: administrator/components/com_templates/src/Model/StyleModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
 			path: administrator/components/com_templates/src/Model/StyleModel.php
 
 		-
@@ -7497,17 +6340,6 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: administrator/components/com_users/src/Model/GroupModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -7532,8 +6364,9 @@ parameters:
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -7542,7 +6375,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -7575,8 +6408,9 @@ parameters:
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -7595,12 +6429,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_users/src/Model/LevelsModel.php
 
@@ -7650,12 +6484,23 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use getDatabase\(\) instead
+				             Example\: \$model\-\>getDatabase\(\);$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/Model/NoteModel.php
+
+		-
+			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_users/src/Model/NoteModel.php
 
@@ -7717,8 +6562,9 @@ parameters:
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -7727,7 +6573,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -7954,29 +6800,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_users/src/View/User/HtmlView.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$db of class Joomla\\Component\\Users\\Administrator\\View\\Users\\HtmlView\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement use database from the container instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: administrator/components/com_users/src/View/Users/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/components/com_users/src/View/Users/HtmlView.php
 
 		-
 			message: '''
@@ -8242,12 +7065,6 @@ parameters:
 			path: administrator/components/com_users/tmpl/user/edit_groups.php
 
 		-
-			message: '#^Call to method pluralize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
-			identifier: staticMethod.deprecatedClass
-			count: 1
-			path: administrator/components/com_workflow/src/Controller/DisplayController.php
-
-		-
 			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
@@ -8257,17 +7074,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_workflow/src/Controller/StagesController.php
-
-		-
-			message: '''
-				#^Access to property \$created_by of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_workflow/src/Controller/TransitionController.php
 
 		-
 			message: '''
@@ -8317,7 +7123,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -8326,19 +7132,8 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$workflow_id of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: administrator/components/com_workflow/src/Model/TransitionModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -8348,7 +7143,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -8520,29 +7315,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
-				4\.0 will be removed in 6\.0
-				             Use the ComponentInterface to get the categories
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/modules/mod_popular/src/Helper/PopularHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/modules/mod_popular/src/Helper/PopularHelper.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -8584,30 +7356,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
-			path: administrator/modules/mod_submenu/mod_submenu.php
-
-		-
-			message: '''
-				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the language service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/modules/mod_submenu/src/Menu/Menu.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
@@ -8615,18 +7363,6 @@ parameters:
 			identifier: method.deprecatedInterface
 			count: 1
 			path: administrator/modules/mod_submenu/src/Menu/Menu.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: administrator/templates/atum/error.php
 
 		-
 			message: '#^Access to protected property Joomla\\CMS\\Document\\ErrorDocument\:\:\$_error\.$#'
@@ -8708,10 +7444,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 2
@@ -8912,30 +7649,10 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method castAsChar\(\) of class Joomla\\Database\\DatabaseQuery\:
-				3\.0  Use \$query\-\>castAs\('CHAR', \$value\)$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: components/com_contact/src/Model/CategoryModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Categories\\Categories\:
 				4\.0 will be removed in 6\.0
 				             Use the ComponentInterface to get the categories
 				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\(\$component\)\-\>getCategory\(\$options, \$section\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_contact/src/Model/CategoryModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -8996,17 +7713,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: components/com_contact/src/Model/FeaturedModel.php
-
-		-
-			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: components/com_contact/src/Model/FormModel.php
 
 		-
 			message: '''
@@ -9263,35 +7969,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method castAsChar\(\) of class Joomla\\Database\\DatabaseQuery\:
-				3\.0  Use \$query\-\>castAs\('CHAR', \$value\)$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: components/com_content/src/Model/ArchiveModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method cleanCache\(\) of class Joomla\\Component\\Content\\Site\\Model\\ArticleModel\:
-				4\.3 will be removed in 6\.0$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: components/com_content/src/Model/ArticleModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_content/src/Model/ArticleModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -9337,17 +8014,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_content/src/Model/CategoryModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -9356,17 +8022,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: components/com_content/src/Model/CategoryModel.php
-
-		-
-			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: components/com_content/src/Model/FormModel.php
 
 		-
 			message: '''
@@ -9382,7 +8037,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -9492,29 +8147,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: components/com_content/src/View/Featured/FeedView.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$db of class Joomla\\Component\\Content\\Site\\View\\Featured\\HtmlView\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement use database from the container instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: components/com_content/src/View/Featured/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_content/src/View/Featured/HtmlView.php
 
 		-
 			message: '''
@@ -9771,17 +8403,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_newsfeeds/src/Model/CategoryModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -9984,19 +8605,8 @@ parameters:
 
 		-
 			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: components/com_tags/src/Model/TagModel.php
-
-		-
-			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -10263,29 +8873,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: components/com_users/src/View/Login/HtmlView.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$db of class Joomla\\Component\\Users\\Site\\View\\Profile\\HtmlView\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement use database from the container instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: property.deprecated
-			count: 1
-			path: components/com_users/src/View/Profile/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: components/com_users/src/View/Profile/HtmlView.php
 
 		-
 			message: '''
@@ -10677,16 +9264,6 @@ parameters:
 
 		-
 			message: '''
-				#^Parameter \$input of method Joomla\\CMS\\Installation\\Application\\InstallationApplication\:\:__construct\(\) has typehint with deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: installation/src/Application/InstallationApplication.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -10835,6 +9412,17 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 3
+			path: installation/src/Model/LanguagesModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Form\\Form\:
 				4\.3 will be removed in 6\.0
 				             Use the FormFactory service from the container
@@ -10842,17 +9430,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
-			path: installation/src/Model/LanguagesModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
 			path: installation/src/Model/LanguagesModel.php
 
 		-
@@ -10907,16 +9484,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: installation/src/Response/JsonResponse.php
-
-		-
-			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: installation/src/Service/Provider/Application.php
 
 		-
 			message: '#^Access to protected property Joomla\\CMS\\Document\\ErrorDocument\:\:\$_error\.$#'
@@ -10985,6 +9552,12 @@ parameters:
 			path: installation/tmpl/setup/default.php
 
 		-
+			message: '#^Call to protected method getDocument\(\) of class Joomla\\CMS\\MVC\\View\\AbstractView\.$#'
+			identifier: method.protected
+			count: 1
+			path: installation/tmpl/setup/default.php
+
+		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
@@ -11006,28 +9579,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Access/Access.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Access/Rules.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/Access/Rules.php
 
 		-
 			message: '''
@@ -11074,16 +9625,6 @@ parameters:
 
 		-
 			message: '''
-				#^Parameter \$input of method Joomla\\CMS\\Application\\AdministratorApplication\:\:__construct\(\) has typehint with deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: libraries/src/Application/AdministratorApplication.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the document service in the DI container or get from the application object
@@ -11103,12 +9644,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Application/ApiApplication.php
-
-		-
-			message: '#^Property Joomla\\CMS\\Application\\BaseApplication\:\:\$input is not writable\.$#'
-			identifier: assign.propertyReadOnly
-			count: 1
-			path: libraries/src/Application/BaseApplication.php
 
 		-
 			message: '''
@@ -11153,16 +9688,6 @@ parameters:
 				             register an autoloader for your files\.$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Application/CMSApplication.php
-
-		-
-			message: '''
-				#^Parameter \$input of method Joomla\\CMS\\Application\\CMSApplication\:\:__construct\(\) has typehint with deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: parameter.deprecatedClass
 			count: 1
 			path: libraries/src/Application/CMSApplication.php
 
@@ -11334,16 +9859,6 @@ parameters:
 
 		-
 			message: '''
-				#^Parameter \$input of method Joomla\\CMS\\Application\\SiteApplication\:\:__construct\(\) has typehint with deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: libraries/src/Application/SiteApplication.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the document service in the DI container or get from the application object
@@ -11363,36 +9878,6 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Application/WebApplication.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Application/WebApplication.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/Application/WebApplication.php
-
-		-
-			message: '''
-				#^Parameter \$input of method Joomla\\CMS\\Application\\WebApplication\:\:__construct\(\) has typehint with deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: parameter.deprecatedClass
 			count: 1
 			path: libraries/src/Application/WebApplication.php
 
@@ -11553,19 +10038,8 @@ parameters:
 
 		-
 			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\Categories\\CategoryNode\:
-				4\.3 will be removed in 7\.0
-				             Will be removed without replacement
-				             Throw an Exception instead of setError$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/Categories/CategoryNode.php
-
-		-
-			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Categories\\CategoryNode\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				             Will be removed without replacement
 				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
@@ -11575,19 +10049,8 @@ parameters:
 
 		-
 			message: '''
-				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\Changelog\\Changelog\:
-				4\.3 will be removed in 7\.0
-				             Will be removed without replacement
-				             Throw an Exception instead of setError$#
-			'''
-			identifier: traitUse.deprecatedTrait
-			count: 1
-			path: libraries/src/Changelog/Changelog.php
-
-		-
-			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Changelog\\Changelog\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				             Will be removed without replacement
 				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
@@ -11716,17 +10179,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Console/CoreUpdateChannelCommand.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\User\\User\:
 				4\.3 will be removed in 6\.0
 				             Load the user service from the dependency injection container or via \$app\-\>getIdentity\(\)
@@ -11747,39 +10199,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Console/ExtensionRemoveCommand.php
-
-		-
-			message: '''
-				#^Access to property \$batchOffset of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: libraries/src/Console/FinderIndexCommand.php
-
-		-
-			message: '''
-				#^Access to property \$batchSize of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: libraries/src/Console/FinderIndexCommand.php
-
-		-
-			message: '''
-				#^Access to property \$totalItems of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: libraries/src/Console/FinderIndexCommand.php
 
 		-
 			message: '''
@@ -11863,26 +10282,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 2
 			path: libraries/src/Console/UpdateCoreCommand.php
-
-		-
-			message: '''
-				#^Access to deprecated static property \$gmt of class Joomla\\CMS\\Date\\Date\:
-				4\.0 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: staticProperty.deprecated
-			count: 2
-			path: libraries/src/Date/Date.php
-
-		-
-			message: '''
-				#^Access to deprecated static property \$stz of class Joomla\\CMS\\Date\\Date\:
-				4\.0 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: staticProperty.deprecated
-			count: 2
-			path: libraries/src/Date/Date.php
 
 		-
 			message: '''
@@ -12071,7 +10470,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method getProperties\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
 				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
 			'''
@@ -13586,28 +11985,6 @@ parameters:
 			path: libraries/src/Feed/FeedParser.php
 
 		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 1
-			path: libraries/src/Filesystem/Patcher.php
-
-		-
-			message: '''
-				#^Call to static method clean\(\) on deprecated class Joomla\\CMS\\Filesystem\\Path\:
-				4\.4 will be removed in 6\.0
-				             Use Joomla\\Filesystem\\Path instead\.$#
-			'''
-			identifier: staticMethod.deprecatedClass
-			count: 1
-			path: libraries/src/Filesystem/Path.php
-
-		-
-			message: '#^Static call to instance method Joomla\\CMS\\Filesystem\\Support\\StringController\:\:getRef\(\)\.$#'
-			identifier: method.staticCall
-			count: 2
-			path: libraries/src/Filesystem/Streams/StreamString.php
-
-		-
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
 				4\.3 will be removed in 6\.0
@@ -13882,7 +12259,7 @@ parameters:
 		-
 			message: '''
 				#^Call to method getProperties\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
 				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
 			'''
@@ -14021,28 +12398,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/HTML/Helpers/AdminLanguage.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/HTML/Helpers/AdminLanguage.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -14098,28 +12453,6 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/HTML/Helpers/ContentLanguage.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/HTML/Helpers/ContentLanguage.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
 			count: 1
 			path: libraries/src/HTML/Helpers/ContentLanguage.php
 
@@ -14572,18 +12905,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 10
-			path: libraries/src/Helper/TagsHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			count: 13
 			path: libraries/src/Helper/TagsHelper.php
 
 		-
@@ -14596,6 +12918,12 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 4
+			path: libraries/src/Helper/TagsHelper.php
+
+		-
+			message: '#^Method Joomla\\CMS\\Helper\\TagsHelper\:\:postStoreProcess\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
 			path: libraries/src/Helper/TagsHelper.php
 
 		-
@@ -14689,34 +13017,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 13
-			path: libraries/src/Installer/Adapter/ComponentAdapter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 2
-			path: libraries/src/Installer/Adapter/FileAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
 			count: 2
 			path: libraries/src/Installer/Adapter/FileAdapter.php
 
@@ -14734,22 +13040,22 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
 			'''
-			identifier: staticMethod.deprecated
-			count: 7
+			identifier: method.deprecated
+			count: 3
 			path: libraries/src/Installer/Adapter/LanguageAdapter.php
 
 		-
 			message: '''
-				#^Call to method set\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
+				#^Call to deprecated method set\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper setter function for the property$#
 			'''
-			identifier: method.deprecatedClass
+			identifier: method.deprecated
 			count: 3
 			path: libraries/src/Installer/Adapter/LanguageAdapter.php
 
@@ -14766,17 +13072,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 4
-			path: libraries/src/Installer/Adapter/LibraryAdapter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -14784,17 +13079,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 3
-			path: libraries/src/Installer/Adapter/ModuleAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 5
 			path: libraries/src/Installer/Adapter/ModuleAdapter.php
 
 		-
@@ -14810,13 +13094,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				#^Call to deprecated method set\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper setter function for the property$#
 			'''
-			identifier: staticMethod.deprecated
-			count: 2
+			identifier: method.deprecated
+			count: 1
 			path: libraries/src/Installer/Adapter/PackageAdapter.php
 
 		-
@@ -14831,16 +13114,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method set\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Installer/Adapter/PackageAdapter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -14852,17 +13125,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
-			path: libraries/src/Installer/Adapter/PluginAdapter.php
-
-		-
-			message: '''
 				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -14870,17 +13132,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: libraries/src/Installer/Adapter/TemplateAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 4
 			path: libraries/src/Installer/Adapter/TemplateAdapter.php
 
 		-
@@ -14897,60 +13148,11 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$_adapterfolder of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: libraries/src/Installer/Installer.php
-
-		-
-			message: '''
-				#^Access to property \$_adapters of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: property.deprecatedClass
-			count: 3
-			path: libraries/src/Installer/Installer.php
-
-		-
-			message: '''
-				#^Access to property \$_basepath of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: libraries/src/Installer/Installer.php
-
-		-
-			message: '''
-				#^Access to property \$_classprefix of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: property.deprecatedClass
-			count: 5
-			path: libraries/src/Installer/Installer.php
-
-		-
-			message: '''
-				#^Access to property \$_db of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: libraries/src/Installer/Installer.php
-
-		-
-			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -14969,32 +13171,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Installer/Installer.php
-
-		-
-			message: '''
 				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
 				4\.3 will be removed in 7\.0
 				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
 			identifier: method.deprecatedInterface
 			count: 4
-			path: libraries/src/Installer/Installer.php
-
-		-
-			message: '''
-				#^Class Joomla\\CMS\\Installer\\Installer extends deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: class.extendsDeprecatedClass
-			count: 1
 			path: libraries/src/Installer/Installer.php
 
 		-
@@ -15005,13 +13187,48 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyErrorHandlingTrait in class Joomla\\CMS\\Installer\\Installer\:
+				4\.3 will be removed in 7\.0
+				             Will be removed without replacement
+				             Throw an Exception instead of setError$#
+			'''
+			identifier: traitUse.deprecatedTrait
+			count: 1
+			path: libraries/src/Installer/Installer.php
+
+		-
+			message: '''
+				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
+				             Will be removed without replacement
+				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
+			'''
+			identifier: traitUse.deprecatedTrait
+			count: 1
+			path: libraries/src/Installer/Installer.php
+
+		-
+			message: '''
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
+			count: 1
+			path: libraries/src/Installer/InstallerAdapter.php
+
+		-
+			message: '''
+				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				4\.3 will be removed in 6\.0
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
 			path: libraries/src/Installer/InstallerAdapter.php
 
 		-
@@ -15039,11 +13256,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method set\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
+				#^Call to deprecated method set\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper setter function for the property$#
 			'''
-			identifier: method.deprecatedClass
+			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Installer/InstallerAdapter.php
 
@@ -15061,7 +13278,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Installer\\InstallerExtension\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				             Will be removed without replacement
 				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
@@ -15072,7 +13289,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Updater\\Update\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -15272,42 +13489,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 6
-			path: libraries/src/MVC/Controller/ApiController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: libraries/src/MVC/Controller/ApiController.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\MVC\\Model\\State\:
-				5\.0\.0 will be removed in 7\.0, use the Registry directly$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/MVC/Controller/ApiController.php
-
-		-
-			message: '#^Call to method singularize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
-			identifier: staticMethod.deprecatedClass
-			count: 4
-			path: libraries/src/MVC/Controller/ApiController.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\MVC\\Model\\State\:
-				5\.0\.0 will be removed in 7\.0, use the Registry directly$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
+			count: 2
 			path: libraries/src/MVC/Controller/ApiController.php
 
 		-
@@ -15379,8 +13561,9 @@ parameters:
 			message: '''
 				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the MvcFactory instead or instantiate the table class directly\.
+				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);
+				             \$table \= new \\Joomla\\CMS\\Table\\Content\(\$db\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -15396,17 +13579,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/MVC/Factory/LegacyFactory.php
-
-		-
-			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: libraries/src/MVC/Model/AdminModel.php
 
 		-
 			message: '''
@@ -15427,28 +13599,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 26
-			path: libraries/src/MVC/Model/AdminModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/MVC/Model/AdminModel.php
-
-		-
-			message: '''
-				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
-				            Create a proper getter function for the property$#
-			'''
-			identifier: method.deprecated
-			count: 1
+			count: 27
 			path: libraries/src/MVC/Model/AdminModel.php
 
 		-
@@ -15459,7 +13610,7 @@ parameters:
 				             Throw an Exception instead of using setError$#
 			'''
 			identifier: method.deprecated
-			count: 38
+			count: 40
 			path: libraries/src/MVC/Model/AdminModel.php
 
 		-
@@ -15594,7 +13745,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				             Will be removed without replacement
 				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
@@ -15623,26 +13774,6 @@ parameters:
 			identifier: method.deprecated
 			count: 9
 			path: libraries/src/MVC/Model/FormModel.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$filterBlacklist of class Joomla\\CMS\\MVC\\Model\\ListModel\:
-				4\.0 will be removed in 6\.0
-				             Use \$filterForbiddenList instead$#
-			'''
-			identifier: property.deprecated
-			count: 2
-			path: libraries/src/MVC/Model/ListModel.php
-
-		-
-			message: '''
-				#^Access to deprecated property \$listBlacklist of class Joomla\\CMS\\MVC\\Model\\ListModel\:
-				4\.0 will be removed in 6\.0
-				             Use \$listForbiddenList instead$#
-			'''
-			identifier: property.deprecated
-			count: 2
-			path: libraries/src/MVC/Model/ListModel.php
 
 		-
 			message: '''
@@ -15679,7 +13810,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\MVC\\View\\AbstractView\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				             Will be removed without replacement
 				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
@@ -16161,23 +14292,13 @@ parameters:
 		-
 			message: '''
 				#^Call to method getProperties\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
+				4\.0 will be removed in 7\.0
 				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
 				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
 			'''
 			identifier: method.deprecatedClass
 			count: 1
 			path: libraries/src/Serializer/JoomlaSerializer.php
-
-		-
-			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 2
-			path: libraries/src/Service/Provider/Application.php
 
 		-
 			message: '''
@@ -16248,46 +14369,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Service/Provider/Database.php
-
-		-
-			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: libraries/src/Service/Provider/Input.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Service/Provider/Input.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/Service/Provider/Input.php
-
-		-
-			message: '''
-				#^Access to constant on deprecated class Joomla\\CMS\\Input\\Input\:
-				4\.3 will be removed in 6\.0\.
-				              Use Joomla\\Input\\Input instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 3
-			path: libraries/src/Service/Provider/Session.php
 
 		-
 			message: '''
@@ -16372,6 +14453,17 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Table\\Table\:
+				5\.4\.0 will be removed in 7\.0
+				              Use getDatabase\(\) instead
+				              Example\: \$this\-\>getDatabase\(\);$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: libraries/src/Table/ContentType.php
+
+		-
+			message: '''
 				#^Call to deprecated method setError\(\) of class Joomla\\CMS\\Table\\Table\:
 				3\.1\.4 will be removed in 7\.0
 				             Will be removed without replacement
@@ -16439,12 +14531,12 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Table\\Table\:
+				5\.4\.0 will be removed in 7\.0
+				              Use getDatabase\(\) instead
+				              Example\: \$this\-\>getDatabase\(\);$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: method.deprecated
 			count: 1
 			path: libraries/src/Table/MenuType.php
 
@@ -16567,7 +14659,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -16609,7 +14701,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				             Will be removed without replacement
 				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
@@ -16735,10 +14827,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
 			count: 1
@@ -16767,61 +14860,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 2
 			path: libraries/src/Toolbar/ToolbarHelper.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Updater/Adapter/CollectionAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the database service in the DI container
-				             Example\:
-				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Updater/Adapter/ExtensionAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Updater/Adapter/ExtensionAdapter.php
-
-		-
-			message: '''
-				#^Access to property \$db of deprecated class Joomla\\CMS\\Adapter\\AdapterInstance\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: libraries/src/Updater/Adapter/TufAdapter.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Updater/Adapter/TufAdapter.php
 
 		-
 			message: '''
@@ -16861,7 +14899,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Updater\\Update\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				             Will be removed without replacement
 				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
@@ -16871,22 +14909,14 @@ parameters:
 
 		-
 			message: '''
-				#^Access to property \$parent of deprecated class Joomla\\CMS\\Adapter\\AdapterInstance\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: libraries/src/Updater/UpdateAdapter.php
-
-		-
-			message: '''
-				#^Call to method getDbo\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 2
+			identifier: staticMethod.deprecated
+			count: 1
 			path: libraries/src/Updater/UpdateAdapter.php
 
 		-
@@ -16901,78 +14931,52 @@ parameters:
 
 		-
 			message: '''
-				#^Class Joomla\\CMS\\Updater\\UpdateAdapter extends deprecated class Joomla\\CMS\\Adapter\\AdapterInstance\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
+				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Updater\\UpdateAdapter\:
+				4\.3\.0 will be removed in 7\.0
+				             Will be removed without replacement
+				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
-			identifier: class.extendsDeprecatedClass
+			identifier: traitUse.deprecatedTrait
 			count: 1
 			path: libraries/src/Updater/UpdateAdapter.php
 
 		-
 			message: '''
-				#^Access to property \$_adapters of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
+				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: property.deprecatedClass
-			count: 2
-			path: libraries/src/Updater/Updater.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
+				             Use the database service in the DI container
+				             Example\:
+				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
-			path: libraries/src/Updater/Updater.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
 			count: 1
 			path: libraries/src/Updater/Updater.php
 
 		-
 			message: '''
-				#^Call to method getDbo\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
+				#^Call to deprecated method register\(\) of class JLoader\:
+				4\.3 will be removed in 7\.0
+				             Classes should be autoloaded\. Use JLoader\:\:registerPrefix\(\) or JLoader\:\:registerNamespace\(\) to
+				             register an autoloader for your files\.$#
 			'''
-			identifier: method.deprecatedClass
-			count: 4
-			path: libraries/src/Updater/Updater.php
-
-		-
-			message: '''
-				#^Call to method setAdapter\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: libraries/src/Updater/Updater.php
-
-		-
-			message: '''
-				#^Class Joomla\\CMS\\Updater\\Updater extends deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
-			'''
-			identifier: class.extendsDeprecatedClass
+			identifier: staticMethod.deprecated
 			count: 1
 			path: libraries/src/Updater/Updater.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
+			count: 1
+			path: libraries/src/Updater/Updater.php
+
+		-
+			message: '''
+				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\Updater\\Updater\:
+				4\.3\.0 will be removed in 7\.0
+				             Will be removed without replacement
+				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
+			'''
+			identifier: traitUse.deprecatedTrait
 			count: 1
 			path: libraries/src/Updater/Updater.php
 
@@ -16991,7 +14995,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
+			count: 2
 			path: libraries/src/User/User.php
 
 		-
@@ -17018,19 +15022,8 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/User/User.php
-
-		-
-			message: '''
 				#^Call to deprecated method getProperties\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -17046,16 +15039,6 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/User/User.php
-
-		-
-			message: '''
-				#^Call to deprecated method isCli\(\) of interface Joomla\\CMS\\Application\\CMSApplicationInterface\:
-				4\.0 will be removed in 6\.0
-				             Will be removed without replacement\. CLI will be handled by the joomla/console package instead$#
-			'''
-			identifier: method.deprecated
 			count: 1
 			path: libraries/src/User/User.php
 
@@ -17094,7 +15077,7 @@ parameters:
 		-
 			message: '''
 				#^Usage of deprecated trait Joomla\\CMS\\Object\\LegacyPropertyManagementTrait in class Joomla\\CMS\\User\\User\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				             Will be removed without replacement
 				             Create proper setter functions for the individual properties or use a \\Joomla\\Registry\\Registry$#
 			'''
@@ -17120,17 +15103,6 @@ parameters:
 			'''
 			identifier: classConstant.deprecatedClass
 			count: 2
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Access to property \$id of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
 			path: libraries/src/User/UserHelper.php
 
 		-
@@ -17189,17 +15161,6 @@ parameters:
 			'''
 			identifier: staticMethod.deprecated
 			count: 6
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
-				#^Call to method __construct\(\) of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
 			path: libraries/src/User/UserHelper.php
 
 		-
@@ -17284,17 +15245,6 @@ parameters:
 
 		-
 			message: '''
-				#^Instantiation of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: libraries/src/User/UserHelper.php
-
-		-
-			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the database service in the DI container
@@ -17302,18 +15252,7 @@ parameters:
 				             Factory\:\:getContainer\(\)\-\>get\(DatabaseInterface\:\:class\);$#
 			'''
 			identifier: staticMethod.deprecated
-			count: 2
-			path: libraries/src/Versioning/Versioning.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 2
+			count: 4
 			path: libraries/src/Versioning/Versioning.php
 
 		-
@@ -17358,22 +15297,51 @@ parameters:
 
 		-
 			message: '''
-				#^Call to method get\(\) of deprecated class Joomla\\CMS\\Adapter\\Adapter\:
-				4\.3 will be removed in 6\.0
-				             Will be removed without replacement$#
+				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 7\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
 			'''
-			identifier: method.deprecatedClass
+			identifier: method.deprecatedInterface
+			count: 2
+			path: libraries/src/Workflow/Workflow.php
+
+		-
+			message: '''
+				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Installer\\Installer\:
+				4\.3\.0 will be removed in 7\.0
+				            Create a proper getter function for the property$#
+			'''
+			identifier: method.deprecated
 			count: 3
 			path: plugins/actionlog/joomla/src/Extension/Joomla.php
 
 		-
+			message: '#^Access to an undefined property Joomla\\CMS\\Application\\BaseApplication\:\:\$input\.$#'
+			identifier: property.notFound
+			count: 1
+			path: plugins/behaviour/compat6/classes/Application/BaseApplication.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: plugins/behaviour/compat6/classes/Filesystem/Patcher.php
+
+		-
 			message: '''
-				#^Call to deprecated method postStoreProcess\(\) of class Joomla\\CMS\\Helper\\TagsHelper\:
-				5\.3 will be removed in 7\.0$#
+				#^Call to static method clean\(\) on deprecated class Joomla\\CMS\\Filesystem\\Path\:
+				4\.4 will be removed in 6\.0
+				             Use Joomla\\Filesystem\\Path instead\.$#
 			'''
-			identifier: method.deprecated
-			count: 3
-			path: plugins/behaviour/taggable/src/Extension/Taggable.php
+			identifier: staticMethod.deprecatedClass
+			count: 1
+			path: plugins/behaviour/compat6/classes/Filesystem/Path.php
+
+		-
+			message: '#^Static call to instance method Joomla\\CMS\\Filesystem\\Support\\StringController\:\:getRef\(\)\.$#'
+			identifier: method.staticCall
+			count: 2
+			path: plugins/behaviour/compat6/classes/Filesystem/Streams/StreamString.php
 
 		-
 			message: '''
@@ -17399,12 +15367,11 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Language\\Language\:
-				4\.3 will be removed in 6\.0
-				             Use the language factory instead
-				             Example\: Factory\:\:getContainer\(\)\-\>get\(LanguageFactoryInterface\:\:class\)\-\>createLanguage\(\$lang, \$debug\);$#
+				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Plugin\\CMSPlugin\:
+				5\.2 will be removed in 7\.0
+				             Plugin should use the language from Application, and only after the app is initialised\.$#
 			'''
-			identifier: staticMethod.deprecated
+			identifier: method.deprecated
 			count: 1
 			path: plugins/content/joomla/src/Extension/Joomla.php
 
@@ -17560,24 +15527,6 @@ parameters:
 			path: plugins/editors/tinymce/src/Provider/TinyMCEProvider.php
 
 		-
-			message: '#^Call to an undefined method Joomla\\CMS\\Layout\\FileLayout\:\:getOptionsFromField\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: plugins/fields/checkboxes/tmpl/checkboxes.php
-
-		-
-			message: '#^Call to an undefined method Joomla\\CMS\\Layout\\FileLayout\:\:getOptionsFromField\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: plugins/fields/list/tmpl/list.php
-
-		-
-			message: '#^Call to an undefined method Joomla\\CMS\\Layout\\FileLayout\:\:getOptionsFromField\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: plugins/fields/radio/tmpl/radio.php
-
-		-
 			message: '''
 				#^Call to deprecated method getDbo\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
@@ -17590,8 +15539,8 @@ parameters:
 			path: plugins/fields/sql/tmpl/sql.php
 
 		-
-			message: '#^Call to an undefined method Joomla\\CMS\\Layout\\FileLayout\:\:getUserFactory\(\)\.$#'
-			identifier: method.notFound
+			message: '#^Call to protected method getUserFactory\(\) of class Joomla\\Plugin\\Fields\\User\\Extension\\User\.$#'
+			identifier: method.protected
 			count: 1
 			path: plugins/fields/user/tmpl/user.php
 
@@ -17621,7 +15570,7 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Updater\\Update\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
@@ -17683,22 +15632,11 @@ parameters:
 		-
 			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3\.0 will be removed in 6\.0
+				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: plugins/sampledata/multilang/src/Extension/MultiLanguage.php
-
-		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 3
 			path: plugins/sampledata/multilang/src/Extension/MultiLanguage.php
 
 		-
@@ -17768,106 +15706,6 @@ parameters:
 			identifier: staticMethod.deprecated
 			count: 2
 			path: plugins/system/debug/src/DataCollector/LanguageStringsCollector.php
-
-		-
-			message: '''
-				#^Call to deprecated method getUser\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Load the user service from the dependency injection container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getIdentity\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: plugins/system/debug/src/Storage/FileStorage.php
-
-		-
-			message: '''
-				#^Access to property \$access of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: plugins/system/guidedtours/src/Extension/GuidedTours.php
-
-		-
-			message: '''
-				#^Access to property \$autostart of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: plugins/system/guidedtours/src/Extension/GuidedTours.php
-
-		-
-			message: '''
-				#^Access to property \$description of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: plugins/system/guidedtours/src/Extension/GuidedTours.php
-
-		-
-			message: '''
-				#^Access to property \$id of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 3
-			path: plugins/system/guidedtours/src/Extension/GuidedTours.php
-
-		-
-			message: '''
-				#^Access to property \$published of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: plugins/system/guidedtours/src/Extension/GuidedTours.php
-
-		-
-			message: '''
-				#^Access to property \$title of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: plugins/system/guidedtours/src/Extension/GuidedTours.php
-
-		-
-			message: '''
-				#^Access to property \$uid of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: plugins/system/guidedtours/src/Extension/GuidedTours.php
-
-		-
-			message: '''
-				#^Access to property \$url of deprecated class Joomla\\CMS\\Object\\CMSObject\:
-				4\.3 will be removed in 6\.0
-				             Use \\stdClass or \\Joomla\\Registry\\Registry instead\.
-				             Example\: new \\Joomla\\Registry\\Registry\(\);$#
-			'''
-			identifier: property.deprecatedClass
-			count: 1
-			path: plugins/system/guidedtours/src/Extension/GuidedTours.php
 
 		-
 			message: '''
@@ -18003,20 +15841,57 @@ parameters:
 			path: plugins/system/webauthn/src/MetadataRepository.php
 
 		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\Checkfiles\\Extension\\Checkfiles\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/checkfiles/src/Extension/Checkfiles.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\DeleteActionLogs\\Extension\\DeleteActionLogs\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/deleteactionlogs/src/Extension/DeleteActionLogs.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\PrivacyConsent\\Extension\\PrivacyConsent\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/privacyconsent/src/Extension/PrivacyConsent.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\Requests\\Extension\\Requests\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/requests/src/Extension/Requests.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\RotateLogs\\Extension\\RotateLogs\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/rotatelogs/src/Extension/RotateLogs.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\SessionGC\\Extension\\SessionGC\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/sessiongc/src/Extension/SessionGC.php
+
+		-
 			message: '#^Instantiated class JConfig not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: plugins/task/sitestatus/services/provider.php
 
 		-
-			message: '''
-				#^Call to deprecated method getInstance\(\) of class Joomla\\CMS\\Table\\Table\:
-				4\.3 will be removed in 6\.0
-				             Use the MvcFactory instead
-				             Example\: Factory\:\:getApplication\(\)\-\>bootComponent\('\.\.\.'\)\-\>getMVCFactory\(\)\-\>createTable\(\$name, \$prefix, \$config\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\SiteStatus\\Extension\\SiteStatus\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
+			path: plugins/task/sitestatus/src/Extension/SiteStatus.php
+
+		-
+			message: '#^Access to an undefined property Joomla\\Plugin\\Task\\UpdateNotification\\Extension\\UpdateNotification\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 2
 			path: plugins/task/updatenotification/src/Extension/UpdateNotification.php
 
 		-
@@ -18085,12 +15960,6 @@ parameters:
 			path: plugins/workflow/featuring/src/Extension/Featuring.php
 
 		-
-			message: '#^Call to method singularize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
-			identifier: staticMethod.deprecatedClass
-			count: 1
-			path: plugins/workflow/featuring/src/Extension/Featuring.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Plugin\\Workflow\\Notification\\Extension\\Notification\:\:\$app\.$#'
 			identifier: property.notFound
 			count: 2
@@ -18100,10 +15969,4 @@ parameters:
 			message: '#^Access to an undefined property Joomla\\Plugin\\Workflow\\Publishing\\Extension\\Publishing\:\:\$app\.$#'
 			identifier: property.notFound
 			count: 2
-			path: plugins/workflow/publishing/src/Extension/Publishing.php
-
-		-
-			message: '#^Call to method singularize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
-			identifier: staticMethod.deprecatedClass
-			count: 1
 			path: plugins/workflow/publishing/src/Extension/Publishing.php

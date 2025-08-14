@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\DatabaseInterface;
@@ -83,7 +82,7 @@ class Indexer
     /**
      * The indexer state object.
      *
-     * @var    CMSObject
+     * @var    \stdClass
      * @since  2.5
      */
     public static $state;
@@ -146,7 +145,7 @@ class Indexer
     /**
      * Method to get the indexer state.
      *
-     * @return  CMSObject  The indexer state object.
+     * @return  \stdClass  The indexer state object.
      *
      * @since   2.5
      */
@@ -163,7 +162,7 @@ class Indexer
 
         // If the state is empty, load the values for the first time.
         if (empty($data)) {
-            $data        = new CMSObject();
+            $data        = new \stdClass();
             $data->force = false;
 
             // Load the default configuration options.
@@ -228,7 +227,7 @@ class Indexer
     /**
      * Method to set the indexer state.
      *
-     * @param   CMSObject  $data  A new indexer state object.
+     * @param   \stdClass  $data  A new indexer state object.
      *
      * @return  boolean  True on success, false on failure.
      *
@@ -237,7 +236,7 @@ class Indexer
     public static function setState($data)
     {
         // Check the state object.
-        if (empty($data) || !$data instanceof CMSObject) {
+        if (empty($data) || !$data instanceof \stdClass) {
             return false;
         }
 

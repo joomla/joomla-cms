@@ -432,6 +432,11 @@
             "name": "jquery",
             "type": "script",
             "uri": "jquery.min.js"
+          },
+          {
+            "name": "jquery-noconflict",
+            "type": "script",
+            "uri": "jquery-noconflict.min.js"
           }
         ],
         "dependencies": [],

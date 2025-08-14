@@ -18,7 +18,6 @@ use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -27,6 +26,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Filesystem\Folder;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
@@ -47,7 +47,7 @@ final class InstallationApplication extends CMSApplication
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  object.  If the argument is a Input object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's
      *                                  config object.  If the argument is a Registry object that object will become
