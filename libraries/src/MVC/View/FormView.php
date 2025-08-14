@@ -223,7 +223,8 @@ class FormView extends HtmlView
         // For new records, check the create permission.
         if ($isNew) {
 
-            if ($canDo->get('core.create')) {
+            if ($canDo->get('core.create') || (isset($this->categorySection) && \count($user->getAuthorisedCategories($this->categorySection, 'core.create')) > 0)) {
+
                 $toolbar->apply($viewName . '.apply');
 
                 $saveGroup = $toolbar->dropdownButton('save-group');
