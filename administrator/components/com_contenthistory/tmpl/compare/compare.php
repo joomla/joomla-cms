@@ -100,9 +100,9 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                 <td class="original"><?php
                                     echo htmlspecialchars($value1['value']); ?></td>
                                 <?php
-                                $object2[$name]['value'] = is_object($object2[$name]['value']) ? json_encode($object2[$name]['value']) : $object2[$name]['value']; ?>
+                                $currentvalue2 = is_array($value2) ? implode(' | ', $value2) : $value2; ?>
                                 <td class="changed"><?php
-                                    echo htmlspecialchars($value2, ENT_COMPAT, 'UTF-8'); ?></td>
+                                    echo htmlspecialchars($currentvalue2, ENT_COMPAT, 'UTF-8'); ?></td>
                                 <td class="diff">&nbsp;</td>
                             </tr>
                         <?php endif; ?>
