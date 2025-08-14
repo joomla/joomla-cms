@@ -307,7 +307,7 @@ class FormView extends HtmlView
 
             if ($this->previewLink) {
                 $toolbar->preview(
-                    $this->previewLink,
+                    Route::link('site',$this->previewLink, true),
                     Text::_('JGLOBAL_PREVIEW'),
                     'eye',
                     80,
