@@ -60,17 +60,18 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                             <?php if (isset($value2['value']) && is_array($value2['value'])) :?>
                                 <?php $keys = array_merge(array_keys($value1['value']), array_keys($value2['value'])); ?>
                             <?php endif; ?>
-                            <tr>
-                                <th scope="row"><em>&nbsp;&nbsp;<?php echo $value1['label']; ?></em></th>
-
                                 <?php foreach ($keys as $key) : ?>
+                                <tr>
+                                    <td></td>
                                     <td class="original">
                                         <?php if (isset($value1['value'][$key])) : ?>
                                             <?php $currentvalue1 = $value1['value'][$key]; ?>
                                             <?php if (is_array($value1['value'][$key])) : ?>
                                                 <?php $currentvalue1 = implode(' | ', $value1['value'][$key]); ?>
+                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
+                                            <?php else: ?>
+                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
                                             <?php endif;?>
-                                            <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
                                         <?php else : ?>
                                             <?php echo Text::_('JUNDEFINED');?>
                                         <?php endif; ?>
@@ -80,15 +81,16 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                             <?php $currentvalue2 = $value2['value'][$key]; ?>
                                             <?php if (is_array($value2['value'][$key])) : ?>
                                                 <?php $currentvalue2 = implode(' | ', $value1['value'][$key]); ?>
+                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
+                                            <?php else: ?>
+                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
                                             <?php endif;?>
-                                            <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
                                         <?php else : ?>
                                             <?php echo Text::_('JUNDEFINED');?>
                                         <?php endif; ?>
                                     <td class="diff">&nbsp;</td>
+                                </tr>
                                 <?php endforeach; ?>
-                            </tr>
-
                         <?php else : ?>
                             <tr>
                                 <th scope="row">
