@@ -306,7 +306,7 @@ class FormView extends HtmlView
             }
 
             if ($this->previewLink) {
-                $toolbar->preview(Route::link('site',$this->previewLink, true), Text::_('JGLOBAL_PREVIEW'))
+                $toolbar->preview(Route::link('site', $this->previewLink, true), Text::_('JGLOBAL_PREVIEW'))
                     ->bodyHeight(80)
                     ->modalWidth(90);
             }
