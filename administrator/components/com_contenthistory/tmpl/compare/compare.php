@@ -69,7 +69,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                             <?php if (is_array($value1['value'][$key])) : ?>
                                                 <?php $currentvalue1 = implode(' | ', $value1['value'][$key]); ?>
                                                 <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
-                                            <?php else: ?>
+                                            <?php else : ?>
                                                 <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
                                             <?php endif;?>
                                         <?php else : ?>
@@ -82,7 +82,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                             <?php if (is_array($value2['value'][$key])) : ?>
                                                 <?php $currentvalue2 = implode(' | ', $value1['value'][$key]); ?>
                                                 <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
-                                            <?php else: ?>
+                                            <?php else : ?>
                                                 <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
                                             <?php endif;?>
                                         <?php else : ?>
