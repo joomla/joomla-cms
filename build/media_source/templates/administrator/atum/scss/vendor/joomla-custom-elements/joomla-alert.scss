@@ -1,7 +1,7 @@
-@import "../../variables";
-@import "../../variables-dark";
-@import "../../../../../../../../media/vendor/joomla-custom-elements/css/joomla-alert";
-@import "../../../../../../../../media/vendor/bootstrap/scss/mixins/color-mode";
+@use "../../variables";
+@use "../../variables-dark";
+@use "../../../../../../../../media/vendor/joomla-custom-elements/css/joomla-alert";
+@use "../../../../../../../../media/vendor/bootstrap/scss/mixins/color-mode";
 
 // The following is a restyle for the system alerts
 

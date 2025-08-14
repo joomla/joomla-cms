@@ -1,8 +1,8 @@
 // Bootstrap functions
-@import "../../../../../../media/vendor/bootstrap/scss/functions";
+@use "../../../../../../media/vendor/bootstrap/scss/functions";
 
 // Variables, Functions and Mixins
-@import "tools/tools";
+@use "tools/tools";
 
 .outer {
   position: relative;

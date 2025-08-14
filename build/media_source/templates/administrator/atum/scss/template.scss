@@ -1,88 +1,88 @@
 // Bootstrap functions
-@import "../../../../../../media/vendor/bootstrap/scss/functions";
+@use "../../../../../../media/vendor/bootstrap/scss/functions";
 
 // Atum Variables
-@import "variables";
-@import "variables-dark";
+@use "variables";
+@use "variables-dark";
 
-@import "../../../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../../../media/vendor/bootstrap/scss/variables-dark";
-@import "../../../../../../media/vendor/bootstrap/scss/maps";
-@import "maps-atum";
-@import "../../../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../../../media/vendor/bootstrap/scss/utilities";
+@use "../../../../../../media/vendor/bootstrap/scss/variables";
+@use "../../../../../../media/vendor/bootstrap/scss/variables-dark";
+@use "../../../../../../media/vendor/bootstrap/scss/maps";
+@use "maps-atum";
+@use "../../../../../../media/vendor/bootstrap/scss/mixins";
+@use "../../../../../../media/vendor/bootstrap/scss/utilities";
 
 // Bootstrap other
-@import "../../../../../../media/vendor/bootstrap/scss/bootstrap";
+@use "../../../../../../media/vendor/bootstrap/scss/bootstrap";
 
 // Fonts
-@import "../../../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+@use "../../../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
 
-@import "blocks/global"; // Leave this first
+@use "blocks/global"; // Leave this first
 
 // jQuery Minicolors
-@import "../../../../../../media/system/scss/jquery-minicolors";
+@use "../../../../../../media/system/scss/jquery-minicolors";
 
 // System overrides
-@import "system/fields/calendar";
-@import "system/fields/switcher";
+@use "system/fields/calendar";
+@use "system/fields/switcher";
 
 // Vendor overrides
-@import "vendor/bootstrap/accordion";
-@import "vendor/bootstrap/badge";
-@import "vendor/bootstrap/buttons";
-@import "vendor/bootstrap/card";
-@import "vendor/bootstrap/custom-forms";
-@import "vendor/bootstrap/collapse";
-@import "vendor/bootstrap/dropdown";
-@import "vendor/bootstrap/form";
-@import "vendor/bootstrap/lists";
-@import "vendor/bootstrap/list-group";
-@import "vendor/bootstrap/modal";
-@import "vendor/bootstrap/pagination";
-@import "vendor/bootstrap/reboot";
-@import "vendor/bootstrap/table";
+@use "vendor/bootstrap/accordion";
+@use "vendor/bootstrap/badge";
+@use "vendor/bootstrap/buttons";
+@use "vendor/bootstrap/card";
+@use "vendor/bootstrap/custom-forms";
+@use "vendor/bootstrap/collapse";
+@use "vendor/bootstrap/dropdown";
+@use "vendor/bootstrap/form";
+@use "vendor/bootstrap/lists";
+@use "vendor/bootstrap/list-group";
+@use "vendor/bootstrap/modal";
+@use "vendor/bootstrap/pagination";
+@use "vendor/bootstrap/reboot";
+@forward "vendor/bootstrap/table";
 
 // Blocks
-@import "blocks/alerts";
-@import "blocks/calendar";
-@import "blocks/edit";
-@import "blocks/header";
-@import "blocks/form";
-@import "blocks/icons";
-@import "blocks/iframe";
-@import "blocks/layout";
-@import "blocks/login";
-@import "blocks/modals";
-@import "blocks/quickicons";
-@import "blocks/lists";
-@import "blocks/shepard-modals";
-@import "blocks/sidebar";
-@import "blocks/sidebar-nav";
-@import "blocks/switcher";
-@import "blocks/toolbar";
-@import "blocks/treeselect";
-@import "blocks/utilities";
+@forward "blocks/alerts";
+@forward "blocks/calendar";
+@forward "blocks/edit";
+@forward "blocks/header";
+@forward "blocks/form";
+@forward "blocks/icons";
+@forward "blocks/iframe";
+@forward "blocks/layout";
+@forward "blocks/login";
+@forward "blocks/modals";
+@forward "blocks/quickicons";
+@forward "blocks/lists";
+@forward "blocks/shepard-modals";
+@forward "blocks/sidebar";
+@forward "blocks/sidebar-nav";
+@forward "blocks/switcher";
+@forward "blocks/toolbar";
+@forward "blocks/treeselect";
+@forward "blocks/utilities";
 
 // These DO NOT BELONG HERE!!!
-@import "vendor/codemirror";
-@import "vendor/dragula";
-@import "vendor/tinymce";
+@forward "vendor/codemirror";
+@forward "vendor/dragula";
+@forward "vendor/tinymce";
 
 // Also these DO NOT BELONG HERE!!!
 // Page specifics
-@import "pages/com_config";
-@import "pages/com_content";
-@import "pages/com_cpanel";
-@import "pages/com_joomlaupdate";
-@import "pages/com_media";
-@import "pages/com_modules";
-@import "pages/com_tags";
-@import "pages/com_privacy";
-@import "pages/com_scheduler";
-@import "pages/com_templates";
-@import "pages/com_users";
-@import "pages/plg_web_installer";
+@forward "pages/com_config";
+@forward "pages/com_content";
+@forward "pages/com_cpanel";
+@forward "pages/com_joomlaupdate";
+@forward "pages/com_media";
+@forward "pages/com_modules";
+@forward "pages/com_tags";
+@forward "pages/com_privacy";
+@forward "pages/com_scheduler";
+@forward "pages/com_templates";
+@forward "pages/com_users";
+@forward "pages/plg_web_installer";
 
 // Custom Atum colors
 :root {

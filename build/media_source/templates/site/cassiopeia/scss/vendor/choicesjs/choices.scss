@@ -1,13 +1,13 @@
-@import "../../../../../../../../media/vendor/bootstrap/scss/functions";
-@import "../../../../../../../../media/templates/site/cassiopeia/scss/tools/variables/variables";
-@import "../../../../../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../../../../../media/vendor/bootstrap/scss/mixins";
+@use "../../../../../../../../media/vendor/bootstrap/scss/functions";
+@use "../../../../../../../../media/templates/site/cassiopeia/scss/tools/variables/variables";
+@use "../../../../../../../../media/vendor/bootstrap/scss/variables";
+@use "../../../../../../../../media/vendor/bootstrap/scss/mixins";
 
 // choices.js
-@import "../../../../../../../../media/vendor/choicesjs/scss/choices";
+@use "../../../../../../../../media/vendor/choicesjs/scss/choices";
 
 // Cassiopea Variables, Functions and Mixins
-@import "../../tools/tools";
+@use "../../tools/tools";
 
 .choices {
   border: $form-select-border-width solid $form-select-border-color;

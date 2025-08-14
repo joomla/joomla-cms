@@ -1,5 +1,5 @@
-@import "../../tools/tools";
-@import "../../../../../../vendor/joomla-custom-elements/css/joomla-alert.css";
+@use "../../tools/tools";
+@use "../../../../../../vendor/joomla-custom-elements/css/joomla-alert.css";
 
 // The following is a restyle for the system alerts
 #system-message-container {

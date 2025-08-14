@@ -1,9 +1,9 @@
 // Bootstrap functions
-@import "../../../../media/vendor/bootstrap/scss/functions";
+@use "../../../../media/vendor/bootstrap/scss/functions" as *;
 
 // Bootstrap other
-@import "../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../media/vendor/bootstrap/scss/variables";
+@use "../../../../media/vendor/bootstrap/scss/mixins" as *;
+@use "../../../../media/vendor/bootstrap/scss/variables" as *;
 
 // Extension variables
 $extension-types: (

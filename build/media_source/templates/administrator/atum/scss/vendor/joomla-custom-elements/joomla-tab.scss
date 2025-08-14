@@ -1,10 +1,10 @@
-@import "../../../../../../../../media/vendor/bootstrap/scss/functions";
+@use "../../../../../../../../media/vendor/bootstrap/scss/functions";
 
 // Atum Variables
-@import "../../variables";
+@use "../../variables";
 
-@import "../../../../../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../../../../../media/vendor/bootstrap/scss/mixins";
+@use "../../../../../../../../media/vendor/bootstrap/scss/variables";
+@use "../../../../../../../../media/vendor/bootstrap/scss/mixins";
 
 // Tabs
 

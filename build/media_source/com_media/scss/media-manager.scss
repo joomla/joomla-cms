@@ -1,14 +1,14 @@
 // Imports
-@import "variables";
+@forward "variables";
 
 // Components
-@import "components/animations";
-@import "components/layout";
-@import "components/media-breadcrumb";
-@import "components/media-browser";
-@import "components/media-edit";
-@import "components/media-infobar";
-@import "components/media-toolbar";
-@import "components/media-tree";
-@import "components/media-modal";
+@forward "components/animations";
+@forward "components/layout";
+@forward "components/media-breadcrumb";
+@forward "components/media-browser";
+@forward "components/media-edit";
+@forward "components/media-infobar";
+@forward "components/media-toolbar";
+@forward "components/media-tree";
+@forward "components/media-modal";
 

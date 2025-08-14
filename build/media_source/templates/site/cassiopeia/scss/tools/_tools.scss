@@ -1,10 +1,10 @@
 // Vendor
-@import "../../../../../../../media/vendor/bootstrap/scss/functions";
+@use "../../../../../../../media/vendor/bootstrap/scss/functions";
 
 
 // Variables
-@import "variables/variables";
+@use "variables/variables";
 
 
 // Functions
-@import "functions/max-width";
+@use "functions/max-width";

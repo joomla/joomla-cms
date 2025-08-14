@@ -1,14 +1,14 @@
-@import "../../../../../../../../media/vendor/bootstrap/scss/functions";
+@use "../../../../../../../../media/vendor/bootstrap/scss/functions";
 
 // Atum Variables
-@import "../../variables";
-@import "../../variables-dark";
+@use "../../variables";
+@use "../../variables-dark";
 
-@import "../../../../../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../../../../../media/vendor/bootstrap/scss/mixins";
+@use "../../../../../../../../media/vendor/bootstrap/scss/variables";
+@use "../../../../../../../../media/vendor/bootstrap/scss/mixins";
 
 // choices.js
-@import "../../../../../../../../media/vendor/choicesjs/scss/choices";
+@use "../../../../../../../../media/vendor/choicesjs/scss/choices";
 
 .choices {
   border: $form-select-border; //$form-select-border-width solid $form-select-border-color;
