@@ -207,7 +207,7 @@ class FormView extends HtmlView
         $userId     = $user->id;
         $isNew      = empty($this->item->{$this->keyName});
         $viewName   = $this->getName();
-        $checkedOut = $this->getModel()->isCheckedOut($this->item);
+        $checkedOut = !$isNew && $this->getModel()->isCheckedOut($this->item);
         $canDo      = $this->canDo;
 
         /**
