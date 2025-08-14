@@ -1445,7 +1445,12 @@ abstract class AdminModel extends FormModel
         }
 
         if ($this instanceof VersionableModelInterface) {
-            $this->saveHistory($data, $context);
+            // Merge table data and data so that we write all data to the history
+            $tableData = ArrayHelper::fromObject($table);
+
+            $historyData = array_merge($tableData, $data);
+
+            $this->saveHistory($historyData, $context);
         }
 
         if ($app->getInput()->get('task') == 'editAssociations') {
