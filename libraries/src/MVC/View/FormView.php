@@ -71,6 +71,13 @@ class FormView extends HtmlView
     protected $canDo;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * The toolbar title
      *
      * @var string
