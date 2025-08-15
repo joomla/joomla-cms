@@ -602,22 +602,14 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 break;
 
             case 'layoutIncludePath':
-                $app = Factory::getApplication();
+                $this->layoutPaths = [];
 
-                if ($app->isClient('site') || $app->isClient('administrator')) {
-                    // Try to get a default template
-                    $template = $app->getTemplate(true);
+                $values = explode(',', (string) $value);
 
+                foreach ($values as $path) {
                     // Use unshift to use a lower priority
-                    array_unshift($this->layoutPaths, JPATH_THEMES . '/' . $template->template . '/html/' . ltrim((string) $value, '/'));
-
-                    if (!empty($template->parent)) {
-                        array_unshift($this->layoutPaths, JPATH_THEMES . '/' . $template->parent . '/html/' . ltrim((string) $value, '/'));
-                    }
+                    array_unshift($this->layoutPaths, JPATH_ROOT . '/' . ltrim((string) $path, '/'));
                 }
-
-                // Use unshift to use a lower priority
-                array_unshift($this->layoutPaths, JPATH_ROOT . '/' . ltrim((string) $value, '/'));
                 break;
 
             default:
