@@ -602,7 +602,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 break;
 
             case 'layoutIncludePath':
-                $this->layoutPaths = is_array($value) ? $value : explode(',', (string) $value);
+                $this->layoutPaths = \is_array($value) ? $value : explode(',', (string) $value);
                 break;
 
             default:
