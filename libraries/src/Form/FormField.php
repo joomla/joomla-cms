@@ -602,14 +602,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 break;
 
             case 'layoutIncludePath':
-                $this->layoutPaths = [];
-
-                $values = explode(',', (string) $value);
-
-                foreach ($values as $path) {
-                    // Use unshift to use a lower priority
-                    array_unshift($this->layoutPaths, JPATH_ROOT . '/' . ltrim((string) $path, '/'));
-                }
+                $this->layoutPaths = is_array($value) ? $value : explode(',', (string) $value);
                 break;
 
             default:
@@ -1402,7 +1395,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $paths = $renderer->getDefaultIncludePaths();
 
         foreach ($this->layoutPaths as $path) {
-            array_unshift($paths, $path);
+            array_unshift($paths, JPATH_ROOT . '/' . ltrim((string) $path, '/'));
         }
 
         return $paths;
