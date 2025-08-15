@@ -53,7 +53,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 
     <form action="<?php echo Route::_('index.php?task=user.login'); ?>" method="post" id="com-users-login__form" class="com-users-login__form form-validate form-horizontal well">
 
-        <fieldset>
+        <fieldset role="group" aria-label="<?php echo Text::_('COM_USERS_LOGIN_CREDENTIALS'); ?>">
             <?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
 
             <?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
