@@ -31,10 +31,6 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('form.validate')
     ->useScript('keepalive');
 
-if ($this->fieldsets) {
-    HTMLHelper::_('bootstrap.framework');
-}
-
 $xml = $this->form->getXml();
 ?>
 
