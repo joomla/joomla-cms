@@ -1397,32 +1397,6 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     }
 
     /**
-     * Add an additional layout path where the renderer should look for layouts.
-     * Last path added will have highest priority.
-     *
-     * @param   string  $path  The path to a layout folder
-     *
-     * @return  boolean true on success otherwise false
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function addLayoutPath(string $path): bool
-    {
-        // Try to add absolute path
-        if (!is_dir($path)) {
-            $path = JPATH_ROOT . '/' . ltrim($path, '/');
-        }
-
-        if (is_dir($path)) {
-            $this->layoutPaths[] = $path;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Allow to override renderer include paths in child fields
      *
      * @return  array
