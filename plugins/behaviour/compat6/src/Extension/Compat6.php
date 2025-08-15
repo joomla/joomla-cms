@@ -115,8 +115,6 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-
-
      * The after Initialise logic
      *
      * @param  After Initialise $event
