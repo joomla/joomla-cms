@@ -221,6 +221,187 @@
 					<option value="1">JYES</option>
 				</field>
 			</fieldset>
+
+			<fieldset name="colors">
+				<field
+					name="colorSettings"
+					type="radio"
+					label="TPL_CASSIOPEIA_COLORS_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="headerbg"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(193, 205, 207)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_HEADER_BACKGROUND_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="headercolor"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(23, 23, 23)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_HEADER_TEXT_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="bodybg"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(254, 254, 254)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_BODY_BACKGROUND_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="bodycolor"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(23, 23, 23)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_BODY_TEXT_COLOR_LABEL"
+					description=""
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="linkcolor"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(29, 121, 137)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_LINK_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="linkcolorh"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(14, 59, 67)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_LINK_HOVER_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="btnbg"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(206, 60, 55)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_BUTTON_BACKGROUND_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="btnbgh"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(131, 35, 32)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_BUTTON_BACKGROUND_HOVER_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="btncolor"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(254, 254, 254)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_BUTTON_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="btncolorh"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(254, 254, 254)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_BUTTON_HOVER_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="footerbg"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(29, 121, 137)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_FOOTER_BACKGROUND_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+
+				<field
+					name="footercolor"
+					type="color"
+					parentclass="span-3-inline stack"
+					default="rgb(254, 254, 254)"
+					format="rgb"
+					label="TPL_CASSIOPEIA_FOOTER_TEXT_COLOR_LABEL"
+					showon="colorSettings:1"
+				/>
+			</fieldset>
+
+			<fieldset name="sizes">
+				<field
+					name="fontSettings"
+					type="radio"
+					label="TPL_CASSIOPEIA_FONT_SIZES_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="bodysize"
+					type="number"
+					default="1"
+					label="TPL_CASSIOPEIA_BODY_SIZE"
+					showon="fontSettings:1"
+				/>
+
+				<field
+					name="h1size"
+					type="number"
+					default="2"
+					label="TPL_CASSIOPEIA_H1_SIZE"
+					showon="fontSettings:1"
+				/>
+
+				<field
+					name="h2size"
+					type="number"
+					default="1.7"
+					label="TPL_CASSIOPEIA_H2_SIZE"
+					showon="fontSettings:1"
+				/>
+
+				<field
+					name="h3size"
+					type="number"
+					default="1.5"
+					label="TPL_CASSIOPEIA_H3_SIZE"
+					showon="fontSettings:1"
+				/>
+			</fieldset>
 		</fields>
 	</config>
 </extension>

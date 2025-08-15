@@ -101,6 +101,11 @@ class HtmlView extends BaseHtmlView
         Text::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
         Text::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('id', $this->item->key);
+
         $this->addToolbar();
         parent::display($tpl);
     }
