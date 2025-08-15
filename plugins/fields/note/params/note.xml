@@ -104,6 +104,7 @@
 				name="description"
 				type="editor"
 				label="PLG_FIELDS_NOTE_PARAMS_DESCRIPTION_LABEL"
+				filter="safehtml"
 			/>
 
 			<field
