@@ -140,7 +140,7 @@ jobs:
       - name: Start LDAP container
         uses: docker://docker
         with:
-          args: docker run -d --name openldap --network ${{ job.container.network }} --network-alias openldap -e "LDAP_ADMIN_USERNAME=admin" -e "LDAP_ADMIN_PASSWORD=adminpassword" -e "LDAP_USERS=customuser" -e "LDAP_PASSWORDS=custompassword" -e "LDAP_ENABLE_TLS=yes" -e "LDAP_TLS_CERT_FILE=/certs/openldap.crt" -e "LDAP_TLS_KEY_FILE=/certs/openldap.key" -e "LDAP_TLS_CA_FILE=/certs/CA.crt" -e "BITNAMI_DEBUG=true" -e "LDAP_CONFIG_ADMIN_ENABLED=yes" -e "LDAP_CONFIG_ADMIN_USERNAME=admin" -e "LDAP_CONFIG_ADMIN_PASSWORD=configpassword" -v "${{ github.workspace }}/tests/certs/openldap.crt":"/certs/openldap.crt" -v "${{ github.workspace }}/tests/certs/openldap.key":"/certs/openldap.key" -v "${{ github.workspace }}/tests/certs/CA.crt":"/certs/CA.crt" bitnami/openldap:latest
+          args: docker run -d --name openldap --network ${{ job.container.network }} --network-alias openldap -e "LDAP_ADMIN_USERNAME=admin" -e "LDAP_ADMIN_PASSWORD=adminpassword" -e "LDAP_USERS=customuser" -e "LDAP_PASSWORDS=custompassword" -e "LDAP_ENABLE_TLS=yes" -e "LDAP_TLS_CERT_FILE=/certs/openldap.crt" -e "LDAP_TLS_KEY_FILE=/certs/openldap.key" -e "LDAP_TLS_CA_FILE=/certs/CA.crt" -e "BITNAMI_DEBUG=true" -e "LDAP_CONFIG_ADMIN_ENABLED=yes" -e "LDAP_CONFIG_ADMIN_USERNAME=admin" -e "LDAP_CONFIG_ADMIN_PASSWORD=configpassword" -v "${{ github.workspace }}/tests/certs/openldap.crt":"/certs/openldap.crt" -v "${{ github.workspace }}/tests/certs/openldap.key":"/certs/openldap.key" -v "${{ github.workspace }}/tests/certs/CA.crt":"/certs/CA.crt" ghcr.io/joomla-projects/mirror-bitnami-openldap:latest
       - uses: actions/cache/restore@v4
         with:
           path: libraries/vendor
