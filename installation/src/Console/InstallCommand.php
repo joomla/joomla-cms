@@ -115,7 +115,7 @@ class InstallCommand extends AbstractCommand
         $setupModel = $app->getMVCFactory()->createModel('Setup', 'Installation');
 
         // Validate environment options
-        if ($envOptions && $setupModel->validate($envOptions, 'setup') === false) {
+        if ($envOptions && $setupModel->validate($cfgWithEnv, 'setup') === false) {
             return Command::FAILURE;
         }
 
