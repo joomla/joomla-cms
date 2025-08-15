@@ -24,8 +24,6 @@ use Joomla\Utilities\ArrayHelper;
  */
 trait VersionableModelTrait
 {
-    protected $history;
-
     /**
      * Method to get the item id from the version history table.
      *
@@ -64,7 +62,6 @@ trait VersionableModelTrait
      */
     protected function getHistoryData($historyId)
     {
-
         // Get an instance of the row to checkout.
         $historyTable = new ContentHistory($this->getDatabase());
 
@@ -111,7 +108,7 @@ trait VersionableModelTrait
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function loadHistory($historyId)
+    public function loadHistory(int $historyId)
     {
         $rowArray = $this->getHistoryData($historyId);
 
@@ -135,8 +132,24 @@ trait VersionableModelTrait
         $this->setState('version_note', $historyTable->version_note);
 
         return true;
+    }
 
+    /**
+     * Method to save the history.
+     *
+     * @param   array   $data     The form data.
+     * @param   string  $context  The model context.
+     *
+     * @return  boolean  True on success, False on error.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function saveHistory(array $data, string $context)
+    {
+        $id = $this->getState($this->getName() . '.id');
 
-        return $table->bind($rowArray);
+        $result = Versioning::store($context, $id, ArrayHelper::toObject($data));
+
+        return $result;
     }
 }

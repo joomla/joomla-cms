@@ -24,11 +24,11 @@ interface VersionableModelInterface
     /**
      * Method to load a row for editing from the version history table.
      *
-     * @param   integer  $versionId  Key to the version history table.
+     * @param   integer  $historyId  Key to the version history table.
      *
      * @return  boolean  False on failure or error, true otherwise.
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function loadHistory($versionId);
+    public function loadHistory(int $historyId);
 }

@@ -25,7 +25,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
-use Joomla\CMS\Versioning\Versioning;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -1739,24 +1738,5 @@ abstract class AdminModel extends FormModel
         );
 
         return true;
-    }
-
-    /**
-     * Method to save the history.
-     *
-     * @param   array   $data     The form data.
-     * @param   string  $context  The model context.
-     *
-     * @return  boolean  True on success, False on error.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function saveHistory(array $data, string $context)
-    {
-        $id = $this->getState($this->getName() . '.id');
-
-        $result = Versioning::store($context, $id, ArrayHelper::toObject($data));
-
-        return $result;
     }
 }
