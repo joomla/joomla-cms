@@ -483,6 +483,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             case 'validationtext':
             case 'showon':
             case 'parentclass':
+            case 'layoutPaths':
                 return $this->$name;
 
             case 'input':
