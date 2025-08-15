@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies, global-require, import/no-dynamic-require */
-
 import { writeFile } from 'node:fs/promises';
 import { basename, sep, resolve } from 'node:path';
 
@@ -90,13 +88,11 @@ export const handleESMFile = async (file) => {
   })
     .then((value) => minifyCode(value.output[0].code))
     .then((content) => {
-      // eslint-disable-next-line no-console
       console.log(`✅ ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled`);
 
       return writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
       console.error(error);
     });
 

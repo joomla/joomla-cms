@@ -75,7 +75,6 @@
           throw new Error(json);
         }
         if (json.start) {
-          // eslint-disable-next-line prefer-destructuring
           totalItems = json.totalItems;
           if (document.getElementById('finder-debug-data')) {
             const debuglist = document.getElementById('finder-debug-data');
@@ -114,7 +113,6 @@
           }
         } catch (ignore) {
           if (error === '') {
-            // eslint-disable-next-line no-ex-assign
             error = Joomla.Text._('COM_FINDER_NO_ERROR_RETURNED');
           }
           if (progressHeader) {

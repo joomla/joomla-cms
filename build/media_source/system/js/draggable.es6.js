@@ -150,7 +150,6 @@ if (container) {
     rearrangeChildren(el);
   };
 
-  // eslint-disable-next-line no-undef
   dragula([container], {
     // Y axis is considered when determining where an element would be dropped
     direction: 'vertical',
