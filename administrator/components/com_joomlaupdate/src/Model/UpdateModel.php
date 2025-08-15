@@ -544,6 +544,8 @@ class UpdateModel extends BaseDatabaseModel
             throw new \Exception('Could not write update file', 410);
         }
 
+        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $fileInformation['basename']), Log::INFO, 'Update');
+
         $app = Factory::getApplication();
 
         return [
