@@ -51,7 +51,7 @@ final class Local extends CMSPlugin implements SubscriberInterface, ProviderInte
      *
      * @return  array
      *
-     * @since   6.0.0
+     * @since   5.4.0
      */
     public static function getSubscribedEvents(): array
     {

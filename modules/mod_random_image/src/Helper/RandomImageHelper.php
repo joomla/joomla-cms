@@ -33,7 +33,7 @@ class RandomImageHelper
      *
      * @return  mixed
      *
-     * @since   6.0.0
+     * @since   5.4.0
      */
     public function getImage(Registry &$params, array $images): mixed
     {
@@ -83,7 +83,7 @@ class RandomImageHelper
      *
      * @return  array
      *
-     * @since   6.0.0
+     * @since   5.4.0
      */
     public function getImagesFromFolder(Registry &$params, string $folder): array
     {
@@ -140,7 +140,7 @@ class RandomImageHelper
      *
      * @return  mixed
      *
-     * @since   6.0.0
+     * @since   5.4.0
      */
     public function getSanitizedFolder(Registry &$params): mixed
     {
@@ -168,7 +168,7 @@ class RandomImageHelper
      *
      * @return  mixed
      *
-     * @deprecated 6.0.0 will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getImage
      *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
      *                            ->getHelper('RandomImageHelper')
@@ -187,7 +187,7 @@ class RandomImageHelper
      *
      * @return  array
      *
-     * @deprecated 6.0.0 will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getImagesFromFolder
      *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
      *                            ->getHelper('RandomImageHelper')
@@ -205,7 +205,7 @@ class RandomImageHelper
      *
      * @return  mixed
      *
-     * @deprecated 6.0.0 will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getSanitizedFolder
      *             Example: Factory::getApplication()->bootModule('mod_random_image', 'site')
      *                            ->getHelper('RandomImageHelper')

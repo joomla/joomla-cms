@@ -40,7 +40,7 @@ trait LegacyErrorHandlingTrait
      * Use exceptions rather than getError/setError.
      *
      * @var          boolean
-     * @since        6.0.0
+     * @since        5.4.0
      * @deprecated   7.0
      */
     private bool $useExceptions = false;
@@ -123,7 +123,7 @@ trait LegacyErrorHandlingTrait
      *
      * @return  boolean
      *
-     * @since        6.0.0
+     * @since        5.4.0
      * @deprecated   7.0
      */
     public function shouldUseExceptions(): bool
@@ -138,7 +138,7 @@ trait LegacyErrorHandlingTrait
      *
      * @return  void
      *
-     * @since        6.0.0
+     * @since        5.4.0
      * @deprecated   7.0
      */
     public function setUseExceptions(bool $value): void
