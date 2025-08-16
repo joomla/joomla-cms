@@ -22,7 +22,7 @@
 				name="step"
 				type="number"
 				label="PLG_FIELDS_NUMBER_PARAMS_STEP_LABEL"
-				description="PLG_FIELDS_NUMBER_PARAMS_STEP_DESC"
+				default="1.0"
 				filter="float"
 			/>
 
