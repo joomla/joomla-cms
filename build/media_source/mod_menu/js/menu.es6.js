@@ -7,6 +7,7 @@
   'use strict';
 
   /**
+   * Navigation menu
    *
    * Example usage:
    *   // Default behavior (uses menuHoverClass = 'show-menu', dir = 'ltr')
@@ -237,7 +238,6 @@
   Nav.idCounter = 0;
 
   // Initialize Nav instances for all nav elements on the page
-
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.nav').forEach((nav) => new Nav(nav));
   });
