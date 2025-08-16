@@ -139,172 +139,184 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
         </div>
     </fieldset>
 
-        <div id="installRecommended" class="j-install-step active">
-            <div class="j-install-step-form">
-            <?php $displayTable = false; ?>
-            <?php foreach ($this->phpsettings as $setting) : ?>
-                <?php if ($setting->state !== $setting->recommended) : ?>
-                    <?php $displayTable = true; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-            <?php
-            if ($displayTable) : ?>
-                <table class="table table-sm">
-                    <caption>
-                        <?php echo Text::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
-                    </caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <?php echo Text::_('INSTL_PRECHECK_DIRECTIVE'); ?>
-                            </th>
-                            <th scope="col">
-                                <?php echo Text::_('INSTL_PRECHECK_RECOMMENDED'); ?>
-                            </th>
-                            <th scope="col">
-                                <?php echo Text::_('INSTL_PRECHECK_ACTUAL'); ?>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($this->phpsettings as $setting) : ?>
-                        <?php if ($setting->state !== $setting->recommended) : ?>
-                            <tr>
-                                <th scope="row">
-                                    <?php echo $setting->label; ?>
-                                </th>
-                                <td>
-                                    <span class="badge bg-success disabled">
-                                        <?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-                                        <?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
-                                    </span>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
+    <fieldset id="automatedUpdates" class="j-install-step active">
+        <legend class="j-install-step-header">
+            <?php echo Text::_('INSTL_AUTOMATED_UPDATES'); ?>
+        </legend>
+        <div class="j-install-step-form flex-column">
+            <p><?php echo Text::_('INSTL_AUTOMATED_UPDATES_DESC'); ?></p>
 
-            <?php endif; ?>
-                <?php if ($this->development) : ?>
-                    <div id="removeInstallationTab" class="flex-column">
-                        <p class="alert alert-info text-center"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></p>
-                        <button id="removeInstallationFolder" class="btn btn-danger w-100"><?php echo Text::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?></button>
-                    </div>
-                <?php endif; ?>
-                <?php echo HTMLHelper::_('form.token'); ?>
-
-                <div class="form-group j-install-last-step d-grid gap-2 mt-4 mb-3">
-                    <button type="button" class="complete-installation btn btn-primary w-100"
-                       data-href="<?php echo Uri::root(); ?>" <?php if ($this->development) :
-                            ?>data-development<?php
-                                  endif; ?>>
-                        <span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?>
-                    </button>
-                    <button type="button" class="complete-installation btn btn-primary w-100"
-                       data-href="<?php echo Uri::root(); ?>administrator/" <?php if ($this->development) :
-                            ?>data-development<?php
-                                  endif; ?>>
-                        <span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?>
-                    </button>
-                </div>
-            </div>
+            <button id="automatedUpdatesDisableButton" class="btn btn-danger mt-2 mb-3 w-100">
+                <?php echo Text::_('INSTL_AUTOMATED_UPDATES_DISABLE'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span>
+            </button>
         </div>
+    </fieldset>
 
-        <fieldset id="installLanguages" class="j-install-step">
-            <legend class="j-install-step-header">
-                <span class="icon-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
-            </legend>
-            <div class="j-install-step-form">
-            <?php if (!$this->items) : ?>
-                <p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET'); ?></p>
-                <p>
-                    <a href="#"
-                            class="btn btn-primary w-100"
-                            onclick="return Joomla.goToPage('remove');">
-                        <span class="icon-arrow-left icon-white" aria-hidden="true"></span>
-                        <?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
-                    </a>
-                </p>
-                <p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
-            <?php else : ?>
-            <form action="index.php" method="post" id="languagesForm" class="form-validate">
-                <div id="wait_installing" class="hidden">
-                    <?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
-                    <div id="wait_installing_spinner" class="spinner spinner-img hidden"></div>
-                </div>
-                <table class="table table-sm">
-                <caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
-                    <thead>
+    <div id="installRecommended" class="j-install-step active">
+        <div class="j-install-step-form">
+        <?php $displayTable = false; ?>
+        <?php foreach ($this->phpsettings as $setting) : ?>
+            <?php if ($setting->state !== $setting->recommended) : ?>
+                <?php $displayTable = true; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <?php
+        if ($displayTable) : ?>
+            <table class="table table-sm">
+                <caption>
+                    <?php echo Text::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
+                </caption>
+                <thead>
                     <tr>
                         <th scope="col">
-                            <span class="visually-hidden"><?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_SELECT'); ?></span>
+                            <?php echo Text::_('INSTL_PRECHECK_DIRECTIVE'); ?>
                         </th>
                         <th scope="col">
-                            <?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
+                            <?php echo Text::_('INSTL_PRECHECK_RECOMMENDED'); ?>
                         </th>
                         <th scope="col">
-                            <?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
-                        </th>
-                        <th scope="col" class="text-center">
-                            <?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
+                            <?php echo Text::_('INSTL_PRECHECK_ACTUAL'); ?>
                         </th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <?php $version = new \Joomla\CMS\Version(); ?>
-                    <?php $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion()); ?>
-                    <?php foreach ($this->items as $i => $language) : ?>
-                        <?php // Get language code and language image. ?>
-                        <?php preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element); ?>
-                        <?php $language->code = $element[1]; ?>
+                </thead>
+                <tbody>
+                <?php foreach ($this->phpsettings as $setting) : ?>
+                    <?php if ($setting->state !== $setting->recommended) : ?>
                         <tr>
-                            <td>
-                                <input class="form-check-input" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
-                            </td>
                             <th scope="row">
-                                <label for="cb<?php echo $i; ?>"><?php echo $language->name; ?></label>
+                                <?php echo $setting->label; ?>
                             </th>
                             <td>
-                                <?php echo $language->code; ?>
+                                <span class="badge bg-success disabled">
+                                    <?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+                                </span>
                             </td>
-                            <td class="text-center">
-                                <?php // Display a Note if language pack version is not equal to Joomla version ?>
-                                <?php if (substr($language->version, 0, 3) != $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION || substr($language->version, 0, 5) != $currentShortVersion) : ?>
-                                    <span class="badge bg-warning hasTooltip" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
-                                <?php else : ?>
-                                    <span class="badge bg-success"><?php echo $language->version; ?></span>
-                                <?php endif; ?>
+                            <td>
+                                <span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+                                    <?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
+                                </span>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-                <?php echo HTMLHelper::_('form.token'); ?>
-            <?php endif; ?>
-                <div class="form-group d-grid gap-2 mt-4 mb-3">
-                    <button id="installLanguagesButton" class="btn btn-primary w-100">
-                        <?php echo Text::_('INSTL_LANGUAGES_SELECTED'); ?>
-                    </button>
-                    <button id="skipLanguages" class="btn btn-secondary w-100">
-                    <?php echo Text::_('JSKIP'); ?>
-                    </button>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+
+        <?php endif; ?>
+            <?php if ($this->development) : ?>
+                <div id="removeInstallationTab" class="flex-column">
+                    <p class="alert alert-info text-center"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></p>
+                    <button id="removeInstallationFolder" class="btn btn-danger w-100"><?php echo Text::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?></button>
                 </div>
-            </form>
-            </div>
-        </fieldset>
+            <?php endif; ?>
+            <?php echo HTMLHelper::_('form.token'); ?>
 
-        <fieldset id="installFinal" class="j-install-step">
-            <legend class="j-install-step-header">
-                <span class="icon-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>
-            </legend>
-            <div class="j-install-step-form">
-                <p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
+            <div class="form-group j-install-last-step d-grid gap-2 mt-4 mb-3">
+                <button type="button" class="complete-installation btn btn-primary w-100"
+                   data-href="<?php echo Uri::root(); ?>" <?php if ($this->development) :
+                        ?>data-development<?php
+                              endif; ?>>
+                    <span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?>
+                </button>
+                <button type="button" class="complete-installation btn btn-primary w-100"
+                   data-href="<?php echo Uri::root(); ?>administrator/" <?php if ($this->development) :
+                        ?>data-development<?php
+                              endif; ?>>
+                    <span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?>
+                </button>
             </div>
-        </fieldset>
+        </div>
+    </div>
 
+    <fieldset id="installLanguages" class="j-install-step">
+        <legend class="j-install-step-header">
+            <span class="icon-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
+        </legend>
+        <div class="j-install-step-form">
+        <?php if (!$this->items) : ?>
+            <p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET'); ?></p>
+            <p>
+                <a href="#"
+                        class="btn btn-primary w-100"
+                        onclick="return Joomla.goToPage('remove');">
+                    <span class="icon-arrow-left icon-white" aria-hidden="true"></span>
+                    <?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
+                </a>
+            </p>
+            <p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
+        <?php else : ?>
+        <form action="index.php" method="post" id="languagesForm" class="form-validate">
+            <div id="wait_installing" class="hidden">
+                <?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
+                <div id="wait_installing_spinner" class="spinner spinner-img hidden"></div>
+            </div>
+            <table class="table table-sm">
+            <caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <span class="visually-hidden"><?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_SELECT'); ?></span>
+                    </th>
+                    <th scope="col">
+                        <?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
+                    </th>
+                    <th scope="col">
+                        <?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $version = new \Joomla\CMS\Version(); ?>
+                <?php $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion()); ?>
+                <?php foreach ($this->items as $i => $language) : ?>
+                    <?php // Get language code and language image. ?>
+                    <?php preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element); ?>
+                    <?php $language->code = $element[1]; ?>
+                    <tr>
+                        <td>
+                            <input class="form-check-input" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
+                        </td>
+                        <th scope="row">
+                            <label for="cb<?php echo $i; ?>"><?php echo $language->name; ?></label>
+                        </th>
+                        <td>
+                            <?php echo $language->code; ?>
+                        </td>
+                        <td class="text-center">
+                            <?php // Display a Note if language pack version is not equal to Joomla version ?>
+                            <?php if (substr($language->version, 0, 3) != $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION || substr($language->version, 0, 5) != $currentShortVersion) : ?>
+                                <span class="badge bg-warning hasTooltip" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+                            <?php else : ?>
+                                <span class="badge bg-success"><?php echo $language->version; ?></span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?php echo HTMLHelper::_('form.token'); ?>
+        <?php endif; ?>
+            <div class="form-group d-grid gap-2 mt-4 mb-3">
+                <button id="installLanguagesButton" class="btn btn-primary w-100">
+                    <?php echo Text::_('INSTL_LANGUAGES_SELECTED'); ?>
+                </button>
+                <button id="skipLanguages" class="btn btn-secondary w-100">
+                <?php echo Text::_('JSKIP'); ?>
+                </button>
+            </div>
+        </form>
+        </div>
+    </fieldset>
+
+    <fieldset id="installFinal" class="j-install-step">
+        <legend class="j-install-step-header">
+            <span class="icon-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>
+        </legend>
+        <div class="j-install-step-form">
+            <p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
+        </div>
+    </fieldset>
 </div>
