@@ -21,8 +21,9 @@ use Joomla\CMS\Session\Session;
 
 /** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
 
-HTMLHelper::_('behavior.multiselect', 'updateForm');
-HTMLHelper::_('bootstrap.modal');
+// Pass the required options to the javascript
+Factory::getDocument()->addScriptOptions('js-multiselect', ['formName' => 'updateForm']);
+Factory::getDocument()->getWebAssetManager()->useScript('bootstrap.modal')->useScript('multiselect');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa    = $this->getDocument()->getWebAssetManager();
