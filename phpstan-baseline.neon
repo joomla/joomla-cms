@@ -80,17 +80,6 @@ parameters:
 			path: administrator/components/com_actionlogs/src/Plugin/ActionLogPlugin.php
 
 		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/View/Actionlogs/HtmlView.php
-
-		-
 			message: '#^Access to property \$dateRelative on an unknown class HtmlView\.$#'
 			identifier: class.notFound
 			count: 2
@@ -612,17 +601,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_banners/src/View/Banner/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_banners/src/View/Banners/HtmlView.php
 
 		-
 			message: '''
@@ -1353,17 +1331,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_contact/src/View/Contact/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_contact/src/View/Contacts/HtmlView.php
 
 		-
 			message: '#^Access to an undefined property Joomla\\Component\\Contact\\Administrator\\View\\Contact\\HtmlView\:\:\$useCoreUI\.$#'
@@ -4776,25 +4743,8 @@ parameters:
 			path: administrator/components/com_modules/src/View/Module/HtmlView.php
 
 		-
-			message: '#^Access to an undefined property Joomla\\Component\\Modules\\Administrator\\View\\Modules\\HtmlView\:\:\$clientId\.$#'
-			identifier: property.notFound
-			count: 1
-			path: administrator/components/com_modules/src/View/Modules/HtmlView.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Modules\\Administrator\\View\\Modules\\HtmlView\:\:\$total\.$#'
 			identifier: property.notFound
-			count: 1
-			path: administrator/components/com_modules/src/View/Modules/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_modules/src/View/Modules/HtmlView.php
 
@@ -4838,12 +4788,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_modules/tmpl/modules/default.php
-
-		-
-			message: '#^Access to an undefined property Joomla\\Component\\Modules\\Administrator\\View\\Modules\\HtmlView\:\:\$clientId\.$#'
-			identifier: property.notFound
-			count: 3
-			path: administrator/components/com_modules/tmpl/modules/emptystate.php
 
 		-
 			message: '#^Access to an undefined property Joomla\\Component\\Modules\\Administrator\\View\\Modules\\HtmlView\:\:\$total\.$#'
@@ -14024,13 +13968,13 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method get\(\) of class Joomla\\CMS\\MVC\\View\\AbstractView\:
-				5\.3\.0 will be removed in 7\.0\.
-				             Retrieve the model with \$model \= \$this\-\>getModel\(\); and call the methods
-				             to the model directly, e\.g\. \$model\-\>getItems\(\) instead of \$this\-\>get\('Items'\)\.$#
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
 			'''
 			identifier: method.deprecated
-			count: 6
+			count: 1
 			path: libraries/src/MVC/View/ListView.php
 
 		-
