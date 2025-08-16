@@ -133,23 +133,4 @@ trait VersionableModelTrait
 
         return true;
     }
-
-    /**
-     * Method to save the history.
-     *
-     * @param   array   $data     The form data.
-     * @param   string  $context  The model context.
-     *
-     * @return  boolean  True on success, False on error.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function saveHistory(array $data, string $context)
-    {
-        $id = $this->getState($this->getName() . '.id');
-
-        $result = Versioning::store($context, $id, ArrayHelper::toObject($data));
-
-        return $result;
-    }
 }
