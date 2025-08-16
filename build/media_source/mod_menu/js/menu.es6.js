@@ -6,12 +6,51 @@
 (() => {
   'use strict';
 
+  /**
+   *
+   * Example usage:
+   *   // Default behavior (uses menuHoverClass = 'show-menu', dir = 'ltr')
+   *   new Nav(document.querySelector('.nav'));
+   *
+   *   // Override defaults (e.g. custom open-class and RTL support)
+   *   new Nav(document.querySelector('.nav'), {
+   *     menuHoverClass: 'my-open-class',
+   *     dir:            'rtl'
+   *   });
+   *
+   * @param {HTMLElement} nav                                   The root <ul class="nav"> element
+   * @param {Object}      [settings]                            Optional overrides for defaultSettings
+   * @param {string}      [settings.menuHoverClass='show-menu'] CSS class to toggle on open submenus
+   * @param {string}      [settings.dir='ltr']                  Text direction for keyboard nav ('ltr'|'rtl')
+   */
+
   class Nav {
-    constructor(nav) {
+
+    // Default settings for the Nav class
+    static defaultSettings = {
+      menuHoverClass: 'show-menu',
+      dir: 'ltr'
+    };
+
+    constructor(nav, settings = {}) {
       this.nav = nav;
+
+      // read the HTML dir attribute or computed style, or fall back to defaultSettings.dir
+      const browserDir =
+        document.documentElement.getAttribute('dir') ||                          // <html dir="…">
+        getComputedStyle(document.documentElement).direction ||                   // CSS direction
+
+        Nav.defaultSettings.dir;
+        this.settings = {
+          ...Nav.defaultSettings,
+          ...settings
+      };
+
+      // merge defaults, browser‐detected dir, and any explicit overrides in `settings`
       this.settings = {
-        menuHoverClass: 'show-menu',
-        dir: 'ltr',
+        ...Nav.defaultSettings,
+        dir: settings.dir ?? browserDir,  // explicit settings.dir wins, otherwise browserDir
+        ...settings                       // other overrides (e.g. menuHoverClass)
       };
 
       // Unique prefix for this nav instance - needed for the id of submenus and aria-controls
@@ -25,7 +64,7 @@
         const ariaControls = [];
         levelChildUls.forEach((childUl) => {
           childUl.setAttribute('aria-hidden', 'true');
-          childUl.classList.remove(this.settings.menuHoverClass); // ???
+          childUl.classList.remove(this.settings.menuHoverClass);
           childUl.id = `${this.idPrefix}-submenu${Nav.idCounter}`;
           Nav.idCounter += 1;
           ariaControls.push(childUl.id);
@@ -155,13 +194,13 @@
         const allSubMenus = this.nav.querySelectorAll('ul[aria-hidden="false"]');
         allSubMenus.forEach((ulChild) => {
             ulChild.setAttribute('aria-hidden', 'true');
-            ulChild.classList.remove(this.settings.menuHoverClass); // ???
+            ulChild.classList.remove(this.settings.menuHoverClass);
             this.getTopLevelParentLi(ulChild)?.querySelector(':scope > [aria-expanded]')?.setAttribute('aria-expanded', 'false');
         });
       }
       subLists.forEach((ulChild) => {
         ulChild.setAttribute('aria-hidden', open ? 'false' : 'true');
-        ulChild.classList.toggle(this.settings.menuHoverClass, open); // ???
+        ulChild.classList.toggle(this.settings.menuHoverClass, open);
       });
       target.querySelector(':scope > [aria-expanded]').setAttribute('aria-expanded', open ? 'true' : 'false');
     }
@@ -196,6 +235,8 @@
 
   // static idCounter for unique id generation of submenus
   Nav.idCounter = 0;
+
+  // Initialize Nav instances for all nav elements on the page
 
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.nav').forEach((nav) => new Nav(nav));
