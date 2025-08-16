@@ -32,8 +32,8 @@ if ($close = (string) $field->fieldparams->get('close', '')) {
 }
 
 $class       = $class ? ' class="' . implode(' ', $class) . '"' : '';
-$title       = $field->fieldparams->get('label', '');
-$heading     = $field->fieldparams->get('heading', 'h4');
+$title       = (string) $field->fieldparams->get('label', ($field->label ? : ''));
+$heading     = (string) $field->fieldparams->get('heading', 'h4');
 $description = (string) $field->fieldparams->get('description', '');
 $html[]      = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';
 $html[]      = !empty($description) ? Text::_($description) : '';
