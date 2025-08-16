@@ -63,7 +63,7 @@ $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
     echo '<li class="' . $class . '">';
 
     // The next item is deeper - add toggle only here it is a heading or separator
-    if ($item->deeper && in_array($item->type, ['separator', 'heading'])) {
+    if ($item->deeper && $item->level === 1 && in_array($item->type, ['separator', 'heading'])) {
         // Add a toggle button.
         echo '<button class="mod-menu__toggle-sub" aria-expanded="false">';
     }
