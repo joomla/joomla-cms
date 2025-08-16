@@ -90,6 +90,19 @@
 		</field>
 
 		<field
+			name="checked_out"
+			type="list"
+			label="COM_CONTENT_CHECKED_OUT"
+			class="js-select-submit-on-change"
+			default=""
+			validate="options"
+			>
+			<option value="">COM_CONTENT_SELECT_CHECKED_OUT</option>
+			<option value="0">COM_CONTENT_FILTER_CHECKED_OUT_NO</option>
+			<option value="-1">COM_CONTENT_FILTER_CHECKED_OUT_YES</option>
+		</field>
+
+		<field
 			name="tag"
 			type="tag"
 			label="JTAG"
