@@ -21,20 +21,24 @@ use Joomla\CMS\Session\Session;
 
 /** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
 
+$app = Factory::getApplication();
+$doc = $app->getDocument();
+
 // Pass the required options to the javascript
-Factory::getDocument()->addScriptOptions('js-multiselect', ['formName' => 'updateForm']);
-Factory::getDocument()->getWebAssetManager()->useScript('bootstrap.modal')->useScript('multiselect');
+$doc->addScriptOptions('js-multiselect', ['formName' => 'updateForm']);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa    = $this->getDocument()->getWebAssetManager();
-$input = Factory::getApplication()->getInput();
+$wa    = $doc->getWebAssetManager();
+$input = $app->getInput();
 
 // Enable assets
 $wa->useScript('form.validate')
     ->useScript('keepalive')
     ->useScript('com_templates.admin-template-toggle-switch')
     ->useScript('com_templates.admin-templates')
-    ->useStyle('com_templates.admin-templates');
+    ->useStyle('com_templates.admin-templates')
+    ->useScript('bootstrap.modal')
+    ->useScript('multiselect');
 
 // No access if not global SuperUser
 if (!$this->getCurrentUser()->authorise('core.admin')) {
