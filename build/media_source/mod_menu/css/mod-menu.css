@@ -1,5 +1,3 @@
-/* @todo add custom properties for margin */
-
 :where(.mod-menu__toggle-sub) {
   align-items: center;
   color: currentColor;
@@ -12,10 +10,9 @@
   }
 }
 :where(.mod-menu [class*="icon-"]) {
-  margin-inline-start: .5rem; /* @todo add custom properties for margin ??? */
+  margin-inline-start: .5rem;
   transition: all .2s, background-color .2s;
 }
-
 
 /* @todo move to cassiopeia or add a special class for this style ??? */
 /* unfortunately only works in the navigation bar and breaks the other menu styles. */
