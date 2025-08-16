@@ -369,7 +369,7 @@ trait DisplayTrait
             }
         }
 
-        // Should load the template plugin?
+        // Load the template plugin?
         if (!empty($allButtons['jtemplate'])) {
             $wa->useScript('plg_editors_tinymce.jtemplate');
             $plugins[] = 'jtemplate';
@@ -429,6 +429,21 @@ trait DisplayTrait
                     array_push($imgClasses, ['title' => $imgClassList->img_class_name, 'value' => $imgClassList->img_class_list]);
                 }
             }
+        }
+
+        // Add the current domain to the sandbox_iframes_exclusions list
+        $sandboxIframesExclusions = Uri::getInstance()->getHost();
+
+        // Build the list of additional domains to add to the sandbox_iframes_exclusions list
+        if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
+            $exclusionsArray = [];
+            foreach ($extraOptions->sandbox_iframes_exclusions as $value) {
+                if (isset($value->exclusion_domain)) {
+                    $exclusionsArray[] = $value->exclusion_domain;
+                }
+            }
+            // Join the URLs into a comma-separated string and add to the sandbox_iframes_exclusions list
+            $sandboxIframesExclusions .= ', ' . implode(', ', $exclusionsArray);
         }
 
         // Build the final options set
@@ -506,10 +521,13 @@ trait DisplayTrait
                 'branding'  => false,
                 'promotion' => false,
 
+                // Set License
+                'license_key' => 'gpl',
+
                 // Hardened security
-                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
-                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
-                'convert_unsafe_embeds' => true,
+                'sandbox_iframes'            => (bool) $levelParams->get('sandbox_iframes', true),
+                'sandbox_iframes_exclusions' => $sandboxIframesExclusions,
+                'convert_unsafe_embeds'      => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',
