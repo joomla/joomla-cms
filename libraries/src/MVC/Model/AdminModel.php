@@ -1756,7 +1756,9 @@ abstract class AdminModel extends FormModel
     {
         $id = $this->getState($this->getName() . '.id');
 
-        $result = Versioning::store($context, $id, ArrayHelper::toObject($data));
+        $versionNote = array_key_exists('version_note', $data) ? $data['version_note'] : '';
+
+        $result = Versioning::store($context, $id, ArrayHelper::toObject($data), $versionNote);
 
         return $result;
     }
