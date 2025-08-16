@@ -89,6 +89,7 @@ class PageBreakTest extends UnitTestCase
         $user->method('getAuthorisedCategories')->willReturn([]);
 
         $app = $this->createStub(CMSWebApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
         $app->method('getIdentity')->willReturn($user);
 
         $btnsReg = new ButtonsRegistry();
@@ -126,7 +127,9 @@ class PageBreakTest extends UnitTestCase
 
         $dispatcher = new Dispatcher();
         $plugin     = new PageBreak($dispatcher, ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
-        $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
+        $app        = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $plugin->setApplication($app);
         $plugin->onEditorButtonsSetup($event);
 
         $button = $btnsReg->getAll()[0] ?? false;
