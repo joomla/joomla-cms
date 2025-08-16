@@ -80,6 +80,10 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             throw new GenericDataException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
         parent::display($tpl);
         $this->addToolbar();
     }

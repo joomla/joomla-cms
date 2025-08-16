@@ -6,10 +6,10 @@
 
 @include media-breakpoint-down(sm) {
   .btn {
-    margin-bottom: .25rem;
+    margin-block-end: .25rem;
   }
   .input-group .btn {
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
 }
 
@@ -54,8 +54,8 @@
   border: var(--btn-secondary-border);
 
   &:hover {
-    color: var(--btn-secondary-color-hvr);
-    background: var(--btn-secondary-bg-hvr);
+    color: var(--btn-secondary-color-hvr, var(--btn-secondary-color));
+    background: var(--btn-secondary-bg-hvr, var(--template-bg-dark-70));
   }
 }
 
