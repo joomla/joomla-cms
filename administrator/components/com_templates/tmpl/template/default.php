@@ -34,11 +34,11 @@ $input = $app->getInput();
 // Enable assets
 $wa->useScript('form.validate')
     ->useScript('keepalive')
+    ->useScript('bootstrap.modal')
+    ->useScript('multiselect')
     ->useScript('com_templates.admin-template-toggle-switch')
     ->useScript('com_templates.admin-templates')
-    ->useStyle('com_templates.admin-templates')
-    ->useScript('bootstrap.modal')
-    ->useScript('multiselect');
+    ->useStyle('com_templates.admin-templates');
 
 // No access if not global SuperUser
 if (!$this->getCurrentUser()->authorise('core.admin')) {
