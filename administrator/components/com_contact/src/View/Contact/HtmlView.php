@@ -54,9 +54,8 @@ class HtmlView extends FormView
             $config['option'] = 'com_contact';
         }
 
-        $config['help_link'] = 'Contacts:_Edit';
-
-        $config['toolbar_icon']   = 'address-book contact';
+        $config['help_link']    = 'Contacts:_Edit';
+        $config['toolbar_icon'] = 'address-book contact';
 
         parent::__construct($config);
     }

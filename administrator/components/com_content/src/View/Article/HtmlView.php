@@ -62,8 +62,7 @@ class HtmlView extends FormView
             $config['option'] = 'com_content';
         }
 
-        $config['help_link'] = 'Articles:_Edit';
-
+        $config['help_link']      = 'Articles:_Edit';
         $config['toolbar_icon']   = 'pencil-alt article-add';
 
         parent::__construct($config);
