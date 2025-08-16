@@ -50,7 +50,7 @@ Options -Indexes
 #	Header always set Cross-Origin-Embedder-Policy "require-corp"
 #</IfModule>
 
-## Disable access to a dot files and folders
+## Disable access to dot files and folders
 <FilesMatch "^\.">
     Deny from all
 </FilesMatch>
