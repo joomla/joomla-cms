@@ -1,10 +1,10 @@
 :where(.mod-menu__toggle-sub) {
+  display: inline-flex;
   align-items: center;
+  padding: 0;
   color: currentColor;
   background-color: transparent;
   border: none;
-  display: inline-flex;
-  padding: 0;
   &[aria-expanded="true"] .icon-chevron-down {
     transform: rotate(180deg);
   }
@@ -17,14 +17,14 @@
 /* @todo move to cassiopeia or add a special class for this style ??? */
 /* unfortunately only works in the navigation bar and breaks the other menu styles. */
 /* :where(.mod-menu__sub:not(.mod-menu__sub *)) { */
-  /* @todo bg-color as property ??? */
-  /* background-color: #fff; */
-  /* display: block; */
-  /* margin: 0; */
-  /* min-width: 12rem; */
-  /* padding: 0; */
-  /* position: absolute; */
-  /* top: 100%; */
+/* @todo bg-color as property ??? */
+/* background-color: #fff; */
+/* display: block; */
+/* margin: 0; */
+/* min-width: 12rem; */
+/* padding: 0; */
+/* position: absolute; */
+/* top: 100%; */
 /* } */
 
 :where(.mod-menu__sub[aria-hidden="true"]) {
