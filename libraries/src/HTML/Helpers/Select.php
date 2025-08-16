@@ -145,7 +145,7 @@ abstract class Select
                 ->registerAndUseScript(
                     'webcomponent.select-colour',
                     'system/fields/select-colour.min.js',
-                    ['dependencies' => ['wcpolyfill']],
+                    ['dependencies' => ['core']],
                     ['type'         => 'module']
                 );
         }
