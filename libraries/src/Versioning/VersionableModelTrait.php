@@ -9,9 +9,8 @@
 
 namespace Joomla\CMS\Versioning;
 
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\ContentHistory;
-use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,58 +25,95 @@ use Joomla\Utilities\ArrayHelper;
 trait VersionableModelTrait
 {
     /**
-     * Method to load a row for editing from the version history table.
+     * Method to get the item id from the version history table.
      *
-     * @param   integer  $versionId  Key to the version history table.
-     * @param   Table    $table      Content table object being loaded.
+     * @param   integer  $historyId  Key to the version history table.
      *
-     * @return  boolean  False on failure or error, true otherwise.
+     * @return  integer  False on failure or error, id otherwise.
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
-    public function loadHistory($versionId, Table $table)
+    public function getItemIdFromHistory($historyId)
     {
-        // Only attempt to check the row in if it exists, otherwise do an early exit.
-        if (!$versionId) {
+        $rowArray = $this->getHistoryData($historyId);
+
+        if (false === $rowArray) {
+            return false;
+        }
+
+        $table = $this->getTable();
+        $key   = $table->getKeyName();
+
+        if (isset($rowArray[$key])) {
+            return $rowArray[$key];
+        }
+
+        return false;
+    }
+
+    /**
+     * Method to get the version data from the version history table.
+     *
+     * @param   integer  $historyId  Key to the version history table.
+     *
+     * @return  mixed    False on failure or error, data otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getHistoryData($historyId)
+    {
+        // Get an instance of the row to checkout.
+        $historyTable = new ContentHistory($this->getDatabase());
+
+        if (!$historyTable->load($historyId)) {
+            return false;
+        }
+
+        $rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
+
+        return $rowArray;
+    }
+
+    /**
+     * Method to get a version history table.
+     *
+     * @param   integer  $historyId  Key to the version history table.
+     *
+     * @return  mixed    False on failure or error, table otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getHistoryTable($historyId)
+    {
+        if (empty($historyId)) {
             return false;
         }
 
         // Get an instance of the row to checkout.
-        $historyTable = new ContentHistory($this->getDbo());
+        $historyTable = new ContentHistory($this->getDatabase());
 
-        if (!$historyTable->load($versionId)) {
-            $this->setError($historyTable->getError());
-
+        if (!$historyTable->load($historyId)) {
             return false;
         }
 
-        $typeAlias = explode('.', $historyTable->item_id);
-        array_pop($typeAlias);
+        return $historyTable;
+    }
 
-        $rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
+    /**
+     * Method to load a row for editing from the version history table.
+     *
+     * @param   integer  $historyId  Key to the version history table.
+     *
+     * @return  boolean  False on failure or error, true otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function loadHistory(int $historyId)
+    {
+        $rowArray = $this->getHistoryData($historyId);
 
-        $key = $table->getKeyName();
-
-        if (implode('.', $typeAlias) != $this->typeAlias) {
-            $this->setError(Text::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
-
-            if (isset($rowArray[$key])) {
-                $table->checkIn($rowArray[$key]);
-            }
-
+        if (false === $rowArray) {
             return false;
-        }
-
-        $this->setState('save_date', $historyTable->save_date);
-        $this->setState('version_note', $historyTable->version_note);
-
-        /**
-         * Load data from current version before replacing it with data from history to avoid error
-         * if there are some required keys missing in the history data
-         */
-
-        if (isset($rowArray[$key])) {
-            $table->load($rowArray[$key]);
         }
 
         // Fix null ordering when restoring history
@@ -85,6 +121,16 @@ trait VersionableModelTrait
             $rowArray['ordering'] = 0;
         }
 
-        return $table->bind($rowArray);
+        [$extension, $type] = explode('.', $this->typeAlias);
+
+        $app  = Factory::getApplication();
+        $app->setUserState($extension . '.edit.' . $type . '.data', $rowArray);
+
+        $historyTable = $this->getHistoryTable($historyId);
+
+        $this->setState('save_date', $historyTable->save_date);
+        $this->setState('version_note', $historyTable->version_note);
+
+        return true;
     }
 }
