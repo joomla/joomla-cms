@@ -60,7 +60,7 @@ jobs:
     needs: [composer]
     strategy:
       matrix:
-        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
+        command: ['php-cs-fixer fix -vvv', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -68,6 +68,8 @@ jobs:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
       - name: Check PHP code style
+        id: check-codestyle
+        continue-on-error: true
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
         run: |
@@ -75,7 +77,8 @@ jobs:
           ./libraries/vendor/bin/${{ matrix.command }}
       - uses: parkerbxyz/suggest-changes@v2
         with:
-          comment: 'Your code does not comply with our codestyle. Please commit the suggested changes.'
+          comment: 'Your code does not meet our codestyle requirements. Please commit the suggested changes.'
+          event: 'REQUEST_CHANGES'
 
   code-style-js-css:
     name: Check Javascript & CSS code style
