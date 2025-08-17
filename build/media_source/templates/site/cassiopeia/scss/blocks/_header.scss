@@ -106,12 +106,6 @@
       }
     }
 
-    a:focus-visible,
-    button:focus-visible {
-      outline: 2px solid currentColor;
-      outline-offset: 2px;
-    }
-
     .mod-menu__sub {
       a:hover {
         text-decoration: underline;
