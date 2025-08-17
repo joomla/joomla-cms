@@ -997,6 +997,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Create a new instance
         $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
 
+        if (method_exists($this->parent->manifestClass, 'setApplication')) {
+            $this->parent->manifestClass->setApplication(Factory::getApplication());
+        }
+
         // Set the database
         if ($this->parent->manifestClass instanceof DatabaseAwareInterface) {
             $this->parent->manifestClass->setDatabase($container->get(DatabaseInterface::class));
