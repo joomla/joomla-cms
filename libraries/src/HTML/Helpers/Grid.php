@@ -137,7 +137,7 @@ abstract class Grid
      */
     public static function checkedOut(&$row, $i, $identifier = 'id')
     {
-        $user   = Factory::getApplication()->getIdentity();
+        $user   = Factory::getUser();
         $userid = $user->id;
 
         if ($row instanceof Table) {
