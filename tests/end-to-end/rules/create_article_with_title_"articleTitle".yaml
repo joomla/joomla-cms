@@ -1,0 +1,13 @@
+labels:
+- create new article
+steps: |
+  click "Articles" within the context of "sidebar"
+  click button "New"
+  enter saved value "articleTitle" into "Title"
+  click button "Save & Close"
+precondition: ""
+autoApplyRule: false
+autoApplyAtFirstSteps: 0
+applicationId: jHTYp8CAJ2dcG3eW4
+limitAutoApplyRule: false
+maxAutoApplyNumber: 1

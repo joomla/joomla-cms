@@ -1,0 +1,16 @@
+labels:
+- empty trash
+steps: |
+  click "Articles" within the context of "sidebar"
+  click "Filter Options"
+  select "Trashed" from "Select Status"
+  enter "1" into checkbox on the left of "Status"
+  click "Delete"
+  click "Yes"
+  click button "Clear" if exists
+precondition: ""
+autoApplyRule: false
+autoApplyAtFirstSteps: 0
+applicationId: jHTYp8CAJ2dcG3eW4
+limitAutoApplyRule: false
+maxAutoApplyNumber: 1

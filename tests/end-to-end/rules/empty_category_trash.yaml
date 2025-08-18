@@ -1,0 +1,16 @@
+labels:
+- empty trash
+steps: |
+  click "Categories" within the context of "sidebar"
+  click "Filter Options"
+  select "Trashed" from exactly "- Select Status -"
+  enter "1" into checkbox on the left of button exactly "Status"
+  click "Delete"
+  click "Yes"
+  click button "Clear"
+precondition: ""
+autoApplyRule: false
+autoApplyAtFirstSteps: 0
+applicationId: jHTYp8CAJ2dcG3eW4
+limitAutoApplyRule: false
+maxAutoApplyNumber: 1

@@ -1,0 +1,14 @@
+labels:
+- create new category
+steps: |
+  click "Content" within the context of "sidebar"
+  click "Categories" within the context of "sidebar"
+  click "New"
+  enter saved value "categoryName" into "Title"
+  click "Save & Close"
+precondition: ""
+autoApplyRule: false
+autoApplyAtFirstSteps: 0
+applicationId: jHTYp8CAJ2dcG3eW4
+limitAutoApplyRule: false
+maxAutoApplyNumber: 1

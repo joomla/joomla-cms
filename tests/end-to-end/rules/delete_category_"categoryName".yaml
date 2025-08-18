@@ -1,0 +1,15 @@
+labels:
+- delete category
+steps: |
+  click "Categories" within the context of "sidebar"
+  check that page contains saved value "categoryName"
+  enter "1" into checkbox on the left of saved value "categoryName"
+  click "Actions"
+  click "Trash"
+  check that page does not contain saved value "categoryName"
+precondition: ""
+autoApplyRule: false
+autoApplyAtFirstSteps: 0
+applicationId: jHTYp8CAJ2dcG3eW4
+limitAutoApplyRule: false
+maxAutoApplyNumber: 1

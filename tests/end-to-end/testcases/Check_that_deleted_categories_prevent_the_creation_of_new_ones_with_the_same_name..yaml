@@ -1,0 +1,28 @@
+uuid: 38312d39-d88b-4ccc-9fe8-4ca5ac360b04
+customSteps: |
+  login
+  //Create and delete category
+  click "Hide forever" if exists
+  click exactly "No" if exists
+  save "Test category" as "categoryName"
+  create_category_saved value "categoryName"
+  delete_category_saved value "categoryName"
+  //Create a new category with the same name
+  click "New"
+  enter saved value "categoryName" into "Title"
+  click "Save"
+  check that page contains "Save failed with the following error: A trashed category with the same parent category has the same alias."
+  click "cancel"
+  //Delete trashed category
+  empty_category_trash
+  //Create new category with the same name
+  click "Content" within the context of "sidebar"
+  create_category_saved value "categoryName"
+  check that page contains saved value "categoryName"
+  //Clean up
+  delete_category_saved value "categoryName"
+  empty_category_trash
+labels:
+- empty trash
+disabled: false
+applicationId: jHTYp8CAJ2dcG3eW4

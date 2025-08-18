@@ -1,0 +1,15 @@
+labels:
+- delete article
+steps: |
+  click "Articles" within the context of "sidebar"
+  check that page contains saved value "articleName"
+  enter "1" into checkbox on the left of saved value "articleName"
+  click "Actions"
+  click "Trash"
+  check that page does not contain saved value "articleName"
+precondition: ""
+autoApplyRule: false
+autoApplyAtFirstSteps: 0
+applicationId: jHTYp8CAJ2dcG3eW4
+limitAutoApplyRule: false
+maxAutoApplyNumber: 1

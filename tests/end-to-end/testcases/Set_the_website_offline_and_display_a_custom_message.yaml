@@ -1,0 +1,23 @@
+uuid: 3bf0f573-e0fc-4c08-bf3c-1dcc47ca933e
+customSteps: |
+  login
+  click "Hide forever" if exists
+  click exactly "No" if exists
+  //Set website offline
+  click "Global Configuration"
+  click "switcher"
+  save "Site offline, go away" as "customMessage"
+  enter saved value "customMessage" into input "Custom Message"
+  click "Save & Close"
+  click "Open frontend of"
+  //Check that website is offline and the custom message is being displayed
+  check that page contains saved value "customMessage"
+  switch to tab 1
+  click "Global Configuration"
+  //Set website online
+  enter "Default message" into input "Custom Message"
+  click "switcher"
+  click "Save & Close"
+labels: []
+disabled: false
+applicationId: jHTYp8CAJ2dcG3eW4

@@ -1,0 +1,19 @@
+uuid: 37c3ef4e-491b-401c-8fef-e40026fb011f
+customSteps: |
+  login
+  click "Hide forever" if exists
+  click exactly "No" if exists
+  save "Test Article" as "articleName"
+  click "Articles"
+  click button "Add your first article"
+  enter saved value "articleName" into input "Title"
+  enter "Hello this is article" into "Rich Text Area."
+  click button "Save & Close"
+  wait 5 sec
+  check that page contains saved value "articleName"
+  delete_article_saved value "articleName"
+  empty_article_trash
+labels:
+- empty trash
+disabled: false
+applicationId: jHTYp8CAJ2dcG3eW4

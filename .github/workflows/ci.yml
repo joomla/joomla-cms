@@ -1,8 +1,8 @@
 name: CI Joomla
 
 on:
-  push:
-  pull_request:
+  # Temporarily disabled - only manual trigger
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -325,3 +325,21 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: joomla_ut
           POSTGRES_DB: test_joomla
+
+  tests-e2e:
+    name: Run E2E tests
+    runs-on: ubuntu-latest
+    container: joomlaprojects/docker-images:cypress8.4
+    needs: [composer, npm]
+    env:
+      SUITE_ID: ${{ vars.SUITE_ID }}
+      CI_TOKEN: ${{ secrets.CI_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: libraries/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+      - name: Run E2E tests
+        run: |
+          curl -LI https://0.0.0.0

@@ -1,0 +1,13 @@
+uuid: ac1f8b37-fb5c-43ee-9a9c-c91db2671bc2
+customSteps: |
+  go to url string with parameters "${homePrefix}"
+  click "log in"
+  check that page contains "Empty password not allowed."
+  enter "randomUser" into first input roughly on the left of "login form"
+  enter "randomPassword" into second input roughly on the left of "login form"
+  enter "1" into checkbox "Remember me"
+  click "log in" roughly below "Remember me"
+  check that page contains "Username and password do not match or you do not have an account yet."
+labels: []
+disabled: false
+applicationId: jHTYp8CAJ2dcG3eW4

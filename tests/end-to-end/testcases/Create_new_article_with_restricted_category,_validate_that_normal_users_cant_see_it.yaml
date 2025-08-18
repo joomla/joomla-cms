@@ -1,0 +1,61 @@
+uuid: 248a8950-2909-4c98-a04d-b8f4c81a79f6
+customSteps: |
+  login
+  //create new category and give it visibility "only" to secret users
+  save "Hidden Category" as "newCategory"
+  click button exactly "No" if exists
+  click "Article Categories"
+  click "New"
+  enter saved value "newCategory" into "Title"
+  select "Super Users" from "Access"
+  click "Save & Close"
+  //create new user with basic perms
+  save "user1" as "newUsername"
+  save "twelvecharacterpassword" as "newPassword"
+  click "Users" within the context of "sidebar"
+  click "Manage"
+  click "New"
+  enter saved value "newUsername" into "Name"
+  enter saved value "newPassword" into "Login Name"
+  enter "user@admin.com" into "Email"
+  click "Save & Close"
+  //create a new article with restricted perms
+  save "hidden article" as "articleName"
+  click "Content" within the context of "sidebar"
+  click "Articles"
+  click "New"
+  enter saved value "articleName" into "Title"
+  click "Uncategorised"
+  click saved value "newCategory"
+  click "Save & Close"
+  enter "1" into checkbox on the left of saved value "articleName"
+  click "Actions"
+  click "Feature"
+  //log in with admin to site -> see article
+  click "Open frontend of"
+  login
+  check that page contains saved value "articleName"
+  click button "Log Out"
+  //log in with user to site -> cant see article
+  enter saved value "newUsername"
+  enter saved value "newPassword"
+  click "Log in"
+  check that page does not contains saved value "articleName"
+  //delete article
+  switch to tab 1
+  delete_article_saved value "articleName"
+  empty_article_trash
+  //delete category
+  delete_category_saved value "newCategory"
+  empty_category_trash
+  //delete user
+  click "Users" within the context of "sidebar"
+  click "Manage"
+  enter "1" into checkbox on the left of saved value "newUsername"
+  click "Actions"
+  click "Delete"
+  click "Yes"
+labels:
+- empty trash
+disabled: false
+applicationId: jHTYp8CAJ2dcG3eW4

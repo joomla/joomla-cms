@@ -1,0 +1,26 @@
+uuid: f9553a37-180d-4db6-95d4-0b90faaa74c0
+customSteps: |
+  save "Test Article" as "articleTitle"
+  save "Assign Category" as "newCategory"
+  login
+  click "Hide forever" if exists
+  click exactly "No" if exists
+  //Creating category
+  create_category_saved value "newCategory"
+  //Creating article
+  create_article_with_title_saved value "articleTitle"
+  //Assigning category to post
+  click "Articles" within the context of "sidebar"
+  click saved value "articleTitle"
+  click "Uncategorised"
+  click saved value "newCategory"
+  click "Save & Close"
+  //Deleting category and post
+  delete_article_saved value "articleTitle"
+  delete_category_saved value "newCategory"
+  empty_article_trash
+  empty_category_trash
+labels:
+- empty trash
+disabled: false
+applicationId: jHTYp8CAJ2dcG3eW4

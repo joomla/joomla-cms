@@ -1,0 +1,15 @@
+uuid: 751fb012-d260-4fac-96ec-c35aecb7304d
+customSteps: |
+  login
+  click "Hide forever" if exists
+  click exactly "No" if exists
+  check that page contains "Home Dashboard"
+  check that page contains "Content"
+  check that page contains "Menus"
+  check that page contains "Components"
+  check that page contains "Users"
+  check that page contains "System"
+  check that page contains "Help"
+labels: []
+disabled: false
+applicationId: jHTYp8CAJ2dcG3eW4

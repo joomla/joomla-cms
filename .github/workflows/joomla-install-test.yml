@@ -1,0 +1,131 @@
+name: Joomla Install Test (No Cypress)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  joomla-install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Docker Compose file
+        run: |
+          cat > docker-compose.yml <<'YAML'
+          name: joomla-ci
+          services:
+            joomladb:
+              image: mysql:8
+              restart: unless-stopped
+              environment:
+                - MYSQL_DATABASE=joomla
+                - MYSQL_USER=joomla
+                - MYSQL_PASSWORD=examplepass
+                - MYSQL_ROOT_PASSWORD=rootpass
+              healthcheck:
+                test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-prootpass"]
+                interval: 5s
+                timeout: 3s
+                retries: 30
+              volumes:
+                - db_data:/var/lib/mysql
+
+            joomla:
+              image: joomla:latest
+              depends_on:
+                joomladb:
+                  condition: service_healthy
+              ports:
+                - "8080:80"
+              environment:
+                # DB connection for Joomla container
+                - JOOMLA_DB_HOST=joomladb
+                - JOOMLA_DB_NAME=joomla
+                - JOOMLA_DB_USER=joomla
+                - JOOMLA_DB_PASSWORD=examplepass
+                # Auto-install (skip browser-based installer)
+                - JOOMLA_SITE_NAME=CI Joomla
+                - JOOMLA_ADMIN_USER=CI Admin
+                - JOOMLA_ADMIN_USERNAME=admin
+                - JOOMLA_ADMIN_PASSWORD=Admin1234!
+                - JOOMLA_ADMIN_EMAIL=admin@example.com
+              healthcheck:
+                test: ["CMD", "curl", "-fsS", "http://localhost/" ]
+                interval: 10s
+                timeout: 5s
+                retries: 60
+              volumes:
+                - joomla_data:/var/www/html
+          volumes:
+            db_data:
+            joomla_data:
+          YAML
+
+      - name: Start Joomla + MySQL
+        run: |
+          docker compose up -d
+          docker compose ps
+
+      - name: Wait for Joomla to be healthy
+        run: |
+          # Wait for the container health check to pass and the site to finish auto-install
+          for i in {1..90}; do
+            STATUS=$(docker inspect --format='{{json .State.Health.Status}}' $(docker compose ps -q joomla) || echo "\"starting\"")
+            echo "Joomla health: $STATUS"
+            if [ "$STATUS" = "\"healthy\"" ]; then
+              break
+            fi
+            sleep 5
+          done
+          test "$STATUS" = "\"healthy\""
+
+      - name: Install Joomla via CLI
+        run: |
+          echo "Installing Joomla using CLI..."
+          docker compose exec joomla php installation/joomla.php install \
+            --site-name="CI Joomla" \
+            --admin-user="CI Admin" \
+            --admin-username="admin" \
+            --admin-password=${{ secrets.ADMIN_PASSWORD }} \
+            --admin-email="admin@example.com" \
+            --db-type="mysqli" \
+            --db-host="joomladb" \
+            --db-user="joomla" \
+            --db-pass="examplepass" \
+            --db-name="joomla" \
+            --db-prefix="jos_" \
+            --db-encryption="0"
+           
+          echo "Setting proper file permissions..."
+          docker compose exec joomla chown -R www-data:www-data /var/www/html
+          docker compose exec joomla chmod 644 /var/www/html/configuration.php
+
+      - name: Install testRigor command line tool
+        run: |
+          set -e
+          echo "Installing testrigor-cli..."
+          npm install -g testrigor-cli
+          
+          echo "Verifying testrigor-cli installation..."
+          if command -v testrigor >/dev/null 2>&1; then
+            echo "SUCCESS: testrigor-cli is installed"
+            testrigor --version
+          else
+            echo "ERROR: testrigor-cli installation failed"
+            exit 1
+          fi
+
+      - name: Run testRigor tests
+        run: |
+          testrigor test-suite run ${{ vars.SUITE_ID }} --token ${{ secrets.CI_TOKEN }} --localhost --url http://localhost:8080/administrator/ --test-cases-path tests/end-to-end/testcases/**/*.yaml --rules-path tests/end-to-end/rules/**/*.yaml
+          
+      - name: Teardown
+        if: always()
+        run: |
+          docker compose logs joomla || true
+          docker compose logs joomladb || true
+          docker compose down -v

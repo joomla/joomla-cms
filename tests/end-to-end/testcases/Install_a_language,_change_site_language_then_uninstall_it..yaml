@@ -1,0 +1,33 @@
+uuid: 4e23ca06-01b8-4211-8540-781d958254e7
+customSteps: |
+  login
+  click "Hide forever" if exists
+  click exactly "No" if exists
+  click "System"
+  click "Languages"
+  enter "Spanish" into "Search"
+  click button on the left of "Clear"
+  click button "Install"
+  wait 40 sec up to 2 times until page contains "Installation of the language pack was successful."
+  click "Manage Languages"
+  //click "Site"
+  //click "Administrator"
+  select "Administrator" from "Site"
+  click radiobutton on the left of "Spanish"
+  click button "Switch Language"
+  check that page contains "Idiomas: Instalados"
+  click radiobutton on the left of "English"
+  click button "Intercambiar idioma"
+  click "System"
+  click "Extensions"
+  click "Manage Extensions"
+  type "Spanish" into input on the left of "Filter options"
+  type enter
+  enter "1" into checkbox on the left of "Status"
+  click "Actions"
+  click "Uninstall"
+  click "Yes"
+  check that page contains "Uninstalling the package was successful."
+labels: []
+disabled: false
+applicationId: jHTYp8CAJ2dcG3eW4

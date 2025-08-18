@@ -1,0 +1,238 @@
+monitoringIntervals: -1
+clickButtonOnlyOnce: false
+detectUiIssues: false
+axeCoreTestStrategy: DO_NOT_RUN
+maxAxeCoreErrorSeverity: MAJOR
+aiScreenshotTestStrategy: DO_NOT_RUN
+maxAiScreenshotTestErrorSeverity: BLOCKER
+screenRereadStrategy: UsePreviousVersion
+combinedStepsStrategy: ENABLED
+parentPathStrategy: AllPath
+useParallelCombinator: true
+maximumParallelServers: 10
+maxParallelBatchSize: 10
+allowedRecordedSessionTimeouts: 12
+maximumNumberOfAiFlows: 1
+appDescriptionForAi: ""
+maximumNumberOfFlows: 0
+maximumNumberOfRecordedTestCases: 10
+maximumFlowDepth: 16
+maximumRecordedFlowDepth: 16
+maximumWaitTimeout: 30
+maximumWaitTimeoutForConditionals: 3
+maximumDataLoadTimeout: 60
+maximumDownloadTimeout: 60
+maximumEmailWaitTime: 60
+waitForPageToRender: 0
+waitFirstPage: 0
+waitAfterLogin: 0
+waitAfterSearch: 0
+waitAfterDataEntry: 0
+waitBeforeDropdownReread: 100
+waitAfterScrolling: 0
+waitAfterScrollingBeforeGettingElementImage: 500
+waitAfterUploadClick: 1
+waitAfterFillingForm: 1000
+waitAfterSwitchingTab: 1000
+waitAfterPressingKeys: 50
+waitAfterPressingKeysAndroid: 0
+waitAfterDrag: 100
+waitAfterElementFoundBeforeEngaging: 50
+delayBetweenMouseClickActions: 50
+delayBetweenMouseDragAndDropActions: 400
+longClickDuration: 3
+retryIntervalTime: 500
+liveScreenshotRefreshIntervalTime: 3
+maximumNumerOfRetries: 0
+failedStepTreatmentStrategy: PROCEED_IF_POSSIBLE
+delayAfterHideKeyboard: 50
+ignoreElements: []
+ignoreElementsAtCompare: []
+alwaysTestAllElementsInLists: false
+includeAllElements: []
+customCookies: []
+extraHeaders: []
+customAttributes: []
+discoveryStrategy: DISCOVER
+screenRetestStrategy: LAST
+desktopWebClickStrategy: SELENIUM_JS
+recordTestExecutionVideo: false
+webSafariClickStrategy: JAVASCRIPT
+webLongTextSendsKeyStrategy: SEND_ALL
+retestTexts: ALL
+retestDataInputs: ALL
+retestControls: ALL
+retestLists: ALL
+testJavascriptErrors: NONE
+testCssFiles: NONE
+testImageFiles: NONE
+testJavascriptFiles: NONE
+testApiCalls: NONE
+testOtherFiles: NONE
+allowSubdomainsChange: ALLOW_ANY
+customDomains: []
+autoLaunchMobileApplication: AUTOMATIC
+mobileWebClickStrategy: CLICK
+mobileEnterStrategy: DEFAULT
+mobileKeyboardStrategy: CLICK_OUTSIDE
+androidKeyboardStrategy: NAVIGATE_BACK
+androidCloseKeyboardRetries: 3
+notificationStrategy: FULL
+enableEmailNotifications: false
+notificationsEmailMode: ERRORS_ONLY
+notificationsEmail: testing+joomla@testrigor.com
+enableSlackNotifications: false
+notificationsSlackMode: ALWAYS
+enableMicrosoftTeamsNotifications: false
+notificationsMicrosoftTeamsMode: ALWAYS
+microsoftTeamsNotificationsEmail: ""
+allowAiButtonPrediction: false
+newTabsStrategy: SWITCH_TO_NEW
+dropdownDetectionStrategy: OPTIMISTIC
+elementPriorizationStrategy: MAX
+mobileAutoAcceptPermissions: false
+iosSimAppPermissions:
+  enabled: false
+logLevel: DEBUG
+useRecordedData: false
+useRecordedFlowsWithXpaths: false
+jira:
+  allowJiraIntegration: true
+pivotal:
+  allowPivotalIntegration: false
+hiptest:
+  allowHipTestIntegration: false
+codeGeneration:
+  enabled: false
+  gitHub: {}
+testRail:
+  enabled: false
+  empty: true
+twilio: {}
+jiraPlugin:
+  enabled: false
+browserStack:
+  enabled: false
+  enableTunnel: false
+  enabledAndValid: false
+lambdaTest:
+  enabled: false
+  enableTunnel: false
+  enabledAndValid: false
+sauceLabs:
+  enabled: false
+  enableTunnel: false
+  enableImageInjection: false
+  enabledAndValid: false
+kobiton:
+  enabled: false
+  enableTunnel: false
+  enabledAndValid: false
+jdbcDatabase:
+  enabled: false
+  configs: []
+  proxies: []
+pagerDuty:
+  enabled: false
+applitools:
+  enabled: false
+reportPortal:
+  ignoreSSLErrors: false
+  collectStepStatistics: false
+  enabled: false
+telnyx:
+  valid: false
+phoneProvider: TWILIO
+zephyr:
+  enabled: false
+  flavor: enterprise
+  trackingStrategy: project
+  empty: true
+screenWidth: 1024
+screenHeight: 768
+deviceOrientation: PORTRAIT
+deviceLanguage: en_US
+seleniumChromeHeadlessMode: false
+incognitoMode: true
+geolocationPermitStrategy: ALLOW
+fullPageScreenshot: false
+blockNotifications: true
+pageReadStrategy: SHORT_XPATH
+webPageInfoStrategy: JQUERY_VISIBLE
+ocrProcessing: false
+alwaysStartNewDriver: true
+maximumFrameLevels: 1
+waitPageNonEmptyStrategy: STOP_EXECUTION_IF_EMPTY_AFTER_TIMEOUT
+measurePageLoad: true
+measureTimeBetweenActions: true
+waitForScripts: false
+automaticAlertHandler: false
+loadTestMonitoringIntervals: -1
+loadTestConfiguration:
+  numberOfServers: 10
+  durationInMinutes: 10
+  failOption: never
+androidWaitForIdleTimeout: 10000
+androidWaitForSelectorTimeout: 10000
+disabledWebViewContext: false
+desktopWebScreenshotStrategy: VIEWPORT_USING_OS
+androidDisabledWindowAnimation: false
+durationOfHoldForDragAndDropOnIos: 500
+snapshotMaxDepth: 50
+azureDevOps:
+  allowAzureDevOpsIntegration: false
+  childrensDepthClassificationNode: 20
+  empty: true
+xrayCloud:
+  empty: true
+specificationLanguage: ENGLISH
+horizontalScrollStrategy: CENTER
+allCombinations: false
+disableReadWithoutSourceFirst: true
+chromeExtensionPreferences:
+  enabled: false
+  extensions: []
+userDefinedCapabilities: []
+useSynonymsOfDetectors: false
+forceToUseDeepestElementInHierarchy: true
+ignoreInnerChildButtons: true
+showActualVersions: true
+allowPdfPreview: false
+considerSwitchAsButton: SWITCHS_AND_BUTTONS
+scrollBeforeClickStrategy: AUTOMATIC
+scrollBeforeEnterStrategy: AUTOMATIC
+scrollBeforeCheckStrategy: AUTOMATIC
+scrollBeforeAnchorSearchStrategy: AUTOMATIC
+treatAllSpanAsLabel: false
+isSupportSecondaryRoleValueListOfButton: false
+isSupportSecondaryRoleValueListOfSwitch: false
+showHttpRequestInfo: false
+iosVisibilityStrategy: USE_COORDINATES
+aiPreferences:
+  scrollsToReadPageContext: 3
+  delayAfterLoginStepInSeconds: 10
+  delayBeforeProcessPageByAiInMs: 300
+  useVision: USE_VISION
+  autoHealReusableRules: DISABLED
+  autoHealSingleCommands: DISABLED
+  appContextImages: []
+timezone: America/Los_Angeles
+monitoringTimezone: America/Bahia
+monitoringBranch: BRANCH
+sourceExtraMobileAppFiles: []
+extraMobileAppFiles: []
+clientCertificates: []
+maximumNumberOfSteps: 5000
+clearTextSelectionStrategy: CTRL_A
+shadowDomSupport: ENABLED
+waitUpToTimesUntilStrategy: CALCULATE_TIME_AND_TIMEOUT
+useOpacityToDetermineVisibilityWeb: USE_OPACITY
+delayBetweenSendKeys: 10
+overlappedElementsStrategy: DONT_ALLOW_OVERLAPPED
+screenshotOrderMobileNative: BEFORE_SOURCE
+iosClickInvisibleButtonStrategy: CLICK
+prioritizeVisibleTextStrategy: VISIBLE_TEXT_FIRST
+restrictParallelization: false
+axeCoreTestStandards: []
+labelTextStrategy: LABEL_TEXT
+handleAlertStrategy: ACCEPT
