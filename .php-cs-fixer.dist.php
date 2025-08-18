@@ -42,6 +42,7 @@ $finder = PhpCsFixer\Finder::create()
             __DIR__ . '/includes',
             __DIR__ . '/installation',
             __DIR__ . '/language',
+            __DIR__ . '/layouts',
             __DIR__ . '/libraries/src',
             __DIR__ . '/modules',
             __DIR__ . '/plugins',
