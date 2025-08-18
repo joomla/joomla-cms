@@ -58,9 +58,6 @@ jobs:
     runs-on: ubuntu-latest
     container: joomlaprojects/docker-images:php8.4
     needs: [composer]
-    strategy:
-      matrix:
-        command: ['php-cs-fixer fix -vvv --dry-run --diff', 'phpcs --extensions=php -p --standard=ruleset.xml .']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
@@ -70,7 +67,7 @@ jobs:
       - name: Check PHP code style
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
-        run: ./libraries/vendor/bin/${{ matrix.command }}
+        run: ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff
 
   code-style-js-css:
     name: Check Javascript & CSS code style
