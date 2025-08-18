@@ -86,6 +86,7 @@
       :where(.mod-menu__sub:not(.mod-menu__sub *)) {
         position: absolute;
         top: 100%;
+        z-index: 1001;
         display: block;
         min-width: 12rem;
         padding: 0;
