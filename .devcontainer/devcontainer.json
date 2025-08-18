@@ -23,7 +23,21 @@
                 "xdebug.php-debug",
                 "bmewburn.vscode-intelephense-client",
                 "esbenp.prettier-vscode"
-            ]
+            ],
+            "settings": {
+                "launch": {
+                    "version": "0.2.0",
+                    "configurations": [
+                        {
+                            "name": "Listen for Xdebug",
+                            "type": "php",
+                            "request": "launch",
+                            "port": 9003,
+                            "log": false
+                        }
+                    ]
+                }
+            }
         }
     },
     "remoteUser": "root"

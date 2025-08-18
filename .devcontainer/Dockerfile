@@ -1,5 +1,5 @@
 # Start from the official PHP 8.3 image with Apache
-FROM php:8.3-apache
+FROM php:8.3-apache-bookworm
 
 # Install system dependencies, Node.js, Composer, and Cypress dependencies
 RUN apt-get update && apt-get install -y \
@@ -22,7 +22,6 @@ RUN apt-get update && apt-get install -y \
     libgtk-3-0 \
     libgbm-dev \
     libnotify-dev \
-    libgconf-2-4 \
     libnss3 \
     libxss1 \
     libasound2 \
