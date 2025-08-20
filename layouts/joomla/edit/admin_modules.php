@@ -17,7 +17,7 @@ $app    = Factory::getApplication();
 $form   = $displayData->getForm();
 $input  = $app->getInput();
 
-$fields = $displayData->get('fields') ?: [
+$fields = !empty($displayData->fields) ? $displayData->fields : [
     ['parent', 'parent_id'],
     ['published', 'state', 'enabled'],
     ['category', 'catid'],

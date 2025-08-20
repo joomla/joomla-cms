@@ -29,7 +29,7 @@ $outputFieldsets      = $displayData->output_fieldsets ?? [];
 $ignoreFieldsetFields = $displayData->ignore_fieldset_fields ?? [];
 $ignoreFields         = $displayData->ignore_fields ?? [];
 $extraFields          = $displayData->extra_fields ?? [];
-$tabName              = $displayData->get('tab_name') ?: 'myTab';
+$tabName              = !empty($displayData->tab_name) ? $displayData->tab_name : 'myTab';
 
 // These are required to preserve data on save when fields are not displayed.
 $hiddenFieldsets = $displayData->hiddenFieldsets ?? [];

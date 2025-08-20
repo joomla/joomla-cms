@@ -28,7 +28,7 @@ if ($component === 'com_categories') {
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-$fields = $displayData->get('fields') ?: [
+$fields = !empty($displayData->fields) ? $displayData->fields : [
     'transition',
     ['parent', 'parent_id'],
     ['published', 'state', 'enabled'],
