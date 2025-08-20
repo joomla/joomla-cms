@@ -18,7 +18,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The administrator dashboard menu module service provider.
  *
- * @since  6.0.0
+ * @since  5.4.0
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -28,7 +28,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   6.0.0
+     * @since   5.4.0
      */
     public function register(Container $container)
     {
