@@ -39,7 +39,7 @@ $fields = $displayData->get('fields') ?: [
     'version_note',
 ];
 
-$hiddenFields = $displayData->get('hidden_fields') ?: [];
+$hiddenFields = $displayData->hidden_fields ?? [];
 
 if (!$saveHistory) {
     $hiddenFields[] = 'version_note';

@@ -27,7 +27,7 @@ $fields = $displayData->get('fields') ?: [
     'id'
 ];
 
-$hiddenFields = $displayData->get('hidden_fields') ?: [];
+$hiddenFields = $displayData->hidden_fields ?? [];
 
 foreach ($fields as $field) {
     foreach ((array) $field as $f) {
