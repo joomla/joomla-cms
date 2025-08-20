@@ -425,8 +425,14 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 
         // Our parse rule discovered a language
         if ($uri->hasVar('lang')) {
-            $lang_code = $uri->getVar('lang');
-        } else {
+            $uri_lang_code = $uri->getVar('lang');
+
+            if (isset($this->sefs[$uri_lang_code])) {
+                $lang_code = $this->sefs[$uri_lang_code]->lang_code;
+            }
+        }
+
+        if (!$lang_code) {
             /**
              * We don't know the language yet and want to discover it.
              * If we remove the default prefix, call by POST or have nolangfilter set,
