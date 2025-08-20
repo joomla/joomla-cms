@@ -249,10 +249,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
         ];
 
-        // For empty queue, if messages exists in the session, enqueue them first.
-        $messages = $this->getMessageQueue();
-
-        if (!\in_array($message, $this->messageQueue)) {
+        // Get the messages of the session and add the new message if it is not already in the queue.
+        if (!\in_array($message, $this->getMessageQueue())) {
             // Enqueue the message.
             $this->messageQueue[] = $message;
         }
@@ -406,74 +404,74 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     protected function checkUserRequiresReset($option, $view, $layout, $urls = [])
     {
-        if ($this->getIdentity()->requireReset) {
-            $redirect = false;
+        // Password reset is not required for the user, no need to check it further
+        if (!$this->getIdentity()->requireReset) {
+            return;
+        }
 
-            /*
-             * By default user profile edit page is used.
-             * That page allows you to change more than just the password and might not be the desired behavior.
-             * This allows a developer to override the page that manage the password reset.
-             * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
-             */
-            $name = $this->getName();
+        /*
+         * By default user profile edit page is used.
+         * That page allows you to change more than just the password and might not be the desired behavior.
+         * This allows a developer to override the page that manage the password reset.
+         * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
+         */
+        $name = $this->getName();
 
-            if ($this->get($name . '_reset_password_override', 0)) {
-                $option = $this->get($name . '_reset_password_option', '');
-                $view   = $this->get($name . '_reset_password_view', '');
-                $layout = $this->get($name . '_reset_password_layout', '');
-                $urls   = $this->get($name . '_reset_password_urls', $urls);
-            }
+        if ($this->get($name . '_reset_password_override', 0)) {
+            $option = $this->get($name . '_reset_password_option', '');
+            $view   = $this->get($name . '_reset_password_view', '');
+            $layout = $this->get($name . '_reset_password_layout', '');
+            $urls   = $this->get($name . '_reset_password_urls', $urls);
+        }
 
-            // If the current URL matches an entry in $urls, we do not redirect
-            if (\count($urls)) {
-                $found = false;
+        /**
+         * The page which manage password reset always need to accessible, so if the current page
+         * is managing password reset page, no need to check it further
+         */
+        if (
+            $this->input->getCmd('option', '') === $option
+            && $this->input->getCmd('view', '') === $view
+            && $this->input->getCmd('layout', '') == $layout
+        ) {
+            return;
+        }
 
-                foreach ($urls as $url) {
-                    $found2 = false;
+        // If the current URL matches an entry in $urls, we do not redirect
+        foreach ($urls as $url) {
+            $match = true;
 
-                    foreach ($url as $key => $value) {
-                        if ($this->input->getCmd($key) !== $value) {
-                            $found2 = false;
-                            break;
-                        }
-
-                        $found2 = true;
-                    }
-
-                    if ($found2) {
-                        $found = true;
-                        break;
-                    }
-                }
-
-                if (!$found) {
-                    $redirect = true;
-                }
-            } else {
-                if (
-                    $this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
-                    || $this->input->getCmd('layout', '') !== $layout
-                ) {
-                    // Requested a different option/view/layout
-                    $redirect = true;
+            foreach ($url as $key => $value) {
+                if ($this->input->getCmd($key) !== $value) {
+                    /**
+                     * The current URL does not meet this entry, get out of this loop
+                     * and check next entry
+                     */
+                    $match = false;
+                    break;
                 }
             }
 
-            if ($redirect) {
-                // Redirect to the profile edit page
-                $this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-
-                $url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
-
-                // In the administrator we need a different URL
-                if (strtolower($name) === 'administrator') {
-                    $user = Factory::getApplication()->getIdentity();
-                    $url  = Route::_('index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id, false);
-                }
-
-                $this->redirect($url);
+            // The current URL meet the entry, no redirect is needed, just return early
+            if ($match) {
+                return;
             }
         }
+
+        // Redirect to the profile edit page
+        $this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+
+        $url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
+
+        // In the administrator we need a different URL
+        if ($this->isClient('administrator')) {
+            $user = $this->getIdentity();
+            $url  = Route::_(
+                'index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id,
+                false
+            );
+        }
+
+        $this->redirect($url);
     }
 
     /**
@@ -498,7 +496,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 Log::WARNING,
                 'deprecated'
             );
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -829,7 +827,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     public function isHttpsForced($clientId = null)
     {
-        $clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+        $clientId = (int) ($clientId ?? $this->getClientId());
         $forceSsl = (int) $this->get('force_ssl');
 
         if ($clientId === 0 && $forceSsl === 2) {
@@ -954,7 +952,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $user = Factory::getUser();
 
             if ($response->type === 'Cookie') {
-                $user->set('cookieLogin', true);
+                $user->cookieLogin = true;
             }
 
             if (\in_array(false, $results, true) == false) {

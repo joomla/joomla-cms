@@ -3,8 +3,8 @@ Joomla! CMS™
 1- Overview
 	* This is a Joomla! 5.x installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 5.2 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_5.2_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/5.2-dev
+	* Joomla! 5.3 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_5.3_version_history
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/5.3-dev
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
@@ -66,7 +66,7 @@ Joomla! CMS™
 	* Where to request a feature? https://issues.joomla.org
 	* How do you report a bug? https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues
 	* Get Involved: Joomla! is a community developed software. Join the community at https://volunteers.joomla.org
-	* Documentation for Developers: https://docs.joomla.org/Special:MyLanguage/Portal:Developers
+	* Documentation for Developers: https://manual.joomla.org/
 	* Documentation for Web designers: https://docs.joomla.org/Special:MyLanguage/Web_designers
 
 Copyright:

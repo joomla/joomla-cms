@@ -10,9 +10,6 @@
 	<version>4.0.0</version>
 	<description>COM_MESSAGES_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Component\Messages</namespace>
-	<languages folder="site">
-		<language tag="en-GB">language/en-GB/com_messages.ini</language>
-	</languages>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>

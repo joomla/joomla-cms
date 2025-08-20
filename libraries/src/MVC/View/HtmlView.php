@@ -281,7 +281,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     {
         $previous = $this->_layout;
 
-        if (strpos($layout, ':') === false) {
+        if (!str_contains($layout, ':')) {
             $this->_layout = $layout;
         } else {
             // Convert parameter to array based on :

@@ -54,7 +54,7 @@ class UsergrouplistField extends ListField
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
-        if (\is_string($value) && strpos($value, ',') !== false) {
+        if (\is_string($value) && str_contains($value, ',')) {
             $value = explode(',', $value);
         }
 

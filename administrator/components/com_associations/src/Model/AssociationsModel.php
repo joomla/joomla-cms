@@ -154,7 +154,7 @@ class AssociationsModel extends ListModel
     {
         $type         = null;
 
-        list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
+        [$extensionName, $typeName] = explode('.', $this->state->get('itemtype'), 2);
 
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
         $types     = $extension->get('types');
@@ -480,7 +480,7 @@ class AssociationsModel extends ListModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $app->enqueueMessage(Text::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
 
             return false;
@@ -543,7 +543,7 @@ class AssociationsModel extends ListModel
 
             try {
                 $db->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 $app->enqueueMessage(Text::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
 
                 return false;

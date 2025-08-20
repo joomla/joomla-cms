@@ -12,10 +12,10 @@ namespace Joomla\CMS\Helper;
 use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -103,7 +103,7 @@ class MediaHelper
                 $mime  = finfo_file($finfo, $file);
                 finfo_close($finfo);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we have any kind of error here => false;
             return false;
         }
@@ -198,7 +198,7 @@ class MediaHelper
      *
      * @param   array     $file                File information
      * @param   string    $component           The option name for the component storing the parameters
-     * @param   string[]  $allowedExecutables  Array of executable file types that shall be whitelisted
+     * @param   string[]  $allowedExecutables  Array of executable file types that shall be allowed
      *
      * @return  boolean
      *
@@ -385,7 +385,7 @@ class MediaHelper
             $d = dir($dir);
 
             while (($entry = $d->read()) !== false) {
-                if ($entry[0] !== '.' && strpos($entry, '.html') === false && strpos($entry, '.php') === false && is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
+                if ($entry[0] !== '.' && !str_contains($entry, '.html') && !str_contains($entry, '.php') && is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
                     $total_file++;
                 }
 

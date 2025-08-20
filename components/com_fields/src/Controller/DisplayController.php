@@ -41,7 +41,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             // Load the backend language file.
             $app->getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
 
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_fields';
         }
 
         parent::__construct($config, $factory, $app, $input);
