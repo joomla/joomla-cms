@@ -87,7 +87,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @var   boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     private $autoloadLanguageDone = false;
 
@@ -243,7 +243,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @internal  The method does not expect to be called outside the CMSPlugin class.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     final protected function autoloadLanguage(): void
     {

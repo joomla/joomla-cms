@@ -20,7 +20,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Fields Note Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.0.0
  */
 final class Note extends FieldsPlugin implements SubscriberInterface
 {
