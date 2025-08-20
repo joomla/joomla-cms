@@ -427,7 +427,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         if ($uri->hasVar('lang')) {
             $uri_lang_code = $uri->getVar('lang');
 
-            // Check whether the tag exists
+            // Check whether the tag exists, first check for full language tag, then for short tag
             if (isset($this->lang_codes[$uri_lang_code])) {
                 $lang_code = $uri_lang_code;
             } elseif (isset($this->sefs[$uri_lang_code])) {
