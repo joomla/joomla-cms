@@ -18,7 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
 $fieldSets = $form->getFieldsets();
-$helper    = $displayData->get('useCoreUI', false) ? 'uitab' : 'bootstrap';
+$helper    = ($displayData->useCoreUI ?? false) ? 'uitab' : 'bootstrap';
 
 if (empty($fieldSets)) {
     return;
@@ -38,7 +38,7 @@ $hiddenFieldsets = $displayData->get('hiddenFieldsets') ?: [];
 $configFieldsets = $displayData->get('configFieldsets') ?: [];
 
 // Handle the hidden fieldsets when show_options is set false
-if (!$displayData->get('show_options', 1)) {
+if (!($displayData->show_options ?? 1)) {
     // The HTML buffer
     $html   = [];
 

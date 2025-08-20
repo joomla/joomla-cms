@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 $app  = Factory::getApplication();
 $form = $displayData->getForm();
 
-$name = $displayData->get('fieldset');
+$name = $displayData->fieldset;
 $fieldSet = $form->getFieldset($name);
 
 if (empty($fieldSet)) {
@@ -25,7 +25,7 @@ if (empty($fieldSet)) {
 $ignoreFields = $displayData->get('ignore_fields') ? : [];
 $extraFields  = $displayData->get('extra_fields') ? : [];
 
-if (!empty($displayData->showOptions) || $displayData->get('show_options', 1)) {
+if (!empty($displayData->showOptions) || ($displayData->show_options ?? 1)) {
     if (isset($extraFields[$name])) {
         foreach ($extraFields[$name] as $f) {
             if (in_array($f, $ignoreFields)) {
