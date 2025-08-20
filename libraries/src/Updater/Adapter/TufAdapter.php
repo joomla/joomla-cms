@@ -15,13 +15,13 @@ namespace Joomla\CMS\Updater\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\CMS\Table\Update;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Http\HttpFactory;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tuf\Exception\MetadataException;
 
