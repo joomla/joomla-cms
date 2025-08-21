@@ -26,7 +26,7 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
      * @var array
      *
      * @since  5.0.0
-     * @deprecated 5.0 will be removed in 6.0
+     * @deprecated 5.0 will be removed in 7.0
      */
     protected $legacyArgumentsOrder = ['context', 'item', 'subject', 'value'];
 
@@ -49,8 +49,8 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
         }
 
         // For backward compatibility make sure the value is referenced
-        // @todo: Remove in Joomla 6
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        // @todo: Remove in Joomla 7
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0 && \count($arguments) >= 4) {
             $this->arguments['value'] = &$arguments[3];
         } elseif (\array_key_exists('value', $arguments)) {

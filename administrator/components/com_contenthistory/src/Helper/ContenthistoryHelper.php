@@ -18,6 +18,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -75,8 +76,18 @@ class ContenthistoryHelper
 
         if (\is_object($object)) {
             foreach ($object as $name => $value) {
-                if (!\is_null($value) && $subObject = json_decode($value)) {
-                    $object->$name = $subObject;
+                if (!\is_null($value)) {
+                    if (\is_object($value)) {
+                        $object->$name = ArrayHelper::fromObject($value);
+                        continue;
+                    }
+
+                    if (str_starts_with($value, '{')) {
+                        $object->$name = json_decode($value);
+                        continue;
+                    }
+
+                    $object->$name = $value;
                 }
             }
         }

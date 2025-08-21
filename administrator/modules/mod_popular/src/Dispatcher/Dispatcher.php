@@ -23,7 +23,7 @@ use Joomla\Module\Popular\Administrator\Helper\PopularHelper;
 /**
  * Dispatcher class for mod_popular
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.0.0
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
@@ -34,7 +34,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function getLayoutData()
     {
