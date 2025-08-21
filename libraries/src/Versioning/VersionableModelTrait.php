@@ -368,5 +368,4 @@ trait VersionableModelTrait
 
         return $result;
     }
-
 }

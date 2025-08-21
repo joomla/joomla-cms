@@ -1743,5 +1743,4 @@ abstract class AdminModel extends FormModel
 
         return true;
     }
-
 }
