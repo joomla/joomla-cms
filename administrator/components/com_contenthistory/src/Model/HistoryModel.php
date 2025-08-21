@@ -21,8 +21,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -377,13 +379,31 @@ class HistoryModel extends ListModel
     {
         $result    = false;
         $item_id   = Factory::getApplication()->getInput()->getCmd('item_id', '');
-        $typeAlias = explode('.', $item_id);
-        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
+
+        [$extension, $type, $id] = explode('.', $item_id);
+
+        $app = Factory::getApplication();
+
+        $model = $app->bootComponent($extension)->getMVCFactory()->createModel($type, 'Administrator');
+
+        if ($model instanceof VersionableModelInterface) {
+            $data = ArrayHelper::fromObject($model->getItem($id));
+            $tableData = ArrayHelper::fromObject($model->getTable()->load($id));
+
+            $historyData = array_merge($tableData, $data);
+
+            $result = $model->getSha1($historyData);
+
+            return $result;
+        }
+
+        // Legacy code for history concept before 6.0.0, depeciated 6.0.0 will be removed with 8.0.0
+        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $extension . '/tables');
         $typeTable = $this->getTable('ContentType');
-        $typeTable->load(['type_alias' => $typeAlias[0] . '.' . $typeAlias[1]]);
+        $typeTable->load(['type_alias' => $extension . '.' . $type]);
         $contentTable = $typeTable->getContentTable();
 
-        if ($contentTable && $contentTable->load($typeAlias[2])) {
+        if ($contentTable && $contentTable->load($id)) {
             $helper = new CMSHelper();
 
             $dataObject = $helper->getDataObject($contentTable);
