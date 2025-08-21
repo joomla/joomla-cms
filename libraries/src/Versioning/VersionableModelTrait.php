@@ -248,7 +248,7 @@ trait VersionableModelTrait
         $versionNote = \array_key_exists('version_note', $data) ? $data['version_note'] : '';
         $hash        = $this->getSha1($data);
 
-        $result = $this->store($context, $id, ArrayHelper::toObject($data), $versionNote, $hash);
+        $result = $this->storeHistory($context, $id, ArrayHelper::toObject($data), $versionNote, $hash);
 
         return $result;
     }
@@ -263,7 +263,7 @@ trait VersionableModelTrait
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function delete($typeAlias, $id)
+    public function deleteHistory($typeAlias, $id)
     {
         $db     = $this->getDatabase();
         $itemid = $typeAlias . '.' . $id;
@@ -291,7 +291,7 @@ trait VersionableModelTrait
      * @since   __DEPLOY_VERSION__
      * @throws \Exception
      */
-    public function store(string $typeAlias, int $id, mixed $data, string $note = '', string $hash = '')
+    public function storeHistory(string $typeAlias, int $id, mixed $data, string $note = '', string $hash = '')
     {
         $typeTable = new ContentType($this->getDatabase());
         $typeTable->load(['type_alias' => $typeAlias]);
