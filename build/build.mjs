@@ -46,7 +46,7 @@ const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
 
 const handleError = (err, terminateCode) => {
-  console.error(err); // eslint-disable-line no-console
+  console.error(err);
   process.exitCode = terminateCode;
 };
 

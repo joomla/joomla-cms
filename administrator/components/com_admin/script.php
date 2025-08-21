@@ -2470,6 +2470,18 @@ class JoomlaInstallerScript
             '/libraries/vendor/algo26-matthias/idna-convert/compose.yml',
             '/libraries/vendor/algo26-matthias/idna-convert/src/Exception/Std3AsciiRulesViolationException.php',
             '/libraries/vendor/algo26-matthias/idna-convert/src/TranscodeUnicode/ByteLengthTrait.php',
+            // From 5.4.0-alpha2 to 5.4.0-alpha3
+            '/administrator/modules/mod_menu/mod_menu.php',
+            '/modules/mod_random_image/mod_random_image.php',
+            // From 5.4.0-alpha3 to 5.4.0-beta1
+            '/administrator/modules/mod_latest/mod_latest.php',
+            '/administrator/modules/mod_logged/mod_logged.php',
+            '/administrator/modules/mod_privacy_dashboard/mod_privacy_dashboard.php',
+            '/administrator/modules/mod_submenu/mod_submenu.php',
+            '/modules/mod_finder/mod_finder.php',
+            '/modules/mod_login/mod_login.php',
+            '/modules/mod_menu/mod_menu.php',
+            '/modules/mod_whosonline/mod_whosonline.php',
         ];
 
         $folders = [
