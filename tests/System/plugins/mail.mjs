@@ -19,9 +19,7 @@ async function getMails() {
     }
 
     // Sleep for a second
-    /* eslint-disable no-await-in-loop */
     await new Promise((r) => { setTimeout(r, 1000); });
-    /* eslint-enable no-await-in-loop */
   }
 
   return new Promise((resolve) => { resolve(cachedMails); });

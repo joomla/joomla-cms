@@ -2,16 +2,12 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// eslint-disable-next-line import/no-unresolved, max-classes-per-file
 import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
-// eslint-disable-next-line import/no-unresolved
 import { createFromTextarea, EditorState, keymap } from 'codemirror';
 
 /**
  * Codemirror Decorator for JoomlaEditor
  */
-// eslint-disable-next-line max-classes-per-file
 class CodemirrorDecorator extends JoomlaEditorDecorator {
   /**
    * @returns {string}
