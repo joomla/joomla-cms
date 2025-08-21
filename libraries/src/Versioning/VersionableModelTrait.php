@@ -31,7 +31,7 @@ use Joomla\Utilities\ArrayHelper;
 trait VersionableModelTrait
 {
     /**
-     * Fields to be ignored when calulation the hash.
+     * Fields to be ignored when calculation the hash.
      *
      * @var    array
      * @since  __DEPLOY_VERSION__
@@ -39,7 +39,7 @@ trait VersionableModelTrait
     protected $ignoreChanges = [];
 
     /**
-     * Fields to be converted to int when calulation the hash.
+     * Fields to be converted to int when calculation the hash.
      *
      * @var    array
      * @since  __DEPLOY_VERSION__
@@ -246,7 +246,7 @@ trait VersionableModelTrait
         $id = $this->getState($this->getName() . '.id');
 
         $versionNote = \array_key_exists('version_note', $data) ? $data['version_note'] : '';
-        $hash = $this->getSha1($data);
+        $hash        = $this->getSha1($data);
 
         $result = $this->store($context, $id, ArrayHelper::toObject($data), $versionNote, $hash);
 
