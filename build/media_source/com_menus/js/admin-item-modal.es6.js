@@ -5,7 +5,6 @@
 window.Joomla = window.Joomla || {};
 
 Joomla.setMenuType = (type, tmpl) => {
-  // eslint-disable-next-line no-console
   console.warn('Method Joomla.setMenuType() is deprecated. Use "modal-content-select" asset and elements with [data-content-select] attribute.');
 
   if (tmpl !== '') {
