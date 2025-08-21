@@ -433,7 +433,6 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             } elseif (isset($this->sefs[$uri_lang_code])) {
                 // Check for short language tag
                 $lang_code = $this->sefs[$uri_lang_code]->lang_code;
-                $uri->setVar('lang', $lang_code);
             }
         }
 
