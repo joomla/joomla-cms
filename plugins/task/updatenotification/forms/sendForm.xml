@@ -4,10 +4,12 @@
 		<fieldset name="task_params">
 			<field
 				name="email"
-				type="text"
+				type="usergrouplist"
 				label="PLG_TASK_UPDATENOTIFICATION_EMAIL_LBL"
 				description="PLG_TASK_UPDATENOTIFICATION_EMAIL_DESC"
-				default=""
+				multiple="true"
+				checksuperusergroup="0"
+				layout="joomla.form.field.list-fancy-select"
 			/>
 			<field
 				name="language_override"

@@ -13,10 +13,12 @@ namespace Joomla\Plugin\Task\UpdateNotification\Extension;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
@@ -25,7 +27,6 @@ use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
@@ -90,11 +91,8 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
      */
     private function sendNotification(ExecuteTaskEvent $event): int
     {
-        // Load the parameters.
-        $specificEmail  = $event->getArgument('params')->email ?? '';
         $forcedLanguage = $event->getArgument('params')->language_override ?? '';
-
-        $updateParams = ComponentHelper::getParams('com_joomlaupdate');
+        $updateParams   = ComponentHelper::getParams('com_joomlaupdate');
 
         // Don't send when automated updates are active and working
         $registrationState = AutoupdateRegisterState::tryFrom($updateParams->get('autoupdate_status', ''));
@@ -135,7 +133,6 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         if (version_compare($update->version, JVERSION, 'le')) {
             return Status::OK;
         }
-
         // If we're here, we have updates. First, get a link to the Joomla! Update component.
         $baseURL  = Uri::base();
         $baseURL  = rtrim($baseURL, '/');
@@ -158,17 +155,9 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         $this->getApplication()->triggerEvent('onBuildAdministratorLoginURL', [&$uri]);
 
         // Let's find out the email addresses to notify
-        $superUsers = [];
+        $emailReceivers = $this->getEmailReceivers();
 
-        if (!empty($specificEmail)) {
-            $superUsers = $this->getSuperUsers($specificEmail);
-        }
-
-        if (empty($superUsers)) {
-            $superUsers = $this->getSuperUsers();
-        }
-
-        if (empty($superUsers)) {
+        if (empty($emailReceivers)) {
             return Status::KNOCKOUT;
         }
 
@@ -205,11 +194,11 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
             'releasenews' => 'https://www.joomla.org/announcements/release-news/',
         ];
 
-        // Send the emails to the Super Users
-        foreach ($superUsers as $superUser) {
+        // Send the emails
+        foreach ($emailReceivers as $receiver) {
             try {
                 $mailer = new MailTemplate('plg_task_updatenotification.mail', $jLanguage->getTag());
-                $mailer->addRecipient($superUser->email);
+                $mailer->addRecipient($receiver->email);
                 $mailer->addTemplateData($substitutions);
                 $mailer->send();
             } catch (MailDisabledException | phpMailerException $exception) {
@@ -227,95 +216,82 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Returns the Super Users email information. If you provide a comma separated $email list
-     * we will check that these emails do belong to Super Users and that they have not blocked
-     * system emails.
+     * Returns all Email recipients:  super users and the users of email receiver groups
      *
-     * @param   null|string  $email  A list of Super Users to email
+     * @return  array  The list of email recipients
      *
-     * @return  array  The list of Super User emails
-     *
-     * @since   3.5
+     * @since   __DEPLOY_VERSION__
      */
-    private function getSuperUsers($email = null)
+    private function getEmailReceivers(): array
     {
-        $db     = $this->getDatabase();
-        $emails = [];
+        $emailReceivers = [];
 
-        // Convert the email list to an array
-        if (!empty($email)) {
-            $temp   = explode(',', $email);
+        // Find all user groups
+        $groups = UserGroupsHelper::getInstance()->getAll();
 
-            foreach ($temp as $entry) {
-                $emails[] = trim($entry);
-            }
-
-            $emails = array_unique($emails);
+        if (empty($groups)) {
+            return [];
         }
 
-        // Get a list of groups which have Super User privileges
-        $ret = [];
+        // Find groups with core.admin rights (super users)
+        $superUserGroups = [];
 
-        try {
-            $rootId    = Table::getInstance('Asset')->getRootId();
-            $rules     = Access::getAssetRules($rootId)->getData();
-            $rawGroups = $rules['core.admin']->getData();
-            $groups    = [];
-
-            if (empty($rawGroups)) {
-                return $ret;
+        foreach ($groups as $group) {
+            if (Access::checkGroup($group->id, 'core.admin')) {
+                $superUserGroups[] = $group->id;
             }
+        }
 
-            foreach ($rawGroups as $g => $enabled) {
-                if ($enabled) {
-                    $groups[] = $g;
+        // Get User group ids from input field
+        $params      = ComponentHelper::getParams('com_joomlaupdate');
+        $emailGroups = $params->get('email_groups');
+
+        if (!empty($emailGroups)) {
+            if (!is_array($emailGroups)) {
+                $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
+            }
+        } else {
+            $emailGroups = [];
+        }
+
+        // Make a list of email groups, including Super User Groups
+        $emailGroups = \array_unique(\array_merge($emailGroups, $superUserGroups));
+
+        // Get the users of all groups in the emailGroups
+        $usersModel = Factory::getApplication()->bootComponent('com_users')
+            ->getMVCFactory()->createModel('Users', 'Administrator');
+
+        $usersModel->setState('filter.groups', $emailGroups);
+        $usersModel->setState('filter.block', (int) 0);
+
+        $usersInGroup = $usersModel->getItems();
+
+        // This cannot happen, as at least one super user must exist, but better safe than sorry
+        if (empty($usersInGroup)) {
+            return [];
+        }
+
+        // Only users with valid email address who are not blocked can receive the email
+        foreach ($usersInGroup as $user) {
+            if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
+                $user->email = strtolower(trim($user->email));
+
+                // Check if the email already exists in the emailReceivers array
+                $exist = false;
+                foreach ($emailReceivers as $rec) {
+                    if ($rec->email === $user->email) {
+                        $exist = true;
+                        break;
+                    }
+                }
+
+                // Add to the list if it is not already in the list
+                if (!$exist) {
+                    $emailReceivers[] = $user;
                 }
             }
-
-            if (empty($groups)) {
-                return $ret;
-            }
-        } catch (\Exception $exc) {
-            return $ret;
         }
 
-        // Get the user IDs of users belonging to the SA groups
-        try {
-            $query = $db->getQuery(true)
-                ->select($db->quoteName('user_id'))
-                ->from($db->quoteName('#__user_usergroup_map'))
-                ->whereIn($db->quoteName('group_id'), $groups);
-
-            $db->setQuery($query);
-            $userIDs = $db->loadColumn(0);
-
-            if (empty($userIDs)) {
-                return $ret;
-            }
-        } catch (\Exception $exc) {
-            return $ret;
-        }
-
-        // Get the user information for the Super Administrator users
-        try {
-            $query = $db->getQuery(true)
-                ->select($db->quoteName(['id', 'username', 'email']))
-                ->from($db->quoteName('#__users'))
-                ->whereIn($db->quoteName('id'), $userIDs)
-                ->where($db->quoteName('block') . ' = 0')
-                ->where($db->quoteName('sendEmail') . ' = 1');
-
-            if (!empty($emails)) {
-                $lowerCaseEmails = array_map('strtolower', $emails);
-                $query->whereIn('LOWER(' . $db->quoteName('email') . ')', $lowerCaseEmails, ParameterType::STRING);
-            }
-
-            $db->setQuery($query);
-            $ret = $db->loadObjectList();
-        } catch (\Exception) {
-            return $ret;
-        }
-
-        return $ret;
+        return $emailReceivers;
     }
 }
