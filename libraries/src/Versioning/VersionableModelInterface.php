@@ -31,4 +31,16 @@ interface VersionableModelInterface
      * @since   6.0.0
      */
     public function loadHistory(int $historyId);
+
+    /**
+     * Method to save the history.
+     *
+     * @param   array   $data     The form data.
+     * @param   string  $context  The model context.
+     *
+     * @return  boolean  True on success, False on error.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function saveHistory(array $data, string $context);
 }
