@@ -26,7 +26,6 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelInterface;
-use Joomla\CMS\Versioning\Versioning;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -1454,7 +1453,6 @@ abstract class AdminModel extends FormModel
             // We have to set the key for new items, would be always 0 otherwise
             $historyData[$key] = $this->getState($this->getName() . '.id');
 
-
             $this->saveHistory($historyData, $context);
         }
 
@@ -1746,24 +1744,4 @@ abstract class AdminModel extends FormModel
         return true;
     }
 
-    /**
-     * Method to save the history.
-     *
-     * @param   array   $data     The form data.
-     * @param   string  $context  The model context.
-     *
-     * @return  boolean  True on success, False on error.
-     *
-     * @since   6.0.0
-     */
-    protected function saveHistory(array $data, string $context)
-    {
-        $id = $this->getState($this->getName() . '.id');
-
-        $versionNote = \array_key_exists('version_note', $data) ? $data['version_note'] : '';
-
-        $result = Versioning::store($context, $id, ArrayHelper::toObject($data), $versionNote);
-
-        return $result;
-    }
 }
