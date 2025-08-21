@@ -78,8 +78,8 @@ abstract class InstallerHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
-            'url'     => &$url, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
-            'headers' => &$headers, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+            'url'     => &$url, // @todo: Remove reference in Joomla 7, see BeforePackageDownloadEvent::__constructor()
+            'headers' => &$headers, // @todo: Remove reference in Joomla 7, see BeforePackageDownloadEvent::__constructor()
         ]);
         $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
         $url     = $event->getArgument('url', $url);
@@ -94,14 +94,14 @@ abstract class InstallerHelper
         }
 
         // Convert keys of headers to lowercase, to accommodate for case variations
-        $headers = array_change_key_case($response->headers, CASE_LOWER);
+        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
 
-        if (302 == $response->code && !empty($headers['location'])) {
+        if (302 == $response->getStatusCode() && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
         }
 
-        if (200 != $response->code) {
-            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
+        if (200 != $response->getStatusCode()) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -125,7 +125,7 @@ abstract class InstallerHelper
         }
 
         // Fix Indirect Modification of Overloaded Property
-        $body = $response->body;
+        $body = (string) $response->getBody();
 
         // Write buffer to file
         File::write($target, $body);
