@@ -118,7 +118,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if ($router->isTainted()) {
             $parsedVars = $router->getVars();
 
-            if ($app->getLanguageFilter()) {
+            if ($app->getLanguageFilter() && isset($parsedVars['language'])) {
                 $parsedVars['lang'] = $parsedVars['language'];
                 unset($parsedVars['language']);
             }
