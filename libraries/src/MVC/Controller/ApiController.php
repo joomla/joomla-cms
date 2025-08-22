@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -16,11 +17,11 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\MVC\Model\State;
 use Joomla\CMS\MVC\View\JsonApiView;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
-use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -87,7 +88,9 @@ class ApiController extends BaseController
     /**
      * The model state to inject
      *
-     * @var  \Joomla\Registry\Registry
+     * @var  State|\Joomla\Registry\Registry
+     *
+     * @todo   Remove the State type hint in Joomla 7.0 since it will be removed see State class
      */
     protected $modelState;
 
@@ -164,7 +167,8 @@ class ApiController extends BaseController
             throw new \RuntimeException($e->getMessage());
         }
 
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
 
         // Create the model, ignoring request data so we can safely set the state in the request from the controller
         $model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
@@ -205,15 +209,13 @@ class ApiController extends BaseController
         $offset         = null;
 
         if (\array_key_exists('offset', $paginationInfo)) {
-            $offset                      = $paginationInfo['offset'];
-            $property                    = $this->context . '.limitstart';
-            $this->modelState->$property = $offset;
+            $offset = $paginationInfo['offset'];
+            $this->modelState->set($this->context . '.limitstart', $offset);
         }
 
         if (\array_key_exists('limit', $paginationInfo)) {
-            $limit                       = $paginationInfo['limit'];
-            $property                    = $this->context . '.list.limit';
-            $this->modelState->$property = $limit;
+            $limit = $paginationInfo['limit'];
+            $this->modelState->set($this->context . '.list.limit', $limit);
         }
 
         $viewType   = $this->app->getDocument()->getType();
@@ -288,7 +290,8 @@ class ApiController extends BaseController
             $id = $this->input->get('id', 0, 'int');
         }
 
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
 
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
         $model = $this->getModel($modelName, '', ['ignore_request' => true]);
@@ -355,7 +358,8 @@ class ApiController extends BaseController
     public function edit()
     {
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel(Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $model     = $this->getModel($inflector->singularize($this->contentType));
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
@@ -404,7 +408,8 @@ class ApiController extends BaseController
     protected function save($recordKey = null)
     {
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel(Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $model     = $this->getModel($inflector->singularize($this->contentType));
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));

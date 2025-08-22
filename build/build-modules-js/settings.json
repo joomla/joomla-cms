@@ -492,7 +492,7 @@
               "defer": true
             },
             "dependencies": [
-              "wcpolyfill"
+              "core"
             ]
           },
           {
@@ -503,7 +503,7 @@
               "type": "module"
             },
             "dependencies": [
-              "wcpolyfill"
+              "core"
             ]
           },
           {
@@ -520,7 +520,7 @@
               "defer": true
             },
             "dependencies": [
-              "wcpolyfill"
+              "core"
             ]
           },
           {
@@ -531,7 +531,7 @@
               "type": "module"
             },
             "dependencies": [
-              "wcpolyfill"
+              "core"
             ]
           }
         ],
@@ -608,62 +608,6 @@
       "tinymce": {
         "name": "tinymce",
         "licenseFilename": "license.txt"
-      },
-      "@webcomponents/webcomponentsjs": {
-        "name": "webcomponentsjs",
-        "js": {
-          "webcomponents-bundle.js": "js/webcomponents-bundle.js"
-        },
-        "dependencies": [],
-        "licenseFilename": "LICENSE.md",
-        "provideAssets": [
-          {
-            "name": "wcpolyfill",
-            "type": "script",
-            "uri": "webcomponents-bundle.js",
-            "attributes": {
-              "nomodule": true,
-              "defer": true
-            },
-            "dependencies": [
-              "core"
-            ]
-          }
-        ]
-      },
-      "chosen-js": {
-        "name": "chosen",
-        "js": {
-          "chosen.jquery.js": "js/chosen.jquery.js"
-        },
-        "css": {
-          "chosen.css": "css/chosen.css",
-          "chosen-sprite.png": "css/chosen-sprite.png",
-          "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
-        },
-        "provideAssets": [
-          {
-            "name": "chosen",
-            "type": "style",
-            "uri": "chosen.css"
-          },
-          {
-            "name": "chosen",
-            "type": "script",
-            "uri": "chosen.jquery.js",
-            "dependencies": [
-              "jquery"
-            ]
-          },
-          {
-            "name": "chosen",
-            "type": "preset",
-            "dependencies": [
-              "chosen#style",
-              "chosen#script"
-            ]
-          }
-        ]
       },
       "accessibility": {
         "name": "accessibility",
