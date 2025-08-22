@@ -2121,7 +2121,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$app of class Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsPlugin\:
-				__DEPLOY_VERSION__ will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
+				5.4.0 will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
 			'''
 			identifier: property.deprecated
 			count: 1
