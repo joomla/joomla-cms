@@ -104,16 +104,17 @@ class Extension extends Table
     public function find($options = [])
     {
         // Get the DatabaseQuery object
-        $query = $this->_db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
 
         foreach ($options as $col => $val) {
-            $query->where($col . ' = ' . $this->_db->quote($val));
+            $query->where($col . ' = ' . $db->quote($val));
         }
 
-        $query->select($this->_db->quoteName('extension_id'))
-            ->from($this->_db->quoteName('#__extensions'));
-        $this->_db->setQuery($query);
+        $query->select($db->quoteName('extension_id'))
+            ->from($db->quoteName('#__extensions'));
+        $db->setQuery($query);
 
-        return $this->_db->loadResult();
+        return $db->loadResult();
     }
 }

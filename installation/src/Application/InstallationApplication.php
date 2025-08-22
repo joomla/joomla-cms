@@ -187,11 +187,6 @@ final class InstallationApplication extends CMSApplication
         // Register the document object with Factory.
         Factory::$document = $document;
 
-        // Define component path.
-        \define('JPATH_COMPONENT', JPATH_BASE);
-        \define('JPATH_COMPONENT_SITE', JPATH_SITE);
-        \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
         // Execute the task.
         ob_start();
         $this->executeController();
@@ -301,7 +296,7 @@ final class InstallationApplication extends CMSApplication
         $factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
         // Create the instance
-        $controller = $factory->createController($controllerName, 'Installation', [], $this, $this->input);
+        $controller = $factory->createController($controllerName, 'Installation', ['base_path' => JPATH_INSTALLATION], $this, $this->input);
 
         // Execute the task
         $controller->execute($task);
