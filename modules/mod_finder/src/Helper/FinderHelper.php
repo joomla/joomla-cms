@@ -42,7 +42,7 @@ class FinderHelper implements DatabaseAwareInterface
      *
      * @return  string  A string of hidden input form fields
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function getHiddenFields($route = null): string
     {
@@ -66,7 +66,7 @@ class FinderHelper implements DatabaseAwareInterface
      *
      * @return  Query object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function getSearchQuery(Registry $params, CMSApplicationInterface $app): Query
     {
@@ -98,7 +98,7 @@ class FinderHelper implements DatabaseAwareInterface
      *
      * @since   2.5
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getFields
      *             Example: Factory::getApplication()->bootModule('mod_finder', 'site')
      *                          ->getHelper('FinderHelper')
@@ -118,7 +118,7 @@ class FinderHelper implements DatabaseAwareInterface
      *
      * @since   2.5
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getSearchQuery
      *             Example: Factory::getApplication()->bootModule('mod_finder', 'site')
      *                          ->getHelper('FinderHelper')
