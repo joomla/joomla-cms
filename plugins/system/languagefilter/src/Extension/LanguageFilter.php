@@ -205,7 +205,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function onBeforeExecute(BeforeExecuteEvent $event): void
     {
@@ -410,7 +410,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function setLanguageApplicationState(&$router, &$uri)
     {

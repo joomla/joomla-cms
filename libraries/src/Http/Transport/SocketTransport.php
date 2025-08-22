@@ -26,7 +26,7 @@ use Laminas\Diactoros\Stream as StreamResponse;
  * HTTP transport class for using sockets directly.
  *
  * @since  1.7.3
- * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+ * @deprecated  6.0.0 will be removed in 7.0
  *              Use Joomla\Http\Transport\Socket instead
  */
 class SocketTransport extends AbstractTransport implements TransportInterface
@@ -51,7 +51,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      *
      * @throws  \RuntimeException
      * @since   1.7.3
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  6.0.0 will be removed in 7.0
      *              Use Joomla\Http\Transport\Socket::request() instead
      */
     public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
@@ -150,7 +150,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      *
      * @throws  InvalidResponseCodeException
      * @since   1.7.3
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  6.0.0 will be removed in 7.0
      *              Use Joomla\Http\Transport\Socket::getResponse() instead
      */
     protected function getResponse($content)
@@ -196,7 +196,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      *
      * @throws  \RuntimeException
      * @since   1.7.3
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  6.0.0 will be removed in 7.0
      *              Use Joomla\Http\Transport\Socket::connect() instead
      */
     protected function connect(UriInterface $uri, $timeout = null)
@@ -278,7 +278,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      * @return  boolean   True if available else false
      *
      * @since   3.0.0
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  6.0.0 will be removed in 7.0
      *              Use Joomla\Http\Transport\Socket::isSupported() instead
      */
     public static function isSupported()

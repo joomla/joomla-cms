@@ -32,8 +32,8 @@ class Response extends FrameworkResponse
      *
      * @return  mixed
      *
-     * @since   __DEPLOY_VERSION__
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @since   6.0.0
+     * @deprecated  6.0.0 will be removed in 7.0
      *              Access data via the PSR-7 ResponseInterface instead
      */
     public function __get($name)

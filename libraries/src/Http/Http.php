@@ -20,7 +20,7 @@ use Joomla\Http\TransportInterface as FrameworkTransportInterface;
  * HTTP client class.
  *
  * @since  1.7.3
- * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+ * @deprecated  6.0.0 will be removed in 7.0
  *              Use Joomla\Http\Http instead
  */
 class Http extends FrameworkHttp
@@ -34,7 +34,7 @@ class Http extends FrameworkHttp
      *
      * @throws  \InvalidArgumentException
      * @since   1.7.3
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  6.0.0 will be removed in 7.0
      *              Use Joomla\Http\Http::__construct() instead
      */
     public function __construct($options = [], ?FrameworkTransportInterface $transport = null)

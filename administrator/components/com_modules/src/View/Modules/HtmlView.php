@@ -33,7 +33,7 @@ class HtmlView extends ListView
      *
      * @var int
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.0.0
      */
     protected $clientId;
 
