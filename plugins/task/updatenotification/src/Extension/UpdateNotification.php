@@ -247,7 +247,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         $emailGroups = $params->get('email_groups');
 
         if (!empty($emailGroups)) {
-            if (!is_array($emailGroups)) {
+            if (!\is_array($emailGroups)) {
                 $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
             }
         } else {
