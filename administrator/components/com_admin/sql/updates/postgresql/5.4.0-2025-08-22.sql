@@ -1,3 +1,3 @@
-UPDATE #__scheduler_task
-SET params = params - 'email'
-WHERE params ? 'email';
+UPDATE "#__scheduler_task" 
+SET "params" = jsonb_set("params", '{email}', '""') 
+WHERE "params" ? 'email';
