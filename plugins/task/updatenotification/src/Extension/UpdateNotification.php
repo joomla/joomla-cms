@@ -255,7 +255,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         }
 
         // Make a list of email groups, including Super User Groups
-        $emailGroups = \array_unique(\array_merge($emailGroups, $superUserGroups));
+        $emailGroups = array_unique(array_merge($emailGroups, $superUserGroups));
 
         // Get the users of all groups in the emailGroups
         $usersModel = Factory::getApplication()->bootComponent('com_users')
