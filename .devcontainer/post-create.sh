@@ -96,7 +96,6 @@ git update-index --assume-unchanged "tests/System/support/commands/config.mjs"
 # For NEW UNTRACKED files, add them to the local exclude file
 echo "cypress.config.js" >> ".git/info/exclude"
 echo "fix.php" >> ".git/info/exclude"
-echo "administrator/fix.php" >> ".git/info/exclude"
 echo "phpmyadmin" >> ".git/info/exclude"
 echo "codespace-details.txt" >> ".git/info/exclude"
 
@@ -107,7 +106,6 @@ sed -i \
   -e "/cy.task('deleteRelativePath', 'configuration.php');/d" \
   -e "/cy.installJoomla(config);/d" \
   tests/System/integration/install/Installation.cy.js
-sed -i "s/return cy.task('writeRelativeFile', { path: 'configuration.php', content });/return cy.task('writeRelativeFile', { path: 'configuration.php', content, mode: 0o775 });/" tests/System/support/commands/config.mjs
 
 # Ensure Cypress is executable and owned by the web server user
 chmod +x ./node_modules/.bin/cypress
