@@ -53,4 +53,11 @@ RUN a2enmod rewrite \
 # Create a custom PHP configuration file to enable file uploads
 RUN echo "upload_tmp_dir = /tmp" > /usr/local/etc/php/conf.d/custom-php.ini && \
     echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/custom-php.ini && \
-    echo "upload_max_filesize = 64M" >> /usr/local/etc/php/conf.d/custom-php.ini
+    echo "upload_max_filesize = 64M" >> /usr/local/etc/php/conf.d/custom-php.ini && \
+    mkdir -p /var/log/ && \
+    touch /var/log/php_errors.log && \
+    chown -R www-data:www-data /var/log/ && \
+    chmod 766 /var/log/php_errors.log && \    
+    echo "log_errors = On" >> /usr/local/etc/php/conf.d/custom-php.ini && \
+    echo "error_log = /var/log/php_errors.log" >> /usr/local/etc/php/conf.d/custom-php.ini && \
+    echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/custom-php.ini
