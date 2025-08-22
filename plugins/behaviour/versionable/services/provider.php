@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Filter\InputFilter;
 use Joomla\Plugin\Behaviour\Versionable\Extension\Versionable;
 
@@ -36,7 +35,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Versionable(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('behaviour', 'versionable'),
                     new InputFilter(),
                     new CMSHelper()
