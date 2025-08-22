@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
 
         // Clean up input to ensure a clean url.
         $filter     = InputFilter::getInstance();
-        $aliasArray = explode('.', $this->state->item_id);
+        $aliasArray = explode('.', $this->state->get('item_id'));
 
         if ($aliasArray[1] === 'category') {
             $option = 'com_categories';

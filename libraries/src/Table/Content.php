@@ -111,16 +111,17 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             $catId = (int) $this->catid;
 
             // Build the query to get the asset id for the parent category.
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('asset_id'))
-                ->from($this->_db->quoteName('#__categories'))
-                ->where($this->_db->quoteName('id') . ' = :catid')
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('asset_id'))
+                ->from($db->quoteName('#__categories'))
+                ->where($db->quoteName('id') . ' = :catid')
                 ->bind(':catid', $catId, ParameterType::INTEGER);
 
             // Get the asset id from the database.
-            $this->_db->setQuery($query);
+            $db->setQuery($query);
 
-            if ($result = $this->_db->loadResult()) {
+            if ($result = $db->loadResult()) {
                 $assetId = (int) $result;
             }
         }
@@ -351,7 +352,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         }
 
         // Verify that the alias is unique
-        $table = new self($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDatabase(), $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing article trashed?

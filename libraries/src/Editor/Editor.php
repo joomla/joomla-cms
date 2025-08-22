@@ -104,7 +104,7 @@ class Editor implements DispatcherAwareInterface
         } else {
             // Fallback to legacy editor logic
             @trigger_error(
-                '6.0 Discovering an editor "' . $this->_name . '" outside of EditorsRegistry is deprecated.',
+                '7.0 Discovering an editor "' . $this->_name . '" outside of EditorsRegistry is deprecated.',
                 \E_USER_DEPRECATED
             );
 
@@ -120,7 +120,7 @@ class Editor implements DispatcherAwareInterface
                 'getButtons',
                 function (AbstractEvent $event) {
                     @trigger_error(
-                        '6.0 Use Button "getButtons" event is deprecated,  buttons should be set up onEditorButtonsSetup event.',
+                        '7.0 Use Button "getButtons" event is deprecated,  buttons should be set up onEditorButtonsSetup event.',
                         \E_USER_DEPRECATED
                     );
 
@@ -161,7 +161,7 @@ class Editor implements DispatcherAwareInterface
      *
      * @since   1.5
      *
-     * @deprecated  6.0 Without replacement
+     * @deprecated  7.0 Without replacement
      */
     public function initialise()
     {
@@ -174,7 +174,7 @@ class Editor implements DispatcherAwareInterface
             return;
         }
 
-        @trigger_error('6.0 Method onInit() for Editor instance is deprecated, without replacement.', \E_USER_DEPRECATED);
+        @trigger_error('7.0 Method onInit() for Editor instance is deprecated, without replacement.', \E_USER_DEPRECATED);
 
         if (method_exists($this->_editor, 'onInit')) {
             \call_user_func([$this->_editor, 'onInit']);
@@ -316,7 +316,7 @@ class Editor implements DispatcherAwareInterface
      *
      * @since   1.5
      *
-     * @deprecated  6.0 Should use EditorRegistry
+     * @deprecated  7.0 Should use EditorRegistry
      */
     protected function _loadEditor($config = [])
     {
@@ -325,7 +325,7 @@ class Editor implements DispatcherAwareInterface
             return false;
         }
 
-        @trigger_error('6.0 Editor "' . $this->_name . '" instance should be set up onEditorSetup event.', \E_USER_DEPRECATED);
+        @trigger_error('7.0 Editor "' . $this->_name . '" instance should be set up onEditorSetup event.', \E_USER_DEPRECATED);
 
         // Build the path to the needed editor plugin
         $name = InputFilter::getInstance()->clean($this->_name, 'cmd');
