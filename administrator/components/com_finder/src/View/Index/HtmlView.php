@@ -171,6 +171,11 @@ class HtmlView extends BaseHtmlView
             $this->finderPlugins = false;
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
+
         // Configure the toolbar.
         $this->addToolbar();
 
