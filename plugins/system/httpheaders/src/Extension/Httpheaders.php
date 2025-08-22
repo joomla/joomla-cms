@@ -14,7 +14,6 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -119,15 +118,14 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
-     * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
      * @param   CMSApplicationInterface  $app         The app
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, CMSApplicationInterface $app)
+    public function __construct(array $config, CMSApplicationInterface $app)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->setApplication($app);
 

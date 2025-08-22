@@ -17389,6 +17389,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Content\\Finder\\Extension\\Finder\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/content/finder/services/provider.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Content\\Finder\\Extension\\Finder\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -17492,6 +17502,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\CodeMirror\\Extension\\Codemirror\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/editors/codemirror/services/provider.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\CodeMirror\\Extension\\Codemirror\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -17502,6 +17522,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\None\\Extension\\None\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/editors/none/services/provider.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\Editors\\None\\Extension\\None\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -17509,6 +17539,16 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: plugins/editors/none/src/Extension/None.php
+
+		-
+			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\Editors\\TinyMCE\\Extension\\TinyMCE\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/editors/tinymce/services/provider.php
 
 		-
 			message: '''
@@ -17725,6 +17765,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Cache\\Extension\\Cache\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/system/cache/services/provider.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Cache\\Extension\\Cache\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -17928,6 +17978,16 @@ parameters:
 
 		-
 			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Schemaorg\\Extension\\Schemaorg\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/system/schemaorg/services/provider.php
+
+		-
+			message: '''
 				#^Call to deprecated method getDispatcher\(\) of class Joomla\\Plugin\\System\\Schemaorg\\Extension\\Schemaorg\:
 				5\.2 will be removed in 7\.0
 				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
@@ -17935,6 +17995,16 @@ parameters:
 			identifier: method.deprecated
 			count: 4
 			path: plugins/system/schemaorg/src/Extension/Schemaorg.php
+
+		-
+			message: '''
+				#^Call to deprecated method setDispatcher\(\) of class Joomla\\Plugin\\System\\Shortcut\\Extension\\Shortcut\:
+				5\.2 will be removed in 7\.0
+				             Plugin should implement DispatcherAwareInterface on its own, when it is needed\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: plugins/system/shortcut/services/provider.php
 
 		-
 			message: '''
