@@ -46,7 +46,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @var    \Joomla\CMS\Application\CMSApplication
      * @since  4.0.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0 use $this->getApplication() instead
+     * @deprecated  5.4.0 will be removed in 7.0 use $this->getApplication() instead
      */
     protected $app;
 
