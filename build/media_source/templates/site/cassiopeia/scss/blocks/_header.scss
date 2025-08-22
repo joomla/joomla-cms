@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Header
 
 .container-header {
@@ -136,6 +138,9 @@
         display: none;
         color: $gray-900;
       }
+      > [aria-hidden="false"] {
+        display: block;
+      }
     }
   }
 
@@ -221,7 +226,7 @@
       color: $white;
 
       &:hover, &:focus {
-        color: darken($white, 10%);
+        color: color.adjust($white, $lightness: -10%);
       }
     }
 

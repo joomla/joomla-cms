@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <ul class="mod-articles mod-list">
     <?php foreach ($items as $item) : ?>
         <li itemscope itemtype="https://schema.org/Article">
-            <a href="<?php echo $item->link; ?>" itemprop="url">
+            <a <?php echo $item->active ? 'class="' . $item->active . '" ' : ''; ?>href="<?php echo $item->link; ?>" itemprop="url">
                 <span itemprop="name">
                     <?php echo $item->title; ?>
                 </span>

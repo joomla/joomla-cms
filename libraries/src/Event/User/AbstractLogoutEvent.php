@@ -26,7 +26,7 @@ abstract class AbstractLogoutEvent extends UserEvent
      * @var array
      *
      * @since  5.0.0
-     * @deprecated 5.0 will be removed in 6.0
+     * @deprecated 5.0 will be removed in 7.0
      */
     protected $legacyArgumentsOrder = ['subject', 'options'];
 
@@ -38,7 +38,7 @@ abstract class AbstractLogoutEvent extends UserEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function __construct($name, array $arguments = [])
     {

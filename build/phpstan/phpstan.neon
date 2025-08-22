@@ -9,6 +9,7 @@ parameters:
 		- Joomla\CMS\Object\CMSObject
 		- Joomla\CMS\Table\Table
 		- Joomla\Component\Finder\Administrator\Indexer\Result
+		- Joomla\CMS\Categories\CategoryNode
 	earlyTerminatingMethodCalls:
 		Joomla\CMS\Application\CMSApplicationInterface:
 			- close

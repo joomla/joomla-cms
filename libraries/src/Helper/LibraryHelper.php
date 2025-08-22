@@ -164,7 +164,7 @@ class LibraryHelper
 
         try {
             static::$libraries[$element] = $cache->get($loader, [$element], __METHOD__ . $element);
-        } catch (CacheExceptionInterface $e) {
+        } catch (CacheExceptionInterface) {
             static::$libraries[$element] = $loader($element);
         }
 

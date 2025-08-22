@@ -34,6 +34,7 @@ $stateMsgs  = [
     0 => Text::_('COM_PRIVACY_CONSENTS_STATE_OBSOLETE'),
     1 => Text::_('COM_PRIVACY_CONSENTS_STATE_VALID')
 ];
+$this->getLanguage()->load('plg_system_privacyconsent', JPATH_ADMINISTRATOR);
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=consents'); ?>" method="post" name="adminForm" id="adminForm">
@@ -122,8 +123,6 @@ $stateMsgs  = [
             </table>
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="" />
-        <input type="hidden" name="boxchecked" value="0" />
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>

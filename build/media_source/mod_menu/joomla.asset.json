@@ -1,0 +1,44 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "mod_menu",
+  "version": "6.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "mod_menu.admin-menu",
+      "type": "script",
+      "uri": "mod_menu/admin-menu.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "mod_menu.menu",
+      "type": "script",
+      "uri": "mod_menu/menu.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "mod_menu.menu",
+      "type": "style",
+      "uri": "mod_menu/mod-menu.min.css"
+    },
+    {
+      "name": "mod_menu.menu",
+      "type": "preset",
+      "dependencies": [
+        "mod_menu.menu#style",
+        "mod_menu.menu#script"
+      ]
+    }
+  ]
+}

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Toolbar;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -675,8 +675,7 @@ abstract class ToolbarHelper
         $lang = Factory::getLanguage();
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
-        /** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-        $contentTypeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
+        $contentTypeTable = new ContentType(Factory::getDbo());
         $typeId           = $contentTypeTable->getTypeId($typeAlias);
 
         // Options array for Layout

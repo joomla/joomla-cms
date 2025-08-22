@@ -14,8 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
@@ -25,6 +23,9 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
@@ -82,9 +83,9 @@ class TemplateModel extends FormModel
             $path       = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $path);
             $temp->name = $name;
             $temp->id   = urlencode(base64_encode(str_replace('\\', '//', $path)));
-
-            return $temp;
         }
+
+        return $temp;
     }
 
     /**
@@ -237,8 +238,6 @@ class TemplateModel extends FormModel
         // Initialize the array variable to store core file list.
         $this->coreFileList = [];
 
-        $app = Factory::getApplication();
-
         foreach ($templates as $template) {
             $client  = ApplicationHelper::getClientInfo($template->client_id);
             $element = Path::clean($client->path . '/templates/' . $template->element . '/');
@@ -306,13 +305,14 @@ class TemplateModel extends FormModel
      * @param   array    $value  The file name.
      * @param   integer  $exid   The template extension id.
      *
-     * @return  integer  Number of files changed.
+     * @return  bool|\RuntimeException  Update successful or exception object
      *
      * @since   4.0.0
      */
     public function publish($ids, $value, $exid)
     {
-        $db = $this->getDatabase();
+        $db     = $this->getDatabase();
+        $result = false;
 
         foreach ($ids as $id) {
             if ($value === -3) {
@@ -471,7 +471,6 @@ class TemplateModel extends FormModel
      */
     public function getCoreFile($file, $client_id)
     {
-        $app          = Factory::getApplication();
         $filePath     = Path::clean($file);
         $explodeArray = explode(DIRECTORY_SEPARATOR, $filePath);
 
@@ -487,6 +486,7 @@ class TemplateModel extends FormModel
         $componentPath = Path::clean($client->path . '/components/');
         $modulePath    = Path::clean($client->path . '/modules/');
         $layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
+        $pluginPath    = Path::clean(JPATH_ROOT . '/plugins/');
 
         // For modules
         if (stristr($type, 'mod_') !== false) {
@@ -494,6 +494,18 @@ class TemplateModel extends FormModel
             $htmlPath = Path::clean($modulePath . $folder . '/tmpl/');
             $fileName = $this->getSafeName($fileName);
             $coreFile = Path::find($htmlPath, $fileName);
+
+            return $coreFile;
+        }
+
+        // For plugins
+        if (stristr($type, 'plg_') !== false) {
+            $pluginFolder = explode('_', $explodeArray['2']);
+            $folder       = $pluginFolder['1'];
+            $subFolder    = $pluginFolder['2'];
+            $htmlPath     = Path::clean($pluginPath . $folder . '/' . $subFolder . '/tmpl/');
+            $fileName     = $this->getSafeName($fileName);
+            $coreFile     = Path::find($htmlPath, $fileName);
 
             return $coreFile;
         }
@@ -559,7 +571,7 @@ class TemplateModel extends FormModel
      */
     private function getSafeName($name)
     {
-        if (strpos($name, '-') !== false && preg_match('/[0-9]/', $name)) {
+        if (str_contains($name, '-') && preg_match('/[0-9]/', $name)) {
             // Get the extension
             $extension = File::getExt($name);
 
@@ -686,7 +698,7 @@ class TemplateModel extends FormModel
             ->bind(':name', $name);
         $db->setQuery($query);
 
-        return ($db->loadResult() == 0);
+        return $db->loadResult() == 0;
     }
 
     /**
@@ -747,7 +759,10 @@ class TemplateModel extends FormModel
                     $dst = Path::clean($toPath . '/' . $folder . '/' . $languageFile);
 
                     if (is_file($src)) {
-                        File::copy($src, $dst);
+                        try {
+                            File::copy($src, $dst);
+                        } catch (FilesystemException) {
+                        }
                     }
                 }
             }
@@ -811,7 +826,12 @@ class TemplateModel extends FormModel
 
         foreach ($files as $file) {
             $newFile = '/' . str_replace($oldName, $newName, basename($file));
-            $result  = File::move($file, \dirname($file) . $newFile) && $result;
+
+            try {
+                $result = File::move($file, \dirname($file) . $newFile) && $result;
+            } catch (FilesystemException) {
+                $result = false;
+            }
         }
 
         // Edit XML file
@@ -826,7 +846,12 @@ class TemplateModel extends FormModel
             $pattern[] = '#<media(.*)' . $oldName . '(.*)>#';
             $replace[] = '<media${1}' . $newName . '${2}>';
             $contents  = preg_replace($pattern, $replace, $contents);
-            $result    = File::write($xmlFile, $contents) && $result;
+
+            try {
+                $result = File::write($xmlFile, $contents) && $result;
+            } catch (FilesystemException) {
+                $result = false;
+            }
         }
 
         return $result;
@@ -917,7 +942,7 @@ class TemplateModel extends FormModel
 
             try {
                 $filePath = Path::check($fileName);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
 
                 return;
@@ -998,9 +1023,9 @@ class TemplateModel extends FormModel
             return false;
         }
 
-        $return = File::write($filePath, $data['source']);
-
-        if (!$return) {
+        try {
+            File::write($filePath, $data['source']);
+        } catch (FilesystemException) {
             $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
 
             return false;
@@ -1073,7 +1098,7 @@ class TemplateModel extends FormModel
                         $path = $folder . '/' . $view . '/tmpl';
 
                         // The new scheme, the views are directly in the component/tmpl folder
-                        if (!is_dir($path) && substr($folder, -4) == 'tmpl') {
+                        if (!is_dir($path) && str_ends_with($folder, 'tmpl')) {
                             $path = $folder . '/' . $view;
                         }
 
@@ -1149,9 +1174,9 @@ class TemplateModel extends FormModel
             $name         = end($explodeArray);
             $client       = ApplicationHelper::getClientInfo($template->client_id);
 
-            if (stristr($name, 'mod_') != false) {
+            if (stristr($name, 'mod_') !== false) {
                 $htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
-            } elseif (stristr($override, 'com_') != false) {
+            } elseif (stristr($override, 'com_') !== false) {
                 $size = \count($explodeArray);
 
                 $url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
@@ -1177,9 +1202,9 @@ class TemplateModel extends FormModel
                 return false;
             }
 
-            if (stristr($name, 'mod_') != false) {
+            if (stristr($name, 'mod_') !== false) {
                 $return = $this->createTemplateOverride(Path::clean($override . '/tmpl'), $htmlPath);
-            } elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false) {
+            } elseif (stristr($override, 'com_') !== false && stristr($override, 'layouts') === false) {
                 $path = $override . '/tmpl';
 
                 // View can also be in the top level folder
@@ -1252,7 +1277,11 @@ class TemplateModel extends FormModel
                 $htmlFilePath = File::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . File::getExt($htmlFilePath);
             }
 
-            $return = File::copy($file, $htmlFilePath, '', true);
+            try {
+                $return = File::copy($file, $htmlFilePath, '', true);
+            } catch (FilesystemException) {
+                $return = false;
+            }
         }
 
         return $return;
@@ -1273,7 +1302,11 @@ class TemplateModel extends FormModel
             $app      = Factory::getApplication();
             $filePath = $this->getBasePath() . urldecode(base64_decode($file));
 
-            $return = File::delete($filePath);
+            try {
+                $return = File::delete($filePath);
+            } catch (FilesystemException) {
+                $return = false;
+            }
 
             if (!$return) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
@@ -1283,6 +1316,8 @@ class TemplateModel extends FormModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -1324,6 +1359,8 @@ class TemplateModel extends FormModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -1356,7 +1393,9 @@ class TemplateModel extends FormModel
                 return false;
             }
 
-            if (!File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName))) {
+            try {
+                File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName));
+            } catch (FilesystemException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
 
                 return false;
@@ -1366,6 +1405,8 @@ class TemplateModel extends FormModel
 
             return $url;
         }
+
+        return false;
     }
 
     /**
@@ -1399,6 +1440,8 @@ class TemplateModel extends FormModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -1433,6 +1476,8 @@ class TemplateModel extends FormModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -1470,6 +1515,8 @@ class TemplateModel extends FormModel
 
             return base64_encode($newName);
         }
+
+        return false;
     }
 
     /**
@@ -1502,6 +1549,8 @@ class TemplateModel extends FormModel
 
             return $image;
         }
+
+        return false;
     }
 
     /**
@@ -1549,6 +1598,8 @@ class TemplateModel extends FormModel
                 $app->enqueueMessage($e->getMessage(), 'error');
             }
         }
+
+        return false;
     }
 
     /**
@@ -1594,12 +1645,14 @@ class TemplateModel extends FormModel
                 $app->enqueueMessage($e->getMessage(), 'error');
             }
         }
+
+        return false;
     }
 
     /**
      * Template preview.
      *
-     * @return  object  object containing the id of the template.
+     * @return  object|null  object containing the id of the template.
      *
      * @since   3.2
      */
@@ -1620,13 +1673,17 @@ class TemplateModel extends FormModel
             $result = $db->loadObject();
         } catch (\RuntimeException $e) {
             $app->enqueueMessage($e->getMessage(), 'warning');
+
+            return null;
         }
 
         if (empty($result)) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'warning');
-        } else {
-            return $result;
+
+            return null;
         }
+
+        return $result;
     }
 
     /**
@@ -1646,7 +1703,7 @@ class TemplateModel extends FormModel
             $fileName     = end($explodeArray);
             $path         = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
 
-            if (stristr($client->path, 'administrator') == false) {
+            if (stristr($client->path, 'administrator') === false) {
                 $folder = '/templates/';
             } else {
                 $folder = '/administrator/templates/';
@@ -1697,11 +1754,15 @@ class TemplateModel extends FormModel
                 return false;
             }
 
-            if (File::copy($path . $relPath, $newPath)) {
-                $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
-
-                return true;
+            try {
+                File::copy($path . $relPath, $newPath);
+            } catch (FilesystemException) {
+                return false;
             }
+
+            $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
+
+            return true;
         }
 
         return false;
@@ -1742,6 +1803,8 @@ class TemplateModel extends FormModel
 
             return $files;
         }
+
+        return false;
     }
 
     /**
@@ -1908,7 +1971,9 @@ class TemplateModel extends FormModel
         Folder::create($toPath . '/html');
 
         // Copy the template definition from the parent template
-        if (!File::copy($fromPath, $toPath . '/templateDetails.xml')) {
+        try {
+            File::copy($fromPath, $toPath . '/templateDetails.xml');
+        } catch (FilesystemException $exception) {
             return false;
         }
 
@@ -1927,22 +1992,24 @@ class TemplateModel extends FormModel
 
         try {
             $xml = simplexml_load_string(file_get_contents($xmlFile));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
 
             return false;
         }
 
         $user = $this->getCurrentUser();
-        unset($xml->languages);
-        unset($xml->media);
-        unset($xml->files);
-        unset($xml->parent);
-        unset($xml->inheritable);
 
         // Remove the update parts
-        unset($xml->update);
-        unset($xml->updateservers);
+        unset(
+            $xml->languages,
+            $xml->media,
+            $xml->files,
+            $xml->parent,
+            $xml->inheritable,
+            $xml->update,
+            $xml->updateservers
+        );
 
         if (isset($xml->creationDate)) {
             $xml->creationDate = (new Date('now'))->format('F Y');
@@ -1989,9 +2056,9 @@ class TemplateModel extends FormModel
         $dom->formatOutput       = true;
         $dom->loadXML($xml->asXML());
 
-        $result = File::write($xmlFile, $dom->saveXML());
-
-        if (!$result) {
+        try {
+            $result = File::write($xmlFile, $dom->saveXML());
+        } catch (FilesystemException) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
             return false;
@@ -2071,7 +2138,7 @@ class TemplateModel extends FormModel
 
         try {
             $parentStyle = $db->loadObjectList();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'), 'error');
 
             return false;
@@ -2094,7 +2161,7 @@ class TemplateModel extends FormModel
 
             try {
                 $db->execute();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
 
                 return false;
