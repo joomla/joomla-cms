@@ -376,13 +376,13 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             } elseif ($this->params->get('remove_default_prefix', 0)) {
                 // We don't have a prefix for the default language
                 $uri->setVar('lang', $this->default_lang);
-            } else {
+            } elseif (!isset($this->sefs[$lang])) {
                 // No language is set, so we want to redirect to the right language
                 $router->setTainted();
             }
 
             // The language was set both per SEF path and per query parameter. Query parameter takes precedence
-            if ($lang) {
+            if ($lang && isset($this->sefs[$sef])) {
                 $uri->setVar('lang', $lang);
                 $router->setTainted();
             }
