@@ -9,10 +9,10 @@ describe('Test that the sef system plugin', () => {
     .then(() => cy.db_updateExtensionParameter('strictrouting', '1', 'plg_system_sef'));
 
   // Ensure that we always start with a clean SEF default state
-  beforeEach(() => setSefDefaults());
+  beforeEach(setSefDefaults);
 
   // Return to the clean SEF default state for subsequent Joomla System Tests
-  afterEach(() => setSefDefaults());
+  afterEach(setSefDefaults);
 
   it('can process if option \'sef\' disabled', () => {
     cy.config_setParameter('sef', false)

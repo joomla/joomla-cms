@@ -45,7 +45,7 @@ class PrepareDataEvent extends ModelEvent
     public function __construct($name, array $arguments = [])
     {
         // This event has a dummy subject for now
-        $this->arguments['subject'] = $this->arguments['subject'] ?? new \stdClass();
+        $this->arguments['subject'] ??= new \stdClass();
 
         parent::__construct($name, $arguments);
 
