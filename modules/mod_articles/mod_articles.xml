@@ -106,29 +106,27 @@
 				/>
 
 				<field
-					name="ex_or_include_articles"
-					type="list"
-					label="MOD_ARTICLES_FIELD_EX_OR_INCLUDE_LABEL"
-					default="0"
-					filter="integer"
-				>
-					<option value="0">MOD_ARTICLES_OPTION_EXCLUDE_VALUE</option>
-					<option value="1">MOD_ARTICLES_OPTION_INCLUDE_VALUE</option>
-				</field>
-
-				<field
 					name="exclude_current"
 					type="radio"
 					label="MOD_ARTICLES_FIELD_EXCLUDE_CURRENT_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
-					showon="ex_or_include_articles:0"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 
+				<field
+					name="ex_or_include_articles"
+					type="list"
+					label="MOD_ARTICLES_FIELD_EX_OR_INCLUDE_LABEL"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">MOD_ARTICLES_OPTION_EXCLUDE_VALUE</option>
+					<option value="1">MOD_ARTICLES_OPTION_INCLUDE_VALUE</option>
+				</field>
 
 				<field
 					name="excluded_articles"
@@ -292,8 +290,8 @@
 					filter="integer"
 					showon="title_only:0[AND]show_category:1"
 					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

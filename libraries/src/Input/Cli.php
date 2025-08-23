@@ -91,8 +91,7 @@ class Cli extends Input
 
         // Remove $_ENV and $_SERVER from the inputs.
         $inputs = $this->inputs;
-        unset($inputs['env']);
-        unset($inputs['server']);
+        unset($inputs['env'], $inputs['server']);
 
         // Serialize the executable, args, options, data, and inputs.
         return serialize([$this->executable, $this->args, $this->options, $this->data, $inputs]);
@@ -113,7 +112,7 @@ class Cli extends Input
     public function unserialize($input)
     {
         // Unserialize the executable, args, options, data, and inputs.
-        list($this->executable, $this->args, $this->options, $this->data, $this->inputs) = unserialize($input);
+        [$this->executable, $this->args, $this->options, $this->data, $this->inputs] = unserialize($input);
 
         // Load the filter.
         if (isset($this->options['filter'])) {
@@ -147,7 +146,7 @@ class Cli extends Input
             $arg = $argv[$i];
 
             // --foo --bar=baz
-            if (substr($arg, 0, 2) === '--') {
+            if (str_starts_with($arg, '--')) {
                 $eqPos = strpos($arg, '=');
 
                 // --foo
@@ -169,7 +168,7 @@ class Cli extends Input
                     $value     = substr($arg, $eqPos + 1);
                     $out[$key] = $value;
                 }
-            } elseif (substr($arg, 0, 1) === '-') {
+            } elseif (str_starts_with($arg, '-')) {
                 // -k=value -abc
                 // -k=value
                 if (substr($arg, 2, 1) === '=') {

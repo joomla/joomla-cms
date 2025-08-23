@@ -10,9 +10,10 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
-// phpcs:disable PSR1.Files.SideEffects
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Database\QueryInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
@@ -26,12 +27,13 @@ class FeaturedModel extends ArticlesModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -64,7 +66,7 @@ class FeaturedModel extends ArticlesModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**

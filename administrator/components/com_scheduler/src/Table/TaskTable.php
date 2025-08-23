@@ -168,6 +168,44 @@ class TaskTable extends Table implements CurrentUserInterface
     }
 
     /**
+     * Method to return the title to use for the asset table.
+     *
+     * @return  string
+     *
+     * @since   5.2.3
+     */
+    protected function _getAssetTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * Method to get the parent asset under which to register this one.
+     * By default, all assets are registered to the ROOT node with ID,
+     * which will default to 1 if none exists.
+     * The extended class can define a table and id to lookup.  If the
+     * asset does not exist it will be created.
+     *
+     * @param   Table|null  $table  A Table object for the asset parent.
+     * @param   null        $id     Id to look up
+     *
+     * @return  integer
+     *
+     * @since   5.2.3
+     */
+    protected function _getAssetParentId(?Table $table = null, $id = null): int
+    {
+        $assetId = null;
+        $asset   = new Asset($this->getDbo(), $this->getDispatcher());
+
+        if ($asset->loadByName('com_scheduler')) {
+            $assetId = $asset->id;
+        }
+
+        return $assetId ?? parent::_getAssetParentId($table, $id);
+    }
+
+    /**
      * Override {@see Table::bind()} to bind some fields even if they're null given they're present in $src.
      * This override is needed specifically for DATETIME fields, of which the `next_execution` field is updated to
      * null if a task is configured to execute only on manual trigger.

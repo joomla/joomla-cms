@@ -62,8 +62,8 @@ $siteUrl = Uri::root(false);
             table, td, div, h1, p { font-family: Arial, sans-serif; }
         </style>
     </head>
-    <body style="margin:0;padding:0;word-spacing:normal;background-color:#00000008;height:100%;">
-        <div role="article" aria-roledescription="email" style="text-size-adjust:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#00000008;height:100%;">
+    <body style="margin:0;padding:0;word-spacing:normal;background-color:#efefef;height:100%;">
+        <div role="article" aria-roledescription="email" style="text-size-adjust:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background-color:#efefef;height:100%;">
             <table role="presentation" style="width:100%;border:none;border-spacing:0;height:100%;">
                 <tr>
                     <td align="center" style="vertical-align:baseline; padding:30px 0">
@@ -83,8 +83,14 @@ $siteUrl = Uri::root(false);
                                         <?php echo $extraData['siteName']; ?>
                                     </h1>
                                     <?php endif; ?>
-                                    <div style="padding: 30px 0 0;"></div>
-                                    <div style="padding:.75px;background-color:#0000000f;"></div>
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="border:15px solid #ffffff;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:1px solid #efefef;background-color:#efefef;padding:0;"></td>
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
                             <tr>

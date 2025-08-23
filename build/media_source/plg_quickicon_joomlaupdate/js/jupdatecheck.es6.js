@@ -3,7 +3,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (Joomla && Joomla.getOptions('js-extensions-update')) {
+if (Joomla && Joomla.getOptions('js-joomla-update')) {
   const update = (type, text) => {
     const link = document.getElementById('plg_quickicon_joomlaupdate');
     if (link) {

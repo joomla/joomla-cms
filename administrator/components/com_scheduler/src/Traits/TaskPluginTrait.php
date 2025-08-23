@@ -143,7 +143,7 @@ trait TaskPluginTrait
 
         try {
             $enhancementFormFile = Path::check($enhancementFormFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

@@ -253,7 +253,7 @@ class ManageModel extends InstallerModel
             $langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
             $rowtype    = Text::_($langstring);
 
-            if (strpos($rowtype, $langstring) !== false) {
+            if (str_contains($rowtype, $langstring)) {
                 $rowtype = $row->type;
             }
 
@@ -408,7 +408,16 @@ class ManageModel extends InstallerModel
                     ]
                 )
             )
-            ->select($db->quoteName('updates.version', 'updateVersion'))
+            ->select($db->quoteName(
+                [
+                    'updates.version',
+                    'updates.changelogurl',
+                ],
+                [
+                    'updateVersion',
+                    'updateChangelogUrl',
+                ]
+            ))
             ->from($db->quoteName('#__extensions', 'extensions'))
             ->join(
                 'LEFT',
@@ -423,13 +432,15 @@ class ManageModel extends InstallerModel
         $this->translate($extensions);
         $extension = array_shift($extensions);
 
-        if (!$extension->changelogurl) {
+        $changelogurl = $source === 'manage' ? $extension->changelogurl : $extension->updateChangelogUrl;
+
+        if (!$changelogurl) {
             return '';
         }
 
         $changelog = new Changelog();
         $changelog->setVersion($source === 'manage' ? $extension->version : $extension->updateVersion);
-        $changelog->loadFromXml($extension->changelogurl);
+        $changelog->loadFromXml($changelogurl);
 
         // Read all the entries
         $entries = [
