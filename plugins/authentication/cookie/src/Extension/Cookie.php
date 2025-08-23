@@ -208,7 +208,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         try {
             $result = $db->setQuery($query)->loadObject();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response->status = Authentication::STATUS_FAILURE;
 
             return;
@@ -303,7 +303,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
                     if ($results === null) {
                         $unique = true;
                     }
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     $errorCount++;
 
                     // We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
@@ -370,7 +370,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // We aren't concerned with errors from this query, carry on
         }
     }
@@ -416,7 +416,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // We aren't concerned with errors from this query, carry on
         }
 

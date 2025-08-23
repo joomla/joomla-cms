@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -98,6 +99,31 @@ class Router extends RouterBase
      */
     public function preprocess($query)
     {
+        // Make sure the alias for the tags is correct
+        if (isset($query['id'])) {
+            if (!\is_array($query['id'])) {
+                $query['id'] = [$query['id']];
+            }
+
+            foreach ($query['id'] as &$item) {
+                if (!strpos($item, ':')) {
+                    $dbquery = $this->db->getQuery(true);
+                    $id      = (int) $item;
+
+                    $dbquery->select($dbquery->quoteName('alias'))
+                        ->from('#__tags')
+                        ->where($dbquery->quoteName('id') . ' = :key')
+                        ->bind(':key', $id, ParameterType::INTEGER);
+
+                    $obj = $this->db->setQuery($dbquery)->loadObject();
+
+                    if ($obj) {
+                        $item .= ':' . $obj->alias;
+                    }
+                }
+            }
+        }
+
         $active = $this->menu->getActive();
 
         /**
@@ -118,7 +144,7 @@ class Router extends RouterBase
 
         foreach (array_unique([$lang, '*']) as $language) {
             if (isset($query['view']) && $query['view'] === 'tags') {
-                if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
+                if (isset($query['parent_id'], $this->lookup[$language]['tags'][$query['parent_id']])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
                     break;
                 }
@@ -196,10 +222,6 @@ class Router extends RouterBase
                 if (isset($query['id'])) {
                     $ids = $query['id'];
 
-                    if (!\is_array($ids)) {
-                        $ids = [$ids];
-                    }
-
                     foreach ($ids as $id) {
                         $segments[] = $id;
                     }
@@ -246,7 +268,7 @@ class Router extends RouterBase
 
         foreach ($segments as &$segment) {
             if (strpos($segment, ':')) {
-                [$void, $segment] = explode(':', $segment, 2);
+                [, $segment] = explode(':', $segment, 2);
             }
         }
 

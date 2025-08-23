@@ -105,7 +105,7 @@ class ConfirmModel extends AdminModel
 
             try {
                 $table->store();
-            } catch (ExecutionFailureException $exception) {
+            } catch (ExecutionFailureException) {
                 // The error will be logged in the database API, we just need to catch it here to not let things fatal out
             }
 

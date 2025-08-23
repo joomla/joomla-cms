@@ -63,7 +63,7 @@ abstract class ModuleHelper
         }
 
         // If we didn't find it, and the name is mod_something, create a dummy object
-        if ($result === null && strpos($name, 'mod_') === 0) {
+        if ($result === null && str_starts_with($name, 'mod_')) {
             $result         = static::createDummyModule();
             $result->module = $name;
         }
@@ -319,7 +319,7 @@ abstract class ModuleHelper
         $defaultLayout = $layout;
         $template      = $templateObj->template;
 
-        if (strpos($layout, ':') !== false) {
+        if (str_contains($layout, ':')) {
             // Get the template and file name from the string
             $temp          = explode(':', $layout);
             $template      = $temp[0] === '_' ? $template : $temp[0];
@@ -334,7 +334,7 @@ abstract class ModuleHelper
             $tPath = Path::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
             $iPath = Path::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
             $bPath = Path::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // On error fallback to the default path
             return $dPath;
         }

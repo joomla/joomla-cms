@@ -479,7 +479,7 @@ class DatabaseModel extends InstallerModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 

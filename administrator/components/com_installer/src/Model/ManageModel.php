@@ -253,7 +253,7 @@ class ManageModel extends InstallerModel
             $langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
             $rowtype    = Text::_($langstring);
 
-            if (strpos($rowtype, $langstring) !== false) {
+            if (str_contains($rowtype, $langstring)) {
                 $rowtype = $row->type;
             }
 

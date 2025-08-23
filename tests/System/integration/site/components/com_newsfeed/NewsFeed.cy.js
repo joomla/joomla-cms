@@ -1,7 +1,7 @@
 describe('Test in frontend that the newsfeeds details view', () => {
   ['joomla.org'].forEach((file) => {
     it(`can display a feed in a menu item from ${file}`, () => {
-      cy.db_createNewsFeed({ name: 'automated test feed 1', link: `${Cypress.config('baseUrl')}/tests/System/data/com_newsfeeds/${file}.xml` })
+      cy.db_createNewsFeed({ name: 'automated test feed 1', link: `${Cypress.config('baseUrl').replace('https://', 'http://')}/tests/System/data/com_newsfeeds/${file}.xml` })
         .then((feed) => cy.db_createMenuItem({ title: 'automated test feeds', link: `index.php?option=com_newsfeeds&view=newsfeed&id=${feed.id}` }))
         .then(() => {
           cy.visit('/');
@@ -14,7 +14,7 @@ describe('Test in frontend that the newsfeeds details view', () => {
     });
 
     it(`can display a feed without a menu item from ${file}`, () => {
-      cy.db_createNewsFeed({ name: 'automated test feed 1', link: `${Cypress.config('baseUrl')}/tests/System/data/com_newsfeeds/${file}.xml` })
+      cy.db_createNewsFeed({ name: 'automated test feed 1', link: `${Cypress.config('baseUrl').replace('https://', 'http://')}/tests/System/data/com_newsfeeds/${file}.xml` })
         .then((feed) => {
           cy.visit(`/index.php?option=com_newsfeeds&view=newsfeed&id=${feed.id}`);
 

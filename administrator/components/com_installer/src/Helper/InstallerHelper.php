@@ -324,7 +324,7 @@ class InstallerHelper
 
         try {
             $extension = new CMSObject($db->setQuery($query)->loadAssoc());
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -481,7 +481,7 @@ class InstallerHelper
             }
 
             return $items;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
     }

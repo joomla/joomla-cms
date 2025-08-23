@@ -21,7 +21,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouter;
@@ -371,21 +370,6 @@ final class SiteApplication extends CMSApplication
         }
 
         return $params[$hash];
-    }
-
-    /**
-     * Return a reference to the Pathway object.
-     *
-     * @param   string  $name     The name of the application.
-     * @param   array   $options  An optional associative array of configuration settings.
-     *
-     * @return  Pathway  A Pathway object
-     *
-     * @since   3.2
-     */
-    public function getPathway($name = 'site', $options = [])
-    {
-        return parent::getPathway($name, $options);
     }
 
     /**
