@@ -113,7 +113,7 @@ class SearchModel extends ListModel
         $results = [];
 
         // Convert the rows to result objects.
-        foreach ($items as $rk => $row) {
+        foreach ($items as $row) {
             // Build the result object.
             if (\is_resource($row->object)) {
                 $result = unserialize(stream_get_contents($row->object));
@@ -543,7 +543,7 @@ class SearchModel extends ListModel
                 $this->setState('list.ordering', 'l.sale_price');
                 break;
 
-            case ($order === 'relevance' && !empty($this->includedTerms)):
+            case $order === 'relevance' && !empty($this->includedTerms):
                 $this->setState('list.ordering', 'm.weight');
                 break;
 

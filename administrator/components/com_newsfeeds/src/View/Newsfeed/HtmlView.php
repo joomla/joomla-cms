@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -78,9 +79,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->item  = $this->get('Item');
-        $this->form  = $this->get('Form');
+        /** @var NewsfeedModel $model */
+        $model = $this->getModel();
+
+        $this->state = $model->getState();
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
 
         if ($this->getLayout() === 'modalreturn') {
             parent::display($tpl);
@@ -89,7 +93,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

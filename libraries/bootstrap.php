@@ -62,17 +62,6 @@ if (error_reporting() & E_USER_DEPRECATED) {
     set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
 }
 
-// Suppress phar stream wrapper for non .phar files
-$behavior = new \TYPO3\PharStreamWrapper\Behavior();
-\TYPO3\PharStreamWrapper\Manager::initialize(
-    $behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor())
-);
-
-if (in_array('phar', stream_get_wrappers())) {
-    stream_wrapper_unregister('phar');
-    stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
-}
-
 // Define the Joomla version if not already defined.
 defined('JVERSION') or define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
 

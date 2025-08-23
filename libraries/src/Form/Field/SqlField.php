@@ -291,7 +291,7 @@ class SqlField extends ListField
 
             try {
                 $items = $db->loadObjectList();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
             }
         }
