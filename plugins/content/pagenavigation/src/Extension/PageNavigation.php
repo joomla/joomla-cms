@@ -11,12 +11,14 @@
 namespace Joomla\Plugin\Content\PageNavigation\Extension;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,24 +29,39 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.5
  */
-final class PageNavigation extends CMSPlugin
+final class PageNavigation extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentBeforeDisplay' => 'onContentBeforeDisplay',
+        ];
+    }
+
+    /**
      * If in the article view and the parameter is enabled shows the page navigation
      *
-     * @param   string   $context  The context of the content being passed to the plugin
-     * @param   object   &$row     The article object
-     * @param   mixed    &$params  The article params
-     * @param   integer  $page     The 'page' number
+     * @param   BeforeDisplayEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
+    public function onContentBeforeDisplay(BeforeDisplayEvent $event)
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $params  = $event->getParams();
+
         $app   = $this->getApplication();
         $view  = $app->getInput()->get('view');
         $print = $app->getInput()->getBool('print');

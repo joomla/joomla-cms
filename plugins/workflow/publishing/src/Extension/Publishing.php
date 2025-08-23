@@ -305,7 +305,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @param   WorkflowTransitionEvent  $event
      *
-     * @return boolean
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -414,7 +414,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -424,7 +424,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $context = $event->getArgument('extension');
 
         if (!$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         $parts = explode('.', $context);

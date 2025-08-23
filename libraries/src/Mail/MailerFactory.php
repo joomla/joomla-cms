@@ -82,7 +82,7 @@ class MailerFactory implements MailerFactoryInterface
                 if ($mailer->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false) {
                     Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
                 }
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
             }
         }

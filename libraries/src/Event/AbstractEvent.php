@@ -84,7 +84,7 @@ abstract class AbstractEvent extends Event
          * the onTableBeforeLoad event name.
          */
         if (!$eventClassName || !class_exists($eventClassName, true)) {
-            $bareName       = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
+            $bareName       = str_starts_with($eventName, 'on') ? substr($eventName, 2) : $eventName;
             $parts          = Normalise::fromCamelCase($bareName, true);
             $eventClassName = __NAMESPACE__ . '\\' . ucfirst(array_shift($parts)) . '\\';
             $eventClassName .= implode('', $parts);

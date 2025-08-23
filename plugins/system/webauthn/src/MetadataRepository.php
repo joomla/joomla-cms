@@ -128,7 +128,7 @@ final class MetadataRepository implements MetadataStatementRepository
         try {
             $jwtConfig = Configuration::forUnsecuredSigner();
             $token     = $jwtConfig->parser()->parse($rawJwt);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -153,7 +153,7 @@ final class MetadataRepository implements MetadataStatementRepository
                 }
 
                 return MetadataStatement::createFromArray($array);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return null;
             }
         };

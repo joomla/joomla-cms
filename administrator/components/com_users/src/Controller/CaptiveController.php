@@ -107,7 +107,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
         try {
             // Suppress all modules on the page except those explicitly allowed
             $model->suppressAllModules();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't kill the modules we can still survive.
         }
 

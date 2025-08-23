@@ -124,7 +124,7 @@ class CryptoCipher implements CipherInterface
             \Crypto::RuntimeTest();
 
             return true;
-        } catch (\CryptoTestFailedException $e) {
+        } catch (\CryptoTestFailedException) {
             return false;
         }
     }

@@ -344,7 +344,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         if (!$recordId) {
             return false;
@@ -364,7 +364,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
             // Fallback on edit.own.
             if ($user->authorise('core.edit.own', $this->option . '.category.' . $categoryId)) {
-                return ($record->created_by === $user->id);
+                return $record->created_by === $user->id;
             }
 
             return false;

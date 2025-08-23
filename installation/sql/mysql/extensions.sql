@@ -873,7 +873,8 @@ INSERT INTO `#__action_log_config` (`id`, `type_title`, `type_alias`, `id_holder
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
 (20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA'),
 (21, 'field', 'com_fields.field', 'id', 'title', '#__fields', 'PLG_ACTIONLOG_JOOMLA'),
-(22, 'guidedtour', 'com_guidedtours.state', 'id', 'title', '#__guidedtours', 'PLG_ACTIONLOG_JOOMLA');
+(22, 'guidedtour', 'com_guidedtours.state', 'id', 'title', '#__guidedtours', 'PLG_ACTIONLOG_JOOMLA'),
+(23, 'contact', 'com_contact.form', 'id', 'name', '#__contact_details', 'PLG_ACTIONLOG_JOOMLA');
 
 
 -- --------------------------------------------------------
@@ -934,6 +935,29 @@ INSERT INTO `#__scheduler_tasks` (`id`, `asset_id`, `title`, `type`, `execution_
 (1, 97, 'Rotate Logs', 'rotation.logs', CONCAT('{"rule-type":"interval-days","interval-days":"30","exec-day":"', DATE_FORMAT(NOW(), '%e'), '","exec-time":"', TIME_FORMAT(NOW(), '%H:00'), '"}'), '{"type":"interval","exp":"P30D"}', 1, NULL, DATE_FORMAT(NOW() + INTERVAL 30 DAY, '%Y-%m-%d %H:00:00'), NULL, '{"individual_log":false,"log_file":"","notifications":{"success_mail":"0","failure_mail":"1","fatal_failure_mail":"1","orphan_mail":"1"},"logstokeep":1}', NOW(), 42),
 (2, 98, 'Session GC', 'session.gc', CONCAT('{"rule-type":"interval-hours","interval-hours":"24","exec-day":"01","exec-time":"', TIME_FORMAT(NOW(), '%H:00'), '"}'), '{"type":"interval","exp":"PT24H"}', 1, NULL, DATE_FORMAT(NOW() + INTERVAL 24 HOUR, '%Y-%m-%d %H:00:00'), NULL, '{"individual_log":false,"log_file":"","notifications":{"success_mail":"0","failure_mail":"1","fatal_failure_mail":"1","orphan_mail":"1"},"enable_session_gc":1,"enable_session_metadata_gc":1}', NOW(), 42),
 (3, 99, 'Update Notification', 'update.notification', CONCAT('{"rule-type":"interval-hours","interval-hours":"24","exec-day":"01","exec-time":"', TIME_FORMAT(NOW(), '%H:00'), '"}'), '{"type":"interval","exp":"PT24H"}', 1, NULL, DATE_FORMAT(NOW() + INTERVAL 24 HOUR, '%Y-%m-%d %H:00:00'), NULL, '{"individual_log":false,"log_file":"","notifications":{"success_mail":"0","failure_mail":"1","fatal_failure_mail":"1","orphan_mail":"1"},"email":"","language_override":""}', NOW(), 42);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__scheduler_logs`
+--
+
+CREATE TABLE IF NOT EXISTS `#__scheduler_logs` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `taskname` varchar(255) NOT NULL DEFAULT '',
+  `tasktype` varchar(128) NOT NULL COMMENT 'unique identifier for job defined by plugin',
+  `duration` DECIMAL(5,3) NOT NULL,
+  `jobid` int UNSIGNED NOT NULL,
+  `taskid` int UNSIGNED NOT NULL,
+  `exitcode` int NOT NULL,
+  `lastdate` datetime COMMENT 'Timestamp of last run',
+  `nextdate` datetime COMMENT 'Timestamp of next (planned) run, referred for execution on trigger',
+  PRIMARY KEY (id),
+  KEY `idx_taskname` (`taskname`),
+  KEY `idx_tasktype` (`tasktype`),
+  KEY `idx_lastdate` (`lastdate`),
+  KEY `idx_nextdate` (`nextdate`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
