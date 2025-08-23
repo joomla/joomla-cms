@@ -30,7 +30,7 @@ $wa->useScript('keepalive')
             </h1>
         </div>
     <?php endif; ?>
-    <form action="<?php echo Route::_('index.php?option=com_privacy&task=request.confirm'); ?>" method="post" class="form-validate form-horizontal well">
+    <form action="<?php echo Route::_('index.php?task=request.confirm'); ?>" method="post" class="form-validate form-horizontal well">
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <fieldset>
                 <?php if (!empty($fieldset->label)) : ?>
