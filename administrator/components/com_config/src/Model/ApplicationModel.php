@@ -739,10 +739,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $config = new Registry($data);
 
         // Overwrite webservices cors settings
-        $app->set('cors', $data['cors']);
-        $app->set('cors_allow_origin', $data['cors_allow_origin']);
-        $app->set('cors_allow_headers', $data['cors_allow_headers']);
-        $app->set('cors_allow_methods', $data['cors_allow_methods']);
+        $app->set('cors', $data['cors'] ?? 0);
+        $app->set('cors_allow_origin', $data['cors_allow_origin'] ?? '*');
+        $app->set('cors_allow_headers', $data['cors_allow_headers'] ?? 'Content-Type,X-Joomla-Token');
+        $app->set('cors_allow_methods', $data['cors_allow_methods'] ?? '');
 
         // Clear cache of com_config component.
         $this->cleanCache('_system');

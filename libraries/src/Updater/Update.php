@@ -657,9 +657,8 @@ class Update
         $this->channel           = $channel;
 
         $this->xmlParser = xml_parser_create('');
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
-        xml_set_character_data_handler($this->xmlParser, '_characterData');
+        xml_set_element_handler($this->xmlParser, [$this, '_startElement'], [$this, '_endElement']);
+        xml_set_character_data_handler($this->xmlParser, [$this, '_characterData']);
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             Log::add(

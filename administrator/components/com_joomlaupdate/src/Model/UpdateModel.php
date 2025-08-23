@@ -994,7 +994,7 @@ ENDDATA;
 
         // Move uploaded file.
         try {
-            File::upload($tmp_src, $tmp_dest, false);
+            File::upload($tmp_src, $tmp_dest);
         } catch (FilesystemException $exception) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500, $exception);
         }
