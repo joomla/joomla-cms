@@ -125,6 +125,11 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', 'display')
+            ->addControlField('boxchecked', '0');
+
         // Prepare the view.
         $this->addToolbar();
 

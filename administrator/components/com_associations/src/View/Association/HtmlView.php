@@ -322,6 +322,11 @@ class HtmlView extends BaseHtmlView
 
         $this->addToolbar();
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('target-id', '', ['id' => 'target-id']);
+
         parent::display($tpl);
     }
 
