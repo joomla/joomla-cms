@@ -110,6 +110,7 @@ trait CoreEventAware
         'onContentChangeState'          => Model\AfterChangeStateEvent::class,
         'onCategoryChangeState'         => Model\AfterCategoryChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
+        'onContentCleanCache'           => Model\AfterCleanCacheEvent::class,
         // User
         'onUserAuthenticate'         => User\AuthenticationEvent::class,
         'onUserAuthorisation'        => User\AuthorisationEvent::class,
