@@ -143,7 +143,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
             ],
         ];
         // if these are not set, the system defaults are used
-        if (isset($cacertdir) && isset($cacertfile)) {
+        if (isset($cacertdir, $cacertfile)) {
             $options['options']['x_tls_cacertdir']  = $cacertdir;
             $options['options']['x_tls_cacertfile'] = $cacertfile;
         }

@@ -10,7 +10,12 @@
 
 namespace Joomla\Plugin\System\Jooa11y\Extension;
 
+use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
+use Joomla\CMS\Event\PageCache\SetCachingEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -35,7 +40,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onBeforeCompileHead' => 'initJooa11y'];
+        if (Factory::getApplication()->isClient('site')) {
+            return ['onAfterRoute' => ['initJooa11y', Priority::HIGH]];
+        }
+
+        return [];
     }
 
     /**
@@ -49,9 +58,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     {
         static $result;
 
-        if (\is_bool($result)) {
+        if ($result !== null) {
             return $result;
         }
+
+        $result = true;
 
         // If the user is not allowed to view the output then end here.
         $filterGroups = (array) $this->params->get('filter_groups', []);
@@ -63,29 +74,29 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
             if (!array_intersect($filterGroups, $userGroups)) {
                 $result = false;
-                return $result;
             }
         }
 
-        $result = true;
         return $result;
     }
 
     /**
-     * Add the checker.
+     * Init the checker.
+     *
+     * @param  AfterRouteEvent $event  The event object
      *
      * @return  void
      *
      * @since   4.1.0
      */
-    public function initJooa11y()
+    public function initJooa11y(AfterRouteEvent $event)
     {
-        if (!$this->getApplication()->isClient('site')) {
+        if (!$event->getApplication()->isClient('site')) {
             return;
         }
 
         // Check if we are in a preview modal or the plugin has enforced loading
-        $showJooa11y = $this->getApplication()
+        $showJooa11y = $event->getApplication()
             ->getInput()
             ->get('jooa11y', $this->params->get('showAlways', 0));
 
@@ -94,11 +105,34 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Disable page cache
+        $this->getDispatcher()->addListener(
+            'onPageCacheSetCaching',
+            static function (SetCachingEvent $event) {
+                $event->addResult(false);
+            }
+        );
+
+        // Register own event to add the checker later, once a document is created
+        $this->getDispatcher()->addListener('onBeforeCompileHead', [$this, 'addJooa11y']);
+    }
+
+    /**
+     * Add the checker.
+     *
+     * @param BeforeCompileHeadEvent $event The event object
+     *
+     * @return  void
+     *
+     * @since   5.2.4
+     */
+    public function addJooa11y(BeforeCompileHeadEvent $event)
+    {
         // Load translations
         $this->loadLanguage();
 
         // Detect the current active language
-        $getLang = $this->getApplication()
+        $getLang = $event->getApplication()
             ->getLanguage()
             ->getTag();
 
@@ -152,36 +186,38 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         }
 
         // Get the document object
-        $document = $this->getApplication()->getDocument();
+        /** @var \Joomla\CMS\Document\HtmlDocument $document */
+        $document = $event->getDocument();
 
         // Get plugin options from xml
         $getOptions = [
-            'checkRoot'           => $this->params->get('checkRoot', 'main'),
-            'readabilityRoot'     => $this->params->get('readabilityRoot', 'main'),
-            'containerIgnore'     => $this->params->get('containerIgnore'),
-            'contrastPlugin'      => $this->params->get('contrastPlugin', 1),
-            'formLabelsPlugin'    => $this->params->get('formLabelsPlugin', 1),
-            'linksAdvancedPlugin' => $this->params->get('linksAdvancedPlugin', 1),
-            'colourFilterPlugin'  => $this->params->get('colourFilterPlugin', 1),
-            'checkAllHideToggles' => $this->params->get('additionalChecks', 0),
-            'shadowComponents'    => $this->params->get('shadowComponents'),
+            'checkRoot'       => $this->params->get('checkRoot', 'main'),
+            'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
+            'containerIgnore' => $this->params->get('containerIgnore'),
         ];
         $getExtraProps = $this->params->get('extraProps', []);
+        $getChecks     = $this->params->get('checks', []);
 
-
-        // Process extra props
-        $extraProps = [];
-        foreach ($getExtraProps as $prop) {
-            $decodedValue = json_decode($prop->value);
-            if (is_numeric($decodedValue) || \is_bool($decodedValue)) {
-                $extraProps[$prop->key] = $decodedValue;
-            } else {
-                $extraProps[$prop->key] = "{$prop->value}";
+        // Process Sa11y's props
+        function processProps($props)
+        {
+            $result = [];
+            foreach ($props as $prop) {
+                $decodedValue = json_decode($prop->value);
+                if (is_numeric($decodedValue) || \is_bool($decodedValue)) {
+                    $result[$prop->key] = $decodedValue;
+                } else {
+                    $result[$prop->key] = "{$prop->value}";
+                }
             }
+            return $result;
         }
+        $extraProps = processProps($getExtraProps);
+        $checks     = processProps($getChecks);
+        $allChecks  = ['checks' => $checks];
 
         // Merge all options together and add to page
-        $allOptions = array_merge($getOptions, $extraProps);
+        $allOptions = array_merge($getOptions, $extraProps, $allChecks);
         $document->addScriptOptions('jooa11yOptions', $allOptions);
 
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa*/

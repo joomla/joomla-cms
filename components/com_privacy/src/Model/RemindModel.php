@@ -17,7 +17,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Component\Privacy\Administrator\Table\ConsentTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -70,9 +69,6 @@ class RemindModel extends AdminModel
             return false;
         }
 
-        /** @var ConsentTable $table */
-        $table = $this->getTable();
-
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['r.id', 'r.user_id', 'r.token']));
@@ -89,7 +85,7 @@ class RemindModel extends AdminModel
 
         try {
             $remind = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
 
             return false;

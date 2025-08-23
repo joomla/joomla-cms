@@ -19,6 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
+use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -70,12 +71,15 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state      = $this->get('State');
-        $this->items      = $this->get('Items');
-        $this->pagination = $this->get('Pagination');
+        /** @var HistoryModel $model */
+        $model = $this->getModel();
+
+        $this->state      = $model->getState();
+        $this->items      = $model->getItems();
+        $this->pagination = $model->getPagination();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

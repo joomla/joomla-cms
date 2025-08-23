@@ -86,7 +86,7 @@ class TimeRule extends FormRule
         }
 
         // If min and max is set
-        if (isset($element['min']) && isset($element['max'])) {
+        if (isset($element['min'], $element['max'])) {
             $min = $element['min'][0] . $element['min'][1];
             $max = $element['max'][0] . $element['max'][1];
 

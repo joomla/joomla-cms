@@ -359,6 +359,8 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         }
 
         $event->setAbort('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED');
+
+        return false;
     }
 
     /**
@@ -409,7 +411,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -419,7 +421,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         $context = $event->getArgument('extension');
 
         if (!$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         $parts = explode('.', $context);
