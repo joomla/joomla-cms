@@ -4,33 +4,32 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aea460a15f0d9c656441f03d58683ed5",
+    "content-hash": "a38a4283b189156423edcb9ee0f8c001",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
-            "version": "v4.0.4",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
-                "reference": "87fcd0252e86bf8f881b83ebbacd26fede361356"
+                "reference": "0cea987c75b981797cf3bc28b182c5da05c41252"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/87fcd0252e86bf8f881b83ebbacd26fede361356",
-                "reference": "87fcd0252e86bf8f881b83ebbacd26fede361356",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/0cea987c75b981797cf3bc28b182c5da05c41252",
+                "reference": "0cea987c75b981797cf3bc28b182c5da05c41252",
                 "shasum": ""
             },
             "require": {
                 "ext-pcre": "*",
                 "jakeasmith/http_build_url": "^1",
-                "php": ">=8.1"
+                "php": ">=7.2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9 || ^10"
+                "phpunit/phpunit": "8.0"
             },
             "suggest": {
                 "ext-iconv": "Install ext/iconv for using input / output other than UTF-8 or ISO-8859-1",
-                "ext-intl": "Install ext/intl for better case folding",
                 "ext-mbstring": "Install ext/mbstring for using input / output other than UTF-8 or ISO-8859-1"
             },
             "type": "library",
@@ -59,9 +58,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algo26-matthias/idna-convert/issues",
-                "source": "https://github.com/algo26-matthias/idna-convert/tree/v4.0.4"
+                "source": "https://github.com/algo26-matthias/idna-convert/tree/v3.2.0"
             },
-            "time": "2025-03-16T10:00:35+00:00"
+            "time": "2025-04-01T11:22:26+00:00"
         },
         {
             "name": "brick/math",
@@ -1503,16 +1502,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "3.3.1",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "d13a7504471b4730a8107e3566c6fe6d476706fc"
+                "reference": "ddea28591d13a2a762eb2ed080afba422868d005"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/d13a7504471b4730a8107e3566c6fe6d476706fc",
-                "reference": "d13a7504471b4730a8107e3566c6fe6d476706fc",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/ddea28591d13a2a762eb2ed080afba422868d005",
+                "reference": "ddea28591d13a2a762eb2ed080afba422868d005",
                 "shasum": ""
             },
             "require": {
@@ -1570,7 +1569,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/3.3.1"
+                "source": "https://github.com/joomla-framework/database/tree/3.4.2"
             },
             "funding": [
                 {
@@ -1582,7 +1581,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-26T13:22:09+00:00"
+            "time": "2025-05-10T11:36:16+00:00"
         },
         {
             "name": "joomla/di",
@@ -5884,12 +5883,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-backports/json-api-php.git",
-                "reference": "c6580b75760cd00e555ef5ef1028f63231fb53f2"
+                "reference": "89f1ef6a6711bd2f03d67fa13e4704928da411da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-backports/json-api-php/zipball/c6580b75760cd00e555ef5ef1028f63231fb53f2",
-                "reference": "c6580b75760cd00e555ef5ef1028f63231fb53f2",
+                "url": "https://api.github.com/repos/joomla-backports/json-api-php/zipball/89f1ef6a6711bd2f03d67fa13e4704928da411da",
+                "reference": "89f1ef6a6711bd2f03d67fa13e4704928da411da",
                 "shasum": ""
             },
             "require": {
@@ -5932,29 +5931,30 @@
                 "jsonapi",
                 "standard"
             ],
-            "time": "2025-03-13T08:47:04+00:00"
+            "time": "2025-03-21T09:49:11+00:00"
         },
         {
             "name": "typo3/phar-stream-wrapper",
-            "version": "v4.0.0",
+            "version": "v3.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "ce4b6e9873d4dd7dce2a397511713bf14977fdf2"
+                "reference": "a931b28f422a60052db85c0a84a05a366453b2c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/ce4b6e9873d4dd7dce2a397511713bf14977fdf2",
-                "reference": "ce4b6e9873d4dd7dce2a397511713bf14977fdf2",
+                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/a931b28f422a60052db85c0a84a05a366453b2c0",
+                "reference": "a931b28f422a60052db85c0a84a05a366453b2c0",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": "^7.1 || ^8.0"
+                "php": "^7.0 || ~8.0 || ~8.1 || ~8.2 || ~8.3"
             },
             "require-dev": {
                 "ext-xdebug": "*",
-                "phpunit/phpunit": "^7 || ^8 || ^9"
+                "phpspec/prophecy": "^1.10",
+                "symfony/phpunit-bridge": "^5.1"
             },
             "suggest": {
                 "ext-fileinfo": "For PHP builtin file type guessing, otherwise uses internal processing"
@@ -5962,7 +5962,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x-dev"
+                    "dev-master": "v3.x-dev"
                 }
             },
             "autoload": {
@@ -5984,9 +5984,9 @@
             ],
             "support": {
                 "issues": "https://github.com/TYPO3/phar-stream-wrapper/issues",
-                "source": "https://github.com/TYPO3/phar-stream-wrapper/tree/v4.0.0"
+                "source": "https://github.com/TYPO3/phar-stream-wrapper/tree/v3.1.8"
             },
-            "time": "2024-12-10T00:00:25+00:00"
+            "time": "2024-12-09T23:06:33+00:00"
         },
         {
             "name": "voku/portable-ascii",
@@ -10175,9 +10175,9 @@
         "ext-gd": "*",
         "ext-dom": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.1.0"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
