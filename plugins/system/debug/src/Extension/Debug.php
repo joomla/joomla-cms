@@ -31,7 +31,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Event\ConnectionEvent;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
@@ -162,16 +161,15 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
      * @param   CMSApplicationInterface  $app         The app
      * @param   DatabaseInterface        $db          The db
      *
      * @since   1.5
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, CMSApplicationInterface $app, DatabaseInterface $db)
+    public function __construct(array $config, CMSApplicationInterface $app, DatabaseInterface $db)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->setApplication($app);
         $this->setDatabase($db);
