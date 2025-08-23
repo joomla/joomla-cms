@@ -604,7 +604,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Get the default values for the class from the table.
         foreach ($this->getFields() as $k => $v) {
             // If the property is not the primary key or private, reset it.
-            if (!\in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0)) {
+            if (!\in_array($k, $this->_tbl_keys) && (!str_starts_with($k, '_'))) {
                 $this->$k = $v->Default;
             }
         }
@@ -680,7 +680,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         foreach ($this->getProperties() as $k => $v) {
             // Only process fields not in the ignore array.
             if (!\in_array($k, $ignore)) {
-                if (isset($src[$k])) {
+                if (\array_key_exists($k, $src)) {
                     $this->$k = $src[$k];
                 }
             }

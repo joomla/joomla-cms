@@ -239,9 +239,9 @@ class TagModel extends AdminModel
                 $origTable->load($input->getInt('id'));
 
                 if ($data['title'] == $origTable->title) {
-                    list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-                    $data['title']       = $title;
-                    $data['alias']       = $alias;
+                    [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+                    $data['title']   = $title;
+                    $data['alias']   = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
                 }

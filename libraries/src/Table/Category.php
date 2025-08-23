@@ -172,7 +172,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
             return false;
         }
 
-        $this->alias = trim($this->alias);
+        $this->alias = trim($this->alias ?? '');
 
         if (empty($this->alias)) {
             $this->alias = $this->title;

@@ -43,7 +43,7 @@ class DisplayController extends BaseController
 
         // Modules frontpage Editor Module proxying.
         if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal') {
-            $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+            $config['base_path'] = JPATH_ADMINISTRATOR . '/components/com_modules';
         }
 
         parent::__construct($config, $factory, $app, $input);

@@ -27,7 +27,7 @@ describe('Test in backend that the tasks list', () => {
     cy.get('#jform_params_url').clear().type('www.test.task');
     cy.get('#jform_execution_rules_interval_minutes').clear().type('1');
     cy.clickToolbarButton('Save & Close');
-    cy.get('#system-message-container').contains('Item saved').should('exist');
+    cy.checkForSystemMessage('Item saved');
   });
 
   it('can unpublish the test task', () => {
@@ -38,7 +38,7 @@ describe('Test in backend that the tasks list', () => {
     cy.get('#jform_params_url').clear().type('www.test.task');
     cy.get('#jform_execution_rules_interval_minutes').clear().type('1');
     cy.clickToolbarButton('Save & Close');
-    cy.get('#system-message-container').contains('Item saved').should('exist');
+    cy.checkForSystemMessage('Item saved');
 
     cy.reload();
     cy.searchForItem('Test task');
@@ -47,7 +47,7 @@ describe('Test in backend that the tasks list', () => {
     cy.contains('Disable').click();
     cy.on('window:confirm', () => true);
 
-    cy.get('#system-message-container').contains('Task disabled').should('exist');
+    cy.checkForSystemMessage('Task disabled');
   });
 
   it('can trash the test task', () => {
@@ -60,7 +60,7 @@ describe('Test in backend that the tasks list', () => {
     cy.get('#jform_state').select('Disabled');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Item saved').should('exist');
+    cy.checkForSystemMessage('Item saved');
 
     cy.reload();
     cy.searchForItem('Test task');
@@ -69,7 +69,7 @@ describe('Test in backend that the tasks list', () => {
     cy.contains('Trash').click();
     cy.on('window:confirm', () => true);
 
-    cy.get('#system-message-container').contains('Task trashed').should('exist');
+    cy.checkForSystemMessage('Task trashed');
   });
 
   it('can delete the test task', () => {
@@ -82,7 +82,7 @@ describe('Test in backend that the tasks list', () => {
     cy.get('#jform_state').select('Trashed');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Item saved').should('exist');
+    cy.checkForSystemMessage('Item saved');
 
     cy.reload();
 
@@ -92,6 +92,6 @@ describe('Test in backend that the tasks list', () => {
     cy.clickToolbarButton('empty trash');
     cy.clickDialogConfirm(true);
 
-    cy.get('#system-message-container').contains('Task deleted').should('exist');
+    cy.checkForSystemMessage('Task deleted');
   });
 });

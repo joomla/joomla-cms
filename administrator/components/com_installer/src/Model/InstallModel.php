@@ -329,8 +329,8 @@ class InstallModel extends BaseDatabaseModel
 
         // Move uploaded file.
         try {
-            File::upload($tmp_src, $tmp_dest, false, true);
-        } catch (FilesystemException $exception) {
+            File::upload($tmp_src, $tmp_dest);
+        } catch (FilesystemException) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
 
             return false;

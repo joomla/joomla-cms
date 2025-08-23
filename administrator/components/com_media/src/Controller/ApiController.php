@@ -276,7 +276,7 @@ class ApiController extends BaseController
         }
 
         if ($newPath != null && $newPath !== $adapter . ':' . $path) {
-            list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
+            [$destinationAdapter, $destinationPath] = explode(':', $newPath, 2);
 
             if ($move) {
                 $destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, false);

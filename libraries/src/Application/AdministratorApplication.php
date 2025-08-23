@@ -189,7 +189,17 @@ class AdministratorApplication extends CMSApplication
          * $this->input->getCmd('option'); or $this->input->getCmd('view');
          * ex: due of the sef urls
          */
-        $this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
+        $this->checkUserRequiresReset('com_users', 'user', 'edit', [
+            ['option' => 'com_users', 'task' => 'user.edit'],
+            ['option' => 'com_users', 'task' => 'user.save'],
+            ['option' => 'com_users', 'task' => 'user.apply'],
+            ['option' => 'com_users', 'view' => 'captivate'],
+            ['option' => 'com_login', 'task' => 'logout'],
+            ['option' => 'com_users', 'view' => 'methods'],
+            ['option' => 'com_users', 'view' => 'method'],
+            ['option' => 'com_users', 'task' => 'method.add'],
+            ['option' => 'com_users', 'task' => 'method.save'],
+        ]);
 
         // Dispatch the application
         $this->dispatch();
@@ -359,6 +369,21 @@ class AdministratorApplication extends CMSApplication
 
             $this->bootComponent('messages')->getMVCFactory()
                 ->createModel('Messages', 'Administrator')->purge($this->getIdentity() ? $this->getIdentity()->id : 0);
+
+            if ($result) {
+                // Check if the user is required to reset their password
+                $this->checkUserRequiresReset('com_users', 'user', 'edit', [
+                    ['option' => 'com_users', 'task' => 'user.edit'],
+                    ['option' => 'com_users', 'task' => 'user.save'],
+                    ['option' => 'com_users', 'task' => 'user.apply'],
+                    ['option' => 'com_users', 'view' => 'captivate'],
+                    ['option' => 'com_login', 'task' => 'logout'],
+                    ['option' => 'com_users', 'view' => 'methods'],
+                    ['option' => 'com_users', 'view' => 'method'],
+                    ['option' => 'com_users', 'task' => 'method.add'],
+                    ['option' => 'com_users', 'task' => 'method.save'],
+                ]);
+            }
         }
 
         return $result;

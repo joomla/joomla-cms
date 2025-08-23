@@ -160,12 +160,12 @@ trait LegacyModelLoaderTrait
         $sitePath  = Path::clean(JPATH_SITE . '/components/' . $componentName);
 
         foreach (self::addIncludePath() as $path) {
-            if (strpos($path, $adminPath) !== false) {
+            if (str_contains($path, $adminPath)) {
                 $client = 'Administrator';
                 break;
             }
 
-            if (strpos($path, $sitePath) !== false) {
+            if (str_contains($path, $sitePath)) {
                 $client = 'Site';
                 break;
             }

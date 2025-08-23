@@ -20,6 +20,8 @@ use Joomla\CMS\Form\Field\ListField;
  * Field to load a list of all users that have logged actions
  *
  * @since  3.9.0
+ *
+ * @deprecated  5.3  will be removed in 7.0 without replacement
  */
 class LogcreatorField extends ListField
 {
