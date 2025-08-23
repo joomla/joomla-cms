@@ -30,7 +30,7 @@ describe('Test in backend that the articles list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
 
-      cy.get('#system-message-container').contains('Article published.').should('exist');
+      cy.checkForSystemMessage('Article published.');
     });
   });
 
@@ -42,7 +42,7 @@ describe('Test in backend that the articles list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
 
-      cy.get('#system-message-container').contains('Article unpublished.').should('exist');
+      cy.checkForSystemMessage('Article unpublished.');
     });
   });
 
@@ -54,7 +54,7 @@ describe('Test in backend that the articles list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('.button-featured', 'Feature').click();
 
-      cy.get('#system-message-container').contains('Article featured.').should('exist');
+      cy.checkForSystemMessage('Article featured.');
     });
   });
 
@@ -66,7 +66,7 @@ describe('Test in backend that the articles list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Unfeature').click();
 
-      cy.get('#system-message-container').contains('Article unfeatured.').should('exist');
+      cy.checkForSystemMessage('Article unfeatured.');
     });
   });
 
@@ -78,7 +78,7 @@ describe('Test in backend that the articles list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
 
-      cy.get('#system-message-container').contains('Article trashed.').should('exist');
+      cy.checkForSystemMessage('Article trashed.');
     });
   });
 
@@ -91,7 +91,7 @@ describe('Test in backend that the articles list', () => {
       cy.clickToolbarButton('empty trash');
       cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('Article deleted.').should('exist');
+      cy.checkForSystemMessage('Article deleted.');
     });
   });
 

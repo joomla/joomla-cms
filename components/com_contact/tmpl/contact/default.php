@@ -25,7 +25,7 @@ $canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->cat
 $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === $this->getCurrentUser()->id);
 $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 $htag2   = ($tparams->get('show_page_heading') && $tparams->get('show_name')) ? 'h3' : 'h2';
-
+$icon    = $this->params->get('contact_icons') == 0;
 ?>
 
 <div class="com-contact contact">
@@ -170,14 +170,14 @@ $htag2   = ($tparams->get('show_page_heading') && $tparams->get('show_name')) ? 
         <div class="com-contact__miscinfo contact-miscinfo">
             <dl class="dl-horizontal">
                 <dt>
-                    <?php if (!$this->params->get('marker_misc')) : ?>
-                        <span class="icon-info-circle" aria-hidden="true"></span>
-                        <span class="visually-hidden"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
-                    <?php else : ?>
-                        <span class="<?php echo $this->params->get('marker_class'); ?>">
+                    <?php if ($icon && !$this->params->get('marker_misc')) : ?>
+                        <span class="icon-home" aria-hidden="true"></span>
+                    <?php elseif ($icon && $this->params->get('marker_misc')) : ?>
+                        <span class="jicons-image">
                             <?php echo $this->params->get('marker_misc'); ?>
                         </span>
                     <?php endif; ?>
+                    <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
                 </dt>
                 <dd>
                     <span class="contact-misc">

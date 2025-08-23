@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 2;
+    public const MINOR_VERSION = 3;
 
     /**
      * Patch release version.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Uthabiti';
+    public const CODENAME = 'Timu';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '7-January-2025';
+    public const RELDATE = '19-August-2025';
 
     /**
      * Release time.

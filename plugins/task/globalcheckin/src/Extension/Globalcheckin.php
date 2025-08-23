@@ -88,7 +88,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
 
             $fields = $db->getTableColumns($tn, false);
 
-            if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+            if (!(isset($fields['checked_out'], $fields['checked_out_time']))) {
                 continue;
             }
 
@@ -115,7 +115,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 // This failure isn't critical, don't care too much
                 $failed = true;
             }

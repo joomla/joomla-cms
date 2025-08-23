@@ -126,6 +126,8 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="ws.title ASC" requires="workflow">JSTAGE_ASC</option>
+			<option value="ws.title DESC" requires="workflow">JSTAGE_DESC</option>
 			<option value="a.featured ASC">JFEATURED_ASC</option>
 			<option value="a.featured DESC">JFEATURED_DESC</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>

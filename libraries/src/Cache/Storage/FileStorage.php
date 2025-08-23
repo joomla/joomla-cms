@@ -158,6 +158,11 @@ class FileStorage extends CacheStorage
             $item  = new CacheStorageHelper($folder);
 
             foreach ($files as $file) {
+                // Do not include index.html with the Number of Files
+                if ($file === 'index.html') {
+                    continue;
+                }
+
                 $item->updateSize(filesize($path . '/' . $folder . '/' . $file));
             }
 

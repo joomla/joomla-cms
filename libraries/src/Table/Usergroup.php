@@ -186,7 +186,7 @@ class Usergroup extends Table
         // If there is an update failure, return false to break out of the recursion
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 

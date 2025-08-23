@@ -74,17 +74,37 @@ describe('Test in backend that the media manager', () => {
   });
 
   it('can display an error message when an invalid path is defined in the url', () => {
+    cy.on('uncaught:exception', () => false);
     cy.visit('/administrator/index.php?option=com_media&path=local-images:/invalid');
     cy.wait('@getMedia');
 
-    cy.get('#system-message-container').should('contain.text', 'File or Folder not found');
+    cy.checkForSystemMessage('File or Folder not found');
   });
 
   it('can display an error message when an invalid path is defined in the session', () => {
+    cy.on('uncaught:exception', () => false);
     window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({ selectedDirectory: 'local-images:/invalid' }));
     cy.visit('/administrator/index.php?option=com_media');
     cy.wait('@getMedia');
 
-    cy.get('#system-message-container').should('contain.text', 'File or Folder not found');
+    cy.checkForSystemMessage('File or Folder not found');
+  });
+
+  it('can not rename to malicious file', () => {
+    cy.visit('/administrator/index.php?option=com_media');
+    cy.wait('@getMedia');
+
+    cy.window()
+      .then((win) => win.Joomla.getOptions('csrf.token'))
+      .then((token) => cy.request({
+        method: 'put',
+        url: '/administrator/index.php?option=com_media&format=json&mediatypes=0,1,2,3&task=api.files&path=local-images%3A%2Fpowered_by.png',
+        body: { [token]: '1', newPath: 'local-images:/powered.php', move: 0 },
+        failOnStatusCode: false,
+      }))
+      .then((response) => {
+        expect(response.status).to.eq(500);
+        cy.readFile('images/powered.php').should('not.exist');
+      });
   });
 });

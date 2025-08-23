@@ -125,35 +125,66 @@ abstract class Bootstrap
      *
      * Options for the carousel can be:
      * - interval  number   5000   The amount of time to delay between automatically cycling an item.
-     *                             If false, carousel will not automatically cycle.
      * - keyboard  boolean  true   Whether the carousel should react to keyboard events.
-     * - pause     string|  hover  Pauses the cycling of the carousel on mouseenter and resumes the cycling
-     *             boolean         of the carousel on mouseleave.
-     * - slide     string|  false  Autoplays the carousel after the user manually cycles the first item.
-     *             boolean         If "carousel", autoplays the carousel on load.
+     * - pause     string|  hover  If set to "hover", pauses the cycling of the carousel on mouseenter and resumes the
+     *             boolean         cycling of the carousel on mouseleave. If set to false, hovering over the carousel won’t
+     *                             pause it. On touch-enabled devices, when set to "hover", cycling will pause on touchend
+     *                             (once the user finished interacting with the carousel) for two intervals, before
+     *                             automatically resuming. This is in addition to the mouse behavior.
+     * - ride      string|  false  If set to true, autoplays the carousel after the user manually cycles the first item. If set
+     *             boolean         to "carousel", autoplays the carousel on load.
+     * - touch     boolean  true   Whether the carousel should support left/right swipe interactions on touchscreen devices.
+     * - wrap      boolean  true   Whether the carousel should cycle continuously or have hard stops.
      */
     public static function carousel($selector = '', $params = []): void
     {
-        // Only load once
         if (!empty(static::$loaded[__METHOD__][$selector])) {
             return;
         }
 
         if ($selector !== '') {
-            // Setup options object
-            $opt = [
-                'interval' => (int) ($params['interval'] ?? 5000),
-                'keyboard' => (bool) ($params['keyboard'] ?? true),
-                'pause'    => $params['pause'] ?? 'hover',
-                'slide'    => (bool) ($params['slide'] ?? false),
-                'wrap'     => (bool) ($params['wrap'] ?? true),
-                'touch'    => (bool) ($params['touch'] ?? true),
-            ];
+            $opt['interval'] = 5000;
 
-            Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter($opt)]);
+            if (isset($params['interval']) && is_numeric($params['interval'])) {
+                $opt['interval'] = (int) $params['interval'];
+            }
+
+            $opt['keyboard'] = true;
+
+            if (isset($params['keyboard']) && \is_bool($params['keyboard'])) {
+                $opt['keyboard'] = $params['keyboard'];
+            }
+
+            $opt['pause'] = 'hover';
+
+            if (isset($params['pause']) && \in_array($params['pause'], ['hover', false], true)) {
+                $opt['pause'] = $params['pause'];
+            }
+
+            $opt['ride'] = false;
+
+            if (isset($params['ride']) && \in_array($params['ride'], ['carousel', true, false], true)) {
+                $opt['ride'] = $params['ride'];
+            }
+
+            $opt['touch'] = true;
+
+            if (isset($params['touch']) && \is_bool($params['touch'])) {
+                $opt['touch'] = $params['touch'];
+            }
+
+            $opt['wrap'] = true;
+
+            if (isset($params['wrap']) && \is_bool($params['wrap'])) {
+                $opt['wrap'] = $params['wrap'];
+            }
+
+            Factory::getApplication()->getDocument()->addScriptOptions(
+                'bootstrap.carousel',
+                [$selector => (object) $opt]
+            );
         }
 
-        // Include the Bootstrap component
         Factory::getApplication()
             ->getDocument()
             ->getWebAssetManager()
@@ -849,7 +880,7 @@ HTMLSTR;
     {
         static $tabLayout = null;
 
-        $tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
+        $tabLayout = $tabLayout ?? new FileLayout('libraries.html.bootstrap.tab.addtab');
         $active    = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
         return $tabLayout->render(['id' => preg_replace('/^[\.#]/', '', $id), 'active' => $active, 'title' => $title]);

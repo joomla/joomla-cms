@@ -113,7 +113,7 @@ class TemplatesModel extends FormModel
         }
 
         // Attempt to load the xml file.
-        if (!$xml = simplexml_load_file($formFile)) {
+        if (!simplexml_load_file($formFile)) {
             throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
         }
 

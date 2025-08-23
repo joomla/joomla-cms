@@ -20,6 +20,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -98,18 +99,21 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
      */
     public function display($tpl = null)
     {
+        /** @var UserModel $model */
+        $model = $this->getModel();
+
         // If no item found, dont show the edit screen, redirect with message
-        if (false === $this->item = $this->get('Item')) {
+        if (false === $this->item = $model->getItem()) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'error');
             $app->redirect('index.php?option=com_users&view=users');
         }
 
-        $this->form  = $this->get('Form');
-        $this->state = $this->get('State');
+        $this->form  = $model->getForm();
+        $this->state = $model->getState();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -117,8 +121,8 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $user = $this->getCurrentUser();
 
         if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
-            $this->grouplist = $this->get('Groups');
-            $this->groups    = $this->get('AssignedGroups');
+            $this->grouplist = $model->getGroups();
+            $this->groups    = $model->getAssignedGroups();
         }
 
         $this->form->setValue('password', null);
@@ -131,7 +135,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
                 $this->mfaConfigurationUI = Mfa::canShowConfigurationInterface($userBeingEdited)
                     ? Mfa::getConfigurationInterface($userBeingEdited)
                     : '';
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // In case something goes really wrong with the plugins; prevents hard breaks.
                 $this->mfaConfigurationUI = null;
             }

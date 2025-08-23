@@ -31,6 +31,7 @@ class UsersHelper extends ContentHelper
     /**
      * @var    CMSObject  A cache for the available actions.
      * @since  1.6
+     * @deprecated 5.3 will be removed in 7.0 without replacement
      */
     protected static $actions;
 
@@ -40,6 +41,8 @@ class UsersHelper extends ContentHelper
      * @return  array  An array of \JHtmlOption elements.
      *
      * @since   1.6
+     * @deprecated 5.3 will be removed in 7.0
+     *             Use Form Fields instead
      */
     public static function getStateOptions()
     {
@@ -57,6 +60,8 @@ class UsersHelper extends ContentHelper
      * @return  array  An array of \JHtmlOption elements.
      *
      * @since   1.6
+     * @deprecated 5.3 will be removed in 7.0
+     *             Use Form Fields instead
      */
     public static function getActiveOptions()
     {
@@ -94,6 +99,8 @@ class UsersHelper extends ContentHelper
      * @return  array
      *
      * @since   2.5
+     * @deprecated 5.3 will be removed in 7.0
+     *             Use Form Fields instead
      */
     public static function getRangeOptions()
     {
