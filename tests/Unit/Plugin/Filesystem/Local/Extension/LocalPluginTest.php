@@ -106,6 +106,7 @@ class LocalPluginTest extends UnitTestCase
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getIdentity')->willReturn(new User());
+        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
 
         $plugin   = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "tests"}]']], JPATH_ROOT);
         $plugin->setApplication($app);
