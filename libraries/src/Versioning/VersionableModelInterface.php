@@ -17,7 +17,7 @@ namespace Joomla\CMS\Versioning;
 /**
  * Interface for a versionable model.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  6.0.0
  */
 interface VersionableModelInterface
 {
@@ -28,7 +28,7 @@ interface VersionableModelInterface
      *
      * @return  boolean  False on failure or error, true otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function loadHistory(int $historyId);
 }

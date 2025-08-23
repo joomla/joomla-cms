@@ -31,7 +31,7 @@ trait VersionableModelTrait
      *
      * @return  integer  False on failure or error, id otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function getItemIdFromHistory($historyId)
     {
@@ -58,7 +58,7 @@ trait VersionableModelTrait
      *
      * @return  mixed    False on failure or error, data otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function getHistoryData($historyId)
     {
@@ -81,7 +81,7 @@ trait VersionableModelTrait
      *
      * @return  mixed    False on failure or error, table otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function getHistoryTable($historyId)
     {
@@ -106,7 +106,7 @@ trait VersionableModelTrait
      *
      * @return  boolean  False on failure or error, true otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function loadHistory(int $historyId)
     {

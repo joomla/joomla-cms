@@ -110,7 +110,7 @@ class ListView extends HtmlView
      *
      * @var string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.0.0
      */
     protected $categorySection;
 
@@ -126,7 +126,7 @@ class ListView extends HtmlView
      *
      * @var   boolean
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.0.0
      */
     private $isEmptyState = false;
 
