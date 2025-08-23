@@ -408,7 +408,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 throw new UnknownAssetException();
             }
 
-            $webPageSchema['breadcrumbs'] = ['@id' => $breadcrumbs['@id']];
+            $webPageSchema['breadcrumb'] = ['@id' => $breadcrumbs['@id']];
         } catch (UnknownAssetException $e) {
             // No Breadcrumbs Schema found, so we don't add it
         }
