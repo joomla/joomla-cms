@@ -11,6 +11,7 @@
 namespace Joomla\Component\Mails\Administrator\View\Templates;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -117,9 +118,16 @@ class HtmlView extends BaseHtmlView
             }
         }
 
+        $currentLanguageTag = Factory::getApplication()->getLanguage()->getTag();
+
         foreach ($extensions as $extension) {
-            MailsHelper::loadTranslationFiles($extension, $defaultLanguageTag);
+            MailsHelper::loadTranslationFiles($extension, $currentLanguageTag);
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
 

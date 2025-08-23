@@ -149,7 +149,7 @@ class MenuItemByTypeField extends GroupedlistField
     {
         $result = parent::setup($element, $value, $group);
 
-        if ($result == true) {
+        if ($result) {
             $menuType = (string) $this->element['menu_type'];
 
             if (!$menuType) {
@@ -197,7 +197,7 @@ class MenuItemByTypeField extends GroupedlistField
 
             try {
                 $menuTitle = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $menuTitle = $menuType;
             }
 

@@ -140,12 +140,12 @@ abstract class Select
         $id = str_replace(['[', ']', ' '], '', $id);
 
         // If the selectbox contains "form-select-color-state" then load the JS file
-        if (strpos($attribs, 'form-select-color-state') !== false) {
+        if (str_contains($attribs, 'form-select-color-state')) {
             Factory::getDocument()->getWebAssetManager()
                 ->registerAndUseScript(
                     'webcomponent.select-colour',
                     'system/fields/select-colour.min.js',
-                    ['dependencies' => ['wcpolyfill']],
+                    ['dependencies' => ['core']],
                     ['type'         => 'module']
                 );
         }
@@ -244,7 +244,7 @@ abstract class Select
                     $noGroup = false;
                 }
 
-                if (isset($options['group.id']) && isset($group[$options['group.id']])) {
+                if (isset($options['group.id'], $group[$options['group.id']])) {
                     $id      = $group[$options['group.id']];
                     $noGroup = false;
                 }
@@ -257,7 +257,7 @@ abstract class Select
                     $noGroup = false;
                 }
 
-                if (isset($options['group.id']) && isset($group->{$options['group.id']})) {
+                if (isset($options['group.id'], $group->{$options['group.id']})) {
                     $id      = $group->{$options['group.id']};
                     $noGroup = false;
                 }

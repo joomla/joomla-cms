@@ -11,7 +11,7 @@ describe('Test in backend that the contact form', () => {
     cy.get('#jform_name').clear().type('Test contact');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Contact saved.').should('exist');
+    cy.checkForSystemMessage('Contact saved.');
     cy.contains('Test contact');
   });
 

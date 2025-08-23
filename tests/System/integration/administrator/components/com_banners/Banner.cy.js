@@ -11,7 +11,7 @@ describe('Test in backend that the banners form', () => {
     cy.get('#jform_name').clear().type('Test banner');
     cy.clickToolbarButton('Save & Close');
 
-    cy.get('#system-message-container').contains('Banner saved.').should('exist');
+    cy.checkForSystemMessage('Banner saved.');
     cy.contains('Test banner');
   });
 

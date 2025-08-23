@@ -6,7 +6,7 @@
 
   &-inside {
     display: flex;
-    min-height: 54px;
+    min-block-size: 54px;
   }
 
   a {
@@ -21,8 +21,8 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    width: $sidebar-width;
-    height: 100%;
+    inline-size: $sidebar-width;
+    block-size: 100%;
     padding: 12px 5px;
     overflow: hidden;
     background-color: $header-logo-bg;
@@ -30,7 +30,7 @@
 
     &.small {
       justify-content: center;
-      width: $sidebar-width-closed;
+      inline-size: $sidebar-width-closed;
       transition: all .3s ease-in-out;
 
       svg,
@@ -42,8 +42,8 @@
 
         &.logo-collapsed {
           display: inline-block;
-          width: 20px;
-          height: 20px;
+          inline-size: 20px;
+          block-size: 20px;
           object-fit: contain;
           object-position: center center;
         }
@@ -52,8 +52,8 @@
 
     svg,
     img {
-      width: 150px;
-      height: 30px;
+      inline-size: 150px;
+      block-size: 30px;
       margin: 0 .35rem;
       object-fit: contain;
       object-position: left center;
@@ -107,7 +107,7 @@
 .header-items {
   align-items: center;
   justify-content: flex-end;
-  width: 50%;
+  inline-size: 50%;
   margin: 15px;
   margin-inline-start: auto;
 
@@ -165,9 +165,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    min-width: 28px;
-    height: 28px;
+    inline-size: 28px;
+    min-inline-size: 28px;
+    block-size: 28px;
     margin: 4px;
     color: $white;
     background-color: var(--template-bg-dark);
@@ -215,9 +215,9 @@
 @include media-breakpoint-down(md) {
   .header-items {
     position: fixed;
-    bottom: 0;
+    inset-block-end: 0;
     flex-direction: row-reverse;
-    width: 100%;
+    inline-size: 100%;
     padding: 10px 0;
     margin: 0;
     background: var(--template-bg-dark);

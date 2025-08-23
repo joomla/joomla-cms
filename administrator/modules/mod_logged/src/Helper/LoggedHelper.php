@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class LoggedHelper
+class LoggedHelper
 {
     /**
      * Get a list of logged users.
@@ -37,15 +37,17 @@ abstract class LoggedHelper
      *
      * @return  mixed  An array of users, or false on error.
      *
+     * @since   5.4.0
+     *
      * @throws  \RuntimeException
      */
-    public static function getList(Registry $params, CMSApplication $app, DatabaseInterface $db)
+    public function getUsers(Registry $params, CMSApplication $app, DatabaseInterface $db): mixed
     {
         $user  = $app->getIdentity();
         $query = $db->getQuery(true)
             ->select('s.time, s.client_id, u.id, u.name, u.username')
             ->from('#__session AS s')
-            ->join('LEFT', '#__users AS u ON s.userid = u.id')
+            ->join('RIGHT', '#__users AS u ON s.userid = u.id')
             ->where('s.guest = 0')
             ->setLimit($params->get('count', 5), 0);
 
@@ -78,12 +80,54 @@ abstract class LoggedHelper
     /**
      * Get the alternate title for the module
      *
-     * @param   \Joomla\Registry\Registry  $params  The module parameters.
+     * @param   Registry  $params  The module parameters.
+     *
+     * @since   5.4.0
      *
      * @return  string    The alternate title for the module.
      */
-    public static function getTitle($params)
+    public function getModuleTitle($params): string
     {
         return Text::plural('MOD_LOGGED_TITLE', $params->get('count', 5));
+    }
+
+    /**
+     * Get a list of logged users.
+     *
+     * @param   Registry           $params  The module parameters
+     * @param   CMSApplication     $app     The application
+     * @param   DatabaseInterface  $db      The database
+     *
+     * @return  mixed  An array of users, or false on error.
+     *
+     * @throws  \RuntimeException
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getUsers
+     *             Example: Factory::getApplication()->bootModule('mod_logged', 'administrator')
+     *                          ->getHelper('LoggedHelper')
+     *                          ->getUsers($params, Factory::getApplication(), $db)
+     */
+    public static function getList(Registry $params, CMSApplication $app, DatabaseInterface $db)
+    {
+        return (new self())->getUsers($params, $app, $db);
+    }
+
+    /**
+     * Get the alternate title for the module
+     *
+     * @param   Registry  $params  The module parameters.
+     *
+     * @return  string    The alternate title for the module.
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getModuleTitle
+     *             Example: Factory::getApplication()->bootModule('mod_logged', 'administrator')
+     *                          ->getHelper('LoggedHelper')
+     *                          ->getModuleTitle($params)
+     */
+    public static function getTitle($params)
+    {
+        return (new self())->getModuleTitle($params);
     }
 }

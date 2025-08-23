@@ -36,7 +36,7 @@ trait IdentityAware
     /**
      * Get the application identity.
      *
-     * @return  User
+     * @return  ?User
      *
      * @since   4.0.0
      */

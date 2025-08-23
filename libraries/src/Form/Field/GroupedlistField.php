@@ -142,8 +142,6 @@ class GroupedlistField extends FormField
             }
         }
 
-        reset($groups);
-
         return $groups;
     }
 

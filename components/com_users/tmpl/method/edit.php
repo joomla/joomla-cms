@@ -32,8 +32,8 @@ $headingLevel = 2;
 $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
 ?>
 <div class="card card-body">
-    <form action="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.save&id=%d&method=%s&user_id=%d", $recordId, $method, $userId)) ?>"
-          class="form form-horizontal" id="com-users-method-edit" method="post">
+    <form action="<?php echo Route::_(sprintf("index.php?task=method.save&id=%d&method=%s&user_id=%d", $recordId, $method, $userId)) ?>"
+        method="post" id="com-users-method-edit" class="form form-horizontal">
         <?php echo HTMLHelper::_('form.token') ?>
         <?php if (!empty($this->returnURL)) : ?>
         <input type="hidden" name="returnurl" value="<?php echo $this->escape($this->returnURL) ?>">
@@ -165,7 +165,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                 </button>
 
                 <a href="<?php echo $cancelURL ?>"
-                   class="btn btn-sm btn-danger">
+                   class="btn btn-danger">
                     <span class="icon icon-cancel-2" aria-hidden="true"></span>
                     <?php echo Text::_('JCANCEL'); ?>
                 </a>

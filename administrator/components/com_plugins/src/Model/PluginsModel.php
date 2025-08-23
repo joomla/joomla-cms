@@ -135,7 +135,7 @@ class PluginsModel extends ListModel
                 $escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
                 foreach ($result as $i => $item) {
-                    if (!preg_match("/$escapedSearchString/i", $item->name)) {
+                    if (!preg_match("/$escapedSearchString/iu", $item->name)) {
                         unset($result[$i]);
                     }
                 }

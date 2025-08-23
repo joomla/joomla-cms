@@ -26,7 +26,7 @@ abstract class ModuleListEvent extends ModuleEvent
      * @var array
      *
      * @since  5.0.0
-     * @deprecated 5.0 will be removed in 6.0
+     * @deprecated 5.0 will be removed in 7.0
      */
     protected $legacyArgumentsOrder = ['modules', 'subject'];
 
@@ -43,7 +43,7 @@ abstract class ModuleListEvent extends ModuleEvent
     public function __construct($name, array $arguments = [])
     {
         // This event has a dummy subject for now
-        $this->arguments['subject'] = $this->arguments['subject'] ?? new \stdClass();
+        $this->arguments['subject'] ??= new \stdClass();
 
         parent::__construct($name, $arguments);
 
@@ -52,8 +52,8 @@ abstract class ModuleListEvent extends ModuleEvent
         }
 
         // For backward compatibility make sure the content is referenced
-        // @todo: Remove in Joomla 6
-        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        // @todo: Remove in Joomla 7
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 7
         if (key($arguments) === 0) {
             $this->arguments['modules'] = &$arguments[0];
         } elseif (\array_key_exists('modules', $arguments)) {

@@ -31,8 +31,6 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -105,7 +103,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error(\sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database is not available in constructor in 6.0.', E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -116,8 +114,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
         if (\array_key_exists('table_path', $config)) {
             static::addTablePath($config['table_path']);
         } elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR')) {
-            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-            static::addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
+            static::addTablePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/tables');
+            static::addTablePath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/table');
         }
 
         // Set the clean cache event
@@ -263,6 +261,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         if ($table = $this->_createTable($name, $prefix, $options)) {
+            if ($this->shouldUseExceptions()) {
+                $table->setUseExceptions(true);
+            }
+
             return $table;
         }
 
@@ -311,7 +313,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', $options);
             $cache->clean();
-        } catch (CacheExceptionInterface $exception) {
+        } catch (CacheExceptionInterface) {
             $options['result'] = false;
         }
 
@@ -334,55 +336,6 @@ abstract class BaseDatabaseModel extends BaseModel implements
     }
 
     /**
-     * Get the event dispatcher.
-     *
-     * The override was made to keep a backward compatibility for legacy component.
-     * TODO: Remove the override in 6.0
-     *
-     * @return  DispatcherInterface
-     *
-     * @since   4.4.0
-     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
-     */
-    public function getDispatcher()
-    {
-        if (!$this->dispatcher) {
-            @trigger_error(
-                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
-                E_USER_DEPRECATED
-            );
-
-            return Factory::getContainer()->get(DispatcherInterface::class);
-        }
-
-        return $this->dispatcher;
-    }
-
-    /**
-     * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
-     *
-     * @param   EventInterface  $event  The event
-     *
-     * @return  void
-     *
-     * @since   4.1.0
-     *
-     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
-     */
-    protected function dispatchEvent(EventInterface $event)
-    {
-        $this->getDispatcher()->dispatch($event->getName(), $event);
-
-        @trigger_error(
-            \sprintf(
-                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
-                __METHOD__
-            ),
-            E_USER_DEPRECATED
-        );
-    }
-
-    /**
      * Get the database driver.
      *
      * @return  DatabaseInterface  The database driver.
@@ -398,7 +351,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         try {
             return $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
+        } catch (DatabaseNotFoundException) {
             throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
         }
     }

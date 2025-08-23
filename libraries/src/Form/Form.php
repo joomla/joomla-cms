@@ -89,9 +89,9 @@ class Form implements CurrentUserInterface
      * Array containing name => [value => value, attributes => []] for each field.
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
-    protected $controlFields = [];
+    protected $controlFields = ['joomla.form.token' => []];
 
     /**
      * Form instances.
@@ -601,7 +601,7 @@ class Form implements CurrentUserInterface
         if (\is_string($data)) {
             try {
                 $data = new \SimpleXMLElement($data);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return false;
             }
         }
@@ -1465,8 +1465,8 @@ class Form implements CurrentUserInterface
         if ($field instanceof DatabaseAwareInterface) {
             try {
                 $field->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
-                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            } catch (DatabaseNotFoundException) {
+                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -1487,7 +1487,7 @@ class Form implements CurrentUserInterface
          * else the value of the 'default' attribute for the field.
          */
         if ($value === null) {
-            $default = (string) ($element['default'] ? $element['default'] : $element->default);
+            $default = (string) ($element['default'] ?: $element->default);
 
             if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate === '1')) {
                 $lang = Factory::getLanguage();
@@ -1705,12 +1705,12 @@ class Form implements CurrentUserInterface
             $forms[$name] = Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
             // Load the data.
-            if (substr($data, 0, 1) === '<') {
-                if ($forms[$name]->load($data, $replace, $xpath) == false) {
+            if (str_starts_with($data, '<')) {
+                if (!$forms[$name]->load($data, $replace, $xpath)) {
                     throw new \RuntimeException(\sprintf('%s() could not load form', __METHOD__));
                 }
             } else {
-                if ($forms[$name]->loadFile($data, $replace, $xpath) == false) {
+                if (!$forms[$name]->loadFile($data, $replace, $xpath)) {
                     throw new \RuntimeException(\sprintf('%s() could not load file', __METHOD__));
                 }
             }
@@ -1888,7 +1888,7 @@ class Form implements CurrentUserInterface
      *
      * @return static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     public function addControlField(string $name, string $value = '', array $attributes = []): static
     {
@@ -1907,7 +1907,7 @@ class Form implements CurrentUserInterface
      *
      * @return static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     public function removeControlField(string $name): static
     {
@@ -1921,7 +1921,7 @@ class Form implements CurrentUserInterface
      *
      * @return array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     public function getControlFields(): array
     {
@@ -1933,11 +1933,13 @@ class Form implements CurrentUserInterface
      *
      * @return string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      */
     public function renderControlFields(): string
     {
-        $html = [];
+        $html     = [];
+        $hasToken = \array_key_exists('joomla.form.token', $this->controlFields);
+        unset($this->controlFields['joomla.form.token']);
 
         foreach ($this->controlFields as $n => $v) {
             // Check for attributes
@@ -1954,8 +1956,10 @@ class Form implements CurrentUserInterface
             $html[] = '<input type="hidden" name="' . htmlspecialchars($n) . '" value="' . htmlspecialchars($v['value']) . '" ' . $attrStr . '>';
         }
 
-        // The Token should be added in any case
-        $html[] = HTMLHelper::_('form.token');
+        // Add the form token
+        if ($hasToken) {
+            $html[] = HTMLHelper::_('form.token');
+        }
 
         return implode("\n", $html);
     }
