@@ -81,7 +81,7 @@ trait VersionableModelTrait
             $table->load($rowArray[$key]);
         }
 
-        $rowArray['checked_out']      = Factory::getApplication()->getIdentity()->id;
+        $rowArray['checked_out']      = $this->getCurrentUser()->id;
         $rowArray['checked_out_time'] = (new Date())->toSql();
 
         // Fix null ordering when restoring history
