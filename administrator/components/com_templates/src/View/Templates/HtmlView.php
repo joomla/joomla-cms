@@ -13,7 +13,6 @@ namespace Joomla\Component\Templates\Administrator\View\Templates;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -107,6 +106,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var TemplatesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -117,11 +117,6 @@ class HtmlView extends BaseHtmlView
         $this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
         $this->file          = base64_encode('home');
         $this->pluginState   = PluginHelper::isEnabled('installer', 'override');
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
 
