@@ -397,7 +397,7 @@ class HistoryModel extends ListModel
             return $result;
         }
 
-        // Legacy code for history concept before 6.0.0, depeciated 6.0.0 will be removed with 8.0.0
+        // Legacy code for history concept before 6.0.0, deprecated 6.0.0 will be removed with 8.0.0
         Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $extension . '/tables');
         $typeTable = $this->getTable('ContentType');
         $typeTable->load(['type_alias' => $extension . '.' . $type]);
