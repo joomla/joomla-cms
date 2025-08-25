@@ -618,10 +618,10 @@ class Update
             }
 
             // Convert infourl into legacy data structure
-            if (!empty($this->latest->infourl) && is_array($this->latest->infourl)) {
+            if (!empty($this->latest->infourl) && \is_array($this->latest->infourl)) {
                 $this->infourl = (object) [
-                    '_data' => $this->latest->infourl->url, 
-                    'title' => $this->latest->infourl->title
+                    '_data' => $this->latest->infourl->url,
+                    'title' => $this->latest->infourl->title,
                 ];
             }
 
