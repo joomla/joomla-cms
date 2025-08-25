@@ -562,6 +562,11 @@ class Update
         $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
+            // Check if this target is older than the currently installed version
+            if (version_compare($target['custom']['version'], JVERSION, '<')) {
+                continue;
+            }
+
             // Check if this target is newer than the current version
             if (isset($this->latest) && version_compare($target['custom']['version'], $this->latest->version, '<')) {
                 continue;
@@ -607,6 +612,10 @@ class Update
 
         // If the latest item is set then we transfer it to where we want to
         if (isset($this->latest)) {
+            foreach (get_object_vars($this->latest) as $key => $val) {
+                $this->$key = (object) ['_data' => $val];
+            }
+
             foreach ($this->downloadSources as $source) {
                 $this->downloadurl = (object) [
                     '_data'  => $source->url,
