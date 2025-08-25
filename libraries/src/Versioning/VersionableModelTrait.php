@@ -39,7 +39,7 @@ trait VersionableModelTrait
     protected $ignoreChanges = [];
 
     /**
-     * Fields to be converted to int when calculation the hash.
+     * Fields to be converted to int when calculating the hash.
      *
      * @var    array
      * @since  __DEPLOY_VERSION__
