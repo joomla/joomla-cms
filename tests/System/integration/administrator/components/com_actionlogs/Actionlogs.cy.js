@@ -6,7 +6,7 @@ describe('Test in backend that the action logs', () => {
   });
 
   it('has a title', () => {
-    cy.get('h1.page-title').should('contain.text', 'User Actions Log');
+    cy.get('h1.page-title').should('contain.text', 'User Actions Log invalid');
   });
 
   it('can display no results', () => {
