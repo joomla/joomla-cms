@@ -73,7 +73,7 @@ echo "--> Applying Codespaces URL fix..."
 cat > "${JOOMLA_ROOT}/fix.php" << 'EOF'
 <?php
 // Fix for incorrect host when running behind the Codespaces reverse proxy.
-if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost:80') {
+if (isset($_SERVER['HTTP_HOST']) && str_contains($_SERVER['HTTP_HOST'], 'localhost')) {
     if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
         $_SERVER['HTTP_HOST'] = $_SERVER['HTTP_X_FORWARDED_HOST'];
         $_SERVER['SERVER_NAME'] = $_SERVER['HTTP_X_FORWARDED_HOST'];
@@ -82,7 +82,6 @@ if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost:80') {
 EOF
 
 # Include fix in both entry points
-cp $JOOMLA_ROOT/fix.php $JOOMLA_ROOT/administrator/fix.php
 sed -i '2i require_once __DIR__ . "/fix.php";' $JOOMLA_ROOT/index.php
 sed -i '2i require_once __DIR__ . "/../fix.php";' $JOOMLA_ROOT/administrator/index.php
 
@@ -97,7 +96,6 @@ git update-index --assume-unchanged "tests/System/support/commands/config.mjs"
 # For NEW UNTRACKED files, add them to the local exclude file
 echo "cypress.config.js" >> ".git/info/exclude"
 echo "fix.php" >> ".git/info/exclude"
-echo "administrator/fix.php" >> ".git/info/exclude"
 echo "phpmyadmin" >> ".git/info/exclude"
 echo "codespace-details.txt" >> ".git/info/exclude"
 
@@ -108,13 +106,12 @@ sed -i \
   -e "/cy.task('deleteRelativePath', 'configuration.php');/d" \
   -e "/cy.installJoomla(config);/d" \
   tests/System/integration/install/Installation.cy.js
-sed -i "s/return cy.task('writeRelativeFile', { path: 'configuration.php', content });/return cy.task('writeRelativeFile', { path: 'configuration.php', content, mode: 0o775 });/" tests/System/support/commands/config.mjs
 
 # Ensure Cypress is executable and owned by the web server user
 chmod +x ./node_modules/.bin/cypress
 cp cypress.config.dist.mjs cypress.config.js
 npx cypress install
-sed -i -e "s|baseUrl:.*|baseUrl: 'http://localhost:80',|" -e "s/db_host: 'localhost'/db_host: 'mysql'/g" -e "s/db_user: 'root'/db_user: 'joomla_ut'/g" -e "s/db_password: ''/db_password: 'joomla_ut'/g" cypress.config.js
+sed -i -e "s|baseUrl:.*|baseUrl: 'https://localhost',|" -e "s/db_host: 'localhost'/db_host: 'mysql'/g" -e "s/db_user: 'root'/db_user: 'joomla_ut'/g" -e "s/db_password: ''/db_password: 'joomla_ut'/g" cypress.config.js
 
 # Restart Apache to apply all changes
 echo '<Directory /workspaces/joomla-cms>
@@ -141,7 +138,7 @@ DETAILS_FILE="${JOOMLA_ROOT}/codespace-details.txt"
     echo "This information has been saved to codespace-details.txt"
     echo ""
     echo "Joomla Admin Login:"
-    echo "  URL: Open the 'Ports' tab, find the 'Web Server' (80), and click the Globe icon. Then add /administrator"
+    echo "  URL: Open the 'Ports' tab, find the 'Web Server' (443), and click the Globe icon. Then add /administrator"
     echo "  Username: $ADMIN_USER"
     echo "  Password: $ADMIN_PASS"
     echo ""
