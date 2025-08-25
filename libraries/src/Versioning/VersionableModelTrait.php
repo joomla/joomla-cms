@@ -31,7 +31,7 @@ use Joomla\Utilities\ArrayHelper;
 trait VersionableModelTrait
 {
     /**
-     * Fields to be ignored when calculation the hash.
+     * Fields to be ignored when calculating the hash.
      *
      * @var    array
      * @since  __DEPLOY_VERSION__
