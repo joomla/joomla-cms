@@ -49,14 +49,11 @@ final class NotificationModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         // User groups from input field
-        $emailGroups = $params->get('automated_updates_email_groups');
+        $emailGroups = $params->get('automated_updates_email_groups', $this->getSuperUserGroups(), 'array');
 
         if (!\is_array($emailGroups)) {
             $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
         }
-
-        // Add Super User Groups
-        $emailGroups = array_merge($emailGroups, $this->getSuperUserGroups());
 
         // Get all users in these groups who can receive emails
         $emailReceivers = $this->getEmailReceivers($emailGroups);
@@ -114,11 +111,12 @@ final class NotificationModel extends BaseDatabaseModel
             ->getMVCFactory()->createModel('Users', 'Administrator');
 
         $usersModel->setState('filter.groups', $emailGroups);
-        $usersModel->setState('filter.block', (int) 0);
+        $usersModel->setState('filter.state', (int) 0); // Only enabled users
 
         $usersInGroup = $usersModel->getItems();
 
         if (empty($usersInGroup)) {
+            // Cannot happen, as at least one super user must exist in the system
             return [];
         }
 
