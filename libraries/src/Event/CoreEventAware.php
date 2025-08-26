@@ -156,6 +156,7 @@ trait CoreEventAware
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
         'onExtensionChangeState'     => Model\BeforeChangeStateEvent::class,
+        'onJoomlaBeforeAutoupdate'   => Extension\BeforeJoomlaAutoupdateEvent::class,
         'onJoomlaBeforeUpdate'       => Extension\BeforeJoomlaUpdateEvent::class,
         'onJoomlaAfterUpdate'        => Extension\AfterJoomlaUpdateEvent::class,
         // Installer
