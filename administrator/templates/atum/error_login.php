@@ -172,7 +172,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
             </section>
         </div>
 
-        <div id="sidebar-wrapper" class="sidebar-wrapper">
+        <aside id="sidebar-wrapper" class="sidebar-wrapper" aria-labelledby="main-brand">
             <div id="main-brand" class="main-brand">
                 <h1><?php echo $app->get('sitename'); ?></h1>
                 <a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
@@ -180,7 +180,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
             <div id="sidebar">
                 <jdoc:include type="modules" name="sidebar" style="body" />
             </div>
-        </div>
+        </aside>
     </div>
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
