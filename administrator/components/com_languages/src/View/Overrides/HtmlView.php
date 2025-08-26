@@ -12,7 +12,6 @@ namespace Joomla\Component\Languages\Administrator\View\Overrides;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Languages\Administrator\Model\OverridesModel;
@@ -87,17 +86,13 @@ class HtmlView extends BaseHtmlView
     {
         /** @var OverridesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state         = $model->getState();
         $this->items         = $model->getOverrides();
         $this->pagination    = $model->getPagination();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors));
-        }
 
         $this->addToolbar();
         parent::display($tpl);
