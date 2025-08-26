@@ -44,7 +44,7 @@ describe('Test in frontend that the contact site router', () => {
         expect(response.redirectedToUrl).to.match(new RegExp(`${url}$`));
       });
       cy.request({ url: `/index.php?option=com_contact&view=contact&id=${contact.id}-${contact.alias}`, followRedirect: false }).then((response) => {
-        // @TODO: The following line is just a temporary fix. Remove it and uncomment the 2 lines after it when done.
+        // @TODO: The following line is just a temporary fix. Remove it and uncomment the 2 lines after it when done
         expect(response.status).to.eq(200);
         // expect(response.status).to.eq(301);
         // expect(response.redirectedToUrl).to.match(new RegExp(`${url}$`));
