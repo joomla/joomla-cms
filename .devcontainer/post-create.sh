@@ -106,6 +106,7 @@ sed -i \
   -e "/cy.task('deleteRelativePath', 'configuration.php');/d" \
   -e "/cy.installJoomla(config);/d" \
   tests/System/integration/install/Installation.cy.js
+sed -i "s/return cy.task('writeRelativeFile', { path: 'configuration.php', content });/return cy.task('writeRelativeFile', { path: 'configuration.php', content, mode: 0o775 });/" tests/System/support/commands/config.mjs
 
 # Ensure Cypress is executable and owned by the web server user
 chmod +x ./node_modules/.bin/cypress
