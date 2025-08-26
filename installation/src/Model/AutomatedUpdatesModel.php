@@ -22,14 +22,14 @@ use Joomla\Registry\Registry;
 /**
  * Automated Updates model for the Joomla Core Installer.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.4.0
  */
 class AutomatedUpdatesModel extends BaseInstallationModel implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
 
     /**
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.0
      */
     public function __construct()
     {
@@ -45,7 +45,7 @@ class AutomatedUpdatesModel extends BaseInstallationModel implements DatabaseAwa
     /**
      * Opt out from automated Updates
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.4.0
      */
     public function disable()
     {
