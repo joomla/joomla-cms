@@ -48,9 +48,16 @@ final class NotificationModel extends BaseDatabaseModel
     public function sendNotification($type, $oldVersion, $newVersion): void
     {
         $params = ComponentHelper::getParams('com_joomlaupdate');
-
+		
+		// Superusergroups as fallback
+		$superUserGroups = $this->getSuperUserGroups();
+		
+		if (!\is_array($superUserGroups)) {
+            $emailGroups = ArrayHelper::toInteger(explode(',', $superUserGroups));
+        }
+		
         // User groups from input field
-        $emailGroups = $params->get('automated_updates_email_groups', $this->getSuperUserGroups(), 'array');
+        $emailGroups = $params->get('automated_updates_email_groups', $superUserGroups, 'array');
 
         if (!\is_array($emailGroups)) {
             $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
@@ -58,11 +65,10 @@ final class NotificationModel extends BaseDatabaseModel
 
         // Get all users in these groups who can receive emails
         $emailReceivers = $this->getEmailReceivers($emailGroups);
-
-        // If no email receivers are found, we do not send any notification
+		
+        // If no email receivers are found, we use superusergroups as fallback
         if (empty($emailReceivers)) {
-            // Should not happen, as at least one super user must exist in the system
-            return;
+			$emailReceivers  = $this->getEmailReceivers($superUserGroups);
         }
 
         $app        = Factory::getApplication();
@@ -109,39 +115,28 @@ final class NotificationModel extends BaseDatabaseModel
         // Get the users of all groups in the emailGroups
         $usersModel = Factory::getApplication()->bootComponent('com_users')
             ->getMVCFactory()->createModel('Users', 'Administrator');
+		$usersModel->setState('filter.state', (int) 0); // Only enabled users
+		
+		foreach ($emailGroups as $group) {
+            $usersModel->setState('filter.group_id', $group);
+            
+            $usersInGroup = $usersModel->getItems();
+            if (empty($usersInGroup)) {
+                continue;
+            }
 
-        $usersModel->setState('filter.groups', $emailGroups);
-        $usersModel->setState('filter.state', (int) 0); // Only enabled users
-
-        $usersInGroup = $usersModel->getItems();
-
-        if (empty($usersInGroup)) {
-            // Cannot happen, as at least one super user must exist in the system
-            return [];
-        }
-
-        // Only users with valid email address who are not blocked can receive the email
-        foreach ($usersInGroup as $user) {
-            if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
-                $user->email = strtolower(trim($user->email));
-
-                // Check if the email already exists in the emailReceivers array
-                $exist = false;
-                foreach ($emailReceivers as $rec) {
-                    if ($rec->email === $user->email) {
-                        $exist = true;
-                        break;
-                    }
-                }
-
-                // Add to the list if it is not already in the list
-                if (!$exist) {
+			// Users can be in more than one group. Accept only one entry
+            foreach ($usersInGroup as $user) {
+					
+                if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
+                    $user->email = strtolower(trim($user->email));
+					
                     $emailReceivers[] = $user;
                 }
             }
         }
 
-        return $emailReceivers;
+        return \array_unique($emailReceivers);
     }
 
     /**
