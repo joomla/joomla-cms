@@ -63,10 +63,7 @@ class ArticlesHelper implements DatabaseAwareInterface
         $articles->setState('params', $appParams);
 
         $articles->setState('list.start', 0);
-
-        if ($params->get('show_unpublished', 0) != 1) {
-            $articles->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
-        }
+        $articles->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 
         // Set the filters based on the module params
         $articles->setState('list.limit', (int) $params->get('count', 0));
@@ -202,6 +199,13 @@ class ArticlesHelper implements DatabaseAwareInterface
         // Filter by author
         if ($params->get('author_filtering_type', 1) === 2) {
             $articles->setState('filter.author_id', [$user->id]);
+            $conditionArchived    = ($params->get('show_archived_from_user') === 1 ? ContentComponent::CONDITION_ARCHIVED : '' );
+            $conditionUnpublished = ($params->get('show_unpublished') === 1 ? ContentComponent::CONDITION_UNPUBLISHED : '');
+            $articles->setState('filter.published', [
+                ContentComponent::CONDITION_PUBLISHED,
+                $conditionArchived,
+                $conditionUnpublished
+            ]);
         } else {
             $articles->setState('filter.author_id', $params->get('created_by', []));
             $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
