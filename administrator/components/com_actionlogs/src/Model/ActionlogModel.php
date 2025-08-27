@@ -160,13 +160,14 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $tempPlain = [];
 
         foreach ($messages as $message) {
-            $m              = [];
-            $m['extension'] = Text::_($extension);
-            $m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
-            $tzOffset       = Factory::getApplication()->get('offset');
-            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', $tzOffset);
-            $m['username']  = $username;
-            $temp[]         = $m;
+            $m               = [];
+            $m['extension']  = Text::_($extension);
+            $m['message']    = ActionlogsHelper::getHumanReadableLogMessage($message);
+            $tzOffset        = Factory::getApplication()->get('offset');
+            $m['date']       = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', $tzOffset);
+            $m['ip_address'] = $message->ip_address;
+            $m['username']   = $username;
+            $temp[]          = $m;
 
             // copy replacement tags array and set non-HTML message.
             $mPlain            = array_merge([], $m);
