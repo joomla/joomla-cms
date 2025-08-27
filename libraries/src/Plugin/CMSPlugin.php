@@ -252,7 +252,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         $app = $this->getApplication();
 
-        // Try to get Application form Factory
+        // Try to get Application from Factory
         if (!$app) {
             try {
                 $app = Factory::getApplication();
