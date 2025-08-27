@@ -17,8 +17,6 @@ use Joomla\CMS\Event\Extension\BeforeJoomlaUpdateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Http\Http;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -38,6 +36,7 @@ use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -388,7 +387,7 @@ class UpdateModel extends BaseDatabaseModel
         $response = ['basename' => false, 'check' => null, 'version' => $updateInfo['latest']];
 
         try {
-            $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+            $head = (new HttpFactory())->getHttp($httpOptions)->head($packageURL);
         } catch (\RuntimeException) {
             // Passing false here -> download failed message
             return $response;
@@ -399,7 +398,7 @@ class UpdateModel extends BaseDatabaseModel
             $packageURL = (string) $head->getHeaders()['location'][0];
 
             try {
-                $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+                $head = (new HttpFactory())->getHttp($httpOptions)->head($packageURL);
             } catch (\RuntimeException) {
                 // Passing false here -> download failed message
                 return $response;
@@ -544,6 +543,8 @@ class UpdateModel extends BaseDatabaseModel
             throw new \Exception('Could not write update file', 410);
         }
 
+        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $fileInformation['basename']), Log::INFO, 'Update');
+
         $app = Factory::getApplication();
 
         return [
@@ -566,7 +567,7 @@ class UpdateModel extends BaseDatabaseModel
         $this->cleanCache('_system');
 
         // Prepare connection
-        $http = HttpFactory::getHttp();
+        $http = (new HttpFactory())->getHttp();
 
         $url = self::AUTOUPDATE_URL;
         $url .= ($targetState === AutoupdateRegisterState::Subscribe) ? '/register' : '/delete';
@@ -760,7 +761,7 @@ class UpdateModel extends BaseDatabaseModel
 
         // Download the package
         try {
-            $result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
+            $result = (new HttpFactory())->getHttp([], ['curl', 'stream'])->get($url);
         } catch (\RuntimeException) {
             return false;
         }
@@ -1556,9 +1557,13 @@ ENDDATA;
     {
         $updateInformation = $this->getUpdateInformation();
 
-        return isset($updateInformation['object']->php_minimum) ?
-            $updateInformation['object']->php_minimum->_data :
-            JOOMLA_MINIMUM_PHP;
+        // Check if php_minimum exists and return its value
+        if (isset($updateInformation['object']) && $updateInformation['object']->get('php_minimum')) {
+            return $updateInformation['object']->get('php_minimum')->_data;
+        }
+
+        // Fallback to JOOMLA_MINIMUM_PHP if php_minimum is not set
+        return JOOMLA_MINIMUM_PHP;
     }
 
     /**
@@ -1848,7 +1853,7 @@ ENDDATA;
     {
         $return = [];
 
-        $http = new Http();
+        $http = (new HttpFactory())->getHttp();
 
         try {
             $response = $http->get($updateSiteInfo['location']);
