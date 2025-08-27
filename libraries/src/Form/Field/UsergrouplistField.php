@@ -32,7 +32,7 @@ class UsergrouplistField extends ListField
     protected $type = 'UserGroupList';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the user groups.
      *
      * @var    array[]
      * @since  3.2

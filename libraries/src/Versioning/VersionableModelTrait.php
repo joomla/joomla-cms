@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Versioning;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
@@ -77,6 +78,14 @@ trait VersionableModelTrait
 
         if (isset($rowArray[$key])) {
             $table->load($rowArray[$key]);
+        }
+
+        $rowArray['checked_out']      = $this->getCurrentUser()->id;
+        $rowArray['checked_out_time'] = (new Date())->toSql();
+
+        // Fix null ordering when restoring history
+        if (\array_key_exists('ordering', $rowArray) && $rowArray['ordering'] === null) {
+            $rowArray['ordering'] = 0;
         }
 
         return $table->bind($rowArray);
