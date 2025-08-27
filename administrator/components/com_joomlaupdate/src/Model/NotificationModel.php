@@ -47,24 +47,24 @@ final class NotificationModel extends BaseDatabaseModel
      */
     public function sendNotification($type, $oldVersion, $newVersion): void
     {
-    $params = ComponentHelper::getParams('com_joomlaupdate');
+        $params = ComponentHelper::getParams('com_joomlaupdate');
 
-    // Superusergroups as fallback
-    $superUserGroups = $this->getSuperUserGroups();
+        // Superusergroups as fallback
+        $superUserGroups = $this->getSuperUserGroups();
 
-    if (!\is_array($superUserGroups)) {
-        $emailGroups = ArrayHelper::toInteger(explode(',', $superUserGroups));
-    }
+        if (!\is_array($superUserGroups)) {
+            $emailGroups = ArrayHelper::toInteger(explode(',', $superUserGroups));
+        }
 
-    // User groups from input field
-    $emailGroups = $params->get('automated_updates_email_groups', $superUserGroups, 'array');
+        // User groups from input field
+        $emailGroups = $params->get('automated_updates_email_groups', $superUserGroups, 'array');
 
-    if (!\is_array($emailGroups)) {
-        $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
-    }
+        if (!\is_array($emailGroups)) {
+            $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
+        }
 
-    // Get all users in these groups who can receive emails
-    $emailReceivers = $this->getEmailReceivers($emailGroups);
+        // Get all users in these groups who can receive emails
+        $emailReceivers = $this->getEmailReceivers($emailGroups);
 
         // If no email receivers are found, we use superusergroups as fallback
         if (empty($emailReceivers)) {
@@ -124,7 +124,7 @@ final class NotificationModel extends BaseDatabaseModel
             if (empty($usersInGroup)) {
                 continue;
             }
-            
+
             // Users can be in more than one group. Accept only one entry
             foreach ($usersInGroup as $user) {
                 if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
