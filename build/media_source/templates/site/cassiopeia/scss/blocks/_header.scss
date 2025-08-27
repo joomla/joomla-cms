@@ -138,6 +138,9 @@
         display: none;
         color: $gray-900;
       }
+      > [aria-hidden="false"] {
+        display: block;
+      }
     }
   }
 
