@@ -119,7 +119,7 @@ final class NotificationModel extends BaseDatabaseModel
 
         foreach ($emailGroups as $group) {
             $usersModel->setState('filter.group_id', $group);
-            
+
             $usersInGroup = $usersModel->getItems();
             if (empty($usersInGroup)) {
                 continue;
@@ -129,13 +129,13 @@ final class NotificationModel extends BaseDatabaseModel
             foreach ($usersInGroup as $user) {
                 if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
                     $user->email = strtolower(trim($user->email));
-                    
+
                     $emailReceivers[] = $user;
                 }
             }
         }
 
-        return \array_unique($emailReceivers);
+        return array_unique($emailReceivers);
     }
 
     /**
