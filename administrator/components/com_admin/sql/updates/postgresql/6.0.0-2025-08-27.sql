@@ -1,2 +1,8 @@
-INSERT INTO "#__mail_templates" ("template_id", "extension", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
-('com_actionlogs.notification', 'com_actionlogs', '', 'COM_ACTIONLOGS_EMAIL_SUBJECT', 'COM_ACTIONLOGS_EMAIL_BODY', 'COM_ACTIONLOGS_EMAIL_HTMLBODY', '', '{"tags":["messages","message","date","extension","username","ip_address"]}'),
+--
+-- Add a template tag for ip_address on Joomla update.
+-- New installs will have the default value set in the installation support sql.
+--
+
+UPDATE "#__mail_templates"
+SET "params" = '{"tags":["messages","message","date","extension","username","ip_address"]}'
+WHERE "template_id" = 'com_actionlogs.notification';
