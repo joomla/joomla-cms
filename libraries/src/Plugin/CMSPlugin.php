@@ -250,7 +250,15 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             return;
         }
 
-        $app = $this->getApplication() ?: Factory::getApplication();
+        $app = $this->getApplication();
+
+        // Try to get Application form Factory only if it already there
+        if (!$app && Factory::$application) {
+            $app = Factory::getApplication();
+        } else {
+            // Cannot help here
+            return;
+        }
 
         // Check whether language already initialised in the Application, otherwise wait for it
         if (!$app->getLanguage()) {
