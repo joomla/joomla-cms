@@ -199,12 +199,12 @@ class ArticlesHelper implements DatabaseAwareInterface
         // Filter by author
         if ($params->get('author_filtering_type', 1) === 2) {
             $articles->setState('filter.author_id', [$user->id]);
-            $conditionArchived    = ($params->get('show_archived_from_user') === 1 ? ContentComponent::CONDITION_ARCHIVED : '' );
+            $conditionArchived    = ($params->get('show_archived_from_user') === 1 ? ContentComponent::CONDITION_ARCHIVED : '');
             $conditionUnpublished = ($params->get('show_unpublished') === 1 ? ContentComponent::CONDITION_UNPUBLISHED : '');
             $articles->setState('filter.published', [
                 ContentComponent::CONDITION_PUBLISHED,
                 $conditionArchived,
-                $conditionUnpublished
+                $conditionUnpublished,
             ]);
         } else {
             $articles->setState('filter.author_id', $params->get('created_by', []));
