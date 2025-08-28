@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -17,6 +18,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 if ($params->get('articles_layout') == 1) {
     $gridCols = 'grid-cols-' . $params->get('layout_columns');
 }
+
+$currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 
 ?>
 <ul class="mod-articles-items<?php echo ($params->get('articles_layout') == 1 ? ' mod-articles-grid ' . $gridCols : ''); ?> mod-list">
@@ -42,6 +45,18 @@ if ($params->get('articles_layout') == 1) {
                                     <?php echo $item->title; ?>
                                 <?php endif; ?>
                             </<?php echo $item_heading; ?>>
+                        <?php endif; ?>
+
+                        <?php if ($item->state == 0) : ?>
+                            <span class="badge bg-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+                        <?php endif; ?>
+
+                        <?php if ($item->publish_up > $currentDate) : ?>
+                            <span class="badge bg-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+                        <?php endif; ?>
+
+                        <?php if ($item->publish_down !== null && $item->publish_down < $currentDate) : ?>
+                            <span class="badge bg-warning"><?php echo Text::_('JEXPIRED'); ?></span>
                         <?php endif; ?>
 
                         <?php echo $item->event->afterDisplayTitle; ?>
