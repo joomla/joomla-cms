@@ -124,6 +124,7 @@ service apache2 restart
 echo "--> Applying final group ownership and permissions..."
 chgrp -R www-data $JOOMLA_ROOT
 chmod -R g+rws $JOOMLA_ROOT
+chown www-data:www-data configuration.php
 
 echo "✅ Environment finalized."
 
