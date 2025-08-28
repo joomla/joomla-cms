@@ -128,14 +128,12 @@ final class NotificationModel extends BaseDatabaseModel
             // Users can be in more than one group. Accept only one entry
             foreach ($usersInGroup as $user) {
                 if (MailHelper::isEmailAddress($user->email) && $user->sendEmail === 1) {
-                    $user->email = strtolower(trim($user->email));
-
-                    $emailReceivers[] = $user;
+                    $emailReceivers[$user->id] ??= $user;
                 }
             }
         }
 
-        return array_unique($emailReceivers);
+        return $emailReceivers;
     }
 
     /**
