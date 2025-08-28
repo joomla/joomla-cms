@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "27d6c3b20ff64fcc0f0feb4d3405f9ef",
+    "content-hash": "8ec7a85c6d8a9f4d4ba74ccaa9cd766a",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -428,16 +428,16 @@
         },
         {
             "name": "enshrined/svg-sanitize",
-            "version": "0.21.0",
+            "version": "0.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/darylldoyle/svg-sanitizer.git",
-                "reference": "5e477468fac5c5ce933dce53af3e8e4e58dcccc9"
+                "reference": "0afa95ea74be155a7bcd6c6fb60c276c39984500"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/5e477468fac5c5ce933dce53af3e8e4e58dcccc9",
-                "reference": "5e477468fac5c5ce933dce53af3e8e4e58dcccc9",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/0afa95ea74be155a7bcd6c6fb60c276c39984500",
+                "reference": "0afa95ea74be155a7bcd6c6fb60c276c39984500",
                 "shasum": ""
             },
             "require": {
@@ -467,9 +467,9 @@
             "description": "An SVG sanitizer for PHP",
             "support": {
                 "issues": "https://github.com/darylldoyle/svg-sanitizer/issues",
-                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.21.0"
+                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.22.0"
             },
-            "time": "2025-01-13T09:32:25+00:00"
+            "time": "2025-08-12T10:13:48+00:00"
         },
         {
             "name": "fig/link-util",
@@ -1644,16 +1644,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "3.1.2",
+            "version": "3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "6cdec5cd8e088ccaa85d0901dc927b4c3efde4e2"
+                "reference": "556e7400988705668bce4ef71abb7dd9213404ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/6cdec5cd8e088ccaa85d0901dc927b4c3efde4e2",
-                "reference": "6cdec5cd8e088ccaa85d0901dc927b4c3efde4e2",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/556e7400988705668bce4ef71abb7dd9213404ff",
+                "reference": "556e7400988705668bce4ef71abb7dd9213404ff",
                 "shasum": ""
             },
             "require": {
@@ -1692,9 +1692,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/3.1.2"
+                "source": "https://github.com/joomla-framework/filesystem/tree/3.1.3"
             },
-            "time": "2025-07-19T12:41:24+00:00"
+            "time": "2025-08-14T17:48:52+00:00"
         },
         {
             "name": "joomla/filter",
