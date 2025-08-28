@@ -96,7 +96,7 @@ final class NotificationModel extends BaseDatabaseModel
     }
 
     /**
-     * Returns the email information of receivers. Receiver can be any users who is not blocked.
+     * Returns the email information of receivers. Receiver can be any user who is not disabled.
      *
      * @param   array $emailGroups A list of usergroups to email
      *
