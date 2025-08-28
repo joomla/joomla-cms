@@ -34,7 +34,6 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -113,7 +112,6 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface       $dispatcher       The dispatcher
      * @param   array                     $config           An optional associative array of configuration settings
      * @param   CMSApplicationInterface   $app              The language factory
      * @param   LanguageFactoryInterface  $languageFactory  The language factory
@@ -121,12 +119,11 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      * @since   1.6.0
      */
     public function __construct(
-        DispatcherInterface $dispatcher,
         array $config,
         CMSApplicationInterface $app,
         LanguageFactoryInterface $languageFactory
     ) {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->languageFactory = $languageFactory;
 
