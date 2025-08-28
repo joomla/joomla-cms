@@ -210,7 +210,7 @@ class ArticlesHelper implements DatabaseAwareInterface
         // Filter archived and unpublished articles
         if ($params->get('show_archived', 'hide') === 'show') {
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
-        } elseif ($params->get('show_archived', 'hide') === 'hide' AND $params->get('show_unpublished', 0) === 1) {
+        } elseif ($params->get('show_archived', 'hide') === 'hide' && $params->get('show_unpublished', 0) === 1) {
             $articles->setState('filter.published', [
                 ContentComponent::CONDITION_PUBLISHED,
                 ContentComponent::CONDITION_UNPUBLISHED,
