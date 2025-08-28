@@ -93,6 +93,10 @@ class HtmlView extends BaseHtmlView
         $this->item  = $model->getItem();
         $this->state = $model->getState();
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
         $this->addToolbar();
 
         parent::display($tpl);

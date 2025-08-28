@@ -18,13 +18,15 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Category;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelInterface;
+use Joomla\CMS\Versioning\Versioning;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -325,7 +327,13 @@ abstract class AdminModel extends FormModel
 
         foreach ($this->batch_commands as $identifier => $command) {
             if (!empty($commands[$identifier])) {
-                if (!$this->$command($commands[$identifier], $pks, $contexts)) {
+                if ($command === 'batchTag') {
+                    $removeTags = ArrayHelper::getValue($commands, 'tag_addremove', 'a') === 'r';
+
+                    if (!$this->batchTags($commands[$identifier], $pks, $contexts, $removeTags)) {
+                        return false;
+                    }
+                } elseif (!$this->$command($commands[$identifier], $pks, $contexts)) {
                     return false;
                 }
 
@@ -698,6 +706,23 @@ abstract class AdminModel extends FormModel
      */
     protected function batchTag($value, $pks, $contexts)
     {
+        return $this->batchTags($value, $pks, $contexts);
+    }
+
+    /**
+     * Batch tag a list of item.
+     *
+     * @param   integer  $value       The value of the new tag.
+     * @param   array    $pks         An array of row IDs.
+     * @param   array    $contexts    An array of item contexts.
+     * @param   boolean  $removeTags  Flag indicating whether the tags in $value have to be removed.
+     *
+     * @return  boolean  True if successful, false otherwise and internal error is set.
+     *
+     * @since   6.0.0
+     */
+    protected function batchTags($value, $pks, $contexts, $removeTags = false)
+    {
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
         $tags = [$value];
@@ -713,6 +738,7 @@ abstract class AdminModel extends FormModel
                         'subject'     => $this->table,
                         'newTags'     => $tags,
                         'replaceTags' => false,
+                        'removeTags'  => $removeTags,
                     ]
                 );
 
@@ -1005,9 +1031,9 @@ abstract class AdminModel extends FormModel
             }
         }
 
-        // Convert to the CMSObject before adding other data.
-        $properties = $table->getProperties(1);
-        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+        // Convert to \stdClass before adding other data
+        $properties = get_object_vars($table);
+        $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
@@ -1419,6 +1445,19 @@ abstract class AdminModel extends FormModel
             }
         }
 
+        if ($this instanceof VersionableModelInterface) {
+            // Merge table data and data so that we write all data to the history
+            $tableData = ArrayHelper::fromObject($table);
+
+            $historyData = array_merge($tableData, $data);
+
+            // We have to set the key for new items, would be always 0 otherwise
+            $historyData[$key] = $this->getState($this->getName() . '.id');
+
+
+            $this->saveHistory($historyData, $context);
+        }
+
         if ($app->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
@@ -1517,7 +1556,7 @@ abstract class AdminModel extends FormModel
     {
         // Check that the category exists
         if ($categoryId) {
-            $categoryTable = Table::getInstance('Category');
+            $categoryTable = new Category($this->getDatabase());
 
             if (!$categoryTable->load($categoryId)) {
                 if ($error = $categoryTable->getError()) {
@@ -1705,5 +1744,26 @@ abstract class AdminModel extends FormModel
         );
 
         return true;
+    }
+
+    /**
+     * Method to save the history.
+     *
+     * @param   array   $data     The form data.
+     * @param   string  $context  The model context.
+     *
+     * @return  boolean  True on success, False on error.
+     *
+     * @since   6.0.0
+     */
+    protected function saveHistory(array $data, string $context)
+    {
+        $id = $this->getState($this->getName() . '.id');
+
+        $versionNote = \array_key_exists('version_note', $data) ? $data['version_note'] : '';
+
+        $result = Versioning::store($context, $id, ArrayHelper::toObject($data), $versionNote);
+
+        return $result;
     }
 }

@@ -130,6 +130,11 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', $this->return_page);
+
         $this->_prepareDocument();
 
         parent::display($tpl);
