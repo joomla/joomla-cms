@@ -63,7 +63,6 @@ class ArticlesHelper implements DatabaseAwareInterface
         $articles->setState('params', $appParams);
 
         $articles->setState('list.start', 0);
-        $articles->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 
         // Set the filters based on the module params
         $articles->setState('list.limit', (int) $params->get('count', 0));
@@ -207,16 +206,11 @@ class ArticlesHelper implements DatabaseAwareInterface
         $articles->setState('filter.author_alias', $params->get('created_by_alias', []));
         $articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 
-        // Filter archived and unpublished articles
+        // Filter archived articles
         if ($params->get('show_archived', 'hide') === 'show') {
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
-        } elseif ($params->get('show_archived', 'hide') === 'hide' && $params->get('show_unpublished', 0) === 1) {
-            $articles->setState('filter.published', [
-                ContentComponent::CONDITION_PUBLISHED,
-                ContentComponent::CONDITION_UNPUBLISHED,
-            ]);
         }
-
+        
         // Check if we include or exclude articles and process data
         $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
         $filterInclude          = true;
