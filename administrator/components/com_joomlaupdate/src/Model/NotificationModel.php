@@ -39,12 +39,13 @@ final class NotificationModel extends BaseDatabaseModel
      *
      * @param  string  $type        The type of notification to send. This is the last key for the mail template
      * @param  string  $oldVersion  The old version from before the update
+     * @param  string  $newVersion  The new version from after the update
      *
      * @return  void
      *
      * @since   5.4.0
      */
-    public function sendNotification($type, $oldVersion): void
+    public function sendNotification($type, $oldVersion, $newVersion): void
     {
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
@@ -58,7 +59,6 @@ final class NotificationModel extends BaseDatabaseModel
         $app        = Factory::getApplication();
         $jLanguage  = $app->getLanguage();
         $sitename   = $app->get('sitename');
-        $newVersion = (new Version())->getShortVersion();
 
         $substitutions = [
             'oldversion' => $oldVersion,
