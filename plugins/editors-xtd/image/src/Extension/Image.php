@@ -165,7 +165,6 @@ final class Image extends CMSPlugin implements SubscriberInterface
             }
 
             Text::script('JCLOSE');
-            Text::script('PLG_IMAGE_BUTTON_INSERT');
             Text::script('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL');
             Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
             Text::script('JFIELD_MEDIA_ALT_LABEL');
@@ -183,6 +182,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
             Text::script('JFIELD_MEDIA_TITLE_LABEL');
             Text::script('JFIELD_MEDIA_UNSUPPORTED');
             Text::script('JFIELD_MEDIA_WIDTH_LABEL');
+            Text::script('PLG_IMAGE_BUTTON_INSERT');
 
             $link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
 
