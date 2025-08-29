@@ -10,8 +10,8 @@
 namespace Joomla\CMS\Versioning;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\ContentHistory;
