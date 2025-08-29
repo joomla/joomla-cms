@@ -137,6 +137,6 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                 <?php endif; ?>
             </article>
         </li>
-    <?php endif; ?>
+        <?php endif; ?>
     <?php endforeach; ?>
 </ul>

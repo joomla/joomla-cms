@@ -210,7 +210,7 @@ class ArticlesHelper implements DatabaseAwareInterface
         if ($params->get('show_archived', 'hide') === 'show') {
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
         }
-        
+
         // Check if we include or exclude articles and process data
         $ex_or_include_articles = $params->get('ex_or_include_articles', 0);
         $filterInclude          = true;
