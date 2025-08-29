@@ -15,7 +15,6 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Language\Language;
-use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap as LdapPlugin;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactory;
 use Joomla\Tests\Integration\IntegrationTestCase;
@@ -72,7 +71,7 @@ class LdapPluginTest extends IntegrationTestCase
             'type'   => 'authentication',
         ];
 
-        $plugin = new LdapPlugin(new LdapFactory(), new Dispatcher(), $pluginObject);
+        $plugin = new LdapPlugin(new LdapFactory(), $pluginObject);
         $plugin->setApplication($app);
 
         return $plugin;
