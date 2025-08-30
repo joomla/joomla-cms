@@ -9,8 +9,7 @@
 
 namespace Joomla\CMS\Versioning;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Date\Date;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -115,6 +114,9 @@ trait VersionableModelTrait
         if (false === $rowArray) {
             return false;
         }
+
+        $rowArray['checked_out']      = $this->getCurrentUser()->id;
+        $rowArray['checked_out_time'] = (new Date())->toSql();
 
         // Fix null ordering when restoring history
         if (\array_key_exists('ordering', $rowArray) && $rowArray['ordering'] === null) {

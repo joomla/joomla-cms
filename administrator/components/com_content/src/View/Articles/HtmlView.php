@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
@@ -113,26 +112,22 @@ class HtmlView extends BaseHtmlView
         $model = $this->getModel();
         $model->setUseExceptions(true);
 
-        try {
-            $this->items         = $model->getItems();
-            $this->pagination    = $model->getPagination();
-            $this->state         = $model->getState();
-            $this->filterForm    = $model->getFilterForm();
-            $this->activeFilters = $model->getActiveFilters();
-            $this->vote          = PluginHelper::isEnabled('content', 'vote');
-            $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
+        $this->vote          = PluginHelper::isEnabled('content', 'vote');
+        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
 
-            if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
-                $this->setLayout('emptystate');
-            }
+        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
+            $this->setLayout('emptystate');
+        }
 
-            if (ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
-                PluginHelper::importPlugin('workflow');
+        if (ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
+            PluginHelper::importPlugin('workflow');
 
-                $this->transitions = $model->getTransitions();
-            }
-        } catch (\Exception $e) {
-            throw new GenericDataException($e->getMessage(), 500, $e);
+            $this->transitions = $model->getTransitions();
         }
 
         // We don't need toolbar in the modal window.
