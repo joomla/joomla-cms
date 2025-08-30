@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Sef\Extension\Sef;
 
 return new class () implements ServiceProviderInterface {
@@ -35,7 +34,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Sef(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'sef')
                 );
                 $plugin->setApplication(Factory::getApplication());

@@ -73,7 +73,7 @@ class HtmlView extends ListView
         parent::initializeView();
 
         /** @var BannersModel $model */
-        $model               = $this->getModel();
+        $model            = $this->getModel();
 
         $this->categories = $model->getCategoryOrders();
         $this->canDo      = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));

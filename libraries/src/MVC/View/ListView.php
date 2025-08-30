@@ -180,17 +180,12 @@ class ListView extends HtmlView
      */
     public function display($tpl = null)
     {
-        // Prepare view data
-        $this->initializeView();
-
         $model = $this->getModel();
 
-        $errors = $model->getErrors();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (!empty($errors)) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Prepare view data
+        $this->initializeView();
 
         if (!\count($this->items) && \is_callable([$model, 'IsEmptyState']) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
