@@ -129,6 +129,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var AssociationsModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
@@ -225,11 +226,6 @@ class HtmlView extends BaseHtmlView
 
                 $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
             }
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new \Exception(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();
