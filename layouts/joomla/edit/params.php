@@ -18,27 +18,27 @@ use Joomla\CMS\Layout\LayoutHelper;
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
 $fieldSets = $form->getFieldsets();
-$helper    = ($displayData->useCoreUI ?? false) ? 'uitab' : 'bootstrap';
+$helper    = $displayData->get('useCoreUI', false) ? 'uitab' : 'bootstrap';
 
 if (empty($fieldSets)) {
     return;
 }
 
-$ignoreFieldsets      = $displayData->ignore_fieldsets ?? [];
-$outputFieldsets      = $displayData->output_fieldsets ?? [];
-$ignoreFieldsetFields = $displayData->ignore_fieldset_fields ?? [];
-$ignoreFields         = $displayData->ignore_fields ?? [];
-$extraFields          = $displayData->extra_fields ?? [];
-$tabName              = $displayData->tab_name ?? 'myTab';
+$ignoreFieldsets      = $displayData->get('ignore_fieldsets') ?: [];
+$outputFieldsets      = $displayData->get('output_fieldsets') ?: [];
+$ignoreFieldsetFields = $displayData->get('ignore_fieldset_fields') ?: [];
+$ignoreFields         = $displayData->get('ignore_fields') ?: [];
+$extraFields          = $displayData->get('extra_fields') ?: [];
+$tabName              = $displayData->get('tab_name') ?: 'myTab';
 
 // These are required to preserve data on save when fields are not displayed.
-$hiddenFieldsets = $displayData->hiddenFieldsets ?? [];
+$hiddenFieldsets = $displayData->get('hiddenFieldsets') ?: [];
 
 // These are required to configure showing and hiding fields in the editor.
-$configFieldsets = $displayData->configFieldsets ?? [];
+$configFieldsets = $displayData->get('configFieldsets') ?: [];
 
 // Handle the hidden fieldsets when show_options is set false
-if (!($displayData->show_options ?? 1)) {
+if (!$displayData->get('show_options', 1)) {
     // The HTML buffer
     $html   = [];
 

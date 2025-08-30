@@ -34,7 +34,6 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -113,7 +112,6 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface       $dispatcher       The dispatcher
      * @param   array                     $config           An optional associative array of configuration settings
      * @param   CMSApplicationInterface   $app              The language factory
      * @param   LanguageFactoryInterface  $languageFactory  The language factory
@@ -121,12 +119,11 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      * @since   1.6.0
      */
     public function __construct(
-        DispatcherInterface $dispatcher,
         array $config,
         CMSApplicationInterface $app,
         LanguageFactoryInterface $languageFactory
     ) {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->languageFactory = $languageFactory;
 
@@ -376,13 +373,13 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             } elseif ($this->params->get('remove_default_prefix', 0)) {
                 // We don't have a prefix for the default language
                 $uri->setVar('lang', $this->default_lang);
-            } else {
+            } elseif (!isset($this->sefs[$lang])) {
                 // No language is set, so we want to redirect to the right language
                 $router->setTainted();
             }
 
             // The language was set both per SEF path and per query parameter. Query parameter takes precedence
-            if ($lang) {
+            if ($lang && isset($this->sefs[$sef])) {
                 $uri->setVar('lang', $lang);
                 $router->setTainted();
             }
@@ -425,8 +422,18 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 
         // Our parse rule discovered a language
         if ($uri->hasVar('lang')) {
-            $lang_code = $uri->getVar('lang');
-        } else {
+            $uri_lang_code = $uri->getVar('lang');
+
+            // Check whether the tag exists, first check for full language tag, then for short tag
+            if (isset($this->lang_codes[$uri_lang_code])) {
+                $lang_code = $uri_lang_code;
+            } elseif (isset($this->sefs[$uri_lang_code])) {
+                // Check for short language tag
+                $lang_code = $this->sefs[$uri_lang_code]->lang_code;
+            }
+        }
+
+        if (!$lang_code) {
             /**
              * We don't know the language yet and want to discover it.
              * If we remove the default prefix, call by POST or have nolangfilter set,
