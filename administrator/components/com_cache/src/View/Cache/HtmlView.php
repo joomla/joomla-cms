@@ -92,17 +92,14 @@ class HtmlView extends BaseHtmlView
     {
         /** @var CacheModel $model */
         $model               = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->data          = $model->getData();
         $this->pagination    = $model->getPagination();
         $this->total         = $model->getTotal();
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         if (!\count($this->data) && ($this->state->get('filter.search') === null || $this->state->get('filter.search') === '')) {
             $this->setLayout('emptystate');

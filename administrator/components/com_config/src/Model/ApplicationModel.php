@@ -18,7 +18,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -36,6 +35,7 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Filter\OutputFilter;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -364,7 +364,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                         CURLOPT_PROXYUSERPWD   => null,
                     ]
                 );
-                $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
+                $response = (new HttpFactory())->getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
 
                 // If available in HTTPS check also the status code.
                 if (!\in_array($response->getStatusCode(), [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
