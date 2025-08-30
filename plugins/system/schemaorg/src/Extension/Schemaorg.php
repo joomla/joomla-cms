@@ -408,7 +408,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 throw new UnknownAssetException();
             }
 
-            $webPageSchema['breadcrumbs'] = ['@id' => $breadcrumbs['@id']];
+            $webPageSchema['breadcrumb'] = ['@id' => $breadcrumbs['@id']];
         } catch (UnknownAssetException $e) {
             // No Breadcrumbs Schema found, so we don't add it
         }
@@ -566,11 +566,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
      */
     public function onContentAfterDelete(Model\AfterDeleteEvent $event)
     {
-        if (!$this->isSupported($event->getContext())) {
+        $context = $event->getContext();
+        $itemId  = $event->getItem()->id ?? 0;
+
+        if (!$itemId || !$this->isSupported($context)) {
             return;
         }
 
-        $this->deleteSchemaOrg($event->getItem()->id, $event->getContext());
+        $this->deleteSchemaOrg($itemId, $context);
     }
 
     /**

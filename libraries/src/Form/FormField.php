@@ -403,7 +403,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * Additional layout paths to look for layout files
      *
      * @var   array
-     * @since __DEPLOY_VERSION__
+     * @since 6.0.0
      */
     protected $layoutPaths = [];
 
