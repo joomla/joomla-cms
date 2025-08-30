@@ -46,7 +46,7 @@ class HtmlView extends FormView
      *
      * @param   array  $config  An optional associative array of configuration settings.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function __construct(array $config)
     {
@@ -65,7 +65,7 @@ class HtmlView extends FormView
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function initializeView()
     {

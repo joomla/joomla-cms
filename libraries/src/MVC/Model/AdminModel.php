@@ -1754,7 +1754,7 @@ abstract class AdminModel extends FormModel
      *
      * @return  boolean  True on success, False on error.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function saveHistory(array $data, string $context)
     {
