@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -91,8 +92,7 @@ class Cli extends Input
 
         // Remove $_ENV and $_SERVER from the inputs.
         $inputs = $this->inputs;
-        unset($inputs['env']);
-        unset($inputs['server']);
+        unset($inputs['env'], $inputs['server']);
 
         // Serialize the executable, args, options, data, and inputs.
         return serialize([$this->executable, $this->args, $this->options, $this->data, $inputs]);
@@ -113,7 +113,7 @@ class Cli extends Input
     public function unserialize($input)
     {
         // Unserialize the executable, args, options, data, and inputs.
-        list($this->executable, $this->args, $this->options, $this->data, $this->inputs) = unserialize($input);
+        [$this->executable, $this->args, $this->options, $this->data, $this->inputs] = unserialize($input);
 
         // Load the filter.
         if (isset($this->options['filter'])) {

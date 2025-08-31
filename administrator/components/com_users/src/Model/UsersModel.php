@@ -567,7 +567,7 @@ class UsersModel extends ListModel
                 $dStart->setTime(0, 0, 0);
 
                 // Now change the timezone back to UTC.
-                $tz = new \DateTimeZone('GMT');
+                $tz = new \DateTimeZone('UTC');
                 $dStart->setTimezone($tz);
                 break;
             case 'never':

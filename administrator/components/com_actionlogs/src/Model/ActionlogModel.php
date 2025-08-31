@@ -58,7 +58,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         try {
             $user = $userId ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();
         } catch (\UnexpectedValueException $e) {
-            @trigger_error(\sprintf('UserFactory must be set, this will not be caught anymore in 7.0.'), E_USER_DEPRECATED);
+            @trigger_error('UserFactory must be set, this will not be caught anymore in 7.0.', E_USER_DEPRECATED);
             $user = Factory::getUser($userId);
         }
 
@@ -163,7 +163,8 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             $m              = [];
             $m['extension'] = Text::_($extension);
             $m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
-            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
+            $tzOffset       = Factory::getApplication()->get('offset');
+            $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', $tzOffset);
             $m['username']  = $username;
             $temp[]         = $m;
 

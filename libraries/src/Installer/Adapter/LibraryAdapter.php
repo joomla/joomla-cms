@@ -14,7 +14,7 @@ use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\Manifest\LibraryManifest;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
@@ -55,7 +55,7 @@ class LibraryAdapter extends InstallerAdapter
 
                 // Clear the cached data
                 $this->currentExtensionId = null;
-                $this->extension          = Table::getInstance('Extension', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDatabase()]);
+                $this->extension          = new Extension($this->getDatabase());
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
@@ -92,8 +92,7 @@ class LibraryAdapter extends InstallerAdapter
     protected function finaliseInstall()
     {
         // Clobber any possible pending updates
-        /** @var Update $update */
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
             [
                 'element' => $this->element,
@@ -177,7 +176,7 @@ class LibraryAdapter extends InstallerAdapter
         $db->execute();
 
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
         $uid    = $update->find(
             [
                 'element' => $this->extension->element,
@@ -462,7 +461,7 @@ class LibraryAdapter extends InstallerAdapter
             $element       = str_replace([$mainFolder . DIRECTORY_SEPARATOR, '.xml'], '', $file);
             $manifestCache = Installer::parseXMLInstallFile($file);
 
-            $extension                 = Table::getInstance('extension');
+            $extension                 = new Extension($this->getDatabase());
             $extension->type           = 'library';
             $extension->client_id      = 0;
             $extension->element        = $element;

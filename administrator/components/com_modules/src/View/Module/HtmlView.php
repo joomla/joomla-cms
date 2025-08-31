@@ -13,7 +13,6 @@ namespace Joomla\Component\Modules\Administrator\View\Module;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -80,6 +79,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ModuleModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state = $model->getState();
 
@@ -100,10 +100,10 @@ class HtmlView extends BaseHtmlView
             return;
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('return', Factory::getApplication()->getInput()->getBase64('return', ''));
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();

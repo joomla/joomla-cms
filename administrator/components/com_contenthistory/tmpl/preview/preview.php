@@ -51,14 +51,27 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
                         <?php $subValue->value = (\is_object($subValue->value) || \is_array($subValue->value)) ? \json_encode($subValue->value, \JSON_UNESCAPED_UNICODE) : $subValue->value; ?>
                         <tr>
                             <th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
-                            <td><?php echo $subValue->value; ?></td>
+                            <td>
+                                <?php if (\is_array($subValue->value)) : ?>
+                                    <?php echo json_decode($subValue->value); ?>
+                                <?php else : ?>
+                                    <?php echo $subValue->value; ?>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endif; ?>
+
                 <?php endforeach; ?>
             <?php else : ?>
                 <tr>
                     <th scope="row"><?php echo $value->label; ?></th>
-                    <td><?php echo $value->value; ?></td>
+                    <td>
+                        <?php if (\is_array($value->value)) : ?>
+                            <?php echo json_encode($value->value); ?>
+                        <?php else : ?>
+                            <?php echo $value->value; ?>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endif; ?>
         <?php endforeach; ?>

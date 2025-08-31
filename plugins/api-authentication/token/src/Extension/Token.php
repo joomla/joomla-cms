@@ -17,7 +17,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
@@ -74,15 +73,14 @@ final class Token extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
      * @param   array                 $config       An optional associative array of configuration settings
      * @param   InputFilter           $filter       The input filter
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter)
+    public function __construct(array $config, InputFilter $filter)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->filter = $filter;
     }
@@ -163,7 +161,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        list($algo, $userId, $tokenHMAC) = $parts;
+        [$algo, $userId, $tokenHMAC] = $parts;
 
         /**
          * Verify the HMAC algorithm requested in the token string is allowed
@@ -180,7 +178,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
          */
         try {
             $siteSecret = $this->getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -282,7 +280,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -313,7 +311,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $value = $db->setQuery($query)->loadResult();
 
             return $value == 1;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

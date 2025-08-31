@@ -12,7 +12,6 @@ namespace Joomla\Component\Users\Administrator\View\Notes;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -101,6 +100,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var NotesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Initialise view variables.
         $this->items         = $model->getItems();
@@ -114,15 +114,15 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         // Turn parameters into registry objects
         foreach ($this->items as $item) {
             $item->cparams = new Registry($item->category_params);
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
         parent::display($tpl);

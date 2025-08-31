@@ -15,7 +15,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
@@ -140,8 +140,7 @@ class TemplateAdapter extends InstallerAdapter
     protected function finaliseInstall()
     {
         // Clobber any possible pending updates
-        /** @var Update $update */
-        $update = Table::getInstance('update');
+        $update = new Update($this->getDatabase());
 
         $uid = $update->find(
             [
@@ -238,7 +237,7 @@ class TemplateAdapter extends InstallerAdapter
         $db->execute();
 
         // Clobber any possible pending updates
-        $update = Table::getInstance('update');
+        $update = new Update($db);
         $uid    = $update->find(
             [
                 'element'   => $this->extension->element,
@@ -622,7 +621,7 @@ class TemplateAdapter extends InstallerAdapter
                 }
 
                 $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'template';
                 $extension->client_id      = $site_info->id;
                 $extension->element        = $template;
@@ -643,7 +642,7 @@ class TemplateAdapter extends InstallerAdapter
                 }
 
                 $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-                $extension                 = Table::getInstance('extension');
+                $extension                 = new Extension($this->getDatabase());
                 $extension->type           = 'template';
                 $extension->client_id      = $admin_info->id;
                 $extension->element        = $template;

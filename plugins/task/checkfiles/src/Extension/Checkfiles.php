@@ -15,7 +15,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
@@ -80,15 +79,14 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface  $dispatcher     The dispatcher
      * @param   array                $config         An optional associative array of configuration settings
      * @param   string               $rootDirectory  The root directory to look for images
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
+    public function __construct(array $config, string $rootDirectory)
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
 
         $this->rootDirectory = $rootDirectory;
     }
@@ -143,7 +141,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
 
             try {
                 $image->resize($newWidth, $newHeight, false);
-            } catch (\LogicException $e) {
+            } catch (\LogicException) {
                 $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL'), 'error');
 
                 return TaskStatus::KNOCKOUT;

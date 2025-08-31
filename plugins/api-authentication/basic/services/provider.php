@@ -17,7 +17,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\ApiAuthentication\Basic\Extension\Basic;
 
 return new class () implements ServiceProviderInterface {
@@ -36,7 +35,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Basic(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('api-authentication', 'basic'),
                 );
                 $plugin->setApplication(Factory::getApplication());

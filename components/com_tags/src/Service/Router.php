@@ -144,7 +144,7 @@ class Router extends RouterBase
 
         foreach (array_unique([$lang, '*']) as $language) {
             if (isset($query['view']) && $query['view'] === 'tags') {
-                if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
+                if (isset($query['parent_id'], $this->lookup[$language]['tags'][$query['parent_id']])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
                     break;
                 }
@@ -363,6 +363,8 @@ class Router extends RouterBase
         $items     = $this->app->getMenu()->getItems(['component_id'], [$component->id]);
 
         foreach ($items as $item) {
+            $itemParams = $item->getParams();
+
             if (!isset($this->lookup[$item->language])) {
                 $this->lookup[$item->language] = ['tags' => [], 'tag' => []];
             }
@@ -372,8 +374,11 @@ class Router extends RouterBase
                 sort($id);
                 $this->lookup[$item->language]['tag'][implode(',', $id)] = $item->id;
 
-                foreach ($id as $i) {
-                    $this->lookup[$item->language]['tag'][$i] = $item->id;
+                // Only apply to menu items with match type any
+                if ($itemParams->get('return_any_or_all') == 1) {
+                    foreach ($id as $i) {
+                        $this->lookup[$item->language]['tag'][$i] = $item->id;
+                    }
                 }
             }
 

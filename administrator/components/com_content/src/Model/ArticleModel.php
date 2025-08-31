@@ -29,6 +29,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -49,7 +50,7 @@ use Joomla\Utilities\ArrayHelper;
  * @since  1.6
  */
 
-class ArticleModel extends AdminModel implements WorkflowModelInterface
+class ArticleModel extends AdminModel implements WorkflowModelInterface, VersionableModelInterface
 {
     use WorkflowBehaviorTrait;
     use VersionableModelTrait;
@@ -579,24 +580,29 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
             // Pre-select some filters (Status, Category, Language, Access) in edit form if those have been selected in Article Manager: Articles
             if ($this->getState('article.id') == 0) {
-                $filters = (array) $app->getUserState('com_content.articles.filter');
-                $data->set(
+                $filters     = (array) $app->getUserState('com_content.articles.filter');
+                $data->state = $app->getInput()->getInt(
                     'state',
-                    $app->getInput()->getInt(
-                        'state',
-                        ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
-                    )
+                    ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                 );
-                $data->set('catid', $app->getInput()->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 
-                if ($app->isClient('administrator')) {
-                    $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                // If multiple categories are filtered, pick the first one to avoid loading all fields
+                $filteredCategories = $filters['category_id'] ?? null;
+                $selectedCatId      = null;
+
+                if (\is_array($filteredCategories)) {
+                    $selectedCatId = (int) reset($filteredCategories);
+                } elseif (!empty($filteredCategories)) {
+                    $selectedCatId = (int) $filteredCategories;
                 }
 
-                $data->set(
-                    'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->catid = $app->getInput()->getInt('catid', $selectedCatId);
+
+                if ($app->isClient('administrator')) {
+                    $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                }
+
+                $data->access = $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 
@@ -649,7 +655,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         $input  = $app->getInput();
         $filter = InputFilter::getInstance();
 
-        if (isset($data['metadata']) && isset($data['metadata']['author'])) {
+        if (isset($data['metadata']['author'])) {
             $data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
         }
 
@@ -708,7 +714,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $check = $input->post->get('jform', [], 'array');
 
             foreach ($data['urls'] as $i => $url) {
-                if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
+                if (trim($url) !== '' && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
                     if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1) {
                         $data['urls'][$i] = $check['urls'][$i];
                     } else {
@@ -750,6 +756,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $data['alias']   = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
+            }
+
+            if (!$this->workflowEnabled) {
+                $data['state'] = 0;
+            } else {
+                $data['transition'] = '';
             }
         }
 
@@ -1038,15 +1050,13 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     /**
      * Custom clean the cache of com_content and content modules
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_content');
         parent::cleanCache('mod_articles_archive');

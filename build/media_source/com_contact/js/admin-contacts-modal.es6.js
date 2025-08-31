@@ -18,7 +18,6 @@
     */
 
   window.jSelectContact = (id, title, catid, object, link, lang) => {
-    // eslint-disable-next-line no-console
     console.warn('Method jSelectContact() is deprecated. Use postMessage() instead.');
 
     let hreflang = '';

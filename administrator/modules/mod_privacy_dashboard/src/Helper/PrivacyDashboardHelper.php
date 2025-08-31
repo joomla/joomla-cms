@@ -11,6 +11,8 @@
 namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -22,18 +24,20 @@ use Joomla\Database\Exception\ExecutionFailureException;
  *
  * @since  3.9.0
  */
-class PrivacyDashboardHelper
+class PrivacyDashboardHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Method to retrieve information about the site privacy requests
      *
      * @return  array  Array containing site privacy requests
      *
-     * @since   3.9.0
+     * @since   5.4.0
      */
-    public static function getData()
+    public function getPrivacyRequests(): array
     {
-        $db    = Factory::getDbo();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -50,8 +54,28 @@ class PrivacyDashboardHelper
 
         try {
             return $db->loadObjectList();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return [];
         }
+    }
+
+    /**
+     * Method to retrieve information about the site privacy requests
+     *
+     * @return  array  Array containing site privacy requests
+     *
+     * @since   3.9.0
+     *
+     * @deprecated 5.4.0 will be removed in 7.0
+     *             Use the non-static method getPrivacyRequests
+     *             Example: Factory::getApplication()->bootModule('mod_privacy_dashboard', 'administrator')
+     *                          ->getHelper('PrivacyDashboardHelper')
+     *                          ->getPrivacyRequests()
+     */
+    public static function getData()
+    {
+        return Factory::getApplication()->bootModule('mod_privacy_dashboard', 'administrator')
+                                  ->getHelper('PrivacyDashboardHelper')
+                                  ->getPrivacyRequests();
     }
 }
