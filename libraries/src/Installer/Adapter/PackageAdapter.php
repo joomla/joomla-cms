@@ -146,7 +146,7 @@ class PackageAdapter extends InstallerAdapter
         }
 
         foreach ($this->getManifest()->files->children() as $child) {
-            $file = $source . '/' . (string) $child;
+            $file = $source . '/' . trim((string) $child);
 
             if (is_dir($file)) {
                 // If it's actually a directory then fill it up
