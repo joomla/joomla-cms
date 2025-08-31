@@ -351,6 +351,23 @@ class UpdateModel extends ListModel
 
             $update->loadFromXml($instance->detailsurl, $minimumStability);
 
+            // Handle optional message from update server administrator
+            if (!empty($update->preupdatemessage->_data)) {
+                $preupdatemessage = strip_tags($update->preupdatemessage->_data);
+                if (empty($update->preupdatemessage->type)) {
+                    $app->enqueueMessage($preupdatemessage);
+                } else {
+                    $app->enqueueMessage($preupdatemessage, $update->preupdatemessage->type);
+                    if ($update->preupdatemessage->type === 'error') {
+                        if (empty($preupdatemessage)) {
+                            $preupdatemessage = strip_tags(Text::sprintf('COM_INSTALLER_UPDATE_ERROR', $instance->name, '', ''));
+                            $app->enqueueMessage($preupdatemessage, 'error');
+                        }
+                        return;
+                    }
+                }
+            }
+
             // Find and use extra_query from update_site if available
             $updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDatabase());
             $updateSiteInstance->load($instance->update_site_id);
