@@ -1,0 +1,41 @@
+/* ----- Controls Container ----- */
+.vue-flow__controls {
+  box-shadow: 0 0 2px 1px var(--shadow-subtle);
+}
+
+/* ----- Controls Buttons ----- */
+.vue-flow__controls-button {
+  box-sizing: content-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 5px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--button-bg);
+  border: none;
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* ----- SVG Icon Styling ----- */
+.vue-flow__controls-button svg {
+  width: 100%;
+  max-width: 12px;
+  max-height: 12px;
+}
+
+/* ----- Button Hover ----- */
+.vue-flow__controls-button:hover {
+  background: var(--button-hover-bg);
+}
+
+/* ----- Button Disabled ----- */
+.vue-flow__controls-button:disabled {
+  pointer-events: none;
+}
+
+.vue-flow__controls-button:disabled svg {
+  fill-opacity: .4;
+}

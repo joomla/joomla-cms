@@ -98,7 +98,10 @@ $userId = $user->id;
                                 <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                     <?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
                                 </th>
-                                <th scope="col" class="w-10 d-none d-md-table-cell">
+                                <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                                    <?php echo Text::_('COM_WORKFLOW_GRAPH'); ?>
+                                </th>
+                                <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
                                 </th>
                             </tr>
@@ -110,6 +113,7 @@ $userId = $user->id;
                             $states = Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . $item->id . '&extension=' . $extension);
                             $transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
                             $edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id . '&extension=' . $extension);
+                            $graph = Route::_('index.php?option=com_workflow&view=graph&id=' . $item->id . '&extension=' . $extension);
 
                             $canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
                             $canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || is_null($item->checked_out);
@@ -174,11 +178,20 @@ $userId = $user->id;
                                         <?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
                                     </div>
                                 </td>
-                                <td class="d-none d-md-table-cell">
+                                <td class="text-center btns d-none d-md-table-cell">
+                                    <a class="btn btn-primary px-2 py-1" href="<?php echo $graph; ?>" aria-describedby="tip-graph<?php echo $i; ?>">
+                                        <span class="fa fa-diagram-project" aria-hidden="true"></span>
+                                    </a>
+                                    <div role="tooltip" id="tip-graph<?php echo $i; ?>">
+                                        <?php echo Text::_('COM_WORKFLOW_GRAPH'); ?>
+                                    </div>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell">
                                     <?php echo $item->id; ?>
                                 </td>
                             </tr>
                         <?php endforeach ?>
+                        </tbody>
                     </table>
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>

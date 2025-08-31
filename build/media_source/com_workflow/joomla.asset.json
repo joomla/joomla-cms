@@ -15,6 +15,38 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_workflow.workflowgraph",
+      "type": "style",
+      "uri": "com_workflow/workflow-graph.min.css"
+    },
+    {
+      "name": "com_workflow.workflowgraph",
+      "type": "script",
+      "uri": "com_workflow/workflow-graph.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name" : "com_workflow.workflowgraphclient",
+      "type": "style",
+      "uri": "com_workflow/workflow-graph-client.min.css"
+    },
+    {
+      "name": "com_workflow.workflowgraphclient",
+      "type": "script",
+      "uri": "com_workflow/workflow-graph-client.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }

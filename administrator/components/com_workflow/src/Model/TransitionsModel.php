@@ -141,6 +141,7 @@ class TransitionsModel extends ListModel
                     $db->quoteName('t.from_stage_id'),
                     $db->quoteName('t.to_stage_id'),
                     $db->quoteName('t.published'),
+                    $db->quoteName('t.workflow_id'),
                     $db->quoteName('t.checked_out'),
                     $db->quoteName('t.checked_out_time'),
                     $db->quoteName('t.ordering'),

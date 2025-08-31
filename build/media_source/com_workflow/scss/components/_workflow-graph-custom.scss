@@ -1,0 +1,199 @@
+/* ----- Layout ----- */
+.workflow-canvas {
+  background-color: var(--primary-rgb);
+  background-size: 20px 20px;
+}
+
+.min-vh-80 { height: 80vh; }
+.min-width-0 { min-width: 0; }
+.h-40 { height: 40px; }
+.end-20-px { right: 20px !important; }
+.top-25-px { top: 25px !important; }
+.z-10 { z-index: 10; }
+.z-20 { z-index: 20; }
+
+/* ----- Edges ----- */
+.vue-flow__edge-path {
+  stroke-width: 2;
+  transition: stroke .2s ease, stroke-width .2s ease;
+}
+.vue-flow__edge.selected .vue-flow__edge-path,
+.vue-flow__edge:hover .vue-flow__edge-path {
+  stroke: var(--primary);
+  stroke-width: 3;
+}
+
+.custom-edge {
+  background: rgb(32, 113, 198) !important;
+}
+
+/* ----- Edge Labels ----- */
+.vue-flow__edge-label {
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  pointer-events: all;
+  cursor: pointer;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.vue-flow__edge-label:hover {
+  background: var(--gray-100);
+  border-color: var(--gray-400);
+}
+
+/* ----- Controls & Minimap ----- */
+.vue-flow__controls,
+.vue-flow__minimap {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1);
+}
+
+.custom-controls {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 10;
+  padding: 4px;
+  background: var(--secondary);
+}
+
+/* ----- Nodes ----- */
+.stage-node { position: relative; }
+.stage-node .edge-handler {
+  width: 12px !important;
+  height: 12px !important;
+  background: var(--vf-node-text);
+}
+.stage-node:hover .vue-flow__handle { opacity: 1; }
+.vue-flow__node-stage { max-width: 250px !important; }
+
+/* ----- Handle ----- */
+.vue-flow__handle {
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+/* ----- Card Actions ----- */
+.workflow-browser-actions-list {
+  background-color: #000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .6);
+}
+.stage-card-actions button {
+  --btn-padding-x: 2px !important;
+  --btn-padding-y: 0 !important;
+}
+
+/* ----- Text Truncation ----- */
+.line-clamp-2 {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 2;
+}
+
+/* ----- Accessibility Utilities ----- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Focus indicators */
+:focus {
+  border-radius: 0 !important;
+  outline: 2px solid #005fcc !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(0, 95, 204, .4) !important;
+}
+
+/* Skip links */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  z-index: 9999;
+  padding: 8px;
+  color: #fff;
+  text-decoration: none;
+  background: #0d6efd;
+  border-radius: 3px;
+  transition: top .3s;
+}
+.skip-link:focus { top: 6px; }
+/* Ensure child elements inside groups remain usable */
+.vue-flow [role="group"] {
+  pointer-events: none !important;
+  user-select: none;
+}
+.vue-flow [role="group"] > * {
+  pointer-events: auto;
+}
+
+/* ----- High Contrast Mode ----- */
+@media (prefers-contrast: high), (forced-colors: active), screen and (-ms-high-contrast: active) {
+  .stage-node,
+  .edge-label,
+  .workflow-browser-actions-list,
+  .custom-controls-button,
+  .badge {
+    color: ButtonText !important;
+    background: ButtonFace !important;
+    border: 2px solid ButtonText !important;
+    forced-color-adjust: none !important;
+  }
+  :focus {
+    color: HighlightText !important;
+    background: Highlight !important;
+    outline: 3px solid Highlight !important;
+  }
+}
+
+/* ----- Reduced Motion ----- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ----- Touch Targets ----- */
+@media (pointer: coarse) {
+  button,
+  [role="button"],
+  [role="menuitem"],
+  .stage-node,
+  .edge-label,
+  .custom-controls-button {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    padding: 14px 18px !important;
+  }
+}
+
+/* ----- Print Styles ----- */
+@media print {
+  .stage-node,
+  .edge-label {
+    color: #000 !important;
+    background: #fff !important;
+    border: 2px solid #000 !important;
+    box-shadow: none !important;
+  }
+  .workflow-browser-actions-list,
+  .stage-card-actions,
+  .vue-flow__controls,
+  .custom-controls { display: none !important; }
+  .badge::after {
+    font-size: 11px !important;
+    font-style: italic !important;
+    content: " (" attr(title) ")" !important;
+  }
+}

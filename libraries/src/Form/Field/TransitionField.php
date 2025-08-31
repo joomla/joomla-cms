@@ -79,6 +79,16 @@ class TransitionField extends GroupedlistField
             } else {
                 $this->workflowStage = $input->getInt('id');
             }
+
+            $db            = $this->getDatabase();
+            $workflowStage = (int) $this->workflowStage;
+
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('workflow_id'))
+                ->from($db->quoteName('#__workflow_stages'))
+                ->where($db->quoteName('id') . ' = ' . (int) $workflowStage);
+
+            $this->form->setFieldAttribute('transition', 'workflow_id', (int) $db->setQuery($query)->loadResult());
         }
 
         return $result;
