@@ -12,7 +12,6 @@ namespace Joomla\Component\Messages\Administrator\View\Config;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Messages\Administrator\Model\ConfigModel;
@@ -62,15 +61,11 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ConfigModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
         $this->state = $model->getState();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Bind the record to the form.
         $this->form->bind($this->item);
