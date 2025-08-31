@@ -15,6 +15,9 @@ Joomla! CMS™
 * Joomla's [Official website](https://www.joomla.org).
 * Joomla! 6.1 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.1_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/6.1-dev).
+* Release Managers responsible for Joomla! 6.1
+  * Stefan Wendhausen @tecpromotion
+  * Harald Leithner @HLeithner
 
 ## What is Joomla?
 
