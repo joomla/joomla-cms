@@ -13,7 +13,6 @@ namespace Joomla\Component\Guidedtours\Administrator\View\Tours;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Guidedtours\Administrator\Model\ToursModel;
@@ -84,6 +83,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ToursModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -95,11 +95,6 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         $this->addToolbar();
 
         // We do not need to filter by language when multilingual is disabled
@@ -107,6 +102,11 @@ class HtmlView extends BaseHtmlView
             unset($this->activeFilters['language']);
             $this->filterForm->removeField('language', 'filter');
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
     }

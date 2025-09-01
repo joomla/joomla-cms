@@ -13,20 +13,19 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Extension\AfterJoomlaUpdateEvent;
+use Joomla\CMS\Event\Extension\BeforeJoomlaAutoupdateEvent;
 use Joomla\CMS\Event\Extension\BeforeJoomlaUpdateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Http\Http;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
@@ -38,8 +37,10 @@ use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
+use Joomla\Http\HttpFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -388,18 +389,18 @@ class UpdateModel extends BaseDatabaseModel
         $response = ['basename' => false, 'check' => null, 'version' => $updateInfo['latest']];
 
         try {
-            $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+            $head = (new HttpFactory())->getHttp($httpOptions)->head($packageURL);
         } catch (\RuntimeException) {
             // Passing false here -> download failed message
             return $response;
         }
 
         // Follow the Location headers until the actual download URL is known
-        while (isset($head->headers['location'])) {
-            $packageURL = (string) $head->headers['location'][0];
+        while (isset($head->getHeaders()['location'])) {
+            $packageURL = (string) $head->getHeaders()['location'][0];
 
             try {
-                $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+                $head = (new HttpFactory())->getHttp($httpOptions)->head($packageURL);
             } catch (\RuntimeException) {
                 // Passing false here -> download failed message
                 return $response;
@@ -533,18 +534,36 @@ class UpdateModel extends BaseDatabaseModel
         $fileInformation = $this->download();
 
         if ($fileInformation['version'] !== $targetVersion) {
-            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG'), 410);
+            throw new InvalidParameterException(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG'), 410);
         }
 
         if ($fileInformation['check'] === false) {
-            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG'), 410);
+            throw new InvalidParameterException(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG'), 410);
         }
 
         if (!$this->createUpdateFile($fileInformation['basename'])) {
-            throw new \Exception('Could not write update file', 410);
+            throw new InvalidParameterException(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_COULD_NOT_WRITE_UPDATE_FILE'), 410);
         }
 
+        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $fileInformation['basename']), Log::INFO, 'Update');
+
         $app = Factory::getApplication();
+
+        // Run preparation plugin trigger
+        PluginHelper::importPlugin('installer');
+
+        $eventResult = $this->getDispatcher()->dispatch(
+            'onBeforeJoomlaAutoupdate',
+            new BeforeJoomlaAutoupdateEvent(
+                'onBeforeJoomlaAutoupdate'
+            )
+        );
+
+        if ($eventResult->getArgument('stoppedUpdate')) {
+            Log::add(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), Log::ERROR, 'Update');
+
+            throw new CheckinCheckout(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_STOPPED_BY_PLUGIN'), 503);
+        }
 
         return [
             'password' => $app->getUserState('com_joomlaupdate.password'),
@@ -566,7 +585,7 @@ class UpdateModel extends BaseDatabaseModel
         $this->cleanCache('_system');
 
         // Prepare connection
-        $http = HttpFactory::getHttp();
+        $http = (new HttpFactory())->getHttp();
 
         $url = self::AUTOUPDATE_URL;
         $url .= ($targetState === AutoupdateRegisterState::Subscribe) ? '/register' : '/delete';
@@ -589,7 +608,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Decode response
-        $result = json_decode((string)$response->getBody(), true);
+        $result = json_decode((string) $response->getBody(), true);
 
         // Handle validation issue
         if ($response->getStatusCode() === 422) {
@@ -614,8 +633,8 @@ class UpdateModel extends BaseDatabaseModel
             Factory::getApplication()->enqueueMessage(
                 Text::sprintf(
                     'COM_JOOMLAUPDATE_AUTOUPDATE_REGISTER_ERROR',
-                    $result['message'] ?: '',
-                    $result['status'] ?: ''
+                    $result['message'] ?? '',
+                    $result['status'] ?? ''
                 ),
                 'error'
             );
@@ -632,7 +651,7 @@ class UpdateModel extends BaseDatabaseModel
             ($targetState === AutoupdateRegisterState::Subscribe)
                 ? AutoupdateRegisterState::Subscribed
                 : AutoupdateRegisterState::Unsubscribed,
-            ($targetState === AutoupdateRegisterState::Unsubscribed)
+            ($targetState === AutoupdateRegisterState::Subscribe)
         );
 
         return AutoupdateRegisterResultState::Success;
@@ -641,7 +660,7 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * Update the autoupdate activation and registration states
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     protected function updateAutoUpdateParams(AutoupdateRegisterState $registrationState, bool $enableUpdate): void
     {
@@ -760,17 +779,17 @@ class UpdateModel extends BaseDatabaseModel
 
         // Download the package
         try {
-            $result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
+            $result = (new HttpFactory())->getHttp([], ['curl', 'stream'])->get($url);
         } catch (\RuntimeException) {
             return false;
         }
 
-        if (!$result || ($result->code != 200 && $result->code != 310)) {
+        if (!$result || ($result->getStatusCode() != 200 && $result->getStatusCode() != 310)) {
             return false;
         }
 
         // Fix Indirect Modification of Overloaded Property
-        $body = $result->body;
+        $body = (string) $result->getBody();
 
         // Write the file to disk
         try {
@@ -823,7 +842,7 @@ class UpdateModel extends BaseDatabaseModel
         $app      = Factory::getApplication();
 
         // Trigger event before joomla update.
-        $app->getDispatcher()->dispatch('onJoomlaBeforeUpdate', new BeforeJoomlaUpdateEvent('onJoomlaBeforeUpdate'));
+        $this->getDispatcher()->dispatch('onJoomlaBeforeUpdate', new BeforeJoomlaUpdateEvent('onJoomlaBeforeUpdate'));
 
         // Get the absolute path to site's root.
         $siteroot = JPATH_SITE;
@@ -922,8 +941,6 @@ ENDDATA;
         $db                   = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
-
-        $installer->setAdapter($installer->extension->type);
 
         $installer->setPath('manifest', JPATH_MANIFESTS . '/files/joomla.xml');
         $installer->setPath('source', JPATH_MANIFESTS . '/files');
@@ -1160,7 +1177,7 @@ ENDDATA;
         $oldVersion = $app->getUserState('com_joomlaupdate.oldversion');
 
         // Trigger event after joomla update.
-        $app->getDispatcher()->dispatch('onJoomlaAfterUpdate', new AfterJoomlaUpdateEvent('onJoomlaAfterUpdate', [
+        $this->getDispatcher()->dispatch('onJoomlaAfterUpdate', new AfterJoomlaUpdateEvent('onJoomlaAfterUpdate', [
             'oldVersion' => $oldVersion ?: '',
         ]));
         $app->setUserState('com_joomlaupdate.oldversion', null);
@@ -1558,9 +1575,13 @@ ENDDATA;
     {
         $updateInformation = $this->getUpdateInformation();
 
-        return isset($updateInformation['object']->php_minimum) ?
-            $updateInformation['object']->php_minimum->_data :
-            JOOMLA_MINIMUM_PHP;
+        // Check if php_minimum exists and return its value
+        if (isset($updateInformation['object']) && $updateInformation['object']->get('php_minimum')) {
+            return $updateInformation['object']->get('php_minimum')->_data;
+        }
+
+        // Fallback to JOOMLA_MINIMUM_PHP if php_minimum is not set
+        return JOOMLA_MINIMUM_PHP;
     }
 
     /**
@@ -1748,7 +1769,7 @@ ENDDATA;
     }
 
     /**
-     * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
+     * Called by controller's batchextensioncompatibility, which is called via AJAX.
      *
      * @param   string  $extensionID          The ID of the checked extension
      * @param   string  $joomlaTargetVersion  Target version of Joomla
@@ -1850,7 +1871,7 @@ ENDDATA;
     {
         $return = [];
 
-        $http = new Http();
+        $http = (new HttpFactory())->getHttp();
 
         try {
             $response = $http->get($updateSiteInfo['location']);
@@ -1858,11 +1879,11 @@ ENDDATA;
             $response = null;
         }
 
-        if ($response === null || $response->code !== 200) {
+        if ($response === null || $response->getStatusCode() !== 200) {
             return $return;
         }
 
-        $updateSiteXML = simplexml_load_string($response->body);
+        $updateSiteXML = simplexml_load_string((string) $response->getBody());
 
         foreach ($updateSiteXML->extension as $extension) {
             $attribs = new \stdClass();

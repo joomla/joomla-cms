@@ -10,11 +10,13 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Media\Administrator\Exception\ProviderAccountNotFoundException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Registry\Registry;
 
@@ -327,7 +329,7 @@ trait DisplayTrait
             $wa->useScript('plg_editors_tinymce.jdragndrop');
             $plugins[]  = 'jdragndrop';
             $uploadUrl  = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
-            $uploadPath = $levelParams->get('path', '');
+            $uploadPath = $levelParams->get('path', ComponentHelper::getParams('com_media')->get('image_path', 'images'));
 
             // Make sure the path is full, and contain the media adapter in it.
             $mediaHelper = new class () {
@@ -335,6 +337,21 @@ trait DisplayTrait
 
                 public function prepareTinyMCEUploadPath(string $path): string
                 {
+                    // Check for the path includes the adapter
+                    if (!str_contains($path, ':')) {
+                        try {
+                            /*
+                             * We got old folder name without adapter eg "images".
+                             * Look whether the adapter exists for this folder, otherwise everything will fallback to default.
+                             */
+                            $this->getAdapter('local-' . $path);
+                            // Adapter exists, update the path
+                            $path = 'local-' . $path . ':/';
+                        } catch (ProviderAccountNotFoundException) {
+                            // Nothing found
+                        }
+                    }
+
                     $result = $this->resolveAdapterAndPath($path);
 
                     return implode(':', $result);
@@ -369,7 +386,7 @@ trait DisplayTrait
             }
         }
 
-        // Should load the template plugin?
+        // Load the template plugin?
         if (!empty($allButtons['jtemplate'])) {
             $wa->useScript('plg_editors_tinymce.jtemplate');
             $plugins[] = 'jtemplate';
@@ -408,6 +425,42 @@ trait DisplayTrait
                     array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
                 }
             }
+        }
+
+        // Set the default classes for the image class dropdown
+        $imgClasses = [
+            ['title' => TEXT::_('PLG_TINY_FIELD_IMG_CLASS_NO_CLASS'), 'value' => ''],
+            ['title' => 'None', 'value' => 'float-none'],
+            ['title' => 'Left', 'value' => 'float-start'],
+            ['title' => 'Right', 'value' => 'float-end'],
+            ['title' => 'Center', 'value' => 'mx-auto d-block'],
+        ];
+
+        // Load the image classes list
+        if (isset($extraOptions->img_classes_list) && $extraOptions->img_classes_list) {
+            $imgClassesList = $extraOptions->img_classes_list;
+
+            if ($imgClassesList) {
+                // Create an array for the image classes
+                foreach ($imgClassesList as $imgClassList) {
+                    array_push($imgClasses, ['title' => $imgClassList->img_class_name, 'value' => $imgClassList->img_class_list]);
+                }
+            }
+        }
+
+        // Add the current domain to the sandbox_iframes_exclusions list
+        $sandboxIframesExclusions = Uri::getInstance()->getHost();
+
+        // Build the list of additional domains to add to the sandbox_iframes_exclusions list
+        if (isset($extraOptions->sandbox_iframes_exclusions) && $extraOptions->sandbox_iframes_exclusions) {
+            $exclusionsArray = [];
+            foreach ($extraOptions->sandbox_iframes_exclusions as $value) {
+                if (isset($value->exclusion_domain)) {
+                    $exclusionsArray[] = $value->exclusion_domain;
+                }
+            }
+            // Join the URLs into a comma-separated string and add to the sandbox_iframes_exclusions list
+            $sandboxIframesExclusions .= ', ' . implode(', ', $exclusionsArray);
         }
 
         // Build the final options set
@@ -476,12 +529,7 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
-                'image_class_list'      => [
-                    ['title' => 'None', 'value' => 'float-none'],
-                    ['title' => 'Left', 'value' => 'float-start'],
-                    ['title' => 'Right', 'value' => 'float-end'],
-                    ['title' => 'Center', 'value' => 'mx-auto d-block'],
-                ],
+                'image_class_list'      => $imgClasses,
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,
@@ -490,10 +538,13 @@ trait DisplayTrait
                 'branding'  => false,
                 'promotion' => false,
 
+                // Set License
+                'license_key' => 'gpl',
+
                 // Hardened security
-                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
-                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
-                'convert_unsafe_embeds' => true,
+                'sandbox_iframes'            => (bool) $levelParams->get('sandbox_iframes', true),
+                'sandbox_iframes_exclusions' => $sandboxIframesExclusions,
+                'convert_unsafe_embeds'      => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',

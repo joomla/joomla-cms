@@ -55,12 +55,11 @@ Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 Text::script('INSTL');
 Text::script('INSTL_FINISHED');
 Text::script('INSTL_IN_PROGRESS');
-
-// Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');
 
 // Load strings for translated messages (directory removal)
 Text::script('INSTL_REMOVE_INST_FOLDER');
+Text::script('INSTL_DISABLE_AUTOUPDATE');
 Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 ?>
 <!DOCTYPE html>

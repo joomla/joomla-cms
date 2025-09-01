@@ -14,7 +14,6 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Behaviour\Taggable\Extension\Taggable;
 
 return new class () implements ServiceProviderInterface {
@@ -33,7 +32,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Taggable(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('behaviour', 'taggable')
                 );
 

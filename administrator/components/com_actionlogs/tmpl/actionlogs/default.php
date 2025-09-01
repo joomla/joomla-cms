@@ -118,9 +118,8 @@ $wa->useScript('keepalive')
             <?php echo $this->pagination->getListFooter(); ?>
 
         <?php endif;?>
-        <input type="hidden" name="task" value="" />
-        <input type="hidden" name="boxchecked" value="0" />
-        <?php echo HTMLHelper::_('form.token'); ?>
+
+        <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>
 <form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="exportForm" id="exportForm">
