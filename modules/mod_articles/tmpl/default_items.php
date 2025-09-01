@@ -28,7 +28,6 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
         $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;
         $canEdit = $item->params->get('access-edit');
         ?>
-        <?php if (($params->get('show_unpublished', 0) === 1 && $canEdit) || $item->state == 1) : ?>
         <li>
             <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
 
@@ -137,6 +136,5 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                 <?php endif; ?>
             </article>
         </li>
-        <?php endif; ?>
     <?php endforeach; ?>
 </ul>
