@@ -29,7 +29,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
         $canEdit = $item->params->get('access-edit');
         ?>
         <?php if (($params->get('show_unpublished', 0) === 1 && $canEdit) || $item->state == 1) : ?>
-        <li class="<?php echo $displayExpired; ?>">
+        <li>
             <article class="mod-articles-item" itemscope itemtype="https://schema.org/Article">
 
                 <?php if ($params->get('item_title') || $displayInfo || $params->get('show_tags') || $params->get('show_introtext') || $params->get('show_readmore')) : ?>
