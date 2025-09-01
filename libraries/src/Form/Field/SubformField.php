@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @Example with all attributes:
  *  <field name="field-name" type="subform"
- *      formsource="path/to/form.xml" min="1" max="3" multiple="true" buttons="add,remove,move"
+ *      formsource="path/to/form.xml" min="1" max="3" multiple="true" buttons="add,remove,move" indexed="true"
  *      layout="joomla.form.field.subform.repeatable-table" groupByFieldset="false" component="com_example" client="site"
  *      label="Field Label" description="Field Description" />
  *
@@ -72,6 +72,12 @@ class SubformField extends FormField
      * @var boolean[] $buttons
      */
     protected $buttons = ['add' => true, 'remove' => true, 'move' => true];
+
+    /**
+     * Remove key from array
+     * @var bool
+     */
+    protected $indexed = false;
 
     /**
      * Method to get certain otherwise inaccessible properties from the form field object.
@@ -198,7 +204,7 @@ class SubformField extends FormField
             return false;
         }
 
-        foreach (['formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons'] as $attributeName) {
+        foreach (['formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons', 'indexed'] as $attributeName) {
             $this->__set($attributeName, $element[$attributeName]);
         }
 
@@ -447,5 +453,45 @@ class SubformField extends FormField
         }
 
         return $return;
+    }
+
+    /**
+     * Method to post-process a field value.
+     *
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
+     *
+     * @return  mixed   The processed value.
+     *
+     * @since   4.0.0
+     */
+    public function postProcess($value, $group = null, ?Registry $input = null)
+    {
+        if ($value && $this->indexed && $this->multiple) {
+            $value = array_values((array)$value);
+        }
+
+        if ($value) {
+            $this->value = $value;
+
+            // We set min to 0 here to avoid issues with postProcess when there are less items than min
+            $this->min = 0;
+
+            $tmpl  = $this->loadSubForm();
+            $forms = $this->loadSubFormData($tmpl);
+
+            // We use the original keys from the value to keep any associative array keys
+            $index = 0;
+            foreach ($this->value as $k => $v) {
+                $value[$k] = $forms[$index]->postProcess($v);
+                $index++;
+            }
+
+            return $value;
+        }
+
+        return parent::postProcess($value, $group, $input);
     }
 }
