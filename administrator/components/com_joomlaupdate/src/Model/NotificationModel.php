@@ -52,16 +52,8 @@ final class NotificationModel extends BaseDatabaseModel
         // Superusergroups as fallback
         $superUserGroups = $this->getSuperUserGroups();
 
-        if (!\is_array($superUserGroups)) {
-            $emailGroups = ArrayHelper::toInteger(explode(',', $superUserGroups));
-        }
-
         // User groups from input field
         $emailGroups = $params->get('automated_updates_email_groups', $superUserGroups, 'array');
-
-        if (!\is_array($emailGroups)) {
-            $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
-        }
 
         // Get all users in these groups who can receive emails
         $emailReceivers = $this->getEmailReceivers($emailGroups);
