@@ -89,7 +89,7 @@ abstract class Grid
      */
     public static function checkall($name = 'checkall-toggle', $action = 'Joomla.checkAll(this)')
     {
-        HTMLHelper::_('behavior.core');
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('core');
 
         return '<input class="form-check-input" autocomplete="off" type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
     }
