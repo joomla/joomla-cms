@@ -167,6 +167,7 @@
 			translateformat="true"
 			showtime="true"
 			filter="user_utc"
+			showon="featured:1"
 		/>
 
 		<field
@@ -176,6 +177,7 @@
 			translateformat="true"
 			showtime="true"
 			filter="user_utc"
+			showon="featured:1"
 		/>
 
 		<field

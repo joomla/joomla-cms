@@ -15,7 +15,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Extension\Finder\Extension\Finder;
 
 return new class () implements ServiceProviderInterface {
@@ -34,7 +33,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Finder(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('extension', 'finder')
                 );
                 $plugin->setDatabase($container->get(DatabaseInterface::class));

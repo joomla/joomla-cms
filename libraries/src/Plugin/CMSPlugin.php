@@ -185,8 +185,7 @@ abstract class CMSPlugin implements PluginInterface, LanguageAwareInterface
         }
 
         // Load the language files if needed.
-        // It is required Application to be set, so we trying it here and in CMSPlugin::setApplication()
-        if ($this->autoloadLanguage && $this->getApplication()) {
+        if ($this->autoloadLanguage) {
             $this->autoloadLanguage();
         }
     }
@@ -250,6 +249,16 @@ abstract class CMSPlugin implements PluginInterface, LanguageAwareInterface
         }
 
         $app = $this->getApplication();
+
+        // Try to get Application from Factory
+        if (!$app) {
+            try {
+                $app = Factory::getApplication();
+            } catch (\Exception) {
+                // Cannot help here
+                return;
+            }
+        }
 
         // Check whether language already initialised in the Application, otherwise wait for it
         if (!$app->getLanguage()) {
@@ -516,11 +525,6 @@ abstract class CMSPlugin implements PluginInterface, LanguageAwareInterface
 
         if ($application->getLanguage()) {
             $this->setLanguage($application->getLanguage());
-        }
-
-        // Try to load the language files if it were not loaded in the constructor already.
-        if ($this->autoloadLanguage) {
-            $this->autoloadLanguage();
         }
     }
 

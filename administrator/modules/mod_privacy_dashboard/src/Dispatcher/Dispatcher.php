@@ -23,7 +23,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 /**
  * Dispatcher class for mod_privacy_dashboard
  *
- * @since  6.0.0
+ * @since  5.4.0
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
@@ -34,7 +34,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  void
      *
-     * @since   6.0.0
+     * @since   5.4.0
      */
     public function dispatch()
     {
@@ -97,7 +97,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  array
      *
-     * @since   6.0.0
+     * @since   5.4.0
      */
     protected function getLayoutData()
     {
