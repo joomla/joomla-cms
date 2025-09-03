@@ -1585,16 +1585,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "4.0.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "e69674bafd7818afa2537ef12019c56207018a26"
+                "reference": "cfcda2935605f14f396ccda7535f4417e27af868"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/e69674bafd7818afa2537ef12019c56207018a26",
-                "reference": "e69674bafd7818afa2537ef12019c56207018a26",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/cfcda2935605f14f396ccda7535f4417e27af868",
+                "reference": "cfcda2935605f14f396ccda7535f4417e27af868",
                 "shasum": ""
             },
             "require": {
@@ -1627,9 +1627,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/4.0.0"
+                "source": "https://github.com/joomla-framework/filesystem/tree/4.1.0"
             },
-            "time": "2025-07-23T19:06:55+00:00"
+            "time": "2025-08-27T18:49:28+00:00"
         },
         {
             "name": "joomla/filter",
