@@ -566,11 +566,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
      */
     public function onContentAfterDelete(Model\AfterDeleteEvent $event)
     {
-        if (!$this->isSupported($event->getContext())) {
+        $context = $event->getContext();
+        $itemId  = $event->getItem()->id ?? 0;
+
+        if (!$itemId || !$this->isSupported($context)) {
             return;
         }
 
-        $this->deleteSchemaOrg($event->getItem()->id, $event->getContext());
+        $this->deleteSchemaOrg($itemId, $context);
     }
 
     /**
