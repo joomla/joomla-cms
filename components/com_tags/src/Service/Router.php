@@ -363,6 +363,8 @@ class Router extends RouterBase
         $items     = $this->app->getMenu()->getItems(['component_id'], [$component->id]);
 
         foreach ($items as $item) {
+            $itemParams = $item->getParams();
+
             if (!isset($this->lookup[$item->language])) {
                 $this->lookup[$item->language] = ['tags' => [], 'tag' => []];
             }
@@ -372,8 +374,11 @@ class Router extends RouterBase
                 sort($id);
                 $this->lookup[$item->language]['tag'][implode(',', $id)] = $item->id;
 
-                foreach ($id as $i) {
-                    $this->lookup[$item->language]['tag'][$i] = $item->id;
+                // Only apply to menu items with match type any
+                if ($itemParams->get('return_any_or_all') == 1) {
+                    foreach ($id as $i) {
+                        $this->lookup[$item->language]['tag'][$i] = $item->id;
+                    }
                 }
             }
 
