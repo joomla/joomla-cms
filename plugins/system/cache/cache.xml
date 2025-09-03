@@ -39,7 +39,7 @@
 					layout="joomla.form.field.radio.switcher"
 					label="PLG_CACHE_FIELD_REFRESH_FORM_TOKEN_LABEL"
 					description="PLG_CACHE_FIELD_REFRESH_FORM_TOKEN_DESC"
-					default="1"
+					default="0"
 					filter="integer"
 					>
 					<option value="0">JNO</option>

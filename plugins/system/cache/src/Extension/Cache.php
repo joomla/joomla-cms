@@ -176,7 +176,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface, DispatcherAw
         }
 
         // Refresh form token input fields
-        if ($this->params->get('refresh_form_token', 1)) {
+        if ($this->params->get('refresh_form_token', 0)) {
             $token       = $app->getSession()->getFormToken();
             $search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1">#';
             $replacement = '<input type="hidden" name="' . $token . '" value="1">';
