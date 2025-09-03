@@ -34,6 +34,19 @@
 				</field>
 
 				<field
+					name="refresh_form_token"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_CACHE_FIELD_REFRESH_FORM_TOKEN_LABEL"
+					description="PLG_CACHE_FIELD_REFRESH_FORM_TOKEN_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="exclude_menu_items"
 					type="menuitem"
 					label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
