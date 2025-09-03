@@ -17,14 +17,13 @@
       <section
         id="main-canvas"
         class="flex-grow-1 position-relative"
-        aria-label="Workflow Canvas Application"
         aria-describedby="canvas-description"
       >
         <div
           id="canvas-description"
           class="visually-hidden"
         >
-          Interactive workflow diagram. Use keyboard shortcuts: Alt+N to add stage, Alt+M to add transition, F to fit view, E to edit selected item, Delete to remove selected item.
+          {{ translate('COM_WORKFLOW_GRAPH_CANVAS_DESCRIPTION') }}
         </div>
 
         <WorkflowCanvas

@@ -48,7 +48,7 @@
         aria-label="Canvas Controls"
         class="workflow-controls-section"
       >
-        <h2 class="visually-hidden">Canvas Controls</h2>
+        <h2 class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_CONTROLS') }}</h2>
 
         <!-- Minimap Toggle -->
         <button
@@ -373,12 +373,12 @@ export default {
         return;
       }
       const title = translate(type === 'stage'
-        ? 'COM_WORKFLOW_GRAPH_DELETE_STAGE_TITLE'
-        : 'COM_WORKFLOW_GRAPH_DELETE_TRANSITION_TITLE');
+        ? 'COM_WORKFLOW_GRAPH_TRASH_STAGE_BUTTON'
+        : 'COM_WORKFLOW_GRAPH_TRASH_TRANSITION_BUTTON');
 
       const message = translate(type === 'stage'
-        ? 'COM_WORKFLOW_GRAPH_DELETE_STAGE_CONFIRM'
-        : 'COM_WORKFLOW_GRAPH_DELETE_TRANSITION_CONFIRM');
+        ? 'COM_WORKFLOW_GRAPH_TRASH_STAGE_CONFIRM'
+        : 'COM_WORKFLOW_GRAPH_TRASH_TRANSITION_CONFIRM');
 
       JoomlaDialog.confirm(message, title).then((result) => {
         if (result) {

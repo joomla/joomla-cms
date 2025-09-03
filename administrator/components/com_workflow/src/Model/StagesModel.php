@@ -12,6 +12,7 @@
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
@@ -216,7 +217,7 @@ class StagesModel extends ListModel
     public function updatePositions($stagePositions, $workflowId)
     {
         if (empty($stagePositions) || !\is_array($stagePositions)) {
-            throw new \InvalidArgumentException('Invalid stage positions data provided');
+            throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_STAGE_POSITIONS'));
         }
 
         // Convert the stage positions to the expected format
@@ -229,7 +230,7 @@ class StagesModel extends ListModel
                     'y'  => (float) $position['y'],
                 ];
             } else {
-                throw new \InvalidArgumentException('Invalid position data for stage ID: ' . $id);
+                throw new \InvalidArgumentException(Text::sprintf('COM_WORKFLOW_GRAPH_ERROR_INVALID_POSITION_DATA', $id));
             }
         }
 
@@ -240,7 +241,7 @@ class StagesModel extends ListModel
 
             foreach ($stages as $stage) {
                 if (!isset($stage['id']) || !isset($stage['x']) || !isset($stage['y'])) {
-                    throw new \InvalidArgumentException('Invalid stage data structure');
+                    throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_GRAPH_ERROR_INVALID_POSITION_DATA', $stage['id']));
                 }
 
                 $id = (int) $stage['id'];
@@ -263,7 +264,7 @@ class StagesModel extends ListModel
             $db->transactionCommit();
         } catch (\Exception $e) {
             $db->transactionRollback();
-            throw new \RuntimeException('Failed to update stage positions: ' . $e->getMessage());
+            throw new \RuntimeException(Text::_('COM_WORKFLOW_GRAPH_ERROR_FAILED_TO_UPDATE_STAGE_POSITIONS') . ': ' . $e->getMessage());
         }
 
         return true;

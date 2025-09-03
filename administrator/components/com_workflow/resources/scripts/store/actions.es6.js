@@ -10,7 +10,7 @@ export default {
    * Load a workflow by its ID, including stages and transitions.
    * @param commit
    * @param dispatch
-   * @param id
+   * @param id - The ID of the workflow
    * @returns {Promise<{workflow: Object, stages: Array, transitions: Array}>}
    */
   async loadWorkflow({ commit, dispatch }, id) {
@@ -31,7 +31,7 @@ export default {
 
       dispatch('saveToHistory');
     } catch (error) {
-      commit('SET_ERROR', error.response?.data?.message || error.message || 'UNEXPECTED_ERROR');
+      notifications.error(error?.response?.data?.message || error?.message || 'COM_WORKFLOW_GRAPH_ERROR_UNKNOWN');
     } finally {
       commit('SET_LOADING', false);
     }
@@ -39,11 +39,11 @@ export default {
 
   /**
    * Delete a stage from the workflow.
-   * @param commit
+   * @param commit 
    * @param dispatch
    * @param state
-   * @param id
-   * @param workflowId
+   * @param id - The ID of the stage to delete
+   * @param workflowId - The ID of the workflow
    * @returns {Promise<void>}
    */
   async deleteStage({ commit, dispatch, state }, { id, workflowId }) {
@@ -59,18 +59,12 @@ export default {
         state.stages.length <= 1
           || state.stages.find((s) => s.id.toString() === id).default
       ) {
-        const errorMessage = 'COM_WORKFLOW_ERROR_STAGE_DEFAULT_CANT_DELETED';
-        commit('SET_ERROR', errorMessage);
-        notifications.error(errorMessage);
+        notifications.error('COM_WORKFLOW_ERROR_STAGE_DEFAULT_CANT_DELETED');
         return;
       }
 
       if (transitions.length > 0) {
-        const errorMessage = 'COM_WORKFLOW_ERROR_STAGE_HAS_TRANSITIONS';
-        commit('SET_ERROR', errorMessage);
-        if (window.Joomla && window.Joomla.renderMessages) {
-          window.Joomla.renderMessages({ error: [errorMessage] });
-        }
+        notifications.error('COM_WORKFLOW_ERROR_STAGE_HAS_TRANSITIONS');
         return;
       }
 
@@ -80,14 +74,7 @@ export default {
 
       await workflowGraphApi.deleteStage(id, workflowId, stageDelete);
     } catch (error) {
-      const errorMessage = error.message;
-      commit('SET_ERROR', errorMessage);
-
-      if (window.Joomla && window.Joomla.renderMessages) {
-        window.Joomla.renderMessages({
-          error: [errorMessage],
-        });
-      }
+      notifications.error(error?.response?.data?.message || error?.message || 'COM_WORKFLOW_GRAPH_ERROR_UNKNOWN');
     } finally {
       commit('SET_LOADING', false);
       await dispatch('loadWorkflow', workflowId);
@@ -98,9 +85,9 @@ export default {
    * Delete a transition from the workflow.
    * @param commit
    * @param dispatch
-   * @param id
-   * @param workflowId
-   * @param transitionDelete
+   * @param state
+   * @param id - The ID of the transition to delete
+   * @param workflowId - The ID of the workflow
    * @returns {Promise<void>}
    */
   async deleteTransition({ commit, dispatch, state }, { id, workflowId }) {
@@ -112,14 +99,7 @@ export default {
       ).published === -1;
       await workflowGraphApi.deleteTransition(id, workflowId, transitionDelete);
     } catch (error) {
-      const errorMessage = error.message || 'COM_WORKFLOW_GRAPH_DELETE_TRANSITION_FAILED';
-      commit('SET_ERROR', errorMessage);
-
-      if (window.Joomla && window.Joomla.renderMessages) {
-        window.Joomla.renderMessages({
-          error: [errorMessage],
-        });
-      }
+      notifications.error(error?.response?.data?.message || error?.message || 'COM_WORKFLOW_GRAPH_TRASH_TRANSITION_FAILED');
     } finally {
       commit('SET_LOADING', false);
       await dispatch('loadWorkflow', workflowId);
@@ -130,16 +110,23 @@ export default {
    * Update the position of a stage in the workflow locally.
    * @param commit
    * @param dispatch
-   * @param id
-   * @param x
-   * @param y
+   * @param id - The ID of the stage
+   * @param x - The new x position of the stage
+   * @param y - The new y position of the stage
    */
   updateStagePosition({ commit, dispatch }, { id, x, y }) {
     commit('UPDATE_STAGE_POSITION', { id, x, y });
     dispatch('saveToHistory');
   },
 
-  updateStagePositionAjax({ commit, state }) {
+
+  /**
+   * Update the position of a stage in the workflow via API in database.
+   * @param commit
+   * @param state
+   * @returns {Promise<boolean>}
+   */
+  async updateStagePositionAjax({ commit, state }) {
     const response = workflowGraphApi.updateStagePosition(
       state.workflowId,
       state.stages.reduce((acc, stage) => {
@@ -158,16 +145,16 @@ export default {
       return true;
     }
 
-    commit('SET_ERROR', 'COM_WORKFLOW_GRAPH_UPDATE_STAGE_POSITION_FAILED');
+    notifications.error('COM_WORKFLOW_GRAPH_UPDATE_STAGE_POSITION_FAILED');
     return false;
   },
 
   /**
    * Update the canvas viewport (zoom and pan) for the workflow graph.
    * @param commit
-   * @param zoom
-   * @param panX
-   * @param panY
+   * @param zoom - The zoom level
+   * @param panX - The pan offset on the X axis
+   * @param panY - The pan offset on the Y axis
    */
   updateCanvasViewport({ commit }, { zoom, panX, panY }) {
     commit('SET_CANVAS_VIEWPORT', { zoom, panX, panY });

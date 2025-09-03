@@ -16,15 +16,14 @@
     @keydown.esc="closeActions"
     @keydown.tab="closeActions"
   >
-    <!-- Hidden Description for Screen Readers -->
     <div
       :id="`stage-${stage?.id}-description`"
       class="visually-hidden"
     >
-      Stage {{ stage?.title }}. Status: {{ stage?.published ? 'Published' : 'Unpublished' }}.
-      {{ stage?.default ? 'This is the default stage.' : '' }}
-      {{ stage?.description ? `Description: ${stage?.description}` : '' }}
-      Use Enter or Space to open actions menu.
+      {{ translate('COM_WORKFLOW_GRAPH_STAGE_REF', { title: stage?.title }) }}. {{ translate('COM_WORKFLOW_GRAPH_STAGE_STATUS', { status: stage?.published ? 'Published' : 'Unpublished' }) }}.
+      {{ stage?.default ? translate('COM_WORKFLOW_GRAPH_DEFAULT') : '' }}
+      {{ stage?.description ? translate('COM_WORKFLOW_GRAPH_STAGE_DESCRIPTION', { description: stage?.description }) : '' }}
+      {{ translate('COM_WORKFLOW_GRAPH_STAGE_ACTIONS') }}
     </div>
 
     <!-- Dropdown Overlay -->
@@ -44,16 +43,15 @@
       :aria-labelledby="`stage-${stage?.id}-menu-button`"
       @mouseenter="onDropdownEnter"
     >
-      <h3 class="visually-hidden">Stage Actions for {{ stage?.title }}</h3>
+      <h3 class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_STAGE_ACTIONS', { title: stage?.title }) }}</h3>
 
       <button
         v-if="stage?.permissions?.edit"
         ref="editButton"
-        type="button"
         class="btn btn-sm btn-secondary text-start text-white fw-semibold text-truncate"
         role="menuitem"
         tabindex="0"
-        :title="`Edit stage ${stage?.title}`"
+        :title="translate('COM_WORKFLOW_GRAPH_EDIT_STAGE', { title: stage?.title })"
         @click="handleEdit"
         @keydown.enter="handleEdit"
         @keydown.space="handleEdit"
@@ -62,17 +60,16 @@
           class="icon icon-pencil-alt me-1"
           aria-hidden="true"
         />
-        {{ translate('COM_WORKFLOW_GRAPH_EDIT_STAGE') }}
+        {{ translate('COM_WORKFLOW_GRAPH_EDIT_STAGE_BUTTON') }}
       </button>
 
       <button
         v-if="stage?.permissions?.delete && !stage.default"
         ref="deleteButton"
-        type="button"
         class="btn btn-sm btn-danger mt-1 text-start text-white fw-semibold text-truncate"
         role="menuitem"
         tabindex="0"
-        :title="`Delete stage ${stage?.title}`"
+        :title="translate('COM_WORKFLOW_GRAPH_TRASH_STAGE', { title: stage?.title })"
         @click="handleDelete"
         @keydown.enter="handleDelete"
         @keydown.space.prevent.stop="handleDelete"
@@ -81,7 +78,7 @@
           class="icon icon-trash me-1"
           aria-hidden="true"
         />
-        {{ translate('COM_WORKFLOW_GRAPH_DELETE_STAGE_TITLE') }}
+        {{ translate('COM_WORKFLOW_GRAPH_TRASH_STAGE_BUTTON') }}
       </button>
     </nav>
 
@@ -121,20 +118,19 @@
       />
     </div>
 
-    <!-- Header -->
     <div class="card-header d-flex justify-content-between align-items-start p-1 pe-0 z-1 position-relative">
       <div class="flex-fill w-75 me-3 min-width-0">
         <span
           class="h3 d-block card-title mb-1 text-white fw-semibold text-truncate"
-          :title="stage?.title"
+          :title="translate(stage?.title)"
         >
-          {{ stage.title }}
+          {{ translate(stage.title) }}
         </span>
         <span
           class="card-text text-white-50 mb-0 text-truncate d-block"
-          :title="stage?.description"
+          :title="translate(stage?.description)"
         >
-          {{ stage.description }}
+          {{ translate(stage.description) }}
         </span>
       </div>
 
@@ -146,11 +142,10 @@
         <button
           :id="`stage-${stage?.id}-menu-button`"
           ref="menuButton"
-          type="button"
           class="btn btn-sm btn-light px-1 py-0"
           :class="{ 'invisible': !isHoveredOrFocused && !showActions }"
           style="transition: opacity 0.2s ease;"
-          :title="showActions ? `Close actions menu for ${stage?.title}` : `Open actions menu for ${stage?.title}`"
+          :title="showActions ? translate('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', { title: stage?.title }) : translate('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', { title: stage?.title })"
           aria-haspopup="true"
           :aria-expanded="showActions"
           :aria-controls="`stage-actions-menu-${stage?.id}`"
@@ -163,7 +158,7 @@
             aria-hidden="true"
           />
           <span class="visually-hidden">
-            {{ showActions ? 'Close' : 'Open' }} actions menu
+            {{ showActions ? translate('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', { title: stage?.title }) : translate('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', { title: stage?.title }) }}
           </span>
         </button>
       </div>
@@ -178,23 +173,14 @@
         >
           {{ stage.published ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED') }}
         </span>
-        <div class="d-flex gap-1">
-          <span
-            v-if="stage.default"
-            class="badge bg-warning bg-opacity-10 rounded-pill p-1"
-          >
-            {{ translate('COM_WORKFLOW_GRAPH_DEFAULT') }}
-          </span>
-        </div>
+        <span
+          v-if="stage.default"
+          class="badge bg-warning bg-opacity-10 rounded-pill p-1"
+        >
+          {{ translate('COM_WORKFLOW_GRAPH_DEFAULT') }}
+        </span>
       </div>
     </div>
-
-    <!-- Color Indicator -->
-    <span
-      class="position-absolute top-0 end-0 mt-2 me-2 rounded-circle d-block w-10 h-10"
-      :style="badgeStyle"
-      aria-hidden="true"
-    />
   </div>
 </template>
 
@@ -210,7 +196,6 @@ export default {
       required: true,
     },
   },
-  emits: ['navigate'],
   data() {
     return {
       showActions: false,
@@ -236,9 +221,6 @@ export default {
         background: this.data.isSpecial ? 'purple !important' : 'rgb(var(--primary-rgb)) !important',
         padding: this.isSelected ? '5x !important' : '6px !important',
       };
-    },
-    badgeStyle() {
-      return { backgroundColor: this.stage.color };
     },
     onSelected() {
       return this.data.onSelect?.();

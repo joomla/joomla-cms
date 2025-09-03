@@ -1,6 +1,6 @@
 /**
  * Reactive base state for the workflow graph
- * Includes workflow ID, stages, transitions, history, and canvas viewport
+ * Includes workflow ID, workflow, stages, loading, transitions, history, and canvas viewport
  */
 export default {
   workflowId: null,

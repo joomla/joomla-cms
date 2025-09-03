@@ -1,3 +1,5 @@
+import notifications from '../plugins/Notifications.es6.js';
+
 /**
  * Handles API communication for the workflow graph.
  */
@@ -13,12 +15,8 @@ class WorkflowGraphApi {
       extension,
     } = Joomla.getOptions('com_workflow', {});
 
-    if (!apiBaseUrl) {
-      throw new TypeError(Joomla.Text._('COM_WORKFLOW_GRAPH_API_BASEURL_NOT_SET', 'Workflow API baseUrl is not defined'));
-    }
-
-    if (!extension) {
-      throw new TypeError(Joomla.Text._('COM_WORKFLOW_GRAPH_ERROR_EXTENSION_NOT_SET', 'Workflow extension is not set'));
+    if (!apiBaseUrl || !extension) {
+      throw new TypeError(Joomla.Text._('COM_WORKFLOW_GRAPH_API_NOT_SET'));
     }
 
     this.baseUrl = apiBaseUrl;
@@ -26,12 +24,12 @@ class WorkflowGraphApi {
     this.csrfToken = Joomla.getOptions('csrf.token', null);
 
     if (!this.csrfToken) {
-      throw new TypeError(Joomla.Text._('COM_WORKFLOW_GRAPH_ERROR_CSRF_TOKEN_NOT_SET', 'CSRF token is not set'));
+      throw new TypeError(Joomla.Text._('COM_WORKFLOW_GRAPH_ERROR_CSRF_TOKEN_NOT_SET'));
     }
   }
 
   /**
-   * Makes a request using Joomla.request with better error handling.
+   * Makes a request using Joomla.request.
    *
    * @param {string} url - The endpoint relative to baseUrl.
    * @param {Object} [options={}] - Request config (method, data, headers).
@@ -52,17 +50,15 @@ class WorkflowGraphApi {
           resolve(data);
         },
         onError: (xhr) => {
-          let message = 'Network error';
+          let message = 'COM_WORKFLOW_GRAPH_ERROR_UNKNOWN';
           try {
             const errorData = JSON.parse(xhr.responseText);
             message = errorData.data || errorData.message || message;
           } catch (e) {
             message = xhr.statusText || message;
           }
-          if (window.Joomla && window.Joomla.renderMessages) {
-            window.Joomla.renderMessages({ error: [message] });
-          }
-          reject(new Error(message));
+          notifications.error(message);
+          reject(new Error(Joomla.Text._(message)));
         },
       });
     });
@@ -121,14 +117,10 @@ class WorkflowGraphApi {
       });
 
       if (response && response.success) {
-        if (window.Joomla && window.Joomla.renderMessages) {
-          window.Joomla.renderMessages({
-            success: [response?.data?.message || response?.message],
-          });
-        }
+        notifications.success(response?.data?.message || response?.message);
       }
     } catch (error) {
-      window.WorkflowGraph.Event.fire('Error', { error: error.message });
+      notifications.error(error.message);
       throw error;
     }
   }
@@ -156,14 +148,10 @@ class WorkflowGraphApi {
       });
 
       if (response && response.success) {
-        if (window.Joomla && window.Joomla.renderMessages) {
-          window.Joomla.renderMessages({
-            success: [response?.data?.message || response?.message],
-          });
-        }
+        notifications.success(response?.data?.message || response?.message);
       }
     } catch (error) {
-      window.WorkflowGraph.Event.fire('Error', { error: error.message });
+      notifications.error(error.message);
       throw error;
     }
   }
@@ -197,7 +185,7 @@ class WorkflowGraphApi {
 
       return !!(response && response.success);
     } catch (error) {
-      window.WorkflowGraph.Event.fire('Error', { error });
+      notifications.error(error.message);
       throw error;
     }
   }

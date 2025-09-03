@@ -5,24 +5,28 @@ import {
 /**
  * Attach global keyboard listeners for workflow canvas.
  * @param {Object} options
- * @param {Function} addStage
- * @param {Function} addTransition
- * @param {Function} editItem
- * @param {Function} deleteItem
- * @param {Function} toggleMode
- * @param {Function} undo
- * @param {Function} redo
- * @param {Function} clearSelection
- * @param {Function} zoomIn
- * @param {Function} zoomOut
- *
+ * @param {Function} addStage - Function to add a new stage
+ * @param {Function} addTransition - Function to add a new transition
+ * @param {Function} editItem - Function to edit an item
+ * @param {Function} deleteItem - Function to delete an item
+ * @param {Function} undo - Function to undo an action
+ * @param {Function} redo - Function to redo an action
+ * @param {Function} setSaveStatus - Function to set the save status of positions
+ * @param {Function} updateSaveMessage - Function to update the save message
+ * @param {Function} saveNodePosition - Function to save the node position
+ * @param {Function} clearSelection - Function to clear the selection
+ * @param {Function} zoomIn - Function to zoom in
+ * @param {Function} zoomOut - Function to zoom out
+ * @param {Function} fitView - Function to fit the view
+ * @param {Ref<Object>} viewport - Ref to the viewport object
  * @param {Object} state - { selectedStage, selectedTransition, isTransitionMode, liveRegion }
+ * @param {Object} store - Vuex store instance
  */
 export function setupGlobalShortcuts({
   addStage, addTransition, editItem, deleteItem,
-  undo, redo, updateSaveMessage, saveNodePosition,
+  undo, redo, setSaveStatus, updateSaveMessage, saveNodePosition,
   clearSelection, zoomIn, zoomOut, fitView,
-  viewport, state, setSaveStatus, store,
+  viewport, state, store,
 }) {
   function isModifierPressed(e, key) {
     return (e.ctrlKey || e.metaKey) && [key.toLowerCase(), key.toUpperCase()].includes(e.key);

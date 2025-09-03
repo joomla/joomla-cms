@@ -55,9 +55,9 @@
       role="status"
       aria-live="polite"
       :class="{
-        'text-warning': saveStatus.value === 'unsaved',
+        'text-warning': saveStatus?.value === 'unsaved',
       }"
-      :aria-label="`Save status: ${saveStatus.value === 'unsaved' ? 'Unsaved changes' : 'All changes saved'}`"
+      :aria-label="translate(saveStatus?.value === 'unsaved' ? 'COM_WORKFLOW_GRAPH_UNSAVED_CHANGES' : 'COM_WORKFLOW_GRAPH_UP_TO_DATE')"
     >
       {{
         saveStatus.value === 'unsaved'

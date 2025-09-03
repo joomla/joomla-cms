@@ -19,6 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     app.use(translate);
     app.mount(mountElement);
   } else {
-    notifications.error('Can\'t start the page, the root is not found');
+    notifications.error('COM_WORKFLOW_GRAPH_API_NOT_SET');
   }
 });

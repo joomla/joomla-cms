@@ -28,8 +28,6 @@ $shortcutsPopupOptions = json_encode([
     <button
         class="btn btn-info action-button"
         data-joomla-dialog="<?php echo htmlspecialchars($shortcutsPopupOptions, ENT_QUOTES, 'UTF-8'); ?>"
-        tabindex="0"
-        title
     >
         <span class="fa fa-keyboard" aria-hidden="true"></span>
         <?php echo Text::_('COM_WORKFLOW_GRAPH_SHORTCUTS'); ?>

@@ -13,7 +13,7 @@ export function announce(liveRegionElement, message) {
 
 /**
  * Focus a stage node by stageId.
- * @param {string|number} stageId
+ * @param {string|number} stageId - The ID of the stage to focus
  */
 export function focusNode(stageId) {
   const el = document.querySelector(`.stage-node[data-stage-id='${stageId}']`);
@@ -22,7 +22,7 @@ export function focusNode(stageId) {
 
 /**
  * Focus an edge label by transitionId.
- * @param {string|number} transitionId
+ * @param {string|number} transitionId - The ID of the transition to focus
  */
 export function focusEdge(transitionId) {
   const el = document.querySelector(`.edge-label[data-edge-id='${transitionId}']`);
@@ -31,8 +31,8 @@ export function focusEdge(transitionId) {
 
 /**
  * Find and cycle focus among elements with a selector.
- * @param {string} selector
- * @param {boolean} reverse
+ * @param {string} selector - The selector for the elements to focus
+ * @param {boolean} reverse - Whether to cycle focus in reverse order
  */
 export function cycleFocus(selector, reverse = false) {
   const elements = Array.from(document.querySelectorAll(selector));
@@ -57,7 +57,6 @@ export function cycleMode(focusModes, currentModeRef, liveRegionElement) {
   const currentIndex = focusModes.indexOf(currentModeRef.value);
   const nextIndex = (currentIndex + 1) % focusModes.length;
   currentModeRef.value = focusModes[nextIndex];
-  announce(liveRegionElement, `Focus mode: ${focusModes[nextIndex]}`);
 }
 
 /**
@@ -97,8 +96,8 @@ function handleDialogIframeLoad(iframe) {
 
 /**
  * Handle dialog close event.
- * @param previouslyFocusedElement
- * @param store
+ * @param previouslyFocusedElement - The element that was focused before the dialog opened
+ * @param store - The Vuex store instance
  */
 function handleDialogClose(previouslyFocusedElement, store) {
   if (previouslyFocusedElement.value) {
@@ -110,7 +109,7 @@ function handleDialogClose(previouslyFocusedElement, store) {
 
 /**
  * Handle Escape keydown event on dialog.
- * @param e
+ * @param e - The keyboard event
  */
 function handleDialogKeydown(e) {
   if (e.key === 'Escape') {

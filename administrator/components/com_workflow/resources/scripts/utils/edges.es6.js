@@ -3,8 +3,7 @@ import { getEdgeColor } from './utils.es6.js';
 /**
  * Generate styled edges based on transition data.
  * @param {Array<Object>} transitions - List of transitions.
- * @param {Object} options - Optional configuration.
- * @param {Number|String|null} options.selectedId - Currently selected transition id.
+ * @param {Object} options - Optional configuration - contains selected transition id.
  * @returns {Array<Object>} Styled edge definitions.
  */
 export function generateStyledEdges(transitions, options = {}) {

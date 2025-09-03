@@ -94,7 +94,7 @@ class GraphController extends AdminController
 
             $parts = explode('.', $extension);
 
-            $component = reset($parts);
+            $this->component = reset($parts);
 
             $this->extension = array_shift($parts);
 

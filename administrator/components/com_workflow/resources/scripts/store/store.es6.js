@@ -7,7 +7,7 @@ import createPersistedState from './plugins/persisted-state.es6';
 
 /**
  * Vuex Store for Workflow Graph
- * Handles state, mutations, and persistence of workflow graph data
+ * Handles state, mutations, actions, getters, and persistence of workflow graph data
  */
 export default createStore({
   state,

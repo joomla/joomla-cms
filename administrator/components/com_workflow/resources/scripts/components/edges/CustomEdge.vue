@@ -1,37 +1,31 @@
 <template>
-  <g role="group" :aria-label="`Transition: ${data?.title} from stage ${sourceStageTitle} to stage ${targetStageTitle}`">
-    <!-- Edge path -->
+  <g role="group" :aria-label="translate('COM_WORKFLOW_GRAPH_TRANSITION', { title: data?.title, source: sourceStageTitle, target: targetStageTitle })">
     <path
       :d="edgePath"
       fill="none"
       role="img"
-      :aria-label="`Transition path: ${data?.title}`"
+      :aria-label="translate('COM_WORKFLOW_GRAPH_TRANSITION_PATH', { title: data?.title })"
       :stroke="style?.stroke || '#333'"
       :stroke-width="style?.strokeWidth || 2"
       :stroke-dasharray="style?.strokeDasharray"
       :marker-end="markerEnd"
     />
-
-    <!-- Edge label & actions rendered in HTML overlay -->
     <EdgeLabelRenderer>
       <div
         ref="edgeLabel"
-        class="edge-label"
+        class="edge-label position-absolute pointer-events-auto cursor-pointer"
+        role="button"
         tabindex="0"
         :data-edge-id="data?.id"
-        role="button"
         :aria-pressed="data?.isSelected ? 'true' : 'false'"
         :aria-describedby="`transition-${data?.id}-description`"
         :style="{
-          position: 'absolute',
           transform: 'translate(-50%, -50%)',
           left: labelX + 'px',
           top: labelY + 'px',
-          pointerEvents: 'all',
           zIndex: 10,
           width: maxWidth + 10 + 'px',
           height: '30px',
-          cursor: 'pointer',
         }"
         @mouseenter="onNodeEnter"
         @mouseleave="onNodeLeave"
@@ -48,14 +42,12 @@
           :id="`transition-${data?.id}-description`"
           class="visually-hidden"
         >
-          Transition {{ data?.title }}.
-          From stage {{ sourceStageTitle }} to stage {{ targetStageTitle }}.
-          Status: {{ data?.published ? 'Published' : 'Unpublished' }}.
-          {{ data?.description ? `Description: ${data?.description}` : '' }}
-          Use Enter or Space to open actions menu.
+          {{ translate('COM_WORKFLOW_GRAPH_TRANSITION', { title: data?.title, source: sourceStageTitle, target: targetStageTitle }) }}
+          {{ data?.published ? translate('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_PUBLISHED', { title: data?.title }) : translate('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_UNPUBLISHED', { title: data?.title }) }}
+          {{ data?.description ? translate('COM_WORKFLOW_GRAPH_TRANSITION_DESCRIPTION', { description: data?.description }) : '' }}
+          {{ translate('COM_WORKFLOW_GRAPH_TRANSITION_ACTIONS') }}
         </div>
 
-        <!-- Dropdown Overlay -->
         <div
           v-if="showActions"
           class="position-absolute top-25-px end-20-px h-100 rounded bg-secondary bg-opacity-75 z-2 pe-none"
@@ -63,7 +55,6 @@
         />
 
         <div class="custom-edge d-flex flex-column border rounded shadow-sm position-absolute">
-          <!-- Actions Dropdown -->
           <nav
             v-if="showActions"
             id="edge-actions-menu"
@@ -74,60 +65,55 @@
             :aria-labelledby="`transition-${data?.id}-menu-button`"
             @mouseenter="onDropdownEnter"
           >
-            <h3 class="visually-hidden">Transition Actions for {{ data?.title }}</h3>
+            <h3 class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_TRANSITION_ACTIONS', { title: data?.title }) }}</h3>
 
             <button
               v-if="data?.permissions?.edit"
               ref="editButton"
-              type="button"
               class="btn btn-sm btn-secondary text-start text-white fw-semibold text-truncate"
               role="menuitem"
               tabindex="0"
-              :title="`Edit transition ${data?.title}`"
+              :title="translate('COM_WORKFLOW_GRAPH_EDIT_TRANSITION', { title: data?.title })"
               @click="handleEdit"
               @keydown.enter.stop.prevent="handleEdit"
               @keydown.space.prevent.stop="handleEdit"
             >
               <span class="icon icon-pencil-alt me-1" aria-hidden="true" />
-              {{ translate('COM_WORKFLOW_GRAPH_EDIT_TRANSITION') }}
+              {{ translate('COM_WORKFLOW_GRAPH_EDIT_TRANSITION_BUTTON') }}
             </button>
 
             <button
               v-if="data?.permissions?.delete"
               ref="deleteButton"
-              type="button"
               class="btn btn-sm btn-danger text-start mt-1 text-white fw-semibold text-truncate"
               role="menuitem"
               tabindex="0"
-              :title="`Delete transition ${data?.title}`"
+              :title="translate('COM_WORKFLOW_GRAPH_TRASH_TRANSITION', { title: data?.title })"
               @click="handleDelete"
               @keydown.enter.stop.prevent="handleDelete"
               @keydown.space.prevent.stop="handleDelete"
             >
               <span class="icon icon-trash me-1" aria-hidden="true" />
-              {{ translate('COM_WORKFLOW_GRAPH_DELETE_TRANSITION_TITLE') }}
+              {{ translate('COM_WORKFLOW_GRAPH_TRASH_TRANSITION_BUTTON') }}
             </button>
           </nav>
 
-          <!-- Title Row -->
           <div class="d-flex justify-content-around align-items-center p-1 pe-1 z-1 position-relative">
             <span
               class="h4 d-block card-title text-white fw-semibold text-truncate ms-4"
-              :title="data?.title"
+              :title="translate(data?.title)"
             >
-              {{ data?.title }}
+              {{ translate(data?.title) }}
             </span>
 
-            <!-- Ellipsis Menu Button -->
             <div class="align-items-center d-flex position-relative">
               <button
                 :id="`transition-${data?.id}-menu-button`"
                 ref="menuButton"
-                type="button"
                 class="btn btn-sm btn-secondary ms-1 px-1 py-0"
                 :class="{ 'invisible': !isHovered && !showActions }"
                 style="transition: opacity 0.2s ease;"
-                :title="showActions ? `Close actions menu for ${data?.title}` : `Open actions menu for ${data?.title}`"
+                :title="showActions ? translate('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', { title: data?.title }) : translate('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', { title: data?.title })"
                 aria-haspopup="true"
                 :aria-expanded="showActions"
                 aria-controls="edge-actions-menu"
@@ -140,7 +126,7 @@
                   aria-hidden="true"
                 />
                 <span class="visually-hidden">
-                  {{ showActions ? 'Close' : 'Open' }} actions menu
+                  {{ showActions ? translate('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', { title: data?.title }) : translate('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', { title: data?.title }) }}
                 </span>
               </button>
             </div>
@@ -154,7 +140,7 @@
           style="white-space: nowrap; font-size: 1rem; font-family: inherit;"
           aria-hidden="true"
         >
-          {{ data?.title }}
+          {{ translate(data?.title) }}
         </span>
       </div>
     </EdgeLabelRenderer>
@@ -214,10 +200,10 @@ export default {
       return this.edgeData[2] + ((this.data?.offsetIndex > 0 ? this.data?.offsetIndex : 0) || 0) * 75;
     },
     sourceStageTitle() {
-      return this.data?.from_stage_title || `Stage ${this.data?.from_stage_id || 'Unknown'}`;
+      return this.data?.from_stage_title || `JSTAGE ${this.data?.from_stage_id || 'Unknown'}`;
     },
     targetStageTitle() {
-      return this.data?.to_stage_title || `Stage ${this.data?.to_stage_id || 'Unknown'}`;
+      return this.data?.to_stage_title || `JSTAGE ${this.data?.to_stage_id || 'Unknown'}`;
     },
     menuItems() {
       const items = [];

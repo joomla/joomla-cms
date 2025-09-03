@@ -3,7 +3,7 @@ import { getColorForStage } from './utils.es6.js';
 /**
  * Calculate and return positioned stage nodes in a grid layout.
  * @param {Array<Object>} stages - Array of stage objects.
- * @param {Object} options - Grid layout options (gapX, gapY, padding).
+ * @param {Object} options - Grid layout options (gapX, gapY, paddingX, paddingY).
  * @returns {Array<Object>} Array of positioned node configs.
  */
 export function generatePositionedNodes(stages, options = {}) {
@@ -46,12 +46,12 @@ export function generatePositionedNodes(stages, options = {}) {
 
 /**
  * Create special static nodes like "from_any" node.
- * @param {String} id
- * @param {Object} position
- * @param {String} color
- * @param {String} label
- * @param {Function} onSelect
- * @param {Boolean} draggable
+ * @param {String} id - The ID of the special node
+ * @param {Object} position - The position of the special node
+ * @param {String} color - The color of the special node
+ * @param {String} label - The label of the special node
+ * @param {Function} onSelect - The function to call when the special node is selected
+ * @param {Boolean} draggable - Whether the special node is draggable
  */
 export function createSpecialNode(id, position, color, label, onSelect = () => {}, draggable = false) {
   return {
