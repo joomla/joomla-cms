@@ -31,7 +31,7 @@ abstract class PredefinedlistField extends ListField
     protected $type = 'Predefinedlist';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the predefined items.
      *
      * @var    array[]
      * @since  3.2
