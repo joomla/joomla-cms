@@ -11,7 +11,7 @@
 	<description>MOD_SUBMENU_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Submenu</namespace>
 	<files>
-		<filename module="mod_submenu">mod_submenu.php</filename>
+		<folder module="mod_submenu">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

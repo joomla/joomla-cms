@@ -122,9 +122,9 @@ class HtmlView extends BaseHtmlView
         $this->return_page = $model->getReturnPage();
 
         if (empty($this->item->id)) {
-            $catid = $this->state->params->get('catid');
+            $catid = $this->state->get('params')->get('catid');
 
-            if ($this->state->params->get('enable_category') == 1 && $catid) {
+            if ($this->state->get('params')->get('enable_category') == 1 && $catid) {
                 $authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
             } else {
                 $authorised = $user->authorise('core.create', 'com_content') || \count($user->getAuthorisedCategories('com_content', 'core.create'));
@@ -160,7 +160,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Create a shortcut to the parameters.
-        $params = &$this->state->params;
+        $params = $this->state->get('params');
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
