@@ -59,8 +59,8 @@ final class NotificationModel extends BaseDatabaseModel
             $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
         }
 
-		// Every group only once
-		$emailGroups = \array_unique($emailGroups);
+        // Every group only once
+        $emailGroups = \array_unique($emailGroups);
 
         // Get all users in these groups who can receive emails
         $emailReceivers = $this->getEmailReceivers($emailGroups);
