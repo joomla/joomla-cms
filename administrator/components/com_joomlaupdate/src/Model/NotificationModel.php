@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -52,7 +53,14 @@ final class NotificationModel extends BaseDatabaseModel
         $superUserGroups = $this->getSuperUserGroups();
 
         // User groups from input field
-        $emailGroups = $params->get('automated_updates_email_groups', $superUserGroups, 'array');
+        $emailGroups = $params->get('automated_updates_email_groups', $superUserGroups);
+
+        if (!\is_array($emailGroups)) {
+            $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
+        }
+
+		// Every group only once
+		$emailGroups = \array_unique($emailGroups);
 
         // Get all users in these groups who can receive emails
         $emailReceivers = $this->getEmailReceivers($emailGroups);
@@ -109,6 +117,12 @@ final class NotificationModel extends BaseDatabaseModel
         $usersModel->setState('filter.state', (int) 0); // Only enabled users
 
         foreach ($emailGroups as $group) {
+
+            // Skip invalid group ids. Group ids are always numeric and > 0
+            if (!\is_numeric($group) || $group < 1) {
+                continue;
+            }
+
             $usersModel->setState('filter.group_id', $group);
 
             $usersInGroup = $usersModel->getItems();
