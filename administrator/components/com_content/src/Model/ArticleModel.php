@@ -123,6 +123,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         $this->event_after_change_featured  ??= 'onContentAfterChangeFeatured';
 
         $this->setUpWorkflow('com_content.article');
+
+        $this->setIgnoreChanges(['checked_out', 'checked_out_time', 'tagsHelper', 'version', 'articletext', 'rules']);
     }
 
     /**

@@ -24,7 +24,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
-use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -387,12 +386,8 @@ class HistoryModel extends ListModel
         $model = $app->bootComponent($extension)->getMVCFactory()->createModel($type, 'Administrator');
 
         if ($model instanceof VersionableModelInterface) {
-            $data      = ArrayHelper::fromObject($model->getItem($id));
-            $tableData = ArrayHelper::fromObject($model->getTable()->load($id));
-
-            $historyData = array_merge($tableData, $data);
-
-            $result = $model->getSha1($historyData);
+            $item   = $model->getItem($id);
+            $result = $model->getSha1($item);
 
             return $result;
         }

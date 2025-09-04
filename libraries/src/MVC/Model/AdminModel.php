@@ -1448,7 +1448,7 @@ abstract class AdminModel extends FormModel
             // Merge table data and data so that we write all data to the history
             $tableData = ArrayHelper::fromObject($table);
 
-            $historyData = array_merge($tableData, $data);
+            $historyData = array_merge($data, $tableData);
 
             // We have to set the key for new items, would be always 0 otherwise
             $historyData[$key] = $this->getState($this->getName() . '.id');

@@ -173,15 +173,15 @@ trait VersionableModelTrait
      * Utility method to get the hash after removing selected values. This lets us detect changes other than
      * modified date (which will change on every save).
      *
-     * @param   mixed        $jsonData   Either an object or a string with json-encoded data
+     * @param   mixed        $data   Either an object or an array
      *
      * @return  string  SHA1 hash on success. Empty string on failure.
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getSha1($jsonData)
+    public function getSha1($data)
     {
-        $object = \is_object($jsonData) ? $jsonData : json_decode($jsonData);
+        $object = \is_object($data) ? $data : ArrayHelper::toObject($data);
 
         foreach ($this->ignoreChanges as $remove) {
             if (property_exists($object, $remove)) {
@@ -257,8 +257,22 @@ trait VersionableModelTrait
     {
         $id = $this->getState($this->getName() . '.id');
 
-        $versionNote = \array_key_exists('version_note', $data) ? $data['version_note'] : '';
-        $hash        = $this->getSha1($data);
+        $versionNote =  '';
+
+        if (\array_key_exists('version_note', $data)) {
+            $versionNote =  $data['version_note'];
+            unset($data['version_note']);
+        }
+
+        foreach ($this->ignoreChanges as $ignore) {
+            if (array_key_exists($ignore, $data)) {
+                unset($data[$ignore]);
+            }
+        }
+
+        $item = $this->getItem($id);
+
+        $hash  = $this->getSha1($item);
 
         $result = $this->storeHistory($context, $id, ArrayHelper::toObject($data), $versionNote, $hash);
 
@@ -353,9 +367,9 @@ trait VersionableModelTrait
         // Don't save if hash already exists and same version note
         $historyTable->sha1_hash = $hash;
 
-        $hashMatch = $historyRow = $historyTable->getHashMatch();
+        $historyRow = $historyTable->getHashMatch();
 
-        if ($hashMatch) {
+        if ($historyRow) {
             if (!$note || ($historyRow->version_note === $note)) {
                 return true;
             }
