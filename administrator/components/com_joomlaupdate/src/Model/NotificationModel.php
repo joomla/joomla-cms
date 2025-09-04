@@ -117,7 +117,6 @@ final class NotificationModel extends BaseDatabaseModel
         $usersModel->setState('filter.state', (int) 0); // Only enabled users
 
         foreach ($emailGroups as $group) {
-
             // Skip invalid group ids. Group ids are always numeric and > 0
             if (!\is_numeric($group) || $group < 1) {
                 continue;
