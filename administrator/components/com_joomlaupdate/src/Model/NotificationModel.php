@@ -55,7 +55,7 @@ final class NotificationModel extends BaseDatabaseModel
         // User groups from input field
         $emailGroups = $params->get('automated_updates_email_groups', $superUserGroups);
 
-        if (!is_array($emailGroups)) {
+        if (!\is_array($emailGroups)) {
             $emailGroups = ArrayHelper::toInteger(explode(',', $emailGroups));
         }
 
