@@ -13,16 +13,13 @@
 		<filename>component.php</filename>
 		<filename>error.php</filename>
 		<filename>index.php</filename>
-		<filename>joomla.asset.json</filename>
 		<filename>offline.php</filename>
 		<filename>templateDetails.xml</filename>
 		<folder>html</folder>
 	</files>
-	<media destination="templates/site/cassiopeia" folder="media">
-		<folder>js</folder>
+	<media destination="templates/site/cassiopeia_extended" folder="media">
 		<folder>css</folder>
 		<folder>scss</folder>
-		<folder>images</folder>
 	</media>
 	<positions>
 		<position>topbar</position>
