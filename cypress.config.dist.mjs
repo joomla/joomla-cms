@@ -1,5 +1,6 @@
 import { defineConfig } from 'cypress';
 import setupPlugins from './tests/System/plugins/index.mjs';
+import failFast from 'cypress-fail-fast/src/plugin.js'; // Corrected import
 
 export default defineConfig({
   fixturesFolder: 'tests/System/fixtures',
@@ -10,6 +11,7 @@ export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       setupPlugins(on, config);
+      failFast(on, config); // Enable the fail-fast plugin
     },
     baseUrl: 'https://localhost/',
     specPattern: [
@@ -27,6 +29,11 @@ export default defineConfig({
     video: false,
   },
   env: {
+    failFast: {
+      enabled: true, // Enable fail-fast
+      stopOnFirstFail: false, // Continue for non-install tests
+      stopOnFailInSpecPattern: 'tests/System/integration/install/**/*.cy.{js,jsx,ts,tsx}', // Stop only for install tests
+    },
     sitename: 'Joomla CMS Test',
     name: 'jane doe',
     email: 'admin@example.com',

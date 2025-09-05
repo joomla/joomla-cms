@@ -100,6 +100,7 @@
     "commander": "^14.0.0",
     "core-js": "^3.44.0",
     "cypress": "^14.5.3",
+    "cypress-fail-fast": "^7.1.1",
     "esbuild": "^0.25.8",
     "eslint": "^9.32.0",
     "eslint-plugin-import": "^2.32.0",
