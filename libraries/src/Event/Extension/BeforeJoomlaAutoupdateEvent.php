@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Extension;
 /**
  * Class for Joomla Auto Update events
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.4.0
  */
 class BeforeJoomlaAutoupdateEvent extends AbstractJoomlaUpdateEvent
 {
@@ -28,7 +28,7 @@ class BeforeJoomlaAutoupdateEvent extends AbstractJoomlaUpdateEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -42,7 +42,7 @@ class BeforeJoomlaAutoupdateEvent extends AbstractJoomlaUpdateEvent
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function stopUpdate()
     {

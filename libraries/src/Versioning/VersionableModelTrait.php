@@ -115,8 +115,16 @@ trait VersionableModelTrait
             return false;
         }
 
-        $rowArray['checked_out']      = $this->getCurrentUser()->id;
-        $rowArray['checked_out_time'] = (new Date())->toSql();
+        $table = $this->getTable();
+
+        // We set checked_out to the current user
+        if ($table->hasField('checked_out')) {
+            $rowArray[$table->getColumnAlias('checked_out')] = $this->getCurrentUser()->id;
+        }
+
+        if ($table->hasField('checked_out_time')) {
+            $rowArray[$table->getColumnAlias('checked_out_time')] = (new Date())->toSql();
+        }
 
         // Fix null ordering when restoring history
         if (\array_key_exists('ordering', $rowArray) && $rowArray['ordering'] === null) {
