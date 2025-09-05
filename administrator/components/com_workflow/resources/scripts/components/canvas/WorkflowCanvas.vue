@@ -48,14 +48,14 @@
         aria-label="Canvas Controls"
         class="workflow-controls-section"
       >
-        <h2 class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_CONTROLS') }}</h2>
+        <span class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_CONTROLS') }}</span>
 
         <!-- Minimap Toggle -->
         <button
           id="toggle-minimap"
-          class="toolbar-button custom-controls-button position-absolute z-20"
+          class="toolbar-button custom-controls-button position-absolute z-20 ps-2 pe-2"
           tabindex="0"
-          :style="showMiniMap ? 'bottom: 130px; left: 180px;' : 'bottom: 10px; left: 10px;'"
+          :style="showMiniMap ? 'bottom: 130px; left: 175px;' : 'bottom: 10px; left: 10px;'"
           :aria-label="showMiniMap ? 'Hide Mini Map' : 'Show Mini Map'"
           :title="showMiniMap ? 'Hide Mini Map' : 'Show Mini Map'"
           :aria-pressed="showMiniMap ? 'true' : 'false'"
@@ -106,7 +106,7 @@
         class="visually-hidden"
         aria-label="Workflow Stages"
       >
-        <h2>Stages ({{ positionedNodes.length }})</h2>
+        <span>Stages ({{ positionedNodes.length }})</span>
         <ul>
           <li
             v-for="node in positionedNodes"
@@ -125,7 +125,7 @@
         class="visually-hidden"
         aria-label="Workflow Transitions"
       >
-        <h2>Transitions ({{ styledEdges.length }})</h2>
+        <span>Transitions ({{ styledEdges.length }})</span>
         <ul>
           <li
             v-for="edge in styledEdges"
@@ -579,7 +579,7 @@ export default {
               isRestoringViewport = false;
             });
         } else {
-          fitView({ padding: 0.5, duration: 300 });
+          fitView({ padding: 0.4, duration: 300 });
         }
       }, 0);
     }, { immediate: true });

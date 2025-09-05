@@ -61,15 +61,15 @@ $popupOptions = json_encode([
         <div class="col-md-6 d-flex flex-column">
             <h3 id="workflow-main-title" class="mb-2"></h3>
             <dl class="d-flex align-items-center flex-wrap mb-0">
-                <dt class="visually-hidden">Status:</dt>
+                <dt class="visually-hidden"><?php echo Text::_('COM_WORKFLOW_GRAPH_STATUS'); ?>:</dt>
                 <dd class="me-3 mb-1 d-flex mb-0">
                     <span class="badge" role="status"></span>
                 </dd>
-                <dt class="visually-hidden">Stage Count:</dt>
+                <dt class="visually-hidden"><?php echo Text::_('COM_WORKFLOW_GRAPH_STAGE_COUNT'); ?>:</dt>
                 <dd class="me-3 mb-1 d-flex mb-0">
                     <span></span>
                 </dd>
-                <dt class="visually-hidden">Transition Count:</dt>
+                <dt class="visually-hidden"><?php echo Text::_('COM_WORKFLOW_GRAPH_TRANSITION_COUNT'); ?>:</dt>
                 <dd class="me-3 mb-1 d-flex mb-0">
                     <span></span>
                 </dd>

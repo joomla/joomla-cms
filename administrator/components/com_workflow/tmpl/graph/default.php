@@ -49,11 +49,11 @@ $shortcuts = [
 $col1 = array_slice($shortcuts, 0, ceil(count($shortcuts) / 2));
 $col2 = array_slice($shortcuts, ceil(count($shortcuts) / 2));
 
-$shortcutsHtml = [];
+$shortcutsHtml   = [];
 $shortcutsHtml[] = '<section class="p-3">';
-$shortcutsHtml[] = '<section class="row">';
-$renderColumn = function ($column) {
-    $html = '<section class="col-md-6">';
+$shortcutsHtml[] = '<div class="row">';
+$renderColumn    = function ($column) {
+    $html = '<div class="col-md-6">';
     $html .= '<table class="table table-borderless mb-0">';
     $html .= '<legend class="fw-bold mb-2 d-none">' . Text::_('COM_WORKFLOW_GRAPH_SHORTCUTS_TITLE') . '</legend>';
     foreach ($column as $item) {
@@ -62,18 +62,18 @@ $renderColumn = function ($column) {
         $html .= '<td>' . Text::_($item['description']) . '</td>';
         $html .= '</tr>';
     }
-    $html .= '</table></section>';
+    $html .= '</table></div>';
     return $html;
 };
 
 $shortcutsHtml[] = $renderColumn($col1);
 $shortcutsHtml[] = $renderColumn($col2);
 
-$shortcutsHtml[] = '</section>';
+$shortcutsHtml[] = '</div>';
 $shortcutsHtml[] = '</section>';
 ?>
 
 <template id="shortcuts-popup-content">
     <?php echo implode($shortcutsHtml); ?>
 </template>
-<section id="workflow-graph-root" aria-label="Workflow graph"></section>
+<section id="workflow-graph-root" aria-label="<?php echo Text::_('COM_WORKFLOW_GRAPH'); ?>"></section>

@@ -74,7 +74,7 @@ export default {
 
       await workflowGraphApi.deleteStage(id, workflowId, stageDelete);
     } catch (error) {
-      notifications.error(error?.response?.data?.message || error?.message || 'COM_WORKFLOW_GRAPH_ERROR_UNKNOWN');
+      notifications.error(error?.response?.data?.message || error?.message || 'COM_WORKFLOW_GRAPH_TRASH_STAGE_FAILED');
     } finally {
       commit('SET_LOADING', false);
       await dispatch('loadWorkflow', workflowId);

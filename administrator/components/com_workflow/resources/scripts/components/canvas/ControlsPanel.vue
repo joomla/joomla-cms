@@ -4,7 +4,7 @@
     aria-labelledby="controls-panel-title"
     class="d-flex gap-2 p-2"
   >
-    <h2 id="controls-panel-title" class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_CONTROLS') }}</h2>
+    <span id="controls-panel-title" class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_CONTROLS') }}</span>
 
     <button
       class="toolbar-button btn btn-primary d-flex align-items-center gap-1"

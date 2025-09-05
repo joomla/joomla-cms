@@ -15,21 +15,21 @@
         aria-label="Workflow Details"
       >
         <dt class="visually-hidden">
-          Status:
+          {{ translate('COM_WORKFLOW_GRAPH_STATUS') }}
         </dt>
         <dd class="me-3 mb-1 d-flex mb-0">
           <span
             class="badge"
             :class="workflow.published ? 'bg-success' : 'bg-warning'"
             role="status"
-            :aria-label="`Status: ${workflow.published ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED')}`"
+            :aria-label="`${workflow.published ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED')}`"
           >
             {{ workflow.published ? translate('COM_WORKFLOW_GRAPH_ENABLED') : translate('COM_WORKFLOW_GRAPH_DISABLED') }}
           </span>
         </dd>
 
         <dt class="visually-hidden">
-          Stage Count:
+          {{ translate('COM_WORKFLOW_GRAPH_STAGE_COUNT') }}
         </dt>
         <dd class="me-3 mb-1 d-flex mb-0">
           <span>
@@ -38,7 +38,7 @@
         </dd>
 
         <dt class="visually-hidden">
-          Transition Count:
+          {{ translate('COM_WORKFLOW_GRAPH_TRANSITION_COUNT') }}
         </dt>
         <dd class="me-3 mb-1 d-flex mb-0">
           <span>
