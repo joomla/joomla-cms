@@ -59,12 +59,12 @@ export default {
         state.stages.length <= 1
           || state.stages.find((s) => s.id.toString() === id).default
       ) {
-        notifications.error('COM_WORKFLOW_ERROR_STAGE_DEFAULT_CANT_DELETED');
+        notifications.error('COM_WORKFLOW_GRAPH_ERROR_STAGE_DEFAULT_CANT_DELETED');
         return;
       }
 
       if (transitions.length > 0) {
-        notifications.error('COM_WORKFLOW_ERROR_STAGE_HAS_TRANSITIONS');
+        notifications.error('COM_WORKFLOW_GRAPH_ERROR_STAGE_HAS_TRANSITIONS');
         return;
       }
 
