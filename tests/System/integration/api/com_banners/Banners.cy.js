@@ -49,6 +49,11 @@ describe('Test that banners API endpoint', () => {
       .then((banner) => cy.api_delete(`/banners/${banner.id}`));
   });
 
+  it('check correct response for delete a not existent contact', () => {
+     cy.api_delete('/banners/9999')
+      .then((result) => expect(result.status).to.eq(204));
+  });
+
   it('cannot delete a banner that is not trashed', () => {
     cy.db_createBanner({ name: 'automated test banner' })
       .then((banner) => {
