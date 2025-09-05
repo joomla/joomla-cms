@@ -327,14 +327,14 @@ class GraphController extends AdminController
 
             if ($value === 1) {
                 if ($errors) {
-                    echo new JsonResponse(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)), 'error', true);
+                    echo new JsonResponse(Text::plural($this->text_prefix . '_' . strtoupper($type) . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)), 'error', true);
                 } else {
-                    $ntext = $this->text_prefix .  '_N_ITEMS_PUBLISHED';
+                    $ntext = $this->text_prefix . '_' . strtoupper($type) . '_N_ITEMS_PUBLISHED';
                 }
             } elseif ($value === 0) {
-                $ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
+                $ntext = $this->text_prefix . '_' . strtoupper($type) . '_N_ITEMS_UNPUBLISHED';
             } elseif ($value === 2) {
-                $ntext = $this->text_prefix . '_N_ITEMS_ARCHIVED';
+                $ntext = $this->text_prefix . '_' . strtoupper($type) . '_N_ITEMS_ARCHIVED';
             } else {
                 $ntext = $this->text_prefix . '_' . strtoupper($type) . '_N_ITEMS_TRASHED';
             }

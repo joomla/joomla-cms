@@ -59,7 +59,7 @@
             v-if="showActions"
             :id="`edge-actions-menu-${data?.id}`"
             ref="actionsMenu"
-            class="workflow-browser-actions-list position-absolute top-25-px end-20-px opacity-100 d-flex flex-column border rounded shadow-sm z-3        p-1"
+            class="workflow-browser-actions-list position-absolute top-25-px end-20-px opacity-100 d-flex flex-column border rounded shadow-sm z-3 p-1"
             role="menu"
             aria-orientation="vertical"
             :aria-labelledby="`transition-${data?.id}-menu-button`"
