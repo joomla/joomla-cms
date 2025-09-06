@@ -2,17 +2,7 @@
   <div
     class="w-100 h-100 position-relative"
     role="application"
-    aria-label="Workflow Graph Canvas"
-    tabindex="0"
-    @keydown="handleCanvasKeydown"
   >
-    <!-- Skip Links for Accessibility -->
-    <nav aria-label="Canvas Skip Links" class="visually-hidden-focusable">
-      <a href="#workflow-controls" class="skip-link">Skip to Controls</a><br />
-      <a href="#workflow-stages" class="skip-link">Skip to Stages</a><br />
-      <a href="#workflow-transitions" class="skip-link">Skip to Transitions</a>
-    </nav>
-
     <VueFlow
       v-if="!loading && !error"
       class="workflow-canvas"
@@ -28,8 +18,7 @@
       :snap-grid="[40, 40]"
       :disable-keyboard-a11y="true"
       role="application"
-      :aria-label="`Interactive workflow diagram with ${positionedNodes.length} stages and ${styledEdges.length} transitions. Press Tab to navigate between stages and transitions.`"
-      aria-describedby="canvas-description"
+      :aria-label="translate('COM_WORKFLOW_GRAPH_CANVAS_LABEL')"
       @connect="handleConnect"
       @pane-click="clearSelection"
       @edge-click="selectEdge"
@@ -56,8 +45,7 @@
           class="toolbar-button custom-controls-button position-absolute z-20 ps-2 pe-2"
           tabindex="0"
           :style="showMiniMap ? 'bottom: 130px; left: 175px;' : 'bottom: 10px; left: 10px;'"
-          :aria-label="showMiniMap ? 'Hide Mini Map' : 'Show Mini Map'"
-          :title="showMiniMap ? 'Hide Mini Map' : 'Show Mini Map'"
+          :title="showMiniMap ? translate('COM_WORKFLOW_GRAPH_MINIMAP_HIDE') : translate('COM_WORKFLOW_GRAPH_MINIMAP_SHOW')"
           :aria-pressed="showMiniMap ? 'true' : 'false'"
           @click="showMiniMap = !showMiniMap"
         >
@@ -72,7 +60,7 @@
             aria-hidden="true"
           />
           <span class="visually-hidden">
-            {{ showMiniMap ? 'Hide' : 'Show' }} Mini Map
+            {{ showMiniMap ? translate('COM_WORKFLOW_GRAPH_MINIMAP_HIDE') : translate('COM_WORKFLOW_GRAPH_MINIMAP_SHOW') }}
           </span>
         </button>
 
@@ -83,13 +71,13 @@
           pannable
           zoomable
           role="img"
-          aria-label="Workflow overview minimap"
+          :aria-label="translate('COM_WORKFLOW_GRAPH_MINIMAP_LABEL')"
           :node-color="(node) => node.data?.stage?.color || '#0d6efd'"
           :mask-color="'rgba(255, 255, 255, .6)'"
         />
 
         <CustomControls
-          aria-label="Graph zoom and view controls"
+          :aria-label="translate('COM_WORKFLOW_GRAPH_CONTROLS')"
         />
 
         <ControlsPanel
@@ -104,9 +92,8 @@
       <section
         id="workflow-stages"
         class="visually-hidden"
-        aria-label="Workflow Stages"
       >
-        <span>Stages ({{ positionedNodes.length }})</span>
+        <span>({{ positionedNodes.length }} {{ positionedNodes.length === 1 ? translate('COM_WORKFLOW_GRAPH_STAGE') :  translate('COM_WORKFLOW_GRAPH_STAGES') }})</span>
         <ul>
           <li
             v-for="node in positionedNodes"
@@ -114,8 +101,8 @@
             :id="`stage-list-${node.id}`"
           >
             {{ node.data.stage.title }} -
-            {{ node.data.stage.published ? 'Published' : 'Unpublished' }}
-            <span v-if="node.data.stage.default">(Default)</span>
+            {{ node.data.stage.published ? translate('COM_WORKFLOW_GRAPH_STAGE_STATUS_PUBLISHED') : translate('COM_WORKFLOW_GRAPH_STAGE_STATUS_UNPUBLISHED') }}
+            <span v-if="node.data.stage.default">({{ translate('COM_WORKFLOW_GRAPH_STAGE_DEFAULT') }})</span>
           </li>
         </ul>
       </section>
@@ -123,17 +110,16 @@
       <section
         id="workflow-transitions"
         class="visually-hidden"
-        aria-label="Workflow Transitions"
       >
-        <span>Transitions ({{ styledEdges.length }})</span>
+        <span>({{ styledEdges.length }} {{ styledEdges.length === 1 ? translate('COM_WORKFLOW_GRAPH_TRANSITION') :  translate('COM_WORKFLOW_GRAPH_TRANSITIONS') }})</span>
         <ul>
           <li
             v-for="edge in styledEdges"
             :key="`transition-${edge.id}`"
             :id="`transition-list-${edge.id}`"
           >
-            {{ edge.data.title }} - From stage {{ stages.find((s) => s.id === parseInt(edge.source, 10))?.title }} to stage {{ stages.find((s) => s.id === parseInt(edge.target, 10))?.title }}
-            {{ edge.data.published ? '(Published)' : '(Unpublished)' }}
+            {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION_REF', edge.data.title, stages.find((s) => s.id === parseInt(edge.source, 10))?.title, stages.find((s) => s.id === parseInt(edge.target, 10))?.title) }}
+            {{ edge.data.published ? translate('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_PUBLISHED') : translate('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_UNPUBLISHED') }}
           </li>
         </ul>
       </section>
@@ -147,28 +133,9 @@
       aria-live="polite"
     >
       <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading workflow...</span>
+        <span class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_LOADING') }}</span>
       </div>
-      <span class="ms-2">Loading workflow...</span>
-    </div>
-
-    <!-- Error State -->
-    <div
-      v-if="error"
-      class="d-flex justify-content-center align-items-center h-100"
-      role="alert"
-      aria-live="assertive"
-    >
-      <div class="alert alert-danger" role="alert">
-        <h3 class="alert-heading">Error Loading Workflow</h3>
-        <p>{{ error }}</p>
-        <button
-          class="btn btn-outline-danger"
-          @click="$emit('retry')"
-        >
-          Retry
-        </button>
-      </div>
+      <span class="ms-2">{{ translate('COM_WORKFLOW_GRAPH_LOADING') }}</span>
     </div>
 
     <!-- Accessibility Live Region -->
@@ -202,6 +169,7 @@ import { generateStyledEdges } from '../../utils/edges.es6.js';
 import { setupGlobalShortcuts } from '../../utils/keyboard-manager.es6.js';
 import { debounce } from '../../utils/utils.es6';
 import AccessibilityFixer from '../../utils/accessibility-fixer.es6.js';
+import notifications from '../../plugins/Notifications.es6.js';
 
 export default {
   name: 'WorkflowCanvas',
@@ -224,7 +192,6 @@ export default {
     saveStatus: { type: Object, required: true },
     setSaveStatus: { type: Function, required: true },
   },
-  emits: ['retry'],
   setup(props, { emit }) {
     const store = useStore();
     const {
@@ -252,15 +219,21 @@ export default {
       return Joomla.Text._(key);
     }
 
-    function handleCanvasKeydown(event) {
-      // Allow keyboard navigation within the canvas
-      if (event.key === 'F1') {
-        event.preventDefault();
-        const helpElement = document.getElementById('keyboard-help');
-        if (helpElement) {
-          helpElement.focus();
+    function sprintf(key, ...args) {
+      const base = Joomla.Text._(key);
+      let i = 0;
+      return base.replace(/%((%)|s|d)/g, (m) => {
+        let val = args[i];
+
+        if (m === '%d') {
+          val = parseFloat(val);
+          if (Number.isNaN(val)) {
+            val = 0;
+          }
         }
-      }
+        i += 1;
+        return val;
+      });
     }
 
     function openModal(type, id = null, params = {}) {
@@ -316,14 +289,14 @@ export default {
       isTransitionMode.value = false;
       selectedStage.value = parseInt(id, 10);
       selectedTransition.value = null;
-      announce(liveRegion.value, `Stage selected: ${stages.value.find(s => s.id === parseInt(id, 10))?.title || id}`);
+      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_STAGE_SELECTED', stages?.value?.find(s => s.id === parseInt(id, 10))?.title || id));
     }
 
     function selectTransition(id) {
       isTransitionMode.value = true;
       selectedTransition.value = parseInt(id, 10);
       selectedStage.value = null;
-      announce(liveRegion.value, `Transition selected: ${transitions.value.find(t => t.id === parseInt(id, 10))?.title || id}`);
+      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_TRANSITION_SELECTED', transitions?.value?.find(t => t.id === parseInt(id, 10))?.title || id));
     }
 
     function editStage(id) {
@@ -344,7 +317,7 @@ export default {
       selectedStage.value = null;
       selectedTransition.value = null;
       isTransitionMode.value = false;
-      announce(liveRegion.value, 'Selection cleared');
+      announce(liveRegion.value, translate('COM_WORKFLOW_GRAPH_SELECTION_CLEARED'));
     }
 
     function deleteStage(id) {
@@ -373,12 +346,12 @@ export default {
         return;
       }
       const title = translate(type === 'stage'
-        ? 'COM_WORKFLOW_GRAPH_TRASH_STAGE_BUTTON'
-        : 'COM_WORKFLOW_GRAPH_TRASH_TRANSITION_BUTTON');
+        ? 'COM_WORKFLOW_GRAPH_TRASH_STAGE'
+        : 'COM_WORKFLOW_GRAPH_TRASH_TRANSITION');
 
       const message = translate(type === 'stage'
-        ? 'COM_WORKFLOW_GRAPH_TRASH_STAGE_CONFIRM'
-        : 'COM_WORKFLOW_GRAPH_TRASH_TRANSITION_CONFIRM');
+        ? sprintf('COM_WORKFLOW_GRAPH_TRASH_STAGE_CONFIRM', stages?.value?.find(s => s.id === parseInt(id, 10))?.title || id)
+        : sprintf('COM_WORKFLOW_GRAPH_TRASH_TRANSITION_CONFIRM', transitions?.value?.find(t => t.id === parseInt(id, 10))?.title || id));
 
       JoomlaDialog.confirm(message, title).then((result) => {
         if (result) {
@@ -409,7 +382,7 @@ export default {
       }
       if (source && target) {
         openModal('transition', null, { from_stage_id: source, to_stage_id: target });
-        announce(liveRegion.value, `Creating transition from stage ${source} to stage ${target}`);
+        announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_CREATING_TRANSITION', (stages?.value?.find(s => s.id === parseInt(source, 10))?.title || source), (stages?.value?.find(s => s.id === parseInt(target, 10))?.title || target)));
       }
     }
 
@@ -434,11 +407,9 @@ export default {
       if (response) {
         saveStatus.value = 'upToDate';
         updateSaveMessage();
-        announce(liveRegion.value, 'Stage positions saved');
-      } else if (window.Joomla && window.Joomla.renderMessages) {
-        window.Joomla.renderMessages({
-          error: ['Failed to save stage position:', response?.error || 'Unknown error'],
-        });
+        announce(liveRegion.value, translate('COM_WORKFLOW_GRAPH_STAGE_POSITIONS_UPDATED'));
+      } else {
+        notifications.error(translate('COM_WORKFLOW_GRAPH_ERROR_FAILED_TO_UPDATE_STAGE_POSITIONS'));
       }
     }, 3000);
 
@@ -450,7 +421,6 @@ export default {
       saveStatus.value = 'unsaved';
       updateSaveMessage();
       await store.dispatch('updateStagePosition', { id: node.id, x, y });
-      announce(liveRegion.value, `Stage ${node.data?.stage?.title} moved to position ${Math.round(x)}, ${Math.round(y)}`);
       saveNodePosition();
     }
 
@@ -611,7 +581,6 @@ export default {
       addTransition,
       clearSelection,
       handleNodeDragStop,
-      handleCanvasKeydown,
     };
   },
 };

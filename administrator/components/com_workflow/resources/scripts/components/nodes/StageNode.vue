@@ -20,10 +20,10 @@
       :id="`stage-${stage?.id}-description`"
       class="visually-hidden"
     >
-      {{ sprintf('COM_WORKFLOW_GRAPH_STAGE_REF', { title: stage?.title }) }}
-      {{ stage?.published ? sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_PUBLISHED', { title: stage?.title }) : sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_UNPUBLISHED', { title: stage?.title }) }}.
+      {{ sprintf('COM_WORKFLOW_GRAPH_STAGE_REF', stage?.title) }}
+      {{ stage?.published ? sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_PUBLISHED', stage?.title) : sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_UNPUBLISHED', stage?.title) }}.
       {{ stage?.default ? translate('COM_WORKFLOW_GRAPH_DEFAULT') : '' }}
-      {{ stage?.description ? sprintf('COM_WORKFLOW_GRAPH_STAGE_DESCRIPTION', { description: stage?.description }) : '' }}
+      {{ stage?.description ? sprintf('COM_WORKFLOW_GRAPH_STAGE_DESCRIPTION', stage?.description) : '' }}
     </div>
 
     <!-- Dropdown Overlay -->
@@ -43,7 +43,7 @@
       :aria-labelledby="`stage-${stage?.id}-menu-button`"
       @mouseenter="onDropdownEnter"
     >
-      <span class="visually-hidden">{{ sprintf('COM_WORKFLOW_GRAPH_STAGE_ACTIONS', { title: stage?.title }) }}</span>
+      <span class="visually-hidden">{{ sprintf('COM_WORKFLOW_GRAPH_STAGE_ACTIONS', stage?.title) }}</span>
 
       <button
         v-if="stage?.permissions?.edit"
@@ -51,7 +51,7 @@
         class="btn btn-sm btn-secondary text-start text-white fw-semibold text-truncate"
         role="menuitem"
         tabindex="0"
-        :title="sprintf('COM_WORKFLOW_GRAPH_EDIT_STAGE', { title: stage?.title })"
+        :title="translate('COM_WORKFLOW_GRAPH_EDIT_STAGE')"
         @click="handleEdit"
         @keydown.enter="handleEdit"
         @keydown.space="handleEdit"
@@ -60,7 +60,7 @@
           class="icon icon-pencil-alt me-1"
           aria-hidden="true"
         />
-        {{ translate('COM_WORKFLOW_GRAPH_EDIT_STAGE_BUTTON') }}
+        {{ translate('COM_WORKFLOW_GRAPH_EDIT_STAGE') }}
       </button>
 
       <button
@@ -69,7 +69,7 @@
         class="btn btn-sm btn-danger mt-1 text-start text-white fw-semibold text-truncate"
         role="menuitem"
         tabindex="0"
-        :title="sprintf('COM_WORKFLOW_GRAPH_TRASH_STAGE', { title: stage?.title })"
+        :title="translate('COM_WORKFLOW_GRAPH_TRASH_STAGE')"
         @click="handleDelete"
         @keydown.enter="handleDelete"
         @keydown.space.prevent.stop="handleDelete"
@@ -78,7 +78,7 @@
           class="icon icon-trash me-1"
           aria-hidden="true"
         />
-        {{ translate('COM_WORKFLOW_GRAPH_TRASH_STAGE_BUTTON') }}
+        {{ translate('COM_WORKFLOW_GRAPH_TRASH_STAGE') }}
       </button>
     </nav>
 
@@ -145,7 +145,7 @@
           class="btn btn-sm btn-light px-1 py-0"
           :class="{ 'invisible': !isHoveredOrFocused && !showActions }"
           style="transition: opacity 0.2s ease;"
-          :title="showActions ? sprintf('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', { title: stage?.title }) : sprintf('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', { title: stage?.title })"
+          :title="showActions ? sprintf('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', stage?.title) : sprintf('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', stage?.title)"
           aria-haspopup="true"
           :aria-expanded="showActions"
           :aria-controls="`stage-actions-menu-${stage?.id}`"
@@ -158,7 +158,7 @@
             aria-hidden="true"
           />
           <span class="visually-hidden">
-            {{ showActions ? sprintf('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', { title: stage?.title }) : sprintf('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', { title: stage?.title }) }}
+            {{ showActions ? sprintf('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', stage?.title) : sprintf('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', stage?.title) }}
           </span>
         </button>
       </div>
