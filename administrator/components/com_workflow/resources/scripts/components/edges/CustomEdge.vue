@@ -1,10 +1,10 @@
 <template>
-  <g role="group" :aria-label="sprintf('COM_WORKFLOW_GRAPH_TRANSITION', { title: data?.title, source: sourceStageTitle, target: targetStageTitle })">
+  <g role="group" :aria-label="sprintf('COM_WORKFLOW_GRAPH_TRANSITION', data?.title, sourceStageTitle, targetStageTitle)">
     <path
       :d="edgePath"
       fill="none"
       role="img"
-      :aria-label="sprintf('COM_WORKFLOW_GRAPH_TRANSITION_PATH', { title: data?.title })"
+      :aria-label="sprintf('COM_WORKFLOW_GRAPH_TRANSITION_PATH', data?.title)"
       :stroke="style?.stroke || '#333'"
       :stroke-width="style?.strokeWidth || 2"
       :stroke-dasharray="style?.strokeDasharray"
@@ -43,9 +43,9 @@
           :id="`transition-${data?.id}-description`"
           class="visually-hidden"
         >
-          {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION', { title: data?.title, source: sourceStageTitle, target: targetStageTitle }) }}
-          {{ data?.published ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_PUBLISHED', { title: data?.title }) : sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_UNPUBLISHED', { title: data?.title }) }}
-          {{ data?.description ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_DESCRIPTION', { description: data?.description }) : '' }}
+          {{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION', data?.title, sourceStageTitle, targetStageTitle) }}
+          {{ data?.published ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_PUBLISHED', data?.title) : sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_UNPUBLISHED', data?.title) }}
+          {{ data?.description ? sprintf('COM_WORKFLOW_GRAPH_TRANSITION_DESCRIPTION', data?.description) : '' }}
         </div>
 
         <div
@@ -65,7 +65,7 @@
             :aria-labelledby="`transition-${data?.id}-menu-button`"
             @mouseenter="onDropdownEnter"
           >
-            <span class="visually-hidden">{{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION_ACTIONS', { title: data?.title }) }}</span>
+            <span class="visually-hidden">{{ sprintf('COM_WORKFLOW_GRAPH_TRANSITION_ACTIONS', data?.title) }}</span>
 
             <button
               v-if="data?.permissions?.edit"
@@ -73,13 +73,13 @@
               class="btn btn-sm btn-secondary text-start text-white fw-semibold text-truncate"
               role="menuitem"
               tabindex="0"
-              :title="sprintf('COM_WORKFLOW_GRAPH_EDIT_TRANSITION', { title: data?.title })"
+              :title="translate('COM_WORKFLOW_GRAPH_EDIT_TRANSITION')"
               @click="handleEdit"
               @keydown.enter.stop.prevent="handleEdit"
               @keydown.space.prevent.stop="handleEdit"
             >
               <span class="icon icon-pencil-alt me-1" aria-hidden="true" />
-              {{ translate('COM_WORKFLOW_GRAPH_EDIT_TRANSITION_BUTTON') }}
+              {{ translate('COM_WORKFLOW_GRAPH_EDIT_TRANSITION') }}
             </button>
 
             <button
@@ -88,13 +88,13 @@
               class="btn btn-sm btn-danger text-start mt-1 text-white fw-semibold text-truncate"
               role="menuitem"
               tabindex="0"
-              :title="sprintf('COM_WORKFLOW_GRAPH_TRASH_TRANSITION', { title: data?.title })"
+              :title="translate('COM_WORKFLOW_GRAPH_TRASH_TRANSITION')"
               @click="handleDelete"
               @keydown.enter.stop.prevent="handleDelete"
               @keydown.space.prevent.stop="handleDelete"
             >
               <span class="icon icon-trash me-1" aria-hidden="true" />
-              {{ translate('COM_WORKFLOW_GRAPH_TRASH_TRANSITION_BUTTON') }}
+              {{ translate('COM_WORKFLOW_GRAPH_TRASH_TRANSITION') }}
             </button>
           </nav>
 
@@ -113,7 +113,7 @@
                 class="btn btn-sm btn-secondary ms-1 px-1 py-0"
                 :class="{ 'invisible': !isHovered && !showActions }"
                 style="transition: opacity 0.2s ease;"
-                :title="showActions ? sprintf('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', { title: data?.title }) : sprintf('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', { title: data?.title })"
+                :title="showActions ? sprintf('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', data?.title) : sprintf('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', data?.title)"
                 aria-haspopup="true"
                 :aria-expanded="showActions"
                 :aria-controls="`edge-actions-menu-${data?.id}`"
@@ -126,7 +126,7 @@
                   aria-hidden="true"
                 />
                 <span class="visually-hidden">
-                  {{ showActions ? sprintf('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', { title: data?.title }) : sprintf('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', { title: data?.title }) }}
+                  {{ showActions ? sprintf('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', data?.title) : sprintf('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', data?.title) }}
                 </span>
               </button>
             </div>
