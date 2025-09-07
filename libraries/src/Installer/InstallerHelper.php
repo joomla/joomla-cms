@@ -85,8 +85,7 @@ abstract class InstallerHelper
         $url     = $event->getArgument('url', $url);
         $headers = $event->getArgument('headers', $headers);
 
-	    if (empty($url))
-	    {
+	    if (empty($url)) {
 		    // Any logging and messaging of this are the responsibility of the event handlers.
 		    return false;
 	    }
