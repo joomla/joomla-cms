@@ -453,7 +453,25 @@ class UpdateModel extends ListModel
         $package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
         if (empty($package)) {
-            $app->enqueueMessage(Text::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file), 'error');
+            $dispatcher = Factory::getApplication()->getDispatcher();
+            PluginHelper::importPlugin('installer', null, true, $dispatcher);
+            $event = new Event('onInstallerPackageDownloadFailed', [
+                'url'     => $url,
+                'message' => true,
+                'type'    => 'error',
+            ]);
+            $dispatcher->dispatch('onInstallerPackageDownloadFailed', $event);
+            $message  = $event->getArgument('message', true);
+            $type     = $event->getArgument('type', 'error');
+
+            if ($message === true)
+            {
+                Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
+            }
+            else if ($message !== false)
+            {
+                Factory::getApplication()->enqueueMessage($message, $type);
+            }
 
             return false;
         }
