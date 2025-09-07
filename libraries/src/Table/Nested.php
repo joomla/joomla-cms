@@ -11,6 +11,7 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Event\Dispatcher;
+use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -516,6 +517,16 @@ class Nested extends Table
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Pre-processing by observers
+
+        // @depreciated 5.3 will be removed with 7.0 without replacement, use onTableBeforeDelete event
+        $oldEvent = new Event(
+            'onBeforeDelete',
+            [
+                'pk' => $pk,
+            ]
+        );
+        $this->getDispatcher()->dispatch('onBeforeDelete', $oldEvent);
+
         $event = AbstractEvent::create(
             'onTableBeforeDelete',
             [
@@ -626,6 +637,16 @@ class Nested extends Table
         $this->_unlock();
 
         // Post-processing by observers
+
+        // @depreciated 5.3 will be removed with 7.0 without replacement, use onTableAfterDelete event
+        $oldEvent = new Event(
+            'onAfterDelete',
+            [
+                'pk' => $pk,
+            ]
+        );
+        $this->getDispatcher()->dispatch('onAfterDelete', $oldEvent);
+
         $event = AbstractEvent::create(
             'onTableAfterDelete',
             [
