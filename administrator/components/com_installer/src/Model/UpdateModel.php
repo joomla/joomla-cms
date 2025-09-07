@@ -453,7 +453,7 @@ class UpdateModel extends ListModel
         $package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
         if (empty($package)) {
-            $dispatcher = Factory::getApplication()->getDispatcher();
+            $dispatcher = $this->getDispatcher();
             PluginHelper::importPlugin('installer', null, true, $dispatcher);
             $event = new Event('onInstallerPackageDownloadFailed', [
                 'url'     => $url,
