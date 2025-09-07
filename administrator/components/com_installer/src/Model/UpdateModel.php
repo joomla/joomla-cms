@@ -466,7 +466,7 @@ class UpdateModel extends ListModel
 
             if ($message === true) {
                 Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
-            } else if ($message !== false) {
+            } elseif ($message !== false) {
                 Factory::getApplication()->enqueueMessage($message, $type);
             }
 
