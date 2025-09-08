@@ -85,10 +85,10 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
             if ($match === true) {
                 // Bring this in line with the rest of the system
-                $user               = $this->getUserFactory()->loadUserById($result->id);
-                $response->email    = $user->email;
-                $response->fullname = $user->name;
-                $response->username = $result->username;
+                $user                    = $this->getUserFactory()->loadUserById($result->id);
+                $response->email         = $user->email;
+                $response->fullname      = $user->name;
+                $response->username      = $result->username;
                 $credentials['username'] = $result->username;
 
                 // Set default status response to success
