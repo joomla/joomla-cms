@@ -70,10 +70,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
-            ->select($db->quoteName(['id', 'password']))
+            ->select($db->quoteName(['id', 'password','username']))
             ->from($db->quoteName('#__users'))
-            ->where($db->quoteName('username') . ' = :username')
-            ->bind(':username', $credentials['username']);
+            ->where($db->quoteName('username') . ' = :username', 'OR')
+            ->where($db->quoteName('email') . ' = :email')
+            ->bind(':username', $credentials['username'])
+            ->bind(':email', $credentials['username']);
 
         $db->setQuery($query);
         $result = $db->loadObject();
@@ -86,6 +88,8 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                 $user               = $this->getUserFactory()->loadUserById($result->id);
                 $response->email    = $user->email;
                 $response->fullname = $user->name;
+                $response->username = $result->username;
+                $credentials['username'] = $result->username;
 
                 // Set default status response to success
                 $_status       = Authentication::STATUS_SUCCESS;
