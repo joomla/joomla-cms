@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\Archive\Archive;
+use Joomla\CMS\Event\Installer\AfterPackageDownloadEvent;
 use Joomla\CMS\Event\Installer\BeforePackageDownloadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -85,18 +86,52 @@ abstract class InstallerHelper
         $url     = $event->getArgument('url', $url);
         $headers = $event->getArgument('headers', $headers);
 
+        if (empty($url))
+        {
+            // Any logging and messaging of this are the responsibility of the event handlers.
+            return false;
+        }
+
         try {
-            $response = (new HttpFactory())->getHttp()->get($url, $headers);
+            $response = HttpFactory::getHttp()->get($url, $headers);
+
+            // Convert keys of headers to lowercase, to accommodate for case variations
+            $headers = array_change_key_case($response->headers, CASE_LOWER);
         } catch (\RuntimeException $exception) {
+            $response = $exception;
+        }
+
+        // Load installer plugins, and check response
+        $headers    = [];
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
+        $event = new AfterPackageDownloadEvent('onInstallerAfterPackageDownload', [
+            'url'          => &$url,
+            'response'     => &$response,
+            'headers'      => &$headers,
+            'return'       => true,
+        ]);
+        $dispatcher->dispatch('onInstallerAfterPackageDownload', $event);
+        $return     = $event->getArgument('return');
+
+        if ($return === false)
+        {
+            return false;
+        }
+
+        if ($return !== true)
+        {
+            return $return;
+        }
+
+        if ($response instanceof \Exception)
+        {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
             return false;
         }
 
-        // Convert keys of headers to lowercase, to accommodate for case variations
-        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
-
-        if (302 == $response->getStatusCode() && !empty($headers['location'])) {
+        if (302 == $response->code && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
         }
 
