@@ -8,8 +8,6 @@
     :aria-describedby="`stage-${stage?.id}-description`"
     @mouseenter="onNodeEnter"
     @mouseleave="onNodeLeave"
-    @focus="onNodeEnter"
-    @blur="onNodeLeave"
     @click="onSelected"
     @keydown.enter.stop.prevent="openActions"
     @keydown.space.prevent.stop="openActions"
