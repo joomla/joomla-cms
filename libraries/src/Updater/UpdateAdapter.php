@@ -300,6 +300,12 @@ abstract class UpdateAdapter
         $newUrl  = $event->getArgument('url', $url);
         $headers = $event->getArgument('headers', $headers);
 
+        if (empty($newUrl))
+        {
+            // Any logging and messaging of this are the responsibility of the event handlers.
+            return false;
+        }
+
         // Http transport throws an exception when there's no response.
         try {
             $http     = (new HttpFactory())->getHttp($httpOption);
