@@ -102,7 +102,6 @@ abstract class InstallerHelper
         }
 
         // Load installer plugins, and check response
-        $headers    = [];
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new AfterPackageDownloadEvent('onInstallerAfterPackageDownload', [
