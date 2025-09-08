@@ -1,6 +1,7 @@
 <template>
   <Panel
     position="top-left"
+    role="list"
     aria-labelledby="controls-panel-title"
     class="d-flex gap-2 p-2"
   >

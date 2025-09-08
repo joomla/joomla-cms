@@ -2,6 +2,7 @@
   <div
     ref="controlsContainer"
     class="custom-controls position-absolute z-10 p-1"
+    role="list"
     aria-labelledby="canvas-controls-title"
   >
     <span id="canvas-controls-title" class="visually-hidden">{{ translate('COM_WORKFLOW_GRAPH_CANVAS_VIEW_CONTROLS') }}</span>

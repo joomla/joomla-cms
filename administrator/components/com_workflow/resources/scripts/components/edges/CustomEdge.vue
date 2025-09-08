@@ -26,7 +26,7 @@
           left: labelX + 'px',
           top: labelY + 'px',
           pointerEvents: 'all',
-          zIndex: 10,
+          zIndex: showActions ? 20 : 10,
         }"
         @mouseenter="onNodeEnter"
         @mouseleave="onNodeLeave"
@@ -48,7 +48,7 @@
 
         <div
           v-if="showActions"
-          class="position-absolute top-25-px end-20-px h-100 rounded bg-secondary bg-opacity-75 z-2 pe-none"
+          class="position-absolute top-25-px end-20-px h-100 rounded bg-secondary bg-opacity-75 pe-none"
           aria-hidden="true"
         />
 
@@ -57,7 +57,7 @@
             v-if="showActions"
             :id="`edge-actions-menu-${data?.id}`"
             ref="actionsMenu"
-            class="workflow-browser-actions-list position-absolute top-25-px end-20-px opacity-100 d-flex flex-column border rounded shadow-sm z-3 p-1"
+            class="workflow-browser-actions-list position-absolute top-25-px end-20-px opacity-100 d-flex flex-column border rounded shadow-sm p-1"
             role="menu"
             aria-orientation="vertical"
             :aria-labelledby="`transition-${data?.id}-menu-button`"
@@ -110,7 +110,11 @@
                 ref="menuButton"
                 class="btn btn-sm btn-secondary ms-1 px-1 py-0"
                 :class="{ 'invisible': !isHovered && !showActions }"
-                style="transition: opacity 0.2s ease;"
+                :style="{
+                  transition: 'opacity 0.2s ease',
+                  zIndex: showActions ? 30 : 11,
+                  position: 'relative',
+                }"
                 :title="showActions ? sprintf('COM_WORKFLOW_GRAPH_CLOSE_ACTIONS_MENU', data?.title) : sprintf('COM_WORKFLOW_GRAPH_OPEN_ACTIONS_MENU', data?.title)"
                 aria-haspopup="true"
                 :aria-expanded="showActions"
@@ -174,6 +178,22 @@ export default {
   },
   computed: {
     edgeData() {
+      // Use offsetIndex to curve the edge away from overlapping others
+      const offsetIndex = this.data?.offsetIndex || 0;
+
+      // Calculate perpendicular offset direction
+      const dx = this.targetX - this.sourceX;
+      const dy = this.targetY - this.sourceY;
+      const length = Math.sqrt(dx * dx + dy * dy) || 1;
+
+      // Perpendicular vector
+      const perpX = -dy / length;
+      const perpY = dx / length;
+      const curveMagnitude = 40 * offsetIndex;
+
+      // Control point for Bezier curve
+      const centerX = (this.sourceX + this.targetX) / 2 + perpX * curveMagnitude;
+      const centerY = (this.sourceY + this.targetY) / 2 + perpY * curveMagnitude;
       return getSmoothStepPath({
         sourceX: this.sourceX,
         sourceY: this.sourceY,
@@ -181,8 +201,8 @@ export default {
         targetY: this.targetY,
         sourcePosition: this.sourcePosition,
         targetPosition: this.targetPosition,
-        centerX: (this.sourceX + this.targetX) / 2,
-        centerY: (this.sourceY + this.targetY) / 2,
+        centerX,
+        centerY,
         borderRadius: 10,
         offset: 10,
       });
@@ -191,10 +211,10 @@ export default {
       return this.edgeData[0];
     },
     labelX() {
-      return this.edgeData[1] + ((this.data?.offsetIndex < 0 ? this.data?.offsetIndex : 0) || 0) * this.maxWidth;
+      return this.edgeData[1] + ((this.data?.isBiDirectional && this.sourceY < this.targetY && this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * this.maxWidth;
     },
     labelY() {
-      return this.edgeData[2] + ((this.data?.offsetIndex > 0 ? this.data?.offsetIndex : 0) || 0) * 75;
+      return this.edgeData[2] + ((this.data?.isBiDirectional && this.sourceY > this.targetY &&  this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * 75;
     },
     sourceStageTitle() {
       return this.data?.from_stage_title || `JSTAGE ${this.data?.from_stage_id || 'Unknown'}`;

@@ -2,6 +2,7 @@
   <div
     class="w-100 h-100 position-relative"
     role="application"
+    aria-label="Workflow Graph"
   >
     <VueFlow
       v-if="!loading && !error"
