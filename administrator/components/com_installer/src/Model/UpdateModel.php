@@ -24,6 +24,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Event\Event;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
