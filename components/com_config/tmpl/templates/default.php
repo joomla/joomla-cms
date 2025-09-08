@@ -35,7 +35,7 @@ $wa->useScript('keepalive')
         </h1>
     </div>
 <?php endif; ?>
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
+<form action="<?php echo Route::_('index.php'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 
     <div id="page-site" class="tab-pane active">
         <div class="row">
