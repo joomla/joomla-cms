@@ -201,7 +201,7 @@ abstract class InstallerHelper
             }
 
             // Fix Indirect Modification of Overloaded Property
-        $body = $response->body;
+            $body = $response->body;
         }
 
         // Write buffer to file
