@@ -127,8 +127,7 @@ abstract class InstallerHelper
             return false;
         }
 
-        if ($return !== true)
-        {
+        if ($return !== true) {
             return $return;
         }
 
