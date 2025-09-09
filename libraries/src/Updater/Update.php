@@ -612,8 +612,17 @@ class Update
 
         // If the latest item is set then we transfer it to where we want to
         if (isset($this->latest)) {
+            // Set generic variables from latest update
             foreach (get_object_vars($this->latest) as $key => $val) {
                 $this->$key = (object) ['_data' => $val];
+            }
+
+            // Convert infourl into legacy data structure
+            if (!empty($this->latest->infourl) && \is_array($this->latest->infourl)) {
+                $this->infourl = (object) [
+                    '_data' => $this->latest->infourl["url"],
+                    'title' => $this->latest->infourl["title"],
+                ];
             }
 
             foreach ($this->downloadSources as $source) {
