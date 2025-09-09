@@ -131,8 +131,7 @@ abstract class InstallerHelper
             return $return;
         }
 
-        if ($response instanceof \Exception)
-        {
+        if ($response instanceof \Exception) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
             return false;
