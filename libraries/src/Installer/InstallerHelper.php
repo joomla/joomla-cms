@@ -179,7 +179,7 @@ abstract class InstallerHelper
                 return false;
             }
 
-            $body = base64_decode($response['package']);
+            $body   = base64_decode($response['package']);
             $target = $response['target'];
         } else {
             // Parse the Content-Disposition header to get the file name
