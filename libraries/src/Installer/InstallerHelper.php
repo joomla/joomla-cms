@@ -115,10 +115,10 @@ abstract class InstallerHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new AfterPackageDownloadEvent('onInstallerAfterPackageDownload', [
-            'url'          => &$url,
-            'response'     => &$response,
-            'headers'      => &$headers,
-            'return'       => true,
+            'url'      => &$url,
+            'response' => &$response,
+            'headers'  => &$headers,
+            'return'   => true,
         ]);
         $dispatcher->dispatch('onInstallerAfterPackageDownload', $event);
         $return     = $event->getArgument('return');
