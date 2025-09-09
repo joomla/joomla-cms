@@ -87,7 +87,7 @@ final class NotificationModel extends BaseDatabaseModel
 
         // Send emails to all receivers
         foreach ($emailReceivers as $receiver) {
-            $receiverParams = new Registry($receiver->params);
+            $receiverParams   = new Registry($receiver->params);
             $receiverLanguage = $receiverParams->get('admin_language', $defaultLanguage);
 
             $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
