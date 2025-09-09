@@ -59,6 +59,14 @@ abstract class InstallerHelper
     public const HASH_NOT_PROVIDED = 2;
 
     /**
+     * Message displayed when download failes.
+     *
+     * @var    string
+     * @since  6.1.0
+     */
+    protected static $downloadFailMessage = 'COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED';
+
+    /**
      * Downloads a package
      *
      * @param   string       $url     URL of file to download
@@ -76,6 +84,9 @@ abstract class InstallerHelper
 
         // Load installer plugins, and allow URL and headers modification
         $headers    = [];
+        $headers['accept'] = 'application/json, application/zip';
+
+        // Load installer plugins, and allow URL and headers modification
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
@@ -130,39 +141,68 @@ abstract class InstallerHelper
             return false;
         }
 
-        // Convert keys of headers to lowercase, to accommodate for case variations
-        $headers = array_change_key_case($response->headers, CASE_LOWER);
-
         if (302 == $response->code && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
         }
 
         if (200 != $response->code) {
-            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->getStatusCode()), Log::WARNING, 'jerror');
 
             return false;
         }
 
-        // Parse the Content-Disposition header to get the file name
-        if (
-            !empty($headers['content-disposition'])
-            && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
-        ) {
-            $flds   = explode(';', $parts[1]);
-            $target = trim($flds[0], '"');
+        if (!empty($headers['content-type'])
+            && !empty($headers['content-type'][0])
+            && strpos($headers['content-type'][0], 'application/json') !== false) {
+            $response = json_decode($response->body, true);
+
+            if (isset($response['downloadfailmessage'])) {
+                // Empty string will disable the download fail message.
+                // The response message may be used on errors. Allows the message type to be customised.
+                self::$downloadFailMessage = $response['downloadfailmessage'];
+            }
+
+            if (!empty($response['message'])) {
+                Factory::getApplication()->enqueueMessage($response['message'], $response['type'] ?? 'info');
+
+                if (!empty($response['error'])) {
+                    return false;
+                }
+            }
+
+            if (!empty($response['error'])
+                || empty($response['package'])
+                || empty($response['target'])) {
+                Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', ''), Log::WARNING, 'jerror');
+
+            return false;
         }
 
-        $tmpPath = Factory::getApplication()->get('tmp_path');
-
-        // Set the target path if not given
-        if (!$target) {
-            $target = $tmpPath . '/' . self::getFilenameFromUrl($url);
-        } else {
-            $target = $tmpPath . '/' . basename($target);
+            $body = $response['package'];
+            $target = $response['target'];
+        }
+        else {
+            // Parse the Content-Disposition header to get the file name
+            if (
+                !empty($headers['content-disposition'])
+                && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
+            ) {
+                $flds   = explode(';', $parts[1]);
+                $target = trim($flds[0], '"');
+            }
+    
+            $tmpPath = Factory::getApplication()->get('tmp_path');
+    
+            // Set the target path if not given
+            if (!$target) {
+                $target = $tmpPath . '/' . self::getFilenameFromUrl($url);
+            } else {
+                $target = $tmpPath . '/' . basename($target);
         }
 
         // Fix Indirect Modification of Overloaded Property
         $body = $response->body;
+        }
 
         // Write buffer to file
         File::write($target, $body);
@@ -174,6 +214,23 @@ abstract class InstallerHelper
 
         // Return the name of the downloaded package
         return basename($target);
+    }
+
+    /*
+     * Enqueues the download fail message (if any).
+     *
+     * @param   string   $url    URL of file to download
+     *
+     * @return  void
+     *
+     * @since   6.1
+     */
+    public static function enqueueDownloadFailMessage($url) {
+        if (empty(self::$downloadFailMessage)) {
+            return;
+        }
+
+        Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
     }
 
     /**
