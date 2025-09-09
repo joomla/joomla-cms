@@ -18,7 +18,7 @@ use Joomla\Event\Event;
 /**
  * Class for Installer events
  *
- * @since  6.1.0
+ * @since  __DEPLOY_VERSION__
  */
 class AfterPackageDownloadFailedEvent extends Event
 {
