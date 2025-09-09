@@ -82,13 +82,18 @@ final class NotificationModel extends BaseDatabaseModel
             'url'        => Uri::root(),
         ];
 
+        // Determine the default admin language
+        $defaultLanguage = ComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
+
         // Send emails to all receivers
         foreach ($emailReceivers as $receiver) {
-            $params = new Registry($receiver->params);
-            $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
-            $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $params->get('admin_language', null), true, true);
+            $receiverParams = new Registry($receiver->params);
+            $receiverLanguage = $receiverParams->get('admin_language', $defaultLanguage);
 
-            $mailer = new MailTemplate('com_joomlaupdate.update.' . $type, $jLanguage->getTag());
+            $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
+            $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $receiverLanguage);
+
+            $mailer = new MailTemplate('com_joomlaupdate.update.' . $type, $receiverLanguage);
             $mailer->addRecipient($receiver->email);
             $mailer->addTemplateData($substitutions);
             $mailer->send();
