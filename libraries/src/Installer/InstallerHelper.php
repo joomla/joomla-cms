@@ -200,7 +200,7 @@ abstract class InstallerHelper
                 $target = $tmpPath . '/' . basename($target);
             }
 
-        // Fix Indirect Modification of Overloaded Property
+            // Fix Indirect Modification of Overloaded Property
         $body = $response->body;
         }
 
