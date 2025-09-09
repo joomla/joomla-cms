@@ -59,7 +59,7 @@ abstract class InstallerHelper
     public const HASH_NOT_PROVIDED = 2;
 
     /**
-     * Message displayed when download failes.
+     * Message displayed when download fails.
      *
      * @var    string
      * @since  6.1.0
