@@ -83,7 +83,7 @@ abstract class InstallerHelper
         ini_set('user_agent', $version->getUserAgent('Installer'));
 
         // Load installer plugins, and allow URL and headers modification
-        $headers    = [];
+        $headers           = [];
         $headers['accept'] = 'application/json, application/zip';
 
         // Load installer plugins, and allow URL and headers modification
