@@ -168,9 +168,11 @@ abstract class InstallerHelper
                 }
             }
 
-            if (!empty($response['error'])
+            if (
+                !empty($response['error'])
                 || empty($response['package'])
-                || empty($response['target'])) {
+                || empty($response['target'])
+            ) {
                 Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', ''), Log::WARNING, 'jerror');
 
             return false;
