@@ -178,7 +178,7 @@ abstract class InstallerHelper
             return false;
         }
 
-            $body = $response['package'];
+            $body = base64_decode($response['package']);
             $target = $response['target'];
         }
         else {
