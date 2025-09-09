@@ -121,7 +121,7 @@ abstract class InstallerHelper
             'return'   => true,
         ]);
         $dispatcher->dispatch('onInstallerAfterPackageDownload', $event);
-        $return     = $event->getArgument('return');
+        $return = $event->getArgument('return');
 
         if ($return === false) {
             return false;
