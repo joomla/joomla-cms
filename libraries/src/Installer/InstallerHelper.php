@@ -225,7 +225,8 @@ abstract class InstallerHelper
      *
      * @since   6.1
      */
-    public static function enqueueDownloadFailMessage($url) {
+    public static function enqueueDownloadFailMessage($url)
+    {
         if (empty(self::$downloadFailMessage)) {
             return;
         }
