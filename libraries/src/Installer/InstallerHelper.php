@@ -181,8 +181,7 @@ abstract class InstallerHelper
 
             $body = base64_decode($response['package']);
             $target = $response['target'];
-        }
-        else {
+        } else {
             // Parse the Content-Disposition header to get the file name
             if (
                 !empty($headers['content-disposition'])
