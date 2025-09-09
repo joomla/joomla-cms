@@ -147,9 +147,11 @@ abstract class InstallerHelper
             return false;
         }
 
-        if (!empty($headers['content-type'])
+        if (
+            !empty($headers['content-type'])
             && !empty($headers['content-type'][0])
-            && strpos($headers['content-type'][0], 'application/json') !== false) {
+            && strpos($headers['content-type'][0], 'application/json') !== false
+        ) {
             $response = json_decode($response->body, true);
 
             if (isset($response['downloadfailmessage'])) {
