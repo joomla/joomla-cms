@@ -109,7 +109,7 @@ final class NotificationModel extends BaseDatabaseModel
             }
 
             $mailer = new MailTemplate('com_joomlaupdate.update.' . $type, $receiverLocale);
-            $mailer->addRecipient($receiver->email);
+            $mailer->addRecipient($receiver->email, $receiver->name);
             $mailer->addTemplateData($substitutions);
             $mailer->send();
 
