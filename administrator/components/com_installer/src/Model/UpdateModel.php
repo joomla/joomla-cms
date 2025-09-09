@@ -452,11 +452,9 @@ class UpdateModel extends ListModel
             $message  = $event->getArgument('message', true);
             $type     = $event->getArgument('type', 'error');
 
-            if ($message === true)
-            {
+            if ($message === true) {
                 InstallerHelper::enqueueDownloadFailMessage($url);
-            } elseif ($message !== false)
-            {
+            } elseif ($message !== false) {
                 Factory::getApplication()->enqueueMessage($message, $type);
             }
 
