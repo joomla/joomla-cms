@@ -83,7 +83,7 @@ final class NotificationModel extends BaseDatabaseModel
         ];
 
         // Determine the default admin language and load the language file for the fallback and default language
-        $defaultLocale = ComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
+        $defaultLocale   = ComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
         $defaultLanguage = $app->getLanguage();
         $defaultLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
         $defaultLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $defaultLocale);
@@ -91,7 +91,7 @@ final class NotificationModel extends BaseDatabaseModel
         // Send emails to all receivers
         foreach ($emailReceivers as $receiver) {
             $receiverParams   = new Registry($receiver->params);
-            $receiverLocale = $receiverParams->get('admin_language', $defaultLocale);
+            $receiverLocale   = $receiverParams->get('admin_language', $defaultLocale);
 
             // Temporarily set application language to user's language.
             if ($receiverLocale !== $defaultLocale) {
@@ -117,8 +117,7 @@ final class NotificationModel extends BaseDatabaseModel
             if ($receiverLocale !== $defaultLocale) {
                 Factory::$language = $defaultLanguage;
 
-                if (method_exists($app, 'loadLanguage'))
-                {
+                if (method_exists($app, 'loadLanguage')) {
                     $app->loadLanguage($defaultLanguage);
                 }
             }

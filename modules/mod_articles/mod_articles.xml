@@ -239,6 +239,7 @@
 					<option value="h3">JH3</option>
 					<option value="h4">JH4</option>
 					<option value="h5">JH5</option>
+					<option value="h6">JH6</option>
 					<option value="div">MOD_ARTICLES_FIELD_TITLE_HEADING_NONE</option>
 				</field>
 
