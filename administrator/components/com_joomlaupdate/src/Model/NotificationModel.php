@@ -90,8 +90,8 @@ final class NotificationModel extends BaseDatabaseModel
 
         // Send emails to all receivers
         foreach ($emailReceivers as $receiver) {
-            $receiverParams   = new Registry($receiver->params);
-            $receiverLocale   = $receiverParams->get('admin_language', $defaultLocale);
+            $receiverParams = new Registry($receiver->params);
+            $receiverLocale = $receiverParams->get('admin_language', $defaultLocale);
 
             // Temporarily set application language to user's language.
             if ($receiverLocale !== $defaultLocale) {
