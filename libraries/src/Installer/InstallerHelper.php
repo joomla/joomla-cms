@@ -198,7 +198,7 @@ abstract class InstallerHelper
                 $target = $tmpPath . '/' . self::getFilenameFromUrl($url);
             } else {
                 $target = $tmpPath . '/' . basename($target);
-        }
+            }
 
         // Fix Indirect Modification of Overloaded Property
         $body = $response->body;
