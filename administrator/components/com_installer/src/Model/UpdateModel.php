@@ -449,8 +449,8 @@ class UpdateModel extends ListModel
                 'type'    => 'error',
             ]);
             $dispatcher->dispatch('onInstallerPackageDownloadFailed', $event);
-            $message  = $event->getArgument('message', true);
-            $type     = $event->getArgument('type', 'error');
+            $message = $event->getArgument('message', true);
+            $type    = $event->getArgument('type', 'error');
 
             if ($message === true) {
                 InstallerHelper::enqueueDownloadFailMessage($url);
