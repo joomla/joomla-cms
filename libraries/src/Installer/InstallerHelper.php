@@ -123,8 +123,7 @@ abstract class InstallerHelper
         $dispatcher->dispatch('onInstallerAfterPackageDownload', $event);
         $return     = $event->getArgument('return');
 
-        if ($return === false)
-        {
+        if ($return === false) {
             return false;
         }
 
