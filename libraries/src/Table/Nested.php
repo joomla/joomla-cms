@@ -518,7 +518,7 @@ class Nested extends Table
 
         // Pre-processing by observers
 
-        // @depreciated 5.3 will be removed with 7.0 without replacement, use onTableBeforeDelete event
+        // @deprecated 5.3 will be removed with 7.0 without replacement, use onTableBeforeDelete event
         $oldEvent = new Event(
             'onBeforeDelete',
             [
@@ -638,7 +638,7 @@ class Nested extends Table
 
         // Post-processing by observers
 
-        // @depreciated 5.3 will be removed with 7.0 without replacement, use onTableAfterDelete event
+        // @deprecated 5.3 will be removed with 7.0 without replacement, use onTableAfterDelete event
         $oldEvent = new Event(
             'onAfterDelete',
             [
