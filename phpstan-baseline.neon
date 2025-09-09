@@ -2091,7 +2091,7 @@ parameters:
 		-
 			message: '''
 				#^Access to deprecated property \$app of class Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsPlugin\:
-				5.4.0 will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
+				5\.4\.0 will be removed in 7\.0 use \$this\-\>getApplication\(\) instead$#
 			'''
 			identifier: property.deprecated
 			count: 1
@@ -3772,6 +3772,18 @@ parameters:
 
 		-
 			message: '''
+				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 6\.0
+				             Use the language service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
+			'''
+			identifier: staticProperty.deprecated
+			count: 2
+			path: administrator/components/com_joomlaupdate/src/Model/NotificationModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Updater\\Update\:
 				4\.3\.0 will be removed in 6\.0
 				            Create a proper getter function for the property$#
@@ -3834,16 +3846,6 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
-
-		-
-			message: '''
-				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 7\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 2
 			path: administrator/components/com_joomlaupdate/src/Model/UpdateModel.php
 
 		-
