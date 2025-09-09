@@ -62,7 +62,8 @@ abstract class InstallerHelper
      * Message displayed when download fails.
      *
      * @var    string
-     * @since  6.1.0
+
+     * @since  __DEPLOY_VERSION__
      */
     protected static $downloadFailMessage = 'COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED';
 
