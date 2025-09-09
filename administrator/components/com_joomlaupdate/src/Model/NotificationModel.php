@@ -94,7 +94,7 @@ final class NotificationModel extends BaseDatabaseModel
             $receiverLocale = $receiverParams->get('admin_language', $defaultLocale);
 
             // Temporarily set application language to user's language.
-            if ($receiverLocale !== $defaultLocale) {
+            if ($app->getLanguage()->getTag() !== $receiverLocale) {
                 $receiverLanguage = Factory::getContainer()
                     ->get(LanguageFactoryInterface::class)
                     ->createLanguage($receiverLocale, $app->get('debug_lang', false));
@@ -112,15 +112,13 @@ final class NotificationModel extends BaseDatabaseModel
             $mailer->addRecipient($receiver->email, $receiver->name);
             $mailer->addTemplateData($substitutions);
             $mailer->send();
+        }
 
-            // Set application language back to default if we changed it
-            if ($receiverLocale !== $defaultLocale) {
-                Factory::$language = $defaultLanguage;
+        // Set application language back to default
+        Factory::$language = $defaultLanguage;
 
-                if (method_exists($app, 'loadLanguage')) {
-                    $app->loadLanguage($defaultLanguage);
-                }
-            }
+        if (method_exists($app, 'loadLanguage')) {
+            $app->loadLanguage($defaultLanguage);
         }
     }
 
