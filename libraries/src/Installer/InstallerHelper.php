@@ -175,8 +175,8 @@ abstract class InstallerHelper
             ) {
                 Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', ''), Log::WARNING, 'jerror');
 
-            return false;
-        }
+                return false;
+            }
 
             $body = base64_decode($response['package']);
             $target = $response['target'];
