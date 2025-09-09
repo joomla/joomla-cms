@@ -190,9 +190,9 @@ abstract class InstallerHelper
                 $flds   = explode(';', $parts[1]);
                 $target = trim($flds[0], '"');
             }
-    
+
             $tmpPath = Factory::getApplication()->get('tmp_path');
-    
+
             // Set the target path if not given
             if (!$target) {
                 $target = $tmpPath . '/' . self::getFilenameFromUrl($url);
