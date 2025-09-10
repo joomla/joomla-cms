@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Administrator\View\Maps;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -107,6 +106,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var MapsModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Load the view data.
         $this->items         = $model->getItems();
@@ -120,10 +120,10 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', 'display')
+            ->addControlField('boxchecked', '0');
 
         // Prepare the view.
         $this->addToolbar();

@@ -25,6 +25,8 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelInterface;
+use Joomla\CMS\Versioning\Versioning;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -951,14 +953,30 @@ abstract class AdminModel extends FormModel
                         return false;
                     }
 
+                    if (Factory::getApplication()->isClient('api')) {
+                        $session = Factory::getApplication()->getSession();
+                        $session->set('http_status_code_409', true);
+                    }
+
                     Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
                     return false;
                 }
             } else {
-                $this->setError($table->getError());
+                $error = $this->getError();
+                if ($error) {
+                    $this->setError($table->getError());
 
-                return false;
+                    return false;
+                }
+                if (Factory::getApplication()->isClient('api')) {
+                    $session = Factory::getApplication()->getSession();
+                    $session->set('http_status_code_409', true);
+                }
+
+                Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+                return true;
             }
         }
 
@@ -1443,6 +1461,19 @@ abstract class AdminModel extends FormModel
             }
         }
 
+        if ($this instanceof VersionableModelInterface) {
+            // Merge table data and data so that we write all data to the history
+            $tableData = ArrayHelper::fromObject($table);
+
+            $historyData = array_merge($tableData, $data);
+
+            // We have to set the key for new items, would be always 0 otherwise
+            $historyData[$key] = $this->getState($this->getName() . '.id');
+
+
+            $this->saveHistory($historyData, $context);
+        }
+
         if ($app->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
@@ -1729,5 +1760,26 @@ abstract class AdminModel extends FormModel
         );
 
         return true;
+    }
+
+    /**
+     * Method to save the history.
+     *
+     * @param   array   $data     The form data.
+     * @param   string  $context  The model context.
+     *
+     * @return  boolean  True on success, False on error.
+     *
+     * @since   6.0.0
+     */
+    protected function saveHistory(array $data, string $context)
+    {
+        $id = $this->getState($this->getName() . '.id');
+
+        $versionNote = \array_key_exists('version_note', $data) ? $data['version_note'] : '';
+
+        $result = Versioning::store($context, $id, ArrayHelper::toObject($data), $versionNote);
+
+        return $result;
     }
 }
