@@ -72,8 +72,8 @@ final class NotificationModel extends BaseDatabaseModel
             $emailReceivers  = $this->getEmailReceivers($superUserGroups);
         }
 
-        $app       = Factory::getApplication();
-        $sitename  = $app->get('sitename');
+        $app      = Factory::getApplication();
+        $sitename = $app->get('sitename');
 
         $substitutions = [
             'oldversion' => $oldVersion,
