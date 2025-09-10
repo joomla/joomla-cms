@@ -304,8 +304,6 @@ class ApiController extends BaseController
             if ($model->getError() !== false) {
                 throw new \RuntimeException($model->getError(), 500);
             }
-
-            throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DELETE'), 500);
         }
 
         $this->app->setHeader('status', 204);
