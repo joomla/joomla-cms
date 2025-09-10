@@ -101,7 +101,7 @@ class HtmlView extends InstallerViewDefault
 
         // Find if there are any updates which require but are missing a Download Key
         if (!class_exists('Joomla\Component\Installer\Administrator\Helper\InstallerHelper')) {
-            require_once JPATH_COMPONENT_ADMINISTRATOR . '/Helper/InstallerHelper.php';
+            require_once JPATH_ADMINISTRATOR . '/components/com_installer/src/Helper/InstallerHelper.php';
         }
 
         $mappingCallback = function ($item) {

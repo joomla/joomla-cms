@@ -12,7 +12,6 @@ namespace Joomla\Component\Languages\Administrator\View\Installed;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Languages\Administrator\Model\InstalledModel;
@@ -86,6 +85,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var InstalledModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->option        = $model->getOption();
         $this->pagination    = $model->getPagination();
@@ -94,11 +94,6 @@ class HtmlView extends BaseHtmlView
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
 

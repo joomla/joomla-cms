@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -100,6 +99,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var ArticleModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
@@ -110,11 +110,6 @@ class HtmlView extends BaseHtmlView
             parent::display($tpl);
 
             return;
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $input          = Factory::getApplication()->getInput();
@@ -230,7 +225,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 
             if (!$isNew) {
-                if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable) {
+                if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->get('params')->get('save_history', 0) && $itemEditable) {
                     $toolbar->versions('com_content.article', $this->item->id);
                 }
 
