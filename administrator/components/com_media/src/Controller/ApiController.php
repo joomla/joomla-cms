@@ -310,7 +310,7 @@ class ApiController extends BaseController
         // Set the status code for the response
         $this->app->setHeader('status', $responseCode);
 
-        // Send headers before sender the data
+        // Send headers before sending the data
         $this->app->sendHeaders();
 
         // Send the data
