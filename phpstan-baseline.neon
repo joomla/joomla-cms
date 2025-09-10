@@ -13104,7 +13104,7 @@ parameters:
 				             Catch thrown Exceptions instead of getError$#
 			'''
 			identifier: method.deprecated
-			count: 1
+			count: 2
 			path: libraries/src/MVC/Model/AdminModel.php
 
 		-
