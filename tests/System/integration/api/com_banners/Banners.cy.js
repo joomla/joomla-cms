@@ -48,4 +48,28 @@ describe('Test that banners API endpoint', () => {
     cy.db_createBanner({ name: 'automated test banner', state: -2 })
       .then((banner) => cy.api_delete(`/banners/${banner.id}`));
   });
+
+  it('check correct response for delete a not existent contact', () => {
+     cy.api_delete('/banners/9999')
+      .then((result) => expect(result.status).to.eq(204));
+  });
+
+  it('cannot delete a banner that is not trashed', () => {
+    cy.db_createBanner({ name: 'automated test banner' })
+      .then((banner) => {
+        cy.api_getBearerToken().then((token) => {
+          cy.request({
+            method: 'DELETE',
+            url: `/api/index.php/v1/banners/${banner.id}`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            failOnStatusCode: false
+          }).then((response) => {
+            expect(response.status).to.equal(409);
+            expect(response.body.data.message).to.include('must be trashed before it can be deleted');
+          });
+        });
+      });
+  });
 });
