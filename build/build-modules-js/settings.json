@@ -704,16 +704,13 @@
       "short-and-sweet": {
         "name": "short-and-sweet",
         "licenseFilename": "LICENSE",
-        "js": {
-          "dist/short-and-sweet.min.js": "js/short-and-sweet.min.js"
-        },
         "provideAssets": [
           {
             "name": "short-and-sweet",
             "type": "script",
             "uri": "short-and-sweet.min.js",
             "attributes": {
-              "defer": true
+              "type": "module"
             }
           }
         ]

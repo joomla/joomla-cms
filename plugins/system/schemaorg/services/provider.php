@@ -36,10 +36,9 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin = new Schemaorg(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'schemaorg')
                 );
-
+                $plugin->setDispatcher($container->get(DispatcherInterface::class));
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));

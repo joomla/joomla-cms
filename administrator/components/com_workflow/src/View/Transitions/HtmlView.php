@@ -12,7 +12,6 @@ namespace Joomla\Component\Workflow\Administrator\View\Transitions;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
@@ -125,6 +124,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var TransitionsModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state         = $model->getState();
         $this->transitions   = $model->getItems();
@@ -132,11 +132,6 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
         $this->workflow      = $model->getWorkflow();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->workflowID    = $this->workflow->id;
 

@@ -1,8 +1,6 @@
 /**
  * Build codemirror modules
  */
-/* eslint-disable import/no-extraneous-dependencies, global-require, import/no-dynamic-require */
-
 import { readFileSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
@@ -86,7 +84,6 @@ const updateAssetRegistry = async (modules, externalModules) => {
 };
 
 export const compileCodemirror = async () => {
-  // eslint-disable-next-line no-console
   console.log('Building Codemirror Components...');
 
   const cmModules = getPackagesUnderScope('@codemirror');

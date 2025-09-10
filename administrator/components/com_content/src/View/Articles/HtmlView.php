@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
@@ -111,6 +110,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ArticlesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -128,11 +128,6 @@ class HtmlView extends BaseHtmlView
             PluginHelper::importPlugin('workflow');
 
             $this->transitions = $model->getTransitions();
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors()) || $this->transitions === false) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // We don't need toolbar in the modal window.

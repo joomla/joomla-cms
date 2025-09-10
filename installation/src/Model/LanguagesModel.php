@@ -506,9 +506,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         }
 
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/forms');
-        Form::addFieldPath(JPATH_COMPONENT . '/model/fields');
-        Form::addRulePath(JPATH_COMPONENT . '/model/rules');
+        Form::addFormPath(JPATH_BASE . '/forms');
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);
