@@ -8,36 +8,32 @@ Joomla = window.Joomla || {};
   async function makeRequest(url) {
     try {
       const paths = Joomla.getOptions('system.paths');
-      const uri = `${paths ? `${paths.rootFull}administrator/index.php` : window.location.pathname
-        }?option=com_workflow&extension=com_content&layout=modal&view=graph${url}`;
-
-      const response = await fetch(uri, { credentials: 'same-origin' });
-
+      const uri = `${paths ? `${paths.rootFull}administrator/index.php` : window.location.pathname}?option=com_workflow&extension=com_content&layout=modal&view=graph${url}`;
+      const response = await fetch(uri, {
+        credentials: 'same-origin'
+      });
       if (!response.ok) {
         // Normalize message based on status
-        let message = 'An unexpected error occurred.';
+        let message = 'COM_WORKFLOW_GRAPH_ERROR_UNKNOWN';
         if (response.status === 401) {
-          message = 'Not authenticated.';
+          message = 'COM_WORKFLOW_GRAPH_ERROR_NOT_AUTHENTICATED';
         } else if (response.status === 403 || response.status === 404) {
-          message = 'You do not have permission to access the workflows.';
+          message = 'COM_WORKFLOW_GRAPH_ERROR_NO_PERMISSION';
         } else {
-          message = `Request failed with status ${response.status}`;
+          message = `COM_WORKFLOW_GRAPH_ERROR_REQUEST_FAILED ${response.status}`;
         }
         throw new Error(message);
       }
-
       return await response.json();
-
     } catch (err) {
       showErrorInModal(err.message);
       throw err;
     }
   }
-
+  
   function showErrorInModal(errorMessage) {
     const container = document.getElementById("workflow-container");
     const stageContainer = document.getElementById("stages");
-
     if (container) {
       // Clear the main container and show error
       container.innerHTML = `
@@ -47,7 +43,6 @@ Joomla = window.Joomla || {};
         </div>
       `;
     } else if (stageContainer) {
-      // Fallback: show in stages container
       stageContainer.innerHTML = `
         <div class="alert alert-danger" role="alert">
           <h4 class="alert-heading">Error Loading Workflow</h4>
@@ -56,7 +51,6 @@ Joomla = window.Joomla || {};
       `;
     }
   }
-
 
   async function getWorkflow(id) {
     return makeRequest(`&task=graph.getWorkflow&workflow_id=${id}&format=json`);
