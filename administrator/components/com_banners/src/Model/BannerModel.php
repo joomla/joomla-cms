@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
@@ -30,7 +29,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class BannerModel extends AdminModel implements VersionableModelInterface
+class BannerModel extends AdminModel
 {
     use VersionableModelTrait;
 

@@ -15,7 +15,6 @@ use Joomla\CMS\Event\Table\AfterStoreEvent;
 use Joomla\CMS\Event\Table\BeforeDeleteEvent;
 use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\CMS\Versioning\Versioning;
 use Joomla\Event\SubscriberInterface;
@@ -96,33 +95,21 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
         // Extract arguments
         /** @var VersionableTableInterface $table */
         $table  = $event['subject'];
-
-        // We need to check this first because getTypeAlias is only available when VersionableTableInterface is implemented
-        if (!$table instanceof VersionableTableInterface) {
-            return;
-        }
-
         $result = $event['result'];
-
-        $typeAlias               = $table->getTypeAlias();
-        [$component, $modelName] = explode('.', $typeAlias);
-
-        $model = $this->getApplication()->bootComponent($component)->getMVCFactory()->createModel($modelName, 'Administrator');
-
-        if ($model instanceof VersionableModelInterface) {
-            return;
-        }
 
         if (!$result) {
             return;
         }
 
-        if (!(\is_object($table))) {
+        if (!(\is_object($table) && $table instanceof VersionableTableInterface)) {
             return;
         }
 
         // Get the Tags helper and assign the parsed alias
-        if ($component === '' || !ComponentHelper::getParams($component)->get('save_history', 0)) {
+        $typeAlias  = $table->getTypeAlias();
+        $aliasParts = explode('.', $typeAlias);
+
+        if ($aliasParts[0] === '' || !ComponentHelper::getParams($aliasParts[0])->get('save_history', 0)) {
             return;
         }
 

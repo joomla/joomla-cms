@@ -29,7 +29,6 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
-use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -50,7 +49,7 @@ use Joomla\Utilities\ArrayHelper;
  * @since  1.6
  */
 
-class ArticleModel extends AdminModel implements WorkflowModelInterface, VersionableModelInterface
+class ArticleModel extends AdminModel implements WorkflowModelInterface
 {
     use WorkflowBehaviorTrait;
     use VersionableModelTrait;
