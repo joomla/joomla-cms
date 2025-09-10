@@ -86,7 +86,7 @@ final class NotificationModel extends BaseDatabaseModel
         $defaultLocale   = ComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
         $defaultLanguage = $app->getLanguage();
         $defaultLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
-        $defaultLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $defaultLocale);
+        $defaultLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR);
 
         // Send emails to all receivers
         foreach ($emailReceivers as $receiver) {
