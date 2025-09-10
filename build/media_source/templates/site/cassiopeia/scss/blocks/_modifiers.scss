@@ -328,3 +328,16 @@
     }
   }
 }
+
+.mod-menu a,
+.mod-menu button {
+  color: var(--link-color);
+  @at-root .container-header & {
+    color: currentColor;
+  }
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
