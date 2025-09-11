@@ -165,6 +165,8 @@ trait VersionableModelTrait
         $this->setState('save_date', $historyTable->save_date);
         $this->setState('version_note', $historyTable->version_note);
 
+        $this->save($rowArray);
+
         return true;
     }
 
