@@ -265,7 +265,7 @@ trait VersionableModelTrait
         }
 
         foreach ($this->ignoreChanges as $ignore) {
-            if (array_key_exists($ignore, $data)) {
+            if (\array_key_exists($ignore, $data)) {
                 unset($data[$ignore]);
             }
         }
