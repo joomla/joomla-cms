@@ -80,52 +80,15 @@ parameters:
 			path: administrator/components/com_actionlogs/src/Plugin/ActionLogPlugin.php
 
 		-
-			message: '#^Access to property \$dateRelative on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
-
-		-
-			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
-			identifier: class.notFound
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
 			count: 1
-			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
-
-		-
-			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
-
-		-
-			message: '#^Access to property \$pagination on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
-
-		-
-			message: '#^Access to property \$showIpColumn on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
-
-		-
-			message: '#^Access to property \$state on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 5
-			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_actionlogs/tmpl/actionlogs/default.php
+			path: administrator/components/com_actionlogs/src/View/Actionlogs/HtmlView.php
 
 		-
 			message: '#^Instantiated class JConfig not found\.$#'
@@ -269,96 +232,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_associations/src/View/Associations/HtmlView.php
-
-		-
-			message: '#^Access to property \$app on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$defaultTargetSrc on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$editUri on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$form on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$itemType on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$referenceId on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$referenceLanguage on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$referenceTitle on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$referenceTitleValue on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$targetAction on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$targetId on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$targetLanguage on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$targetTitle on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Access to property \$typeName on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_associations/tmpl/association/edit.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_associations/tmpl/association/edit.php
 
 		-
 			message: '#^Access to an undefined property Joomla\\Component\\Associations\\Administrator\\View\\Associations\\HtmlView\:\:\$editUri\.$#'
@@ -2635,88 +2508,10 @@ parameters:
 			path: administrator/components/com_guidedtours/tmpl/step/edit.php
 
 		-
-			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_guidedtours/tmpl/steps/default.php
-
-		-
-			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_guidedtours/tmpl/steps/default.php
-
-		-
-			message: '#^Access to property \$pagination on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_guidedtours/tmpl/steps/default.php
-
-		-
-			message: '#^Access to property \$state on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: administrator/components/com_guidedtours/tmpl/steps/default.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 6
-			path: administrator/components/com_guidedtours/tmpl/steps/default.php
-
-		-
-			message: '#^Call to method getCurrentUser\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_guidedtours/tmpl/steps/default.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_guidedtours/tmpl/steps/default.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Guidedtours\\Administrator\\View\\Tour\\HtmlView\:\:\$fields\.$#'
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_guidedtours/tmpl/tour/edit.php
-
-		-
-			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_guidedtours/tmpl/tours/default.php
-
-		-
-			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_guidedtours/tmpl/tours/default.php
-
-		-
-			message: '#^Access to property \$pagination on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_guidedtours/tmpl/tours/default.php
-
-		-
-			message: '#^Access to property \$state on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_guidedtours/tmpl/tours/default.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 7
-			path: administrator/components/com_guidedtours/tmpl/tours/default.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_guidedtours/tmpl/tours/default.php
 
 		-
 			message: '''
@@ -3138,72 +2933,6 @@ parameters:
 			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/noupdate.php
 
 		-
-			message: '#^Access to property \$defaultBackendTemplate on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Access to property \$isDefaultBackendTemplate on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Access to property \$noVersionCheck on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Access to property \$nonCoreCriticalPlugins on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Access to property \$nonCoreExtensions on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Access to property \$phpOptions on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Access to property \$phpSettings on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Access to property \$updateInfo on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 7
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Call to method getCurrentUser\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_joomlaupdate/tmpl/joomlaupdate/preupdatecheck.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Joomlaupdate\\Administrator\\View\\Joomlaupdate\\HtmlView\:\:\$langKey\.$#'
 			identifier: property.notFound
 			count: 1
@@ -3240,27 +2969,9 @@ parameters:
 			path: administrator/components/com_joomlaupdate/tmpl/update/default.php
 
 		-
-			message: '#^Access to property \$noBackupCheck on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: administrator/components/com_joomlaupdate/tmpl/upload/default.php
-
-		-
-			message: '#^Access to property \$updateInfo on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 5
-			path: administrator/components/com_joomlaupdate/tmpl/upload/default.php
-
-		-
-			message: '#^Access to property \$warnings on an unknown class HtmlView\.$#'
-			identifier: class.notFound
+			message: '#^Access to an undefined property Joomla\\Component\\Joomlaupdate\\Administrator\\View\\Joomlaupdate\\HtmlView::\$warnings\.$#'
+			identifier: property.notFound
 			count: 2
-			path: administrator/components/com_joomlaupdate/tmpl/upload/default.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
 			path: administrator/components/com_joomlaupdate/tmpl/upload/default.php
 
 		-
@@ -5318,74 +5029,14 @@ parameters:
 			path: administrator/components/com_scheduler/src/View/Tasks/HtmlView.php
 
 		-
-			message: '#^Access to property \$app on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_scheduler/tmpl/select/default.php
-
-		-
-			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_scheduler/tmpl/select/default.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_scheduler/tmpl/select/default.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_scheduler/tmpl/select/default.php
-
-		-
-			message: '#^Access to property \$app on an unknown class HtmlView\.$#'
-			identifier: class.notFound
+			message: '#^Access to an undefined property Joomla\\Component\\Scheduler\\Administrator\\View\\Task\\HtmlView::\$useCoreUI\.$#'
+			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_scheduler/tmpl/task/edit.php
 
 		-
-			message: '#^Access to property \$canDo on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_scheduler/tmpl/task/edit.php
-
-		-
-			message: '#^Access to property \$fieldset on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_scheduler/tmpl/task/edit.php
-
-		-
-			message: '#^Access to property \$form on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 11
-			path: administrator/components/com_scheduler/tmpl/task/edit.php
-
-		-
-			message: '#^Access to property \$ignore_fieldsets on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_scheduler/tmpl/task/edit.php
-
-		-
-			message: '#^Access to property \$item on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 5
-			path: administrator/components/com_scheduler/tmpl/task/edit.php
-
-		-
-			message: '#^Access to property \$useCoreUI on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_scheduler/tmpl/task/edit.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
+			message: '#^Access to an undefined property Joomla\\Component\\Scheduler\\Administrator\\View\\Task\\HtmlView::\$fieldset\.$#'
+			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_scheduler/tmpl/task/edit.php
 
@@ -5396,38 +5047,8 @@ parameters:
 			path: administrator/components/com_scheduler/tmpl/tasks/default.php
 
 		-
-			message: '#^Access to property \$hasDueTasks on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_scheduler/tmpl/tasks/default.php
-
-		-
-			message: '#^Access to property \$items on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_scheduler/tmpl/tasks/default.php
-
-		-
-			message: '#^Access to property \$pagination on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_scheduler/tmpl/tasks/default.php
-
-		-
-			message: '#^Access to property \$state on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_scheduler/tmpl/tasks/default.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 7
-			path: administrator/components/com_scheduler/tmpl/tasks/default.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
+			message: '#^Access to an undefined property Joomla\\Component\\Scheduler\\Administrator\\View\\Tasks\\HtmlView::\$hasDueTasks\.$#'
+			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_scheduler/tmpl/tasks/default.php
 
@@ -6422,35 +6043,82 @@ parameters:
 			count: 1
 			path: administrator/components/com_users/src/View/Users/HtmlView.php
 
-		-
-			message: '#^Access to property \$allowEntryBatching on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/captive/select.php
 
 		-
-			message: '#^Access to property \$mfaMethods on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: administrator/components/com_users/tmpl/captive/select.php
-
-		-
-			message: '#^Access to property \$records on an unknown class HtmlView\.$#'
-			identifier: class.notFound
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
 			count: 1
-			path: administrator/components/com_users/tmpl/captive/select.php
+			path: administrator/components/com_users/src/View/Level/HtmlView.php
 
 		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/captive/select.php
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/View/Levels/HtmlView.php
 
 		-
-			message: '#^Call to method getModel\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/captive/select.php
+			message: '''
+				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
+				4\.3 will be removed in 6\.0
+				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
+			'''
+			identifier: method.deprecatedInterface
+			count: 1
+			path: administrator/components/com_users/src/View/Methods/HtmlView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/View/Note/HtmlView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/View/Notes/HtmlView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/View/User/HtmlView.php
+
+		-
+			message: '''
+				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getErrors$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_users/src/View/Users/HtmlView.php
 
 		-
 			message: '#^Access to an undefined property Joomla\\Component\\Users\\Administrator\\View\\Group\\HtmlView\:\:\$useCoreUI\.$#'
@@ -6459,220 +6127,16 @@ parameters:
 			path: administrator/components/com_users/tmpl/group/edit.php
 
 		-
-			message: '#^Access to property \$backupCodes on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 5
-			path: administrator/components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Access to property \$record on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Access to property \$isEditExisting on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$record on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$renderOptions on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 26
-			path: administrator/components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: administrator/components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$title on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 8
-			path: administrator/components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Call to method getModel\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$isMandatoryMFASetup on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$methods on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$mfaActive on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Call to method loadTemplate\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Call to method setLayout\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$isAdmin on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Call to method loadTemplate\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Call to method setLayout\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Access to property \$defaultMethod on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: administrator/components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Access to property \$methods on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 8
-			path: administrator/components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 6
-			path: administrator/components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 13
-			path: administrator/components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Call to method getModel\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_users/tmpl/methods/list.php
-
-		-
 			message: '#^Access to an undefined property Joomla\\Component\\Users\\Administrator\\View\\User\\HtmlView\:\:\$useCoreUI\.$#'
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_users/tmpl/user/edit.php
 
 		-
-			message: '#^Access to property \$groups on an unknown class HtmlView\.$#'
-			identifier: class.notFound
+			message: '#^Call to method pluralize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
+			identifier: staticMethod.deprecatedClass
 			count: 1
-			path: administrator/components/com_users/tmpl/user/edit_groups.php
+			path: administrator/components/com_workflow/src/Controller/DisplayController.php
 
 		-
 			message: '''
@@ -8503,246 +7967,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: components/com_users/src/View/Reset/HtmlView.php
-
-		-
-			message: '#^Access to property \$allowEntryBatching on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/captive/select.php
-
-		-
-			message: '#^Access to property \$mfaMethods on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 3
-			path: components/com_users/tmpl/captive/select.php
-
-		-
-			message: '#^Access to property \$records on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/captive/select.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/captive/select.php
-
-		-
-			message: '#^Call to method getModel\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/captive/select.php
-
-		-
-			message: '#^Access to property \$backupCodes on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 5
-			path: components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Access to property \$record on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/method/backupcodes.php
-
-		-
-			message: '#^Access to property \$isEditExisting on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$record on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$renderOptions on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 26
-			path: components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 4
-			path: components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$title on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 8
-			path: components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Call to method getModel\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/method/edit.php
-
-		-
-			message: '#^Access to property \$isMandatoryMFASetup on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$methods on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$mfaActive on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Call to method get\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Call to method loadTemplate\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Call to method setLayout\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/default.php
-
-		-
-			message: '#^Access to property \$isAdmin on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Call to method loadTemplate\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Call to method setLayout\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/firsttime.php
-
-		-
-			message: '#^Access to property \$defaultMethod on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 2
-			path: components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Access to property \$methods on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Access to property \$returnURL on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 8
-			path: components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Access to property \$user on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 6
-			path: components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 13
-			path: components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Call to method getDocument\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/list.php
-
-		-
-			message: '#^Call to method getModel\(\) on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: components/com_users/tmpl/methods/list.php
 
 		-
 			message: '''
@@ -14896,15 +14120,9 @@ parameters:
 			path: plugins/content/joomla/src/Extension/Joomla.php
 
 		-
-			message: '#^Access to property \$list on an unknown class PageBreak\.$#'
-			identifier: class.notFound
+			message: '#^Access to protected property Joomla\\Plugin\\Content\\PageBreak\\Extension\\PageBreak::\$list\.$#'
+			identifier: property.protected
 			count: 2
-			path: plugins/content/pagebreak/tmpl/navigation.php
-
-		-
-			message: '#^Call to method getApplication\(\) on an unknown class PageBreak\.$#'
-			identifier: class.notFound
-			count: 1
 			path: plugins/content/pagebreak/tmpl/navigation.php
 
 		-
@@ -14970,12 +14188,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: plugins/editors-xtd/readmore/src/Extension/ReadMore.php
-
-		-
-			message: '#^Call to method escape\(\) on an unknown class FileLayout\.$#'
-			identifier: class.notFound
-			count: 2
-			path: plugins/editors/codemirror/layouts/editors/codemirror/codemirror.php
 
 		-
 			message: '''

@@ -15,9 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
-use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 
-/** @var HtmlView $this */
+/** @var \Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView $this */
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
