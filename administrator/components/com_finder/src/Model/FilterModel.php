@@ -11,9 +11,11 @@
 namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Finder\Administrator\Table\FilterTable;
+use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -151,4 +153,76 @@ class FilterModel extends AdminModel
 
         return $db->setQuery($query)->loadResult();
     }
+
+    /**
+     * Method to save the form data.
+     *
+     * Overrides the parent to correctly handle the 'save2copy' task for Finder filters.
+     *
+     * @param   array   $data  The form data.
+     *
+     * @return  boolean        True on success, false on failure.
+     *
+     * @since   5.3
+     */
+    public function save($data)
+    {
+        $task = Factory::getApplication()->getInput()->get('task', '', 'cmd');
+
+        if ($task === 'save2copy') {
+            $data['filter_id'] = 0;
+
+            $title = trim((string) ($data['title'] ?? ''));
+            $alias = trim((string) ($data['alias'] ?? ''));
+
+            if ($alias === '') {
+                $alias = OutputFilter::stringURLSafe($title);
+            }
+
+            $data['alias'] = $this->getUniqueAlias($alias);
+        }
+
+        return parent::save($data);
+    }
+
+    /**
+     * Ensure a unique alias in the table by incrementing with dash style.
+     *
+     *
+     * @param   string  $base  The starting alias (already URL-safe).
+     *
+     * @return  string         A unique alias.
+     *
+     * @since   5.3
+     */
+    protected function getUniqueAlias(string $base): string
+    {
+        $alias = $base !== '' ? $base : OutputFilter::stringURLSafe(uniqid('filter-', true));
+
+        while ($this->aliasExists($alias)) {
+            $alias = StringHelper::increment($alias, 'dash');
+        }
+
+        return $alias;
+    }
+
+    /**
+     * Check whether an alias exists in the table.
+     *
+     * @param   string  $alias  The alias to test.
+     *
+     * @return  boolean         True if it exists, false otherwise.
+     *
+     * @since   5.3
+     */
+    protected function aliasExists(string $alias): bool
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select('COUNT(*)')
+            ->from($db->quoteName('#__finder_filters'))
+            ->where($db->quoteName('alias') . ' = ' . $db->quote($alias));
+
+        return (int) $db->setQuery($query)->loadResult() > 0;
+    }    
 }
