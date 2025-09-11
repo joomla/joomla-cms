@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -71,9 +72,8 @@ final class NotificationModel extends BaseDatabaseModel
             $emailReceivers  = $this->getEmailReceivers($superUserGroups);
         }
 
-        $app        = Factory::getApplication();
-        $jLanguage  = $app->getLanguage();
-        $sitename   = $app->get('sitename');
+        $app      = Factory::getApplication();
+        $sitename = $app->get('sitename');
 
         $substitutions = [
             'oldversion' => $oldVersion,
@@ -82,16 +82,43 @@ final class NotificationModel extends BaseDatabaseModel
             'url'        => Uri::root(),
         ];
 
+        // Determine the default admin language and load the language file for the fallback and default language
+        $defaultLocale   = ComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
+        $defaultLanguage = $app->getLanguage();
+        $defaultLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
+        $defaultLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR);
+
         // Send emails to all receivers
         foreach ($emailReceivers as $receiver) {
-            $params = new Registry($receiver->params);
-            $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, 'en-GB', true, true);
-            $jLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $params->get('admin_language', null), true, true);
+            $receiverParams = new Registry($receiver->params);
+            $receiverLocale = $receiverParams->get('admin_language', $defaultLocale);
 
-            $mailer = new MailTemplate('com_joomlaupdate.update.' . $type, $jLanguage->getTag());
-            $mailer->addRecipient($receiver->email);
+            // Temporarily set application language to user's language.
+            if ($app->getLanguage()->getTag() !== $receiverLocale) {
+                $receiverLanguage = Factory::getContainer()
+                    ->get(LanguageFactoryInterface::class)
+                    ->createLanguage($receiverLocale, $app->get('debug_lang', false));
+
+                Factory::$language = $receiverLanguage;
+
+                if (method_exists($app, 'loadLanguage')) {
+                    $app->loadLanguage($receiverLanguage);
+                }
+
+                $receiverLanguage->load('com_joomlaupdate', JPATH_ADMINISTRATOR, $receiverLocale);
+            }
+
+            $mailer = new MailTemplate('com_joomlaupdate.update.' . $type, $receiverLocale);
+            $mailer->addRecipient($receiver->email, $receiver->name);
             $mailer->addTemplateData($substitutions);
             $mailer->send();
+        }
+
+        // Set application language back to default
+        Factory::$language = $defaultLanguage;
+
+        if (method_exists($app, 'loadLanguage')) {
+            $app->loadLanguage($defaultLanguage);
         }
     }
 
