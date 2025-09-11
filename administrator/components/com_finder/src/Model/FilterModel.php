@@ -224,5 +224,5 @@ class FilterModel extends AdminModel
             ->where($db->quoteName('alias') . ' = ' . $db->quote($alias));
 
         return (int) $db->setQuery($query)->loadResult() > 0;
-    }    
+    }
 }
