@@ -155,16 +155,6 @@ trait VersionableModelTrait
             $rowArray['ordering'] = 0;
         }
 
-        [$extension, $type] = explode('.', $this->typeAlias);
-
-        $app  = Factory::getApplication();
-        $app->setUserState($extension . '.edit.' . $type . '.data', $rowArray);
-
-        $historyTable = $this->getHistoryTable($historyId);
-
-        $this->setState('save_date', $historyTable->save_date);
-        $this->setState('version_note', $historyTable->version_note);
-
         $this->save($rowArray);
 
         return true;
