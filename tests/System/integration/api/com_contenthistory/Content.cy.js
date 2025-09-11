@@ -56,7 +56,6 @@ describe('Test that contenthistory for content API endpoint', () => {
           cy.log(`Article Title: ${articleTitle}`);
           cy.log(`Alias: ${alias}`);
           cy.log(`Created Date: ${createdDate}`);
-          cy.log(`Modified Date: ${modifiedDate}`);
 
           // Perform assertions
           expect(attributes).to.have.property('editor_user_id');
