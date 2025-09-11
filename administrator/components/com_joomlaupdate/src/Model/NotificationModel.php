@@ -133,7 +133,7 @@ final class NotificationModel extends BaseDatabaseModel
     /**
      * Returns the email information of receivers. Receiver can be any user who is not disabled.
      *
-     * @param   array $emailGroups A list of usergroups to email
+     * @param   array $emailGroups A list of user groups to email
      *
      * @return  array  The list of email receivers. Can be empty if no users are found.
      *
@@ -153,9 +153,9 @@ final class NotificationModel extends BaseDatabaseModel
     }
 
     /**
-     * Returns all Super Users
+     * Returns all user groups with Super User right
      *
-     * @return  array  The list of super user groups.
+     * @return  array  The list of user groups have Super User right
      *
      * @since   5.4.0
      */
@@ -164,7 +164,7 @@ final class NotificationModel extends BaseDatabaseModel
         $groups = UserGroupsHelper::getInstance()->getAll();
         $ret    = [];
 
-        // Find groups with core.admin rights (super users)
+        // Find groups with core.admin (Super User) right
         foreach ($groups as $group) {
             if (Access::checkGroup($group->id, 'core.admin')) {
                 $ret[] = $group->id;
