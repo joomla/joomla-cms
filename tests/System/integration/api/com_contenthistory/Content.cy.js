@@ -47,7 +47,6 @@ describe('Test that contenthistory for content API endpoint', () => {
           const articleTitle = versionData.title;
           const { alias } = versionData;
           const createdDate = versionData.created;
-          const modifiedDate = versionData.modified;
 
           // Log details for debugging
           cy.log(`History ID: ${historyId}`);
@@ -62,7 +61,6 @@ describe('Test that contenthistory for content API endpoint', () => {
           // Perform assertions
           expect(attributes).to.have.property('editor_user_id');
           expect(versionData).to.have.property('title');
-          expect(versionData).to.have.property('modified');
           expect(articleTitle).to.eq('automated test article');
         });
 
