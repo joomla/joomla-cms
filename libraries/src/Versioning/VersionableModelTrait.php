@@ -338,7 +338,7 @@ trait VersionableModelTrait
                 ]
             );
 
-            Factory::getApplication()->getDispatcher()->dispatch('onContentVersioningPrepareTable', $event);
+            $this->getDispatcher()->dispatch('onContentVersioningPrepareTable', $event);
         }
 
         // Fix for null ordering - set to 0 if null

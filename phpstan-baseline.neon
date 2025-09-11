@@ -14762,3 +14762,13 @@ parameters:
 			identifier: property.notFound
 			count: 2
 			path: plugins/workflow/publishing/src/Extension/Publishing.php
+
+		-
+			message: '''
+				#^Call to method delete\(\) of deprecated class Joomla\\CMS\\Versioning\\Versioning\:
+				6\.0\.0  will be removed in 8\.0 without direct replacement,
+				             use the new versioning concept \(LINK TO DOCUMENTATION\)$#
+			'''
+			identifier: staticMethod.deprecatedClass
+			count: 1
+			path: plugins/behaviour/versionable/src/Extension/Versionable.php
