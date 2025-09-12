@@ -361,7 +361,7 @@ class ContenthistoryHelper
                     $sourceColumn = $lookup->sourceColumn ?? false;
                     $sourceValue  = $object->$sourceColumn->value ?? false;
 
-                    if (!is_array($sourceValue)) {
+                    if (!\is_array($sourceValue)) {
                         if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
                             $object->$sourceColumn->value = $lookupValue;
                         }
@@ -369,7 +369,7 @@ class ContenthistoryHelper
                         continue;
                     }
 
-                    if (is_array($sourceValue)) {
+                    if (\is_array($sourceValue)) {
                         $result = [];
 
                         foreach ($sourceValue as $key => $subValue) {
