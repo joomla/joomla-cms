@@ -6,7 +6,6 @@
 			type="hidden"
 			default="0"
 			readonly="true"
-			required="true"
 		/>
 
 		<field
@@ -27,7 +26,6 @@
 		<field
 			name="rules"
 			type="hidden"
-			filter="intarray"
 		/>
 	</fieldset>
 </form>
