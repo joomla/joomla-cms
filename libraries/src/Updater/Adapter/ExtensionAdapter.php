@@ -276,7 +276,7 @@ class ExtensionAdapter extends UpdateAdapter
         }
 
         /**
-         * Unset the latest update which might be found when the system find update for previous update site, avoid
+         * Unset the latest update which might have been found for a previous update site, avoid
          * strange issue reported at https://github.com/joomla/joomla-cms/issues/46066
          */
         unset($this->latest);
