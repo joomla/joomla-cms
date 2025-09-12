@@ -37,7 +37,20 @@ trait VersionableModelTrait
      * @var    array
      * @since  __DEPLOY_VERSION__
      */
-    protected $ignoreChanges = [];
+    protected $ignoreChanges = [
+        'modified_by',
+        'modified_user_id',
+        'modified',
+        'modified_time',
+        'checked_out',
+        'checked_out_time',
+        'tagsHelper',
+        'version',
+        'articletext',
+        'rules',
+        'hits',
+        'path'
+    ];
 
     /**
      * Fields to be converted to int when calculating the hash.
@@ -45,7 +58,7 @@ trait VersionableModelTrait
      * @var    array
      * @since  __DEPLOY_VERSION__
      */
-    protected $convertToInt = [];
+    protected $convertToInt = ['publish_up', 'publish_down', 'ordering', 'featured'];
 
     /**
      * Method to get the item id from the version history table.
@@ -155,9 +168,7 @@ trait VersionableModelTrait
             $rowArray['ordering'] = 0;
         }
 
-        $this->save($rowArray);
-
-        return true;
+        return $this->save($rowArray);
     }
 
     /**
