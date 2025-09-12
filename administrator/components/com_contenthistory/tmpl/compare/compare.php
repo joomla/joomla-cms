@@ -45,8 +45,8 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
         </thead>
         <tbody>
             <?php foreach ($object1 as $name => $value1) : ?>
-                <?php if (isset($value1['value']) && isset($object2[$name]['value'])) : ?>
-                    <?php $value2 = $object2[$name]['value']; ?>
+                <?php if (isset($value1['value']) && isset($object2[$name]['value']) && ($value1['value'] !== $object2[$name]['value'])) : ?>
+                    <?php $value2 = $object2[$name]; ?>
                     <?php
                     if (is_array($value1)) : ?>
                         <?php if (is_array($value1['value'])) : ?>
@@ -60,35 +60,38 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                 <?php $keys = array_merge(array_keys($value1['value']), array_keys($value2['value'])); ?>
                             <?php endif; ?>
                                 <?php foreach ($keys as $key) : ?>
-                                <tr>
-                                    <td></td>
-                                    <td class="original">
-                                        <?php if (isset($value1['value'][$key])) : ?>
-                                            <?php $currentvalue1 = $value1['value'][$key]; ?>
-                                            <?php if (is_array($value1['value'][$key])) : ?>
-                                                <?php $currentvalue1 = implode(' | ', $value1['value'][$key]); ?>
-                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
+                                    <?php if (isset($value1['value'][$key]) && isset($value2['value'][$key]) && $value1['value'][$key] === $value2['value'][$key]) :?>
+                                        <?php continue; ?>
+                                    <?php endif;?>
+                                    <tr>
+                                        <td></td>
+                                        <td class="original">
+                                            <?php if (isset($value1['value'][$key])) : ?>
+                                                <?php $currentvalue1 = $value1['value'][$key]; ?>
+                                                <?php if (is_array($value1['value'][$key])) : ?>
+                                                    <?php $currentvalue1 = implode(' | ', $value1['value'][$key]); ?>
+                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
+                                                <?php else : ?>
+                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
+                                                <?php endif;?>
                                             <?php else : ?>
-                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
-                                            <?php endif;?>
-                                        <?php else : ?>
-                                            <?php echo Text::_('JUNDEFINED');?>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td class="changed">
-                                        <?php if (isset($value2['value'][$key])) : ?>
-                                            <?php $currentvalue2 = $value2['value'][$key]; ?>
-                                            <?php if (is_array($value2['value'][$key])) : ?>
-                                                <?php $currentvalue2 = implode(' | ', $value1['value'][$key]); ?>
-                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
+                                                <?php echo Text::_('JUNDEFINED');?>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="changed">
+                                            <?php if (isset($value2['value'][$key])) : ?>
+                                                <?php $currentvalue2 = $value2['value'][$key]; ?>
+                                                <?php if (is_array($value2['value'][$key])) : ?>
+                                                    <?php $currentvalue2 = implode(' | ', $value2['value'][$key]); ?>
+                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
+                                                <?php else : ?>
+                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
+                                                <?php endif;?>
                                             <?php else : ?>
-                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
-                                            <?php endif;?>
-                                        <?php else : ?>
-                                            <?php echo Text::_('JUNDEFINED');?>
-                                        <?php endif; ?>
-                                    <td class="diff">&nbsp;</td>
-                                </tr>
+                                                <?php echo Text::_('JUNDEFINED');?>
+                                            <?php endif; ?>
+                                        <td class="diff">&nbsp;</td>
+                                    </tr>
                                 <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
