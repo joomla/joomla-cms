@@ -169,6 +169,11 @@ trait VersionableModelTrait
             $rowArray['ordering'] = 0;
         }
 
+        $historyTable = $this->getHistoryTable($historyId);
+
+        $this->setState('save_date', $historyTable->save_date);
+        $this->setState('version_note', $historyTable->version_note);
+
         return $this->save($rowArray);
     }
 
