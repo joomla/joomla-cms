@@ -54,7 +54,7 @@ trait CategoryServiceTrait
      */
     public function getCategory(array $options = [], $section = ''): CategoryInterface
     {
-        $hash = \md5(\serialize($options) . $section);
+        $hash = md5(serialize($options) . $section);
 
         if (!isset($this->categoryCache[$hash])) {
             $this->categoryCache[$hash] = $this->categoryFactory->createCategory($options, $section);
