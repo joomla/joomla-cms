@@ -54,6 +54,10 @@ trait CategoryServiceTrait
      */
     public function getCategory(array $options = [], $section = ''): CategoryInterface
     {
+        $options['access']      = (bool)($options['access'] ?? true);
+        $options['published']   = (bool)($options['published'] ?? true);
+        $options['countItems']  = (bool)($options['countItems'] ?? false);
+        
         $hash = md5(serialize($options) . $section);
 
         if (!isset($this->categoryCache[$hash])) {
