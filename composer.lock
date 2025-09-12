@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ec7a85c6d8a9f4d4ba74ccaa9cd766a",
+    "content-hash": "d95e7de664332fc84daf5def0d1c4427",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1644,16 +1644,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "3.1.3",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "556e7400988705668bce4ef71abb7dd9213404ff"
+                "reference": "be6917c396300c8316ef13ef3e2096732af847fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/556e7400988705668bce4ef71abb7dd9213404ff",
-                "reference": "556e7400988705668bce4ef71abb7dd9213404ff",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/be6917c396300c8316ef13ef3e2096732af847fd",
+                "reference": "be6917c396300c8316ef13ef3e2096732af847fd",
                 "shasum": ""
             },
             "require": {
@@ -1692,9 +1692,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/3.1.3"
+                "source": "https://github.com/joomla-framework/filesystem/tree/3.2.0"
             },
-            "time": "2025-08-14T17:48:52+00:00"
+            "time": "2025-08-27T18:46:46+00:00"
         },
         {
             "name": "joomla/filter",
