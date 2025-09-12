@@ -187,7 +187,7 @@ class ListView extends HtmlView
         // Prepare view data
         $this->initializeView();
 
-        if (!\count($this->items) && \is_callable([$model, 'IsEmptyState']) && $this->isEmptyState = $model->getIsEmptyState()) {
+        if (!\count($this->items) && \is_callable([$model, 'getIsEmptyState']) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
