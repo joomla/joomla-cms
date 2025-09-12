@@ -33,6 +33,15 @@ trait CategoryServiceTrait
     private $categoryFactory;
 
     /**
+     * The categories Cache
+     *
+     * @var  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private $categoryCache = [];
+
+    /**
      * Returns the category service.
      *
      * @param   array   $options  The options
@@ -45,7 +54,13 @@ trait CategoryServiceTrait
      */
     public function getCategory(array $options = [], $section = ''): CategoryInterface
     {
-        return $this->categoryFactory->createCategory($options, $section);
+        $hash = \md5(\serialize($options) . $section);
+
+        if (!isset($this->categoryCache[$hash])) {
+            $this->categoryCache[$hash] = $this->categoryFactory->createCategory($options, $section);
+        }
+
+        return $this->categoryCache[$hash];
     }
 
     /**
