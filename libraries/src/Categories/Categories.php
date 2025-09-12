@@ -117,9 +117,9 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
         $this->_statefield = $options['statefield'] ?? 'state';
 
-        $options['access']      ??= 'true';
-        $options['published']   ??= 1;
-        $options['countItems']  ??= 0;
+        $options['access']      ??= true;
+        $options['published']   ??= true;
+        $options['countItems']  ??= false;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
         $this->_options = $options;
@@ -306,7 +306,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             $query->whereIn($db->quoteName('c.access'), $groups);
         }
 
-        if ($this->_options['published'] == 1) {
+        if ($this->_options['published']) {
             $query->where($db->quoteName('c.published') . ' = 1');
         }
 
@@ -350,13 +350,13 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         }
 
         // Note: i for item
-        if ($this->_options['countItems'] == 1) {
+        if ($this->_options['countItems']) {
             $subQuery = $db->getQuery(true)
                 ->select('COUNT(' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
                 ->from($db->quoteName($db->escape($this->_table), 'i'))
                 ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));
 
-            if ($this->_options['published'] == 1) {
+            if ($this->_options['published']) {
                 $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
             }
 
