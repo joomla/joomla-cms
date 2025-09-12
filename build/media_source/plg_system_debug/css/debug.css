@@ -9,7 +9,7 @@ a.phpdebugbar-restore-btn:after {
 }
 a.phpdebugbar-tab.phpdebugbar-tab-settings i:before {
   font-family: "Font Awesome 6 Free";
-  content: "\f1de";
   font-size: 12px;
   font-weight: 900;
+  content: "\f1de";
 }
