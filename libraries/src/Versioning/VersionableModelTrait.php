@@ -50,6 +50,7 @@ trait VersionableModelTrait
         'rules',
         'hits',
         'path',
+        'newTags',
     ];
 
     /**
