@@ -102,7 +102,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                 <?php $currentvalue1 = is_array($value1['value']) ? json_encode($value1['value']) : $value1['value']; ?>
                                 <td class="original"><?php
                                     echo htmlspecialchars($currentvalue1); ?></td>
-                                <?php $currentvalue2 = is_array($value2) ? json_encode($value2) : $value2; ?>
+                                <?php $currentvalue2 = is_array($value2['value']) ? json_encode($value2['value']) : $value2['value']; ?>
                                 <td class="changed"><?php
                                     echo htmlspecialchars($currentvalue2, ENT_COMPAT, 'UTF-8'); ?></td>
                                 <td class="diff">&nbsp;</td>
