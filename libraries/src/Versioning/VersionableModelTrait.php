@@ -49,7 +49,7 @@ trait VersionableModelTrait
         'articletext',
         'rules',
         'hits',
-        'path'
+        'path',
     ];
 
     /**
