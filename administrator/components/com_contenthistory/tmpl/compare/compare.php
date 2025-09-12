@@ -57,7 +57,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                             </tr>
                             <?php $keys = array_keys($value1['value']); ?>
                             <?php if (isset($value2['value']) && is_array($value2['value'])) :?>
-                                <?php $keys = array_merge(array_keys($value1['value']), array_keys($value2['value'])); ?>
+                                <?php $keys = array_unique(array_merge(array_keys($value1['value']), array_keys($value2['value']))); ?>
                             <?php endif; ?>
                                 <?php foreach ($keys as $key) : ?>
                                     <?php if (isset($value1['value'][$key]) && isset($value2['value'][$key]) && $value1['value'][$key] === $value2['value'][$key]) :?>
@@ -74,8 +74,6 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                                 <?php else : ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php endif;?>
-                                            <?php else : ?>
-                                                <?php echo Text::_('JUNDEFINED');?>
                                             <?php endif; ?>
                                         </td>
                                         <td class="changed">
@@ -87,8 +85,6 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                                 <?php else : ?>
                                                     <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
                                                 <?php endif;?>
-                                            <?php else : ?>
-                                                <?php echo Text::_('JUNDEFINED');?>
                                             <?php endif; ?>
                                         <td class="diff">&nbsp;</td>
                                     </tr>
