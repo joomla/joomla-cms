@@ -30,6 +30,8 @@ const DefaultAllowlist = {
   h6: [],
   i: [],
   img: ['src', 'srcset', 'alt', 'title', 'width', 'height'],
+  figure: [],
+  figcaption: [],
   li: [],
   ol: [],
   p: [],
