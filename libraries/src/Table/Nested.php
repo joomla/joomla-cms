@@ -521,13 +521,24 @@ class Nested extends Table
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Pre-processing by observers
-        $event = new Event(
+
+        // @deprecated 5.3 will be removed with 7.0 without replacement
+        $oldEvent = new Event(
             'onBeforeDelete',
             [
                 'pk' => $pk,
             ]
         );
-        $this->getDispatcher()->dispatch('onBeforeDelete', $event);
+        $this->getDispatcher()->dispatch('onBeforeDelete', $oldEvent);
+
+        $event = AbstractEvent::create(
+            'onTableBeforeDelete',
+            [
+                'subject' => $this,
+                'pk'      => $pk,
+            ]
+        );
+        $this->getDispatcher()->dispatch('onTableBeforeDelete', $event);
 
         // If tracking assets, remove the asset first.
         $db = $this->getDatabase();
@@ -632,13 +643,24 @@ class Nested extends Table
         $this->_unlock();
 
         // Post-processing by observers
-        $event = new Event(
+
+        // @deprecated 5.3 will be removed with 7.0 without replacement
+        $oldEvent = new Event(
             'onAfterDelete',
             [
                 'pk' => $pk,
             ]
         );
-        $this->getDispatcher()->dispatch('onAfterDelete', $event);
+        $this->getDispatcher()->dispatch('onAfterDelete', $oldEvent);
+
+        $event = AbstractEvent::create(
+            'onTableAfterDelete',
+            [
+                'subject' => $this,
+                'pk'      => $pk,
+            ]
+        );
+        $this->getDispatcher()->dispatch('onTableAfterDelete', $event);
 
         return true;
     }

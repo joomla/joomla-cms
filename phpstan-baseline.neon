@@ -80,17 +80,6 @@ parameters:
 			path: administrator/components/com_actionlogs/src/Plugin/ActionLogPlugin.php
 
 		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_actionlogs/src/View/Actionlogs/HtmlView.php
-
-		-
 			message: '#^Instantiated class JConfig not found\.$#'
 			identifier: class.notFound
 			count: 1
@@ -2834,6 +2823,18 @@ parameters:
 
 		-
 			message: '''
+				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
+				4\.3 will be removed in 6\.0
+				             Use the language service in the DI container or get from the application object
+				             Example\:
+				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
+			'''
+			identifier: staticProperty.deprecated
+			count: 2
+			path: administrator/components/com_joomlaupdate/src/Model/NotificationModel.php
+
+		-
+			message: '''
 				#^Call to deprecated method get\(\) of class Joomla\\CMS\\Updater\\Update\:
 				4\.3\.0 will be removed in 7\.0
 				            Create a proper getter function for the property$#
@@ -2969,12 +2970,6 @@ parameters:
 			path: administrator/components/com_joomlaupdate/tmpl/update/default.php
 
 		-
-			message: '#^Access to an undefined property Joomla\\Component\\Joomlaupdate\\Administrator\\View\\Joomlaupdate\\HtmlView::\$warnings\.$#'
-			identifier: property.notFound
-			count: 2
-			path: administrator/components/com_joomlaupdate/tmpl/upload/default.php
-
-		-
 			message: '''
 				#^Access to deprecated static property \$language of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
@@ -2983,6 +2978,17 @@ parameters:
 				             Factory\:\:getApplication\(\)\-\>getLanguage\(\);$#
 			'''
 			identifier: staticProperty.deprecated
+			count: 2
+			path: administrator/components/com_languages/src/Controller/InstalledController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
 			count: 2
 			path: administrator/components/com_languages/src/Controller/InstalledController.php
 
@@ -3030,6 +3036,17 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: administrator/components/com_languages/src/Controller/OverrideController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getError\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
+				3\.1\.4 will be removed in 7\.0
+				             Will be removed without replacement
+				             Catch thrown Exceptions instead of getError$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: administrator/components/com_languages/src/Controller/OverridesController.php
 
 		-
 			message: '''
@@ -5029,25 +5046,19 @@ parameters:
 			path: administrator/components/com_scheduler/src/View/Tasks/HtmlView.php
 
 		-
-			message: '#^Access to an undefined property Joomla\\Component\\Scheduler\\Administrator\\View\\Task\\HtmlView::\$useCoreUI\.$#'
+			message: '#^Access to an undefined property Joomla\\Component\\Scheduler\\Administrator\\View\\Task\\HtmlView\:\:\$fieldset\.$#'
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_scheduler/tmpl/task/edit.php
 
 		-
-			message: '#^Access to an undefined property Joomla\\Component\\Scheduler\\Administrator\\View\\Task\\HtmlView::\$fieldset\.$#'
+			message: '#^Access to an undefined property Joomla\\Component\\Scheduler\\Administrator\\View\\Task\\HtmlView\:\:\$useCoreUI\.$#'
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_scheduler/tmpl/task/edit.php
 
 		-
-			message: '#^Access to property \$filterForm on an unknown class HtmlView\.$#'
-			identifier: class.notFound
-			count: 1
-			path: administrator/components/com_scheduler/tmpl/tasks/default.php
-
-		-
-			message: '#^Access to an undefined property Joomla\\Component\\Scheduler\\Administrator\\View\\Tasks\\HtmlView::\$hasDueTasks\.$#'
+			message: '#^Access to an undefined property Joomla\\Component\\Scheduler\\Administrator\\View\\Tasks\\HtmlView\:\:\$hasDueTasks\.$#'
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_scheduler/tmpl/tasks/default.php
@@ -6043,83 +6054,6 @@ parameters:
 			count: 1
 			path: administrator/components/com_users/src/View/Users/HtmlView.php
 
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_users/src/View/Level/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_users/src/View/Levels/HtmlView.php
-
-		-
-			message: '''
-				#^Call to method getDispatcher\(\) of deprecated interface Joomla\\CMS\\Application\\EventAwareInterface\:
-				4\.3 will be removed in 6\.0
-				             This interface will be removed without replacement as the Joomla 3\.x compatibility layer will be removed$#
-			'''
-			identifier: method.deprecatedInterface
-			count: 1
-			path: administrator/components/com_users/src/View/Methods/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_users/src/View/Note/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_users/src/View/Notes/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_users/src/View/User/HtmlView.php
-
-		-
-			message: '''
-				#^Call to deprecated method getErrors\(\) of class Joomla\\CMS\\MVC\\Model\\BaseModel\:
-				3\.1\.4 will be removed in 7\.0
-				             Will be removed without replacement
-				             Catch thrown Exceptions instead of getErrors$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: administrator/components/com_users/src/View/Users/HtmlView.php
-
 		-
 			message: '#^Access to an undefined property Joomla\\Component\\Users\\Administrator\\View\\Group\\HtmlView\:\:\$useCoreUI\.$#'
 			identifier: property.notFound
@@ -6131,12 +6065,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: administrator/components/com_users/tmpl/user/edit.php
-
-		-
-			message: '#^Call to method pluralize\(\) of deprecated class Doctrine\\Common\\Inflector\\Inflector\.$#'
-			identifier: staticMethod.deprecatedClass
-			count: 1
-			path: administrator/components/com_workflow/src/Controller/DisplayController.php
 
 		-
 			message: '''
@@ -12143,18 +12071,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getDocument\(\) of class Joomla\\CMS\\Factory\:
-				4\.3 will be removed in 6\.0
-				             Use the document service in the DI container or get from the application object
-				             Example\:
-				             Factory\:\:getApplication\(\)\-\>getDocument\(\);$#
-			'''
-			identifier: staticMethod.deprecated
-			count: 1
-			path: libraries/src/Language/Text.php
-
-		-
-			message: '''
 				#^Call to deprecated method getLanguage\(\) of class Joomla\\CMS\\Factory\:
 				4\.3 will be removed in 6\.0
 				             Use the language service in the DI container or get from the application object
@@ -14120,7 +14036,7 @@ parameters:
 			path: plugins/content/joomla/src/Extension/Joomla.php
 
 		-
-			message: '#^Access to protected property Joomla\\Plugin\\Content\\PageBreak\\Extension\\PageBreak::\$list\.$#'
+			message: '#^Access to protected property Joomla\\Plugin\\Content\\PageBreak\\Extension\\PageBreak\:\:\$list\.$#'
 			identifier: property.protected
 			count: 2
 			path: plugins/content/pagebreak/tmpl/navigation.php
