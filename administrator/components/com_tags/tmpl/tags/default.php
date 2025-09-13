@@ -134,7 +134,6 @@ if ($saveOrder && !empty($this->items)) {
                 <?php
                 foreach ($this->items as $i => $item) :
                     $orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
-                    $canCreate  = $user->authorise('core.create', 'com_tags');
                     $canEdit    = $user->authorise('core.edit', 'com_tags');
                     $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                     $canChange  = $user->authorise('core.edit.state', 'com_tags') && $canCheckin;

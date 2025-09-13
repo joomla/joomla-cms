@@ -159,7 +159,6 @@ $assoc = Associations::isEnabled();
                             $item->max_ordering = 0;
                             $ordering         = ($listOrder == 'fp.ordering');
                             $assetId          = 'com_content.article.' . $item->id;
-                            $canCreate        = $user->authorise('core.create', 'com_content.category.' . $item->catid);
                             $canEdit          = $user->authorise('core.edit', 'com_content.article.' . $item->id);
                             $canCheckin       = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
                             $canChange        = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;

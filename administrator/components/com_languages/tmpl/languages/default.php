@@ -93,7 +93,6 @@ if ($saveOrder && !empty($this->items)) {
                               endif; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :
-                            $canCreate = $user->authorise('core.create', 'com_languages');
                             $canEdit   = $user->authorise('core.edit', 'com_languages');
                             $canChange = $user->authorise('core.edit.state', 'com_languages');
                             ?>

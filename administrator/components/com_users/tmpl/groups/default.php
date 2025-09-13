@@ -74,7 +74,6 @@ $wa->useScript('com_users.admin-users-groups')
                         </thead>
                         <tbody>
                         <?php foreach ($this->items as $i => $item) :
-                            $canCreate = $user->authorise('core.create', 'com_users');
                             $canEdit   = $user->authorise('core.edit', 'com_users');
 
                             // If this group is super admin and this user is not super admin, $canEdit is false

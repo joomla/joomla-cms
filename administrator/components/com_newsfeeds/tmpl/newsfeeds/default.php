@@ -95,8 +95,6 @@ if ($saveOrder && !empty($this->items)) {
                             ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
                                endif; ?>>
                         <?php foreach ($this->items as $i => $item) :
-                            $ordering   = ($listOrder == 'a.ordering');
-                            $canCreate  = $user->authorise('core.create', 'com_newsfeeds.category.' . $item->catid);
                             $canEdit    = $user->authorise('core.edit', 'com_newsfeeds.category.' . $item->catid);
                             $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                             $canEditOwn = $user->authorise('core.edit.own', 'com_newsfeeds.category.' . $item->catid) && $item->created_by == $user->id;
