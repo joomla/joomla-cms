@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f4e74de9c1c096a6d25e0e9bbe213bc",
+    "content-hash": "0a4f4c45e74f093bb4ef7dd67413c601",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -7430,16 +7430,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.23",
+            "version": "2.1.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "a34502adbbd5c2366b5a97679848a5ace4f6f2f5"
+                "reference": "4087d28bd252895874e174d65e26b2c202ed893a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a34502adbbd5c2366b5a97679848a5ace4f6f2f5",
-                "reference": "a34502adbbd5c2366b5a97679848a5ace4f6f2f5",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4087d28bd252895874e174d65e26b2c202ed893a",
+                "reference": "4087d28bd252895874e174d65e26b2c202ed893a",
                 "shasum": ""
             },
             "require": {
@@ -7484,7 +7484,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-10T11:42:22+00:00"
+            "time": "2025-09-12T14:26:42+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -7854,16 +7854,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.25",
+            "version": "9.6.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "049c011e01be805202d8eebedef49f769a8ec7b7"
+                "reference": "a0139ea157533454f611038326f3020b3051f129"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/049c011e01be805202d8eebedef49f769a8ec7b7",
-                "reference": "049c011e01be805202d8eebedef49f769a8ec7b7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a0139ea157533454f611038326f3020b3051f129",
+                "reference": "a0139ea157533454f611038326f3020b3051f129",
                 "shasum": ""
             },
             "require": {
@@ -7937,7 +7937,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.25"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.26"
             },
             "funding": [
                 {
@@ -7961,7 +7961,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-20T14:38:31+00:00"
+            "time": "2025-09-11T06:17:45+00:00"
         },
         {
             "name": "react/cache",
