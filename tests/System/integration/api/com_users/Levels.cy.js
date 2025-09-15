@@ -9,7 +9,7 @@ describe('Test that field users API endpoint', () => {
   });
 
   it('can deliver a single level', () => {
-    cy.api_get(`/users/levels/1`)
+    cy.api_get('/users/levels/1')
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'Public'));
