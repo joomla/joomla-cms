@@ -1,5 +1,5 @@
 describe('Test that field users API endpoint', () => {
-  afterEach(() => cy.task('queryDB', 'DELETE FROM #__viewlevels where title = "automated test level";'));
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__viewlevels where title = 'automated test level'"));
 
   it('can deliver a list of levels', () => {
     cy.api_get('/users/levels')
