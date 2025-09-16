@@ -366,6 +366,7 @@ class ExtensionHelper
 
         // Core template extensions - site
         ['template', 'cassiopeia', '', 0],
+        ['template', 'cassiopeia_extended', '', 0],
     ];
 
     /**

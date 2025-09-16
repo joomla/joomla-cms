@@ -981,6 +981,15 @@ class JoomlaInstallerScript
             '/modules/mod_login/mod_login.php',
             '/modules/mod_menu/mod_menu.php',
             '/modules/mod_whosonline/mod_whosonline.php',
+            // From 6.0.0-beta2 to 6.0.0-beta3
+            '/media/templates/site/cassiopeia/css/global/colors_custom.css',
+            '/media/templates/site/cassiopeia/css/global/colors_custom.min.css',
+            '/media/templates/site/cassiopeia/css/global/colors_custom.min.css.gz',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.css',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.min.css',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.min.css.gz',
+            '/media/templates/site/cassiopeia/scss/global/colors_custom.scss',
+            '/media/templates/site/cassiopeia/scss/global/font_advanced.scss',
         ];
 
         $folders = [
