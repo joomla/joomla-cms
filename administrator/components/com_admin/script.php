@@ -1056,7 +1056,6 @@ class JoomlaInstallerScript
             '/media/com_guidedtours/images/5_4',
             '/media/com_guidedtours/images/5_3',
             '/media/com_guidedtours/images/5_2',
-            '/media/com_guidedtours/images',
         ];
 
         $status['files_checked']   = $files;
