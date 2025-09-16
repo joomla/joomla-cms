@@ -49,7 +49,7 @@ describe('Test in frontend that the user', () => {
       .invoke('text')
       .then((key) => key.trim())
       .as('secret');
-    cy.get('@secret').then((secret) => cy.get('#com-users-method-code').clear().type(await TOTP.generate(secret).otp));
+    cy.get('@secret').then((secret) => cy.get('#com-users-method-code').clear().type((async () => { await TOTP.generate(secret) })().otp));
     cy.get('#com-users-method-edit').submit();
     cy.get('.com-users-methods-list-method-name-totp .com-users-methods-list-method-record').contains('Test Code');
     cy.doFrontendLogout();
@@ -57,7 +57,7 @@ describe('Test in frontend that the user', () => {
     cy.get('form.mod-login input[name="password"]').type(Cypress.env('password'));
     cy.get('form.mod-login').submit();
     cy.get('#users-mfa-title').contains('Verification code');
-    cy.get('@secret').then((secret) => cy.get('#users-mfa-code').clear().type(await TOTP.generate(secret).otp));
+    cy.get('@secret').then((secret) => cy.get('#users-mfa-code').clear().type((async () => { await TOTP.generate(secret) })().otp));
     cy.get('#users-mfa-captive-form').submit();
     cy.visit('/index.php?option=com_users&view=profile&layout=edit');
     cy.get('#com-users-methods-reset-message').contains('is enabled');
@@ -108,7 +108,7 @@ describe('Test in frontend that the user', () => {
       .invoke('text')
       .then((key) => key.trim())
       .as('secret');
-    cy.get('@secret').then((secret) => cy.get('#com-users-method-code').clear().type(await TOTP.generate(secret).otp));
+    cy.get('@secret').then((secret) => cy.get('#com-users-method-code').clear().type((async () => { await TOTP.generate(secret) })().otp));
     cy.get('#com-users-method-edit').submit();
     cy.get('.com-users-methods-list-method-name-totp .com-users-methods-list-method-record').contains('Test Code');
     cy.get('.com-users-methods-list-method-name-backupcodes .com-users-methods-list-method-record-info a')
