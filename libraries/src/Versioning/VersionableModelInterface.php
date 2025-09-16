@@ -40,7 +40,7 @@ interface VersionableModelInterface
      *
      * @return  boolean  True on success, False on error.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function saveHistory(array $data, string $context);
 }
