@@ -990,6 +990,17 @@ class JoomlaInstallerScript
             '/media/templates/site/cassiopeia/css/global/font_advanced.min.css.gz',
             '/media/templates/site/cassiopeia/scss/global/colors_custom.scss',
             '/media/templates/site/cassiopeia/scss/global/font_advanced.scss',
+            // From 6.0.0-beta3 to 6.0.0-rc1
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4_steps.ini',
+            '/media/com_guidedtours/images/5_2/enhancedtourheader.png',
+            '/media/com_guidedtours/images/5_2/mailtemplate.png',
+            '/media/com_guidedtours/images/5_3/filesdirectory.jpg',
+            '/media/com_guidedtours/images/5_4/automated-updates.jpg',
         ];
 
         $folders = [
@@ -1041,6 +1052,11 @@ class JoomlaInstallerScript
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Common/Inflector',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Common',
             '/libraries/src/Adapter',
+            // From 6.0.0-beta3 to 6.0.0-rc1
+            '/media/com_guidedtours/images/5_4',
+            '/media/com_guidedtours/images/5_3',
+            '/media/com_guidedtours/images/5_2',
+            '/media/com_guidedtours/images',
         ];
 
         $status['files_checked']   = $files;
