@@ -306,6 +306,7 @@ class ExtensionHelper
         ['plugin', 'languagefilter', 'system', 0],
         ['plugin', 'log', 'system', 0],
         ['plugin', 'logout', 'system', 0],
+        ['plugin', 'magiclogin', 'system', 0],
         ['plugin', 'privacyconsent', 'system', 0],
         ['plugin', 'redirect', 'system', 0],
         ['plugin', 'remember', 'system', 0],

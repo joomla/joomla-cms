@@ -390,6 +390,23 @@ CREATE TABLE IF NOT EXISTS `#__webauthn_credentials` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__magiclogin_tokens`
+--
+
+CREATE TABLE IF NOT EXISTS `#__magiclogin_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `expires` datetime NOT NULL,
+  `created` timestamp DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token` (`token`),
+  KEY `user_id` (`user_id`),
+  KEY `expires` (`expires`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__mail_templates`
 --
 
@@ -442,4 +459,5 @@ INSERT INTO `#__mail_templates` (`template_id`, `extension`, `language`, `subjec
 ('plg_system_tasknotification.orphan_mail', 'plg_system_tasknotification', '', 'PLG_SYSTEM_TASK_NOTIFICATION_ORPHAN_MAIL_SUBJECT', 'PLG_SYSTEM_TASK_NOTIFICATION_ORPHAN_MAIL_BODY', '', '', '{"tags": ["task_id", "task_title"]}'),
 ('plg_system_tasknotification.success_mail', 'plg_system_tasknotification', '', 'PLG_SYSTEM_TASK_NOTIFICATION_SUCCESS_MAIL_SUBJECT', 'PLG_SYSTEM_TASK_NOTIFICATION_SUCCESS_MAIL_BODY', '', '', '{"tags":["task_id", "task_title", "exec_data_time", "task_output"]}'),
 ('plg_multifactorauth_email.mail', 'plg_multifactorauth_email', '', 'PLG_MULTIFACTORAUTH_EMAIL_EMAIL_SUBJECT', 'PLG_MULTIFACTORAUTH_EMAIL_EMAIL_BODY', '', '', '{"tags":["code","sitename","siteurl","username","email","fullname"]}'),
-('plg_content_joomla.newarticle', 'plg_content_joomla', '', 'PLG_CONTENT_JOOMLA_NEW_ARTICLE_SUBJECT', 'PLG_CONTENT_JOOMLA_NEW_ARTICLE_BODY', '', '', '{"tags":["sitename","name","email","title","url"]}');
+('plg_content_joomla.newarticle', 'plg_content_joomla', '', 'PLG_CONTENT_JOOMLA_NEW_ARTICLE_SUBJECT', 'PLG_CONTENT_JOOMLA_NEW_ARTICLE_BODY', '', '', '{"tags":["sitename","name","email","title","url"]}'),
+('plg_system_magiclogin.magiclink', 'plg_system_magiclogin', '', 'PLG_SYSTEM_MAGICLOGIN_EMAIL_SUBJECT', 'PLG_SYSTEM_MAGICLOGIN_EMAIL_BODY', 'PLG_SYSTEM_MAGICLOGIN_EMAIL_HTMLBODY', '', '{"tags":["sitename","username","magic_link","expiry_minutes"]}');

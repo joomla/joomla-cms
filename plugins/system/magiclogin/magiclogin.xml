@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="system" method="upgrade">
+    <name>plg_system_magiclogin</name>
+    <author>Joomla! Project</author>
+    <creationDate>2025-01</creationDate>
+    <copyright>(C) 2007 Open Source Matters, Inc.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>1.0.0</version>
+    <description>PLG_LOG_XML_DESCRIPTION</description>
+    <namespace path="src">Joomla\Plugin\System\Magiclogin</namespace>
+    <files>
+        <folder plugin="magiclogin">services</folder>
+        <folder>src</folder>
+    </files>
+    
+    <languages>
+        <language tag="en-GB">language/en-GB/plg_system_magiclogin.ini</language>
+        <language tag="en-GB">language/en-GB/plg_system_magiclogin.sys.ini</language>
+    </languages>
+    
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="token_expiry" 
+                       type="number" 
+                       default="15" 
+                       label="PLG_SYSTEM_MAGICLOGIN_TOKEN_EXPIRY_LABEL" 
+                       description="PLG_SYSTEM_MAGICLOGIN_TOKEN_EXPIRY_DESC" 
+                       min="5" 
+                       max="1440" />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
