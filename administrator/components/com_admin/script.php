@@ -991,6 +991,12 @@ class JoomlaInstallerScript
             '/media/templates/site/cassiopeia/scss/global/colors_custom.scss',
             '/media/templates/site/cassiopeia/scss/global/font_advanced.scss',
             // From 6.0.0-beta3 to 6.0.0-rc1
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4_steps.ini',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/CachedWordInflector.php',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/GenericLanguageInflectorFactory.php',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Inflector.php',
@@ -1032,6 +1038,10 @@ class JoomlaInstallerScript
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Word.php',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/RulesetInflector.php',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/WordInflector.php',
+            '/media/com_guidedtours/images/5_2/enhancedtourheader.png',
+            '/media/com_guidedtours/images/5_2/mailtemplate.png',
+            '/media/com_guidedtours/images/5_3/filesdirectory.jpg',
+            '/media/com_guidedtours/images/5_4/automated-updates.jpg',
         ];
 
         $folders = [
@@ -1084,6 +1094,9 @@ class JoomlaInstallerScript
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Common',
             '/libraries/src/Adapter',
             // From 6.0.0-beta3 to 6.0.0-rc1
+            '/media/com_guidedtours/images/5_4',
+            '/media/com_guidedtours/images/5_3',
+            '/media/com_guidedtours/images/5_2',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese',
