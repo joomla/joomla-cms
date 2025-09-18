@@ -222,7 +222,7 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
             ->bind(':ip', $currentIp)
             ->bind(':ua', $currentUserAgent);
 
-        $tokens = $db->setQuery($query)->loadObjectList();
+        $tokens    = $db->setQuery($query)->loadObjectList();
         $tokenData = null;
 
         // Verify token hash
