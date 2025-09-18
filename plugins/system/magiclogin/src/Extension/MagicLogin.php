@@ -129,11 +129,19 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
     {
         $db = $this->getDatabase();
 
-        // Check if user exists
+        // Rate limiting check
+        if ($this->isRateLimited($email)) {
+            Log::add('Rate limit exceeded for email: ' . $email, Log::WARNING, 'plg_system_magiclogin');
+            return;
+        }
+
+        // Check if user exists and is active
         $query = $db->getQuery(true)
             ->select($db->quoteName(['id', 'username', 'name']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('email') . ' = :email')
+            ->where($db->quoteName('block') . ' = 0')
+            ->where($db->quoteName('activation') . ' = ' . $db->quote(''))
             ->bind(':email', $email);
 
         $user = $db->setQuery($query)->loadObject();
@@ -142,21 +150,26 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
             return; // Don't reveal if email exists
         }
 
-        // Generate token
-        $token  = UserHelper::genRandomPassword(32);
+        // Generate secure token
+        $token = $this->generateSecureToken();
+        $hashedToken = $this->hashToken($token);
         $expiry = time() + ($this->params->get('token_expiry', 15) * 60);
+        $ipAddress = $this->app->input->server->get('REMOTE_ADDR');
+        $userAgent = $this->app->input->server->get('HTTP_USER_AGENT');
+        $session = Factory::getApplication()->getSession();
+        $csrfToken = $session->getFormToken();
 
-        // Store token
+        // Store hashed token with security data
         $query = $db->getQuery(true)
             ->insert($db->quoteName('#__magiclogin_tokens'))
-            ->columns($db->quoteName(['user_id', 'token', 'expires']))
-            ->values($user->id . ',' . $db->quote($token) . ',' . $db->quote(date('Y-m-d H:i:s', $expiry)));
+            ->columns($db->quoteName(['user_id', 'token', 'expires', 'ip_address', 'user_agent']))
+            ->values($user->id . ',' . $db->quote($hashedToken) . ',' . $db->quote(date('Y-m-d H:i:s', $expiry)) . ',' . $db->quote($ipAddress) . ',' . $db->quote($userAgent));
 
         $db->setQuery($query)->execute();
 
         // Send email using MailTemplate
         try {
-            $magicLink = Uri::base() . '?magic_token=' . $token;
+            $magicLink = Uri::base() . '?magic_token=' . $token . '&' . $csrfToken . '=1';
             $siteName  = $this->app->get('sitename');
 
             $mailer = new MailTemplate('plg_system_magiclogin.magiclink', $this->app->getLanguage()->getTag());
@@ -187,7 +200,21 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
      */
     private function processMagicToken($token)
     {
+        $session = Factory::getApplication()->getSession();
+        
+        // CSRF protection
+        if (!$session->checkToken('request')) {
+            $this->app->enqueueMessage(Text::_('PLG_SYSTEM_MAGICLOGIN_INVALID_TOKEN'), 'error');
+            return;
+        }
+
+        // Security headers
+        $this->app->setHeader('X-Frame-Options', 'DENY');
+        $this->app->setHeader('X-Content-Type-Options', 'nosniff');
+
         $db = $this->getDatabase();
+        $currentIp = $this->app->input->server->get('REMOTE_ADDR');
+        $currentUserAgent = $this->app->input->server->get('HTTP_USER_AGENT');
 
         // Clean expired tokens
         $query = $db->getQuery(true)
@@ -195,16 +222,22 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
             ->where($db->quoteName('expires') . ' < ' . $db->quote(date('Y-m-d H:i:s')));
         $db->setQuery($query)->execute();
 
-        // Find valid token
+        // Hash token and find in database with security validation
+        $hashedToken = $this->hashToken($token);
         $query = $db->getQuery(true)
             ->select($db->quoteName(['user_id']))
             ->from($db->quoteName('#__magiclogin_tokens'))
             ->where($db->quoteName('token') . ' = :token')
-            ->bind(':token', $token);
+            ->where($db->quoteName('ip_address') . ' = :ip')
+            ->where($db->quoteName('user_agent') . ' = :ua')
+            ->bind(':token', $hashedToken)
+            ->bind(':ip', $currentIp)
+            ->bind(':ua', $currentUserAgent);
 
         $tokenData = $db->setQuery($query)->loadObject();
 
         if (!$tokenData) {
+            Log::add('Invalid token or security mismatch for IP: ' . $currentIp, Log::WARNING, 'plg_system_magiclogin');
             $this->app->enqueueMessage(Text::_('PLG_SYSTEM_MAGICLOGIN_INVALID_TOKEN'), 'error');
             return;
         }
@@ -214,7 +247,6 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
 
         if ($user->id) {
             // Set user session directly
-            $session = Factory::getApplication()->getSession();
             $session->set('user', $user);
 
             // Update last visit date
@@ -241,15 +273,69 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
                 Log::add('Failed to log action: ' . $e->getMessage(), Log::WARNING, 'plg_system_magiclogin');
             }
 
-            // Delete used token
+            // Delete used token by user_id and security context
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__magiclogin_tokens'))
-                ->where($db->quoteName('token') . ' = :token')
-                ->bind(':token', $token);
+                ->where($db->quoteName('user_id') . ' = :user_id')
+                ->where($db->quoteName('ip_address') . ' = :ip')
+                ->where($db->quoteName('user_agent') . ' = :ua')
+                ->bind(':user_id', $tokenData->user_id)
+                ->bind(':ip', $currentIp)
+                ->bind(':ua', $currentUserAgent);
             $db->setQuery($query)->execute();
 
             $this->app->enqueueMessage(Text::_('PLG_SYSTEM_MAGICLOGIN_LOGIN_SUCCESS'), 'success');
             $this->app->redirect(Uri::base());
         }
     }
+
+    /**
+     * Check if email is rate limited
+     *
+     * @param   string  $email  Email address to check
+     *
+     * @return  bool
+     *
+     * @since   1.0.0
+     */
+    private function isRateLimited($email): bool
+    {
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select('COUNT(*)')
+            ->from($db->quoteName('#__magiclogin_tokens'))
+            ->where($db->quoteName('user_id') . ' = (SELECT id FROM ' . $db->quoteName('#__users') . ' WHERE ' . $db->quoteName('email') . ' = :email)')
+            ->where($db->quoteName('created') . ' > DATE_SUB(NOW(), INTERVAL 5 MINUTE)')
+            ->bind(':email', $email);
+        
+        return $db->setQuery($query)->loadResult() >= 3;
+    }
+
+    /**
+     * Generate cryptographically secure token
+     *
+     * @return  string
+     *
+     * @since   1.0.0
+     */
+    private function generateSecureToken(): string
+    {
+        return bin2hex(random_bytes(32));
+    }
+
+    /**
+     * Hash token for secure storage
+     *
+     * @param   string  $token  Plain token
+     *
+     * @return  string
+     *
+     * @since   1.0.0
+     */
+    private function hashToken(string $token): string
+    {
+        return password_hash($token, PASSWORD_ARGON2ID);
+    }
+
+
 }
