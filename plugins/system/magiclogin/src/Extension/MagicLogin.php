@@ -209,11 +209,11 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
         }
 
         // Get user
-        $user = User::getInstance($tokenData->user_id);
+        $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($tokenData->user_id);
 
         if ($user->id) {
             // Set user session directly
-            $session = Factory::getSession();
+            $session = Factory::getApplication()->getSession();
             $session->set('user', $user);
 
             // Update last visit date
