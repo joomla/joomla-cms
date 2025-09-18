@@ -213,19 +213,25 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
             ->where($db->quoteName('expires') . ' < ' . $db->quote(date('Y-m-d H:i:s')));
         $db->setQuery($query)->execute();
 
-        // Hash token and find in database with security validation
-        $hashedToken = $this->hashToken($token);
-        $query       = $db->getQuery(true)
-            ->select($db->quoteName(['user_id']))
+        // Get tokens for IP and user agent validation, then verify hash
+        $query = $db->getQuery(true)
+            ->select($db->quoteName(['user_id', 'token']))
             ->from($db->quoteName('#__magiclogin_tokens'))
-            ->where($db->quoteName('token') . ' = :token')
             ->where($db->quoteName('ip_address') . ' = :ip')
             ->where($db->quoteName('user_agent') . ' = :ua')
-            ->bind(':token', $hashedToken)
             ->bind(':ip', $currentIp)
             ->bind(':ua', $currentUserAgent);
 
-        $tokenData = $db->setQuery($query)->loadObject();
+        $tokens = $db->setQuery($query)->loadObjectList();
+        $tokenData = null;
+
+        // Verify token hash
+        foreach ($tokens as $storedToken) {
+            if (password_verify($token, $storedToken->token)) {
+                $tokenData = $storedToken;
+                break;
+            }
+        }
 
         if (!$tokenData) {
             Log::add('Invalid token or security mismatch for IP: ' . $currentIp, Log::WARNING, 'plg_system_magiclogin');
