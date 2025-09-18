@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.MagicLogin
@@ -7,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
@@ -25,8 +26,7 @@ use Joomla\Plugin\System\MagicLogin\Extension\MagicLogin;
  *
  * @since  1.0.0
  */
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -49,15 +49,15 @@ return new class implements ServiceProviderInterface
             function (Container $container) {
                 // Get plugin configuration from database
                 $config = (array) PluginHelper::getPlugin('system', 'magiclogin');
-                
+
                 // Get event dispatcher for plugin events
                 $subject = $container->get(DispatcherInterface::class);
-                
+
                 // Create plugin instance with dependencies
                 $plugin = new MagicLogin($subject, $config);
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get('DatabaseDriver'));
-                
+
                 return $plugin;
             }
         );

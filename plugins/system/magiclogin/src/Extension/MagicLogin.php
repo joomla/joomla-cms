@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.MagicLogin
@@ -9,18 +10,17 @@
 
 namespace Joomla\Plugin\System\MagicLogin\Extension;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailTemplate;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Mail\MailTemplate;
-use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Log\Log;
-
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
 
@@ -35,7 +35,7 @@ use Joomla\Event\SubscriberInterface;
 final class MagicLogin extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
-    
+
     /**
      * Application object
      *
@@ -43,7 +43,7 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
      * @since  1.0.0
      */
     protected $app;
-    
+
     /**
      * Returns an array of events this subscriber will listen to.
      *
@@ -54,10 +54,10 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onAfterInitialise' => 'onAfterInitialise'
+            'onAfterInitialise' => 'onAfterInitialise',
         ];
     }
-    
+
     /**
      * Handles the onAfterInitialise event
      *
@@ -84,32 +84,32 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
             $this->processMagicToken($token);
             return;
         }
-        
+
         // Only process POST requests for login
         if ($this->app->input->getMethod() !== 'POST') {
             return;
         }
-        
+
         // Check for login attempt with email
         $username = $this->app->input->get('username', '', 'string');
         $password = $this->app->input->get('password', '', 'string');
-        
+
         Log::add('POST - Username: ' . $username . ', Has password: ' . (!empty($password) ? 'yes' : 'no'), Log::INFO, 'plg_system_magiclogin');
-        
+
         // If username is email (with or without password)
         if (!empty($username) && filter_var($username, FILTER_VALIDATE_EMAIL)) {
             Log::add('Sending magic link to: ' . $username, Log::INFO, 'plg_system_magiclogin');
             $this->sendMagicLink($username);
-            
+
             $this->app->enqueueMessage(
-                Text::_('PLG_SYSTEM_MAGICLOGIN_EMAIL_SENT'), 
+                Text::_('PLG_SYSTEM_MAGICLOGIN_EMAIL_SENT'),
                 'info'
             );
-            
+
             $this->app->redirect(Uri::base());
         }
     }
-    
+
     /**
      * Sends a magic link to the specified email address
      *
@@ -125,51 +125,51 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
     private function sendMagicLink($email)
     {
         $db = $this->getDatabase();
-        
+
         // Check if user exists
         $query = $db->getQuery(true)
             ->select($db->quoteName(['id', 'username', 'name']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('email') . ' = :email')
             ->bind(':email', $email);
-            
+
         $user = $db->setQuery($query)->loadObject();
-        
+
         if (!$user) {
             return; // Don't reveal if email exists
         }
-        
+
         // Generate token
-        $token = UserHelper::genRandomPassword(32);
+        $token  = UserHelper::genRandomPassword(32);
         $expiry = time() + ($this->params->get('token_expiry', 15) * 60);
-        
+
         // Store token
         $query = $db->getQuery(true)
             ->insert($db->quoteName('#__magiclogin_tokens'))
             ->columns($db->quoteName(['user_id', 'token', 'expires']))
             ->values($user->id . ',' . $db->quote($token) . ',' . $db->quote(date('Y-m-d H:i:s', $expiry)));
-            
+
         $db->setQuery($query)->execute();
-        
+
         // Send email using MailTemplate
         try {
             $magicLink = Uri::base() . '?magic_token=' . $token;
-            $siteName = $this->app->get('sitename');
-            
+            $siteName  = $this->app->get('sitename');
+
             $mailer = new MailTemplate('plg_system_magiclogin.magiclink', $this->app->getLanguage()->getTag());
             $mailer->addRecipient($email);
             $mailer->addTemplateData([
-                'SITENAME' => $siteName,
-                'USERNAME' => $user->name,
-                'MAGIC_LINK' => $magicLink,
-                'EXPIRY_MINUTES' => $this->params->get('token_expiry', 15)
+                'SITENAME'       => $siteName,
+                'USERNAME'       => $user->name,
+                'MAGIC_LINK'     => $magicLink,
+                'EXPIRY_MINUTES' => $this->params->get('token_expiry', 15),
             ]);
             $mailer->send();
         } catch (\Exception $e) {
             Log::add('Failed to send magic link email: ' . $e->getMessage(), Log::ERROR, 'plg_system_magiclogin');
         }
     }
-    
+
     /**
      * Processes a magic token from the URL
      *
@@ -185,45 +185,45 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
     private function processMagicToken($token)
     {
         $db = $this->getDatabase();
-        
+
         // Clean expired tokens
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__magiclogin_tokens'))
             ->where($db->quoteName('expires') . ' < ' . $db->quote(date('Y-m-d H:i:s')));
         $db->setQuery($query)->execute();
-        
+
         // Find valid token
         $query = $db->getQuery(true)
             ->select($db->quoteName(['user_id']))
             ->from($db->quoteName('#__magiclogin_tokens'))
             ->where($db->quoteName('token') . ' = :token')
             ->bind(':token', $token);
-            
+
         $tokenData = $db->setQuery($query)->loadObject();
-        
+
         if (!$tokenData) {
             $this->app->enqueueMessage(Text::_('PLG_SYSTEM_MAGICLOGIN_INVALID_TOKEN'), 'error');
             return;
         }
-        
+
         // Get user
         $user = User::getInstance($tokenData->user_id);
-        
+
         if ($user->id) {
             // Set user session directly
             $session = Factory::getSession();
             $session->set('user', $user);
-            
+
             // Update last visit date
             $user->setLastVisit();
-            
+
             // Log user action using ActionLog model
             $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_IN';
             try {
                 /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel $model */
                 $model = $this->app->bootComponent('com_actionlogs')
                     ->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
-                
+
                 $message = [
                     'action'      => 'login',
                     'userid'      => $user->id,
@@ -237,14 +237,14 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
                 // Log error but don't stop login process
                 Log::add('Failed to log action: ' . $e->getMessage(), Log::WARNING, 'plg_system_magiclogin');
             }
-            
+
             // Delete used token
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__magiclogin_tokens'))
                 ->where($db->quoteName('token') . ' = :token')
                 ->bind(':token', $token);
             $db->setQuery($query)->execute();
-            
+
             $this->app->enqueueMessage(Text::_('PLG_SYSTEM_MAGICLOGIN_LOGIN_SUCCESS'), 'success');
             $this->app->redirect(Uri::base());
         }
