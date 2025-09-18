@@ -15,6 +15,7 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Finder\Administrator\Table\FilterTable;
+use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -221,7 +222,8 @@ class FilterModel extends AdminModel
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
             ->from($db->quoteName('#__finder_filters'))
-            ->where($db->quoteName('alias') . ' = ' . $db->quote($alias));
+            ->where($db->quoteName('alias') . ' = :alias')
+            ->bind(':alias', $alias, ParameterType::STRING);
 
         return (int) $db->setQuery($query)->loadResult() > 0;
     }
