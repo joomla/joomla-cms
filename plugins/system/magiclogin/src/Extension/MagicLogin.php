@@ -335,6 +335,4 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
     {
         return password_hash($token, PASSWORD_ARGON2ID);
     }
-
-
 }
