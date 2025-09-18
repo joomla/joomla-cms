@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\MagicLogin\Extension;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -23,6 +21,10 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Magic Login System Plugin
