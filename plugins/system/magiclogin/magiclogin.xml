@@ -9,7 +9,7 @@
     <authorUrl>www.joomla.org</authorUrl>
     <version>1.0.0</version>
     <description>PLG_LOG_XML_DESCRIPTION</description>
-    <namespace path="src">Joomla\Plugin\System\Magiclogin</namespace>
+    <namespace path="src">Joomla\Plugin\System\MagicLogin</namespace>
     <files>
         <folder plugin="magiclogin">services</folder>
         <folder>src</folder>
