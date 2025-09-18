@@ -78,7 +78,7 @@
     "shepherd.js": "^11.2.0",
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.7",
-    "tinymce": "^8.1.0",
+    "tinymce": "^8.1.1",
     "tinymce-i18n": "^25.9.1",
     "vue": "^3.5.21",
     "vue-focus-lock": "^2.0.7",
