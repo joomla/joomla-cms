@@ -19,7 +19,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
 
@@ -151,13 +150,13 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
         }
 
         // Generate secure token
-        $token = $this->generateSecureToken();
+        $token       = $this->generateSecureToken();
         $hashedToken = $this->hashToken($token);
-        $expiry = time() + ($this->params->get('token_expiry', 15) * 60);
-        $ipAddress = $this->app->input->server->get('REMOTE_ADDR');
-        $userAgent = $this->app->input->server->get('HTTP_USER_AGENT');
-        $session = Factory::getApplication()->getSession();
-        $csrfToken = $session->getFormToken();
+        $expiry      = time() + ($this->params->get('token_expiry', 15) * 60);
+        $ipAddress   = $this->app->input->server->get('REMOTE_ADDR');
+        $userAgent   = $this->app->input->server->get('HTTP_USER_AGENT');
+        $session     = Factory::getApplication()->getSession();
+        $csrfToken   = $session->getFormToken();
 
         // Store hashed token with security data
         $query = $db->getQuery(true)
@@ -201,7 +200,7 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
     private function processMagicToken($token)
     {
         $session = Factory::getApplication()->getSession();
-        
+
         // CSRF protection
         if (!$session->checkToken('request')) {
             $this->app->enqueueMessage(Text::_('PLG_SYSTEM_MAGICLOGIN_INVALID_TOKEN'), 'error');
@@ -212,8 +211,8 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
         $this->app->setHeader('X-Frame-Options', 'DENY');
         $this->app->setHeader('X-Content-Type-Options', 'nosniff');
 
-        $db = $this->getDatabase();
-        $currentIp = $this->app->input->server->get('REMOTE_ADDR');
+        $db               = $this->getDatabase();
+        $currentIp        = $this->app->input->server->get('REMOTE_ADDR');
         $currentUserAgent = $this->app->input->server->get('HTTP_USER_AGENT');
 
         // Clean expired tokens
@@ -224,7 +223,7 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
 
         // Hash token and find in database with security validation
         $hashedToken = $this->hashToken($token);
-        $query = $db->getQuery(true)
+        $query       = $db->getQuery(true)
             ->select($db->quoteName(['user_id']))
             ->from($db->quoteName('#__magiclogin_tokens'))
             ->where($db->quoteName('token') . ' = :token')
@@ -300,14 +299,14 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
      */
     private function isRateLimited($email): bool
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
             ->from($db->quoteName('#__magiclogin_tokens'))
             ->where($db->quoteName('user_id') . ' = (SELECT id FROM ' . $db->quoteName('#__users') . ' WHERE ' . $db->quoteName('email') . ' = :email)')
             ->where($db->quoteName('created') . ' > DATE_SUB(NOW(), INTERVAL 5 MINUTE)')
             ->bind(':email', $email);
-        
+
         return $db->setQuery($query)->loadResult() >= 3;
     }
 
