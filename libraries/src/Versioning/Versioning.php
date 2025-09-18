@@ -26,6 +26,9 @@ use Joomla\Database\ParameterType;
  * Handle the versioning of content items
  *
  * @since  4.0.0
+ *
+ * @deprecated  6.0.0  will be removed in 8.0 without direct replacement,
+ *              use the new versioning concept (LINK TO DOCUMENTATION)
  */
 class Versioning
 {
@@ -122,6 +125,17 @@ class Versioning
             );
 
             Factory::getApplication()->getDispatcher()->dispatch('onContentVersioningPrepareTable', $event);
+        }
+
+        // Fix for null ordering - set to 0 if null
+        if (\is_object($data)) {
+            if (property_exists($data, 'ordering') && $data->ordering === null) {
+                $data->ordering = 0;
+            }
+        } elseif (\is_array($data)) {
+            if (\array_key_exists('ordering', $data) && $data['ordering'] === null) {
+                $data['ordering'] = 0;
+            }
         }
 
         $historyTable->version_data = json_encode($data);

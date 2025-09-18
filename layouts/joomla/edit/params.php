@@ -24,12 +24,12 @@ if (empty($fieldSets)) {
     return;
 }
 
-$ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: [];
-$outputFieldsets = $displayData->get('output_fieldsets') ?: [];
+$ignoreFieldsets      = $displayData->get('ignore_fieldsets') ?: [];
+$outputFieldsets      = $displayData->get('output_fieldsets') ?: [];
 $ignoreFieldsetFields = $displayData->get('ignore_fieldset_fields') ?: [];
-$ignoreFields    = $displayData->get('ignore_fields') ?: [];
-$extraFields     = $displayData->get('extra_fields') ?: [];
-$tabName         = $displayData->get('tab_name') ?: 'myTab';
+$ignoreFields         = $displayData->get('ignore_fields') ?: [];
+$extraFields          = $displayData->get('extra_fields') ?: [];
+$tabName              = $displayData->get('tab_name') ?: 'myTab';
 
 // These are required to preserve data on save when fields are not displayed.
 $hiddenFieldsets = $displayData->get('hiddenFieldsets') ?: [];

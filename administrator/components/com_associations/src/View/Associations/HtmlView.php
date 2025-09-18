@@ -129,10 +129,15 @@ class HtmlView extends BaseHtmlView
     {
         /** @var AssociationsModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '');
 
         if (!Associations::isEnabled()) {
             $link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
@@ -211,6 +216,11 @@ class HtmlView extends BaseHtmlView
                         if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
                             $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
                         }
+
+                        // Add extra form control fields for modal
+                        $this->filterForm
+                            ->addControlField('forcedItemType', Factory::getApplication()->getInput()->get('forcedItemType', '', 'string'))
+                            ->addControlField('forcedLanguage', $forcedLanguage);
                     }
                 }
 
@@ -225,11 +235,6 @@ class HtmlView extends BaseHtmlView
 
                 $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
             }
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new \Exception(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();

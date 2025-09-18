@@ -121,6 +121,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var LinksModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Set variables
         $this->items                = $model->getItems();
@@ -134,14 +135,14 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         if (!PluginHelper::isEnabled('system', 'redirect') || !RedirectHelper::collectUrlsEnabled()) {
             $this->redirectPluginId = RedirectHelper::getRedirectPluginId();
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
 

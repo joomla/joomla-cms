@@ -17,9 +17,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
-use Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView;
 
-/** @var  HtmlView  $this */
+/** @var  \Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView  $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
@@ -227,8 +226,6 @@ if ($saveOrder && !empty($this->items)) {
             ?>
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="">
-        <input type="hidden" name="boxchecked" value="0">
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>
