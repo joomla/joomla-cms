@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Quickicon\Eos\Extension\Eos;
 
 return new class () implements ServiceProviderInterface {
@@ -37,7 +36,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Eos(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('quickicon', 'eos')
                 );
                 $plugin->setApplication(Factory::getApplication());
