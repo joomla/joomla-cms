@@ -69,7 +69,7 @@
     "jquery": "^3.7.1",
     "jquery-migrate": "^3.5.2",
     "mark.js": "^8.11.1",
-    "mediaelement": "^5.1.2",
+    "mediaelement": "^7.0.7",
     "metismenujs": "^1.4.0",
     "punycode": "^2.3.1",
     "qrcode-generator": "^2.0.4",
