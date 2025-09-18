@@ -155,8 +155,6 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
         $expiry      = time() + ($this->params->get('token_expiry', 15) * 60);
         $ipAddress   = $this->app->input->server->get('REMOTE_ADDR');
         $userAgent   = $this->app->input->server->get('HTTP_USER_AGENT');
-        $session     = Factory::getApplication()->getSession();
-        $csrfToken   = $session->getFormToken();
 
         // Store hashed token with security data
         $query = $db->getQuery(true)
@@ -168,7 +166,7 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
 
         // Send email using MailTemplate
         try {
-            $magicLink = Uri::base() . '?magic_token=' . $token . '&' . $csrfToken . '=1';
+            $magicLink = Uri::base() . '?magic_token=' . $token;
             $siteName  = $this->app->get('sitename');
 
             $mailer = new MailTemplate('plg_system_magiclogin.magiclink', $this->app->getLanguage()->getTag());
@@ -199,17 +197,11 @@ final class MagicLogin extends CMSPlugin implements SubscriberInterface
      */
     private function processMagicToken($token)
     {
-        $session = Factory::getApplication()->getSession();
-
-        // CSRF protection
-        if (!$session->checkToken('request')) {
-            $this->app->enqueueMessage(Text::_('PLG_SYSTEM_MAGICLOGIN_INVALID_TOKEN'), 'error');
-            return;
-        }
-
         // Security headers
         $this->app->setHeader('X-Frame-Options', 'DENY');
         $this->app->setHeader('X-Content-Type-Options', 'nosniff');
+
+        $session = Factory::getApplication()->getSession();
 
         $db               = $this->getDatabase();
         $currentIp        = $this->app->input->server->get('REMOTE_ADDR');
