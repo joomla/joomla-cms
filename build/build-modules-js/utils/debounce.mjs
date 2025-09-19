@@ -6,4 +6,9 @@
  * @param { int }  time      The time to wait before firing the callback
  * @param { int }  interval  The interval
  */
-export const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(interval, (interval = setTimeout(callback, time, ...args)));
+export const debounce =
+  (callback, time = 250, interval) =>
+  (...args) => {
+    clearTimeout(interval);
+    interval = setTimeout(() => callback(...args), time);
+  };

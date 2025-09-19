@@ -33,7 +33,7 @@ export const mediaManager = async () => {
       nodeResolve(),
       commonjs(),
       replace({
-        'process.env.NODE_ENV': JSON.stringify((process.env.NODE_ENV && process.env.NODE_ENV.toLocaleLowerCase()) || 'production'),
+        'process.env.NODE_ENV': JSON.stringify((process.env?.NODE_ENV?.toLocaleLowerCase()) || 'production'),
         __VUE_OPTIONS_API__: true,
         __VUE_PROD_DEVTOOLS__: !isProduction,
         preventAssignment: true,

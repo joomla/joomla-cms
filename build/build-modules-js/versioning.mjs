@@ -76,7 +76,7 @@ const fixVersion = async (directory) => {
   let jAssetFile;
   try {
     jAssetFile = await lstat(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`);
-  } catch (err) {
+  } catch {
     return;
   }
 
@@ -88,7 +88,7 @@ const fixVersion = async (directory) => {
   let jsonData;
   try {
     jsonData = JSON.parse(jAssetFileContent);
-  } catch (err) {
+  } catch {
     throw new Error(`media\\${directory}\\joomla.asset.json is not a valid JSON file!!!`);
   }
 

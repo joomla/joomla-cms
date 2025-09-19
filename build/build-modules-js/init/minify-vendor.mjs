@@ -33,7 +33,7 @@ const alreadyMinified = [
 const minifiedExists = async (file) => {
   try {
     return (await lstat(file)).isFile();
-  } catch (e) {
+  } catch {
     return false;
   }
 };

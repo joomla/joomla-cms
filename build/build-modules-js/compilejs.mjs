@@ -19,11 +19,11 @@ const RootPath = process.cwd();
  *         ES5 files to have ext: .es5.js
  *         WC/CE files to have ext: .w-c.es6.js
  *
- * @param { object } options The options from settings.json
- * @param { string } path    The folder that needs to be compiled, optional
- * @param { string } mode    esm for ES2017, es5 for ES5, both for both
+ * @param { object } _options The options from settings.json
+ * @param { string } path     The folder that needs to be compiled, optional
+ * @param { string } mode     esm for ES2017, es5 for ES5, both for both
  */
-export const scripts = async (options, path) => {
+export const scripts = async (_options, path) => {
   const files = [];
   let folders = [];
 

@@ -141,7 +141,7 @@ export const createErrorPages = async (options) => {
       try {
         await access(dirname(`${RootPath}${folder}`));
         mediaExists = true;
-      } catch (err) {
+      } catch {
         // Do nothing
       }
 
@@ -155,7 +155,9 @@ export const createErrorPages = async (options) => {
     });
   };
 
-  Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));
+  Object.keys(options.settings.errorPages).forEach((name) => {
+    processPages.push(processPage(name));
+  });
 
   return Promise.all(processPages).catch((err) => {
     console.error(err);

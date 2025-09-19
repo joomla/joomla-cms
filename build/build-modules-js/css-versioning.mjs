@@ -30,7 +30,7 @@ function version(urlString, fromFile) {
     return `${urlString}?${variable}=${hash.digest('hex').substring(0, 6)}`;
   }
 
-  return `${urlString}?${variable}=${(new Date()).valueOf().toString().substring(0, 6)}`;
+  return `${urlString}?${variable}=${Date.now().toString().substring(0, 6)}`;
 }
 
 /**

@@ -77,7 +77,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
   await Promise.all(promises);
 
   // Add provided Assets to a registry, if any
-  if (vendor.provideAssets && vendor.provideAssets.length) {
+  if (vendor?.provideAssets?.length) {
     vendor.provideAssets.forEach((assetInfo) => {
       const registryItemBase = {
         package: packageName,

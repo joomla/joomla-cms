@@ -1,14 +1,16 @@
 {
   "files": {
     "includes": [
-      "build/media_source/**/*.{js,mjs,es6,vue}",
-      "!**/*.es5.js"
+      "build/**/*.{js,mjs,es6,vue}",
+      "!**/*.es5.js",
+      "!build/warning_page/*.js"
     ]
   },
   "linter": {
     "includes": [
-      "build/media_source/**/*.{js,mjs,es6,vue}",
-      "!**/*.es5.js"
+      "build/**/*.{js,mjs,es6,vue}",
+      "!**/*.es5.js",
+      "!build/warning_page/*.js"
     ],
     "enabled": true,
     "rules": {

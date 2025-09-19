@@ -19,10 +19,10 @@ const RootPath = process.cwd();
  *         css files to have ext: .css
  * Ignores scss files that their filename starts with `_`
  *
- * @param {object} options  The options
- * @param {string} path     The folder that needs to be compiled, optional
+ * @param {object} _options  The options
+ * @param {string} path      The folder that needs to be compiled, optional
  */
-export const stylesheets = async (options, path) => {
+export const stylesheets = async (_options, path) => {
   const files = [];
   let folders = [];
 
