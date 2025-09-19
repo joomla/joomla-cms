@@ -39,5 +39,5 @@ function admin_postinstall_languageaccess340_condition()
     $numRows = $db->getNumRows();
 
     // Return true if we have have at minimum one row with access set to 0
-    return isset($numRows) && $numRows != 0;
+    return $numRows > 0;
 }
