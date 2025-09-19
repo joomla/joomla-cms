@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Schemaorg\Extension;
 
+use Joomla\CMS\Event\Application\BeforeCompileHeadEvent as BeforeCompileHeadApplicationEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareDataEvent;
@@ -26,6 +27,7 @@ use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherAwareInterface;
@@ -268,9 +270,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
      *
      * @since   5.0.0
      */
-    public function onBeforeCompileHead(): void
+    public function onBeforeCompileHead(BeforeCompileHeadApplicationEvent $event): void
     {
-        $app      = $this->getApplication();
+        $app      = $event->getApplication();
+        $doc      = $event->getDocument();
+        $wa       = $doc->getWebAssetManager();
         $baseType = $this->params->get('baseType', 'organization');
 
         $itemId  = (int) $app->getInput()->getInt('id');
@@ -383,11 +387,30 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $webPageSchema['about']       = ['@id' => $baseId];
         $webPageSchema['inLanguage']  = $app->getLanguage()->getTag();
 
-        // We support Breadcrumb linking
-        $breadcrumbs = ModuleHelper::getModule('mod_breadcrumbs');
+        // Support Breadcrumb Schema linking
+        try {
+            try {
+                $breadcrumbsAsset = $wa->getRegistry()->get('script', 'inline.breadcrumbs-schemaorg');
+            } catch (UnknownAssetException $e) {
+                // Fallback for older versions of the breadcrumbs module
+                $breadcrumbsAsset = $wa->getRegistry()->get('script', 'inline.mod_breadcrumbs-schemaorg');
+                trigger_deprecation(
+                    'joomla/schemaorg',
+                    '5.4',
+                    'The inline.mod_breadcrumbs-schemaorg asset name is deprecated. Please use the generic inline.breadcrumbs-schemaorg asset name instead.'
+                );
+            }
 
-        if (!empty($breadcrumbs->id)) {
-            $webPageSchema['breadcrumb'] = ['@id' => $domain . '#/schema/BreadcrumbList/' . (int) $breadcrumbs->id];
+            $breadcrumbs = json_decode($breadcrumbsAsset->getOption('content'), true, 512, JSON_THROW_ON_ERROR);
+
+            if ($breadcrumbs['@type'] !== 'BreadcrumbList') {
+                trigger_error('The breadcrumbs schema is not of type BreadcrumbList', E_USER_WARNING);
+                throw new UnknownAssetException();
+            }
+
+            $webPageSchema['breadcrumb'] = ['@id' => $breadcrumbs['@id']];
+        } catch (UnknownAssetException $e) {
+            // No Breadcrumbs Schema found, so we don't add it
         }
 
         $baseSchema['@graph'][] = $webPageSchema;
@@ -440,7 +463,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint]);
 
         if ($schemaString !== '{}') {
-            $wa = $this->getApplication()->getDocument()->getWebAssetManager();
             $wa->addInlineScript($schemaString, ['name' => 'inline.schemaorg'], ['type' => 'application/ld+json']);
         }
     }
