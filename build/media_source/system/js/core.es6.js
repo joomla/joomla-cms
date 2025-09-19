@@ -12,7 +12,15 @@ const DATA_ATTRIBUTE_PATTERN = /^data-[\w-]*$/i;
 
 const DefaultAllowlist = {
   // Global attributes allowed on any supplied element below.
-  '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN, DATA_ATTRIBUTE_PATTERN],
+  '*': [
+    'class',
+    'dir',
+    'id',
+    'lang',
+    'role',
+    ARIA_ATTRIBUTE_PATTERN,
+    DATA_ATTRIBUTE_PATTERN,
+  ],
   a: ['target', 'href', 'title', 'rel'],
   area: [],
   b: [],
@@ -44,11 +52,33 @@ const DefaultAllowlist = {
   ul: [],
   button: ['type'],
   input: [
-    'accept', 'alt', 'autocomplete', 'autofocus', 'capture',
-    'checked', 'dirname', 'disabled', 'height', 'list', 'max',
-    'maxlength', 'min', 'minlength', 'multiple', 'type', 'name',
-    'pattern', 'placeholder', 'readonly', 'required', 'size', 'src',
-    'step', 'value', 'width', 'inputmode',
+    'accept',
+    'alt',
+    'autocomplete',
+    'autofocus',
+    'capture',
+    'checked',
+    'dirname',
+    'disabled',
+    'height',
+    'list',
+    'max',
+    'maxlength',
+    'min',
+    'minlength',
+    'multiple',
+    'type',
+    'name',
+    'pattern',
+    'placeholder',
+    'readonly',
+    'required',
+    'size',
+    'src',
+    'step',
+    'value',
+    'width',
+    'inputmode',
   ],
   select: ['name'],
   textarea: ['name'],
@@ -64,46 +94,48 @@ window.Joomla = window.Joomla || {};
 Joomla.editors = Joomla.editors || {};
 
 // An object to hold each editor instance on page, only define if not defined.
-Joomla.editors.instances = Joomla.editors.instances || {
-  /**
-   * *****************************************************************
-   * All Editors MUST register, per instance, the following callbacks:
-   * *****************************************************************
-   *
-   * getValue         Type  Function  Should return the complete data from the editor
-   *                                  Example: () => { return this.element.value; }
-   * setValue         Type  Function  Should replace the complete data of the editor
-   *                                  Example: (text) => { return this.element.value = text; }
-   * getSelection     Type  Function  Should return the selected text from the editor
-   *                                  Example: function () { return this.selectedText; }
-   * disable          Type  Function  Toggles the editor into disabled mode. When the editor is
-   *                                  active then everything should be usable. When inactive the
-   *                                  editor should be unusable AND disabled for form validation
-   *                                  Example: (bool) => { return this.disable = value; }
-   * replaceSelection Type  Function  Should replace the selected text of the editor
-   *                                  If nothing selected, will insert the data at the cursor
-   *                                  Example:
-   *                                  (text) => {
-   *                                    return insertAtCursor(this.element, text);
-   *                                    }
-   *
-   * USAGE (assuming that jform_articletext is the textarea id)
-   * {
-   * To get the current editor value:
-   *  Joomla.editors.instances['jform_articletext'].getValue();
-   * To set the current editor value:
-   *  Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
-   * To replace(selection) or insert a value at  the current editor cursor (replaces the J3
-   * jInsertEditorText API):
-   *  replaceSelection:
-   *  Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
-   * }
-   *
-   * *********************************************************
-   * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
-   * *********************************************************
-   */
-};
+Joomla.editors.instances =
+  Joomla.editors.instances ||
+  {
+    /**
+     * *****************************************************************
+     * All Editors MUST register, per instance, the following callbacks:
+     * *****************************************************************
+     *
+     * getValue         Type  Function  Should return the complete data from the editor
+     *                                  Example: () => { return this.element.value; }
+     * setValue         Type  Function  Should replace the complete data of the editor
+     *                                  Example: (text) => { return this.element.value = text; }
+     * getSelection     Type  Function  Should return the selected text from the editor
+     *                                  Example: function () { return this.selectedText; }
+     * disable          Type  Function  Toggles the editor into disabled mode. When the editor is
+     *                                  active then everything should be usable. When inactive the
+     *                                  editor should be unusable AND disabled for form validation
+     *                                  Example: (bool) => { return this.disable = value; }
+     * replaceSelection Type  Function  Should replace the selected text of the editor
+     *                                  If nothing selected, will insert the data at the cursor
+     *                                  Example:
+     *                                  (text) => {
+     *                                    return insertAtCursor(this.element, text);
+     *                                    }
+     *
+     * USAGE (assuming that jform_articletext is the textarea id)
+     * {
+     * To get the current editor value:
+     *  Joomla.editors.instances['jform_articletext'].getValue();
+     * To set the current editor value:
+     *  Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
+     * To replace(selection) or insert a value at  the current editor cursor (replaces the J3
+     * jInsertEditorText API):
+     *  replaceSelection:
+     *  Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
+     * }
+     *
+     * *********************************************************
+     * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
+     * *********************************************************
+     */
+  };
 
 Joomla.Modal = Joomla.Modal || {
   /**
@@ -187,7 +219,9 @@ Joomla.getOptions = (key, def) => {
     Joomla.loadOptions();
   }
 
-  return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
+  return Joomla.optionsStorage[key] !== undefined
+    ? Joomla.optionsStorage[key]
+    : def;
 };
 
 /**
@@ -203,17 +237,19 @@ Joomla.loadOptions = (options) => {
   if (!options) {
     let counter = 0;
 
-    document.querySelectorAll('.joomla-script-options.new').forEach((element) => {
-      const str = element.text || element.textContent;
-      const option = JSON.parse(str);
+    document
+      .querySelectorAll('.joomla-script-options.new')
+      .forEach((element) => {
+        const str = element.text || element.textContent;
+        const option = JSON.parse(str);
 
-      if (option) {
-        Joomla.loadOptions(option);
-        counter += 1;
-      }
+        if (option) {
+          Joomla.loadOptions(option);
+          counter += 1;
+        }
 
-      element.className = element.className.replace(' new', ' loaded');
-    });
+        element.className = element.className.replace(' new', ' loaded');
+      });
 
     if (counter) {
       return;
@@ -233,8 +269,15 @@ Joomla.loadOptions = (options) => {
        *
        * Joomla.loadOptions({'joomla.jtext': null});
        */
-      if (options[key] !== null && typeof Joomla.optionsStorage[key] === 'object' && typeof options[key] === 'object') {
-        Joomla.optionsStorage[key] = Joomla.extend(Joomla.optionsStorage[key], options[key]);
+      if (
+        options[key] !== null &&
+        typeof Joomla.optionsStorage[key] === 'object' &&
+        typeof options[key] === 'object'
+      ) {
+        Joomla.optionsStorage[key] = Joomla.extend(
+          Joomla.optionsStorage[key],
+          options[key],
+        );
       } else {
         Joomla.optionsStorage[key] = options[key];
       }
@@ -276,7 +319,9 @@ Joomla.Text = {
     newDef = newDef === undefined ? newKey : newDef;
     newKey = newKey.toUpperCase();
 
-    return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;
+    return Joomla.Text.strings[newKey] !== undefined
+      ? Joomla.Text.strings[newKey]
+      : newDef;
   },
 
   /**
@@ -407,7 +452,10 @@ Joomla.checkAll = (checkbox, stub) => {
   let state = 0;
 
   elements.forEach((element) => {
-    if (element.type === checkbox.type && element.id.indexOf(currentStab) === 0) {
+    if (
+      element.type === checkbox.type &&
+      element.id.indexOf(currentStab) === 0
+    ) {
       element.checked = checkbox.checked;
       state += element.checked ? 1 : 0;
     }
@@ -415,10 +463,12 @@ Joomla.checkAll = (checkbox, stub) => {
 
   if (checkbox.form.boxchecked) {
     checkbox.form.boxchecked.value = state;
-    checkbox.form.boxchecked.dispatchEvent(new CustomEvent('change', {
-      bubbles: true,
-      cancelable: true,
-    }));
+    checkbox.form.boxchecked.dispatchEvent(
+      new CustomEvent('change', {
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
   }
 
   return true;
@@ -448,10 +498,12 @@ Joomla.isChecked = (isitchecked, form) => {
     ? parseInt(newForm.boxchecked.value, 10) + 1
     : parseInt(newForm.boxchecked.value, 10) - 1;
 
-  newForm.boxchecked.dispatchEvent(new CustomEvent('change', {
-    bubbles: true,
-    cancelable: true,
-  }));
+  newForm.boxchecked.dispatchEvent(
+    new CustomEvent('change', {
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
 
   // If we don't have a checkall-toggle, done.
   if (!newForm.elements['checkall-toggle']) {
@@ -599,13 +651,16 @@ Joomla.replaceTokens = (newToken) => {
  */
 Joomla.request = (options) => {
   // Prepare the options
-  const newOptions = Joomla.extend({
-    url: '',
-    method: 'GET',
-    data: null,
-    perform: true,
-    promise: false,
-  }, options);
+  const newOptions = Joomla.extend(
+    {
+      url: '',
+      method: 'GET',
+      data: null,
+      perform: true,
+      promise: false,
+    },
+    options,
+  );
 
   // Setup XMLHttpRequest instance
   const createRequest = (onSuccess, onError) => {
@@ -622,16 +677,22 @@ Joomla.request = (options) => {
 
       // Use the CSRF only on the site's domain
       if (
-        token && (
-          (!newOptions.url.startsWith('http:') && !newOptions.url.startsWith('https:'))
-          || newOptions.url.startsWith(window.location.origin)
-        )
+        token &&
+        ((!newOptions.url.startsWith('http:') &&
+          !newOptions.url.startsWith('https:')) ||
+          newOptions.url.startsWith(window.location.origin))
       ) {
         xhr.setRequestHeader('X-CSRF-Token', token);
       }
 
-      if (typeof newOptions.data === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      if (
+        typeof newOptions.data === 'string' &&
+        (!newOptions.headers || !newOptions.headers['Content-Type'])
+      ) {
+        xhr.setRequestHeader(
+          'Content-Type',
+          'application/x-www-form-urlencoded',
+        );
       }
     }
 
@@ -639,8 +700,10 @@ Joomla.request = (options) => {
     if (newOptions.headers) {
       Object.keys(newOptions.headers).forEach((key) => {
         // Allow request without Content-Type
-        if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') {
-
+        if (
+          key === 'Content-Type' &&
+          newOptions.headers['Content-Type'] === 'false'
+        ) {
         } else {
           xhr.setRequestHeader(key, newOptions.headers[key]);
         }
@@ -672,7 +735,10 @@ Joomla.request = (options) => {
 
     // Do request
     if (newOptions.perform) {
-      if (newOptions.onBefore && newOptions.onBefore.call(window, xhr) === false) {
+      if (
+        newOptions.onBefore &&
+        newOptions.onBefore.call(window, xhr) === false
+      ) {
         // Request interrupted
         if (newOptions.promise) {
           onSuccess.call(window, xhr);
@@ -696,7 +762,10 @@ Joomla.request = (options) => {
 
   // Return a Request
   try {
-    return createRequest(newOptions.onSuccess || (() => {}), newOptions.onError || (() => {}));
+    return createRequest(
+      newOptions.onSuccess || (() => {}),
+      newOptions.onError || (() => {}),
+    );
   } catch (error) {
     console.error(error);
     return false;
@@ -716,7 +785,9 @@ let lastRequestPromise;
  */
 Joomla.enqueueRequest = (options) => {
   if (!options.promise) {
-    throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
+    throw new Error(
+      'Joomla.enqueueRequest supports only Joomla.request as Promise',
+    );
   }
   if (!lastRequestPromise) {
     lastRequestPromise = Joomla.request(options);
@@ -735,8 +806,10 @@ Joomla.enqueueRequest = (options) => {
  * @return string
  */
 Joomla.sanitizeHtml = (unsafeHtml, allowList, sanitizeFn) => {
-  const allowed = (allowList === undefined || allowList === null)
-    ? DefaultAllowlist : { ...DefaultAllowlist, ...allowList };
+  const allowed =
+    allowList === undefined || allowList === null
+      ? DefaultAllowlist
+      : { ...DefaultAllowlist, ...allowList };
   return sanitizeHtml(unsafeHtml, allowed, sanitizeFn);
 };
 
@@ -768,20 +841,28 @@ Joomla.ajaxErrorsMessages = (xhr, textStatus) => {
 
     encodedJson = buf.join('');
 
-    msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
+    msg.error = [
+      Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson),
+    ];
   } else if (textStatus === 'nocontent') {
     msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
   } else if (textStatus === 'timeout') {
     msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_TIMEOUT')];
   } else if (textStatus === 'abort') {
     msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
-  } else if (xhr.responseJSON && xhr.responseJSON.message) {
+  } else if (xhr.responseJSON?.message) {
     // For vanilla XHR
-    msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
+    msg.error = [
+      `${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`,
+    ];
   } else if (xhr.statusText) {
-    msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
+    msg.error = [
+      `${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`,
+    ];
   } else {
-    msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
+    msg.error = [
+      Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status),
+    ];
   }
 
   return msg;

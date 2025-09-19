@@ -15,7 +15,7 @@
       this.inputHtmlBody = this.form.querySelector('#jform_htmlbody');
 
       // Set options
-      this.templateData = options && options.templateData ? options.templateData : {};
+      this.templateData = options?.templateData ? options.templateData : {};
 
       // Add back reference
       this.form.EmailTemplateEdit = this;
@@ -62,11 +62,15 @@
     }
 
     bindListeners() {
-      document.querySelector('#btnResetSubject').addEventListener('click', (event) => {
-        event.preventDefault();
+      document
+        .querySelector('#btnResetSubject')
+        .addEventListener('click', (event) => {
+          event.preventDefault();
 
-        this.inputSubject.value = this.templateData.subject ? this.templateData.subject : '';
-      });
+          this.inputSubject.value = this.templateData.subject
+            ? this.templateData.subject
+            : '';
+        });
 
       const btnResetBody = document.querySelector('#btnResetBody');
 
@@ -74,7 +78,9 @@
         btnResetBody.addEventListener('click', (event) => {
           event.preventDefault();
 
-          this.setBodyValue(this.templateData.body ? this.templateData.body : '');
+          this.setBodyValue(
+            this.templateData.body ? this.templateData.body : '',
+          );
         });
       }
 
@@ -84,7 +90,9 @@
         btnResetHtmlBody.addEventListener('click', (event) => {
           event.preventDefault();
 
-          this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody : '');
+          this.setHtmlBodyValue(
+            this.templateData.htmlbody ? this.templateData.htmlbody : '',
+          );
         });
       }
 
@@ -100,7 +108,10 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const editor = new EmailTemplateEdit(document.getElementById('item-form'), Joomla.getOptions('com_mails'));
+    const editor = new EmailTemplateEdit(
+      document.getElementById('item-form'),
+      Joomla.getOptions('com_mails'),
+    );
     editor.bindListeners();
   });
 })(document, Joomla);

@@ -14,11 +14,12 @@
     }
 
     connectedCallback() {
-      const self = this;
       const button = document.getElementById('sendtestmail');
 
       if (button) {
-        button.addEventListener('click', () => { self.sendTestMail(self); });
+        button.addEventListener('click', () => {
+          this.sendTestMail(this);
+        });
       }
     }
 
@@ -32,7 +33,9 @@
         mailfrom: this.querySelector('[name="jform[mailfrom]"]').value,
         fromname: this.querySelector('[name="jform[fromname]"]').value,
         mailer: this.querySelector('[name="jform[mailer]"]').value,
-        mailonline: document.getElementById('jform_mailonline1').checked ? 1 : 0,
+        mailonline: document.getElementById('jform_mailonline1').checked
+          ? 1
+          : 0,
       };
 
       const smtppass = this.querySelector('[name="jform[smtppass]"]');
@@ -58,7 +61,10 @@
             console.error(e);
           }
 
-          if (typeof response.messages === 'object' && response.messages !== null) {
+          if (
+            typeof response.messages === 'object' &&
+            response.messages !== null
+          ) {
             Joomla.renderMessages(response.messages);
           }
 

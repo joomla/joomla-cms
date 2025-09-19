@@ -14,9 +14,17 @@ Joomla = window.Joomla || {};
 
       // do field validation
       if (form.install_package.value === '') {
-        Joomla.renderMessages({ warning: [Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')] });
-      } else if (form.install_package.files[0].size > form.max_upload_size.value) {
-        Joomla.renderMessages({ warning: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
+        Joomla.renderMessages({
+          warning: [Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')],
+        });
+      } else if (
+        form.install_package.files[0].size > form.max_upload_size.value
+      ) {
+        Joomla.renderMessages({
+          warning: [
+            Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'),
+          ],
+        });
       } else {
         const loading = document.getElementById('loading');
         if (loading) {
@@ -47,9 +55,13 @@ Joomla = window.Joomla || {};
 
     function showError(res) {
       dragZone.setAttribute('data-state', 'pending');
-      let message = Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
+      let message = Joomla.Text._(
+        'PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN',
+      );
       if (res == null) {
-        message = Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+        message = Joomla.Text._(
+          'PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY',
+        );
       } else if (typeof res === 'string') {
         // Let's remove unnecessary HTML
         message = res.replace(/(<([^>]+)>|\s+)/g, ' ');
@@ -119,12 +131,18 @@ Joomla = window.Joomla || {};
       const data = new FormData();
 
       if (!file.type) {
-        Joomla.renderMessages({ error: [Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')] });
+        Joomla.renderMessages({
+          error: [Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')],
+        });
         return;
       }
 
       if (file.size > fileSizeMax) {
-        Joomla.renderMessages({ warning: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
+        Joomla.renderMessages({
+          warning: [
+            Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'),
+          ],
+        });
         return;
       }
 
@@ -185,7 +203,8 @@ Joomla = window.Joomla || {};
           if (res.data.redirect) {
             window.location.href = res.data.redirect;
           } else {
-            window.location.href = 'index.php?option=com_installer&view=install';
+            window.location.href =
+              'index.php?option=com_installer&view=install';
           }
         },
         onError: (error) => {
@@ -200,9 +219,11 @@ Joomla = window.Joomla || {};
       });
     });
 
-    document.getElementById('installbutton_package').addEventListener('click', (event) => {
-      event.preventDefault();
-      Joomla.submitbuttonpackage();
-    });
+    document
+      .getElementById('installbutton_package')
+      .addEventListener('click', (event) => {
+        event.preventDefault();
+        Joomla.submitbuttonpackage();
+      });
   });
 })(Joomla);

@@ -18,13 +18,15 @@
    * Regex for rgb values e.g. rgba(255, 0, 24, 0.5);
    * @type {RegExp}
    */
-  const rgbRegex = /^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i;
+  const rgbRegex =
+    /^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i;
 
   /**
    * Regex for hsl values e.g. hsl(255,0,24);
    * @type {RegExp}
    */
-  const hslRegex = /^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i;
+  const hslRegex =
+    /^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i;
 
   /**
    * Regex for saturation and lightness of hsl - only accepts 1 or 0 or 0.4 or 40
@@ -206,7 +208,6 @@
         case 'rgb':
           pattern = rgbRegex.source.slice(1, -1);
           break;
-        case 'hex':
         default:
           pattern = hexRegex.source.slice(1, -1);
       }
@@ -258,7 +259,9 @@
      */
     setInitValue() {
       // The initial value can be also a color defined in css
-      const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
+      const cssValue = window
+        .getComputedStyle(this.input)
+        .getPropertyValue(this.default);
       this.default = cssValue || this.default;
 
       if (this.color === '' || typeof this.color === 'undefined') {
@@ -268,7 +271,9 @@
         return;
       }
 
-      const value = this.checkValue(this.color, this.saveFormat) ? this.color : this.default;
+      const value = this.checkValue(this.color, this.saveFormat)
+        ? this.color
+        : this.default;
 
       if (!value) {
         this.showError('JFIELD_COLOR_ERROR_NO_COLOUR');
@@ -369,7 +374,6 @@
         case 'light':
           l = value;
           break;
-        case 'hue':
         default:
           h = value;
       }
@@ -457,7 +461,6 @@
           case 'light':
             value = Math.round(hsl[2] * 100);
             break;
-          case 'hue':
           default:
             value = Math.round(hsl[0]);
             break;
@@ -509,12 +512,9 @@
      * @return {string}
      */
     rgbToHex(rgb) {
-      let r = rgb[0].toString(16)
-        .toUpperCase();
-      let g = rgb[1].toString(16)
-        .toUpperCase();
-      let b = rgb[2].toString(16)
-        .toUpperCase();
+      let r = rgb[0].toString(16).toUpperCase();
+      let g = rgb[1].toString(16).toUpperCase();
+      let b = rgb[2].toString(16).toUpperCase();
 
       // Double value for hex with '#' and 6 chars
       r = r.length === 1 ? `${r}${r}` : r;
@@ -552,7 +552,7 @@
         } else if (min === 1) {
           s = min;
         } else {
-          s = (max - l) / (Math.min(l, 1 - l));
+          s = (max - l) / Math.min(l, 1 - l);
         }
 
         switch (max) {
@@ -560,11 +560,10 @@
             h = (60 * (g - b)) / d;
             break;
           case g:
-            h = 60 * (2 + ((b - r) / d));
+            h = 60 * (2 + (b - r) / d);
             break;
-          case b:
           default:
-            h = 60 * (4 + ((r - g) / d));
+            h = 60 * (4 + (r - g) / d);
             break;
         }
       }
@@ -611,10 +610,10 @@
         return this.hslToRgb(this.defaultHsl);
       }
 
-      const c = (1 - Math.abs((2 * l) - 1)) * s;
+      const c = (1 - Math.abs(2 * l - 1)) * s;
       const hi = h / 60;
       const x = c * (1 - Math.abs((hi % 2) - 1));
-      const m = l - (c / 2);
+      const m = l - c / 2;
 
       if (h >= 0 && h < 60) {
         [r, g, b] = [c, x, 0];

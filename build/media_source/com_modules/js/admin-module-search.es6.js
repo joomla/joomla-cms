@@ -35,9 +35,13 @@
 
 // Make sure the element exists i.e. a template override has not removed it.
 const elSearch = document.getElementById('comModulesSelectSearch');
-const elSearchContainer = document.getElementById('comModulesSelectSearchContainer');
+const elSearchContainer = document.getElementById(
+  'comModulesSelectSearchContainer',
+);
 const elSearchHeader = document.getElementById('comModulesSelectTypeHeader');
-const elSearchResults = document.getElementById('comModulesSelectResultsContainer');
+const elSearchResults = document.getElementById(
+  'comModulesSelectResultsContainer',
+);
 const alertElement = document.querySelector('.modules-alert');
 
 if (elSearch && elSearchContainer) {
@@ -48,7 +52,7 @@ if (elSearch && elSearchContainer) {
     let hasSearchResults = false;
 
     // Save the search string into session storage
-    if (typeof (sessionStorage) !== 'undefined') {
+    if (typeof sessionStorage !== 'undefined') {
       sessionStorage.setItem('Joomla.com_modules.new.search', partialSearch);
     }
 
@@ -68,8 +72,12 @@ if (elSearch && elSearchContainer) {
       const description = cardBody ? cardBody.textContent : '';
 
       // If the module title and description don’t match add a class to hide it.
-      if ((title && !title.toLowerCase().includes(partialSearch.toLowerCase())
-        && (description && !description.toLowerCase().includes(partialSearch.toLowerCase())))) {
+      if (
+        title &&
+        !title.toLowerCase().includes(partialSearch.toLowerCase()) &&
+        description &&
+        !description.toLowerCase().includes(partialSearch.toLowerCase())
+      ) {
         card.classList.add('d-none');
       } else {
         hasSearchResults = true;
@@ -94,14 +102,15 @@ if (elSearch && elSearchContainer) {
   elSearch.focus();
 
   try {
-    if (typeof (sessionStorage) !== 'undefined') {
+    if (typeof sessionStorage !== 'undefined') {
       // Load the search string from session storage
-      elSearch.value = sessionStorage.getItem('Joomla.com_modules.new.search') || '';
+      elSearch.value =
+        sessionStorage.getItem('Joomla.com_modules.new.search') || '';
 
       // Trigger the keyboard handler event manually to initiate the search
       elSearch.dispatchEvent(new KeyboardEvent('keyup'));
     }
-  } catch (e) {
+  } catch (_e) {
     // This is probably Internet Explorer which doesn't support the KeyboardEvent constructor :(
   }
 }

@@ -1,22 +1,50 @@
 {
   "files": {
-    "includes": ["build/media_source/**/*.{js,mjs,es6,vue}"]
+    "includes": [
+      "build/media_source/**/*.{js,mjs,es6,vue}",
+      "!**/*.es5.js"
+    ]
   },
   "linter": {
-    "includes": ["build/media_source/**/*.{js,mjs,es6,vue}"],
+    "includes": [
+      "build/media_source/**/*.{js,mjs,es6,vue}",
+      "!**/*.es5.js"
+    ],
     "enabled": true,
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noRedundantUseStrict": "off"
+        "noRedundantUseStrict": "off",
+        "noDocumentCookie": "off"
+      },
+	  "style": {
+        "useConsistentCurlyBraces": "error"
       }
     }
   },
+  "assist": {
+    "enabled": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
   "javascript": {
-    "globals": ["Joomla", "MediaManager", "bootstrap"]
+    "globals": ["Joomla", "MediaManager", "bootstrap"],
+    "formatter": {
+      "quoteStyle": "single",
+      "bracketSameLine": true
+    }
   },
   "json": {
     "linter": {
+      "enabled": false
+    },
+    "formatter": {
+      "enabled": false
+    },
+    "assist": {
       "enabled": false
     }
   }

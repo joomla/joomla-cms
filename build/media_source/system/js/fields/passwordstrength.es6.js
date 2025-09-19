@@ -57,13 +57,13 @@ class PasswordStrength {
     );
 
     if (mods === 1) {
-      score += value.length > this.length
-        ? 100
-        : (100 / this.length) * value.length;
+      score +=
+        value.length > this.length ? 100 : (100 / this.length) * value.length;
     } else {
-      score += value.length > this.length
-        ? (100 / mods)
-        : ((100 / mods) / this.length) * value.length;
+      score +=
+        value.length > this.length
+          ? 100 / mods
+          : (100 / mods / this.length) * value.length;
     }
 
     return score;
@@ -75,7 +75,7 @@ class PasswordStrength {
       return 100 / mods;
     }
     if (count && length > 0) {
-      return ((100 / mods) / length) * count.length;
+      return (100 / mods / length) * count.length;
     }
 
     return 0;
@@ -163,12 +163,17 @@ class PasswordStrength {
     // Set a handler for the validation script
     if (fields[0]) {
       document.formvalidator.setHandler('password-strength', (value) => {
-        const strengthElements = document.querySelectorAll('.js-password-strength');
+        const strengthElements = document.querySelectorAll(
+          '.js-password-strength',
+        );
         const minLength = strengthElements[0].getAttribute('data-min-length');
-        const minIntegers = strengthElements[0].getAttribute('data-min-integers');
+        const minIntegers =
+          strengthElements[0].getAttribute('data-min-integers');
         const minSymbols = strengthElements[0].getAttribute('data-min-symbols');
-        const minUppercase = strengthElements[0].getAttribute('data-min-uppercase');
-        const minLowercase = strengthElements[0].getAttribute('data-min-lowercase');
+        const minUppercase =
+          strengthElements[0].getAttribute('data-min-uppercase');
+        const minLowercase =
+          strengthElements[0].getAttribute('data-min-lowercase');
 
         const strength = new PasswordStrength({
           lowercase: minLowercase || 0,

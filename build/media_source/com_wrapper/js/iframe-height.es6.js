@@ -5,7 +5,10 @@
 
 ((window, document) => {
   window.iFrameHeight = (iframe) => {
-    const doc = 'contentDocument' in iframe ? iframe.contentDocument : iframe.contentWindow.document;
+    const doc =
+      'contentDocument' in iframe
+        ? iframe.contentDocument
+        : iframe.contentWindow.document;
     const height = parseInt(doc.body.scrollHeight, 10);
 
     if (!document.all) {

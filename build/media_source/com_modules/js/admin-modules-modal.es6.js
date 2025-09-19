@@ -1,7 +1,7 @@
 /**
-  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
-  * @license    GNU General Public License version 2 or later; see LICENSE.txt
-  */
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 (() => {
   // Use a JoomlaExpectingPostMessage flag to be able to distinct legacy methods
@@ -17,10 +17,13 @@
       const editor = event.target.getAttribute('data-editor');
 
       // Use the API
-      if (window.parent.Joomla && window.parent.Joomla.editors
-        && window.parent.Joomla.editors.instances
-        && Object.prototype.hasOwnProperty.call(window.parent.Joomla.editors.instances, editor)) {
-        window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadmoduleid ${modid}}`);
+      if (
+        window.parent.Joomla?.editors?.instances &&
+        Object.hasOwn(window.parent.Joomla.editors.instances, editor)
+      ) {
+        window.parent.Joomla.editors.instances[editor].replaceSelection(
+          `{loadmoduleid ${modid}}`,
+        );
       }
 
       if (window.parent.Joomla.Modal) {
@@ -37,9 +40,14 @@
       const editor = event.target.getAttribute('data-editor');
 
       // Use the API
-      if (window.Joomla && window.Joomla.editors && Joomla.editors.instances
-        && Object.prototype.hasOwnProperty.call(window.parent.Joomla.editors.instances, editor)) {
-        window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadposition ${position}}`);
+      if (
+        window.Joomla?.editors &&
+        Joomla.editors.instances &&
+        Object.hasOwn(window.parent.Joomla.editors.instances, editor)
+      ) {
+        window.parent.Joomla.editors.instances[editor].replaceSelection(
+          `{loadposition ${position}}`,
+        );
       }
 
       if (window.parent.Joomla.Modal) {

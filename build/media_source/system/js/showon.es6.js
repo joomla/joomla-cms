@@ -13,7 +13,6 @@ class Showon {
    * @param {HTMLElement} cont Container element
    */
   constructor(cont) {
-    const self = this;
     this.container = cont || document;
     this.fields = {
       // origin-field-name: {
@@ -38,7 +37,9 @@ class Showon {
         let localFields;
 
         if (showonData.length) {
-          localFields = self.container.querySelectorAll(`[name="${showonData[0].field}"], [name="${showonData[0].field}[]"]`);
+          localFields = this.container.querySelectorAll(
+            `[name="${showonData[0].field}"], [name="${showonData[0].field}[]"]`,
+          );
 
           if (!this.fields[showonData[0].field]) {
             this.fields[showonData[0].field] = {
@@ -49,7 +50,9 @@ class Showon {
 
           // Add trigger elements
           localFields.forEach((cField) => {
-            if (this.fields[showonData[0].field].origin.indexOf(cField) === -1) {
+            if (
+              this.fields[showonData[0].field].origin.indexOf(cField) === -1
+            ) {
               this.fields[showonData[0].field].origin.push(cField);
             }
           });
@@ -64,7 +67,9 @@ class Showon {
                 return;
               }
 
-              localFields = self.container.querySelectorAll(`[name="${value.field}"], [name="${value.field}[]"]`);
+              localFields = this.container.querySelectorAll(
+                `[name="${value.field}"], [name="${value.field}[]"]`,
+              );
 
               if (!this.fields[showonData[0].field]) {
                 this.fields[showonData[0].field] = {
@@ -75,13 +80,17 @@ class Showon {
 
               // Add trigger elements
               localFields.forEach((cField) => {
-                if (this.fields[showonData[0].field].origin.indexOf(cField) === -1) {
+                if (
+                  this.fields[showonData[0].field].origin.indexOf(cField) === -1
+                ) {
                   this.fields[showonData[0].field].origin.push(cField);
                 }
               });
 
               // Add target elements
-              if (this.fields[showonData[0].field].targets.indexOf(field) === -1) {
+              if (
+                this.fields[showonData[0].field].targets.indexOf(field) === -1
+              ) {
                 this.fields[showonData[0].field].targets.push(field);
               }
             });
@@ -97,12 +106,18 @@ class Showon {
         if (this.fields[key].origin.length) {
           this.fields[key].origin.forEach((elem) => {
             // Initialize the showon behaviour for the given HTMLElement
-            self.linkedOptions(key);
+            this.linkedOptions(key);
 
             // Setup listeners
-            elem.addEventListener('change', () => { self.linkedOptions(key); });
-            elem.addEventListener('keyup', () => { self.linkedOptions(key); });
-            elem.addEventListener('click', () => { self.linkedOptions(key); });
+            elem.addEventListener('change', () => {
+              this.linkedOptions(key);
+            });
+            elem.addEventListener('keyup', () => {
+              this.linkedOptions(key);
+            });
+            elem.addEventListener('click', () => {
+              this.linkedOptions(key);
+            });
           });
         }
       });
@@ -116,7 +131,8 @@ class Showon {
   linkedOptions(key) {
     // Loop through the elements that need to be either shown or hidden
     this.fields[key].targets.forEach((field) => {
-      const elementShowonDatas = JSON.parse(field.getAttribute('data-showon')) || [];
+      const elementShowonDatas =
+        JSON.parse(field.getAttribute('data-showon')) || [];
       let showfield = true;
       let itemval;
 
@@ -134,7 +150,12 @@ class Showon {
           const originId = originField.id;
 
           // If checkbox or radio box the value is read from properties
-          if (originField.getAttribute('type') && ['checkbox', 'radio'].includes(originField.getAttribute('type').toLowerCase())) {
+          if (
+            originField.getAttribute('type') &&
+            ['checkbox', 'radio'].includes(
+              originField.getAttribute('type').toLowerCase(),
+            )
+          ) {
             if (!originField.checked) {
               // Unchecked fields will return a blank and so always match
               // a != condition so we skip them
@@ -142,15 +163,21 @@ class Showon {
             }
 
             itemval = document.getElementById(originId).value;
-          } else if (originField.nodeName === 'SELECT' && originField.hasAttribute('multiple')) {
-            itemval = Array.from(originField.querySelectorAll('option:checked')).map((el) => el.value);
+          } else if (
+            originField.nodeName === 'SELECT' &&
+            originField.hasAttribute('multiple')
+          ) {
+            itemval = Array.from(
+              originField.querySelectorAll('option:checked'),
+            ).map((el) => el.value);
           } else {
             // Select lists, text-area etc. Note that multiple-select list returns
             // an Array here so we can always treat 'itemval' as an array
             itemval = document.getElementById(originId).value;
             // Check data attribute data-global instead of value in <select> for use global
             if (originField.tagName === 'SELECT') {
-              const selectedOption = document.getElementById(originId).selectedOptions[0];
+              const selectedOption =
+                document.getElementById(originId).selectedOptions[0];
 
               if (selectedOption && 'globalValue' in selectedOption.dataset) {
                 itemval = selectedOption.dataset.globalValue;
@@ -158,7 +185,10 @@ class Showon {
             }
             // A multi-select <select> $field  will return null when no elements are
             // selected so we need to define itemval accordingly
-            if (itemval === null && originField.tagName.toLowerCase() === 'select') {
+            if (
+              itemval === null &&
+              originField.tagName.toLowerCase() === 'select'
+            ) {
               itemval = [];
             }
           }
@@ -172,11 +202,17 @@ class Showon {
           // Test if any of the values of the field exists in showon conditions
           itemval.forEach((val) => {
             // ":" Equal to one or more of the values condition
-            if (condition.sign === '=' && condition.values.indexOf(val) !== -1) {
+            if (
+              condition.sign === '=' &&
+              condition.values.indexOf(val) !== -1
+            ) {
               condition.valid = 1;
             }
             // "!:" Not equal to one or more of the values condition
-            if (condition.sign === '!=' && condition.values.indexOf(val) === -1) {
+            if (
+              condition.sign === '!=' &&
+              condition.values.indexOf(val) === -1
+            ) {
               condition.valid = 1;
             }
           });
@@ -191,12 +227,18 @@ class Showon {
         } else {
           // Other conditions (if exists)
           // AND operator: both the previous and current conditions must be valid
-          if (condition.op === 'AND' && condition.valid + elementShowonDatas[index - 1].valid < 2) {
+          if (
+            condition.op === 'AND' &&
+            condition.valid + elementShowonDatas[index - 1].valid < 2
+          ) {
             showfield = false;
             condition.valid = 0;
           }
           // OR operator: one of the previous and current conditions must be valid
-          if (condition.op === 'OR' && condition.valid + elementShowonDatas[index - 1].valid > 0) {
+          if (
+            condition.op === 'OR' &&
+            condition.valid + elementShowonDatas[index - 1].valid > 0
+          ) {
             showfield = true;
             condition.valid = 1;
           }
@@ -207,14 +249,18 @@ class Showon {
       if (field.tagName !== 'option') {
         if (showfield) {
           field.classList.remove('hidden');
-          field.dispatchEvent(new CustomEvent('joomla:showon-show', {
-            bubbles: true,
-          }));
+          field.dispatchEvent(
+            new CustomEvent('joomla:showon-show', {
+              bubbles: true,
+            }),
+          );
         } else {
           field.classList.add('hidden');
-          field.dispatchEvent(new CustomEvent('joomla:showon-hide', {
-            bubbles: true,
-          }));
+          field.dispatchEvent(
+            new CustomEvent('joomla:showon-hide', {
+              bubbles: true,
+            }),
+          );
         }
       } else {
         // @todo: If chosen or choices.js is active we should update them
@@ -252,7 +298,7 @@ const getMatchedParents = ($child, selector) => {
   const parents = [];
 
   while ($parent) {
-    $matchingParent = $parent.matches && $parent.matches(selector) ? $parent : null;
+    $matchingParent = $parent.matches?.(selector) ? $parent : null;
     if ($matchingParent) {
       parents.unshift($matchingParent);
     }
@@ -275,10 +321,12 @@ document.addEventListener('joomla:updated', ({ target }) => {
       const replace = [];
 
       // Collect all parent groups of changed group
-      getMatchedParents(target, '.subform-repeatable-group').forEach(($parent) => {
-        search.push(new RegExp(`\\[${$parent.dataset.baseName}X\\]`, 'g'));
-        replace.push(`[${$parent.dataset.group}]`);
-      });
+      getMatchedParents(target, '.subform-repeatable-group').forEach(
+        ($parent) => {
+          search.push(new RegExp(`\\[${$parent.dataset.baseName}X\\]`, 'g'));
+          replace.push(`[${$parent.dataset.group}]`);
+        },
+      );
 
       // Fix showon field names in a current group
       elements.forEach((element) => {

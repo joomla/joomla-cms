@@ -11,8 +11,10 @@
    * jSelectContact creates the link tag, sends it to the editor,
    * and closes the select frame.
    */
-  window.jSelectMenuItem = (id, title, uri, object, link, lang) => {
-    console.warn('Method jSelectMenuItem() is deprecated. Use postMessage() instead.');
+  window.jSelectMenuItem = (_id, title, uri, _object, _link, lang) => {
+    console.warn(
+      'Method jSelectMenuItem() is deprecated. Use postMessage() instead.',
+    );
     let thislang = '';
 
     if (!Joomla.getOptions('xtd-menus')) {
@@ -30,13 +32,15 @@
 
     // Insert the link in the editor
     if (window.parent.Joomla.editors.instances[editor].getSelection()) {
-      window.parent.Joomla.editors.instances[editor].replaceSelection(`<a href="${uri + thislang + lang}">${window.parent.Joomla.editors.instances[editor].getSelection()}</a>`);
+      window.parent.Joomla.editors.instances[editor].replaceSelection(
+        `<a href="${uri + thislang + lang}">${window.parent.Joomla.editors.instances[editor].getSelection()}</a>`,
+      );
     } else {
       window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
     }
 
     // Close the modal
-    if (window.parent.Joomla.Modal && window.parent.Joomla.Modal.getCurrent()) {
+    if (window.parent.Joomla.Modal?.getCurrent()) {
       window.parent.Joomla.Modal.getCurrent().close();
     }
   };
@@ -50,14 +54,29 @@
 
       if (functionName === 'jSelectMenuItem' && window[functionName]) {
         // Used in xtd_contacts
-        window[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), event.target.getAttribute('data-uri'), null, null, event.target.getAttribute('data-language'));
+        window[functionName](
+          event.target.getAttribute('data-id'),
+          event.target.getAttribute('data-title'),
+          event.target.getAttribute('data-uri'),
+          null,
+          null,
+          event.target.getAttribute('data-language'),
+        );
       } else if (window.parent[functionName]) {
         // Used in com_menus
-        window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
+        window.parent[functionName](
+          event.target.getAttribute('data-id'),
+          event.target.getAttribute('data-title'),
+          null,
+          null,
+          event.target.getAttribute('data-uri'),
+          event.target.getAttribute('data-language'),
+          null,
+        );
       }
 
       // Close the modal
-      if (window.parent.Joomla.Modal && window.parent.Joomla.Modal.getCurrent()) {
+      if (window.parent.Joomla.Modal?.getCurrent()) {
         window.parent.Joomla.Modal.getCurrent().close();
       }
     });

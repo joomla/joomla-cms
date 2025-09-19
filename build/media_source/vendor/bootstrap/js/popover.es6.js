@@ -5,7 +5,7 @@ window.bootstrap = window.bootstrap || {};
 window.bootstrap.Popover = Popover;
 window.bootstrap.Tooltip = Tooltip;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla?.getOptions) {
   // Get the elements/configurations from the PHP
   const tooltips = Joomla.getOptions('bootstrap.tooltip');
   const popovers = Joomla.getOptions('bootstrap.popover');
@@ -23,7 +23,9 @@ if (Joomla && Joomla.getOptions) {
         title: opt.title ? opt.title : '',
         trigger: opt.trigger ? opt.trigger : 'click',
         offset: opt.offset ? opt.offset : 0,
-        fallbackPlacement: opt.fallbackPlacement ? opt.fallbackPlacement : 'flip',
+        fallbackPlacement: opt.fallbackPlacement
+          ? opt.fallbackPlacement
+          : 'flip',
         boundary: opt.boundary ? opt.boundary : 'scrollParent',
         customClass: opt.customClass ? opt.customClass : '',
         sanitize: opt.sanitize ? opt.sanitize : true,

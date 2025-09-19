@@ -16,7 +16,7 @@ JoomlaEditorButton.registerAction('modal-media', (editor, options) => {
       className: 'button button-success btn btn-success',
       location: 'header',
       onClick: () => {
-        if (Joomla.selectedMediaFile && Joomla.selectedMediaFile.path) {
+        if (Joomla.selectedMediaFile?.path) {
           Joomla.getMedia(Joomla.selectedMediaFile, editor).then(() => {
             dialog.close();
             Joomla.selectedMediaFile = {};

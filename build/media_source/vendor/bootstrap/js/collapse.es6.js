@@ -3,9 +3,12 @@ import Collapse from 'bootstrap/js/src/collapse';
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Collapse = Collapse;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla?.getOptions) {
   // Get the elements/configurations from the PHP
-  const collapses = { ...Joomla.getOptions('bootstrap.collapse'), ...Joomla.getOptions('bootstrap.accordion') };
+  const collapses = {
+    ...Joomla.getOptions('bootstrap.collapse'),
+    ...Joomla.getOptions('bootstrap.accordion'),
+  };
   // Initialise the elements
   Object.keys(collapses).forEach((collapse) => {
     const opt = collapses[collapse];

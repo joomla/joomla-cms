@@ -46,11 +46,13 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
       elem.classList.remove('child-open');
     }
 
-    window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
-      detail: wrapper.classList.contains('closed') ? 'closed' : 'open',
-      bubbles: true,
-      cancelable: true,
-    }));
+    window.dispatchEvent(
+      new CustomEvent('joomla:menu-toggle', {
+        detail: wrapper.classList.contains('closed') ? 'closed' : 'open',
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
   });
 
   // Sidebar Nav
@@ -58,24 +60,28 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   const mainNav = document.querySelector('ul.main-nav');
 
   // Set active class
-  wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a').forEach((link) => {
-    if (
-      (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0)
-      || (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))) {
-      link.setAttribute('aria-current', 'page');
-      link.classList.add('mm-active');
+  wrapper
+    .querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a')
+    .forEach((link) => {
+      if (
+        (!link.href.match(/index\.php$/) &&
+          currentUrl.indexOf(link.href) === 0) ||
+        (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))
+      ) {
+        link.setAttribute('aria-current', 'page');
+        link.classList.add('mm-active');
 
-      // Auto Expand Levels
-      if (!link.parentNode.classList.contains('parent')) {
-        const firstLevel = link.closest('.collapse-level-1');
-        const secondLevel = link.closest('.collapse-level-2');
-        if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
-        if (firstLevel) firstLevel.classList.add('mm-show');
-        if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
-        if (secondLevel) secondLevel.classList.add('mm-show');
+        // Auto Expand Levels
+        if (!link.parentNode.classList.contains('parent')) {
+          const firstLevel = link.closest('.collapse-level-1');
+          const secondLevel = link.closest('.collapse-level-2');
+          if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
+          if (firstLevel) firstLevel.classList.add('mm-show');
+          if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
+          if (secondLevel) secondLevel.classList.add('mm-show');
+        }
       }
-    }
-  });
+    });
 
   // Child open toggle
   const openToggle = ({ currentTarget }) => {
@@ -106,11 +112,13 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
       }
     }
 
-    window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
-      detail: 'open',
-      bubbles: true,
-      cancelable: true,
-    }));
+    window.dispatchEvent(
+      new CustomEvent('joomla:menu-toggle', {
+        detail: 'open',
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
   };
 
   document.querySelectorAll('ul.main-nav li.parent > a').forEach((parent) => {
@@ -119,12 +127,14 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   });
 
   // Menu close
-  document.querySelectorAll('ul.main-nav li.parent .close').forEach((subMenu) => {
-    subMenu.addEventListener('click', () => {
-      mainNav.querySelectorAll('.open').forEach((menuChild) => {
-        menuChild.classList.remove('open');
+  document
+    .querySelectorAll('ul.main-nav li.parent .close')
+    .forEach((subMenu) => {
+      subMenu.addEventListener('click', () => {
+        mainNav.querySelectorAll('.open').forEach((menuChild) => {
+          menuChild.classList.remove('open');
+        });
+        mainNav.classList.remove('child-open');
       });
-      mainNav.classList.remove('child-open');
     });
-  });
 }

@@ -11,13 +11,15 @@
   }
 
   /**
-    * Javascript to insert the link
-    * View element calls jSelectArticle when an article is clicked
-    * jSelectArticle creates the link tag, sends it to the editor,
-    * and closes the select frame.
-    * */
-  window.jSelectArticle = (id, title, catid, object, link, lang) => {
-    console.warn('Method jSelectArticle() is deprecated. Use postMessage() instead.');
+   * Javascript to insert the link
+   * View element calls jSelectArticle when an article is clicked
+   * jSelectArticle creates the link tag, sends it to the editor,
+   * and closes the select frame.
+   * */
+  window.jSelectArticle = (_id, title, _catid, _object, link, lang) => {
+    console.warn(
+      'Method jSelectArticle() is deprecated. Use postMessage() instead.',
+    );
 
     if (!Joomla.getOptions('xtd-articles')) {
       return;
@@ -27,7 +29,7 @@
     const tag = `<a href="${link}"${lang !== '' ? ` hreflang="${lang}"` : ''}>${title}</a>`;
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
 
-    if (window.parent.Joomla.Modal && window.parent.Joomla.Modal.getCurrent()) {
+    if (window.parent.Joomla.Modal?.getCurrent()) {
       window.parent.Joomla.Modal.getCurrent().close();
     }
   };
@@ -41,13 +43,27 @@
 
       if (functionName === 'jSelectArticle' && window[functionName]) {
         // Used in xtd_contacts
-        window[functionName](target.getAttribute('data-id'), target.getAttribute('data-title'), target.getAttribute('data-cat-id'), null, target.getAttribute('data-uri'), target.getAttribute('data-language'));
+        window[functionName](
+          target.getAttribute('data-id'),
+          target.getAttribute('data-title'),
+          target.getAttribute('data-cat-id'),
+          null,
+          target.getAttribute('data-uri'),
+          target.getAttribute('data-language'),
+        );
       } else if (window.parent[functionName]) {
         // Used in com_menus
-        window.parent[functionName](target.getAttribute('data-id'), target.getAttribute('data-title'), target.getAttribute('data-cat-id'), null, target.getAttribute('data-uri'), target.getAttribute('data-language'));
+        window.parent[functionName](
+          target.getAttribute('data-id'),
+          target.getAttribute('data-title'),
+          target.getAttribute('data-cat-id'),
+          null,
+          target.getAttribute('data-uri'),
+          target.getAttribute('data-language'),
+        );
       }
 
-      if (window.parent.Joomla.Modal && window.parent.Joomla.Modal.getCurrent()) {
+      if (window.parent.Joomla.Modal?.getCurrent()) {
         window.parent.Joomla.Modal.getCurrent().close();
       }
     });

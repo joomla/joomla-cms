@@ -22,7 +22,7 @@
         custom.classList.remove('hidden');
         break;
       default:
-        // Do nothing
+      // Do nothing
     }
   };
 

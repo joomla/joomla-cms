@@ -92,7 +92,9 @@ Joomla.JoomlaTinyMCE = {
     editors.forEach((editor) => {
       const currentEditor = editor.querySelector('textarea');
       const toggleButton = editor.querySelector('.js-tiny-toggler-button');
-      const toggleIcon = toggleButton ? toggleButton.querySelector('.icon-eye') : false;
+      const toggleIcon = toggleButton
+        ? toggleButton.querySelector('.icon-eye')
+        : false;
 
       // Set up the editor
       Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
@@ -113,7 +115,10 @@ Joomla.JoomlaTinyMCE = {
           const visible = ed.toggle();
 
           if (toggleIcon) {
-            toggleIcon.setAttribute('class', visible ? 'icon-eye' : 'icon-eye-slash');
+            toggleIcon.setAttribute(
+              'class',
+              visible ? 'icon-eye' : 'icon-eye-slash',
+            );
           }
         }
       });
@@ -134,7 +139,13 @@ Joomla.JoomlaTinyMCE = {
       return;
     }
 
-    const name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default'; // Get Editor name
+    const name = element
+      ? element
+          .getAttribute('name')
+          .replace(/\[\]|\]/g, '')
+          .split('[')
+          .pop()
+      : 'default'; // Get Editor name
     const tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {};
     const defaultOptions = tinyMCEOptions.default || {};
     // Check specific options by the name
@@ -182,11 +193,15 @@ Joomla.JoomlaTinyMCE = {
 
     // We'll take over the onSubmit event
     options.init_instance_callback = (editor) => {
-      editor.on('submit', () => {
-        if (editor.isHidden()) {
-          editor.show();
-        }
-      }, true);
+      editor.on(
+        'submit',
+        () => {
+          if (editor.isHidden()) {
+            editor.show();
+          }
+        },
+        true,
+      );
     };
 
     // Create a new instance
@@ -238,9 +253,13 @@ Joomla.JoomlaTinyMCE = {
 /**
  * Initialize at an initial page load
  */
-document.addEventListener('DOMContentLoaded', () => { Joomla.JoomlaTinyMCE.setupEditors(document); });
+document.addEventListener('DOMContentLoaded', () => {
+  Joomla.JoomlaTinyMCE.setupEditors(document);
+});
 
 /**
  * Initialize when a part of the page was updated
  */
-document.addEventListener('joomla:updated', ({ target }) => Joomla.JoomlaTinyMCE.setupEditors(target));
+document.addEventListener('joomla:updated', ({ target }) =>
+  Joomla.JoomlaTinyMCE.setupEditors(target),
+);

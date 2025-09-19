@@ -8,7 +8,9 @@ const getColorScheme = () => {
   }
 
   if ('colorScheme' in document.documentElement.dataset) {
-    return document.documentElement.dataset.colorScheme === 'dark' ? darkColor : lightColor;
+    return document.documentElement.dataset.colorScheme === 'dark'
+      ? darkColor
+      : lightColor;
   }
 
   return darkModeMediaQuery.matches ? darkColor : lightColor;
@@ -18,7 +20,9 @@ const getColorScheme = () => {
  * Creates a custom element with the default spinner of the Joomla logo
  */
 class JoomlaCoreLoader extends HTMLElement {
-  get inline() { return this.hasAttribute('inline'); }
+  get inline() {
+    return this.hasAttribute('inline');
+  }
 
   set inline(value) {
     if (value !== null) {
@@ -28,13 +32,21 @@ class JoomlaCoreLoader extends HTMLElement {
     }
   }
 
-  get size() { return this.getAttribute('size') || '345'; }
+  get size() {
+    return this.getAttribute('size') || '345';
+  }
 
-  set size(value) { this.setAttribute('size', value); }
+  set size(value) {
+    this.setAttribute('size', value);
+  }
 
-  get color() { return this.getAttribute('color'); }
+  get color() {
+    return this.getAttribute('color');
+  }
 
-  set color(value) { this.setAttribute('color', value); }
+  set color(value) {
+    this.setAttribute('color', value);
+  }
 
   static get observedAttributes() {
     return ['color', 'size', 'inline'];

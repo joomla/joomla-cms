@@ -38,58 +38,121 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['base-path', 'root-folder', 'url', 'modal-title', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'preview', 'preview-width', 'preview-height'];
+    return [
+      'base-path',
+      'root-folder',
+      'url',
+      'modal-title',
+      'modal-width',
+      'modal-height',
+      'input',
+      'button-select',
+      'button-clear',
+      'preview',
+      'preview-width',
+      'preview-height',
+    ];
   }
 
-  get types() { return this.getAttribute('types') || ''; }
+  get types() {
+    return this.getAttribute('types') || '';
+  }
 
-  set types(value) { this.setAttribute('types', value); }
+  set types(value) {
+    this.setAttribute('types', value);
+  }
 
-  get basePath() { return this.getAttribute('base-path'); }
+  get basePath() {
+    return this.getAttribute('base-path');
+  }
 
-  set basePath(value) { this.setAttribute('base-path', value); }
+  set basePath(value) {
+    this.setAttribute('base-path', value);
+  }
 
-  get url() { return this.getAttribute('url'); }
+  get url() {
+    return this.getAttribute('url');
+  }
 
-  set url(value) { this.setAttribute('url', value); }
+  set url(value) {
+    this.setAttribute('url', value);
+  }
 
-  get input() { return this.getAttribute('input'); }
+  get input() {
+    return this.getAttribute('input');
+  }
 
-  set input(value) { this.setAttribute('input', value); }
+  set input(value) {
+    this.setAttribute('input', value);
+  }
 
-  get buttonSelect() { return this.getAttribute('button-select'); }
+  get buttonSelect() {
+    return this.getAttribute('button-select');
+  }
 
-  set buttonSelect(value) { this.setAttribute('button-select', value); }
+  set buttonSelect(value) {
+    this.setAttribute('button-select', value);
+  }
 
-  get buttonClear() { return this.getAttribute('button-clear'); }
+  get buttonClear() {
+    return this.getAttribute('button-clear');
+  }
 
-  set buttonClear(value) { this.setAttribute('button-clear', value); }
+  set buttonClear(value) {
+    this.setAttribute('button-clear', value);
+  }
 
-  get modalWidth() { return this.getAttribute('modal-width'); }
+  get modalWidth() {
+    return this.getAttribute('modal-width');
+  }
 
-  set modalWidth(value) { this.setAttribute('modal-width', value); }
+  set modalWidth(value) {
+    this.setAttribute('modal-width', value);
+  }
 
-  get modalHeight() { return this.getAttribute('modal-height'); }
+  get modalHeight() {
+    return this.getAttribute('modal-height');
+  }
 
-  set modalHeight(value) { this.setAttribute('modal-height', value); }
+  set modalHeight(value) {
+    this.setAttribute('modal-height', value);
+  }
 
-  get modalTitle() { return this.getAttribute('modal-title'); }
+  get modalTitle() {
+    return this.getAttribute('modal-title');
+  }
 
-  set modalTitle(value) { this.setAttribute('modal-title', value); }
+  set modalTitle(value) {
+    this.setAttribute('modal-title', value);
+  }
 
-  get previewWidth() { return parseInt(this.getAttribute('preview-width'), 10); }
+  get previewWidth() {
+    return parseInt(this.getAttribute('preview-width'), 10);
+  }
 
-  set previewWidth(value) { this.setAttribute('preview-width', value); }
+  set previewWidth(value) {
+    this.setAttribute('preview-width', value);
+  }
 
-  get previewHeight() { return parseInt(this.getAttribute('preview-height'), 10); }
+  get previewHeight() {
+    return parseInt(this.getAttribute('preview-height'), 10);
+  }
 
-  set previewHeight(value) { this.setAttribute('preview-height', value); }
+  set previewHeight(value) {
+    this.setAttribute('preview-height', value);
+  }
 
-  get preview() { return this.getAttribute('preview'); }
+  get preview() {
+    return this.getAttribute('preview');
+  }
 
-  set preview(value) { this.setAttribute('preview', value); }
+  set preview(value) {
+    this.setAttribute('preview', value);
+  }
 
-  get previewContainer() { return this.getAttribute('preview-container'); }
+  get previewContainer() {
+    return this.getAttribute('preview-container');
+  }
 
   connectedCallback() {
     this.button = this.querySelector(this.buttonSelect);
@@ -181,7 +244,7 @@ class JoomlaFieldMedia extends HTMLElement {
       } else {
         await Joomla.getMedia(item, this.inputElement, this);
       }
-    } catch (err) {
+    } catch (_err) {
       Joomla.renderMessages({
         error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
       });
@@ -199,10 +262,12 @@ class JoomlaFieldMedia extends HTMLElement {
 
     // trigger change event both on the input and on the custom element
     this.inputElement.dispatchEvent(new Event('change'));
-    this.dispatchEvent(new CustomEvent('change', {
-      detail: { value },
-      bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('change', {
+        detail: { value },
+        bubbles: true,
+      }),
+    );
   }
 
   async validateValue(event) {
@@ -220,7 +285,7 @@ class JoomlaFieldMedia extends HTMLElement {
             this.markInvalid();
           }
         });
-      } catch (err) {
+      } catch (_err) {
         this.validatedUrl = value;
         this.markInvalid();
       }
@@ -299,7 +364,11 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   updatePreview() {
-    if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
+    if (
+      ['true', 'static'].indexOf(this.preview) === -1 ||
+      this.preview === 'false' ||
+      !this.previewElement
+    ) {
       return;
     }
 
@@ -309,7 +378,9 @@ class JoomlaFieldMedia extends HTMLElement {
       const { supportedExtensions } = this;
       if (!value) {
         this.buttonClearEl.style.display = 'none';
-        this.previewElement.innerHTML = Joomla.sanitizeHtml('<span class="field-media-preview-icon"></span>');
+        this.previewElement.innerHTML = Joomla.sanitizeHtml(
+          '<span class="field-media-preview-icon"></span>',
+        );
       } else {
         let type;
         this.buttonClearEl.style.display = '';
@@ -326,14 +397,18 @@ class JoomlaFieldMedia extends HTMLElement {
           images: () => {
             if (supportedExtensions.images.includes(ext)) {
               previewElement = new Image();
-              previewElement.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              previewElement.src = /http/.test(value)
+                ? value
+                : Joomla.getOptions('system.paths').rootFull + value;
               previewElement.setAttribute('alt', '');
             }
           },
           audios: () => {
             if (supportedExtensions.audios.includes(ext)) {
               previewElement = document.createElement('audio');
-              previewElement.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              previewElement.src = /http/.test(value)
+                ? value
+                : Joomla.getOptions('system.paths').rootFull + value;
               previewElement.setAttribute('controls', '');
             }
           },
@@ -341,7 +416,9 @@ class JoomlaFieldMedia extends HTMLElement {
             if (supportedExtensions.videos.includes(ext)) {
               previewElement = document.createElement('video');
               const previewElementSource = document.createElement('source');
-              previewElementSource.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              previewElementSource.src = /http/.test(value)
+                ? value
+                : Joomla.getOptions('system.paths').rootFull + value;
               previewElementSource.type = this.mimeType;
               previewElement.setAttribute('controls', '');
               previewElement.setAttribute('width', this.previewWidth);
@@ -352,7 +429,9 @@ class JoomlaFieldMedia extends HTMLElement {
           documents: () => {
             if (supportedExtensions.documents.includes(ext)) {
               previewElement = document.createElement('object');
-              previewElement.data = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              previewElement.data = /http/.test(value)
+                ? value
+                : Joomla.getOptions('system.paths').rootFull + value;
               previewElement.type = this.mimeType;
               previewElement.setAttribute('width', this.previewWidth);
               previewElement.setAttribute('height', this.previewHeight);
@@ -361,9 +440,15 @@ class JoomlaFieldMedia extends HTMLElement {
         };
 
         // @todo more checks
-        if (this.givenType && ['images', 'audios', 'videos', 'documents'].includes(this.givenType)) {
+        if (
+          this.givenType &&
+          ['images', 'audios', 'videos', 'documents'].includes(this.givenType)
+        ) {
           mediaType[this.givenType]();
-        } else if (type && ['images', 'audios', 'videos', 'documents'].includes(type)) {
+        } else if (
+          type &&
+          ['images', 'audios', 'videos', 'documents'].includes(type)
+        ) {
           mediaType[type]();
         } else {
           return;

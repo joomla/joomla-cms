@@ -2,34 +2,38 @@
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+import { closeBrackets } from '@codemirror/autocomplete';
 import {
-  EditorView,
-  lineNumbers,
-  highlightActiveLineGutter,
-  highlightSpecialChars,
-  drawSelection,
-  highlightActiveLine,
-  keymap,
-} from '@codemirror/view';
-import { EditorState, Compartment } from '@codemirror/state';
+  defaultKeymap,
+  emacsStyleKeymap,
+  history,
+  historyKeymap,
+} from '@codemirror/commands';
 import {
+  defaultHighlightStyle,
   foldGutter,
   syntaxHighlighting,
-  defaultHighlightStyle,
 } from '@codemirror/language';
-import {
-  history, defaultKeymap, historyKeymap, emacsStyleKeymap,
-} from '@codemirror/commands';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
-import { closeBrackets } from '@codemirror/autocomplete';
+import { Compartment, EditorState } from '@codemirror/state';
 import { oneDark } from '@codemirror/theme-one-dark';
+import {
+  drawSelection,
+  EditorView,
+  highlightActiveLine,
+  highlightActiveLineGutter,
+  highlightSpecialChars,
+  keymap,
+  lineNumbers,
+} from '@codemirror/view';
 
-const minimalSetup = (() => [
+const minimalSetup = () => [
   highlightSpecialChars(),
   history(),
   drawSelection(),
   syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-]);
+];
 
 /**
  * Configure and return list of extensions for given options
@@ -46,21 +50,30 @@ const optionsToExtensions = async (options) => {
     const { mode } = options;
     const modeOptions = options[mode] || {};
 
-    q.push(import(`@codemirror/lang-${options.mode}`).then((modeMod) => {
-      // For html and php we need to configure selfClosingTags, to make code folding work correctly with <jdoc:include />
-      if (mode === 'php') {
-        return import('@codemirror/lang-html').then(({ html }) => {
-          const htmlOptions = options.html || { selfClosingTags: true };
-          extensions.push(modeMod.php({ baseLanguage: html(htmlOptions).language }));
-        });
-      }
-      if (mode === 'html') {
-        modeOptions.selfClosingTags = true;
-      }
-      extensions.push(modeMod[options.mode](modeOptions));
-    }).catch((error) => {
-      console.error(`Cannot create an extension for "${options.mode}" syntax mode.`, error);
-    }));
+    q.push(
+      import(`@codemirror/lang-${options.mode}`)
+        .then((modeMod) => {
+          // For html and php we need to configure selfClosingTags, to make code folding work correctly with <jdoc:include />
+          if (mode === 'php') {
+            return import('@codemirror/lang-html').then(({ html }) => {
+              const htmlOptions = options.html || { selfClosingTags: true };
+              extensions.push(
+                modeMod.php({ baseLanguage: html(htmlOptions).language }),
+              );
+            });
+          }
+          if (mode === 'html') {
+            modeOptions.selfClosingTags = true;
+          }
+          extensions.push(modeMod[options.mode](modeOptions));
+        })
+        .catch((error) => {
+          console.error(
+            `Cannot create an extension for "${options.mode}" syntax mode.`,
+            error,
+          );
+        }),
+    );
   }
 
   if (options.lineNumbers) {
@@ -93,7 +106,9 @@ const optionsToExtensions = async (options) => {
       extensions.push(keymap.of([...emacsStyleKeymap, ...historyKeymap]));
       break;
     default:
-      extensions.push(keymap.of([...defaultKeymap, ...searchKeymap, ...historyKeymap]));
+      extensions.push(
+        keymap.of([...defaultKeymap, ...searchKeymap, ...historyKeymap]),
+      );
       break;
   }
 
@@ -105,14 +120,17 @@ const optionsToExtensions = async (options) => {
 
   // Check for a skin that suits best for the active color scheme
   // TODO: Use compartments to update on change of dark mode like: https://discuss.codemirror.net/t/dynamic-light-mode-dark-mode-how/4709
-  if (('colorSchemeOs' in document.documentElement.dataset && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    || document.documentElement.dataset.colorScheme === 'dark') {
+  if (
+    ('colorSchemeOs' in document.documentElement.dataset &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches) ||
+    document.documentElement.dataset.colorScheme === 'dark'
+  ) {
     extensions.push(oneDark);
   }
 
   // Check for custom extensions,
   // in format [['module1 name or URL', ['init method2']], ['module2 name or URL', ['init method2']], () => <return extension>]
-  if (options.customExtensions && options.customExtensions.length) {
+  if (options.customExtensions?.length) {
     options.customExtensions.forEach((extInfo) => {
       // Check whether we have a callable
       if (extInfo instanceof Function) {
@@ -121,12 +139,14 @@ const optionsToExtensions = async (options) => {
       }
       // Import the module
       const [module, methods] = extInfo;
-      q.push(import(module).then((modObject) => {
-        // Call each method
-        methods.forEach((method) => {
-          extensions.push(modObject[method]());
-        });
-      }));
+      q.push(
+        import(module).then((modObject) => {
+          // Call each method
+          methods.forEach((method) => {
+            extensions.push(modObject[method]());
+          });
+        }),
+      );
     });
   }
 

@@ -2,7 +2,7 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-((Awesomplete, Joomla, window, document) => {
+((Awesomplete, Joomla, _window, document) => {
   'use strict';
 
   if (!Joomla) {
@@ -17,23 +17,28 @@
       Joomla.request({
         url: `${Joomla.getOptions('finder-search').url}&q=${target.value}`,
         promise: true,
-      }).then((xhr) => {
-        let response;
-        try {
-          response = JSON.parse(xhr.responseText);
-        } catch (e) {
-          // Something went wrong, but we are not going to bother the enduser with this
-          console.error(e);
-          return;
-        }
+      })
+        .then((xhr) => {
+          let response;
+          try {
+            response = JSON.parse(xhr.responseText);
+          } catch (e) {
+            // Something went wrong, but we are not going to bother the enduser with this
+            console.error(e);
+            return;
+          }
 
-        if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
-          target.awesomplete.list = response.suggestions;
-        }
-      }).catch((xhr) => {
-        // Something went wrong, but we are not going to bother the enduser with this
-        console.error(xhr);
-      });
+          if (
+            Object.prototype.toString.call(response.suggestions) ===
+            '[object Array]'
+          ) {
+            target.awesomplete.list = response.suggestions;
+          }
+        })
+        .catch((xhr) => {
+          // Something went wrong, but we are not going to bother the enduser with this
+          console.error(xhr);
+        });
     }
   };
 
@@ -64,22 +69,31 @@
 
   // The boot sequence
   const onBoot = () => {
-    document.querySelectorAll('.js-finder-search-query').forEach((searchword) => {
-      // Handle the auto suggestion
-      if (Joomla.getOptions('finder-search')) {
-        searchword.awesomplete = new Awesomplete(searchword, { listLabel: Joomla.Text._('COM_FINDER_SEARCH_FORM_LIST_LABEL') });
+    document
+      .querySelectorAll('.js-finder-search-query')
+      .forEach((searchword) => {
+        // Handle the auto suggestion
+        if (Joomla.getOptions('finder-search')) {
+          searchword.awesomplete = new Awesomplete(searchword, {
+            listLabel: Joomla.Text._('COM_FINDER_SEARCH_FORM_LIST_LABEL'),
+          });
 
-        // If the current value is empty, set the previous value.
-        searchword.addEventListener('input', onInputChange);
+          // If the current value is empty, set the previous value.
+          searchword.addEventListener('input', onInputChange);
 
-        const advanced = searchword.closest('form').querySelector('.js-finder-advanced');
+          const advanced = searchword
+            .closest('form')
+            .querySelector('.js-finder-advanced');
 
-        // Do not submit the form on suggestion selection, in case of advanced form.
-        if (!advanced) {
-          searchword.addEventListener('awesomplete-selectcomplete', submitForm);
+          // Do not submit the form on suggestion selection, in case of advanced form.
+          if (!advanced) {
+            searchword.addEventListener(
+              'awesomplete-selectcomplete',
+              submitForm,
+            );
+          }
         }
-      }
-    });
+      });
 
     document.querySelectorAll('.js-finder-searchform').forEach((form) => {
       form.addEventListener('submit', onSubmit);

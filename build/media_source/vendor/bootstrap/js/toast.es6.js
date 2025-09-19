@@ -3,7 +3,7 @@ import Toast from 'bootstrap/js/src/toast';
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Toast = Toast;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla?.getOptions) {
   // Get the elements/configurations from the PHP
   const toasts = Joomla.getOptions('bootstrap.toast');
   // Initialise the elements

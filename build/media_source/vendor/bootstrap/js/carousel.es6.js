@@ -3,7 +3,7 @@ import Carousel from 'bootstrap/js/src/carousel';
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Carousel = Carousel;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla?.getOptions) {
   // Get the elements configuration from PHP
   const carousels = Joomla.getOptions('bootstrap.carousel');
 

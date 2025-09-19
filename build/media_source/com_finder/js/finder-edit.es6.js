@@ -11,16 +11,20 @@ Joomla = window.Joomla || {};
   document.addEventListener('DOMContentLoaded', () => {
     // Handle toggle all
     document.querySelectorAll('.filter-toggle-all').forEach((button) => {
-      button.addEventListener('click', () => document.querySelectorAll('.filter-node').forEach((node) => {
-        node.click();
-      }));
+      button.addEventListener('click', () =>
+        document.querySelectorAll('.filter-node').forEach((node) => {
+          node.click();
+        }),
+      );
     });
 
     // Update the count
     document.querySelectorAll('.filter-node').forEach(() => {
       const count = document.getElementById('jform_map_count');
       if (count) {
-        count.value = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        count.value = document.querySelectorAll(
+          'input[type="checkbox"]:checked',
+        ).length;
       }
     });
 
@@ -40,14 +44,18 @@ Joomla = window.Joomla || {};
         event.preventDefault();
         let elements;
 
-        if (event.target.innerText === Joomla.Text._('COM_FINDER_FILTER_SHOW_ALL')) {
+        if (
+          event.target.innerText === Joomla.Text._('COM_FINDER_FILTER_SHOW_ALL')
+        ) {
           event.target.innerText = Joomla.Text._('COM_FINDER_FILTER_HIDE_ALL');
 
           elements = document.querySelectorAll('.accordion-button.collapsed');
         } else {
           event.target.innerText = Joomla.Text._('COM_FINDER_FILTER_SHOW_ALL');
 
-          elements = document.querySelectorAll('.accordion-button:not(.collapsed)');
+          elements = document.querySelectorAll(
+            '.accordion-button:not(.collapsed)',
+          );
         }
 
         if (elements) {

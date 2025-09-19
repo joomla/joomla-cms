@@ -2,8 +2,9 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
+
 import { createFromTextarea, EditorState, keymap } from 'codemirror';
+import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
 
 /**
  * Codemirror Decorator for JoomlaEditor
@@ -33,10 +34,7 @@ class CodemirrorDecorator extends JoomlaEditorDecorator {
    */
   getSelection() {
     const { state } = this.instance;
-    return state.sliceDoc(
-      state.selection.main.from,
-      state.selection.main.to,
-    );
+    return state.sliceDoc(state.selection.main.from, state.selection.main.to);
   }
 
   replaceSelection(value) {
@@ -47,7 +45,7 @@ class CodemirrorDecorator extends JoomlaEditorDecorator {
 
   disable(enable) {
     const editor = this.instance;
-    editor.state.config.compartments.forEach((facet, compartment) => {
+    editor.state.config.compartments.forEach((_facet, compartment) => {
       if (compartment.$j_name === 'readOnly') {
         editor.dispatch({
           effects: compartment.reconfigure(EditorState.readOnly.of(!enable)),
@@ -82,9 +80,13 @@ class CodemirrorEditor extends HTMLElement {
     };
   }
 
-  get options() { return JSON.parse(this.getAttribute('options')); }
+  get options() {
+    return JSON.parse(this.getAttribute('options'));
+  }
 
-  get fsCombo() { return this.getAttribute('fs-combo'); }
+  get fsCombo() {
+    return this.getAttribute('fs-combo');
+  }
 
   async connectedCallback() {
     const { options } = this;
@@ -92,10 +94,12 @@ class CodemirrorEditor extends HTMLElement {
     // Configure full screen feature
     if (this.fsCombo) {
       options.customExtensions = options.customExtensions || [];
-      options.customExtensions.push(() => keymap.of([
-        { key: this.fsCombo, run: this.toggleFullScreen },
-        { key: 'Escape', run: this.closeFullScreen },
-      ]));
+      options.customExtensions.push(() =>
+        keymap.of([
+          { key: this.fsCombo, run: this.toggleFullScreen },
+          { key: 'Escape', run: this.closeFullScreen },
+        ]),
+      );
 
       // Relocate BS modals, to resolve z-index issue in full screen
       this.bsModals = this.querySelectorAll('.joomla-modal.modal');
@@ -107,7 +111,11 @@ class CodemirrorEditor extends HTMLElement {
     // Create and register the Editor
     this.element = this.querySelector('textarea');
     this.instance = await createFromTextarea(this.element, options);
-    this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
+    this.jEditor = new CodemirrorDecorator(
+      this.instance,
+      'codemirror',
+      this.element.id,
+    );
     JoomlaEditor.register(this.jEditor);
 
     // Find out when editor is interacted
@@ -124,7 +132,7 @@ class CodemirrorEditor extends HTMLElement {
     this.removeEventListener('click', this.interactionCallback);
 
     // Restore modals
-    if (this.bsModals && this.bsModals.length) {
+    if (this.bsModals?.length) {
       this.bsModals.forEach((modal) => {
         this.appendChild(modal);
       });

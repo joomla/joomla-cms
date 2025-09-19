@@ -27,380 +27,444 @@
  * data-max-results="30" The maximum amount of search results to be displayed.
  * data-max-render="30"  The maximum amount of items to be rendered, critical for large lists.
  */
-window.customElements.define('joomla-field-fancy-select', class extends HTMLElement {
-  // Attributes to monitor
-  get allowCustom() { return this.hasAttribute('allow-custom'); }
-
-  get remoteSearch() { return this.hasAttribute('remote-search'); }
-
-  get url() { return this.getAttribute('url'); }
-
-  get termKey() { return this.getAttribute('term-key') || 'term'; }
-
-  get minTermLength() { return parseInt(this.getAttribute('min-term-length'), 10) || 1; }
-
-  get newItemPrefix() { return this.getAttribute('new-item-prefix') || ''; }
-
-  get placeholder() { return this.getAttribute('placeholder'); }
-
-  get searchPlaceholder() { return this.getAttribute('search-placeholder'); }
-
-  get value() { return this.choicesInstance.getValue(true); }
-
-  set value($val) { this.choicesInstance.setChoiceByValue($val); }
-
-  /**
-   * Lifecycle
-   */
-  constructor() {
-    super();
-
-    // Keycodes
-    this.keyCode = {
-      ENTER: 13,
-    };
-
-    if (!Joomla) {
-      throw new Error('Joomla API is not properly initiated');
+window.customElements.define(
+  'joomla-field-fancy-select',
+  class extends HTMLElement {
+    // Attributes to monitor
+    get allowCustom() {
+      return this.hasAttribute('allow-custom');
     }
 
-    if (!window.Choices) {
-      throw new Error('JoomlaFieldFancySelect requires Choices.js to work');
+    get remoteSearch() {
+      return this.hasAttribute('remote-search');
     }
 
-    this.choicesCache = {};
-    this.activeXHR = null;
-    this.choicesInstance = null;
-    this.isDisconnected = false;
-  }
+    get url() {
+      return this.getAttribute('url');
+    }
 
-  /**
-   * Lifecycle
-   */
-  connectedCallback() {
-    // Make sure Choices are loaded
-    if (window.Choices || document.readyState === 'complete') {
-      this.doConnect();
-    } else {
-      const callback = () => {
-        this.doConnect();
-        window.removeEventListener('load', callback);
+    get termKey() {
+      return this.getAttribute('term-key') || 'term';
+    }
+
+    get minTermLength() {
+      return parseInt(this.getAttribute('min-term-length'), 10) || 1;
+    }
+
+    get newItemPrefix() {
+      return this.getAttribute('new-item-prefix') || '';
+    }
+
+    get placeholder() {
+      return this.getAttribute('placeholder');
+    }
+
+    get searchPlaceholder() {
+      return this.getAttribute('search-placeholder');
+    }
+
+    get value() {
+      return this.choicesInstance.getValue(true);
+    }
+
+    set value($val) {
+      this.choicesInstance.setChoiceByValue($val);
+    }
+
+    /**
+     * Lifecycle
+     */
+    constructor() {
+      super();
+
+      // Keycodes
+      this.keyCode = {
+        ENTER: 13,
       };
-      window.addEventListener('load', callback);
-    }
-  }
 
-  doConnect() {
-    // Get a <select> element
-    this.select = this.querySelector('select');
-
-    if (!this.select) {
-      throw new Error('JoomlaFieldFancySelect requires <select> element to work');
-    }
-
-    // The element was already initialised previously and perhaps was detached from DOM
-    if (this.choicesInstance) {
-      if (this.isDisconnected) {
-        // Re init previous instance
-        this.choicesInstance.init();
-        this.choicesInstance.setChoiceByValue(this.disconnectValues);
-        this.isDisconnected = false;
+      if (!Joomla) {
+        throw new Error('Joomla API is not properly initiated');
       }
-      return;
+
+      if (!window.Choices) {
+        throw new Error('JoomlaFieldFancySelect requires Choices.js to work');
+      }
+
+      this.choicesCache = {};
+      this.activeXHR = null;
+      this.choicesInstance = null;
+      this.isDisconnected = false;
     }
 
-    this.isDisconnected = false;
-
-    // Add placeholder option for multiple mode,
-    // Because it not supported as parameter by Choices for <select> https://github.com/jshjohnson/Choices#placeholder
-    if (this.select.multiple && this.placeholder) {
-      const option = document.createElement('option');
-      option.setAttribute('placeholder', '');
-      option.textContent = this.placeholder;
-      this.select.appendChild(option);
+    /**
+     * Lifecycle
+     */
+    connectedCallback() {
+      // Make sure Choices are loaded
+      if (window.Choices || document.readyState === 'complete') {
+        this.doConnect();
+      } else {
+        const callback = () => {
+          this.doConnect();
+          window.removeEventListener('load', callback);
+        };
+        window.addEventListener('load', callback);
+      }
     }
 
-    // Init Choices
-    this.choicesInstance = new Choices(this.select, {
-      placeholderValue: this.placeholder,
-      searchPlaceholderValue: this.searchPlaceholder,
-      removeItemButton: true,
-      searchFloor: this.minTermLength,
-      searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 10,
-      renderChoiceLimit: parseInt(this.select.dataset.maxRender, 10) || -1,
-      renderSelectedChoices: 'always',
-      shouldSort: false,
-      fuseOptions: {
-        threshold: 0.3, // Strict search
-      },
-      noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
-      noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
-      itemSelectText: Joomla.Text._('JGLOBAL_SELECT_PRESS_TO_SELECT', 'Press to select'),
+    doConnect() {
+      // Get a <select> element
+      this.select = this.querySelector('select');
 
-      // Redefine some classes
-      classNames: {
-        button: 'choices__button_joomla', // It is need because an original styling use unavailable Icon.svg file
-      },
-    });
+      if (!this.select) {
+        throw new Error(
+          'JoomlaFieldFancySelect requires <select> element to work',
+        );
+      }
 
-    // Handle typing of custom Term
-    if (this.allowCustom) {
-      // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
-      // The choices.js always auto-highlights the first element
-      // in the dropdown that not allow to add a custom Term.
-      //
-      // This workaround can be removed when choices.js
-      // will have an option that allow to disable it.
-
-      const _highlightChoice = this.choicesInstance._highlightChoice;
-      this.choicesInstance._highlightChoice = (el) => {
-        // Prevent auto-highlight of first element, if nothing actually highlighted
-        if (!el) return;
-
-        // Call original highlighter
-        _highlightChoice.call(this.choicesInstance, el);
-      };
-
-      // Unhighlight any highlighted items, when mouse leave the dropdown
-      this.addEventListener('mouseleave', () => {
-        if (!this.choicesInstance.dropdown.isActive) {
-          return;
+      // The element was already initialised previously and perhaps was detached from DOM
+      if (this.choicesInstance) {
+        if (this.isDisconnected) {
+          // Re init previous instance
+          this.choicesInstance.init();
+          this.choicesInstance.setChoiceByValue(this.disconnectValues);
+          this.isDisconnected = false;
         }
+        return;
+      }
 
-        const highlighted = Array.from(this.choicesInstance.dropdown.element
-          .querySelectorAll(`.${this.choicesInstance.config.classNames.highlightedState}`));
+      this.isDisconnected = false;
 
-        highlighted.forEach((choice) => {
-          choice.classList.remove(this.choicesInstance.config.classNames.highlightedState);
-          choice.setAttribute('aria-selected', 'false');
-        });
+      // Add placeholder option for multiple mode,
+      // Because it not supported as parameter by Choices for <select> https://github.com/jshjohnson/Choices#placeholder
+      if (this.select.multiple && this.placeholder) {
+        const option = document.createElement('option');
+        option.setAttribute('placeholder', '');
+        option.textContent = this.placeholder;
+        this.select.appendChild(option);
+      }
 
-        this.choicesInstance._highlightPosition = 0;
+      // Init Choices
+      this.choicesInstance = new Choices(this.select, {
+        placeholderValue: this.placeholder,
+        searchPlaceholderValue: this.searchPlaceholder,
+        removeItemButton: true,
+        searchFloor: this.minTermLength,
+        searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 10,
+        renderChoiceLimit: parseInt(this.select.dataset.maxRender, 10) || -1,
+        renderSelectedChoices: 'always',
+        shouldSort: false,
+        fuseOptions: {
+          threshold: 0.3, // Strict search
+        },
+        noResultsText: Joomla.Text._(
+          'JGLOBAL_SELECT_NO_RESULTS_MATCH',
+          'No results found',
+        ),
+        noChoicesText: Joomla.Text._(
+          'JGLOBAL_SELECT_NO_RESULTS_MATCH',
+          'No results found',
+        ),
+        itemSelectText: Joomla.Text._(
+          'JGLOBAL_SELECT_PRESS_TO_SELECT',
+          'Press to select',
+        ),
+
+        // Redefine some classes
+        classNames: {
+          button: 'choices__button_joomla', // It is need because an original styling use unavailable Icon.svg file
+        },
       });
-      // END workaround for issue #29459
 
-      // Add custom term on ENTER keydown
-      this.addEventListener('keydown', (event) => {
-        if (event.keyCode !== this.keyCode.ENTER
-          || event.target !== this.choicesInstance.input.element) {
-          return;
-        }
-        event.preventDefault();
+      // Handle typing of custom Term
+      if (this.allowCustom) {
+        // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
+        // The choices.js always auto-highlights the first element
+        // in the dropdown that not allow to add a custom Term.
+        //
+        // This workaround can be removed when choices.js
+        // will have an option that allow to disable it.
 
-        if (this.choicesInstance._highlightPosition || !event.target.value) {
-          return;
-        }
+        const _highlightChoice = this.choicesInstance._highlightChoice;
+        this.choicesInstance._highlightChoice = (el) => {
+          // Prevent auto-highlight of first element, if nothing actually highlighted
+          if (!el) return;
 
-        // Make sure nothing is highlighted
-        const highlighted = this.choicesInstance.dropdown.element
-          .querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
+          // Call original highlighter
+          _highlightChoice.call(this.choicesInstance, el);
+        };
 
-        if (highlighted) {
-          return;
-        }
-
-        // Check if value already exist
-        const lowerValue = event.target.value.toLowerCase();
-        let valueInCache = false;
-
-        // Check if value in existing choices
-        this.choicesInstance.config.choices.some((choiceItem) => {
-          if (choiceItem.value.toLowerCase() === lowerValue
-            || choiceItem.label.toLowerCase() === lowerValue) {
-            valueInCache = choiceItem.value;
-            return true;
+        // Unhighlight any highlighted items, when mouse leave the dropdown
+        this.addEventListener('mouseleave', () => {
+          if (!this.choicesInstance.dropdown.isActive) {
+            return;
           }
-          return false;
-        });
 
-        if (valueInCache === false) {
-          // Check if value in cache
-          Object.keys(this.choicesCache).some((key) => {
-            if (key.toLowerCase() === lowerValue
-              || this.choicesCache[key].toLowerCase() === lowerValue) {
-              valueInCache = key;
+          const highlighted = Array.from(
+            this.choicesInstance.dropdown.element.querySelectorAll(
+              `.${this.choicesInstance.config.classNames.highlightedState}`,
+            ),
+          );
+
+          highlighted.forEach((choice) => {
+            choice.classList.remove(
+              this.choicesInstance.config.classNames.highlightedState,
+            );
+            choice.setAttribute('aria-selected', 'false');
+          });
+
+          this.choicesInstance._highlightPosition = 0;
+        });
+        // END workaround for issue #29459
+
+        // Add custom term on ENTER keydown
+        this.addEventListener('keydown', (event) => {
+          if (
+            event.keyCode !== this.keyCode.ENTER ||
+            event.target !== this.choicesInstance.input.element
+          ) {
+            return;
+          }
+          event.preventDefault();
+
+          if (this.choicesInstance._highlightPosition || !event.target.value) {
+            return;
+          }
+
+          // Make sure nothing is highlighted
+          const highlighted =
+            this.choicesInstance.dropdown.element.querySelector(
+              `.${this.choicesInstance.config.classNames.highlightedState}`,
+            );
+
+          if (highlighted) {
+            return;
+          }
+
+          // Check if value already exist
+          const lowerValue = event.target.value.toLowerCase();
+          let valueInCache = false;
+
+          // Check if value in existing choices
+          this.choicesInstance.config.choices.some((choiceItem) => {
+            if (
+              choiceItem.value.toLowerCase() === lowerValue ||
+              choiceItem.label.toLowerCase() === lowerValue
+            ) {
+              valueInCache = choiceItem.value;
               return true;
             }
             return false;
           });
-        }
 
-        // Make choice based on existing value
-        if (valueInCache !== false) {
-          this.choicesInstance.setChoiceByValue(valueInCache);
+          if (valueInCache === false) {
+            // Check if value in cache
+            Object.keys(this.choicesCache).some((key) => {
+              if (
+                key.toLowerCase() === lowerValue ||
+                this.choicesCache[key].toLowerCase() === lowerValue
+              ) {
+                valueInCache = key;
+                return true;
+              }
+              return false;
+            });
+          }
+
+          // Make choice based on existing value
+          if (valueInCache !== false) {
+            this.choicesInstance.setChoiceByValue(valueInCache);
+            event.target.value = null;
+            this.choicesInstance.hideDropdown();
+            return;
+          }
+
+          // Create and add new
+          this.choicesInstance.setChoices(
+            [
+              {
+                value: new DOMParser().parseFromString(
+                  this.newItemPrefix + event.target.value,
+                  'text/html',
+                ).body.textContent,
+                label: new DOMParser().parseFromString(
+                  event.target.value,
+                  'text/html',
+                ).body.textContent,
+                selected: true,
+                customProperties: {
+                  value: event.target.value, // Store real value, just in case
+                },
+              },
+            ],
+            'value',
+            'label',
+            false,
+          );
+
+          this.choicesCache[event.target.value] = event.target.value;
+
           event.target.value = null;
           this.choicesInstance.hideDropdown();
-          return;
-        }
+        });
+      }
 
-        // Create and add new
-        this.choicesInstance.setChoices([{
-          value: new DOMParser().parseFromString(this.newItemPrefix + event.target.value, 'text/html').body.textContent,
-          label: new DOMParser().parseFromString(event.target.value, 'text/html').body.textContent,
-          selected: true,
-          customProperties: {
-            value: event.target.value, // Store real value, just in case
-          },
-        }], 'value', 'label', false);
+      // Handle remote search
+      if (this.remoteSearch && this.url) {
+        // Cache existing
+        this.choicesInstance.config.choices.forEach((choiceItem) => {
+          this.choicesCache[choiceItem.value] = choiceItem.label;
+        });
 
-        this.choicesCache[event.target.value] = event.target.value;
-
-        event.target.value = null;
-        this.choicesInstance.hideDropdown();
-      });
+        const lookupDelay = 300;
+        let lookupTimeout = null;
+        this.select.addEventListener('search', () => {
+          clearTimeout(lookupTimeout);
+          lookupTimeout = setTimeout(
+            this.requestLookup.bind(this),
+            lookupDelay,
+          );
+        });
+      }
     }
 
-    // Handle remote search
-    if (this.remoteSearch && this.url) {
-      // Cache existing
-      this.choicesInstance.config.choices.forEach((choiceItem) => {
-        this.choicesCache[choiceItem.value] = choiceItem.label;
-      });
+    /**
+     * Lifecycle
+     */
+    disconnectedCallback() {
+      // Destroy Choices instance, to unbind event listeners
+      if (this.choicesInstance) {
+        // Keep selected values, because choices will reset them on re-init
+        this.disconnectValues = this.choicesInstance.getValue(true);
+        this.choicesInstance.destroy();
+        this.isDisconnected = true;
+      }
 
-      const lookupDelay = 300;
-      let lookupTimeout = null;
-      this.select.addEventListener('search', () => {
-        clearTimeout(lookupTimeout);
-        lookupTimeout = setTimeout(this.requestLookup.bind(this), lookupDelay);
-      });
-    }
-  }
-
-  /**
-   * Lifecycle
-   */
-  disconnectedCallback() {
-    // Destroy Choices instance, to unbind event listeners
-    if (this.choicesInstance) {
-      // Keep selected values, because choices will reset them on re-init
-      this.disconnectValues = this.choicesInstance.getValue(true);
-      this.choicesInstance.destroy();
-      this.isDisconnected = true;
-    }
-
-    if (this.activeXHR) {
-      this.activeXHR.abort();
-      this.activeXHR = null;
-    }
-  }
-
-  requestLookup() {
-    let { url } = this;
-    url += (url.indexOf('?') === -1 ? '?' : '&');
-    url += `${encodeURIComponent(this.termKey)}=${encodeURIComponent(this.choicesInstance.input.value)}`;
-
-    // Stop previous request if any
-    if (this.activeXHR) {
-      this.activeXHR.abort();
-    }
-
-    this.activeXHR = Joomla.request({
-      url,
-      onSuccess: (response) => {
+      if (this.activeXHR) {
+        this.activeXHR.abort();
         this.activeXHR = null;
-        const items = response ? JSON.parse(response) : [];
-        if (!items.length) {
-          return;
-        }
+      }
+    }
 
-        // Remove duplications
-        let item;
-        for (let i = items.length - 1; i >= 0; i--) { // The loop must be form the end !!!
-          item = items[i];
-          item.value = '' + item.value; // Make sure the value is a string, choices.js expect a string.
+    requestLookup() {
+      let { url } = this;
+      url += url.indexOf('?') === -1 ? '?' : '&';
+      url += `${encodeURIComponent(this.termKey)}=${encodeURIComponent(this.choicesInstance.input.value)}`;
 
-          if (this.choicesCache[item.value]) {
-            items.splice(i, 1);
-          } else {
-            this.choicesCache[item.value] = item.text;
+      // Stop previous request if any
+      if (this.activeXHR) {
+        this.activeXHR.abort();
+      }
+
+      this.activeXHR = Joomla.request({
+        url,
+        onSuccess: (response) => {
+          this.activeXHR = null;
+          const items = response ? JSON.parse(response) : [];
+          if (!items.length) {
+            return;
           }
-        }
 
-        // Add new options to field, assume that each item is object, eg {value: "foo", text: "bar"}
-        if (items.length) {
-          this.choicesInstance.setChoices(items, 'value', 'text', false);
-        }
-      },
-      onError: () => {
-        this.activeXHR = null;
-      },
-    });
-  }
+          // Remove duplications
+          let item;
+          for (let i = items.length - 1; i >= 0; i--) {
+            // The loop must be form the end !!!
+            item = items[i];
+            item.value = `${item.value}`; // Make sure the value is a string, choices.js expect a string.
 
-  disableAllOptions() {
-    // Choices.js does not offer a public API for accessing the choices
-    // So we have to access the private store => don't eslint
-    const { choices } = this.choicesInstance._store;
+            if (this.choicesCache[item.value]) {
+              items.splice(i, 1);
+            } else {
+              this.choicesCache[item.value] = item.text;
+            }
+          }
 
-    choices.forEach((elem, index) => {
-      choices[index].disabled = true;
-      choices[index].selected = false;
-    });
+          // Add new options to field, assume that each item is object, eg {value: "foo", text: "bar"}
+          if (items.length) {
+            this.choicesInstance.setChoices(items, 'value', 'text', false);
+          }
+        },
+        onError: () => {
+          this.activeXHR = null;
+        },
+      });
+    }
 
-    this.choicesInstance.clearStore();
+    disableAllOptions() {
+      // Choices.js does not offer a public API for accessing the choices
+      // So we have to access the private store => don't eslint
+      const { choices } = this.choicesInstance._store;
 
-    this.choicesInstance.setChoices(choices, 'value', 'label', true);
-  }
-
-  enableAllOptions() {
-    // Choices.js does not offer a public API for accessing the choices
-    // So we have to access the private store => don't eslint
-    const { choices } = this.choicesInstance._store;
-    const values = this.choicesInstance.getValue(true);
-
-    choices.forEach((elem, index) => {
-      choices[index].disabled = false;
-    });
-
-    this.choicesInstance.clearStore();
-
-    this.choicesInstance.setChoices(choices, 'value', 'label', true);
-
-    this.value = values;
-  }
-
-  disableByValue($val) {
-    // Choices.js does not offer a public API for accessing the choices
-    // So we have to access the private store => don't eslint
-    const { choices } = this.choicesInstance._store;
-    const values = this.choicesInstance.getValue(true);
-
-    choices.forEach((elem, index) => {
-      if (elem.value === $val) {
+      choices.forEach((_elem, index) => {
         choices[index].disabled = true;
         choices[index].selected = false;
-      }
-    });
+      });
 
-    const index = values.indexOf($val);
+      this.choicesInstance.clearStore();
 
-    if (index > -1) {
-      values.slice(index, 1);
+      this.choicesInstance.setChoices(choices, 'value', 'label', true);
     }
 
-    this.choicesInstance.clearStore();
+    enableAllOptions() {
+      // Choices.js does not offer a public API for accessing the choices
+      // So we have to access the private store => don't eslint
+      const { choices } = this.choicesInstance._store;
+      const values = this.choicesInstance.getValue(true);
 
-    this.choicesInstance.setChoices(choices, 'value', 'label', true);
-
-    this.value = values;
-  }
-
-  enableByValue($val) {
-    // Choices.js does not offer a public API for accessing the choices
-    // So we have to access the private store => don't eslint
-    const { choices } = this.choicesInstance._store;
-    const values = this.choicesInstance.getValue(true);
-
-    choices.forEach((elem, index) => {
-      if (elem.value === $val) {
+      choices.forEach((_elem, index) => {
         choices[index].disabled = false;
+      });
+
+      this.choicesInstance.clearStore();
+
+      this.choicesInstance.setChoices(choices, 'value', 'label', true);
+
+      this.value = values;
+    }
+
+    disableByValue($val) {
+      // Choices.js does not offer a public API for accessing the choices
+      // So we have to access the private store => don't eslint
+      const { choices } = this.choicesInstance._store;
+      const values = this.choicesInstance.getValue(true);
+
+      choices.forEach((elem, index) => {
+        if (elem.value === $val) {
+          choices[index].disabled = true;
+          choices[index].selected = false;
+        }
+      });
+
+      const index = values.indexOf($val);
+
+      if (index > -1) {
+        values.slice(index, 1);
       }
-    });
 
-    this.choicesInstance.clearStore();
+      this.choicesInstance.clearStore();
 
-    this.choicesInstance.setChoices(choices, 'value', 'label', true);
+      this.choicesInstance.setChoices(choices, 'value', 'label', true);
 
-    this.value = values;
-  }
-});
+      this.value = values;
+    }
+
+    enableByValue($val) {
+      // Choices.js does not offer a public API for accessing the choices
+      // So we have to access the private store => don't eslint
+      const { choices } = this.choicesInstance._store;
+      const values = this.choicesInstance.getValue(true);
+
+      choices.forEach((elem, index) => {
+        if (elem.value === $val) {
+          choices[index].disabled = false;
+        }
+      });
+
+      this.choicesInstance.clearStore();
+
+      this.choicesInstance.setChoices(choices, 'value', 'label', true);
+
+      this.value = values;
+    }
+  },
+);

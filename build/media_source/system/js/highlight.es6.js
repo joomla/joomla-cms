@@ -16,7 +16,11 @@ const defaultOptions = {
   compatibility: false,
 };
 
-if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('highlight')) {
+if (
+  Joomla.getOptions &&
+  typeof Joomla.getOptions === 'function' &&
+  Joomla.getOptions('highlight')
+) {
   const scriptOptions = Joomla.getOptions('highlight');
   scriptOptions.forEach((currentOpts) => {
     const options = { ...defaultOptions, ...currentOpts };
@@ -30,7 +34,7 @@ if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOp
 
         // Loop through the terms
         options.highLight.forEach((term) => {
-          instance.mark(term, options)
+          instance.mark(term, options);
         });
       }
     } else {

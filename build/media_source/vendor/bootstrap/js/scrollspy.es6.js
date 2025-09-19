@@ -3,7 +3,7 @@ import Scrollspy from 'bootstrap/js/src/scrollspy';
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Scrollspy = Scrollspy;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla?.getOptions) {
   // Get the elements/configurations from the PHP
   const scrollspys = Joomla.getOptions('bootstrap.scrollspy');
   // Initialise the elements

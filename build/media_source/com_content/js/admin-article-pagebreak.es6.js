@@ -18,8 +18,8 @@
 
     // Get the pagebreak toc alias -- not inserting for now don't know which attribute to use..
     let alt = document.getElementById('alt').value;
-    title = (title !== '') ? `title="${title}"` : '';
-    alt = (alt !== '') ? `alt="${alt}"` : '';
+    title = title !== '' ? `title="${title}"` : '';
+    alt = alt !== '' ? `alt="${alt}"` : '';
     const tag = `<hr class="system-pagebreak" ${title} ${alt}>`;
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
     window.parent.Joomla.Modal.getCurrent().close();

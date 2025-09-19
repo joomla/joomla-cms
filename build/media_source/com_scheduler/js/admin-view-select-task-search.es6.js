@@ -34,9 +34,13 @@
  */
 // Make sure the element exists i.e. a template override has not removed it.
 const elSearch = document.getElementById('comSchedulerSelectSearch');
-const elSearchContainer = document.getElementById('comSchedulerSelectSearchContainer');
+const elSearchContainer = document.getElementById(
+  'comSchedulerSelectSearchContainer',
+);
 const elSearchHeader = document.getElementById('comSchedulerSelectTypeHeader');
-const elSearchResults = document.getElementById('comSchedulerSelectResultsContainer');
+const elSearchResults = document.getElementById(
+  'comSchedulerSelectResultsContainer',
+);
 const alertElement = document.querySelector('.tasks-alert');
 
 if (elSearch && elSearchContainer) {
@@ -66,8 +70,12 @@ if (elSearch && elSearchContainer) {
       const description = cardBody ? cardBody.textContent : '';
 
       // If the task title and description don’t match add a class to hide it.
-      if (title && !title.toLowerCase().includes(partialSearch.toLowerCase())
-          && description && !description.toLowerCase().includes(partialSearch.toLowerCase())) {
+      if (
+        title &&
+        !title.toLowerCase().includes(partialSearch.toLowerCase()) &&
+        description &&
+        !description.toLowerCase().includes(partialSearch.toLowerCase())
+      ) {
         card.classList.add('d-none');
       } else {
         hasSearchResults = true;
@@ -94,12 +102,13 @@ if (elSearch && elSearchContainer) {
   try {
     if (typeof sessionStorage !== 'undefined') {
       // Load the search string from session storage
-      elSearch.value = sessionStorage.getItem('Joomla.com_scheduler.new.search') || '';
+      elSearch.value =
+        sessionStorage.getItem('Joomla.com_scheduler.new.search') || '';
 
       // Trigger the keyboard handler event manually to initiate the search
       elSearch.dispatchEvent(new KeyboardEvent('keyup'));
     }
-  } catch (e) {
+  } catch (_e) {
     // This is probably Internet Explorer which doesn't support the KeyboardEvent constructor :(
   }
 }

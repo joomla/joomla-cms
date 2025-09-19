@@ -22,12 +22,14 @@
    * Register events
    */
   const registerEvents = () => {
-    document.querySelectorAll(debugSectionTogglerSelector).forEach((toggler) => {
-      toggler.addEventListener('click', (event) => {
-        event.preventDefault();
-        toggle(toggler.getAttribute(toggleTargetAttribute));
+    document
+      .querySelectorAll(debugSectionTogglerSelector)
+      .forEach((toggler) => {
+        toggler.addEventListener('click', (event) => {
+          event.preventDefault();
+          toggle(toggler.getAttribute(toggleTargetAttribute));
+        });
       });
-    });
   };
 
   document.addEventListener('DOMContentLoaded', registerEvents);

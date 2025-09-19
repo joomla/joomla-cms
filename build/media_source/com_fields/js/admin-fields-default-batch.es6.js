@@ -11,13 +11,17 @@ const setUp = (container) => {
   }
 
   batchCopyMove.classList.add('hidden');
-  batchSelector.addEventListener('change', () => {
-    if (batchSelector.value === 'nogroup' || batchSelector.value !== '') {
-      batchCopyMove.classList.remove('hidden');
-    } else {
-      batchCopyMove.classList.add('hidden');
-    }
-  }, false);
+  batchSelector.addEventListener(
+    'change',
+    () => {
+      if (batchSelector.value === 'nogroup' || batchSelector.value !== '') {
+        batchCopyMove.classList.remove('hidden');
+      } else {
+        batchCopyMove.classList.add('hidden');
+      }
+    },
+    false,
+  );
 };
 setUp(document);
 document.addEventListener('joomla:loaded', ({ target }) => setUp(target));

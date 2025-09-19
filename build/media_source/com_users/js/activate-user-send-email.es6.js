@@ -31,7 +31,7 @@ if (button && Object.keys(button.dataset).length !== 0) {
         let response;
         try {
           response = JSON.parse(resp);
-        } catch (error) {
+        } catch (_error) {
           button.classList.add('error');
         }
 

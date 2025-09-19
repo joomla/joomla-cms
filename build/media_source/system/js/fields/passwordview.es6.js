@@ -9,10 +9,13 @@
     [].slice
       .call(document.querySelectorAll('input[type="password"]'))
       .forEach((input) => {
-        const toggleButton = input.parentNode.querySelector('.input-password-toggle');
+        const toggleButton = input.parentNode.querySelector(
+          '.input-password-toggle',
+        );
 
         if (toggleButton) {
-          const hasClickListener = toggleButton.getAttribute('clickListener') === 'true';
+          const hasClickListener =
+            toggleButton.getAttribute('clickListener') === 'true';
 
           if (!hasClickListener) {
             toggleButton.setAttribute('clickListener', 'true');
@@ -50,7 +53,9 @@
             });
           }
         }
-        const modifyButton = input.parentNode.querySelector('.input-password-modify');
+        const modifyButton = input.parentNode.querySelector(
+          '.input-password-modify',
+        );
 
         if (modifyButton) {
           modifyButton.addEventListener('click', () => {

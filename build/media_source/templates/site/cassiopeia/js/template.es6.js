@@ -8,11 +8,11 @@
 
 Joomla = window.Joomla || {};
 
-((Joomla, document) => {
+((_Joomla, document) => {
   'use strict';
 
   function initTemplate(event) {
-    const target = event && event.target ? event.target : document;
+    const target = event?.target ? event.target : document;
 
     /**
      * Prevent clicks on buttons within a disabled fieldset
@@ -36,7 +36,10 @@ Joomla = window.Joomla || {};
     const backToTop = document.getElementById('back-top');
 
     function checkScrollPos() {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      if (
+        document.body.scrollTop > 20 ||
+        document.documentElement.scrollTop > 20
+      ) {
         backToTop.classList.add('visible');
       } else {
         backToTop.classList.remove('visible');
@@ -54,9 +57,11 @@ Joomla = window.Joomla || {};
       });
     }
 
-    document.head.querySelectorAll('link[rel="lazy-stylesheet"]').forEach(($link) => {
-      $link.rel = 'stylesheet';
-    });
+    document.head
+      .querySelectorAll('link[rel="lazy-stylesheet"]')
+      .forEach(($link) => {
+        $link.rel = 'stylesheet';
+      });
   });
 
   /**

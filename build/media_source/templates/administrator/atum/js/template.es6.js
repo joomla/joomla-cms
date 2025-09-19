@@ -7,10 +7,12 @@ if (!Joomla) {
   throw new Error('Joomla API is not initialized');
 }
 
-const getCookie = () => document.cookie.length && document.cookie
-  .split('; ')
-  .find((row) => row.startsWith('atumSidebarState='))
-  ?.split('=')[1];
+const getCookie = () =>
+  document.cookie.length &&
+  document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('atumSidebarState='))
+    ?.split('=')[1];
 
 const mobile = window.matchMedia('(max-width: 992px)');
 const small = window.matchMedia('(max-width: 575.98px)');
@@ -23,20 +25,29 @@ const sidebarWrapper = document.querySelector('.sidebar-wrapper');
 const logo = document.querySelector('.logo');
 const isLogin = document.querySelector('body.com_login');
 const menuToggleIcon = document.getElementById('menu-collapse-icon');
-const navDropDownIcon = document.querySelectorAll('.nav-item.dropdown span[class*="icon-angle-"]');
+const navDropDownIcon = document.querySelectorAll(
+  '.nav-item.dropdown span[class*="icon-angle-"]',
+);
 const headerTitleArea = document.querySelector('#header .header-title');
 const headerItemsArea = document.querySelector('#header .header-items');
-const headerExpandedItems = [].slice.call(headerItemsArea.children).filter((element) => element.classList.contains('header-item'));
-const headerCondensedItemContainer = document.getElementById('header-more-items');
-const headerCondensedItems = [].slice.call(headerCondensedItemContainer.querySelectorAll('.header-dd-item'));
+const headerExpandedItems = [].slice
+  .call(headerItemsArea.children)
+  .filter((element) => element.classList.contains('header-item'));
+const headerCondensedItemContainer =
+  document.getElementById('header-more-items');
+const headerCondensedItems = [].slice.call(
+  headerCondensedItemContainer.querySelectorAll('.header-dd-item'),
+);
 let headerTitleWidth = headerTitleArea.getBoundingClientRect().width;
-const headerItemWidths = headerExpandedItems
-  .map((element) => element.getBoundingClientRect().width);
+const headerItemWidths = headerExpandedItems.map(
+  (element) => element.getBoundingClientRect().width,
+);
 
 // Get the ellipsis button width
 headerCondensedItemContainer.classList.remove('d-none');
 headerCondensedItemContainer.paddingTop;
-const ellipsisWidth = headerCondensedItemContainer.getBoundingClientRect().width;
+const ellipsisWidth =
+  headerCondensedItemContainer.getBoundingClientRect().width;
 headerCondensedItemContainer.classList.add('d-none');
 
 /**
@@ -82,8 +93,8 @@ function changeLogo(change) {
  * @since   4.0.0
  */
 function toggleArrowIcon(positionTop) {
-  const remIcon = (positionTop) ? 'icon-angle-up' : 'icon-angle-down';
-  const addIcon = (positionTop) ? 'icon-angle-down' : 'icon-angle-up';
+  const remIcon = positionTop ? 'icon-angle-up' : 'icon-angle-down';
+  const addIcon = positionTop ? 'icon-angle-down' : 'icon-angle-up';
 
   if (!navDropDownIcon) {
     return;
@@ -112,19 +123,28 @@ function headerItemsInDropdown() {
   const minViable = headerTitleWidth + ellipsisWidth;
   const totalHeaderItemWidths = 50 + getSum(headerItemWidths);
 
-  if (headerTitleWidth + totalHeaderItemWidths < document.body.getBoundingClientRect().width) {
+  if (
+    headerTitleWidth + totalHeaderItemWidths <
+    document.body.getBoundingClientRect().width
+  ) {
     headerExpandedItems.map((element) => element.classList.remove('d-none'));
     headerCondensedItemContainer.classList.add('d-none');
   } else {
     headerCondensedItemContainer.classList.remove('d-none');
     headerCondensedItems.map((el) => el.classList.add('d-none'));
     headerCondensedItemContainer.classList.remove('d-none');
-    headerItemWidths.forEach((width, index) => {
+    headerItemWidths.forEach((_width, index) => {
       const tempArr = headerItemWidths.slice(index, headerItemWidths.length);
-      if (minViable + getSum(tempArr) < document.body.getBoundingClientRect().width) {
+      if (
+        minViable + getSum(tempArr) <
+        document.body.getBoundingClientRect().width
+      ) {
         return;
       }
-      if (headerExpandedItems[index].children && !headerExpandedItems[index].children[0].classList.contains('dropdown')) {
+      if (
+        headerExpandedItems[index].children &&
+        !headerExpandedItems[index].children[0].classList.contains('dropdown')
+      ) {
         headerExpandedItems[index].classList.add('d-none');
         headerCondensedItems[index].classList.remove('d-none');
       }
@@ -238,7 +258,9 @@ function darkModeWatch() {
       const newScheme = colorScheme !== 'dark' ? 'dark' : 'light';
       docEl.dataset.colorScheme = newScheme;
       document.cookie = `userColorScheme=${newScheme};`;
-      document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
+      document.dispatchEvent(
+        new CustomEvent('joomla:color-scheme-change', { bubbles: true }),
+      );
     });
   });
 
@@ -254,7 +276,9 @@ function darkModeWatch() {
     docEl.dataset.colorScheme = newScheme;
     // Store theme in cookies, so php will know the last choice
     document.cookie = `osColorScheme=${newScheme};`;
-    document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
+    document.dispatchEvent(
+      new CustomEvent('joomla:color-scheme-change', { bubbles: true }),
+    );
   };
   mql.addEventListener('change', check);
   check();
@@ -273,7 +297,12 @@ if (small.matches) {
   }
 }
 if (!navigator.cookieEnabled) {
-  Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
+  Joomla.renderMessages(
+    { error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] },
+    undefined,
+    false,
+    6000,
+  );
 }
 window.addEventListener('joomla:menu-toggle', (event) => {
   headerItemsInDropdown();
@@ -293,15 +322,21 @@ window.addEventListener('joomla:menu-toggle', (event) => {
  */
 document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach((button) => {
   button.addEventListener('click', () => {
-    document.querySelectorAll('#header [data-bs-toggle="collapse"]').forEach((cb) => {
-      const target = document.querySelector(cb.getAttribute('data-bs-target'));
-      if (target.contains(button)) {
-        return;
-      }
-      const collapseMenu = bootstrap.Collapse.getInstance(target) || new bootstrap.Collapse(target, {
-        toggle: false,
+    document
+      .querySelectorAll('#header [data-bs-toggle="collapse"]')
+      .forEach((cb) => {
+        const target = document.querySelector(
+          cb.getAttribute('data-bs-target'),
+        );
+        if (target.contains(button)) {
+          return;
+        }
+        const collapseMenu =
+          bootstrap.Collapse.getInstance(target) ||
+          new bootstrap.Collapse(target, {
+            toggle: false,
+          });
+        collapseMenu.hide();
       });
-      collapseMenu.hide();
-    });
   });
 });

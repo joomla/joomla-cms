@@ -10,13 +10,18 @@
  * @param { function } callback  The callback function to be executed
  * @param { int }  time      The time to wait before firing the callback
  * @param { int }  interval  The interval
- */
-const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(interval, interval = setTimeout(callback, time, ...args));
+ */  
+const debounce = (callback, time = 250, interval) => 
+  (...args) => {
+    clearTimeout(interval);
+    interval = setTimeout(() => callback(...args), time);
+  }
 
 ((window, document, Joomla) => {
   Joomla.unpublishModule = (element) => {
     // Get variables
-    const baseUrl = 'index.php?option=com_modules&task=modules.unpublish&format=json';
+    const baseUrl =
+      'index.php?option=com_modules&task=modules.unpublish&format=json';
     const id = element.getAttribute('data-module-id');
 
     Joomla.request({
@@ -45,7 +50,9 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
     const cpanelModules = document.getElementById('content');
     if (cpanelModules) {
       cpanelModules.querySelectorAll('.unpublish-module').forEach((link) => {
-        link.addEventListener('click', ({ target }) => Joomla.unpublishModule(target));
+        link.addEventListener('click', ({ target }) =>
+          Joomla.unpublishModule(target),
+        );
       });
     }
 
@@ -86,8 +93,12 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
       this.$gridBox = document.querySelector('#cpanel-modules .card-columns');
 
       const gridStyle = window.getComputedStyle(this.$gridBox);
-      this.gridAutoRows = parseInt(gridStyle.getPropertyValue('grid-auto-rows'), 10) || this.gridAutoRows;
-      this.gridRowGap = parseInt(gridStyle.getPropertyValue('grid-row-gap'), 10) || this.gridRowGap;
+      this.gridAutoRows =
+        parseInt(gridStyle.getPropertyValue('grid-auto-rows'), 10) ||
+        this.gridAutoRows;
+      this.gridRowGap =
+        parseInt(gridStyle.getPropertyValue('grid-row-gap'), 10) ||
+        this.gridRowGap;
 
       this.resizeAllGridItems();
 
@@ -101,7 +112,10 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
       });
 
       // Watch on window resize
-      window.addEventListener('resize', debounce(() => this.resizeAllGridItems(), 50));
+      window.addEventListener(
+        'resize',
+        debounce(() => this.resizeAllGridItems(), 50),
+      );
     },
   };
 

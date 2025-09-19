@@ -34,31 +34,54 @@
         url: options.ajaxUrl,
         method: 'GET',
         promise: true,
-      }).then((xhr) => {
-        const response = xhr.responseText;
-        const updateInfoList = JSON.parse(response);
+      })
+        .then((xhr) => {
+          const response = xhr.responseText;
+          const updateInfoList = JSON.parse(response);
 
-        if (updateInfoList.installerOverride !== 'disabled') {
-          if (Array.isArray(updateInfoList)) {
-            if (updateInfoList.length === 0) {
-              // No overrides found
-              update('success', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_UPTODATE'), '');
+          if (updateInfoList.installerOverride !== 'disabled') {
+            if (Array.isArray(updateInfoList)) {
+              if (updateInfoList.length === 0) {
+                // No overrides found
+                update(
+                  'success',
+                  Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_UPTODATE'),
+                  '',
+                );
+              } else {
+                // Scroll to page top
+                window.scrollTo(0, 0);
+
+                update(
+                  'danger',
+                  Joomla.Text._(
+                    'PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND',
+                  ).replace(
+                    '%s',
+                    `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`,
+                  ),
+                  '',
+                );
+              }
             } else {
-              // Scroll to page top
-              window.scrollTo(0, 0);
-
-              update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`), '');
+              throw new Error('Override check: unexpected value type');
             }
           } else {
-            throw new Error('Override check: unexpected value type');
+            update(
+              'danger',
+              Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR_ENABLE'),
+              `index.php?option=com_plugins&task=plugin.edit&extension_id=${options.pluginId}`,
+            );
           }
-        } else {
-          update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR_ENABLE'), `index.php?option=com_plugins&task=plugin.edit&extension_id=${options.pluginId}`);
-        }
-      }).catch(() => {
-        // An error occurred
-        update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR'), '');
-      });
+        })
+        .catch(() => {
+          // An error occurred
+          update(
+            'danger',
+            Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR'),
+            '',
+          );
+        });
     }
   };
 

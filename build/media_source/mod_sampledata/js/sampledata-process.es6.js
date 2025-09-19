@@ -44,8 +44,11 @@ const sampledataAjax = (type, steps, step) => {
 
       try {
         response = JSON.parse(resp);
-      } catch (e) {
-        Joomla.renderMessages({ error: [Joomla.Text._('MOD_SAMPLEDATA_INVALID_RESPONSE')] }, `.sampledata-steps-${type}-${step}`);
+      } catch (_e) {
+        Joomla.renderMessages(
+          { error: [Joomla.Text._('MOD_SAMPLEDATA_INVALID_RESPONSE')] },
+          `.sampledata-steps-${type}-${step}`,
+        );
         SampleData.inProgress = false;
         return;
       }
@@ -54,7 +57,9 @@ const sampledataAjax = (type, steps, step) => {
       let success;
 
       if (response.success && response.data && response.data.length > 0) {
-        const progress = document.querySelector(`.sampledata-progress-${type} .progress-bar`);
+        const progress = document.querySelector(
+          `.sampledata-progress-${type} .progress-bar`,
+        );
 
         // Display all messages that we got
         response.data.forEach((value) => {
@@ -67,9 +72,18 @@ const sampledataAjax = (type, steps, step) => {
 
           // Display success alert
           if (success) {
-            Joomla.renderMessages({ message: [value.message] }, `.sampledata-steps-${type}-${step}`, false, 3000);
+            Joomla.renderMessages(
+              { message: [value.message] },
+              `.sampledata-steps-${type}-${step}`,
+              false,
+              3000,
+            );
           } else {
-            Joomla.renderMessages({ error: [value.message] }, `.sampledata-steps-${type}-${step}`, false);
+            Joomla.renderMessages(
+              { error: [value.message] },
+              `.sampledata-steps-${type}-${step}`,
+              false,
+            );
           }
         });
 
@@ -82,7 +96,7 @@ const sampledataAjax = (type, steps, step) => {
         progress.classList.add(progressClass);
 
         // Move on next step
-        if (success && (step <= steps)) {
+        if (success && step <= steps) {
           const stepNew = step + 1;
           if (stepNew <= steps) {
             sampledataAjax(type, steps, stepNew);
@@ -90,7 +104,9 @@ const sampledataAjax = (type, steps, step) => {
             const bar = document.querySelector(`.sampledata-progress-${type}`);
 
             bar.parentNode.removeChild(bar);
-            Joomla.renderMessages({ message: [Joomla.Text._('MOD_SAMPLEDATA_COMPLETED')] });
+            Joomla.renderMessages({
+              message: [Joomla.Text._('MOD_SAMPLEDATA_COMPLETED')],
+            });
             window.scroll({
               top: 0,
               left: 0,
@@ -101,7 +117,9 @@ const sampledataAjax = (type, steps, step) => {
         }
       } else {
         // Display error alert
-        Joomla.renderMessages({ error: [Joomla.Text._('MOD_SAMPLEDATA_INVALID_RESPONSE')] });
+        Joomla.renderMessages({
+          error: [Joomla.Text._('MOD_SAMPLEDATA_INVALID_RESPONSE')],
+        });
         window.scroll({
           top: 0,
           left: 0,
@@ -112,7 +130,9 @@ const sampledataAjax = (type, steps, step) => {
       }
     },
     onError: () => {
-      Joomla.renderMessages({ error: [Joomla.Text._('MOD_SAMPLEDATA_ERROR_RESPONSE')] });
+      Joomla.renderMessages({
+        error: [Joomla.Text._('MOD_SAMPLEDATA_ERROR_RESPONSE')],
+      });
       window.scroll({
         top: 0,
         left: 0,
@@ -145,9 +165,11 @@ const sampledataApply = (element) => {
   }
 
   // Turn on the progress container
-  document.querySelectorAll(`.sampledata-progress-${type}`).forEach((progressElement) => {
-    progressElement.classList.remove('d-none');
-  });
+  document
+    .querySelectorAll(`.sampledata-progress-${type}`)
+    .forEach((progressElement) => {
+      progressElement.classList.remove('d-none');
+    });
 
   element.setAttribute('data-processed', true);
 
@@ -161,6 +183,8 @@ const sampleDataWrapper = document.getElementById('sample-data-wrapper');
 
 if (sampleDataWrapper) {
   sampleDataWrapper.querySelectorAll('.apply-sample-data').forEach((link) => {
-    link.addEventListener('click', ({ currentTarget }) => sampledataApply(currentTarget));
+    link.addEventListener('click', ({ currentTarget }) =>
+      sampledataApply(currentTarget),
+    );
   });
 }

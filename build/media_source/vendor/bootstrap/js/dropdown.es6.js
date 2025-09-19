@@ -3,7 +3,7 @@ import Dropdown from 'bootstrap/js/src/dropdown';
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Dropdown = Dropdown;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla?.getOptions) {
   // Get the elements/configurations from the PHP
   const dropdowns = Joomla.getOptions('bootstrap.dropdown');
   // Initialise the elements

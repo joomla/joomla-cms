@@ -1,4 +1,4 @@
-import { Sa11y, Lang } from 'sa11y';
+import { Lang, Sa11y } from 'sa11y';
 import Sa11yLang from 'sa11y-lang';
 
 Lang.addI18n(Sa11yLang.strings);

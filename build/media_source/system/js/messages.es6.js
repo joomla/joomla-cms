@@ -19,7 +19,10 @@ const getMessageContainer = (container) => {
   if (container instanceof HTMLElement) {
     return container;
   }
-  if (typeof container === 'undefined' || (container && container === '#system-message-container')) {
+  if (
+    typeof container === 'undefined' ||
+    (container && container === '#system-message-container')
+  ) {
     messageContainer = document.getElementById('system-message-container');
   } else {
     messageContainer = document.querySelector(container);
@@ -61,10 +64,10 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     const messagesBox = document.createElement('joomla-alert');
 
     if (['success', 'info', 'danger', 'warning'].indexOf(type) < 0) {
-      alertClass = (type === 'notice') ? 'info' : type;
-      alertClass = (type === 'message') ? 'success' : alertClass;
-      alertClass = (type === 'error') ? 'danger' : alertClass;
-      alertClass = (type === 'warning') ? 'warning' : alertClass;
+      alertClass = type === 'notice' ? 'info' : type;
+      alertClass = type === 'message' ? 'success' : alertClass;
+      alertClass = type === 'error' ? 'danger' : alertClass;
+      alertClass = type === 'warning' ? 'warning' : alertClass;
     }
 
     messagesBox.setAttribute('type', alertClass);
@@ -82,7 +85,9 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     if (typeof title !== 'undefined') {
       const titleWrapper = document.createElement('div');
       titleWrapper.className = 'alert-heading';
-      titleWrapper.innerHTML = Joomla.sanitizeHtml(`<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`);
+      titleWrapper.innerHTML = Joomla.sanitizeHtml(
+        `<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`,
+      );
       messagesBox.appendChild(titleWrapper);
     }
 
@@ -90,7 +95,9 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     const messageWrapper = document.createElement('div');
     messageWrapper.className = 'alert-wrapper';
     typeMessages.forEach((typeMessage) => {
-      messageWrapper.innerHTML += Joomla.sanitizeHtml(`<div class="alert-message">${typeMessage}</div>`);
+      messageWrapper.innerHTML += Joomla.sanitizeHtml(
+        `<div class="alert-message">${typeMessage}</div>`,
+      );
     });
     messagesBox.appendChild(messageWrapper);
     messageContainer.appendChild(messagesBox);
@@ -115,7 +122,8 @@ Joomla.removeMessages = (container) => {
 document.addEventListener('DOMContentLoaded', () => {
   const messages = Joomla.getOptions('joomla.messages');
   if (messages) {
-    Object.keys(messages)
-      .map((message) => Joomla.renderMessages(messages[message], undefined, true, undefined));
+    Object.keys(messages).map((message) =>
+      Joomla.renderMessages(messages[message], undefined, true, undefined),
+    );
   }
 });

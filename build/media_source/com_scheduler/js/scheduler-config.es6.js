@@ -14,9 +14,15 @@ const copyToClipboardFallback = (input) => {
   try {
     const copy = document.execCommand('copy');
     if (copy) {
-      Joomla.renderMessages({ message: [Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_SUCCESS')] });
+      Joomla.renderMessages({
+        message: [
+          Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_SUCCESS'),
+        ],
+      });
     } else {
-      Joomla.renderMessages({ error: [Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_FAIL')] });
+      Joomla.renderMessages({
+        error: [Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_FAIL')],
+      });
     }
   } catch (err) {
     Joomla.renderMessages({ error: [err] });
@@ -34,11 +40,20 @@ const copyToClipboard = () => {
       return;
     }
 
-    navigator.clipboard.writeText(input.value).then(() => {
-      Joomla.renderMessages({ message: [Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_SUCCESS')] });
-    }, () => {
-      Joomla.renderMessages({ error: [Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_FAIL')] });
-    });
+    navigator.clipboard.writeText(input.value).then(
+      () => {
+        Joomla.renderMessages({
+          message: [
+            Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_SUCCESS'),
+          ],
+        });
+      },
+      () => {
+        Joomla.renderMessages({
+          error: [Joomla.Text._('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_FAIL')],
+        });
+      },
+    );
   });
 };
 

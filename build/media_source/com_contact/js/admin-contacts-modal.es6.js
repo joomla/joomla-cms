@@ -11,14 +11,16 @@
   }
 
   /**
-    * Javascript to insert the link
-    * View element calls jSelectContact when a contact is clicked
-    * jSelectContact creates the link tag, sends it to the editor,
-    * and closes the select frame.
-    */
+   * Javascript to insert the link
+   * View element calls jSelectContact when a contact is clicked
+   * jSelectContact creates the link tag, sends it to the editor,
+   * and closes the select frame.
+   */
 
-  window.jSelectContact = (id, title, catid, object, link, lang) => {
-    console.warn('Method jSelectContact() is deprecated. Use postMessage() instead.');
+  window.jSelectContact = (_id, title, _catid, _object, link, lang) => {
+    console.warn(
+      'Method jSelectContact() is deprecated. Use postMessage() instead.',
+    );
 
     let hreflang = '';
 
@@ -35,7 +37,7 @@
     const tag = `<a ${hreflang}  href="${link}">${title}</a>`;
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
 
-    if (window.parent.Joomla.Modal && window.parent.Joomla.Modal.getCurrent()) {
+    if (window.parent.Joomla.Modal?.getCurrent()) {
       window.parent.Joomla.Modal.getCurrent().close();
     }
     return true;
@@ -50,13 +52,29 @@
 
         if (functionName === 'jSelectContact' && window[functionName]) {
           // Used in xtd_contacts
-          window[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
+          window[functionName](
+            event.target.getAttribute('data-id'),
+            event.target.getAttribute('data-title'),
+            null,
+            null,
+            event.target.getAttribute('data-uri'),
+            event.target.getAttribute('data-language'),
+            null,
+          );
         } else if (window.parent[functionName]) {
           // Used in com_menus
-          window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
+          window.parent[functionName](
+            event.target.getAttribute('data-id'),
+            event.target.getAttribute('data-title'),
+            null,
+            null,
+            event.target.getAttribute('data-uri'),
+            event.target.getAttribute('data-language'),
+            null,
+          );
         }
 
-        if (window.parent.Joomla.Modal && window.parent.Joomla.Modal.getCurrent()) {
+        if (window.parent.Joomla.Modal?.getCurrent()) {
           window.parent.Joomla.Modal.getCurrent().close();
         }
       });

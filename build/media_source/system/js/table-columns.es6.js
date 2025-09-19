@@ -111,11 +111,27 @@ class TableColumns {
 
     // Remove "media query" classes, which may prevent toggling from working.
     this.$headers.forEach(($el) => {
-      $el.classList.remove('d-none', 'd-xs-table-cell', 'd-sm-table-cell', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell', 'd-xxl-table-cell');
+      $el.classList.remove(
+        'd-none',
+        'd-xs-table-cell',
+        'd-sm-table-cell',
+        'd-md-table-cell',
+        'd-lg-table-cell',
+        'd-xl-table-cell',
+        'd-xxl-table-cell',
+      );
     });
     this.$rows.forEach(($row) => {
       [].slice.call($row.children).forEach(($el) => {
-        $el.classList.remove('d-none', 'd-xs-table-cell', 'd-sm-table-cell', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell', 'd-xxl-table-cell');
+        $el.classList.remove(
+          'd-none',
+          'd-xs-table-cell',
+          'd-sm-table-cell',
+          'd-md-table-cell',
+          'd-lg-table-cell',
+          'd-xl-table-cell',
+          'd-xxl-table-cell',
+        );
       });
     });
 
@@ -186,18 +202,22 @@ class TableColumns {
 
 if (window.innerWidth > 992) {
   // Look for dataset name else page-title
-  [...document.querySelectorAll('table:not(.columns-order-ignore)')].forEach(($table) => {
-    const tableName = ($table.dataset.name ? $table.dataset.name : document.querySelector('.page-title')
-      .textContent.trim()
-      .replace(/[^a-z0-9]/gi, '-')
-      .toLowerCase()
-    );
+  [...document.querySelectorAll('table:not(.columns-order-ignore)')].forEach(
+    ($table) => {
+      const tableName = $table.dataset.name
+        ? $table.dataset.name
+        : document
+            .querySelector('.page-title')
+            .textContent.trim()
+            .replace(/[^a-z0-9]/gi, '-')
+            .toLowerCase();
 
-    // Skip unnamed table
-    if (!tableName) {
-      return;
-    }
+      // Skip unnamed table
+      if (!tableName) {
+        return;
+      }
 
-    new TableColumns($table, tableName);
-  });
+      new TableColumns($table, tableName);
+    },
+  );
 }

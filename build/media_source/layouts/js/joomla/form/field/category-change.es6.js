@@ -10,7 +10,10 @@
     throw new Error('Category Id element not found');
   }
 
-  if (element.getAttribute('data-refresh-catid') && element.value !== element.getAttribute('data-cat-id')) {
+  if (
+    element.getAttribute('data-refresh-catid') &&
+    element.value !== element.getAttribute('data-cat-id')
+  ) {
     element.value = element.getAttribute('data-refresh-catid');
   } else {
     // No custom fields
@@ -26,9 +29,13 @@
 
     // Custom Fields
     if (el.getAttribute('data-refresh-section')) {
-      document.querySelector('input[name=task]').value = `${el.getAttribute('data-refresh-section')}.reload`;
+      document.querySelector('input[name=task]').value =
+        `${el.getAttribute('data-refresh-section')}.reload`;
     }
 
-    Joomla.submitform(`${el.getAttribute('data-refresh-section')}.reload`, element.form);
+    Joomla.submitform(
+      `${el.getAttribute('data-refresh-section')}.reload`,
+      element.form,
+    );
   };
 })(Joomla);

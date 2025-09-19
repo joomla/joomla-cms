@@ -16,38 +16,55 @@ const KEYCODE = {
  * @returns {boolean|*}
  */
 function hasModifier(event) {
-  return (event.ctrlKey || event.metaKey || event.shiftKey);
+  return event.ctrlKey || event.metaKey || event.shiftKey;
 }
 
 class JoomlaFieldSubform extends HTMLElement {
   // Attribute getters
-  get buttonAdd() { return this.getAttribute('button-add'); }
+  get buttonAdd() {
+    return this.getAttribute('button-add');
+  }
 
-  get buttonRemove() { return this.getAttribute('button-remove'); }
+  get buttonRemove() {
+    return this.getAttribute('button-remove');
+  }
 
-  get buttonMove() { return this.getAttribute('button-move'); }
+  get buttonMove() {
+    return this.getAttribute('button-move');
+  }
 
-  get rowsContainer() { return this.getAttribute('rows-container'); }
+  get rowsContainer() {
+    return this.getAttribute('rows-container');
+  }
 
-  get repeatableElement() { return this.getAttribute('repeatable-element'); }
+  get repeatableElement() {
+    return this.getAttribute('repeatable-element');
+  }
 
-  get minimum() { return this.getAttribute('minimum'); }
+  get minimum() {
+    return this.getAttribute('minimum');
+  }
 
-  get maximum() { return this.getAttribute('maximum'); }
+  get maximum() {
+    return this.getAttribute('maximum');
+  }
 
-  get name() { return this.getAttribute('name'); }
+  get name() {
+    return this.getAttribute('name');
+  }
 
   set name(value) {
     // Update the template
-    this.template = this.template.replace(new RegExp(` name="${this.name.replace(/[[\]]/g, '\\$&')}`, 'g'), ` name="${value}`);
+    this.template = this.template.replace(
+      new RegExp(` name="${this.name.replace(/[[\]]/g, '\\$&')}`, 'g'),
+      ` name="${value}`,
+    );
 
     this.setAttribute('name', value);
   }
 
   constructor() {
     super();
-
-    const that = this;
 
     // Get the rows container
     this.containerWithRows = this;
@@ -79,40 +96,46 @@ class JoomlaFieldSubform extends HTMLElement {
         let btnAdd = null;
         let btnRem = null;
 
-        if (that.buttonAdd) {
-          btnAdd = event.target.closest(that.buttonAdd);
+        if (this.buttonAdd) {
+          btnAdd = event.target.closest(this.buttonAdd);
         }
 
-        if (that.buttonRemove) {
-          btnRem = event.target.closest(that.buttonRemove);
+        if (this.buttonRemove) {
+          btnRem = event.target.closest(this.buttonRemove);
         }
 
         // Check active, with extra check for nested joomla-field-subform
-        if (btnAdd && btnAdd.closest('joomla-field-subform') === that) {
-          let row = btnAdd.closest(that.repeatableElement);
-          row = row && row.closest('joomla-field-subform') === that ? row : null;
-          that.addRow(row);
+        if (btnAdd && btnAdd.closest('joomla-field-subform') === this) {
+          let row = btnAdd.closest(this.repeatableElement);
+          row =
+            row && row.closest('joomla-field-subform') === this ? row : null;
+          this.addRow(row);
           event.preventDefault();
-        } else if (btnRem && btnRem.closest('joomla-field-subform') === that) {
-          const row = btnRem.closest(that.repeatableElement);
-          that.removeRow(row);
+        } else if (btnRem && btnRem.closest('joomla-field-subform') === this) {
+          const row = btnRem.closest(this.repeatableElement);
+          this.removeRow(row);
           event.preventDefault();
         }
       });
 
       this.addEventListener('keydown', (event) => {
         if (event.code !== KEYCODE.SPACE) return;
-        const isAdd = that.buttonAdd && event.target.matches(that.buttonAdd);
-        const isRem = that.buttonRemove && event.target.matches(that.buttonRemove);
+        const isAdd = this.buttonAdd && event.target.matches(this.buttonAdd);
+        const isRem =
+          this.buttonRemove && event.target.matches(this.buttonRemove);
 
-        if ((isAdd || isRem) && event.target.closest('joomla-field-subform') === that) {
-          let row = event.target.closest(that.repeatableElement);
-          row = row && row.closest('joomla-field-subform') === that ? row : null;
+        if (
+          (isAdd || isRem) &&
+          event.target.closest('joomla-field-subform') === this
+        ) {
+          let row = event.target.closest(this.repeatableElement);
+          row =
+            row && row.closest('joomla-field-subform') === this ? row : null;
 
           if (isRem && row) {
-            that.removeRow(row);
+            this.removeRow(row);
           } else if (isAdd) {
-            that.addRow(row);
+            this.addRow(row);
           }
           event.preventDefault();
         }
@@ -147,14 +170,20 @@ class JoomlaFieldSubform extends HTMLElement {
    * Prepare a row template
    */
   prepareTemplate() {
-    const tmplElement = [].slice.call(this.children).filter((el) => el.classList.contains('subform-repeatable-template-section'));
+    const tmplElement = [].slice
+      .call(this.children)
+      .filter((el) =>
+        el.classList.contains('subform-repeatable-template-section'),
+      );
 
     if (tmplElement[0]) {
       this.template = tmplElement[0].innerHTML;
     }
 
     if (!this.template) {
-      throw new Error('The row template is required for the subform element to work');
+      throw new Error(
+        'The row template is required for the subform element to work',
+      );
     }
   }
 
@@ -172,7 +201,10 @@ class JoomlaFieldSubform extends HTMLElement {
 
     // Make a new row from the template
     let tmpEl;
-    if (this.containerWithRows.nodeName === 'TBODY' || this.containerWithRows.nodeName === 'TABLE') {
+    if (
+      this.containerWithRows.nodeName === 'TBODY' ||
+      this.containerWithRows.nodeName === 'TABLE'
+    ) {
       tmpEl = document.createElement('tbody');
     } else {
       tmpEl = document.createElement('div');
@@ -200,15 +232,19 @@ class JoomlaFieldSubform extends HTMLElement {
     this.fixUniqueAttributes(row, count);
 
     // Tell about the new row
-    this.dispatchEvent(new CustomEvent('subform-row-add', {
-      detail: { row },
-      bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('subform-row-add', {
+        detail: { row },
+        bubbles: true,
+      }),
+    );
 
-    row.dispatchEvent(new CustomEvent('joomla:updated', {
-      bubbles: true,
-      cancelable: true,
-    }));
+    row.dispatchEvent(
+      new CustomEvent('joomla:updated', {
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
 
     return row;
   }
@@ -225,15 +261,19 @@ class JoomlaFieldSubform extends HTMLElement {
     }
 
     // Tell about the row will be removed
-    this.dispatchEvent(new CustomEvent('subform-row-remove', {
-      detail: { row },
-      bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('subform-row-remove', {
+        detail: { row },
+        bubbles: true,
+      }),
+    );
 
-    row.dispatchEvent(new CustomEvent('joomla:removed', {
-      bubbles: true,
-      cancelable: true,
-    }));
+    row.dispatchEvent(
+      new CustomEvent('joomla:removed', {
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
 
     row.parentNode.removeChild(row);
   }
@@ -281,7 +321,8 @@ class JoomlaFieldSubform extends HTMLElement {
       let countMulti = 0; // count for multiple radio/checkboxes
       const forOldAttr = $el.id; // Fix "for" in the labels
 
-      if ($el.type === 'checkbox' && name.match(/\[\]$/)) { // <input type="checkbox" name="name[]"> fix
+      if ($el.type === 'checkbox' && name.match(/\[\]$/)) {
+        // <input type="checkbox" name="name[]"> fix
         countMulti = ids[id] ? ids[id].length : 0;
 
         // Set the id for fieldset and group label
@@ -289,7 +330,12 @@ class JoomlaFieldSubform extends HTMLElement {
           // Look for <fieldset class="checkboxes"></fieldset> or <fieldset><div class="checkboxes"></div></fieldset>
           let fieldset = $el.closest('.checkboxes, fieldset');
           if (fieldset) {
-            fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
+            fieldset =
+              fieldset.nodeName === 'FIELDSET'
+                ? fieldset
+                : fieldset.parentElement.nodeName === 'FIELDSET'
+                  ? fieldset.parentElement
+                  : false;
           }
 
           if (fieldset) {
@@ -309,7 +355,8 @@ class JoomlaFieldSubform extends HTMLElement {
         }
 
         idNew += countMulti;
-      } else if ($el.type === 'radio') { // <input type="radio"> fix
+      } else if ($el.type === 'radio') {
+        // <input type="radio"> fix
         countMulti = ids[id] ? ids[id].length : 0;
 
         // Set the id for fieldset and group label
@@ -322,7 +369,12 @@ class JoomlaFieldSubform extends HTMLElement {
            */
           let fieldset = $el.closest('.radio, .switcher, fieldset');
           if (fieldset) {
-            fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
+            fieldset =
+              fieldset.nodeName === 'FIELDSET'
+                ? fieldset
+                : fieldset.parentElement.nodeName === 'FIELDSET'
+                  ? fieldset.parentElement
+                  : false;
           }
 
           if (fieldset) {
@@ -392,8 +444,10 @@ class JoomlaFieldSubform extends HTMLElement {
 
     // Helper method to test whether Handler was clicked
     function getMoveHandler(element) {
-      return !element.form // This need to test whether the element is :input
-      && element.matches(that.buttonMove) ? element : element.closest(that.buttonMove);
+      return !element.form && // This need to test whether the element is :input
+        element.matches(that.buttonMove)
+        ? element
+        : element.closest(that.buttonMove);
     }
 
     // Helper method to move row to selected position
@@ -441,7 +495,8 @@ class JoomlaFieldSubform extends HTMLElement {
         row.setAttribute('draggable', 'true');
         row.setAttribute('aria-grabbed', 'true');
         item = row;
-      } else { // Second selection
+      } else {
+        // Second selection
         // Move to selected position
         if (row !== item) {
           switchRowPositions(item, row);
@@ -490,10 +545,13 @@ class JoomlaFieldSubform extends HTMLElement {
     // - "enter" to place selected row in to destination
     // - "esc" to cancel selection
     this.addEventListener('keydown', (event) => {
-      if ((event.code !== KEYCODE.ESC
-          && event.code !== KEYCODE.SPACE
-          && event.code !== KEYCODE.ENTER) || event.target.form
-        || !event.target.matches(that.repeatableElement)) {
+      if (
+        (event.code !== KEYCODE.ESC &&
+          event.code !== KEYCODE.SPACE &&
+          event.code !== KEYCODE.ENTER) ||
+        event.target.form ||
+        !event.target.matches(that.repeatableElement)
+      ) {
         return;
       }
 
@@ -511,7 +569,8 @@ class JoomlaFieldSubform extends HTMLElement {
           row.setAttribute('draggable', 'false');
           row.setAttribute('aria-grabbed', 'false');
           item = null;
-        } else { // Select new
+        } else {
+          // Select new
           // If there was previously selected
           if (item) {
             item.setAttribute('draggable', 'false');
@@ -575,7 +634,10 @@ class JoomlaFieldSubform extends HTMLElement {
     // Handle drag action, move element to hovered position
     this.addEventListener('dragenter', ({ target }) => {
       // Make sure the target in the correct container
-      if (!item || target.parentElement.closest('joomla-field-subform') !== that) {
+      if (
+        !item ||
+        target.parentElement.closest('joomla-field-subform') !== that
+      ) {
         return;
       }
 

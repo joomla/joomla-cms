@@ -44,24 +44,33 @@ document.addEventListener('onMediaFileSelected', async (e) => {
     optionsEl.parentNode.removeChild(optionsEl);
   }
 
-  const {
-    images, audios, videos, documents,
-  } = supportedExtensions;
+  const { images, audios, videos, documents } = supportedExtensions;
 
-  if (Joomla.selectedMediaFile.path && Joomla.selectedMediaFile.type === 'file') {
+  if (
+    Joomla.selectedMediaFile.path &&
+    Joomla.selectedMediaFile.type === 'file'
+  ) {
     let type;
     if (images.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'images';
-    } else if (audios.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    } else if (
+      audios.includes(Joomla.selectedMediaFile.extension.toLowerCase())
+    ) {
       type = 'audios';
-    } else if (videos.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    } else if (
+      videos.includes(Joomla.selectedMediaFile.extension.toLowerCase())
+    ) {
       type = 'videos';
-    } else if (documents.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
+    } else if (
+      documents.includes(Joomla.selectedMediaFile.extension.toLowerCase())
+    ) {
       type = 'documents';
     }
 
     if (type) {
-      container.insertAdjacentHTML('afterbegin', `<joomla-field-mediamore
+      container.insertAdjacentHTML(
+        'afterbegin',
+        `<joomla-field-mediamore
   parent-id="${currentModal.id}"
   type="${type}"
   summary-label="${Joomla.Text._('JFIELD_MEDIA_SUMMARY_LABEL')}"
@@ -80,7 +89,8 @@ document.addEventListener('onMediaFileSelected', async (e) => {
   width-label="${Joomla.Text._('JFIELD_MEDIA_WIDTH_LABEL')}"
   height-label="${Joomla.Text._('JFIELD_MEDIA_HEIGHT_LABEL')}"
 ></joomla-field-mediamore>
-`);
+`,
+      );
     }
   }
 });
@@ -92,10 +102,13 @@ document.addEventListener('onMediaFileSelected', async (e) => {
  *
  * @returns {boolean}
  */
-const isElement = (o) => (
-  typeof HTMLElement === 'object' ? o instanceof HTMLElement
-    : o && typeof o === 'object' && o.nodeType === 1 && typeof o.nodeName === 'string'
-);
+const isElement = (o) =>
+  typeof HTMLElement === 'object'
+    ? o instanceof HTMLElement
+    : o &&
+      typeof o === 'object' &&
+      o.nodeType === 1 &&
+      typeof o.nodeName === 'string';
 
 /**
  * Method to return the image size
@@ -104,18 +117,19 @@ const isElement = (o) => (
  *
  * @returns {bool}
  */
-const getImageSize = (url) => new Promise((resolve, reject) => {
-  const img = new Image();
-  img.src = url;
-  img.onload = () => {
-    Joomla.selectedMediaFile.width = img.width;
-    Joomla.selectedMediaFile.height = img.height;
-    resolve(true);
-  };
-  img.onerror = () => {
-    reject(false);
-  };
-});
+const getImageSize = (url) =>
+  new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = url;
+    img.onload = () => {
+      Joomla.selectedMediaFile.width = img.width;
+      Joomla.selectedMediaFile.height = img.height;
+      resolve(true);
+    };
+    img.onerror = () => {
+      reject(false);
+    };
+  });
 
 const insertAsImage = async (media, editor, fieldClass) => {
   if (media.url) {
@@ -147,24 +161,37 @@ const insertAsImage = async (media, editor, fieldClass) => {
     let imageElement = '';
 
     if (!isElement(editor) || editor.replaceSelection) {
-      const editorInst = editor.replaceSelection ? editor : Joomla.editors.instances[editor];
+      const editorInst = editor.replaceSelection
+        ? editor
+        : Joomla.editors.instances[editor];
       const currentModal = Joomla.Modal.getCurrent();
       attribs = currentModal.querySelector('joomla-field-mediamore');
       if (attribs) {
         if (attribs.getAttribute('alt-check') === 'true') {
           appendAlt = ' alt=""';
         }
-        alt = attribs.getAttribute('alt-value') ? ` alt="${attribs.getAttribute('alt-value')}"` : appendAlt;
-        classes = attribs.getAttribute('img-classes') ? ` class="${attribs.getAttribute('img-classes')}"` : '';
-        figClasses = attribs.getAttribute('fig-classes') ? ` class="image ${attribs.getAttribute('fig-classes')}"` : ' class="image"';
-        figCaption = attribs.getAttribute('fig-caption') ? `${attribs.getAttribute('fig-caption')}` : '';
+        alt = attribs.getAttribute('alt-value')
+          ? ` alt="${attribs.getAttribute('alt-value')}"`
+          : appendAlt;
+        classes = attribs.getAttribute('img-classes')
+          ? ` class="${attribs.getAttribute('img-classes')}"`
+          : '';
+        figClasses = attribs.getAttribute('fig-classes')
+          ? ` class="image ${attribs.getAttribute('fig-classes')}"`
+          : ' class="image"';
+        figCaption = attribs.getAttribute('fig-caption')
+          ? `${attribs.getAttribute('fig-caption')}`
+          : '';
         if (attribs.getAttribute('is-lazy') === 'true') {
           isLazy = ` loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
-          if (Joomla.selectedMediaFile.width === 0 || Joomla.selectedMediaFile.height === 0) {
+          if (
+            Joomla.selectedMediaFile.width === 0 ||
+            Joomla.selectedMediaFile.height === 0
+          ) {
             try {
               await getImageSize(Joomla.selectedMediaFile.url);
               isLazy = ` loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
-            } catch (err) {
+            } catch (_err) {
               isLazy = '';
             }
           }
@@ -183,16 +210,21 @@ const insertAsImage = async (media, editor, fieldClass) => {
 
       editorInst.replaceSelection(imageElement);
     } else {
-      if (Joomla.selectedMediaFile.width === 0 || Joomla.selectedMediaFile.height === 0) {
+      if (
+        Joomla.selectedMediaFile.width === 0 ||
+        Joomla.selectedMediaFile.height === 0
+      ) {
         try {
           await getImageSize(Joomla.selectedMediaFile.url);
-        } catch (err) {
+        } catch (_err) {
           Joomla.selectedMediaFile.height = 0;
           Joomla.selectedMediaFile.width = 0;
         }
       }
       fieldClass.markValid();
-      fieldClass.setValue(`${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`);
+      fieldClass.setValue(
+        `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`,
+      );
     }
   }
 };
@@ -215,7 +247,9 @@ const insertAsOther = (media, editor, fieldClass, type) => {
     // Available Only inside an editor
     if (!isElement(editor) || editor.replaceSelection) {
       let outputText;
-      const editorInst = editor.replaceSelection ? editor : Joomla.editors.instances[editor];
+      const editorInst = editor.replaceSelection
+        ? editor
+        : Joomla.editors.instances[editor];
       const currentModal = Joomla.Modal.getCurrent();
       attribs = currentModal.querySelector('joomla-field-mediamore');
       if (attribs) {
@@ -228,7 +262,9 @@ const insertAsOther = (media, editor, fieldClass, type) => {
             // @todo use ${Joomla.selectedMediaFile.filetype} in type
             const title = attribs.getAttribute('title');
             outputText = `<object type="application/${Joomla.selectedMediaFile.extension}" data="${Joomla.selectedMediaFile.url}" ${title ? `title="${title}"` : ''} width="${attribs.getAttribute('width')}" height="${attribs.getAttribute('height')}">
-  ${Joomla.Text._('JFIELD_MEDIA_UNSUPPORTED').replace('{tag}', `<a download href="${Joomla.selectedMediaFile.url}">`).replace(/{extension}/g, Joomla.selectedMediaFile.extension)}
+  ${Joomla.Text._('JFIELD_MEDIA_UNSUPPORTED')
+    .replace('{tag}', `<a download href="${Joomla.selectedMediaFile.url}">`)
+    .replace(/{extension}/g, Joomla.selectedMediaFile.extension)}
 </object>`;
           }
           if (type === 'videos') {
@@ -239,7 +275,11 @@ const insertAsOther = (media, editor, fieldClass, type) => {
         } else if (editorInst.getSelection() !== '') {
           outputText = `<a download href="${Joomla.selectedMediaFile.url}">${editorInst.getSelection()}</a>`;
         } else {
-          const name = Joomla.selectedMediaFile.url.substr(0, Joomla.selectedMediaFile.url.lastIndexOf('.')).replace(/%20/g, ' ').split('/').pop();
+          const name = Joomla.selectedMediaFile.url
+            .substr(0, Joomla.selectedMediaFile.url.lastIndexOf('.'))
+            .replace(/%20/g, ' ')
+            .split('/')
+            .pop();
           outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name)}</a>`;
         }
       }
@@ -267,23 +307,33 @@ const insertAsOther = (media, editor, fieldClass, type) => {
 const execTransform = async (resp, editor, fieldClass) => {
   if (resp.success === true) {
     const media = resp.data[0];
-    const {
-      images, audios, videos, documents,
-    } = supportedExtensions;
+    const { images, audios, videos, documents } = supportedExtensions;
 
-    if (Joomla.selectedMediaFile.extension && images.includes(media.extension.toLowerCase())) {
+    if (
+      Joomla.selectedMediaFile.extension &&
+      images.includes(media.extension.toLowerCase())
+    ) {
       return insertAsImage(media, editor, fieldClass);
     }
 
-    if (Joomla.selectedMediaFile.extension && audios.includes(media.extension.toLowerCase())) {
+    if (
+      Joomla.selectedMediaFile.extension &&
+      audios.includes(media.extension.toLowerCase())
+    ) {
       return insertAsOther(media, editor, fieldClass, 'audios');
     }
 
-    if (Joomla.selectedMediaFile.extension && documents.includes(media.extension.toLowerCase())) {
+    if (
+      Joomla.selectedMediaFile.extension &&
+      documents.includes(media.extension.toLowerCase())
+    ) {
       return insertAsOther(media, editor, fieldClass, 'documents');
     }
 
-    if (Joomla.selectedMediaFile.extension && videos.includes(media.extension.toLowerCase())) {
+    if (
+      Joomla.selectedMediaFile.extension &&
+      videos.includes(media.extension.toLowerCase())
+    ) {
       return insertAsOther(media, editor, fieldClass, 'videos');
     }
   }
@@ -299,39 +349,44 @@ const execTransform = async (resp, editor, fieldClass) => {
  *
  * @returns {void}
  */
-Joomla.getMedia = (data, editor, fieldClass) => new Promise((resolve, reject) => {
-  if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
-    Joomla.selectedMediaFile = {};
-    resolve({
-      resp: {
-        success: false,
-      },
-    });
-    return;
-  }
+Joomla.getMedia = (data, editor, fieldClass) =>
+  new Promise((resolve, reject) => {
+    if (
+      !data ||
+      (typeof data === 'object' && (!data.path || data.path === ''))
+    ) {
+      Joomla.selectedMediaFile = {};
+      resolve({
+        resp: {
+          success: false,
+        },
+      });
+      return;
+    }
 
-  // Compile the url
-  const apiUrl = Joomla.getOptions('media-picker-api', {}).apiBaseUrl || 'index.php?option=com_media&format=json';
-  const url = new URL(apiUrl, window.location.origin);
-  url.searchParams.append('task', 'api.files');
-  url.searchParams.append('url', true);
-  url.searchParams.append('path', data.path);
-  url.searchParams.append('mediatypes', '0,1,2,3');
-  url.searchParams.append(Joomla.getOptions('csrf.token'), 1);
+    // Compile the url
+    const apiUrl =
+      Joomla.getOptions('media-picker-api', {}).apiBaseUrl ||
+      'index.php?option=com_media&format=json';
+    const url = new URL(apiUrl, window.location.origin);
+    url.searchParams.append('task', 'api.files');
+    url.searchParams.append('url', true);
+    url.searchParams.append('path', data.path);
+    url.searchParams.append('mediatypes', '0,1,2,3');
+    url.searchParams.append(Joomla.getOptions('csrf.token'), 1);
 
-  fetch(
-    url,
-    {
+    fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-    },
-  )
-    .then((response) => response.json())
-    .then(async (response) => resolve(await execTransform(response, editor, fieldClass)))
-    .catch((error) => reject(error));
-});
+    })
+      .then((response) => response.json())
+      .then(async (response) =>
+        resolve(await execTransform(response, editor, fieldClass)),
+      )
+      .catch((error) => reject(error));
+  });
 
 // For B/C purposes
 Joomla.getImage = Joomla.getMedia;
@@ -349,39 +404,73 @@ Joomla.getImage = Joomla.getMedia;
  * - alt-value: The value for the alt text (calculated, defaults to '') {string}
  */
 class JoomlaFieldMediaOptions extends HTMLElement {
-  get type() { return this.getAttribute('type'); }
+  get type() {
+    return this.getAttribute('type');
+  }
 
-  get parentId() { return this.getAttribute('parent-id'); }
+  get parentId() {
+    return this.getAttribute('parent-id');
+  }
 
-  get lazytext() { return this.getAttribute('lazy-label'); }
+  get lazytext() {
+    return this.getAttribute('lazy-label');
+  }
 
-  get alttext() { return this.getAttribute('alt-label'); }
+  get alttext() {
+    return this.getAttribute('alt-label');
+  }
 
-  get altchecktext() { return this.getAttribute('alt-check-label'); }
+  get altchecktext() {
+    return this.getAttribute('alt-check-label');
+  }
 
-  get altcheckdesctext() { return this.getAttribute('alt-check-desc-label'); }
+  get altcheckdesctext() {
+    return this.getAttribute('alt-check-desc-label');
+  }
 
-  get embedchecktext() { return this.getAttribute('embed-check-label'); }
+  get embedchecktext() {
+    return this.getAttribute('embed-check-label');
+  }
 
-  get embedcheckdesctext() { return this.getAttribute('embed-check-desc-label'); }
+  get embedcheckdesctext() {
+    return this.getAttribute('embed-check-desc-label');
+  }
 
-  get downloadchecktext() { return this.getAttribute('download-check-label'); }
+  get downloadchecktext() {
+    return this.getAttribute('download-check-label');
+  }
 
-  get downloadcheckdesctext() { return this.getAttribute('download-check-desc-label'); }
+  get downloadcheckdesctext() {
+    return this.getAttribute('download-check-desc-label');
+  }
 
-  get classestext() { return this.getAttribute('classes-label'); }
+  get classestext() {
+    return this.getAttribute('classes-label');
+  }
 
-  get figclassestext() { return this.getAttribute('figure-classes-label'); }
+  get figclassestext() {
+    return this.getAttribute('figure-classes-label');
+  }
 
-  get figcaptiontext() { return this.getAttribute('figure-caption-label'); }
+  get figcaptiontext() {
+    return this.getAttribute('figure-caption-label');
+  }
 
-  get summarytext() { return this.getAttribute('summary-label'); }
+  get summarytext() {
+    return this.getAttribute('summary-label');
+  }
 
-  get widthtext() { return this.getAttribute('width-label'); }
+  get widthtext() {
+    return this.getAttribute('width-label');
+  }
 
-  get heighttext() { return this.getAttribute('height-label'); }
+  get heighttext() {
+    return this.getAttribute('height-label');
+  }
 
-  get titletext() { return this.getAttribute('title-label'); }
+  get titletext() {
+    return this.getAttribute('title-label');
+  }
 
   connectedCallback() {
     if (this.type === 'images') {
@@ -437,15 +526,14 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       this.lazyInput.addEventListener('change', this.lazyInputFn);
       this.altCheck = this.querySelector(`#${this.parentId}-alt-check`);
       this.altCheck.addEventListener('input', this.altCheckFn);
-      [].slice.call(this.querySelectorAll('input[type="text"]'))
-        .map((el) => {
-          el.addEventListener('input', this.inputFn);
-          const { is } = el.dataset;
-          if (is) {
-            this.setAttribute(is, el.value.replace(/"/g, '&quot;'));
-          }
-          return el;
-        });
+      [].slice.call(this.querySelectorAll('input[type="text"]')).map((el) => {
+        el.addEventListener('input', this.inputFn);
+        const { is } = el.dataset;
+        if (is) {
+          this.setAttribute(is, el.value.replace(/"/g, '&quot;'));
+        }
+        return el;
+      });
 
       // Set initial values
       this.setAttribute('is-lazy', !!this.lazyInput.checked);
@@ -499,19 +587,19 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       this.embedInputFn = this.embedInputFn.bind(this);
       this.inputFn = this.inputFn.bind(this);
 
-      [].slice.call(this.querySelectorAll('.form-check-input.radio'))
+      [].slice
+        .call(this.querySelectorAll('.form-check-input.radio'))
         .map((el) => el.addEventListener('input', this.embedInputFn));
       this.setAttribute('embed-it', false);
 
-      [].slice.call(this.querySelectorAll('input[type="text"]'))
-        .map((el) => {
-          el.addEventListener('input', this.inputFn);
-          const { is } = el.dataset;
-          if (is) {
-            this.setAttribute(is, el.value.replace(/"/g, '&quot;'));
-          }
-          return el;
-        });
+      [].slice.call(this.querySelectorAll('input[type="text"]')).map((el) => {
+        el.addEventListener('input', this.inputFn);
+        const { is } = el.dataset;
+        if (is) {
+          this.setAttribute(is, el.value.replace(/"/g, '&quot;'));
+        }
+        return el;
+      });
     }
   }
 
@@ -523,9 +611,11 @@ class JoomlaFieldMediaOptions extends HTMLElement {
     }
 
     if (['audio', 'video', 'document'].includes(this.type)) {
-      [].slice.call(this.querySelectorAll('.form-check-input.radio'))
+      [].slice
+        .call(this.querySelectorAll('.form-check-input.radio'))
         .map((el) => el.removeEventListener('input', this.embedInputFn));
-      [].slice.call(this.querySelectorAll('input[type="text"]'))
+      [].slice
+        .call(this.querySelectorAll('input[type="text"]'))
         .map((el) => el.removeEventListener('input', this.embedInputFn));
     }
 

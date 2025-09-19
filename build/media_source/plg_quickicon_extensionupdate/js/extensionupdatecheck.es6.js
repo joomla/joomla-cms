@@ -31,25 +31,44 @@
         url: options.ajaxUrl,
         method: 'GET',
         promise: true,
-      }).then((xhr) => {
-        const response = xhr.responseText;
-        const updateInfoList = JSON.parse(response);
+      })
+        .then((xhr) => {
+          const response = xhr.responseText;
+          const updateInfoList = JSON.parse(response);
 
-        if (Array.isArray(updateInfoList)) {
-          if (updateInfoList.length === 0) {
-            // No updates
-            update('success', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
+          if (Array.isArray(updateInfoList)) {
+            if (updateInfoList.length === 0) {
+              // No updates
+              update(
+                'success',
+                Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'),
+              );
+            } else {
+              update(
+                'danger',
+                Joomla.Text._(
+                  'PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND',
+                ).replace(
+                  '%s',
+                  `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`,
+                ),
+              );
+            }
           } else {
-            update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`));
+            // An error occurred
+            update(
+              'danger',
+              Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'),
+            );
           }
-        } else {
+        })
+        .catch(() => {
           // An error occurred
-          update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'));
-        }
-      }).catch(() => {
-        // An error occurred
-        update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'));
-      });
+          update(
+            'danger',
+            Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'),
+          );
+        });
     }
   };
 

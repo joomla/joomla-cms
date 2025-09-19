@@ -3,11 +3,11 @@ import Alert from 'bootstrap/js/src/alert';
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Alert = Alert;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla?.getOptions) {
   // Get the elements/configurations from the PHP
   const alerts = Joomla.getOptions('bootstrap.alert');
   // Initialise the elements
-  if (alerts && alerts.length) {
+  if (alerts?.length) {
     alerts.forEach((selector) => {
       document.querySelectorAll(selector).forEach((el) => {
         new window.bootstrap.Alert(el);

@@ -14,13 +14,19 @@ const resize = (width, height, image) => {
   canvas.getContext('2d').drawImage(image, 0, 0, width, height);
 
   // The format
-  const format = Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension.toLowerCase();
+  const format =
+    Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg'
+      ? 'jpeg'
+      : Joomla.MediaManager.Edit.original.extension.toLowerCase();
 
   // The quality
   const quality = formElements.resizeQuality.value;
 
   // Creating the data from the canvas
-  Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(`image/${format}`, quality);
+  Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(
+    `image/${format}`,
+    quality,
+  );
 
   // Updating the preview element
   image.width = width;
@@ -68,27 +74,31 @@ const initResize = (image) => {
   }
 };
 
-window.addEventListener('media-manager-edit-init', () => {
-  // Get the form elements
-  formElements = {
-    resizeWidth: document.getElementById('jform_resize_width'),
-    resizeHeight: document.getElementById('jform_resize_height'),
-    resizeQuality: document.getElementById('jform_resize_quality'),
-  };
+window.addEventListener(
+  'media-manager-edit-init',
+  () => {
+    // Get the form elements
+    formElements = {
+      resizeWidth: document.getElementById('jform_resize_width'),
+      resizeHeight: document.getElementById('jform_resize_height'),
+      resizeQuality: document.getElementById('jform_resize_quality'),
+    };
 
-  // Register the Events
-  Joomla.MediaManager.Edit.plugins.resize = {
-    Activate(image) {
-      return new Promise((resolve /* , reject */) => {
-        // Initialize
-        initResize(image);
-        resolve();
-      });
-    },
-    Deactivate(/* image */) {
-      return new Promise((resolve /* , reject */) => {
-        resolve();
-      });
-    },
-  };
-}, { once: true });
+    // Register the Events
+    Joomla.MediaManager.Edit.plugins.resize = {
+      Activate(image) {
+        return new Promise((resolve /* , reject */) => {
+          // Initialize
+          initResize(image);
+          resolve();
+        });
+      },
+      Deactivate(/* image */) {
+        return new Promise((resolve /* , reject */) => {
+          resolve();
+        });
+      },
+    };
+  },
+  { once: true },
+);

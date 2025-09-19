@@ -22,7 +22,9 @@
           }
         } else {
           Joomla.renderMessages({
-            error: [Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION')],
+            error: [
+              Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'),
+            ],
           });
         }
       }
@@ -32,7 +34,9 @@
     document.getElementById('toolbar-preview').addEventListener('click', () => {
       const toolbarPreview = document.getElementById('toolbar-preview');
       if (!toolbarPreview.disabled) {
-        const windowSizeArray = ['width=800, height=600, resizable=yes, scrollbars=yes'];
+        const windowSizeArray = [
+          'width=800, height=600, resizable=yes, scrollbars=yes',
+        ];
         const ids = document.querySelectorAll('input[id*="cb"]:checked');
         if (ids.length === 1) {
           // Add version item id to URL
@@ -42,7 +46,9 @@
           }
         } else {
           Joomla.renderMessages({
-            error: [Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION')],
+            error: [
+              Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'),
+            ],
           });
         }
       }
@@ -52,11 +58,15 @@
     document.getElementById('toolbar-compare').addEventListener('click', () => {
       const toolbarCompare = document.getElementById('toolbar-compare');
       if (!toolbarCompare.disabled) {
-        const windowSizeArray = ['width=1000, height=600, resizable=yes, scrollbars=yes'];
+        const windowSizeArray = [
+          'width=1000, height=600, resizable=yes, scrollbars=yes',
+        ];
         const ids = document.querySelectorAll('input[id*="cb"]:checked');
         if (ids.length === 0) {
           Joomla.renderMessages({
-            error: [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')],
+            error: [
+              Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'),
+            ],
           });
         } else if (ids.length === 2) {
           // Add version item ids to URL
@@ -66,7 +76,9 @@
           }
         } else {
           Joomla.renderMessages({
-            error: [Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS')],
+            error: [
+              Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS'),
+            ],
           });
         }
       }

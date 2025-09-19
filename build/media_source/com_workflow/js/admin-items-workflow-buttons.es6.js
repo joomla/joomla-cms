@@ -13,10 +13,12 @@ Joomla = window.Joomla || {};
  */
 Joomla.toggleAllNextElements = (element, className) => {
   const getNextSiblings = (el) => {
+    let item = el;
     const siblings = [];
     do {
       siblings.push(el);
-    } while ((el = el.nextElementSibling) !== null);
+      item = item.nextElementSibling;
+    } while (item !== null);
     return siblings;
   };
 
@@ -60,7 +62,9 @@ Joomla.toggleAllNextElements = (element, className) => {
         while (transitionIds.length) {
           const compareTrans = transitionIds.shift();
 
-          availableTrans = availableTrans.filter((id) => compareTrans.indexOf(id) !== -1);
+          availableTrans = availableTrans.filter(
+            (id) => compareTrans.indexOf(id) !== -1,
+          );
         }
 
         if (availableTrans.length) {

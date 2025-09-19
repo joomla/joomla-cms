@@ -4,18 +4,28 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('jform_searchstring').addEventListener('focus', ({ srcElement }) => {
-    if (!Joomla.overrider.states.refreshed) {
-      const expired = document.getElementById('overrider-spinner').getAttribute('data-search-string-expired');
-      if (expired) {
-        Joomla.overrider.refreshCache();
-        Joomla.overrider.states.refreshed = true;
+  document.getElementById('jform_searchstring').addEventListener(
+    'focus',
+    ({ srcElement }) => {
+      if (!Joomla.overrider.states.refreshed) {
+        const expired = document
+          .getElementById('overrider-spinner')
+          .getAttribute('data-search-string-expired');
+        if (expired) {
+          Joomla.overrider.refreshCache();
+          Joomla.overrider.states.refreshed = true;
+        }
       }
-    }
-    srcElement.classList.remove('invalid');
-  }, false);
+      srcElement.classList.remove('invalid');
+    },
+    false,
+  );
 
-  document.getElementById('more-results-button').addEventListener('click', () => {
-    Joomla.overrider.searchStrings(Joomla.overrider.states.more);
-  }, false);
+  document.getElementById('more-results-button').addEventListener(
+    'click',
+    () => {
+      Joomla.overrider.searchStrings(Joomla.overrider.states.more);
+    },
+    false,
+  );
 });

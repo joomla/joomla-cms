@@ -90,7 +90,7 @@ export default class JoomlaEditorDecorator {
    *
    * @returns {JoomlaEditorDecorator}
    */
-  setValue(value) {
+  setValue(_value) {
     throw new Error('Not implemented');
   }
 
@@ -112,7 +112,7 @@ export default class JoomlaEditorDecorator {
    *
    * @returns {JoomlaEditorDecorator}
    */
-  replaceSelection(value) {
+  replaceSelection(_value) {
     throw new Error('Not implemented');
   }
 
@@ -125,7 +125,7 @@ export default class JoomlaEditorDecorator {
    *
    * @returns {JoomlaEditorDecorator}
    */
-  disable(enable) {
+  disable(_enable) {
     throw new Error('Not implemented');
   }
 }
