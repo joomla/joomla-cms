@@ -10,12 +10,13 @@
  * @param { function } callback  The callback function to be executed
  * @param { int }  time      The time to wait before firing the callback
  * @param { int }  interval  The interval
- */  
-const debounce = (callback, time = 250, interval) => 
+ */
+const debounce =
+  (callback, time = 250, interval) =>
   (...args) => {
     clearTimeout(interval);
     interval = setTimeout(() => callback(...args), time);
-  }
+  };
 
 ((window, document, Joomla) => {
   Joomla.unpublishModule = (element) => {
