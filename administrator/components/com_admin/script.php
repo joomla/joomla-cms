@@ -981,6 +981,26 @@ class JoomlaInstallerScript
             '/modules/mod_login/mod_login.php',
             '/modules/mod_menu/mod_menu.php',
             '/modules/mod_whosonline/mod_whosonline.php',
+            // From 6.0.0-beta2 to 6.0.0-beta3
+            '/media/templates/site/cassiopeia/css/global/colors_custom.css',
+            '/media/templates/site/cassiopeia/css/global/colors_custom.min.css',
+            '/media/templates/site/cassiopeia/css/global/colors_custom.min.css.gz',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.css',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.min.css',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.min.css.gz',
+            '/media/templates/site/cassiopeia/scss/global/colors_custom.scss',
+            '/media/templates/site/cassiopeia/scss/global/font_advanced.scss',
+            // From 6.0.0-beta3 to 6.0.0-rc1
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4_steps.ini',
+            '/media/com_guidedtours/images/5_2/enhancedtourheader.png',
+            '/media/com_guidedtours/images/5_2/mailtemplate.png',
+            '/media/com_guidedtours/images/5_3/filesdirectory.jpg',
+            '/media/com_guidedtours/images/5_4/automated-updates.jpg',
         ];
 
         $folders = [
@@ -1032,6 +1052,10 @@ class JoomlaInstallerScript
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Common/Inflector',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Common',
             '/libraries/src/Adapter',
+            // From 6.0.0-beta3 to 6.0.0-rc1
+            '/media/com_guidedtours/images/5_4',
+            '/media/com_guidedtours/images/5_3',
+            '/media/com_guidedtours/images/5_2',
         ];
 
         $status['files_checked']   = $files;

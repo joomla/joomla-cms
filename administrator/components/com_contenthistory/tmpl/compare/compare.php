@@ -45,8 +45,8 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
         </thead>
         <tbody>
             <?php foreach ($object1 as $name => $value1) : ?>
-                <?php if (isset($value1['value']) && isset($object2[$name]['value'])) : ?>
-                    <?php $value2 = $object2[$name]['value']; ?>
+                <?php if (isset($value1['value']) && isset($object2[$name]['value']) && ($value1['value'] !== $object2[$name]['value'])) : ?>
+                    <?php $value2 = $object2[$name]; ?>
                     <?php
                     if (is_array($value1)) : ?>
                         <?php if (is_array($value1['value'])) : ?>
@@ -57,38 +57,37 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                             </tr>
                             <?php $keys = array_keys($value1['value']); ?>
                             <?php if (isset($value2['value']) && is_array($value2['value'])) :?>
-                                <?php $keys = array_merge(array_keys($value1['value']), array_keys($value2['value'])); ?>
+                                <?php $keys = array_unique(array_merge(array_keys($value1['value']), array_keys($value2['value']))); ?>
                             <?php endif; ?>
                                 <?php foreach ($keys as $key) : ?>
-                                <tr>
-                                    <td></td>
-                                    <td class="original">
-                                        <?php if (isset($value1['value'][$key])) : ?>
-                                            <?php $currentvalue1 = $value1['value'][$key]; ?>
-                                            <?php if (is_array($value1['value'][$key])) : ?>
-                                                <?php $currentvalue1 = implode(' | ', $value1['value'][$key]); ?>
-                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
-                                            <?php else : ?>
-                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
-                                            <?php endif;?>
-                                        <?php else : ?>
-                                            <?php echo Text::_('JUNDEFINED');?>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td class="changed">
-                                        <?php if (isset($value2['value'][$key])) : ?>
-                                            <?php $currentvalue2 = $value2['value'][$key]; ?>
-                                            <?php if (is_array($value2['value'][$key])) : ?>
-                                                <?php $currentvalue2 = implode(' | ', $value1['value'][$key]); ?>
-                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
-                                            <?php else : ?>
-                                                <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
-                                            <?php endif;?>
-                                        <?php else : ?>
-                                            <?php echo Text::_('JUNDEFINED');?>
-                                        <?php endif; ?>
-                                    <td class="diff">&nbsp;</td>
-                                </tr>
+                                    <?php if (isset($value1['value'][$key]) && isset($value2['value'][$key]) && $value1['value'][$key] === $value2['value'][$key]) :?>
+                                        <?php continue; ?>
+                                    <?php endif;?>
+                                    <tr>
+                                        <td></td>
+                                        <td class="original">
+                                            <?php if (isset($value1['value'][$key])) : ?>
+                                                <?php $currentvalue1 = $value1['value'][$key]; ?>
+                                                <?php if (is_array($value1['value'][$key])) : ?>
+                                                    <?php $currentvalue1 = implode(' | ', $value1['value'][$key]); ?>
+                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
+                                                <?php else : ?>
+                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue1, ENT_COMPAT, 'UTF-8'); ?>
+                                                <?php endif;?>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="changed">
+                                            <?php if (isset($value2['value'][$key])) : ?>
+                                                <?php $currentvalue2 = $value2['value'][$key]; ?>
+                                                <?php if (is_array($value2['value'][$key])) : ?>
+                                                    <?php $currentvalue2 = implode(' | ', $value2['value'][$key]); ?>
+                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
+                                                <?php else : ?>
+                                                    <?php echo htmlspecialchars($key . ': ' . $currentvalue2, ENT_COMPAT, 'UTF-8'); ?>
+                                                <?php endif;?>
+                                            <?php endif; ?>
+                                        <td class="diff">&nbsp;</td>
+                                    </tr>
                                 <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
@@ -99,7 +98,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                                 <?php $currentvalue1 = is_array($value1['value']) ? json_encode($value1['value']) : $value1['value']; ?>
                                 <td class="original"><?php
                                     echo htmlspecialchars($currentvalue1); ?></td>
-                                <?php $currentvalue2 = is_array($value2) ? json_encode($value2) : $value2; ?>
+                                <?php $currentvalue2 = is_array($value2['value']) ? json_encode($value2['value']) : $value2['value']; ?>
                                 <td class="changed"><?php
                                     echo htmlspecialchars($currentvalue2, ENT_COMPAT, 'UTF-8'); ?></td>
                                 <td class="diff">&nbsp;</td>

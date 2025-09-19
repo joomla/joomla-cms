@@ -21,7 +21,7 @@ use Joomla\CMS\Table\Table;
 /**
  * MVC Model to interact with the Scheduler logs.
  *
- * @since  __DPELOY_VERSION__
+ * @since  5.3.0
  */
 class LogModel extends AdminModel
 {
