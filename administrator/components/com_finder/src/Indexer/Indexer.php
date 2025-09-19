@@ -331,10 +331,10 @@ class Indexer
         static::$profiler ? static::$profiler->mark('afterUnmapping') : null;
 
         // Perform cleanup on the item data.
-        $item->publish_start_date = $this->cleanupDate($item->publish_start_date);
-        $item->publish_end_date   = $this->cleanupDate($item->publish_end_date);
-        $item->start_date         = $this->cleanupDate($item->start_date);
-        $item->end_date           = $this->cleanupDate($item->end_date);
+        $item->publish_start_date = (int) $item->publish_start_date ?: null;
+        $item->publish_end_date   = (int) $item->publish_end_date ?: null;
+        $item->start_date         = (int) $item->start_date ?: null;
+        $item->end_date           = (int) $item->end_date ?: null;
 
         // Prepare the item description.
         $item->description = Helper::parse($item->summary ?? '');
@@ -371,7 +371,7 @@ class Indexer
         } else {
             // Update the link.
             $entry->link_id = $linkId;
-            $db->updateObject('#__finder_links', $entry, 'link_id');
+            $db->updateObject('#__finder_links', $entry, 'link_id', true);
         }
 
         // Set up the variables we will need during processing.
@@ -1031,33 +1031,5 @@ class Indexer
         }
 
         return true;
-    }
-
-    /**
-     * Clean up date values to ensure proper NULL handling for finder indexing.
-     *
-     * @param   mixed  $date  The date value to clean up.
-     *
-     * @return  string|null  The cleaned date value or null.
-     *
-     * @since   5.3.4
-     */
-    private function cleanupDate($date)
-    {
-        // Handle various representations of "empty" dates
-        if ($date === null || $date === '' || $date === '0000-00-00 00:00:00' || $date === '0000-00-00') {
-            return null;
-        }
-
-        // Convert numeric timestamps to string if needed, but ensure they're valid
-        if (is_numeric($date)) {
-            $intDate = (int) $date;
-            // If the numeric value is 0 or negative, treat as null
-            if ($intDate <= 0) {
-                return null;
-            }
-        }
-
-        return $date;
     }
 }
