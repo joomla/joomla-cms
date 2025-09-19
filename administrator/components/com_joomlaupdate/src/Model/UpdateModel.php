@@ -1044,7 +1044,7 @@ ENDDATA;
     {
         $file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-        return is_file($file) && !empty($file);
+        return !empty($file) && is_file($file);
     }
 
     /**
