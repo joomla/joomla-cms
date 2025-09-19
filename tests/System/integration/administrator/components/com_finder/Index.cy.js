@@ -21,7 +21,9 @@ describe('Test in backend that the Smart Search', () => {
     cy.visit('/administrator/index.php?option=com_finder&view=index');
     cy.get('#toolbar-maintenance-group > button').click();
     // Click the "Clear Index" button
-    cy.get('#maintenance-group-children-index-purge > button', { force: true }).click();
+    cy.get('#maintenance-group-children-index-purge > button', {
+      force: true,
+    }).click();
     cy.clickDialogConfirm(true);
     cy.checkForSystemMessage('All items have been deleted.');
   });

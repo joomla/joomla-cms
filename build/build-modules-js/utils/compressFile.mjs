@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { promisify } from 'node:util';
-import { constants, gzip, brotliCompress } from 'node:zlib';
+import { brotliCompress, constants, gzip } from 'node:zlib';
 
 const gzipOpts = {
   level: constants.Z_BEST_COMPRESSION,

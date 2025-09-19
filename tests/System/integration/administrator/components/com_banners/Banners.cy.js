@@ -1,7 +1,9 @@
 describe('Test in backend that the banners list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('/administrator/index.php?option=com_banners&view=banners&filter=');
+    cy.visit(
+      '/administrator/index.php?option=com_banners&view=banners&filter=',
+    );
   });
 
   it('has a title', () => {

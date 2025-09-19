@@ -1,5 +1,5 @@
-import { join } from 'node:path';
 import { readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
 const RootPath = process.cwd();
 
@@ -14,7 +14,10 @@ export const patchPackages = async () => {
   const mediaVendorPath = join(RootPath, 'media/vendor');
 
   // Include the v5 shim for Font Awesome
-  const faPath = join(mediaVendorPath, 'fontawesome-free/scss/fontawesome.scss');
+  const faPath = join(
+    mediaVendorPath,
+    'fontawesome-free/scss/fontawesome.scss',
+  );
   const newScss = (await readFile(faPath, { encoding: 'utf8' })).concat(`
 @import 'shims';
 `);

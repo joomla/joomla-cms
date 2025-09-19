@@ -1,10 +1,8 @@
 import { sep } from 'node:path';
-
-import recursive from 'recursive-readdir';
 import pkg from 'fs-extra';
-
-import { handleScssFile } from './stylesheets/handle-scss.mjs';
+import recursive from 'recursive-readdir';
 import { handleCssFile } from './stylesheets/handle-css.mjs';
+import { handleScssFile } from './stylesheets/handle-scss.mjs';
 
 const { stat } = pkg;
 const RootPath = process.cwd();
@@ -77,7 +75,8 @@ export const stylesheets = async (_options, path) => {
   });
 
   for (const file of files) {
-    const outputFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
+    const outputFile = file
+      .replace(`${sep}scss${sep}`, `${sep}css${sep}`)
       .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)
       .replace('.scss', '.css');
 

@@ -1,19 +1,19 @@
-import { writeFile, copyFile } from 'node:fs/promises';
+import { copyFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-
-import { rollup, watch } from 'rollup';
+import { babel } from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-import { babel } from '@rollup/plugin-babel';
-import VuePlugin from 'rollup-plugin-vue';
-import commonjs from '@rollup/plugin-commonjs';
 import dotenv from 'dotenv';
+import { rollup, watch } from 'rollup';
+import VuePlugin from 'rollup-plugin-vue';
 
 import { minifyCode } from './minify.mjs';
 
 dotenv.config({ quiet: true });
 
-const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
+const inputJS =
+  'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
 const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';
 
 export const mediaManager = async () => {
@@ -33,7 +33,9 @@ export const mediaManager = async () => {
       nodeResolve(),
       commonjs(),
       replace({
-        'process.env.NODE_ENV': JSON.stringify((process.env?.NODE_ENV?.toLocaleLowerCase()) || 'production'),
+        'process.env.NODE_ENV': JSON.stringify(
+          process.env?.NODE_ENV?.toLocaleLowerCase() || 'production',
+        ),
         __VUE_OPTIONS_API__: true,
         __VUE_PROD_DEVTOOLS__: !isProduction,
         preventAssignment: true,
@@ -73,14 +75,23 @@ export const mediaManager = async () => {
       sourcemap: !isProduction ? 'inline' : false,
       file: 'media/com_media/js/media-manager.js',
     })
-    .then((value) => (isProduction ? minifyCode(value.output[0].code) : value.output[0]))
+    .then((value) =>
+      isProduction ? minifyCode(value.output[0].code) : value.output[0],
+    )
     .then((content) => {
       if (isProduction) {
         console.log('✅ ES2017 Media Manager ready');
-        return writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+        return writeFile(
+          resolve('media/com_media/js/media-manager.min.js'),
+          content.code,
+          { encoding: 'utf8', mode: 0o644 },
+        );
       }
       console.log('✅ ES2017 Media Manager ready');
-      return copyFile(resolve('media/com_media/js/media-manager.js'), resolve('media/com_media/js/media-manager.min.js'));
+      return copyFile(
+        resolve('media/com_media/js/media-manager.js'),
+        resolve('media/com_media/js/media-manager.min.js'),
+      );
     })
     .catch((error) => {
       console.error(error);

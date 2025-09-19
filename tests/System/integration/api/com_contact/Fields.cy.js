@@ -3,19 +3,37 @@ describe('Test that field contact API endpoint', () => {
 
   ['contact', 'mail', 'categories'].forEach((context) => {
     it(`can deliver a list of fields (${context})`, () => {
-      cy.db_createField({ title: `automated test field contacts ${context}`, context: `com_contact.${context}` })
+      cy.db_createField({
+        title: `automated test field contacts ${context}`,
+        context: `com_contact.${context}`,
+      })
         .then(() => cy.api_get(`/fields/contacts/${context}`))
-        .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
-          .its('title')
-          .should('include', `automated test field contacts ${context}`));
+        .then((response) =>
+          cy
+            .wrap(response)
+            .its('body')
+            .its('data.0')
+            .its('attributes')
+            .its('title')
+            .should('include', `automated test field contacts ${context}`),
+        );
     });
 
     it(`can deliver a single field (${context})`, () => {
-      cy.db_createField({ title: `automated test field contacts ${context}`, context: `com_contact.${context}` })
+      cy.db_createField({
+        title: `automated test field contacts ${context}`,
+        context: `com_contact.${context}`,
+      })
         .then((id) => cy.api_get(`/fields/contacts/${context}/${id}`))
-        .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-          .its('title')
-          .should('include', `automated test field contacts ${context}`));
+        .then((response) =>
+          cy
+            .wrap(response)
+            .its('body')
+            .its('data')
+            .its('attributes')
+            .its('title')
+            .should('include', `automated test field contacts ${context}`),
+        );
     });
 
     it(`can create a field (${context})`, () => {
@@ -47,23 +65,44 @@ describe('Test that field contact API endpoint', () => {
         required: 0,
         state: 1,
         type: 'text',
-      })
-        .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+      }).then((response) =>
+        cy
+          .wrap(response)
+          .its('body')
+          .its('data')
+          .its('attributes')
           .its('title')
-          .should('include', `automated test field contacts ${context}`));
+          .should('include', `automated test field contacts ${context}`),
+      );
     });
 
     it(`can update a field (${context})`, () => {
-      cy.db_createField({ title: 'automated test field', context: `com_contact.${context}` })
-        .then((id) => cy.api_patch(`/fields/contacts/${context}/${id}`, { title: `updated automated test field ${context}` }))
-        .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-          .its('title')
-          .should('include', `updated automated test field ${context}`));
+      cy.db_createField({
+        title: 'automated test field',
+        context: `com_contact.${context}`,
+      })
+        .then((id) =>
+          cy.api_patch(`/fields/contacts/${context}/${id}`, {
+            title: `updated automated test field ${context}`,
+          }),
+        )
+        .then((response) =>
+          cy
+            .wrap(response)
+            .its('body')
+            .its('data')
+            .its('attributes')
+            .its('title')
+            .should('include', `updated automated test field ${context}`),
+        );
     });
 
     it(`can delete a field (${context})`, () => {
-      cy.db_createField({ title: 'automated test field', context: `com_contact.${context}`, state: -2 })
-        .then((id) => cy.api_delete(`/fields/contacts/${context}/${id}`));
+      cy.db_createField({
+        title: 'automated test field',
+        context: `com_contact.${context}`,
+        state: -2,
+      }).then((id) => cy.api_delete(`/fields/contacts/${context}/${id}`));
     });
   });
 });

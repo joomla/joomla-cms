@@ -2,9 +2,8 @@ import { stat } from 'node:fs/promises';
 import { sep } from 'node:path';
 
 import recursive from 'recursive-readdir';
-
-import { handleES5File } from './javascript/handle-es5.mjs';
 import { handleESMFile } from './javascript/compile-to-es2017.mjs';
+import { handleES5File } from './javascript/handle-es5.mjs';
 
 const RootPath = process.cwd();
 
@@ -59,13 +58,20 @@ export const scripts = async (_options, path) => {
 
   // Loop to get the files that should be compiled via parameter
   computedFilesFlat.forEach((file) => {
-    if (file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) {
+    if (
+      file.includes(
+        `build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`,
+      )
+    ) {
       return;
     }
 
     if (file.endsWith('.es5.js')) {
       jsFilesPromises.push(handleES5File(file));
-    } else if ((file.endsWith('.es6.js') || file.endsWith('.w-c.es6.js')) && !file.startsWith('_')) {
+    } else if (
+      (file.endsWith('.es6.js') || file.endsWith('.w-c.es6.js')) &&
+      !file.startsWith('_')
+    ) {
       esmFilesPromises.push(handleESMFile(file));
     }
   });

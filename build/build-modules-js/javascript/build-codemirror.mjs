@@ -4,12 +4,11 @@
 import { readFileSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
-
-import cliProgress from 'cli-progress';
-import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import cliProgress from 'cli-progress';
 import { transform } from 'esbuild';
+import { rollup } from 'rollup';
 
 const require = createRequire(import.meta.url);
 
@@ -25,7 +24,10 @@ const buildModule = async (module, externalModules, destFile) => {
     external: externalModules || [],
     plugins: [
       nodeResolve(),
-      replace({ preventAssignment: true, 'process.env.NODE_ENV': '"production"' }),
+      replace({
+        preventAssignment: true,
+        'process.env.NODE_ENV': '"production"',
+      }),
     ],
   });
 
@@ -80,7 +82,10 @@ const updateAssetRegistry = async (modules, externalModules) => {
   });
 
   // Write assets registry
-  await writeFile(destPath, JSON.stringify(registry, null, 2), { encoding: 'utf8', mode: 0o644 });
+  await writeFile(destPath, JSON.stringify(registry, null, 2), {
+    encoding: 'utf8',
+    mode: 0o644,
+  });
 };
 
 export const compileCodemirror = async () => {
@@ -93,10 +98,13 @@ export const compileCodemirror = async () => {
   const assets = [];
   const tasks = [];
 
-  const progressBar = new cliProgress.SingleBar({
-    stopOnComplete: true,
-    format: '{bar} {percentage}% | {value}/{total} files done',
-  }, cliProgress.Presets.shades_classic);
+  const progressBar = new cliProgress.SingleBar(
+    {
+      stopOnComplete: true,
+      format: '{bar} {percentage}% | {value}/{total} files done',
+    },
+    cliProgress.Presets.shades_classic,
+  );
   const totalSteps = (cmModules.length + lModules.length) * 2;
   progressBar.start(totalSteps, 0);
 

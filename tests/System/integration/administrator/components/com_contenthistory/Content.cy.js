@@ -1,11 +1,17 @@
 describe('Test in backend that the content history list', () => {
   beforeEach(() => {
-    cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Test article versions'");
+    cy.task(
+      'queryDB',
+      "DELETE FROM #__content WHERE title = 'Test article versions'",
+    );
     cy.doAdministratorLogin();
   });
 
   afterEach(() => {
-    cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Test article versions'");
+    cy.task(
+      'queryDB',
+      "DELETE FROM #__content WHERE title = 'Test article versions'",
+    );
   });
 
   it('has a title', () => {
@@ -56,7 +62,10 @@ describe('Test in backend that the content history list', () => {
 
         // Remove the subdomain (in this case, the base URL's hostname)
         const basePath = new URL(baseUrl).pathname; // Get the base path
-        const modifiedUrl = completeUrl.replace(new URL(baseUrl).origin + basePath, '');
+        const modifiedUrl = completeUrl.replace(
+          new URL(baseUrl).origin + basePath,
+          '',
+        );
 
         cy.log('new window url', modifiedUrl);
         // Visit the URL directly
@@ -147,7 +156,10 @@ describe('Test in backend that the content history list', () => {
     cy.get('iframe.iframe-content') // the iframe's selector
       .its('0.contentDocument.body') // Access the iframe's document body
       .should('not.be.empty')
-      .should('contain.text', 'Changed the keep forever value for a history version');
+      .should(
+        'contain.text',
+        'Changed the keep forever value for a history version',
+      );
   });
 
   it('can restore a history content item', () => {
@@ -173,7 +185,6 @@ describe('Test in backend that the content history list', () => {
     cy.wait(5000);
     cy.get('.button-close').click();
     // Verify the text
-    cy.get('.alert-message')
-      .should('contain.text', 'Article saved');
+    cy.get('.alert-message').should('contain.text', 'Article saved');
   });
 });

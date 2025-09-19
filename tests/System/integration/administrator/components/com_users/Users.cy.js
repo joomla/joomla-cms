@@ -36,7 +36,9 @@ describe('Test in backend that the user list', () => {
 
   it('can filter state', () => {
     cy.db_createUser({ name: 'Test user 1', username: 'test1', block: 0 })
-      .then(() => cy.db_createUser({ name: 'Test user 2', username: 'test2', block: 1 }))
+      .then(() =>
+        cy.db_createUser({ name: 'Test user 2', username: 'test2', block: 1 }),
+      )
       .then(() => {
         cy.reload();
 
@@ -60,7 +62,13 @@ describe('Test in backend that the user list', () => {
 
   it('can filter group', () => {
     cy.db_createUser({ name: 'Test user 1', username: 'test1', group_id: 2 })
-      .then(() => cy.db_createUser({ name: 'Test user 2', username: 'test2', group_id: 6 }))
+      .then(() =>
+        cy.db_createUser({
+          name: 'Test user 2',
+          username: 'test2',
+          group_id: 6,
+        }),
+      )
       .then(() => {
         cy.reload();
 

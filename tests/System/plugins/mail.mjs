@@ -19,10 +19,14 @@ async function getMails() {
     }
 
     // Sleep for a second
-    await new Promise((r) => { setTimeout(r, 1000); });
+    await new Promise((r) => {
+      setTimeout(r, 1000);
+    });
   }
 
-  return new Promise((resolve) => { resolve(cachedMails); });
+  return new Promise((resolve) => {
+    resolve(cachedMails);
+  });
 }
 
 /**
@@ -54,7 +58,7 @@ function startMailServer(config) {
   // mailServer.module('logAll');
 
   // Listen to incoming mails and add them to the internal cache
-  mailServer.bind((addr, id, email) => cachedMails.push(email));
+  mailServer.bind((_addr, _id, email) => cachedMails.push(email));
 
   // Reset the cached mails
   cachedMails = [];

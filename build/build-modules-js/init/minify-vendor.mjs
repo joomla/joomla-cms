@@ -1,8 +1,7 @@
-import { sep, basename } from 'node:path';
 import { lstat, readFile, writeFile } from 'node:fs/promises';
-
-import recursive from 'recursive-readdir';
+import { basename, sep } from 'node:path';
 import { transform } from 'esbuild';
+import recursive from 'recursive-readdir';
 
 const RootPath = process.cwd();
 
@@ -59,7 +58,9 @@ const minifyJS = async (file) => {
   }
 
   const content = await readFile(file, { encoding: 'utf8' });
-  const isMinified = alreadyMinified.includes(file.replace(`${RootPath}${sep}`, ''));
+  const isMinified = alreadyMinified.includes(
+    file.replace(`${RootPath}${sep}`, ''),
+  );
 
   if (isMinified || needsDotJS) {
     minified = content;
@@ -67,7 +68,9 @@ const minifyJS = async (file) => {
     minified = (await transform(content, { minify: true })).code;
   }
 
-  const newFile = needsDotJS ? file.replace('.min.js', '.js') : file.replace('.js', '.min.js');
+  const newFile = needsDotJS
+    ? file.replace('.min.js', '.js')
+    : file.replace('.js', '.min.js');
   // Write the file
   await writeFile(newFile, minified, { encoding: 'utf8', mode: 0o644 });
 };

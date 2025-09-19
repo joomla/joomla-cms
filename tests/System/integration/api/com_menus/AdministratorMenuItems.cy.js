@@ -1,24 +1,52 @@
 describe('Test that menu items administrator API endpoint', () => {
-  afterEach(() => cy.task('queryDB', "DELETE FROM #__menu WHERE title = 'automated test administrator menu item' "));
+  afterEach(() =>
+    cy.task(
+      'queryDB',
+      "DELETE FROM #__menu WHERE title = 'automated test administrator menu item' ",
+    ),
+  );
 
   it('can deliver a list of administrator menu items types', () => {
-    cy.api_get('/menus/administrator/items/types')
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('type')
-        .should('include', 'menutypes'));
+    cy.api_get('/menus/administrator/items/types').then((response) =>
+      cy
+        .wrap(response)
+        .its('body')
+        .its('data.0')
+        .its('type')
+        .should('include', 'menutypes'),
+    );
   });
 
   it('can deliver a list of administrator menu items', () => {
-    cy.db_createMenuItem({ title: 'automated test administrator menu item', client_id: 1 })
+    cy.db_createMenuItem({
+      title: 'automated test administrator menu item',
+      client_id: 1,
+    })
       .then(() => cy.api_get('/menus/administrator/items'))
-      .then((response) => cy.api_responseContains(response, 'title', 'automated test administrator menu item'));
+      .then((response) =>
+        cy.api_responseContains(
+          response,
+          'title',
+          'automated test administrator menu item',
+        ),
+      );
   });
 
   it('can deliver a single administrator menu item', () => {
-    cy.db_createMenuItem({ title: 'automated test administrator menu item', client_id: 1 })
+    cy.db_createMenuItem({
+      title: 'automated test administrator menu item',
+      client_id: 1,
+    })
       .then((id) => cy.api_get(`/menus/administrator/items/${id}`))
-      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-        .its('title')
-        .should('include', 'automated test administrator menu item'));
+      .then((response) =>
+        cy
+          .wrap(response)
+          .its('body')
+          .its('data')
+          .its('attributes')
+          .its('title')
+          .should('include', 'automated test administrator menu item'),
+      );
   });
 
   it('can create an administrator menu item', () => {
@@ -37,22 +65,46 @@ describe('Test that menu items administrator API endpoint', () => {
       type: 'component',
       alias: '',
       link: '',
-    })
-      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+    }).then((response) =>
+      cy
+        .wrap(response)
+        .its('body')
+        .its('data')
+        .its('attributes')
         .its('title')
-        .should('include', 'automated test administrator menu item'));
+        .should('include', 'automated test administrator menu item'),
+    );
   });
 
   it('can update an administrator menu item', () => {
-    cy.db_createMenuItem({ title: 'automated test administrator menu item', type: 'component', client_id: 1 })
-      .then((id) => cy.api_patch(`/menus/administrator/items/${id}`, { title: 'updated automated test administrator menu item', type: 'component', menuordering: id }))
-      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-        .its('title')
-        .should('include', 'updated automated test administrator menu item'));
+    cy.db_createMenuItem({
+      title: 'automated test administrator menu item',
+      type: 'component',
+      client_id: 1,
+    })
+      .then((id) =>
+        cy.api_patch(`/menus/administrator/items/${id}`, {
+          title: 'updated automated test administrator menu item',
+          type: 'component',
+          menuordering: id,
+        }),
+      )
+      .then((response) =>
+        cy
+          .wrap(response)
+          .its('body')
+          .its('data')
+          .its('attributes')
+          .its('title')
+          .should('include', 'updated automated test administrator menu item'),
+      );
   });
 
   it('can delete an administrator menu item', () => {
-    cy.db_createMenuItem({ title: 'automated test administrator menu item', published: -2, client_id: 1 })
-      .then((id) => cy.api_delete(`/menus/administrator/items/${id}`));
+    cy.db_createMenuItem({
+      title: 'automated test administrator menu item',
+      published: -2,
+      client_id: 1,
+    }).then((id) => cy.api_delete(`/menus/administrator/items/${id}`));
   });
 });

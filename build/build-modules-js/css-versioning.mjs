@@ -1,8 +1,8 @@
 import { createHash } from 'node:crypto';
-import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, extname, resolve } from 'node:path';
-import { transform, composeVisitors } from 'lightningcss';
+import { composeVisitors, transform } from 'lightningcss';
 import { Timer } from './utils/timer.mjs';
 
 const RootPath = process.cwd();
@@ -11,7 +11,10 @@ const variable = 'v';
 
 function version(urlString, fromFile) {
   // Skip external URLs
-  if (skipExternal && (urlString.startsWith('http') || urlString.startsWith('//'))) {
+  if (
+    skipExternal &&
+    (urlString.startsWith('http') || urlString.startsWith('//'))
+  ) {
     return `${urlString}`;
   }
   // Skip base64 URLs
@@ -62,10 +65,14 @@ const fixVersion = async (file) => {
       minify: file.endsWith('.min.css'),
       visitor: composeVisitors([urlVersioning(file)]),
     });
-    await writeFile(file, `@charset "UTF-8";${file.endsWith('.min.css') ? '' : '\n'}${code}`, {
-      encoding: 'utf8',
-      mode: 0o644,
-    });
+    await writeFile(
+      file,
+      `@charset "UTF-8";${file.endsWith('.min.css') ? '' : '\n'}${code}`,
+      {
+        encoding: 'utf8',
+        mode: 0o644,
+      },
+    );
   } catch (error) {
     throw new Error(error);
   }
@@ -79,10 +86,13 @@ const fixVersion = async (file) => {
 export const cssVersioning = async () => {
   const bench = new Timer('Versioning');
 
-  const cssFiles = (await readdir(`${RootPath}/media`, { withFileTypes: true, recursive: true }))
-    .filter((file) => (!file.isDirectory() && extname(file.name) === '.css'))
+  const cssFiles = (
+    await readdir(`${RootPath}/media`, { withFileTypes: true, recursive: true })
+  )
+    .filter((file) => !file.isDirectory() && extname(file.name) === '.css')
     .map((file) => `${file.path}/${file.name}`);
 
-  Promise.all(cssFiles.map((file) => fixVersion(file)))
-    .then(() => bench.stop());
+  Promise.all(cssFiles.map((file) => fixVersion(file))).then(() =>
+    bench.stop(),
+  );
 };

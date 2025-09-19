@@ -4,19 +4,37 @@ describe('Test that group field content API endpoint', () => {
   ['article', 'categories'].forEach((context) => {
     const endpoint = context === 'article' ? 'articles' : context;
     it(`can deliver a list of group fields (${context})`, () => {
-      cy.db_createFieldGroup({ title: `automated test group field content ${context}`, context: `com_content.${context}` })
+      cy.db_createFieldGroup({
+        title: `automated test group field content ${context}`,
+        context: `com_content.${context}`,
+      })
         .then(() => cy.api_get(`/fields/groups/content/${endpoint}`))
-        .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
-          .its('title')
-          .should('include', `automated test group field content ${context}`));
+        .then((response) =>
+          cy
+            .wrap(response)
+            .its('body')
+            .its('data.0')
+            .its('attributes')
+            .its('title')
+            .should('include', `automated test group field content ${context}`),
+        );
     });
 
     it(`can deliver a single group field (${context})`, () => {
-      cy.db_createFieldGroup({ title: `automated test group field content ${context}`, context: `com_content.${context}` })
+      cy.db_createFieldGroup({
+        title: `automated test group field content ${context}`,
+        context: `com_content.${context}`,
+      })
         .then((id) => cy.api_get(`/fields/groups/content/${endpoint}/${id}`))
-        .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-          .its('title')
-          .should('include', `automated test group field content ${context}`));
+        .then((response) =>
+          cy
+            .wrap(response)
+            .its('body')
+            .its('data')
+            .its('attributes')
+            .its('title')
+            .should('include', `automated test group field content ${context}`),
+        );
     });
 
     it(`can create a group field (${context})`, () => {
@@ -48,23 +66,47 @@ describe('Test that group field content API endpoint', () => {
         required: 0,
         state: 1,
         type: 'text',
-      })
-        .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+      }).then((response) =>
+        cy
+          .wrap(response)
+          .its('body')
+          .its('data')
+          .its('attributes')
           .its('title')
-          .should('include', `automated test group field content ${context}`));
+          .should('include', `automated test group field content ${context}`),
+      );
     });
 
     it(`can update a group field (${context})`, () => {
-      cy.db_createFieldGroup({ title: 'automated test group field', access: 1, context: `com_content.${context}` })
-        .then((id) => cy.api_patch(`/fields/groups/content/${endpoint}/${id}`, { title: `updated automated test group field ${context}` }))
-        .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-          .its('title')
-          .should('include', `updated automated test group field ${context}`));
+      cy.db_createFieldGroup({
+        title: 'automated test group field',
+        access: 1,
+        context: `com_content.${context}`,
+      })
+        .then((id) =>
+          cy.api_patch(`/fields/groups/content/${endpoint}/${id}`, {
+            title: `updated automated test group field ${context}`,
+          }),
+        )
+        .then((response) =>
+          cy
+            .wrap(response)
+            .its('body')
+            .its('data')
+            .its('attributes')
+            .its('title')
+            .should('include', `updated automated test group field ${context}`),
+        );
     });
 
     it(`can delete a group field (${context})`, () => {
-      cy.db_createFieldGroup({ title: 'automated test group field', context: `com_content.${context}`, state: -2 })
-        .then((id) => cy.api_delete(`/fields/groups/content/${endpoint}/${id}`));
+      cy.db_createFieldGroup({
+        title: 'automated test group field',
+        context: `com_content.${context}`,
+        state: -2,
+      }).then((id) =>
+        cy.api_delete(`/fields/groups/content/${endpoint}/${id}`),
+      );
     });
   });
 });

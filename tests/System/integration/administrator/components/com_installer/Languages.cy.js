@@ -9,8 +9,10 @@ describe('Test in backend that the Installer', () => {
   });
 
   it('has Afrikaans Language installable', () => {
-    cy.get('tr.row0').should('contain.text', 'Afrikaans').then(() => {
-      cy.get('input.btn.btn-primary.btn-sm').should('exist');
-    });
+    cy.get('tr.row0')
+      .should('contain.text', 'Afrikaans')
+      .then(() => {
+        cy.get('input.btn.btn-primary.btn-sm').should('exist');
+      });
   });
 });

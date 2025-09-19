@@ -1,15 +1,25 @@
 describe('Test that media adapters API endpoint', () => {
   it('can deliver a list of adapters', () => {
-    cy.api_get('/media/adapters')
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+    cy.api_get('/media/adapters').then((response) =>
+      cy
+        .wrap(response)
+        .its('body')
+        .its('data.0')
+        .its('attributes')
         .its('provider_id')
-        .should('include', 'local'));
+        .should('include', 'local'),
+    );
   });
 
   it('can deliver a specific adapter', () => {
-    cy.api_get('/media/adapters/local-images')
-      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+    cy.api_get('/media/adapters/local-images').then((response) =>
+      cy
+        .wrap(response)
+        .its('body')
+        .its('data')
+        .its('attributes')
         .its('provider_id')
-        .should('include', 'local'));
+        .should('include', 'local'),
+    );
   });
 });

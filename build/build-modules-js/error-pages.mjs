@@ -1,12 +1,9 @@
-import {
-  access, mkdir, readFile, writeFile,
-} from 'node:fs/promises';
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
-
-import Ini from 'ini';
-import Recurs from 'recursive-readdir';
 import { transform } from 'esbuild';
+import Ini from 'ini';
 import { transform as transformCss } from 'lightningcss';
+import Recurs from 'recursive-readdir';
 
 const RootPath = process.cwd();
 const dir = `${RootPath}/installation/language`;
@@ -30,9 +27,15 @@ export const createErrorPages = async (options) => {
   global.fatalObj = {};
   global.noxmlObj = {};
 
-  const initTemplate = await readFile(`${srcPath}/template.html`, { encoding: 'utf8' });
-  let cssContent = await readFile(`${srcPath}/template.css`, { encoding: 'utf8' });
-  let jsContent = await readFile(`${srcPath}/template.js`, { encoding: 'utf8' });
+  const initTemplate = await readFile(`${srcPath}/template.html`, {
+    encoding: 'utf8',
+  });
+  let cssContent = await readFile(`${srcPath}/template.css`, {
+    encoding: 'utf8',
+  });
+  let jsContent = await readFile(`${srcPath}/template.js`, {
+    encoding: 'utf8',
+  });
 
   const { code } = transformCss({
     code: Buffer.from(cssContent),
@@ -43,7 +46,9 @@ export const createErrorPages = async (options) => {
   jsContent = await transform(jsContent, { minify: true });
 
   const processIni = async (file) => {
-    const languageStrings = Ini.parse(await readFile(file, { encoding: 'utf8' }));
+    const languageStrings = Ini.parse(
+      await readFile(file, { encoding: 'utf8' }),
+    );
 
     // Build the variables into json for the unsupported page
     if (languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE) {
@@ -116,17 +121,34 @@ export const createErrorPages = async (options) => {
   });
 
   const processPage = async (name) => {
-    const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
+    const sortedJson = Object.fromEntries(
+      Object.entries(global[`${name}Obj`]).sort(),
+    );
     const jsonContent = `window.errorLocale=${JSON.stringify(sortedJson)};`;
 
     let template = initTemplate;
 
     template = template.replace('{{jsonContents}}', jsonContent);
-    template = template.replace('{{Title}}', options.settings.errorPages[name].title);
-    template = template.replace('{{Header}}', options.settings.errorPages[name].header);
-    template = template.replace('{{Description}}', options.settings.errorPages[name].text);
-    template = template.replace('{{Link}}', options.settings.errorPages[name].link);
-    template = template.replace('{{LinkText}}', options.settings.errorPages[name].linkText);
+    template = template.replace(
+      '{{Title}}',
+      options.settings.errorPages[name].title,
+    );
+    template = template.replace(
+      '{{Header}}',
+      options.settings.errorPages[name].header,
+    );
+    template = template.replace(
+      '{{Description}}',
+      options.settings.errorPages[name].text,
+    );
+    template = template.replace(
+      '{{Link}}',
+      options.settings.errorPages[name].link,
+    );
+    template = template.replace(
+      '{{LinkText}}',
+      options.settings.errorPages[name].linkText,
+    );
 
     if (cssContent) {
       template = template.replace('{{cssContents}}', cssContent);
@@ -146,10 +168,16 @@ export const createErrorPages = async (options) => {
       }
 
       if (!mediaExists) {
-        await mkdir(dirname(`${RootPath}${folder}`), { recursive: true, mode: 0o755 });
+        await mkdir(dirname(`${RootPath}${folder}`), {
+          recursive: true,
+          mode: 0o755,
+        });
       }
 
-      await writeFile(`${RootPath}${folder}`, template, { encoding: 'utf8', mode: 0o644 });
+      await writeFile(`${RootPath}${folder}`, template, {
+        encoding: 'utf8',
+        mode: 0o644,
+      });
 
       console.error(`✅ Created the file: ${folder}`);
     });

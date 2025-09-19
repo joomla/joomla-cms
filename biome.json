@@ -2,6 +2,7 @@
   "files": {
     "includes": [
       "build/**/*.{js,mjs,es6,vue}",
+      "tests/**/*.{js,mjs,es6,vue}",
       "!**/*.es5.js",
       "!build/warning_page/*.js"
     ]
@@ -9,6 +10,7 @@
   "linter": {
     "includes": [
       "build/**/*.{js,mjs,es6,vue}",
+      "tests/**/*.{js,mjs,es6,vue}",
       "!**/*.es5.js",
       "!build/warning_page/*.js"
     ],

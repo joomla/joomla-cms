@@ -1,7 +1,12 @@
-beforeEach(() => { cy.doAdministratorLogin(); });
+beforeEach(() => {
+  cy.doAdministratorLogin();
+});
 afterEach(() => {
   cy.task('queryDB', "DELETE FROM #__banners WHERE name = 'Test banner'");
-  cy.task('queryDB', "DELETE FROM #__contact_details WHERE name = 'Test contact'");
+  cy.task(
+    'queryDB',
+    "DELETE FROM #__contact_details WHERE name = 'Test contact'",
+  );
 });
 
 describe('Test that the shortcut system plugin', () => {
@@ -40,10 +45,14 @@ describe('Test that the shortcut system plugin', () => {
   });
 
   it('can search in list view', () => {
-    cy.visit('/administrator/index.php?option=com_plugins&view=plugins&filter=');
+    cy.visit(
+      '/administrator/index.php?option=com_plugins&view=plugins&filter=',
+    );
     cy.get('body').type('JF');
 
-    cy.focused().should('have.attr', 'name', 'filter[search]').type('Keyboard Shortcuts{enter}');
+    cy.focused()
+      .should('have.attr', 'name', 'filter[search]')
+      .type('Keyboard Shortcuts{enter}');
 
     cy.get('#pluginList').contains('System - Keyboard Shortcuts');
   });
@@ -60,7 +69,10 @@ describe('Test that the shortcut system plugin', () => {
     cy.window().then((win) => cy.stub(win, 'open').returns(win).as('help'));
     cy.get('body').type('JH');
 
-    cy.get('@help').should('be.calledWithMatch', /https:\/\/help\.joomla\.org\/proxy\?keyref=Help\d+:Users&lang=en/);
+    cy.get('@help').should(
+      'be.calledWithMatch',
+      /https:\/\/help\.joomla\.org\/proxy\?keyref=Help\d+:Users&lang=en/,
+    );
   });
 
   it('can toggle menu', () => {
@@ -78,7 +90,9 @@ describe('Test that the shortcut system plugin', () => {
   });
 
   it('can open dashboard', () => {
-    cy.visit('/administrator/index.php?option=com_cpanel&view=cpanel&dashboard=system');
+    cy.visit(
+      '/administrator/index.php?option=com_cpanel&view=cpanel&dashboard=system',
+    );
     cy.intercept('index.php').as('dashboard');
     cy.get('body').type('JD');
 
@@ -87,10 +101,15 @@ describe('Test that the shortcut system plugin', () => {
   });
 
   it('can open shortcut overview', () => {
-    cy.visit('/administrator/index.php?option=com_cpanel&view=cpanel&dashboard=help');
+    cy.visit(
+      '/administrator/index.php?option=com_cpanel&view=cpanel&dashboard=help',
+    );
     cy.get('div.container-fluid').contains('J then X Keyboard Shortcuts');
     cy.get('body').type('JX');
 
-    cy.get('joomla-dialog[type="inline"] .joomla-dialog-header').should('contain', 'Keyboard Shortcuts');
+    cy.get('joomla-dialog[type="inline"] .joomla-dialog-header').should(
+      'contain',
+      'Keyboard Shortcuts',
+    );
   });
 });

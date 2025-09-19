@@ -1,12 +1,15 @@
 import { writeFile } from 'node:fs/promises';
 import { dirname, sep } from 'node:path';
-
-import rtlcss from 'rtlcss';
 import { ensureDir } from 'fs-extra';
-import { transform as transformCss, Features } from 'lightningcss';
+import { Features, transform as transformCss } from 'lightningcss';
+import rtlcss from 'rtlcss';
 import { compileAsync } from 'sass-embedded';
 
-const getOutputFile = (file) => file.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
+const getOutputFile = (file) =>
+  file
+    .replace(`${sep}scss${sep}`, `${sep}css${sep}`)
+    .replace('.scss', '.css')
+    .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
 export const handleScssFile = async (file) => {
   let contents;
@@ -43,7 +46,11 @@ ${contents}`,
 
   // Ensure the folder exists or create it
   await ensureDir(dirname(cssFile.replace('.css', '.min.css')), {});
-  await writeFile(cssFile.replace('.css', '.min.css'), `@charset "UTF-8";${cssMin}`, { encoding: 'utf8', mode: 0o644 });
+  await writeFile(
+    cssFile.replace('.css', '.min.css'),
+    `@charset "UTF-8";${cssMin}`,
+    { encoding: 'utf8', mode: 0o644 },
+  );
 
   console.log(`✅ SCSS File compiled: ${cssFile}`);
 };

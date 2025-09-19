@@ -6,19 +6,26 @@ describe('Test that contenthistory for banners API endpoint', () => {
 
   it('can get the history of an existing banner', () => {
     cy.db_createCategory({ extension: 'com_banners' })
-      .then((categoryId) => cy.api_post('/banners', {
-        name: 'automated test banner',
-        alias: 'test-banner',
-        catid: categoryId,
-        state: 1,
-        language: '*',
-        description: '',
-        custombannercode: '',
-        params: {
-          imageurl: '', width: '', height: '', alt: '',
-        },
-      }))
-      .then((banner) => cy.api_get(`/banners/${banner.body.data.attributes.id}/contenthistory`))
+      .then((categoryId) =>
+        cy.api_post('/banners', {
+          name: 'automated test banner',
+          alias: 'test-banner',
+          catid: categoryId,
+          state: 1,
+          language: '*',
+          description: '',
+          custombannercode: '',
+          params: {
+            imageurl: '',
+            width: '',
+            height: '',
+            alt: '',
+          },
+        }),
+      )
+      .then((banner) =>
+        cy.api_get(`/banners/${banner.body.data.attributes.id}/contenthistory`),
+      )
       .then((response) => {
         // Assert response status
         expect(response.status).to.eq(200);

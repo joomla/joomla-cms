@@ -24,7 +24,10 @@ function queryTestDB(joomlaQuery, config) {
   const tableNameOfInsert = query.match(/insert\s+into\s+(.*?)\s/i);
 
   // Find an inserted item
-  let insertItem = tableNameOfInsert && tableNameOfInsert.length > 1 && insertedItems.find((item) => item.table === tableNameOfInsert[1]);
+  let insertItem =
+    tableNameOfInsert &&
+    tableNameOfInsert.length > 1 &&
+    insertedItems.find((item) => item.table === tableNameOfInsert[1]);
 
   // If it is an insert query, but there is no cache object, create one
   if (tableNameOfInsert && tableNameOfInsert.length > 1 && !insertItem) {
@@ -35,7 +38,10 @@ function queryTestDB(joomlaQuery, config) {
   }
 
   // Do we use PostgreSQL?
-  if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
+  if (
+    config.env.db_type === 'pgsql' ||
+    config.env.db_type === 'PostgreSQL (PDO)'
+  ) {
     if (postgresConnectionPool === null) {
       let hostOrUnixPath = config.env.db_host;
 
@@ -67,24 +73,26 @@ function queryTestDB(joomlaQuery, config) {
     // Postgres needs double quotes
     query = query.replaceAll('`', '"');
 
-    return postgresConnectionPool.query(query).then((result) => {
-      // Select query should always return an array
-      if (query.startsWith('SELECT') && !Array.isArray(result.rows)) {
-        return [result.rows];
-      }
+    return postgresConnectionPool
+      .query(query)
+      .then((result) => {
+        // Select query should always return an array
+        if (query.startsWith('SELECT') && !Array.isArray(result.rows)) {
+          return [result.rows];
+        }
 
-      if (!insertItem || result.rows.length === 0) {
-        return result.rows;
-      }
+        if (!insertItem || result.rows.length === 0) {
+          return result.rows;
+        }
 
-      // Push the id to the cache when it is an insert operation
-      if (insertItem && result.rows.length && result.rows[0].id) {
-        insertItem.rows.push(result.rows[0].id);
-      }
+        // Push the id to the cache when it is an insert operation
+        if (insertItem && result.rows.length && result.rows[0].id) {
+          insertItem.rows.push(result.rows[0].id);
+        }
 
-      // Normalize the object and return from PostgreSQL
-      return { insertId: result.rows[0].id };
-    })
+        // Normalize the object and return from PostgreSQL
+        return { insertId: result.rows[0].id };
+      })
       .catch((error) => {
         throw new Error(`Postgres query failed: ${error.message}`);
       });
@@ -126,7 +134,7 @@ function queryTestDB(joomlaQuery, config) {
       connection.end();
 
       // Reject when an error
-      if (error && error.errno) {
+      if (error?.errno) {
         return reject(error);
       }
 
@@ -160,23 +168,58 @@ function deleteInsertedItems(config) {
     }
 
     // Delete the items from the database
-    promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config).then(() => {
-      // Cleanup some tables we do not have control over from inserted items
-      if (item.table === `${config.env.db_prefix}users`) {
-        promises.push(queryTestDB(`DELETE FROM #__user_usergroup_map WHERE user_id IN (${item.rows.join(',')})`, config));
-        promises.push(queryTestDB(`DELETE FROM #__user_profiles WHERE user_id IN (${item.rows.join(',')})`, config));
-        promises.push(queryTestDB(`DELETE FROM #__session WHERE userid IN (${item.rows.join(',')})`, config));
-      }
+    promises.push(
+      queryTestDB(
+        `DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`,
+        config,
+      ).then(() => {
+        // Cleanup some tables we do not have control over from inserted items
+        if (item.table === `${config.env.db_prefix}users`) {
+          promises.push(
+            queryTestDB(
+              `DELETE FROM #__user_usergroup_map WHERE user_id IN (${item.rows.join(',')})`,
+              config,
+            ),
+          );
+          promises.push(
+            queryTestDB(
+              `DELETE FROM #__user_profiles WHERE user_id IN (${item.rows.join(',')})`,
+              config,
+            ),
+          );
+          promises.push(
+            queryTestDB(
+              `DELETE FROM #__session WHERE userid IN (${item.rows.join(',')})`,
+              config,
+            ),
+          );
+        }
 
-      if (item.table === `${config.env.db_prefix}content`) {
-        promises.push(queryTestDB(`DELETE FROM #__content_frontpage WHERE content_id IN (${item.rows.join(',')})`, config));
-        promises.push(queryTestDB(`DELETE FROM #__workflow_associations WHERE item_id IN (${item.rows.join(',')}) AND extension = 'com_content.article'`, config));
-      }
+        if (item.table === `${config.env.db_prefix}content`) {
+          promises.push(
+            queryTestDB(
+              `DELETE FROM #__content_frontpage WHERE content_id IN (${item.rows.join(',')})`,
+              config,
+            ),
+          );
+          promises.push(
+            queryTestDB(
+              `DELETE FROM #__workflow_associations WHERE item_id IN (${item.rows.join(',')}) AND extension = 'com_content.article'`,
+              config,
+            ),
+          );
+        }
 
-      if (item.table === `${config.env.db_prefix}modules`) {
-        promises.push(queryTestDB(`DELETE FROM #__modules_menu WHERE moduleid IN (${item.rows.join(',')})`, config));
-      }
-    }));
+        if (item.table === `${config.env.db_prefix}modules`) {
+          promises.push(
+            queryTestDB(
+              `DELETE FROM #__modules_menu WHERE moduleid IN (${item.rows.join(',')})`,
+              config,
+            ),
+          );
+        }
+      }),
+    );
   });
 
   // Clear the cache

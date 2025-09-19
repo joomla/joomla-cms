@@ -1,19 +1,25 @@
-import {
-  join, extname, basename, dirname,
-} from 'node:path';
+import { basename, dirname, extname, join } from 'node:path';
 import chokidar from 'chokidar';
 
 import { handleESMFile } from './javascript/compile-to-es2017.mjs';
 import { handleES5File } from './javascript/handle-es5.mjs';
-import { handleScssFile } from './stylesheets/handle-scss.mjs';
 import { handleCssFile } from './stylesheets/handle-css.mjs';
+import { handleScssFile } from './stylesheets/handle-scss.mjs';
 import { debounce } from './utils/debounce.mjs';
 
 const RootPath = process.cwd();
 
 const processFile = (file) => {
-  if (extname(file) === '.js' && !dirname(file).startsWith(join(RootPath, 'build/media_source/vendor/bootstrap/js'))) {
-    if ((file.endsWith('.w-c.es6.js') || file.endsWith('.es6.js')) && !file.startsWith('_')) {
+  if (
+    extname(file) === '.js' &&
+    !dirname(file).startsWith(
+      join(RootPath, 'build/media_source/vendor/bootstrap/js'),
+    )
+  ) {
+    if (
+      (file.endsWith('.w-c.es6.js') || file.endsWith('.es6.js')) &&
+      !file.startsWith('_')
+    ) {
       debounce(handleESMFile(file), 300);
     }
     if (file.endsWith('.es5..js')) {
@@ -30,7 +36,9 @@ const processFile = (file) => {
 };
 
 export const watching = (path) => {
-  const watchingPath = path ? join(RootPath, path) : join(RootPath, 'build/media_source');
+  const watchingPath = path
+    ? join(RootPath, path)
+    : join(RootPath, 'build/media_source');
   const watcher = chokidar.watch(watchingPath, {
     ignored: /(^|[/\\])\../, // ignore dotfiles
     persistent: true,

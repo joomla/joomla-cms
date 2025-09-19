@@ -1,5 +1,10 @@
 import {
-  chmodSync, existsSync, writeFileSync, mkdirSync, rmSync, copyFileSync,
+  chmodSync,
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  rmSync,
+  writeFileSync,
 } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { umask } from 'node:process';

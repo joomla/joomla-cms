@@ -20,24 +20,26 @@
 import { createRequire } from 'node:module';
 import { Command } from 'commander';
 import semver from 'semver';
-
-// Joomla Build modules
-import { createErrorPages } from './build-modules-js/error-pages.mjs';
 import { stylesheets } from './build-modules-js/compilecss.mjs';
 import { scripts } from './build-modules-js/compilejs.mjs';
-import { bootstrapJs } from './build-modules-js/javascript/build-bootstrap-js.mjs';
+import { compressFiles } from './build-modules-js/compress.mjs';
+import { cssVersioning } from './build-modules-js/css-versioning.mjs';
+// Joomla Build modules
+import { createErrorPages } from './build-modules-js/error-pages.mjs';
+import { cleanVendors } from './build-modules-js/init/cleanup-media.mjs';
 import { localisePackages } from './build-modules-js/init/localise-packages.mjs';
 import { minifyVendor } from './build-modules-js/init/minify-vendor.mjs';
 import { patchPackages } from './build-modules-js/init/patches.mjs';
-import { cleanVendors } from './build-modules-js/init/cleanup-media.mjs';
 import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs';
-import { watching } from './build-modules-js/watch.mjs';
-import { mediaManager, watchMediaManager } from './build-modules-js/javascript/build-com_media-js.mjs';
-import { compressFiles } from './build-modules-js/compress.mjs';
-import { cssVersioning } from './build-modules-js/css-versioning.mjs';
-import { versioning } from './build-modules-js/versioning.mjs';
-import { Timer } from './build-modules-js/utils/timer.mjs';
+import { bootstrapJs } from './build-modules-js/javascript/build-bootstrap-js.mjs';
 import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
+import {
+  mediaManager,
+  watchMediaManager,
+} from './build-modules-js/javascript/build-com_media-js.mjs';
+import { Timer } from './build-modules-js/utils/timer.mjs';
+import { versioning } from './build-modules-js/versioning.mjs';
+import { watching } from './build-modules-js/watch.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -50,7 +52,12 @@ const handleError = (err, terminateCode) => {
   process.exitCode = terminateCode;
 };
 
-if (semver.gte(semver.minVersion(options.engines.node), semver.clean(process.version))) {
+if (
+  semver.gte(
+    semver.minVersion(options.engines.node),
+    semver.clean(process.version),
+  )
+) {
   handleError(
     `Node version ${semver.clean(process.version)} is not supported, please upgrade to Node version ${semver.clean(options.engines.node)}`,
     1,

@@ -1,9 +1,5 @@
-import {
-  lstat, readdir, readFile, writeFile,
-} from 'node:fs/promises';
-import {
-  basename, dirname, resolve, sep,
-} from 'node:path';
+import { lstat, readdir, readFile, writeFile } from 'node:fs/promises';
+import { basename, dirname, resolve, sep } from 'node:path';
 
 import { createHashFromFile } from './utils/hashfromfile.mjs';
 import { Timer } from './utils/timer.mjs';
@@ -75,7 +71,9 @@ const updateAsset = async (asset, directory) => {
 const fixVersion = async (directory) => {
   let jAssetFile;
   try {
-    jAssetFile = await lstat(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`);
+    jAssetFile = await lstat(
+      `${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`,
+    );
   } catch {
     return;
   }
@@ -84,12 +82,17 @@ const fixVersion = async (directory) => {
     return;
   }
 
-  const jAssetFileContent = await readFile(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`, { encoding: 'utf8' });
+  const jAssetFileContent = await readFile(
+    `${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`,
+    { encoding: 'utf8' },
+  );
   let jsonData;
   try {
     jsonData = JSON.parse(jAssetFileContent);
   } catch {
-    throw new Error(`media\\${directory}\\joomla.asset.json is not a valid JSON file!!!`);
+    throw new Error(
+      `media\\${directory}\\joomla.asset.json is not a valid JSON file!!!`,
+    );
   }
 
   if (!jsonData || !jsonData.assets.length) {
@@ -102,7 +105,11 @@ const fixVersion = async (directory) => {
   await Promise.all(processes);
 
   jsonData.assets = final[directory];
-  await writeFile(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`, JSON.stringify(jsonData, '', 2), { encoding: 'utf8', mode: 0o644 });
+  await writeFile(
+    `${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`,
+    JSON.stringify(jsonData, '', 2),
+    { encoding: 'utf8', mode: 0o644 },
+  );
 };
 
 /**

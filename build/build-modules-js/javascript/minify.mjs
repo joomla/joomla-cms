@@ -1,5 +1,5 @@
-import { basename } from 'node:path';
 import { readFile, writeFile } from 'node:fs/promises';
+import { basename } from 'node:path';
 
 import { transform } from 'esbuild';
 
@@ -12,7 +12,10 @@ import { transform } from 'esbuild';
 export const minifyFile = async (file) => {
   const fileContent = await readFile(file, { encoding: 'utf8' });
   const content = await transform(fileContent, { minify: true });
-  await writeFile(file.replace('.js', '.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+  await writeFile(file.replace('.js', '.min.js'), content.code, {
+    encoding: 'utf8',
+    mode: 0o644,
+  });
   console.log(`✅ Legacy js file: ${basename(file)}: minified`);
 };
 

@@ -1,4 +1,4 @@
-import { readFile, writeFile, existsSync } from 'fs-extra';
+import { existsSync, readFile, writeFile } from 'fs-extra';
 
 const RootPath = process.cwd();
 
@@ -21,5 +21,8 @@ export const concatFiles = async (files, output) => {
 
   const res = await Promise.all(promises);
 
-  await writeFile(`${RootPath}/${output}`, res.join(' '), { encoding: 'utf8', mode: 0o644 });
+  await writeFile(`${RootPath}/${output}`, res.join(' '), {
+    encoding: 'utf8',
+    mode: 0o644,
+  });
 };

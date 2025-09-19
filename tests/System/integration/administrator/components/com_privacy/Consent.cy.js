@@ -9,9 +9,21 @@ describe('Test in backend that the privacy consent component', () => {
   it('can view privacy consents', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'test body', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, body: 'test body', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, body: 'test body', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'test body',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        body: 'test body',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        body: 'test body',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -22,7 +34,11 @@ describe('Test in backend that the privacy consent component', () => {
   it('can invalidate privacy consent', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'test body', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'test body',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -37,8 +53,16 @@ describe('Test in backend that the privacy consent component', () => {
   it('can invalidate all privacy consents', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'test body', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 1, body: 'test body', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'test body',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'test body',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -53,62 +77,114 @@ describe('Test in backend that the privacy consent component', () => {
   it('can filter by valid consent', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'valid consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, body: 'invalidated consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, body: 'obsolete consent user', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'valid consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        body: 'invalidated consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        body: 'obsolete consent user',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
 
     cy.get('.js-stools-btn-filter').click();
     cy.get('#filter_state').select('Valid Consent');
-    cy.get('tbody > tr > :nth-child(7)').should('contain.text', 'valid consent user');
+    cy.get('tbody > tr > :nth-child(7)').should(
+      'contain.text',
+      'valid consent user',
+    );
     cy.get('table').find('tr').should('have.length', 2);
   });
 
   it('can filter by invalidated consent', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'valid consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, body: 'invalidated consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, body: 'obsolete consent user', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'valid consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        body: 'invalidated consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        body: 'obsolete consent user',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
 
     cy.get('.js-stools-btn-filter').click();
     cy.get('#filter_state').select('Invalidated Consent');
-    cy.get('tbody > tr > :nth-child(7)').should('contain.text', 'invalidated consent user');
+    cy.get('tbody > tr > :nth-child(7)').should(
+      'contain.text',
+      'invalidated consent user',
+    );
     cy.get('table').find('tr').should('have.length', 2);
   });
 
   it('can filter by obsolete consent', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'valid consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, body: 'invalidated consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, body: 'obsolete consent user', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'valid consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        body: 'invalidated consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        body: 'obsolete consent user',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
 
     cy.get('.js-stools-btn-filter').click();
     cy.get('#filter_state').select('Obsolete Consent');
-    cy.get('tbody > tr > :nth-child(7)').should('contain.text', 'obsolete consent user');
+    cy.get('tbody > tr > :nth-child(7)').should(
+      'contain.text',
+      'obsolete consent user',
+    );
     cy.get('table').find('tr').should('have.length', 2);
   });
 
   it('can search username', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'valid consent user', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'valid consent user',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
 
     cy.get('#filter_search').type('test');
     cy.get('.filter-search-bar__button').click();
-    cy.get('tbody > tr > :nth-child(7)').should('contain.text', 'valid consent user');
+    cy.get('tbody > tr > :nth-child(7)').should(
+      'contain.text',
+      'valid consent user',
+    );
     cy.get('table').find('tr').should('have.length', 2);
 
     //  random username -> should yield no result
@@ -121,7 +197,11 @@ describe('Test in backend that the privacy consent component', () => {
   it('can search user id', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'valid consent user', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'valid consent user',
+        user_id: `${id}`,
+      });
 
       cy.visit('/administrator/index.php?option=com_privacy&view=consents');
 
@@ -129,7 +209,10 @@ describe('Test in backend that the privacy consent component', () => {
     });
 
     cy.get('.filter-search-bar__button').click();
-    cy.get('tbody > tr > :nth-child(7)').should('contain.text', 'valid consent user');
+    cy.get('tbody > tr > :nth-child(7)').should(
+      'contain.text',
+      'valid consent user',
+    );
     cy.get('table').find('tr').should('have.length', 2);
 
     //  invalid user id -> should yield no result
@@ -141,15 +224,24 @@ describe('Test in backend that the privacy consent component', () => {
 
   it('can search consent id', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
-    cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'valid consent user', user_id: `${id}` });
-    }).then((id) => {
-      cy.visit('/administrator/index.php?option=com_privacy&view=consents');
-      cy.get('#filter_search').type(`ID:${id}`);
-    });
+    cy.db_createUser()
+      .then((id) => {
+        cy.db_createPrivacyConsent({
+          state: 1,
+          body: 'valid consent user',
+          user_id: `${id}`,
+        });
+      })
+      .then((id) => {
+        cy.visit('/administrator/index.php?option=com_privacy&view=consents');
+        cy.get('#filter_search').type(`ID:${id}`);
+      });
 
     cy.get('.filter-search-bar__button').click();
-    cy.get('tbody > tr > :nth-child(7)').should('contain.text', 'valid consent user');
+    cy.get('tbody > tr > :nth-child(7)').should(
+      'contain.text',
+      'valid consent user',
+    );
     cy.get('table').find('tr').should('have.length', 2);
 
     //  invalid consent id -> should yield no result
@@ -195,9 +287,21 @@ describe('Test in backend that the privacy consent component', () => {
   it('can list by status in ascending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'valid consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, body: 'invalidated consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, body: 'obsolete consent user', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'valid consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        body: 'invalidated consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        body: 'obsolete consent user',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -206,17 +310,38 @@ describe('Test in backend that the privacy consent component', () => {
     cy.get('#list_fullordering').select('Status ascending');
     // wait for the table to be updated with the new sort order
     cy.wait(10);
-    cy.get('tbody > :nth-child(1) > :nth-child(7)').should('contain', 'invalidated consent user');
-    cy.get('tbody > :nth-child(2) > :nth-child(7)').should('contain', 'obsolete consent user');
-    cy.get('tbody > :nth-child(3) > :nth-child(7)').should('contain', 'valid consent user');
+    cy.get('tbody > :nth-child(1) > :nth-child(7)').should(
+      'contain',
+      'invalidated consent user',
+    );
+    cy.get('tbody > :nth-child(2) > :nth-child(7)').should(
+      'contain',
+      'obsolete consent user',
+    );
+    cy.get('tbody > :nth-child(3) > :nth-child(7)').should(
+      'contain',
+      'valid consent user',
+    );
   });
 
   it('can list by status in descending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'valid consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, body: 'invalidated consent user', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, body: 'obsolete consent user', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'valid consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        body: 'invalidated consent user',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        body: 'obsolete consent user',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -225,66 +350,111 @@ describe('Test in backend that the privacy consent component', () => {
     cy.get('#list_fullordering').select('Status descending');
     // wait for the table to be updated with the new sort order
     cy.wait(10);
-    cy.get('tbody > :nth-child(1) > :nth-child(7)').should('contain', 'valid consent user');
-    cy.get('tbody > :nth-child(2) > :nth-child(7)').should('contain', 'obsolete consent user');
-    cy.get('tbody > :nth-child(3) > :nth-child(7)').should('contain', 'invalidated consent user');
+    cy.get('tbody > :nth-child(1) > :nth-child(7)').should(
+      'contain',
+      'valid consent user',
+    );
+    cy.get('tbody > :nth-child(2) > :nth-child(7)').should(
+      'contain',
+      'obsolete consent user',
+    );
+    cy.get('tbody > :nth-child(3) > :nth-child(7)').should(
+      'contain',
+      'invalidated consent user',
+    );
   });
 
   it('can list by name in ascending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
-    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
+    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
     cy.get('#list_fullordering').select('Username ascending');
     // wait for the table to be updated with the new sort order
     cy.wait(10);
-    cy.get('tbody > :nth-child(1) > :nth-child(4)').should('contain', 'a test user');
-    cy.get('tbody > :nth-child(2) > :nth-child(4)').should('contain', 'b test user');
-    cy.get('tbody > :nth-child(3) > :nth-child(4)').should('contain', 'c test user');
+    cy.get('tbody > :nth-child(1) > :nth-child(4)').should(
+      'contain',
+      'a test user',
+    );
+    cy.get('tbody > :nth-child(2) > :nth-child(4)').should(
+      'contain',
+      'b test user',
+    );
+    cy.get('tbody > :nth-child(3) > :nth-child(4)').should(
+      'contain',
+      'c test user',
+    );
   });
 
   it('can list by name in descending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
-    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
+    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
     cy.get('#list_fullordering').select('Username descending');
     // wait for the table to be updated with the new sort order
     cy.wait(10);
-    cy.get('tbody > :nth-child(1) > :nth-child(4)').should('contain', 'c test user');
-    cy.get('tbody > :nth-child(2) > :nth-child(4)').should('contain', 'b test user');
-    cy.get('tbody > :nth-child(3) > :nth-child(4)').should('contain', 'a test user');
+    cy.get('tbody > :nth-child(1) > :nth-child(4)').should(
+      'contain',
+      'c test user',
+    );
+    cy.get('tbody > :nth-child(2) > :nth-child(4)').should(
+      'contain',
+      'b test user',
+    );
+    cy.get('tbody > :nth-child(3) > :nth-child(4)').should(
+      'contain',
+      'a test user',
+    );
   });
 
   it('can list by username in descending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
-    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
+    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
@@ -298,15 +468,21 @@ describe('Test in backend that the privacy consent component', () => {
 
   it('can list by username in ascending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
-    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
+    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
@@ -320,15 +496,21 @@ describe('Test in backend that the privacy consent component', () => {
 
   it('can list by user_id in ascending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
-    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
+    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
@@ -364,15 +546,21 @@ describe('Test in backend that the privacy consent component', () => {
 
   it('can list by user_id in descending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
-    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
-    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
-    });
+    cy.db_createUser({ name: 'a test user', username: 'a test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'b test user', username: 'b test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
+    cy.db_createUser({ name: 'c test user', username: 'c test user' }).then(
+      (id) => {
+        cy.db_createPrivacyConsent({ state: 1, user_id: `${id}` });
+      },
+    );
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
     cy.get('table').find('tr').should('have.length', 4);
@@ -405,9 +593,21 @@ describe('Test in backend that the privacy consent component', () => {
   it('can list by subject in ascending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, subject: 'a test subject', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, subject: 'b test subject', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, subject: 'c test subject', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        subject: 'a test subject',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        subject: 'b test subject',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        subject: 'c test subject',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -415,17 +615,38 @@ describe('Test in backend that the privacy consent component', () => {
     cy.get('#list_fullordering').select('Subject ascending');
     // wait for the table to be updated with the new sort order
     cy.wait(10);
-    cy.get('tbody > :nth-child(1) > :nth-child(6)').should('contain', 'a test subject');
-    cy.get('tbody > :nth-child(2) > :nth-child(6)').should('contain', 'b test subject');
-    cy.get('tbody > :nth-child(3) > :nth-child(6)').should('contain', 'c test subject');
+    cy.get('tbody > :nth-child(1) > :nth-child(6)').should(
+      'contain',
+      'a test subject',
+    );
+    cy.get('tbody > :nth-child(2) > :nth-child(6)').should(
+      'contain',
+      'b test subject',
+    );
+    cy.get('tbody > :nth-child(3) > :nth-child(6)').should(
+      'contain',
+      'c test subject',
+    );
   });
 
   it('can list by subject in descending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, subject: 'a test subject', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, subject: 'b test subject', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, subject: 'c test subject', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        subject: 'a test subject',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        subject: 'b test subject',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        subject: 'c test subject',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -433,17 +654,38 @@ describe('Test in backend that the privacy consent component', () => {
     cy.get('#list_fullordering').select('Subject descending');
     // wait for the table to be updated with the new sort order
     cy.wait(10);
-    cy.get('tbody > :nth-child(1) > :nth-child(6)').should('contain', 'c test subject');
-    cy.get('tbody > :nth-child(2) > :nth-child(6)').should('contain', 'b test subject');
-    cy.get('tbody > :nth-child(3) > :nth-child(6)').should('contain', 'a test subject');
+    cy.get('tbody > :nth-child(1) > :nth-child(6)').should(
+      'contain',
+      'c test subject',
+    );
+    cy.get('tbody > :nth-child(2) > :nth-child(6)').should(
+      'contain',
+      'b test subject',
+    );
+    cy.get('tbody > :nth-child(3) > :nth-child(6)').should(
+      'contain',
+      'a test subject',
+    );
   });
 
   it('can list by consented in descending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, created: '2023-01-01 20:00:00', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, created: '2022-12-31 18:30:00', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, created: '2024-02-15 12:45:00 ', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        created: '2023-01-01 20:00:00',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        created: '2022-12-31 18:30:00',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        created: '2024-02-15 12:45:00 ',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -466,7 +708,9 @@ describe('Test in backend that the privacy consent component', () => {
     }
     cy.wrap(cellData).then((data) => {
       // Sort the array in descending order
-      const sortedArray = data.slice().sort((a, b) => new Date(b) - new Date(a));
+      const sortedArray = data
+        .slice()
+        .sort((a, b) => new Date(b) - new Date(a));
 
       cy.wrap(sortedArray[0]).should('eq', data[0]);
 
@@ -479,9 +723,21 @@ describe('Test in backend that the privacy consent component', () => {
   it('can list by consented in ascending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, created: '2023-01-01 20:00:00', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, created: '2022-12-31 18:30:00', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, created: '2024-02-15 12:45:00 ', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        created: '2023-01-01 20:00:00',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        created: '2022-12-31 18:30:00',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        created: '2024-02-15 12:45:00 ',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -505,7 +761,9 @@ describe('Test in backend that the privacy consent component', () => {
 
     cy.wrap(cellData).then((data) => {
       // Sort the array in ascending order
-      const sortedArray = data.slice().sort((a, b) => new Date(a) - new Date(b));
+      const sortedArray = data
+        .slice()
+        .sort((a, b) => new Date(a) - new Date(b));
 
       cy.wrap(sortedArray[0]).should('eq', data[0]);
 
@@ -518,9 +776,21 @@ describe('Test in backend that the privacy consent component', () => {
   it('can list by id in descending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'test body', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, body: 'test body', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, body: 'test body', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'test body',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        body: 'test body',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        body: 'test body',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');
@@ -556,9 +826,21 @@ describe('Test in backend that the privacy consent component', () => {
   it('can list by id in ascending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
-      cy.db_createPrivacyConsent({ state: 1, body: 'test body', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: -1, body: 'test body', user_id: `${id}` });
-      cy.db_createPrivacyConsent({ state: 0, body: 'test body', user_id: `${id}` });
+      cy.db_createPrivacyConsent({
+        state: 1,
+        body: 'test body',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: -1,
+        body: 'test body',
+        user_id: `${id}`,
+      });
+      cy.db_createPrivacyConsent({
+        state: 0,
+        body: 'test body',
+        user_id: `${id}`,
+      });
     });
 
     cy.visit('/administrator/index.php?option=com_privacy&view=consents');

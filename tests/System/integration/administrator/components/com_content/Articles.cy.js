@@ -1,7 +1,9 @@
 describe('Test in backend that the articles list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('/administrator/index.php?option=com_content&view=articles&filter=');
+    cy.visit(
+      '/administrator/index.php?option=com_content&view=articles&filter=',
+    );
   });
 
   it('has a title', () => {
@@ -113,11 +115,11 @@ describe('Test in backend that the articles list', () => {
 
         cy.checkForSystemMessage('3 articles unpublished.');
 
-        cy.get('thead input[name=\'checkall-toggle\']').should('not.be.checked');
+        cy.get("thead input[name='checkall-toggle']").should('not.be.checked');
         cy.get('#cb0').click();
         cy.get('body').type('{shift}', { release: false });
         cy.get('#cb4').click();
-        cy.get('thead input[name=\'checkall-toggle\']').should('be.checked');
+        cy.get("thead input[name='checkall-toggle']").should('be.checked');
 
         cy.clickToolbarButton('Action');
         cy.clickToolbarButton('Unpublish');

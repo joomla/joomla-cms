@@ -12,7 +12,10 @@ import { Timer } from './utils/timer.mjs';
 async function getFiles(path) {
   // Get files within the current directory
   return (await readdir(path, { withFileTypes: true, recursive: true }))
-    .filter((file) => !file.isDirectory() && ['.js', '.css'].includes(extname(file.name)))
+    .filter(
+      (file) =>
+        !file.isDirectory() && ['.js', '.css'].includes(extname(file.name)),
+    )
     .map((file) => `${file.path}/${file.name}`);
 }
 
@@ -31,7 +34,9 @@ export const compressFiles = async (enableBrotli = false) => {
 
   const compressTasks = [];
   const files = await Promise.all(paths.map((path) => getFiles(`${path}`)));
-  [].concat(...files).map((file) => compressTasks.push(compressFile(file, enableBrotli)));
+  []
+    .concat(...files)
+    .map((file) => compressTasks.push(compressFile(file, enableBrotli)));
 
   await Promise.all(compressTasks);
   console.log('✅ Done 👍');

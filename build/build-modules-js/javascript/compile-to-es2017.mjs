@@ -1,12 +1,10 @@
 import { writeFile } from 'node:fs/promises';
-import { basename, sep, resolve } from 'node:path';
-
-import { rollup } from 'rollup';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { basename, resolve, sep } from 'node:path';
 import { babel } from '@rollup/plugin-babel';
-
-import { minifyCode } from './minify.mjs';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { rollup } from 'rollup';
 import { getPackagesUnderScope } from '../init/common/resolve-package.cjs';
+import { minifyCode } from './minify.mjs';
 
 // List of external modules that should not be resolved by rollup
 const externalModules = [];
@@ -43,7 +41,10 @@ const collectExternals = () => {
  * @param file the full path to the file + filename + extension
  */
 export const handleESMFile = async (file) => {
-  const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
+  const newPath = file
+    .replace(/\.w-c\.es6\.js$/, '')
+    .replace(/\.es6\.js$/, '')
+    .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
   // Make sure externals are collected
   collectExternals();
@@ -81,16 +82,22 @@ export const handleESMFile = async (file) => {
     external: externalModules,
   });
 
-  bundle.write({
-    format: file.endsWith('core.es6.js') ? 'iife' : 'es',
-    sourcemap: false,
-    file: resolve(`${newPath}.js`),
-  })
+  bundle
+    .write({
+      format: file.endsWith('core.es6.js') ? 'iife' : 'es',
+      sourcemap: false,
+      file: resolve(`${newPath}.js`),
+    })
     .then((value) => minifyCode(value.output[0].code))
     .then((content) => {
-      console.log(`✅ ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled`);
+      console.log(
+        `✅ ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled`,
+      );
 
-      return writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
+      return writeFile(resolve(`${newPath}.min.js`), content.code, {
+        encoding: 'utf8',
+        mode: 0o644,
+      });
     })
     .catch((error) => {
       console.error(error);
