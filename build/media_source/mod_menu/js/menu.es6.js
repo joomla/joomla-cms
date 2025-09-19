@@ -239,6 +239,8 @@
 
   // Initialize Nav instances for all nav elements on the page
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.nav').forEach((nav) => new Nav(nav));
+    document.querySelectorAll('.nav').forEach((nav) => {
+      new Nav(nav);
+    });
   });
 })();

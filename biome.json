@@ -1,0 +1,23 @@
+{
+  "files": {
+    "includes": ["build/media_source/**/*.{js,mjs,es6,vue}"]
+  },
+  "linter": {
+    "includes": ["build/media_source/**/*.{js,mjs,es6,vue}"],
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noRedundantUseStrict": "off"
+      }
+    }
+  },
+  "javascript": {
+    "globals": ["Joomla", "MediaManager", "bootstrap"]
+  },
+  "json": {
+    "linter": {
+      "enabled": false
+    }
+  }
+}

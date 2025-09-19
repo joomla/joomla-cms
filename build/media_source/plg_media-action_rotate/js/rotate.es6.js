@@ -62,7 +62,9 @@ const initRotate = (image) => {
 
       target.value = 0;
       // Deselect all buttons
-      document.querySelectorAll('#jform_rotate_distinct label').forEach((element) => element.classList.remove('active', 'focus'));
+      document.querySelectorAll('#jform_rotate_distinct label').forEach((element) => {
+        element.classList.remove('active', 'focus');
+      });
     });
 
     // The 90 degree rotate buttons listeners
@@ -71,7 +73,9 @@ const initRotate = (image) => {
         rotate(parseInt(target.value, 10), image);
 
         // Deselect all buttons
-        document.querySelectorAll('#jform_rotate_distinct label').forEach((el) => el.classList.remove('active', 'focus'));
+        document.querySelectorAll('#jform_rotate_distinct label').forEach((el) => {
+          el.classList.remove('active', 'focus')
+        });
       });
     });
 

@@ -53,7 +53,9 @@ Joomla.initialiseTabs = (el, options) => {
       }
     }
   } else {
-    document.querySelectorAll(`${el} a`).forEach((tab) => new window.bootstrap.Tab(tab, options));
+    document.querySelectorAll(`${el} a`).forEach((tab) => {
+      new window.bootstrap.Tab(tab, options);
+    });
   }
 };
 

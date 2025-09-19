@@ -156,7 +156,9 @@ if (Joomla && Joomla.getOptions) {
         focus: opt.focus ? opt.focus : true,
       };
 
-      document.querySelectorAll(modal).forEach((modalEl) => Joomla.initialiseModal(modalEl, options));
+      document.querySelectorAll(modal).forEach((modalEl) => {
+        Joomla.initialiseModal(modalEl, options);
+      });
     });
   }
 }

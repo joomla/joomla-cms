@@ -20,7 +20,9 @@ Joomla = window.Joomla || {};
     target.querySelectorAll('fieldset.btn-group').forEach((fieldset) => {
       if (fieldset.getAttribute('disabled') === true) {
         fieldset.style.pointerEvents = 'none';
-        fieldset.querySelectorAll('.btn').forEach((btn) => btn.classList.add('disabled'));
+        fieldset.querySelectorAll('.btn').forEach((btn) => {
+          btn.classList.add('disabled');
+        });
       }
     });
   }

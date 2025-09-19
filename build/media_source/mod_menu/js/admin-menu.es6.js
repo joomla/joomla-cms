@@ -37,7 +37,9 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     menuToggleIcon.classList.toggle('icon-toggle-on');
     menuToggleIcon.classList.toggle('icon-toggle-off');
 
-    document.querySelectorAll('.main-nav > li').forEach((item) => item.classList.remove('open'));
+    document.querySelectorAll('.main-nav > li').forEach((item) => {
+      item.classList.remove('open');
+    });
 
     const elem = document.querySelector('.child-open');
     if (elem) {
@@ -119,7 +121,9 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   // Menu close
   document.querySelectorAll('ul.main-nav li.parent .close').forEach((subMenu) => {
     subMenu.addEventListener('click', () => {
-      mainNav.querySelectorAll('.open').forEach((menuChild) => menuChild.classList.remove('open'));
+      mainNav.querySelectorAll('.open').forEach((menuChild) => {
+        menuChild.classList.remove('open');
+      });
       mainNav.classList.remove('child-open');
     });
   });

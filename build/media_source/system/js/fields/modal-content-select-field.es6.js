@@ -164,7 +164,9 @@ const setupField = (container) => {
 };
 
 const setup = (container) => {
-  container.querySelectorAll('.js-modal-content-select-field').forEach((el) => setupField(el));
+  container.querySelectorAll('.js-modal-content-select-field').forEach((el) => {
+    setupField(el);
+  });
 };
 
 document.addEventListener('DOMContentLoaded', () => setup(document));

@@ -42,7 +42,9 @@ document.querySelectorAll('span.treeselect-toggle').forEach((toggle) => {
     if (parentNode.querySelector('ul.treeselect-sub').classList.contains('hidden')) {
       target.classList.remove(chevron);
       target.classList.add('icon-chevron-down');
-      parentNode.querySelectorAll('ul.treeselect-sub').forEach((item) => item.classList.remove('hidden'));
+      parentNode.querySelectorAll('ul.treeselect-sub').forEach((item) => {
+        item.classList.remove('hidden');
+      });
       parentNode.querySelectorAll('ul.treeselect-sub i.treeselect-toggle').forEach((item) => {
         item.classList.add('icon-chevron-down');
         item.classList.remove(chevron);
@@ -51,7 +53,9 @@ document.querySelectorAll('span.treeselect-toggle').forEach((toggle) => {
       target.classList.add(chevron);
       target.classList.remove('icon-chevron-down');
 
-      parentNode.querySelectorAll('ul.treeselect-sub').forEach((item) => item.classList.add('hidden'));
+      parentNode.querySelectorAll('ul.treeselect-sub').forEach((item) => {
+        item.classList.add('hidden');
+      });
       parentNode.querySelectorAll('ul.treeselect-sub i.treeselect-toggle').forEach((item) => {
         item.classList.remove('icon-chevron-down');
         item.classList.add(chevron);
@@ -105,7 +109,9 @@ document.getElementById('treeUncheckAll').addEventListener('click', () => {
 
 // Expands all subtrees
 document.getElementById('treeExpandAll').addEventListener('click', () => {
-  document.querySelectorAll('ul.treeselect ul.treeselect-sub').forEach((input) => input.classList.remove('hidden'));
+  document.querySelectorAll('ul.treeselect ul.treeselect-sub').forEach((input) => {
+    input.classList.remove('hidden')
+  });
   document.querySelectorAll('ul.treeselect span.treeselect-toggle').forEach((item) => {
     item.classList.remove('icon-chevron-right');
     item.classList.add('icon-chevron-down');
@@ -114,7 +120,9 @@ document.getElementById('treeExpandAll').addEventListener('click', () => {
 
 // Collapses all subtrees
 document.getElementById('treeCollapseAll').addEventListener('click', () => {
-  document.querySelectorAll('ul.treeselect ul.treeselect-sub').forEach((input) => input.classList.add('hidden'));
+  document.querySelectorAll('ul.treeselect ul.treeselect-sub').forEach((input) => {
+    input.classList.add('hidden');
+  });
   document.querySelectorAll('ul.treeselect span.treeselect-toggle').forEach((item) => {
     item.classList.remove('icon-chevron-down');
     item.classList.add('icon-chevron-right');
@@ -141,7 +149,9 @@ document.querySelectorAll('a.uncheckall').forEach((item) => {
 document.querySelectorAll('a.expandall').forEach((item) => {
   item.addEventListener('click', ({ target }) => {
     const parent = target.closest('ul');
-    parent.querySelectorAll('ul.treeselect-sub').forEach((input) => input.classList.remove('hidden'));
+    parent.querySelectorAll('ul.treeselect-sub').forEach((input) => {
+      input.classList.remove('hidden');
+    });
     parent.querySelectorAll('ul.treeselect-sub .treeselect-toggle').forEach((toggle) => {
       toggle.classList.remove('icon-chevron-right');
       toggle.classList.add('icon-chevron-down');
@@ -151,7 +161,9 @@ document.querySelectorAll('a.expandall').forEach((item) => {
 document.querySelectorAll('a.collapseall').forEach((item) => {
   item.addEventListener('click', ({ target }) => {
     const parent = target.closest('ul');
-    parent.querySelectorAll('ul.treeselect-sub').forEach((input) => input.classList.add('hidden'));
+    parent.querySelectorAll('ul.treeselect-sub').forEach((input) => {
+      input.classList.add('hidden')
+    });
     parent.querySelectorAll('ul.treeselect-sub .treeselect-toggle').forEach((toggle) => {
       toggle.classList.remove('icon-chevron-down');
       toggle.classList.add('icon-chevron-right');

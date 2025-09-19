@@ -24,4 +24,6 @@ const applyChanges = (event) => {
   }
 };
 
-document.querySelectorAll('#filter-config select').forEach((select) => select.addEventListener('change', applyChanges));
+document.querySelectorAll('#filter-config select').forEach((select) => {
+  select.addEventListener('change', applyChanges);
+});

@@ -468,8 +468,12 @@ window.Joomla = window.Joomla || {};
       addButton.addEventListener('click', Joomla.plgSystemWebauthnAddOnClick);
     }
 
-    document.querySelectorAll('.plg_system_webauthn-manage-edit').forEach((button) => button.addEventListener('click', Joomla.plgSystemWebauthnEditOnClick));
-    document.querySelectorAll('.plg_system_webauthn-manage-delete').forEach((button) => button.addEventListener('click', Joomla.plgSystemWebauthnDeleteOnClick));
+    document.querySelectorAll('.plg_system_webauthn-manage-edit').forEach((button) => {
+      button.addEventListener('click', Joomla.plgSystemWebauthnEditOnClick);
+    });
+    document.querySelectorAll('.plg_system_webauthn-manage-delete').forEach((button) => {
+      button.addEventListener('click', Joomla.plgSystemWebauthnDeleteOnClick);
+    });
   };
 
   // Initialization. Runs on DOM content loaded since this script is always loaded deferred.

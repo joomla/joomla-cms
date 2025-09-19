@@ -77,7 +77,9 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
     resizeAllGridItems() {
       const $gridCells = [].slice.call(this.$gridBox.children);
 
-      $gridCells.forEach(($cell) => this.resizeGridItem($cell, this.gridAutoRows, this.gridRowGap));
+      $gridCells.forEach(($cell) => {
+        this.resizeGridItem($cell, this.gridAutoRows, this.gridRowGap);
+      });
     },
 
     initialise() {

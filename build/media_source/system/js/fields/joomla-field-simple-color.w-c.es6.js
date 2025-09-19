@@ -80,7 +80,9 @@ class JoomlaFieldSimpleColor extends HTMLElement {
     }
 
     if (this.internals && this.internals.labels.length) {
-      this.internals.labels.forEach((label) => label.addEventListener('click', this.show));
+      this.internals.labels.forEach((label) => {
+        label.addEventListener('click', this.show);
+      });
     }
 
     this.button = this.shadowRoot.querySelector('[part=opener]');
@@ -132,7 +134,9 @@ class JoomlaFieldSimpleColor extends HTMLElement {
     this.panel.style.display = 'none';
     this.button.style.display = 'block';
 
-    this.slotted.assignedElements().forEach((element) => element.removeEventListener('click', this.colorSelect));
+    this.slotted.assignedElements().forEach((element) => {
+      element.removeEventListener('click', this.colorSelect);
+    });
     this.button.focus();
   }
 
@@ -145,7 +149,9 @@ class JoomlaFieldSimpleColor extends HTMLElement {
 
   colorSelect(event) {
     const { currentTarget } = event;
-    this.slotted.assignedElements().forEach((element) => element.setAttribute('aria-pressed', element !== currentTarget ? 'false' : 'true'));
+    this.slotted.assignedElements().forEach((element) => {
+      element.setAttribute('aria-pressed', element !== currentTarget ? 'false' : 'true');
+    });
     this.button.style.background = currentTarget.value === 'none' ? checker : currentTarget.value;
     this.hide();
     this.internals.setFormValue(currentTarget.value);

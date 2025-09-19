@@ -9,7 +9,9 @@ if (Joomla && Joomla.getOptions) {
   // Initialise the elements
   if (alerts && alerts.length) {
     alerts.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((el) => new window.bootstrap.Alert(el));
+      document.querySelectorAll(selector).forEach((el) => {
+        new window.bootstrap.Alert(el);
+      });
     });
   }
 }

@@ -11,7 +11,9 @@ Joomla = window.Joomla || {};
   document.addEventListener('DOMContentLoaded', () => {
     // Handle toggle all
     document.querySelectorAll('.filter-toggle-all').forEach((button) => {
-      button.addEventListener('click', () => document.querySelectorAll('.filter-node').forEach((node) => node.click()));
+      button.addEventListener('click', () => document.querySelectorAll('.filter-node').forEach((node) => {
+        node.click();
+      }));
     });
 
     // Update the count
@@ -25,7 +27,9 @@ Joomla = window.Joomla || {};
     document.querySelectorAll('.js-filter').forEach((button) => {
       button.addEventListener('click', (event) => {
         const btn = event.currentTarget;
-        document.querySelectorAll(`.${btn.dataset.id}`).forEach((el) => el.click());
+        document.querySelectorAll(`.${btn.dataset.id}`).forEach((el) => {
+          el.click();
+        });
       });
     });
 
@@ -47,7 +51,9 @@ Joomla = window.Joomla || {};
         }
 
         if (elements) {
-          elements.forEach((element) => element.click());
+          elements.forEach((element) => {
+            element.click();
+          });
         }
       });
     }

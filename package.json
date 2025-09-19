@@ -88,11 +88,11 @@
   "devDependencies": {
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
+    "@biomejs/biome": "2.2.4",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-replace": "^6.0.2",
-    "@stylistic/stylelint-plugin": "^4.0.0",
     "@vue/compiler-sfc": "^3.5.18",
     "chokidar": "^4.0.3",
     "cli-progress": "^3.12.0",
@@ -101,9 +101,6 @@
     "cypress": "^14.5.3",
     "dotenv": "^17.2.1",
     "esbuild": "^0.25.8",
-    "eslint": "^9.32.0",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-vue": "^10.4.0",
     "fs-extra": "^11.3.0",
     "ini": "^5.0.0",
     "jasmine-core": "^5.9.0",
@@ -120,10 +117,6 @@
     "sass-embedded": "^1.89.2",
     "semver": "^7.7.2",
     "smtp-tester": "^2.1.0",
-    "stylelint": "^16.23.0",
-    "stylelint-config-standard": "^39.0.0",
-    "stylelint-order": "^7.0.0",
-    "stylelint-scss": "^6.12.1",
     "totp-generator": "^1.0.0"
   }
 }

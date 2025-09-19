@@ -465,4 +465,6 @@ const toggleAvailableOption = () => {
 window.addEventListener('load', () => toggleAvailableOption());
 
 // Allow to select the group only once per the set
-selects.forEach((select) => select.addEventListener('change', () => toggleAvailableOption()));
+selects.forEach((select) => {
+  select.addEventListener('change', () => toggleAvailableOption());
+});

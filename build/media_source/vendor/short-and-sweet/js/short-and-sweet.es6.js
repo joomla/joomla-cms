@@ -5,5 +5,7 @@ shortAndSweet('textarea.charcount,input.charcount', { counterClassName: 'small t
 /** Repeatable */
 document.addEventListener('joomla:updated', (event) => {
   event.target.querySelectorAll('textarea.charcount,input.charcount')
-    .forEach((el) => shortAndSweet(el, { counterClassName: 'small text-muted' }));
+    .forEach((el) => {
+      shortAndSweet(el, { counterClassName: 'small text-muted' });
+    });
 });

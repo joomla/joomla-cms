@@ -9,7 +9,9 @@ if (Joomla && Joomla.getOptions) {
   // Initialise the elements
   if (buttons && buttons.length) {
     buttons.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((el) => new window.bootstrap.Button(el));
+      document.querySelectorAll(selector).forEach((el) => {
+        new window.bootstrap.Button(el);
+      });
     });
   }
 }

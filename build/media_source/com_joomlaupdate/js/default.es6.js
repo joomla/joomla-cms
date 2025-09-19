@@ -240,12 +240,16 @@ Joomla = window.Joomla || {};
           el.dataset.state = 'open';
           el.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
 
-          compatibilityTable.querySelectorAll('table .hidden').forEach((elem) => elem.classList.remove('hidden'));
+          compatibilityTable.querySelectorAll('table .hidden').forEach((elem) => {
+            elem.classList.remove('hidden');
+          });
         } else {
           el.dataset.state = 'closed';
           el.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
 
-          compatibilityTable.querySelectorAll('table .instver, table .upcomp, table .currcomp').forEach((elem) => elem.classList.add('hidden'));
+          compatibilityTable.querySelectorAll('table .instver, table .upcomp, table .currcomp').forEach((elem) => {
+            elem.classList.add('hidden');
+          });
         }
       });
     });
