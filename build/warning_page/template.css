@@ -1,7 +1,4 @@
 html {
-  background: #ee2a00;
-  background: -moz-radial-gradient(center, ellipse cover, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
-  background: -webkit-radial-gradient(center, ellipse cover, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
   background: radial-gradient(ellipse at center, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;

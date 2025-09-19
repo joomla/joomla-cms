@@ -16,7 +16,9 @@ export default class Event {
    */
   fire(event, data = null) {
     if (this.events[event]) {
-      this.events[event].forEach((fn) => fn(data));
+      this.events[event].forEach((fn) => {
+        fn(data);
+      });
     }
   }
 

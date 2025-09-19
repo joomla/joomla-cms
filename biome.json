@@ -1,7 +1,7 @@
 {
   "files": {
     "includes": [
-      "build/**/*.{js,mjs,es6,vue}",
+      "build/**/*.{js,mjs,es6,vue,css}",
       "tests/**/*.{js,mjs,es6,vue}",
       "administrator/components/com_media/resources/scripts/**/*.{js,mjs,es6,vue}",
       "!**/*.es5.js",
@@ -10,7 +10,7 @@
   },
   "linter": {
     "includes": [
-      "build/**/*.{js,mjs,es6,vue}",
+      "build/**/*.{js,mjs,es6,vue,css}",
       "tests/**/*.{js,mjs,es6,vue}",
       "administrator/components/com_media/resources/scripts/**/*.{js,mjs,es6,vue}",
       "!**/*.es5.js",
@@ -23,8 +23,11 @@
         "noRedundantUseStrict": "off",
         "noDocumentCookie": "off"
       },
-	  "style": {
-        "useConsistentCurlyBraces": "error"
+      "complexity": {
+        "noImportantStyles": "off"
+      },
+      "a11y": {
+        "useGenericFontNames": "off"
       }
     }
   },

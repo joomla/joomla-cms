@@ -71,9 +71,9 @@ export default function onItemClick(event, ctx) {
     if (currentIndex < endIndex) {
       ctx.localItems
         .slice(currentIndex, endIndex + 1)
-        .forEach((element) =>
-          ctx.$store.commit(types.SELECT_BROWSER_ITEM, element),
-        );
+        .forEach((element) => {
+          ctx.$store.commit(types.SELECT_BROWSER_ITEM, element);
+        });
 
       return;
     }
@@ -81,9 +81,9 @@ export default function onItemClick(event, ctx) {
     // Handle selections from down to up
     ctx.localItems
       .slice(endIndex, currentIndex)
-      .forEach((element) =>
-        ctx.$store.commit(types.SELECT_BROWSER_ITEM, element),
-      );
+      .forEach((element) => {
+        ctx.$store.commit(types.SELECT_BROWSER_ITEM, element);
+      });
 
     return;
   }

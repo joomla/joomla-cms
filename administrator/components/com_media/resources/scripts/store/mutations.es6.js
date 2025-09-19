@@ -134,10 +134,14 @@ export default {
     createDirectoryStructureFromPath(state.selectedDirectory);
 
     // Add directories
-    payload.directories.forEach((directory) => addDirectory(null, directory));
+    payload.directories.forEach((directory) => {
+      addDirectory(null, directory);
+    });
 
     // Add files
-    payload.files.forEach((file) => addFile(null, file));
+    payload.files.forEach((file) => {
+      addFile(null, file);
+    });
   },
 
   /**
