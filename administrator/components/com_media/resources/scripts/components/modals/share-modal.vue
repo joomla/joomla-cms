@@ -74,8 +74,8 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.es6';
 import translate from '../../plugins/translate.es6';
+import * as types from '../../store/mutation-types.es6';
 import MediaModal from './modal.vue';
 
 export default {
@@ -85,11 +85,16 @@ export default {
   },
   computed: {
     item() {
-      return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
+      return this.$store.state.selectedItems[
+        this.$store.state.selectedItems.length - 1
+      ];
     },
 
     url() {
-      return (this.$store.state.previewItem && Object.prototype.hasOwnProperty.call(this.$store.state.previewItem, 'url') ? this.$store.state.previewItem.url : null);
+      return this.$store.state.previewItem &&
+        Object.hasOwn(this.$store.state.previewItem, 'url')
+        ? this.$store.state.previewItem.url
+        : null;
     },
   },
   methods: {
@@ -111,7 +116,7 @@ export default {
 
       try {
         document.execCommand('copy');
-      } catch (err) {
+      } catch (_err) {
         // @todo Error handling in joomla way
         window.alert(translate('COM_MEDIA_SHARE_COPY_FAILED_ERROR'));
       }

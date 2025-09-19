@@ -21,16 +21,17 @@ const Translate = {
       return val;
     });
   },
-  install: (Vue) => Vue.mixin({
-    methods: {
-      translate(key) {
-        return Translate.translate(key);
+  install: (Vue) =>
+    Vue.mixin({
+      methods: {
+        translate(key) {
+          return Translate.translate(key);
+        },
+        sprintf(key, ...args) {
+          return Translate.sprintf(key, args);
+        },
       },
-      sprintf(key, ...args) {
-        return Translate.sprintf(key, args);
-      },
-    },
-  }),
+    }),
 };
 
 export default Translate;

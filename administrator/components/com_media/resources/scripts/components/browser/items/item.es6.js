@@ -1,12 +1,12 @@
 import { h } from 'vue';
+import api from '../../../app/Api.es6';
+import onItemClick from '../utils/utils.es6';
+import Audio from './audio.vue';
 import Directory from './directory.vue';
+import Doc from './document.vue';
 import File from './file.vue';
 import Image from './image.vue';
 import Video from './video.vue';
-import Audio from './audio.vue';
-import Doc from './document.vue';
-import api from '../../../app/Api.es6';
-import onItemClick from '../utils/utils.es6';
 
 export default {
   props: {
@@ -35,32 +35,32 @@ export default {
 
       // Render image items
       if (
-        this.item.extension
-        && api.imagesExtensions.includes(this.item.extension.toLowerCase())
+        this.item.extension &&
+        api.imagesExtensions.includes(this.item.extension.toLowerCase())
       ) {
         return Image;
       }
 
       // Render video items
       if (
-        this.item.extension
-        && api.videoExtensions.includes(this.item.extension.toLowerCase())
+        this.item.extension &&
+        api.videoExtensions.includes(this.item.extension.toLowerCase())
       ) {
         return Video;
       }
 
       // Render audio items
       if (
-        this.item.extension
-        && api.audioExtensions.includes(this.item.extension.toLowerCase())
+        this.item.extension &&
+        api.audioExtensions.includes(this.item.extension.toLowerCase())
       ) {
         return Audio;
       }
 
       // Render document items
       if (
-        this.item.extension
-        && api.documentExtensions.includes(this.item.extension.toLowerCase())
+        this.item.extension &&
+        api.documentExtensions.includes(this.item.extension.toLowerCase())
       ) {
         return Doc;
       }

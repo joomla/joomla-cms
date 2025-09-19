@@ -115,17 +115,21 @@ export default {
   methods: {
     /* Check if the form is valid */
     isValid() {
-      return (this.folder);
+      return this.folder;
     },
     /* Check folder name is valid or not */
     isValidName() {
       if (this.folder.includes('..')) {
         return 1;
       }
-      if ((this.items.filter((file) => file.name.toLowerCase() === (this.folder.toLowerCase())).length !== 0)) {
+      if (
+        this.items.filter(
+          (file) => file.name.toLowerCase() === this.folder.toLowerCase(),
+        ).length !== 0
+      ) {
         return 2;
       }
-      if ((!/^[\p{L}\p{N}\-_. ]+$/u.test(this.folder))) {
+      if (!/^[\p{L}\p{N}\-_. ]+$/u.test(this.folder)) {
         return 3;
       }
       return 0;

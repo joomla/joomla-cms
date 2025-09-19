@@ -45,8 +45,8 @@
 
 <script>
 import api from '../../../app/Api.es6';
-import * as types from '../../../store/mutation-types.es6';
 import navigable from '../../../mixins/navigable.es6';
+import * as types from '../../../store/mutation-types.es6';
 import onItemClick from '../utils/utils.es6';
 
 export default {
@@ -71,7 +71,7 @@ export default {
       return `${this.item.width}px * ${this.item.height}px`;
     },
     isDir() {
-      return (this.item.type === 'dir');
+      return this.item.type === 'dir';
     },
     /* The size of a file in KB */
     size() {
@@ -91,7 +91,9 @@ export default {
         return '';
       }
 
-      return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
+      return this.item.thumb_path.split(
+        Joomla.getOptions('system.paths').rootFull,
+      ).length > 1
         ? `${this.item.thumb_path}?${this.item.modified_date ? new Date(this.item.modified_date).valueOf() : api.mediaVersion}`
         : `${this.item.thumb_path}`;
     },
@@ -105,7 +107,11 @@ export default {
       if (this.item.mime_type === 'image/svg+xml') {
         const image = event.target;
         // Update the item properties
-        this.$store.dispatch('updateItemProperties', { item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
+        this.$store.dispatch('updateItemProperties', {
+          item: this.item,
+          width: image.naturalWidth ? image.naturalWidth : 300,
+          height: image.naturalHeight ? image.naturalHeight : 150,
+        });
         // @TODO Remove the fallback size (300x150) when https://bugzilla.mozilla.org/show_bug.cgi?id=1328124 is fixed
         // Also https://github.com/whatwg/html/issues/3510
       }
@@ -118,11 +124,23 @@ export default {
       }
 
       // @todo remove the hardcoded extensions here
-      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'mp4', 'mp3', 'pdf'];
+      const extensionWithPreview = [
+        'jpg',
+        'jpeg',
+        'png',
+        'gif',
+        'webp',
+        'avif',
+        'mp4',
+        'mp3',
+        'pdf',
+      ];
 
       // Show preview
-      if (this.item.extension
-        && extensionWithPreview.includes(this.item.extension.toLowerCase())) {
+      if (
+        this.item.extension &&
+        extensionWithPreview.includes(this.item.extension.toLowerCase())
+      ) {
         this.$store.commit(types.SHOW_PREVIEW_MODAL);
         this.$store.dispatch('getFullContents', this.item);
       }
@@ -133,7 +151,9 @@ export default {
      * @returns {boolean}
      */
     isSelected() {
-      return this.$store.state.selectedItems.some((selected) => selected.path === this.item.path);
+      return this.$store.state.selectedItems.some(
+        (selected) => selected.path === this.item.path,
+      );
     },
 
     /**
@@ -143,7 +163,6 @@ export default {
     onClick(event) {
       return onItemClick(event, this);
     },
-
   },
 };
 </script>

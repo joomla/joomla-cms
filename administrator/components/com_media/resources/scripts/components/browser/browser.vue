@@ -74,18 +74,22 @@
 
 <script>
 import * as types from '../../store/mutation-types.es6';
-import MediaBrowserTable from './table/table.vue';
-import MediaBrowserItem from './items/item.es6';
 import MediaInfobar from '../infobar/infobar.vue';
+import MediaBrowserItem from './items/item.es6';
+import MediaBrowserTable from './table/table.vue';
 
 function sortArray(array, by, direction) {
   return array.sort((a, b) => {
     // By name
     if (by === 'name') {
       if (direction === 'asc') {
-        return a.name.toUpperCase().localeCompare(b.name.toUpperCase(), 'en', { sensitivity: 'base' });
+        return a.name
+          .toUpperCase()
+          .localeCompare(b.name.toUpperCase(), 'en', { sensitivity: 'base' });
       }
-      return b.name.toUpperCase().localeCompare(a.name.toUpperCase(), 'en', { sensitivity: 'base' });
+      return b.name
+        .toUpperCase()
+        .localeCompare(a.name.toUpperCase(), 'en', { sensitivity: 'base' });
     }
     // By size
     if (by === 'size') {
@@ -97,9 +101,15 @@ function sortArray(array, by, direction) {
     // By dimension
     if (by === 'dimension') {
       if (direction === 'asc') {
-        return (parseInt(a.width, 10) * parseInt(a.height, 10)) - (parseInt(b.width, 10) * parseInt(b.height, 10));
+        return (
+          parseInt(a.width, 10) * parseInt(a.height, 10) -
+          parseInt(b.width, 10) * parseInt(b.height, 10)
+        );
       }
-      return (parseInt(b.width, 10) * parseInt(b.height, 10)) - (parseInt(a.width, 10) * parseInt(a.height, 10));
+      return (
+        parseInt(b.width, 10) * parseInt(b.height, 10) -
+        parseInt(a.width, 10) * parseInt(a.height, 10)
+      );
     }
     // By date created
     if (by === 'date_created') {
@@ -130,24 +140,46 @@ export default {
   computed: {
     /* Get the contents of the currently selected directory */
     localItems() {
-      const dirs = sortArray(this.$store.getters.getSelectedDirectoryDirectories.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
-      const files = sortArray(this.$store.getters.getSelectedDirectoryFiles.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
+      const dirs = sortArray(
+        this.$store.getters.getSelectedDirectoryDirectories.slice(0),
+        this.$store.state.sortBy,
+        this.$store.state.sortDirection,
+      );
+      const files = sortArray(
+        this.$store.getters.getSelectedDirectoryFiles.slice(0),
+        this.$store.state.sortBy,
+        this.$store.state.sortDirection,
+      );
 
       return [
-        ...dirs.filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
-        ...files.filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
+        ...dirs.filter((dir) =>
+          dir.name
+            .toLowerCase()
+            .includes(this.$store.state.search.toLowerCase()),
+        ),
+        ...files.filter((file) =>
+          file.name
+            .toLowerCase()
+            .includes(this.$store.state.search.toLowerCase()),
+        ),
       ];
     },
     /* The styles for the media-browser element */
     getHeight() {
       return {
-        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
+        height:
+          this.$store.state.listView === 'table' && !this.isEmpty
+            ? 'unset'
+            : '100%',
       };
     },
     mediaBrowserStyles() {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
-        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
+        height:
+          this.$store.state.listView === 'table' && !this.isEmpty
+            ? 'unset'
+            : '100%',
       };
     },
     isEmptySearch() {
@@ -169,7 +201,9 @@ export default {
       return Joomla.getOptions('com_media', {}).isModal;
     },
     currentDirectory() {
-      const parts = this.$store.state.selectedDirectory.split('/').filter((crumb) => crumb.length !== 0);
+      const parts = this.$store.state.selectedDirectory
+        .split('/')
+        .filter((crumb) => crumb.length !== 0);
 
       // The first part is the name of the drive, so if we have a folder name display it. Else
       // find the filename
@@ -191,41 +225,51 @@ export default {
     },
   },
   created() {
-    document.body.addEventListener('click', this.unselectAllBrowserItems, false);
+    document.body.addEventListener(
+      'click',
+      this.unselectAllBrowserItems,
+      false,
+    );
   },
   beforeUnmount() {
-    document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
+    document.body.removeEventListener(
+      'click',
+      this.unselectAllBrowserItems,
+      false,
+    );
   },
   methods: {
     /* Unselect all browser items */
     unselectAllBrowserItems(event) {
-      const clickedDelete = !!((event.target.id !== undefined && event.target.id === 'mediaDelete'));
-      const notClickedBrowserItems = (this.$refs.browserItems
-        && !this.$refs.browserItems.contains(event.target))
-        || event.target === this.$refs.browserItems;
+      const clickedDelete = !!(
+        event.target.id !== undefined && event.target.id === 'mediaDelete'
+      );
+      const notClickedBrowserItems =
+        (this.$refs.browserItems &&
+          !this.$refs.browserItems.contains(event.target)) ||
+        event.target === this.$refs.browserItems;
 
-      const notClickedInfobar = this.$refs.infobar !== undefined
-        && !this.$refs.infobar.$el.contains(event.target);
+      const notClickedInfobar =
+        this.$refs.infobar !== undefined &&
+        !this.$refs.infobar.$el.contains(event.target);
 
-      const clickedOutside = notClickedBrowserItems && notClickedInfobar && !clickedDelete;
+      const clickedOutside =
+        notClickedBrowserItems && notClickedInfobar && !clickedDelete;
       if (clickedOutside) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
 
         window.parent.document.dispatchEvent(
-          new CustomEvent(
-            'onMediaFileSelected',
-            {
-              bubbles: true,
-              cancelable: false,
-              detail: {
-                name: '',
-                path: '',
-                thumb: false,
-                fileType: false,
-                extension: false,
-              },
+          new CustomEvent('onMediaFileSelected', {
+            bubbles: true,
+            cancelable: false,
+            detail: {
+              name: '',
+              path: '',
+              thumb: false,
+              fileType: false,
+              extension: false,
             },
-          ),
+          }),
         );
       }
     },
@@ -271,9 +315,11 @@ export default {
       e.preventDefault();
 
       // Loop through array of files and upload each file
-      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
         Array.from(e.dataTransfer.files).forEach((file) => {
-          document.querySelector('.media-dragoutline').classList.remove('active');
+          document
+            .querySelector('.media-dragoutline')
+            .classList.remove('active');
           this.upload(file);
         });
       }

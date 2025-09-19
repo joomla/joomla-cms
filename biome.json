@@ -3,6 +3,7 @@
     "includes": [
       "build/**/*.{js,mjs,es6,vue}",
       "tests/**/*.{js,mjs,es6,vue}",
+      "administrator/components/com_media/resources/scripts/**/*.{js,mjs,es6,vue}",
       "!**/*.es5.js",
       "!build/warning_page/*.js"
     ]
@@ -11,6 +12,7 @@
     "includes": [
       "build/**/*.{js,mjs,es6,vue}",
       "tests/**/*.{js,mjs,es6,vue}",
+      "administrator/components/com_media/resources/scripts/**/*.{js,mjs,es6,vue}",
       "!**/*.es5.js",
       "!build/warning_page/*.js"
     ],

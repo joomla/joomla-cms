@@ -6,15 +6,13 @@ Cypress.Commands.add('api_responseContains', (response, attribute, value) => {
 });
 
 Cypress.Commands.add('api_get', (path) =>
-  cy
-    .api_getBearerToken()
-    .then((token) =>
-      cy.request({
-        method: 'GET',
-        url: `/api/index.php/v1${path}`,
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-    ),
+  cy.api_getBearerToken().then((token) =>
+    cy.request({
+      method: 'GET',
+      url: `/api/index.php/v1${path}`,
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  ),
 );
 
 Cypress.Commands.add('api_post', (path, body) =>
@@ -42,15 +40,13 @@ Cypress.Commands.add('api_patch', (path, body) =>
 );
 
 Cypress.Commands.add('api_delete', (path) =>
-  cy
-    .api_getBearerToken()
-    .then((token) =>
-      cy.request({
-        method: 'DELETE',
-        url: `/api/index.php/v1${path}`,
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-    ),
+  cy.api_getBearerToken().then((token) =>
+    cy.request({
+      method: 'DELETE',
+      url: `/api/index.php/v1${path}`,
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  ),
 );
 
 Cypress.Commands.add('api_getBearerToken', () => {

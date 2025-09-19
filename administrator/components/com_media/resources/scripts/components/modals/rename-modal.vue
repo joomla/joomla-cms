@@ -80,7 +80,9 @@ export default {
   },
   computed: {
     item() {
-      return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
+      return this.$store.state.selectedItems[
+        this.$store.state.selectedItems.length - 1
+      ];
     },
     name() {
       return this.item.name.replace(`.${this.item.extension}`, '');
@@ -90,7 +92,9 @@ export default {
     },
   },
   updated() {
-    this.$nextTick(() => (this.$refs.nameField ? this.$refs.nameField.focus() : null));
+    this.$nextTick(() =>
+      this.$refs.nameField ? this.$refs.nameField.focus() : null,
+    );
   },
   methods: {
     /* Check if the form is valid */

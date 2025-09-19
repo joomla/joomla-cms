@@ -76,7 +76,9 @@ export default {
         return '';
       }
 
-      return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
+      return this.item.thumb_path.split(
+        Joomla.getOptions('system.paths').rootFull,
+      ).length > 1
         ? `${this.item.thumb_path}?${this.item.modified_date ? new Date(this.item.modified_date).valueOf() : api.mediaVersion}`
         : `${this.item.thumb_path}`;
     },
@@ -122,7 +124,11 @@ export default {
       if (this.item.mime_type === 'image/svg+xml') {
         const image = event.target;
         // Update the item properties
-        this.$store.dispatch('updateItemProperties', { item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
+        this.$store.dispatch('updateItemProperties', {
+          item: this.item,
+          width: image.naturalWidth ? image.naturalWidth : 300,
+          height: image.naturalHeight ? image.naturalHeight : 150,
+        });
         // @TODO Remove the fallback size (300x150) when https://bugzilla.mozilla.org/show_bug.cgi?id=1328124 is fixed
         // Also https://github.com/whatwg/html/issues/3510
       }

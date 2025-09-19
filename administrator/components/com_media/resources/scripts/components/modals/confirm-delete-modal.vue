@@ -52,7 +52,9 @@ export default {
   },
   computed: {
     item() {
-      return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
+      return this.$store.state.selectedItems[
+        this.$store.state.selectedItems.length - 1
+      ];
     },
   },
   methods: {

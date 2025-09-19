@@ -22,17 +22,17 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.es6';
 import notifications from '../app/Notifications.es6';
+import * as types from '../store/mutation-types.es6';
 import MediaBrowser from './browser/browser.vue';
-import MediaDisk from './tree/disk.vue';
-import MediaToolbar from './toolbar/toolbar.vue';
-import MediaUpload from './upload/upload.vue';
+import MediaConfirmDeleteModal from './modals/confirm-delete-modal.vue';
 import MediaCreateFolderModal from './modals/create-folder-modal.vue';
 import MediaPreviewModal from './modals/preview-modal.vue';
 import MediaRenameModal from './modals/rename-modal.vue';
 import MediaShareModal from './modals/share-modal.vue';
-import MediaConfirmDeleteModal from './modals/confirm-delete-modal.vue';
+import MediaToolbar from './toolbar/toolbar.vue';
+import MediaDisk from './tree/disk.vue';
+import MediaUpload from './upload/upload.vue';
 
 export default {
   name: 'MediaApp',
@@ -60,7 +60,9 @@ export default {
   },
   created() {
     // Listen to the toolbar events
-    MediaManager.Event.listen('onClickCreateFolder', () => this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL));
+    MediaManager.Event.listen('onClickCreateFolder', () =>
+      this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL),
+    );
     MediaManager.Event.listen('onClickDelete', () => {
       if (this.$store.state.selectedItems.length > 0) {
         this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
@@ -78,7 +80,12 @@ export default {
     });
 
     // Initial load the data
-    this.$store.dispatch('getContents', this.$store.state.selectedDirectory, false, false);
+    this.$store.dispatch(
+      'getContents',
+      this.$store.state.selectedDirectory,
+      false,
+      false,
+    );
   },
   beforeUnmount() {
     // Remove the global resize event listener

@@ -1,16 +1,24 @@
 import api from '../app/Api.es6';
-import * as types from './mutation-types.es6';
-import translate from '../plugins/translate.es6';
 import notifications from '../app/Notifications.es6';
+import translate from '../plugins/translate.es6';
+import * as types from './mutation-types.es6';
 
 const updateUrlPath = (path) => {
   const currentPath = path === null ? '' : path;
   const url = new URL(window.location.href);
 
   if (url.searchParams.has('path')) {
-    window.history.pushState(null, '', url.href.replace(/\b(path=).*?(&|$)/, `$1${currentPath}$2`));
+    window.history.pushState(
+      null,
+      '',
+      url.href.replace(/\b(path=).*?(&|$)/, `$1${currentPath}$2`),
+    );
   } else {
-    window.history.pushState(null, '', `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`);
+    window.history.pushState(
+      null,
+      '',
+      `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`,
+    );
   }
 };
 
@@ -30,7 +38,8 @@ export const getContents = (context, payload) => {
   updateUrlPath(payload);
   context.commit(types.SET_IS_LOADING, true);
 
-  api.getContents(payload, false, false)
+  api
+    .getContents(payload, false, false)
     .then((contents) => {
       context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
       context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
@@ -51,7 +60,8 @@ export const getContents = (context, payload) => {
  */
 export const getFullContents = (context, payload) => {
   context.commit(types.SET_IS_LOADING, true);
-  api.getContents(payload.path, true, true)
+  api
+    .getContents(payload.path, true, true)
     .then((contents) => {
       context.commit(types.LOAD_FULL_CONTENTS_SUCCESS, contents.files[0]);
       context.commit(types.SET_IS_LOADING, false);
@@ -68,8 +78,9 @@ export const getFullContents = (context, payload) => {
  * @param context
  * @param payload
  */
-export const download = (context, payload) => {
-  api.getContents(payload.path, false, true)
+export const download = (_context, payload) => {
+  api
+    .getContents(payload.path, false, true)
     .then((contents) => {
       const file = contents.files[0];
 
@@ -93,7 +104,9 @@ export const download = (context, payload) => {
  */
 export const toggleBrowserItemSelect = (context, payload) => {
   const item = payload;
-  const isSelected = context.state.selectedItems.some((selected) => selected.path === item.path);
+  const isSelected = context.state.selectedItems.some(
+    (selected) => selected.path === item.path,
+  );
   if (!isSelected) {
     context.commit(types.SELECT_BROWSER_ITEM, item);
   } else {
@@ -111,7 +124,8 @@ export const createDirectory = (context, payload) => {
     return;
   }
   context.commit(types.SET_IS_LOADING, true);
-  api.createDirectory(payload.name, payload.parent)
+  api
+    .createDirectory(payload.name, payload.parent)
     .then((folder) => {
       context.commit(types.CREATE_DIRECTORY_SUCCESS, folder);
       context.commit(types.HIDE_CREATE_FOLDER_MODAL);
@@ -134,7 +148,13 @@ export const uploadFile = (context, payload) => {
     return;
   }
   context.commit(types.SET_IS_LOADING, true);
-  api.upload(payload.name, payload.parent, payload.content, payload.override || false)
+  api
+    .upload(
+      payload.name,
+      payload.parent,
+      payload.content,
+      payload.override || false,
+    )
     .then((file) => {
       context.commit(types.UPLOAD_SUCCESS, file);
       context.commit(types.SET_IS_LOADING, false);
@@ -144,7 +164,15 @@ export const uploadFile = (context, payload) => {
 
       // Handle file exists
       if (error.status === 409) {
-        if (notifications.ask(translate.sprintf('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', payload.name), {})) {
+        if (
+          notifications.ask(
+            translate.sprintf(
+              'COM_MEDIA_FILE_EXISTS_AND_OVERRIDE',
+              payload.name,
+            ),
+            {},
+          )
+        ) {
           payload.override = true;
           uploadFile(context, payload);
         }
@@ -162,11 +190,15 @@ export const renameItem = (context, payload) => {
     return;
   }
 
-  if (typeof payload.item.canEdit !== 'undefined' && payload.item.canEdit === false) {
+  if (
+    typeof payload.item.canEdit !== 'undefined' &&
+    payload.item.canEdit === false
+  ) {
     return;
   }
   context.commit(types.SET_IS_LOADING, true);
-  api.rename(payload.item.path, payload.newPath)
+  api
+    .rename(payload.item.path, payload.newPath)
     .then((item) => {
       context.commit(types.RENAME_SUCCESS, {
         item,
@@ -197,11 +229,13 @@ export const deleteSelectedItems = (context) => {
   if (selectedItems.length > 0) {
     selectedItems.forEach((item) => {
       if (
-        (typeof item.canDelete !== 'undefined' && item.canDelete === false)
-        || (search && !item.name.toLowerCase().includes(search.toLowerCase()))) {
+        (typeof item.canDelete !== 'undefined' && item.canDelete === false) ||
+        (search && !item.name.toLowerCase().includes(search.toLowerCase()))
+      ) {
         return;
       }
-      api.delete(item.path)
+      api
+        .delete(item.path)
         .then(() => {
           context.commit(types.DELETE_SUCCESS, item);
           context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
@@ -223,4 +257,5 @@ export const deleteSelectedItems = (context) => {
  * @param context
  * @param payload object: the item, the width and the height
  */
-export const updateItemProperties = (context, payload) => context.commit(types.UPDATE_ITEM_PROPERTIES, payload);
+export const updateItemProperties = (context, payload) =>
+  context.commit(types.UPDATE_ITEM_PROPERTIES, payload);

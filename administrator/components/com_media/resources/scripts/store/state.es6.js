@@ -14,7 +14,11 @@ if (options.providers === undefined || options.providers.length === 0) {
  *
  * @return {Array}
  */
-const getDrives = (adapterNames, provider) => adapterNames.map((name) => ({ root: `${provider}-${name}:/`, displayName: name }));
+const getDrives = (adapterNames, provider) =>
+  adapterNames.map((name) => ({
+    root: `${provider}-${name}:/`,
+    displayName: name,
+  }));
 
 // Load disks from options
 const loadedDisks = options.providers.map((disk) => ({
@@ -22,13 +26,17 @@ const loadedDisks = options.providers.map((disk) => ({
   drives: getDrives(disk.adapterNames, disk.name),
 }));
 
-const defaultDisk = loadedDisks.find((disk) => disk.drives.length > 0 && disk.drives[0] !== undefined);
+const defaultDisk = loadedDisks.find(
+  (disk) => disk.drives.length > 0 && disk.drives[0] !== undefined,
+);
 
 if (!defaultDisk) {
   throw new TypeError('No default media drive was found');
 }
 
-const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
+const storedState = JSON.parse(
+  persistedStateOptions.storage.getItem(persistedStateOptions.key),
+);
 
 function setSession(path) {
   persistedStateOptions.storage.setItem(
@@ -116,7 +124,7 @@ export default {
   // The Search Query
   search: '',
   // The sorting by
-  sortBy: storedState && storedState.sortBy ? storedState.sortBy : 'name',
+  sortBy: storedState?.sortBy ? storedState.sortBy : 'name',
   // The sorting direction
-  sortDirection: storedState && storedState.sortDirection ? storedState.sortDirection : 'asc',
+  sortDirection: storedState?.sortDirection ? storedState.sortDirection : 'asc',
 };

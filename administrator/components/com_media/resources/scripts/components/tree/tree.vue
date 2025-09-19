@@ -67,15 +67,19 @@ export default {
   computed: {
     /* Get the directories */
     directories() {
-      return this.$store.state.directories
-        .filter((directory) => (directory.directory === this.root))
-        // Sort alphabetically
-        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1));
+      return (
+        this.$store.state.directories
+          .filter((directory) => directory.directory === this.root)
+          // Sort alphabetically
+          .sort((a, b) =>
+            a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1,
+          )
+      );
     },
   },
   methods: {
     isActive(item) {
-      return (item.path === this.$store.state.selectedDirectory);
+      return item.path === this.$store.state.selectedDirectory;
     },
     getTabindex(item) {
       return this.isActive(item) ? 0 : -1;
@@ -83,18 +87,15 @@ export default {
     onItemClick(item) {
       this.navigateTo(item.path);
       window.parent.document.dispatchEvent(
-        new CustomEvent(
-          'onMediaFileSelected',
-          {
-            bubbles: true,
-            cancelable: false,
-            detail: {
-              type: item.type,
-              name: item.name,
-              path: item.path,
-            },
+        new CustomEvent('onMediaFileSelected', {
+          bubbles: true,
+          cancelable: false,
+          detail: {
+            type: item.type,
+            name: item.name,
+            path: item.path,
           },
-        ),
+        }),
       );
     },
     hasChildren(item) {
@@ -114,7 +115,7 @@ export default {
       this.$refs[`${this.root}0`][0].focus();
     },
     moveFocusToNextElement(currentIndex) {
-      if ((currentIndex + 1) === this.directories.length) {
+      if (currentIndex + 1 === this.directories.length) {
         return;
       }
       this.$refs[this.root + (currentIndex + 1)][0].focus();

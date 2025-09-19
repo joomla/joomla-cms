@@ -164,7 +164,7 @@ export default {
   },
   computed: {
     toggleListViewBtnIcon() {
-      return (this.isGridView) ? 'icon-list' : 'icon-th';
+      return this.isGridView ? 'icon-list' : 'icon-th';
     },
     isLoading() {
       return this.$store.state.isLoading;
@@ -173,10 +173,13 @@ export default {
       return this.$store.state.selectedItems.length > 0;
     },
     isGridView() {
-      return (this.$store.state.listView === 'grid');
+      return this.$store.state.listView === 'grid';
     },
     allItemsSelected() {
-      return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
+      return (
+        this.$store.getters.getSelectedDirectoryContents.length ===
+        this.$store.state.selectedItems.length
+      );
     },
     search() {
       return this.$store.state.search;
@@ -218,21 +221,21 @@ export default {
       if (this.allItemsSelected) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
       } else {
-        this.$store.commit(types.SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
+        this.$store.commit(
+          types.SELECT_BROWSER_ITEMS,
+          this.$store.getters.getSelectedDirectoryContents,
+        );
         window.parent.document.dispatchEvent(
-          new CustomEvent(
-            'onMediaFileSelected',
-            {
-              bubbles: true,
-              cancelable: false,
-              detail: {},
-            },
-          ),
+          new CustomEvent('onMediaFileSelected', {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          }),
         );
       }
     },
     isGridSize(size) {
-      return (this.$store.state.gridSize === size);
+      return this.$store.state.gridSize === size;
     },
     changeSearch(query) {
       this.$store.commit(types.SET_SEARCH_QUERY, query.target.value);
@@ -241,7 +244,10 @@ export default {
       this.sortingOptions = !this.sortingOptions;
     },
     changeOrderDirection() {
-      this.$store.commit(types.UPDATE_SORT_DIRECTION, this.$refs.orderdirection.value);
+      this.$store.commit(
+        types.UPDATE_SORT_DIRECTION,
+        this.$refs.orderdirection.value,
+      );
     },
     changeOrderBy() {
       this.$store.commit(types.UPDATE_SORT_BY, this.$refs.orderby.value);

@@ -67,7 +67,7 @@ export default {
   computed: {
     /* Whether or not the item is active */
     isActive() {
-      return (this.$store.state.selectedDirectory === this.drive.root);
+      return this.$store.state.selectedDirectory === this.drive.root;
     },
     getTabindex() {
       return this.isActive ? 0 : -1;

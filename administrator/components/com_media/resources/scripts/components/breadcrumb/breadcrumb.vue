@@ -73,18 +73,15 @@ export default {
 
       this.navigateTo(destination.path);
       window.parent.document.dispatchEvent(
-        new CustomEvent(
-          'onMediaFileSelected',
-          {
-            bubbles: true,
-            cancelable: false,
-            detail: {
-              type: 'dir',
-              name: destination.name,
-              path: destination.path,
-            },
+        new CustomEvent('onMediaFileSelected', {
+          bubbles: true,
+          cancelable: false,
+          detail: {
+            type: 'dir',
+            name: destination.name,
+            path: destination.path,
           },
-        ),
+        }),
       );
     },
     findDrive(adapter) {
@@ -93,7 +90,11 @@ export default {
       this.$store.state.disks.forEach((disk) => {
         disk.drives.forEach((drive) => {
           if (drive.root.startsWith(adapter)) {
-            driveObject = { name: drive.displayName, path: drive.root, index: 0 };
+            driveObject = {
+              name: drive.displayName,
+              path: drive.root,
+              index: 0,
+            };
           }
         });
       });

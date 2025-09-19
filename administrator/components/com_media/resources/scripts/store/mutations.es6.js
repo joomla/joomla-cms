@@ -1,5 +1,5 @@
-import * as types from './mutation-types.es6';
 import { dirname } from '../app/path';
+import * as types from './mutation-types.es6';
 
 // The only way to actually change state in a store is by committing a mutation.
 // Mutations are very similar to events: each mutation has a string type and a handler.
@@ -10,7 +10,6 @@ import { dirname } from '../app/path';
 const gridItemSizes = ['sm', 'md', 'lg', 'xl'];
 
 export default {
-
   /**
    * Select a directory
    * @param state
@@ -42,7 +41,7 @@ export default {
         name: parts[parts.length - 1],
         directories: [],
         files: [],
-        directory: (directory !== '.') ? directory : null,
+        directory: directory !== '.' ? directory : null,
         type: 'dir',
         mime_type: 'directory',
       };
@@ -53,7 +52,9 @@ export default {
      * @param path
      */
     function createDirectoryStructureFromPath(path) {
-      const exists = state.directories.some((existing) => (existing.path === path));
+      const exists = state.directories.some(
+        (existing) => existing.path === path,
+      );
       if (!exists) {
         const directory = directoryFromPath(path);
 
@@ -76,11 +77,14 @@ export default {
      * @param unused
      * @param directory
      */
-    function addDirectory(unused, directory) {
-      const parentDirectory = state.directories
-        .find((existing) => (existing.path === directory.directory));
+    function addDirectory(_unused, directory) {
+      const parentDirectory = state.directories.find(
+        (existing) => existing.path === directory.directory,
+      );
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
-      let index = state.directories.findIndex((existing) => (existing.path === directory.path));
+      let index = state.directories.findIndex(
+        (existing) => existing.path === directory.path,
+      );
       if (index === -1) {
         index = state.directories.length;
       }
@@ -90,15 +94,10 @@ export default {
 
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
-        state.directories
-          .splice(
-            parentDirectoryIndex,
-            1,
-            {
-              ...parentDirectory,
-              directories: [...parentDirectory.directories, directory.path],
-            },
-          );
+        state.directories.splice(parentDirectoryIndex, 1, {
+          ...parentDirectory,
+          directories: [...parentDirectory.directories, directory.path],
+        });
       }
     }
 
@@ -107,11 +106,14 @@ export default {
      * @param unused
      * @param directory
      */
-    function addFile(unused, file) {
-      const parentDirectory = state.directories
-        .find((directory) => (directory.path === file.directory));
+    function addFile(_unused, file) {
+      const parentDirectory = state.directories.find(
+        (directory) => directory.path === file.directory,
+      );
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
-      let index = state.files.findIndex((existing) => (existing.path === file.path));
+      let index = state.files.findIndex(
+        (existing) => existing.path === file.path,
+      );
       if (index === -1) {
         index = state.files.length;
       }
@@ -121,15 +123,10 @@ export default {
 
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
-        state.directories
-          .splice(
-            parentDirectoryIndex,
-            1,
-            {
-              ...parentDirectory,
-              files: [...parentDirectory.files, file.path],
-            },
-          );
+        state.directories.splice(parentDirectoryIndex, 1, {
+          ...parentDirectory,
+          files: [...parentDirectory.files, file.path],
+        });
       }
     }
 
@@ -150,26 +147,23 @@ export default {
    */
   [types.UPLOAD_SUCCESS]: (state, payload) => {
     const file = payload;
-    const isNew = (!state.files.some((existing) => (existing.path === file.path)));
+    const isNew = !state.files.some((existing) => existing.path === file.path);
 
     // @todo handle file_exists
     if (isNew) {
-      const parentDirectory = state.directories
-        .find((existing) => (existing.path === file.directory));
+      const parentDirectory = state.directories.find(
+        (existing) => existing.path === file.directory,
+      );
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
       // Add the new file to the files array
       state.files.push(file);
 
       // Update the relation to the parent directory
-      state.directories.splice(
-        parentDirectoryIndex,
-        1,
-        {
-          ...parentDirectory,
-          files: [...parentDirectory.files, file.path],
-        },
-      );
+      state.directories.splice(parentDirectoryIndex, 1, {
+        ...parentDirectory,
+        files: [...parentDirectory.files, file.path],
+      });
     }
 
     // Automatically select the last uploaded item when the media manager is inside an iframe
@@ -210,25 +204,24 @@ export default {
    */
   [types.CREATE_DIRECTORY_SUCCESS]: (state, payload) => {
     const directory = payload;
-    const isNew = (!state.directories.some((existing) => (existing.path === directory.path)));
+    const isNew = !state.directories.some(
+      (existing) => existing.path === directory.path,
+    );
 
     if (isNew) {
-      const parentDirectory = state.directories
-        .find((existing) => (existing.path === directory.directory));
+      const parentDirectory = state.directories.find(
+        (existing) => existing.path === directory.directory,
+      );
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
       // Add the new directory to the directory
       state.directories.push(directory);
 
       // Update the relation to the parent directory
-      state.directories.splice(
-        parentDirectoryIndex,
-        1,
-        {
-          ...parentDirectory,
-          directories: [...parentDirectory.directories, directory.path],
-        },
-      );
+      state.directories.splice(parentDirectoryIndex, 1, {
+        ...parentDirectory,
+        directories: [...parentDirectory.directories, directory.path],
+      });
     }
   },
 
@@ -242,10 +235,12 @@ export default {
     const { item } = payload;
     const { oldPath } = payload;
     if (item.type === 'file') {
-      const index = state.files.findIndex((file) => (file.path === oldPath));
+      const index = state.files.findIndex((file) => file.path === oldPath);
       state.files.splice(index, 1, item);
     } else {
-      const index = state.directories.findIndex((directory) => (directory.path === oldPath));
+      const index = state.directories.findIndex(
+        (directory) => directory.path === oldPath,
+      );
       state.directories.splice(index, 1, item);
     }
   },
@@ -260,16 +255,20 @@ export default {
 
     // Delete file
     if (item.type === 'file') {
-      state.files.splice(state.files.findIndex(
-        (file) => file.path === item.path,
-      ), 1);
+      state.files.splice(
+        state.files.findIndex((file) => file.path === item.path),
+        1,
+      );
     }
 
     // Delete dir
     if (item.type === 'dir') {
-      state.directories.splice(state.directories.findIndex(
-        (directory) => directory.path === item.path,
-      ), 1);
+      state.directories.splice(
+        state.directories.findIndex(
+          (directory) => directory.path === item.path,
+        ),
+        1,
+      );
     }
   },
 
@@ -298,9 +297,12 @@ export default {
    */
   [types.UNSELECT_BROWSER_ITEM]: (state, payload) => {
     const item = payload;
-    state.selectedItems.splice(state.selectedItems.findIndex(
-      (selectedItem) => selectedItem.path === item.path,
-    ), 1);
+    state.selectedItems.splice(
+      state.selectedItems.findIndex(
+        (selectedItem) => selectedItem.path === item.path,
+      ),
+      1,
+    );
   },
 
   /**
@@ -471,7 +473,7 @@ export default {
    */
   [types.UPDATE_ITEM_PROPERTIES]: (state, payload) => {
     const { item, width, height } = payload;
-    const index = state.files.findIndex((file) => (file.path === item.path));
+    const index = state.files.findIndex((file) => file.path === item.path);
     state.files[index].width = width;
     state.files[index].height = height;
   },
