@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Fields\Color\Extension\Color;
 
 return new class () implements ServiceProviderInterface {
@@ -34,7 +33,6 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Color(
-                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('fields', 'color')
                 );
                 $plugin->setApplication(Factory::getApplication());

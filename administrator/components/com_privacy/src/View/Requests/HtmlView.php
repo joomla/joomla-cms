@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -103,7 +102,9 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         /** @var RequestsModel $model */
-        $model                  = $this->getModel();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->items            = $model->getItems();
         $this->pagination       = $model->getPagination();
         $this->state            = $model->getState();
@@ -116,10 +117,10 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new Genericdataexception(implode("\n", $errors), 500);
-        }
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         $this->addToolbar();
 

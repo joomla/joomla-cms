@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Version;
 
@@ -121,7 +121,7 @@ class CollectionAdapter extends UpdateAdapter
                 }
                 break;
             case 'EXTENSION':
-                $update                 = Table::getInstance('update');
+                $update                 = new Update($this->db);
                 $update->update_site_id = $this->updateSiteId;
 
                 foreach ($this->updatecols as $col) {
@@ -224,7 +224,7 @@ class CollectionAdapter extends UpdateAdapter
         $this->xmlParser = xml_parser_create('');
         xml_set_element_handler($this->xmlParser, [$this, '_startElement'], [$this, '_endElement']);
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (!xml_parse($this->xmlParser, (string) $response->getBody())) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
             if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
                 $options['append_extension'] = true;

@@ -11,7 +11,6 @@
 namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Checkin\Administrator\Model\CheckinModel;
@@ -93,6 +92,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var CheckinModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -106,12 +106,12 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('emptystate');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         $this->addToolbar();
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         parent::display($tpl);
     }
