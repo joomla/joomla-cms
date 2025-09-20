@@ -370,7 +370,7 @@ class MenuModel extends AdminModel
                 $result[$menuType] = [];
             }
 
-            $result[$menuType][''] = &$module;
+            $result[$menuType][] = &$module;
         }
 
         return $result;
