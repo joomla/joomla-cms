@@ -523,12 +523,15 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      */
     public function getBuffer($type = null, $name = null, $attribs = [])
     {
+        $type = (string) $type;
+        $name = (string) $name;
+
         // If no type is specified, return the whole buffer
-        if ($type === null) {
+        if ($type === '') {
             return parent::$_buffer;
         }
 
-        $title = $attribs['title'] ?? null;
+        $title = $attribs['title'] ?? '';
 
         if (isset(parent::$_buffer[$type][$name][$title])) {
             return parent::$_buffer[$type][$name][$title];
@@ -558,21 +561,22 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                 return Cache::getWorkarounds($cbuffer[$hash], ['mergehead' => 1]);
             }
 
-            $options               = [];
-            $options['nopathway']  = 1;
-            $options['nomodules']  = 1;
-            $options['modulemode'] = 1;
+            $options = [
+                'nopathway'  => 1,
+                'nomodules'  => 1,
+                'modulemode' => 1,
+            ];
 
-            $this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
-            $data = parent::$_buffer[$type][$name][$title];
+            $this->setBuffer($renderer->render($name, $attribs, ''), $type, $name);
 
-            $tmpdata = Cache::setWorkarounds($data, $options);
-
-            $cbuffer[$hash] = $tmpdata;
+            $cbuffer[$hash] = Cache::setWorkarounds(
+                parent::$_buffer[$type][$name][$title],
+                $options
+            );
 
             $cache->store($cbuffer, 'cbuffer_' . $type);
         } else {
-            $this->setBuffer($renderer->render($name, $attribs, null), $type, $name, $title);
+            $this->setBuffer($renderer->render($name, $attribs, ''), $type, $name, $title);
         }
 
         return parent::$_buffer[$type][$name][$title];
