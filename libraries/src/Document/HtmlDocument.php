@@ -523,13 +523,12 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      */
     public function getBuffer($type = null, $name = null, $attribs = [])
     {
-        $type = (string) $type;
-
         // If no type is specified, return the whole buffer
-        if ($type === '') {
+        if ($type === null) {
             return parent::$_buffer;
         }
 
+        $type  = (string) $type;
         $name  = (string) $name;
         $title = $attribs['title'] ?? '';
 
