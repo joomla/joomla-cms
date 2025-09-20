@@ -129,7 +129,6 @@ use Joomla\CMS\Language\Text;
                     <?php echo $this->info['sapi_name']; ?>
                 </td>
             </tr>
-
             <tr>
                 <th scope="row">
                     <?php echo Text::_('COM_ADMIN_USER_AGENT'); ?>
