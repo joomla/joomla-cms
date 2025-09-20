@@ -135,18 +135,17 @@ class ClientModel extends AdminModel
     {
         $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 
-
         $app = \Joomla\CMS\Factory::getApplication();
 
         $existing = $this->getTable();
         $existing->load(['name' => $table->name]);
 
-        //show a warning
+        // Show information message
         if ($existing && $existing->id != $table->id) {
             $app->enqueueMessage(
-                'A client with this name already exists.'
+                JText::_('COM_BANNERS_CLIENT_DUPLICATE_INFO'),
+                'info'
             );
         }
     }
-
 }
