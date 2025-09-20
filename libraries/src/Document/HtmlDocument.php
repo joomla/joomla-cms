@@ -566,16 +566,15 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                 'modulemode' => 1,
             ];
 
-            $this->setBuffer($renderer->render($name, $attribs, ''), $type, $name);
+            $this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
 
-            $cbuffer[$hash] = Cache::setWorkarounds(
-                parent::$_buffer[$type][$name][$title],
-                $options
-            );
+            $data = parent::$_buffer[$type][$name][$title];
 
-            $cache->store($cbuffer, 'cbuffer_' . $type);
+            $tmpdata = Cache::setWorkarounds($data, $options);
+
+            $cbuffer[$hash] = $tmpdata;
         } else {
-            $this->setBuffer($renderer->render($name, $attribs, ''), $type, $name, $title);
+            $this->setBuffer($renderer->render($name, $attribs, null), $type, $name, $title);
         }
 
         return parent::$_buffer[$type][$name][$title];
