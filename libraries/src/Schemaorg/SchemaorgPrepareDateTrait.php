@@ -48,6 +48,6 @@ trait SchemaorgPrepareDateTrait
             return $newDates;
         }
 
-        return Factory::getDate(Factory::getDate($date)->format('Y-m-d'))->format(\DateTime::ATOM);
+        return Factory::getDate($date)->setTime(0, 0)->format(\DateTime::ATOM);
     }
 }
