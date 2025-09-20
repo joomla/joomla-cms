@@ -364,13 +364,13 @@ class MenuModel extends AdminModel
         foreach ($modules as &$module) {
             $params = new Registry($module->params);
 
-            $menuType = $params->get('menutype');
+            $menuType = (string) $params->get('menutype');
 
             if (!isset($result[$menuType])) {
                 $result[$menuType] = [];
             }
 
-            $result[$menuType][] = &$module;
+            $result[$menuType][''] = &$module;
         }
 
         return $result;
