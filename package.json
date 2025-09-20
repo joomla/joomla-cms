@@ -58,7 +58,7 @@
     "accessibility": "^3.0.17",
     "awesomplete": "^1.1.7",
     "bootstrap": "^5.3.8",
-    "choices.js": "^9.1.0",
+    "choices.js": "^11.1.0",
     "cropperjs": "^1.6.2",
     "diff": "^5.2.0",
     "dragula": "^3.7.3",
