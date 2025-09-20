@@ -134,5 +134,25 @@ class ClientModel extends AdminModel
     protected function prepareTable($table)
     {
         $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
+
+        // Check for duplicate client names
+        $db = $this->getDbo();
+        $query = $db->getQuery(true)
+            ->select('id')
+            ->from($db->quoteName('#__banner_clients'))
+            ->where($db->quoteName('name') . ' = ' . $db->quote($table->name));
+
+        if (!empty($table->id)) {
+            $query->where($db->quoteName('id') . ' != ' . (int) $table->id);
+        }
+
+        $db->setQuery($query);
+        $exists = $db->loadResult();
+
+        if ($exists) {
+            // Error message
+            $this->setError('duplicate');
+            return false; 
+        }
     }
 }
