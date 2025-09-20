@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -76,6 +76,7 @@ class ArticlesModel extends ListModel
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
                 'ws.title',
+                'fp.ordering',
             ];
 
             if (Associations::isEnabled()) {
@@ -176,6 +177,7 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . serialize($this->getState('filter.access'));
         $id .= ':' . $this->getState('filter.published');
+        $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
@@ -312,12 +314,22 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by featured.
-        $featured = (string) $this->getState('filter.featured');
+        $featured = $this->getState('filter.featured');
 
-        if (\in_array($featured, ['0','1'])) {
+        $defaultOrdering = 'a.id';
+
+        if (is_numeric($featured) && \in_array($featured, [0, 1])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            $query->where($db->quoteName('a.featured') . ' = :featured')
+                ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            if ($featured) {
+                $query->select($db->quoteName('fp.ordering'));
+                $defaultOrdering = 'fp.ordering';
+            }
         }
 
         // Filter by access level on categories.
@@ -365,7 +377,7 @@ class ArticlesModel extends ListModel
         // Case: Using both categories filter and by level filter
         if (\count($categoryId)) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $categoryTable    = new Category($db);
             $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
@@ -582,8 +594,24 @@ class ArticlesModel extends ListModel
             }
         }
 
+        // Filter by date after modified date.
+        $modifiedStartDateTime = $this->getState('filter.modified_start');
+
+        if (!empty($modifiedStartDateTime)) {
+            $query->where($db->quoteName('a.modified') . ' >= :startDate')
+                ->bind(':startDate', $modifiedStartDateTime);
+        }
+
+        // Filter by date before modified date.
+        $modifiedEndDateTime = $this->getState('filter.modified_end');
+
+        if (!empty($modifiedEndDateTime)) {
+            $query->where($db->quoteName('a.modified') . ' <= :endDate')
+                ->bind(':endDate', $modifiedEndDateTime);
+        }
+
         // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'a.id');
+        $orderCol  = $this->state->get('list.ordering', $defaultOrdering);
         $orderDirn = $this->state->get('list.direction', 'DESC');
 
         if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {

@@ -70,6 +70,10 @@ class HtmlView extends BaseHtmlView
         // Bind the record to the form.
         $this->form->bind($this->item);
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
         $this->addToolbar();
 
         parent::display($tpl);

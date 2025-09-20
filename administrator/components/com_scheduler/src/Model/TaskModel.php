@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
@@ -274,7 +273,6 @@ class TaskModel extends AdminModel
 
         // If the data from UserState is empty, we fetch it with getItem()
         if (empty($data)) {
-            /** @var CMSObject $data */
             $data = $this->getItem();
 
             // @todo : further data processing goes here
@@ -323,14 +321,14 @@ class TaskModel extends AdminModel
         }
 
         // Parent call leaves `execution_rules` and `cron_rules` JSON encoded
-        $item->set('execution_rules', json_decode($item->get('execution_rules', '')));
-        $item->set('cron_rules', json_decode($item->get('cron_rules', '')));
+        $item->execution_rules = json_decode($item->execution_rules ?? '');
+        $item->cron_rules      = json_decode($item->cron_rules ?? '');
 
         $taskOption = SchedulerHelper::getTaskOptions()->findOption(
             ($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
         );
 
-        $item->set('taskOption', $taskOption);
+        $item->taskOption = $taskOption;
 
         return $item;
     }
@@ -613,7 +611,7 @@ class TaskModel extends AdminModel
             $basisDayOfMonth           = $data['execution_rules']['exec-day'];
             [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
 
-            $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
+            $data['last_execution'] = Factory::getDate('now', 'UTC')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
         } else {
             $data['last_execution'] = $this->getItem($id)->last_execution;

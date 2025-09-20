@@ -81,6 +81,10 @@ class HtmlView extends BaseHtmlView
             return;
         }
 
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '');
+
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
         } else {
