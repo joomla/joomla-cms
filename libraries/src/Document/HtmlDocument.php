@@ -573,6 +573,8 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             $tmpdata = Cache::setWorkarounds($data, $options);
 
             $cbuffer[$hash] = $tmpdata;
+
+            $cache->store($cbuffer, 'cbuffer_' . $type);
         } else {
             $this->setBuffer($renderer->render($name, $attribs, null), $type, $name, $title);
         }
