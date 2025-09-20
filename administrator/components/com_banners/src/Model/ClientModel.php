@@ -135,24 +135,18 @@ class ClientModel extends AdminModel
     {
         $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 
-        // Check for duplicate client names
-        $db = $this->getDbo();
-        $query = $db->getQuery(true)
-            ->select('id')
-            ->from($db->quoteName('#__banner_clients'))
-            ->where($db->quoteName('name') . ' = ' . $db->quote($table->name));
 
-        if (!empty($table->id)) {
-            $query->where($db->quoteName('id') . ' != ' . (int) $table->id);
-        }
+        $app = \Joomla\CMS\Factory::getApplication();
 
-        $db->setQuery($query);
-        $exists = $db->loadResult();
+        $existing = $this->getTable();
+        $existing->load(['name' => $table->name]);
 
-        if ($exists) {
-            // Error message
-            $this->setError('duplicate');
-            return false; 
+        //show a warning
+        if ($existing && $existing->id != $table->id) {
+            $app->enqueueMessage(
+                'A client with this name already exists.'
+            );
         }
     }
+
 }
