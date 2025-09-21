@@ -52,10 +52,7 @@ class GroupedlistField extends FormField
     protected function getGroups()
     {
         $groups = [];
-        $label  = $this->layout === 'joomla.form.field.groupedlist-fancy-select' ? '' : 0;
-        // To be able to display an out-of-group option when using grouped list with fancy-select,
-        // this one should be in an empty group. This allows you to have a placeholder option with a non-empty value.
-        // Choices.js issue about mixed options with optgroup: https://github.com/Choices-js/Choices/pull/1110
+        $label  = 0;
 
         foreach ($this->element->children() as $element) {
             switch ($element->getName()) {
