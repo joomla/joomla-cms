@@ -35,7 +35,7 @@ trait VersionableModelTrait
      * Fields to be ignored when calculating the hash.
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected $ignoreChanges = [
         'modified_by',
@@ -57,7 +57,7 @@ trait VersionableModelTrait
      * Fields to be converted to int when calculating the hash.
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  6.0.0
      */
     protected $convertToInt = ['publish_up', 'publish_down', 'ordering', 'featured'];
 
@@ -185,7 +185,7 @@ trait VersionableModelTrait
      *
      * @return  string  SHA1 hash on success. Empty string on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function getSha1($data)
     {
@@ -230,7 +230,7 @@ trait VersionableModelTrait
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function setIgnoreChanges(array $ignoreChanges): void
     {
@@ -244,7 +244,7 @@ trait VersionableModelTrait
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function setConvertToInt(array $convertToInt): void
     {
@@ -259,7 +259,7 @@ trait VersionableModelTrait
      *
      * @return  boolean  True on success, False on error.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function saveHistory(array $data, string $context)
     {
@@ -295,7 +295,7 @@ trait VersionableModelTrait
      *
      * @return  boolean  true on success, otherwise false.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function deleteHistory($typeAlias, $id)
     {
@@ -322,7 +322,7 @@ trait VersionableModelTrait
      *
      * @return  boolean  True on success, otherwise false.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      * @throws \Exception
      */
     public function storeHistory(string $typeAlias, int $id, mixed $data, string $note = '', string $hash = '')
