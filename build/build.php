@@ -345,13 +345,11 @@ if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
 
 // Install dependencies and build the media assets
 // Create version entries of the urls inside the static css files
+// Create version entries of the static assets in their respective joomla.asset.json
 run_and_check('npm ci');
 
 // Create gzipped version of the static assets
 run_and_check('npm run gzip');
-
-// Create version entries of the static assets in their respective joomla.asset.json
-run_and_check('npm run versioning');
 
 // Clean the checkout of extra resources
 if (!$debugBuild) {
