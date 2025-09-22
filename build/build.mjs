@@ -194,6 +194,7 @@ if (cliOptions.prepare) {
     .then(() => mediaManager())
     .then(() => bootstrapJs())
     .then(() => compileCodemirror())
+    .then(() => versioning())
     .then(() => bench.stop('Build'))
     .catch((err) => handleError(err, -1));
 }
