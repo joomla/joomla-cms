@@ -786,7 +786,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
             if (isset($msg)) {
                 $app->enqueueMessage($msg, 'warning');
-            }            
+            }
         }
 
         if (parent::save($data)) {
