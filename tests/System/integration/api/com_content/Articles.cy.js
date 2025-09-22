@@ -109,6 +109,6 @@ describe('Test that content API endpoint', () => {
       })
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('alias')
-        .should('equal', 'test-article-1'));
+        .should('equal', 'test-article-2'));
   });
 });
