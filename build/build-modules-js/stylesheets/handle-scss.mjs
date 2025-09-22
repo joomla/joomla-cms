@@ -5,7 +5,7 @@ import rtlcss from 'rtlcss';
 import { ensureDir } from 'fs-extra';
 import { transform as transformCss, Features, composeVisitors } from 'lightningcss';
 import { compileAsync } from 'sass-embedded';
-import { urlVersioning } from '../css-versioning.mjs';
+import { urlVersioning } from './css-versioning.mjs';
 
 const getOutputFile = (file) => file.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
