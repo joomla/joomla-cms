@@ -27,7 +27,7 @@ export const handleCssFile = async (file) => {
     const { code } = transformCss({
       code: Buffer.from(content),
       minify: true,
-      visitor: composeVisitors([urlVersioning(outputFile)]),
+      visitor: composeVisitors([urlVersioning(outputFile)]), // Adds a hash to the url() parts of the static css
     });
 
     // Ensure the folder exists or create it

@@ -42,7 +42,7 @@ ${contents}`,
     code: Buffer.from(contents),
     minify: true,
     exclude: Features.VendorPrefixes,
-    visitor: composeVisitors([urlVersioning(cssFile)]),
+    visitor: composeVisitors([urlVersioning(cssFile)]), // Adds a hash to the url() parts of the static css
   });
 
   // Ensure the folder exists or create it
