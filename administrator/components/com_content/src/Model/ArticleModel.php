@@ -774,19 +774,19 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
                     $data['alias'] = OutputFilter::stringURLSafe($data['title']);
                 }
             }
-                $table = $this->getTable();
 
-                if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
+            $table = $this->getTable();
+
+            if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
                     $msg = Text::_('COM_CONTENT_SAVE_WARNING');
-                }
+            }
 
-                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias']   = $alias;
+            [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+            $data['alias']   = $alias;
 
-                if (isset($msg)) {
-                    $app->enqueueMessage($msg, 'warning');
-                }
-            
+            if (isset($msg)) {
+                $app->enqueueMessage($msg, 'warning');
+            }            
         }
 
         if (parent::save($data)) {
