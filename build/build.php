@@ -343,7 +343,7 @@ if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
     exit(1);
 }
 
-run_and_check('npm install --unsafe-perm');
+run_and_check('npm ci');
 
 // Create version entries of the urls inside the static css files
 run_and_check('npm run cssversioning');
