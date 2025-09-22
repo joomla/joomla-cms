@@ -1,7 +1,8 @@
 import { dirname, sep } from 'node:path';
 
 import pkg from 'fs-extra';
-import { transform as transformCss } from 'lightningcss';
+import { transform as transformCss, composeVisitors } from 'lightningcss';
+import { urlVersioning } from '../css-versioning.mjs';
 
 const {
   copy, readFile, writeFile, ensureDir,
@@ -19,9 +20,14 @@ export const handleCssFile = async (file) => {
     }
 
     const content = await readFile(file, { encoding: 'utf8' });
+
+    // To preserve the licence the comment needs to start at the beginning of the file
+    content = content.startsWith('@charset "UTF-8";\n') ? content.replace('@charset "UTF-8";\n', '') : content;
+
     const { code } = transformCss({
       code: Buffer.from(content),
       minify: true,
+      visitor: composeVisitors([urlVersioning(outputFile)]),
     });
 
     // Ensure the folder exists or create it

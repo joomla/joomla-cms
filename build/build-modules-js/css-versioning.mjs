@@ -37,7 +37,7 @@ function version(urlString, fromFile) {
  * @param {from: String} - the filepath for the css file
  * @returns {import('lightningcss').Visitor} - A visitor that replaces the url
  */
-function urlVersioning(fromFile) {
+const urlVersioning = (fromFile) => {
   return {
     /**
      * @param {import('lightningcss').Url} url - The url object to transform
@@ -86,3 +86,5 @@ export const cssVersioning = async () => {
   Promise.all(cssFiles.map((file) => fixVersion(file)))
     .then(() => bench.stop());
 };
+
+export { urlVersioning };
