@@ -8,6 +8,9 @@
 .docker
 /docker-compose.yml
 /nbproject
+/.devcontainer
+/.github
+/.vscode
 
 # Local System Files (i.e. cache, logs, etc.)
 /administrator/cache
