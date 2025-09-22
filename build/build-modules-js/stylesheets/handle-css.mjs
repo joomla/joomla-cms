@@ -19,7 +19,7 @@ export const handleCssFile = async (file) => {
       await copy(file, outputFile, { preserveTimestamps: true, overwrite: true });
     }
 
-    const content = await readFile(file, { encoding: 'utf8' });
+    let content = await readFile(file, { encoding: 'utf8' });
 
     // To preserve the licence the comment needs to start at the beginning of the file
     content = content.startsWith('@charset "UTF-8";\n') ? content.replace('@charset "UTF-8";\n', '') : content;
