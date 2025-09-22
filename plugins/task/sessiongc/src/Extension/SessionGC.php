@@ -107,9 +107,11 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
             $this->getApplication()->getSession()->gc();
         }
 
-        $enableMetadata = (int) $event->getArgument('params')->enable_session_metadata_gc ?? 1;
+        $enableMetadata           = (int) $event->getArgument('params')->enable_session_metadata_gc ?? 1;
+        $isDatabaseSessionHandler = $app->get('session_handler', 'none') === 'database';
 
-        if ($enableMetadata) {
+        if ($enableMetadata
+	        && (!$isDatabaseSessionHandler || !($app instanceof CMSApplication))) {
             $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
         }
 
