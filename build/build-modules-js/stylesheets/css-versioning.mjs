@@ -33,14 +33,10 @@ function version(urlString, fromFile) {
  * @param {from: String} - the filepath for the css file
  * @returns {import('lightningcss').Visitor} - A visitor that replaces the url
  */
-export const urlVersioning = (fromFile) => {
-  return {
-    /**
-     * @param {import('lightningcss').Url} url - The url object to transform
-     * @returns {import('lightningcss').Url} - The transformed url object
-     */
-    Url(url) {
-      return { ...url, ...{ url: version(url.url, fromFile) } };
-    },
-  };
-};
+export const urlVersioning = (fromFile) => ({
+  /**
+   * @param {import('lightningcss').Url} url - The url object to transform
+   * @returns {import('lightningcss').Url} - The transformed url object
+   */
+  Url: (url) => ({ ...url, url: version(url.url, fromFile) }),
+});
