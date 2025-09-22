@@ -25,7 +25,6 @@
     "install": "node build/build.mjs --prepare",
     "update": "node build/build.mjs --copy-assets && node build/build.mjs --build-pages && node build/build.mjs --compile-js && node build/build.mjs --compile-css && node build/build.mjs --compile-bs && node --env-file=./build/production.env build/build.mjs --com-media",
     "gzip": "node build/build.mjs --gzip",
-    "cssversioning": "node build/build.mjs --cssversioning",
     "versioning": "node build/build.mjs --versioning",
     "browserlist:update": "npx browserslist@latest --update-db",
     "cypress:install": "cypress install",
