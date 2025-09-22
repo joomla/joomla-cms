@@ -1,4 +1,5 @@
 describe('Test that newsfeed API endpoint', () => {
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__newsfeeds where name LIKE 'automated test feed'"));
   ['joomla.org'].forEach((file) => {
     it(`can deliver a list of feeds from ${file}`, () => {
       cy.db_createNewsFeed({ name: 'automated test feed', link: `${Cypress.config('baseUrl')}/tests/System/data/com_newsfeeds/${file}.xml` })
