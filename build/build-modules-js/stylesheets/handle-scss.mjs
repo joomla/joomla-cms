@@ -29,8 +29,8 @@ export const handleScssFile = async (file) => {
   await writeFile(
     cssFile,
     contents.startsWith('@charset "UTF-8";')
-    ? contents
-    : `@charset "UTF-8";
+      ? contents
+      : `@charset "UTF-8";
 ${contents}`,
     { encoding: 'utf8', mode: 0o644 },
   );
@@ -50,7 +50,7 @@ ${contents}`,
   await writeFile(
     cssFile.replace('.css', '.min.css'),
     `@charset "UTF-8";${cssMin}`,
-    { encoding: 'utf8', mode: 0o644 }
+    { encoding: 'utf8', mode: 0o644 },
   );
 
   // eslint-disable-next-line no-console
