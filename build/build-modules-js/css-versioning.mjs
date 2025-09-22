@@ -1,8 +1,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
-import { dirname, extname, resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
-const RootPath = process.cwd();
 const skipExternal = true;
 const variable = 'v';
 
