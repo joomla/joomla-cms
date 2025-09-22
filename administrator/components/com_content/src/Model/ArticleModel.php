@@ -778,7 +778,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             $table = $this->getTable();
 
             if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
-                    $msg = Text::_('COM_CONTENT_SAVE_WARNING');
+                $msg = Text::_('COM_CONTENT_SAVE_WARNING');
             }
 
             [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
