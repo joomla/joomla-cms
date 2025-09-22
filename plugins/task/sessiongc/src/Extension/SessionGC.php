@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Task\SessionGC\Extension;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
@@ -102,17 +103,20 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
     private function sessionGC(ExecuteTaskEvent $event): int
     {
         $enableGC = (int) $event->getArgument('params')->enable_session_gc ?? 1;
+        $app      = $this->getApplication();
 
         if ($enableGC) {
-            $this->getApplication()->getSession()->gc();
+            $app->getSession()->gc();
         }
 
         $enableMetadata           = (int) $event->getArgument('params')->enable_session_metadata_gc ?? 1;
         $isDatabaseSessionHandler = $app->get('session_handler', 'none') === 'database';
 
-        if ($enableMetadata
-	        && (!$isDatabaseSessionHandler || !($app instanceof CMSApplication))) {
-            $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
+        if (
+            $enableMetadata
+            && (!$isDatabaseSessionHandler || !($app instanceof CMSApplication))
+        ) {
+            $this->metadataManager->deletePriorTo(time() - $app->getSession()->getExpire());
         }
 
         $this->logTask('SessionGC end');
