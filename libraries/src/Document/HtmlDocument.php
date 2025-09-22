@@ -528,8 +528,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             return parent::$_buffer;
         }
 
-        $type  = (string) $type;
-        $name  = (string) $name;
+        $name  ??= '';
         $title = $attribs['title'] ?? '';
 
         if (isset(parent::$_buffer[$type][$name][$title])) {
