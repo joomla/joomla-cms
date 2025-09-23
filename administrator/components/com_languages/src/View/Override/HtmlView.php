@@ -13,7 +13,6 @@ namespace Joomla\Component\Languages\Administrator\View\Override;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -67,6 +66,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var OverrideModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
@@ -82,11 +82,6 @@ class HtmlView extends BaseHtmlView
             $app->redirect('index.php?option=com_languages&view=overrides');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors));
-        }
-
         // Check whether the cache has to be refreshed.
         $cached_time = Factory::getApplication()->getUserState(
             'com_languages.overrides.cachedtime.' . $this->state->get('filter.client') . '.' . $this->state->get('filter.language'),
@@ -100,6 +95,11 @@ class HtmlView extends BaseHtmlView
         // Add strings for translations in \Javascript.
         Text::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
         Text::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', '')
+            ->addControlField('id', $this->item->key);
 
         $this->addToolbar();
         parent::display($tpl);

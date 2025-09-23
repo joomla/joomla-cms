@@ -27,6 +27,8 @@ use Laminas\Diactoros\Stream as StreamResponse;
  * HTTP transport class for using PHP streams.
  *
  * @since  1.7.3
+ * @deprecated  6.0.0 will be removed in 7.0
+ *              Use Joomla\Http\Transport\Stream instead
  */
 class StreamTransport extends AbstractTransport implements TransportInterface
 {
@@ -42,8 +44,10 @@ class StreamTransport extends AbstractTransport implements TransportInterface
      *
      * @return  Response
      *
-     * @since   1.7.3
      * @throws  \RuntimeException
+     * @since   1.7.3
+     * @deprecated  6.0.0 will be removed in 7.0
+     *              Use Joomla\Http\Transport\Stream::request() instead
      */
     public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
     {
@@ -110,7 +114,13 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 
         if (isset($headers)) {
             foreach ($headers as $key => $value) {
-                $headerEntries[] = $key . ': ' . $value;
+                if (\is_array($value)) {
+                    foreach ($value as $header) {
+                        $headerEntries[] = "$key: $header";
+                    }
+                } else {
+                    $headerEntries[] = "$key: $value";
+                }
             }
 
             // Add the headers string into the stream context options array.
@@ -190,8 +200,10 @@ class StreamTransport extends AbstractTransport implements TransportInterface
      *
      * @return  Response
      *
-     * @since   1.7.3
      * @throws  InvalidResponseCodeException
+     * @since   1.7.3
+     * @deprecated  6.0.0 will be removed in 7.0
+     *               Use Joomla\Http\Transport\Stream::getResponse() instead
      */
     protected function getResponse(array $headers, $body)
     {
@@ -219,6 +231,8 @@ class StreamTransport extends AbstractTransport implements TransportInterface
      * @return  boolean  true if available else false
      *
      * @since   3.0.0
+     * @deprecated  6.0.0 will be removed in 7.0
+     *               Use Joomla\Http\Transport\Stream::isSupported() instead
      */
     public static function isSupported()
     {

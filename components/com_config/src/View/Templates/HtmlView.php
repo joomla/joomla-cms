@@ -117,6 +117,9 @@ class HtmlView extends BaseHtmlView
 
         if ($form) {
             $form->bind($data);
+
+            // Add form control fields
+            $form->addControlField('task', '');
         }
 
         $this->form = $form;

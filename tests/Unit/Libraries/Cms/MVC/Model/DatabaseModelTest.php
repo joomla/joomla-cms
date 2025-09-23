@@ -13,7 +13,6 @@ namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 use Exception;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
@@ -302,50 +301,5 @@ class DatabaseModelTest extends UnitTestCase
         $model->setCurrentUser(new User());
 
         $this->assertTrue($model->isCheckedOut((object)['checked_out' => 1]));
-    }
-
-    /**
-     * @testdox  still can use the old trait
-     *
-     * @return  void
-     *
-     * @since   4.2.0
-     *
-     * @deprecated  5.0 Must be removed when trait gets deleted
-     */
-    public function testUseOldMVCTrait()
-    {
-        $db = $this->createStub(DatabaseInterface::class);
-
-        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
-            use DatabaseAwareTrait;
-        };
-
-        $this->assertEquals($db, $model->getDbo());
-    }
-
-    /**
-     * @testdox  operates normally even when no variable is declared
-     *
-     * @return  void
-     *
-     * @since   4.2.0
-     *
-     * @deprecated  5.0 This has to be removed when we do not support the MVC Trait anymore
-     */
-    public function testNotDeclaredVariable()
-    {
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
-            public function cache($key, $value)
-            {
-                if (!isset($this->test[$key])) {
-                    $this->test[$key] = $value;
-                }
-
-                return $this->test[$key];
-            }
-        };
-
-        $this->assertEquals('test', $model->cache(1, 'test'));
     }
 }

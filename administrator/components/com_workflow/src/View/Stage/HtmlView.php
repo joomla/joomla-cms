@@ -12,7 +12,6 @@ namespace Joomla\Component\Workflow\Administrator\View\Stage;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -84,16 +83,12 @@ class HtmlView extends BaseHtmlView
     {
         /** @var StageModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Get the Data
         $this->state = $model->getState();
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $extension = $this->state->get('filter.extension');
 
@@ -104,6 +99,10 @@ class HtmlView extends BaseHtmlView
         if (!empty($parts)) {
             $this->section = array_shift($parts);
         }
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', 'stage.edit');
 
         // Set the toolbar
         $this->addToolbar();

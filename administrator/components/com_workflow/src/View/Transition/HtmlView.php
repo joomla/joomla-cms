@@ -12,7 +12,6 @@ namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -120,15 +119,11 @@ class HtmlView extends BaseHtmlView
 
         /** @var TransitionModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state      = $model->getState();
         $this->form       = $model->getForm();
         $this->item       = $model->getItem();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $extension = $this->state->get('filter.extension');
 
@@ -142,6 +137,10 @@ class HtmlView extends BaseHtmlView
 
         // Get the ID of workflow
         $this->workflowID = $this->input->getCmd("workflow_id");
+
+        // Add form control fields
+        $this->form
+            ->addControlField('task', 'transition.edit');
 
         // Set the toolbar
         $this->addToolbar();
