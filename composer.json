@@ -123,6 +123,9 @@
     "patches": {
       "laminas/laminas-diactoros": {
         "Fixes HTTP Multiline Header Termination": "./build/composer_patches/4.4.4-2024-04-13_php-laminas-diactoros.patch"
+      },
+      "joomla/filter": {
+        "InputFilter:remove XSS evasion chars in attribute": "./build/composer_patches/4.4.14-2025-09-23_php-InputFilter.patch"
       }
     }
   },
