@@ -17,6 +17,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
@@ -30,7 +31,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class NewsfeedModel extends AdminModel
+class NewsfeedModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 

@@ -37,7 +37,7 @@ class LoggedHelper
      *
      * @return  mixed  An array of users, or false on error.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      *
      * @throws  \RuntimeException
      */
@@ -82,7 +82,7 @@ class LoggedHelper
      *
      * @param   Registry  $params  The module parameters.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      *
      * @return  string    The alternate title for the module.
      */
@@ -102,7 +102,7 @@ class LoggedHelper
      *
      * @throws  \RuntimeException
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getUsers
      *             Example: Factory::getApplication()->bootModule('mod_logged', 'administrator')
      *                          ->getHelper('LoggedHelper')
@@ -120,7 +120,7 @@ class LoggedHelper
      *
      * @return  string    The alternate title for the module.
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getModuleTitle
      *             Example: Factory::getApplication()->bootModule('mod_logged', 'administrator')
      *                          ->getHelper('LoggedHelper')

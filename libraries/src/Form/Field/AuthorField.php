@@ -29,7 +29,7 @@ class AuthorField extends ListField
     public $type = 'Author';
 
     /**
-     * Cached array of the category items.
+     * Cached array of the user items.
      *
      * @var    array[]
      * @since  3.2

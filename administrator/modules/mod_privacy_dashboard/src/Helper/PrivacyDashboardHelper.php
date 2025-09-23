@@ -33,7 +33,7 @@ class PrivacyDashboardHelper implements DatabaseAwareInterface
      *
      * @return  array  Array containing site privacy requests
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.4.0
      */
     public function getPrivacyRequests(): array
     {
@@ -66,7 +66,7 @@ class PrivacyDashboardHelper implements DatabaseAwareInterface
      *
      * @since   3.9.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.4.0 will be removed in 7.0
      *             Use the non-static method getPrivacyRequests
      *             Example: Factory::getApplication()->bootModule('mod_privacy_dashboard', 'administrator')
      *                          ->getHelper('PrivacyDashboardHelper')

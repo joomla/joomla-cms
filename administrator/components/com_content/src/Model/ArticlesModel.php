@@ -323,9 +323,6 @@ class ArticlesModel extends ListModel
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
 
-            $query->where($db->quoteName('a.featured') . ' = :featured')
-                ->bind(':featured', $featured, ParameterType::INTEGER);
-
             if ($featured) {
                 $query->select($db->quoteName('fp.ordering'));
                 $defaultOrdering = 'fp.ordering';

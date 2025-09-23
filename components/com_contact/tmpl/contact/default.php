@@ -171,7 +171,7 @@ $icon    = $this->params->get('contact_icons') == 0;
             <dl class="dl-horizontal">
                 <dt>
                     <?php if ($icon && !$this->params->get('marker_misc')) : ?>
-                        <span class="icon-home" aria-hidden="true"></span>
+                        <span class="icon-info-circle" aria-hidden="true"></span>
                     <?php elseif ($icon && $this->params->get('marker_misc')) : ?>
                         <span class="jicons-image">
                             <?php echo $this->params->get('marker_misc'); ?>

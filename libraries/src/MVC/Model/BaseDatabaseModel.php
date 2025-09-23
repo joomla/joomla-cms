@@ -31,6 +31,8 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -333,6 +335,55 @@ abstract class BaseDatabaseModel extends BaseModel implements
     protected function bootComponent($component): ComponentInterface
     {
         return Factory::getApplication()->bootComponent($component);
+    }
+
+    /**
+     * Get the event dispatcher.
+     *
+     * The override was made to keep a backward compatibility for legacy component .
+     * TODO: Remove the override ONLY when support of Legacy components will be removed (components without Dispatcher and MVCFactory).
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.4.0
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            @trigger_error(
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 7.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
+        return $this->dispatcher;
+    }
+
+    /**
+     * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
+     *
+     * @param   EventInterface  $event  The event
+     *
+     * @return  void
+     *
+     * @since   4.1.0
+     *
+     * @deprecated 4.4 will be removed in 7.0. Use $this->getDispatcher() directly.
+     */
+    protected function dispatchEvent(EventInterface $event)
+    {
+        $this->getDispatcher()->dispatch($event->getName(), $event);
+
+        @trigger_error(
+            \sprintf(
+                'Method %s is deprecated and will be removed in 7.0. Use getDispatcher()->dispatch() directly.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
     }
 
     /**

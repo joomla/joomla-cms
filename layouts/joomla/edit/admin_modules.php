@@ -17,7 +17,7 @@ $app    = Factory::getApplication();
 $form   = $displayData->getForm();
 $input  = $app->getInput();
 
-$fields = $displayData->fields ?? [
+$fields = $displayData->get('fields') ?: [
     ['parent', 'parent_id'],
     ['published', 'state', 'enabled'],
     ['category', 'catid'],
@@ -30,7 +30,7 @@ $fields = $displayData->fields ?? [
     'version_note',
 ];
 
-$hiddenFields = $displayData->hidden_fields ?? [];
+$hiddenFields = $displayData->get('hidden_fields') ?: [];
 
 if (!ModuleHelper::isAdminMultilang()) {
     $hiddenFields[] = 'language';

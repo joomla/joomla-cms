@@ -34,6 +34,30 @@ use Joomla\CMS\Language\Text;
         <tbody>
             <tr>
                 <th scope="row">
+                    <?php echo Text::_('COM_ADMIN_JOOMLA_VERSION'); ?>
+                </th>
+                <td>
+                    <?php echo $this->info['version']; ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    <?php echo Text::_('COM_ADMIN_JOOMLA_COMPAT_PLUGIN'); ?>
+                </th>
+                <td>
+                    <?php echo $this->info['compatpluginenabled'] ? Text::_('JENABLED') . ' (' . $this->info['compatpluginparameters'] . ')' : Text::_('JDISABLED'); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    <?php echo Text::_('COM_ADMIN_PHP_VERSION'); ?>
+                </th>
+                <td>
+                    <?php echo $this->info['phpversion']; ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">
                     <?php echo Text::_('COM_ADMIN_PHP_BUILT_ON'); ?>
                 </th>
                 <td>
@@ -88,14 +112,7 @@ use Joomla\CMS\Language\Text;
                     <?php echo $this->info['dbconnencryptsupported'] ? Text::_('JYES') : Text::_('JNO'); ?>
                 </td>
             </tr>
-            <tr>
-                <th scope="row">
-                    <?php echo Text::_('COM_ADMIN_PHP_VERSION'); ?>
-                </th>
-                <td>
-                    <?php echo $this->info['phpversion']; ?>
-                </td>
-            </tr>
+
             <tr>
                 <th scope="row">
                     <?php echo Text::_('COM_ADMIN_WEB_SERVER'); ?>
@@ -110,22 +127,6 @@ use Joomla\CMS\Language\Text;
                 </th>
                 <td>
                     <?php echo $this->info['sapi_name']; ?>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
-                    <?php echo Text::_('COM_ADMIN_JOOMLA_VERSION'); ?>
-                </th>
-                <td>
-                    <?php echo $this->info['version']; ?>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">
-                    <?php echo Text::_('COM_ADMIN_JOOMLA_COMPAT_PLUGIN'); ?>
-                </th>
-                <td>
-                    <?php echo $this->info['compatpluginenabled'] ? Text::_('JENABLED') . ' (' . $this->info['compatpluginparameters'] . ')' : Text::_('JDISABLED'); ?>
                 </td>
             </tr>
             <tr>

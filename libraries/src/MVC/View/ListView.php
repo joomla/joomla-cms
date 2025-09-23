@@ -110,7 +110,7 @@ class ListView extends HtmlView
      *
      * @var string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.0.0
      */
     protected $categorySection;
 
@@ -126,7 +126,7 @@ class ListView extends HtmlView
      *
      * @var   boolean
      *
-     * @since __DEPLOY_VERSION__
+     * @since 6.0.0
      */
     private $isEmptyState = false;
 
@@ -180,19 +180,14 @@ class ListView extends HtmlView
      */
     public function display($tpl = null)
     {
+        $model = $this->getModel();
+
+        $model->setUseExceptions(true);
+
         // Prepare view data
         $this->initializeView();
 
-        $model = $this->getModel();
-
-        $errors = $model->getErrors();
-
-        // Check for errors.
-        if (!empty($errors)) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
-        if (!\count($this->items) && \is_callable([$model, 'IsEmptyState']) && $this->isEmptyState = $model->getIsEmptyState()) {
+        if (!\count($this->items) && \is_callable([$model, 'getIsEmptyState']) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
