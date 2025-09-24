@@ -58,6 +58,15 @@ const fixVersion = async (file) => {
     const replaceUTF8String = file.endsWith('.min.css') ? '@charset "UTF-8";' : '@charset "UTF-8";\n';
     content = content.startsWith(replaceUTF8String) ? content.replace(replaceUTF8String, '') : content;
 
+    // Preserve a leading license comment (/** ... */)
+    const firstLine = content.split(/\r?\n/)[0] || '';
+    if (firstLine.includes('/*')) {
+      const endCommentIdx = content.indexOf('*/');
+      if (endCommentIdx !== -1) {
+        content = firstLine.includes('/**') ? content.replace('/**', '/*!') : content.replace('/*', '/*!');
+      }
+    }
+
     const { code } = transform({
       code: Buffer.from(content),
       minify: file.endsWith('.min.css'),
