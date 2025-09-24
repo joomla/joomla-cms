@@ -7,7 +7,6 @@ import pkg from 'fs-extra';
 import { tinyMCE } from './exemptions/tinymce.mjs';
 import { resolvePackageFile } from './common/resolve-package.cjs';
 
-import { handleCssFile } from '../stylesheets/handle-css.mjs';
 
 const require = createRequire(import.meta.url);
 const {
@@ -30,11 +29,6 @@ const copyFilesTo = async (files, srcDir, destDir) => {
   async function doTheCopy(source, dest) {
     await ensureDir(dirname(dest));
     await copy(source, dest, { preserveTimestamps: true });
-
-     if (source.endsWith('.css') && !source.endsWith('.min.css')) {
-      // Handle each css file
-      handleCssFile(dest);
-    }
   }
 
   // Copy each file
