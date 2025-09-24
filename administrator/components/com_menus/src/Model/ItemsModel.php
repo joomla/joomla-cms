@@ -416,7 +416,7 @@ class ItemsModel extends ListModel
                 ->from($db->quoteName('#__menu_types'))
                 ->where($db->quoteName('client_id') . ' = :clientId')
                 ->bind(':clientId', $clientId, ParameterType::INTEGER)
-                ->order($db->quoteName('title'));
+                ->order($db->quoteName('ordering'));
 
             // Show protected items on explicit filter only
             $query->where($db->quoteName('a.menutype') . ' != ' . $db->quote('main'));

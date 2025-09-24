@@ -108,7 +108,8 @@ class MenusHelper extends ContentHelper
         $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('a.menutype'))
-            ->from($db->quoteName('#__menu_types', 'a'));
+            ->from($db->quoteName('#__menu_types', 'a'))
+            ->order($db->quoteName('ordering'));
 
         if (isset($clientId)) {
             $clientId = (int) $clientId;
@@ -223,7 +224,7 @@ class MenusHelper extends ContentHelper
                 ->where($db->quoteName('menutype') . ' <> ' . $db->quote(''))
                 ->order(
                     [
-                        $db->quoteName('title'),
+                        $db->quoteName('ordering'),
                         $db->quoteName('menutype'),
                     ]
                 );

@@ -60,7 +60,7 @@
     "bootstrap": "^5.3.8",
     "choices.js": "^11.1.0",
     "cropperjs": "^1.6.2",
-    "diff": "^5.2.0",
+    "diff": "^8.0.2",
     "dragula": "^3.7.3",
     "es-module-shims": "^2.6.2",
     "focus-visible": "^5.2.1",
