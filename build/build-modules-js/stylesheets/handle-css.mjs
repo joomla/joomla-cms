@@ -11,27 +11,43 @@ const {
 export const handleCssFile = async (file) => {
   const outputFile = file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   try {
-    // CSS file, we will copy the file and then minify it in place
+    // CSS file, we will process the file and then minify it in place
     // Ensure that the directories exist or create them
     await ensureDir(dirname(outputFile), { recursive: true, mode: 0o755 });
-
-    if (file !== outputFile) {
-      await copy(file, outputFile, { preserveTimestamps: true, overwrite: true });
-    }
 
     let content = await readFile(file, { encoding: 'utf8' });
 
     // To preserve the licence the comment needs to start at the beginning of the file
     content = content.startsWith('@charset "UTF-8";\n') ? content.replace('@charset "UTF-8";\n', '') : content;
 
-    const { code } = transformCss({
+    if (file !== outputFile) {
+
+      const { code: css } = transformCss({
+        code: Buffer.from(content),
+        minify: false,
+        visitor: composeVisitors([urlVersioning(file)]), // Adds a hash to the url() parts of the static css
+      });
+
+      // Save optimized css file
+      await writeFile(
+        outputFile,
+        content.startsWith('@charset "UTF-8";')
+          ? css
+          : `@charset "UTF-8";
+${css}`,
+        { encoding: 'utf8', mode: 0o644 },
+      );
+    }
+
+    // Process the file and minify it in place
+    const { code: cssMin } = transformCss({
       code: Buffer.from(content),
       minify: true,
       visitor: composeVisitors([urlVersioning(outputFile)]), // Adds a hash to the url() parts of the static css
     });
 
-    // Ensure the folder exists or create it
-    await writeFile(outputFile.replace('.css', '.min.css'), `@charset "UTF-8";${code}`, { encoding: 'utf8', mode: 0o644 });
+    // Save minified css file
+    await writeFile(outputFile.replace('.css', '.min.css'), `@charset "UTF-8";${cssMin}`, { encoding: 'utf8', mode: 0o644 });
 
     // eslint-disable-next-line no-console
     console.log(`✅ CSS file copied/minified: ${file}`);
