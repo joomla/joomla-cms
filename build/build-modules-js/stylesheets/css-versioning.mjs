@@ -88,5 +88,4 @@ const cssVersioningVendor = async () => {
     .then(() => bench.stop());
 };
 
-
 export { urlVersioning, cssVersioningVendor };

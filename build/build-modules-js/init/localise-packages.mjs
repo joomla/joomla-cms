@@ -7,7 +7,6 @@ import pkg from 'fs-extra';
 import { tinyMCE } from './exemptions/tinymce.mjs';
 import { resolvePackageFile } from './common/resolve-package.cjs';
 
-
 const require = createRequire(import.meta.url);
 const {
   copy, mkdirs, mkdir, ensureDir, writeFile,
@@ -62,7 +61,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
     ['js', 'css', 'filesExtra'].forEach((type) => {
       if (!vendor[type]) return;
 
-      promises.push(copyFilesTo(vendor[type], modulePathRoot, join(mediaVendorPath, vendorName), type))
+      promises.push(copyFilesTo(vendor[type], modulePathRoot, join(mediaVendorPath, vendorName), type));
     });
   }
 
