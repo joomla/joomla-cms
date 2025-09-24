@@ -14,6 +14,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+$showLogoutDescription = ($this->params->get('logoutdescription_show') == 1 && trim($this->params->get('logout_description', '')) != '') || $this->params->get('logout_image') != '';
+
 /** @var \Joomla\Component\Users\Site\View\Login\HtmlView $this */
 ?>
 <div class="com-users-logout logout">
@@ -25,7 +27,7 @@ use Joomla\CMS\Router\Route;
     </div>
     <?php endif; ?>
 
-    <?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description', '')) != '') || $this->params->get('logout_image') != '') : ?>
+    <?php if ($showLogoutDescription) : ?>
         <div class="com-users-logout__description logout-description">
     <?php endif; ?>
 
@@ -37,7 +39,7 @@ use Joomla\CMS\Router\Route;
         <?php echo HTMLHelper::_('image', $this->params->get('logout_image'), empty($this->params->get('logout_image_alt')) && empty($this->params->get('logout_image_alt_empty')) ? false : $this->params->get('logout_image_alt'), ['class' => 'com-users-logout__image thumbnail float-end logout-image']); ?>
     <?php endif; ?>
 
-    <?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description', '')) != '') || $this->params->get('logout_image') != '') : ?>
+    <?php if ($showLogoutDescription) : ?>
         </div>
     <?php endif; ?>
 
