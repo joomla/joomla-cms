@@ -5,7 +5,7 @@ import { transform as transformCss, composeVisitors } from 'lightningcss';
 import { urlVersioning } from './css-versioning.mjs';
 
 const {
-  copy, readFile, writeFile, ensureDir,
+  readFile, writeFile, ensureDir,
 } = pkg;
 
 export const handleCssFile = async (file) => {
