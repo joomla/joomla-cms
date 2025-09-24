@@ -7,6 +7,8 @@ import pkg from 'fs-extra';
 import { tinyMCE } from './exemptions/tinymce.mjs';
 import { resolvePackageFile } from './common/resolve-package.cjs';
 
+import { handleCssFile } from '../stylesheets/handle-css.mjs';
+
 const require = createRequire(import.meta.url);
 const {
   copy, mkdirs, mkdir, ensureDir, writeFile,
@@ -28,6 +30,11 @@ const copyFilesTo = async (files, srcDir, destDir) => {
   async function doTheCopy(source, dest) {
     await ensureDir(dirname(dest));
     await copy(source, dest, { preserveTimestamps: true });
+
+     if (source.endsWith('.css') && !source.endsWith('.min.css')) {
+      // Handle each css file
+      handleCssFile(dest);
+    }
   }
 
   // Copy each file
@@ -61,7 +68,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
     ['js', 'css', 'filesExtra'].forEach((type) => {
       if (!vendor[type]) return;
 
-      promises.push(copyFilesTo(vendor[type], modulePathRoot, join(mediaVendorPath, vendorName), type));
+      promises.push(copyFilesTo(vendor[type], modulePathRoot, join(mediaVendorPath, vendorName), type))
     });
   }
 
