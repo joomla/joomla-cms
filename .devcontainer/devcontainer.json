@@ -16,7 +16,7 @@
             "onAutoForward": "silent"
         },
         "8025": {
-            "label": "MailHog Web UI",
+            "label": "Mailpit Web UI",
             "onAutoForward": "openPreview"
         }
     },

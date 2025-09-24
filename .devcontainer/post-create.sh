@@ -54,9 +54,9 @@ echo "✅ Joomla installed."
 echo "--> Applying development settings..."
 # Enable debug mode and maximum error reporting for easier troubleshooting.
 php cli/joomla.php config:set error_reporting=maximum
-# Configure mail settings for MailHog
+# Configure mail settings for Mailpit
 php cli/joomla.php config:set mailer=smtp
-php cli/joomla.php config:set smtphost=mailhog
+php cli/joomla.php config:set smtphost=mailpit
 php cli/joomla.php config:set smtpport=1025
 php cli/joomla.php config:set smtpauth=0
 php cli/joomla.php config:set smtpsecure=none
@@ -154,8 +154,8 @@ DETAILS_FILE="${JOOMLA_ROOT}/codespace-details.txt"
     echo "  Username: $DB_USER"
     echo "  Password: $DB_PASS"
     echo ""
-    echo "MailHog (Email Testing):"
-    echo "  URL: Open the 'Ports' tab, find 'MailHog Web UI' (8025), and click the Globe icon"
+    echo "Mailpit (Email Testing):"
+    echo "  URL: Open the 'Ports' tab, find 'Mailpit Web UI' (8025), and click the Globe icon"
     echo "  All emails sent by Joomla will appear here for testing"
     echo ""
     echo "Cypress E2E Testing:"
