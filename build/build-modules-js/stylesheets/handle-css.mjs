@@ -21,7 +21,6 @@ export const handleCssFile = async (file) => {
     content = content.startsWith('@charset "UTF-8";\n') ? content.replace('@charset "UTF-8";\n', '') : content;
 
     if (file !== outputFile) {
-
       const { code: css } = transformCss({
         code: Buffer.from(content),
         minify: false,
