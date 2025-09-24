@@ -60,9 +60,12 @@ const fixVersion = async (file) => {
 
     // Preserve a leading license comment (/** ... */)
     const firstLine = content.split(/\r?\n/)[0] || '';
-    if (firstLine.includes('/*')) {
+    if (firstLine.includes('/*') && !firstLine.includes('/*!')) {
       const endCommentIdx = content.indexOf('*/');
-      if (endCommentIdx !== -1) {
+      if (endCommentIdx !== -1
+          && (content.substring(0, endCommentIdx).includes('license')
+          || content.substring(0, endCommentIdx).includes('copyright'))
+      ) {
         content = firstLine.includes('/**') ? content.replace('/**', '/*!') : content.replace('/*', '/*!');
       }
     }
