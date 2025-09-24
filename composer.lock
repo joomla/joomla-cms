@@ -2124,16 +2124,16 @@
         },
         {
             "name": "joomla/oauth2",
-            "version": "3.0.0",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "70f61fe09a9e7d261684194f8d55a2035e84dbcc"
+                "reference": "58ca7b98f6794b02c786ff53cfdcce3997430740"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/70f61fe09a9e7d261684194f8d55a2035e84dbcc",
-                "reference": "70f61fe09a9e7d261684194f8d55a2035e84dbcc",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/58ca7b98f6794b02c786ff53cfdcce3997430740",
+                "reference": "58ca7b98f6794b02c786ff53cfdcce3997430740",
                 "shasum": ""
             },
             "require": {
@@ -2145,8 +2145,8 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
-                "phan/phan": "^5.4.2",
-                "phpstan/phpstan": "^1.10.7",
+                "phpstan/phpstan": "1.12.27",
+                "phpstan/phpstan-deprecation-rules": "1.2.1",
                 "phpunit/phpunit": "^9.5.28",
                 "squizlabs/php_codesniffer": "^3.7.2"
             },
@@ -2175,19 +2175,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/oauth2/issues",
-                "source": "https://github.com/joomla-framework/oauth2/tree/3.0.0"
+                "source": "https://github.com/joomla-framework/oauth2/tree/3.0.2"
             },
-            "funding": [
-                {
-                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/joomla",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-10-08T13:36:24+00:00"
+            "time": "2025-09-19T18:25:42+00:00"
         },
         {
             "name": "joomla/registry",
