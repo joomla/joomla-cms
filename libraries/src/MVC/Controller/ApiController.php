@@ -319,7 +319,7 @@ class ApiController extends BaseController
                 ];
                 echo new JsonResponse($body);
                 $this->app->close();
-            }            
+            }
         }
 
         // If the model has set a 404 status code in the session, we return a 404 http status codee
@@ -336,7 +336,7 @@ class ApiController extends BaseController
             echo new JsonResponse($body);
             $this->app->close();
         }
- 
+
         $this->app->setHeader('status', 204);
     }
 
