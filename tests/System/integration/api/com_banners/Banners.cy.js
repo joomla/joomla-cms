@@ -50,8 +50,19 @@ describe('Test that banners API endpoint', () => {
   });
 
   it('check correct response for delete a not existent contact', () => {
-     cy.api_delete('/banners/9999')
-      .then((result) => expect(result.status).to.eq(204));
+    cy.api_getBearerToken().then((token) => {
+      cy.request({
+        method: 'DELETE',
+        url: `/api/index.php/v1/banners/9999`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        failOnStatusCode: false
+      }).then((response) => {
+        expect(response.status).to.equal(404);
+        expect(response.body.data.message).to.include('Resource not found');
+      });
+    });
   });
 
   it('cannot delete a banner that is not trashed', () => {
