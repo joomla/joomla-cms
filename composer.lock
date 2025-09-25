@@ -9496,7 +9496,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "joomla/database": 20,
         "tobscure/json-api": 20
     },
     "prefer-stable": false,
