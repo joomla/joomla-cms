@@ -12,7 +12,7 @@ on:
 
 env:
   JOOMLA_MAJOR_VERSION: 6
-  JOOMLA_MINOR_VERSION: 6.0
+  JOOMLA_MINOR_VERSION: '6.0'
 
 permissions:
   contents: read
