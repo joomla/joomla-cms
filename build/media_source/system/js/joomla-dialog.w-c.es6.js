@@ -116,6 +116,8 @@ class JoomlaDialog extends HTMLElement {
     this.preferredParent = null;
     // @internal. Parent of the popupContent for cases when it is HTMLElement. Need for recovery on destroy().
     this.popupContentSrcLocation = null;
+    // @internal. Hold properties addressed directly to <dialog> element, like "aria-".
+    this.dialogProps = {};
 
     if (!config) return;
 
@@ -124,6 +126,13 @@ class JoomlaDialog extends HTMLElement {
       'width', 'height', 'popupTemplate', 'iconHeader', 'id', 'preferredParent'].forEach((key) => {
       if (config[key] !== undefined) {
         this[key] = config[key];
+      }
+    });
+
+    // Check for properties which should be applied to the <dialog> not to the <JoomlaDialog>, like "aria-".
+    ['ariaLabelledby', 'ariaLabel'].forEach((key) => {
+      if (config[key] !== undefined) {
+        this.dialogProps[key] = config[key];
       }
     });
 
@@ -191,6 +200,11 @@ class JoomlaDialog extends HTMLElement {
     this.dialog.addEventListener('close', onClose);
     this.appendChild(this.dialog);
 
+    // Apply dialog properties if any
+    Object.entries(this.dialogProps).forEach(([k, v]) => {
+      this.dialog[k] = v;
+    });
+
     // Get template parts
     this.popupTmplH = this.dialog.querySelector('.joomla-dialog-header');
     this.popupTmplB = this.dialog.querySelector('.joomla-dialog-body');
@@ -213,6 +227,11 @@ class JoomlaDialog extends HTMLElement {
         i.classList.add('header-icon');
         i.classList.add(...this.iconHeader.split(' '));
         this.popupTmplH.insertAdjacentElement('afterbegin', i);
+      }
+
+      // Set aria-label if it is still missing
+      if (!this.dialog.ariaLabel) {
+        this.dialog.ariaLabel = this.textHeader;
       }
     }
 
