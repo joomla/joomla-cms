@@ -112,7 +112,6 @@ function clean_checkout(string $dir)
     run_and_check('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
-    run_and_check('find libraries/vendor -name build.xml | xargs rm -rf -');
     run_and_check('find libraries/vendor -name infection.json.dist | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpbench.json | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpstan.neon.dist | xargs rm -rf -');
@@ -442,7 +441,6 @@ $doNotPackage = [
     // Media Manager Node Assets
     'administrator/components/com_media/resources',
     'build',
-    'build.xml',
     'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',
