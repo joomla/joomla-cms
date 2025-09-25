@@ -187,11 +187,7 @@ if ($saveOrder && !empty($this->items)) {
 
                     <?php // Load the batch processing form. ?>
                     <?php
-                    if (
-                        $user->authorise('core.create', 'com_contact')
-                        && $user->authorise('core.edit', 'com_contact')
-                        && $user->authorise('core.edit.state', 'com_contact')
-                    ) : ?>
+                    if ($this->batchAllowed) : ?>
                         <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
