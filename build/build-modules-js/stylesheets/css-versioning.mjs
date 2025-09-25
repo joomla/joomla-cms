@@ -94,7 +94,7 @@ const cssVersioningVendor = async () => {
 
   const cssFiles = (await readdir(`${RootPath}/media/vendor`, { withFileTypes: true, recursive: true }))
     .filter((file) => (!file.isDirectory() && extname(file.name) === '.css'))
-    .map((file) => `${file.path}/${file.name}`);
+    .map((file) => `${file.parentPath}/${file.name}`);
 
   Promise.all(cssFiles.map((file) => fixVersion(file)))
     .then(() => bench.stop());
