@@ -70,7 +70,7 @@ abstract class Menu
                 ->order(
                     [
                         $db->quoteName('client_id'),
-                        $db->quoteName('title'),
+                        $db->quoteName('ordering'),
                     ]
                 );
 
