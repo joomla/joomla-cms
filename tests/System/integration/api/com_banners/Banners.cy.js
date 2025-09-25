@@ -49,7 +49,7 @@ describe('Test that banners API endpoint', () => {
       .then((banner) => cy.api_delete(`/banners/${banner.id}`));
   });
 
-  it('check correct response for delete a not existent contact', () => {
+  it('check correct response for delete a not existent banner', () => {
     cy.api_getBearerToken().then((token) => {
       cy.request({
         method: 'DELETE',
