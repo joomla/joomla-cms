@@ -52,6 +52,12 @@ Joomla.setlanguage = function(form) {
 
 Joomla.checkInputs = function() {
   document.getElementById('jform_admin_password2').value = document.getElementById('jform_admin_password').value;
+  // Check admin password length
+  const adminPassword = document.getElementById('jform_admin_password');
+  if (adminPassword && adminPassword.value.length < 12) {
+    Joomla.renderMessages({'error': ['Admin password must be at least 12 characters long']});
+    return;
+  }
 
   var inputs = [].slice.call(document.querySelectorAll('input[type="password"], input[type="text"], input[type="email"], select')),
     state = true;
@@ -197,6 +203,12 @@ Joomla.checkDbCredentials = function() {
   if (document.getElementById('step2')) {
     document.getElementById('step2').addEventListener('click', function(e) {
       e.preventDefault();
+      // Check admin password length
+      const adminPassword = document.getElementById('jform_admin_password');
+      if (adminPassword && adminPassword.value.length < 12) {
+        Joomla.renderMessages({'error': ['Admin password must be at least 12 characters long']});
+        return;
+      }
       if (Joomla.checkFormField(['#jform_admin_user', '#jform_admin_email', '#jform_admin_password'])) {
         if (document.getElementById('installStep3')) {
           document.getElementById('installStep3').classList.add('active');
