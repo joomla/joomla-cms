@@ -62,7 +62,7 @@ final class Message extends PrivacyPlugin implements SubscriberInterface
         $domain = $this->createDomain('user_messages', 'joomla_user_messages_data');
         $db     = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__messages'))
             ->where($db->quoteName('user_id_from') . ' = :useridfrom')

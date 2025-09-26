@@ -113,7 +113,7 @@ class LanguagesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select all fields from the languages table.
         $query->select(

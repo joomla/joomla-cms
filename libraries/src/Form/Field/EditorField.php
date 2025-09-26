@@ -283,7 +283,7 @@ class EditorField extends TextareaField
                 $db = $this->getDatabase();
 
                 // Build the query.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('element'))
                     ->from($db->quoteName('#__extensions'))
                     ->where(

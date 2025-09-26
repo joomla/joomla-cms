@@ -125,7 +125,7 @@ class PluginsField extends ListField
 
         // Get list of plugins
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('element', 'value'),

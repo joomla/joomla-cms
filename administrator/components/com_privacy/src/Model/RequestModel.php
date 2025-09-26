@@ -264,7 +264,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         $userId = (int) $db->setQuery(
-            $db->getQuery(true)
+            $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__users'))
                 ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
@@ -411,7 +411,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
         // Check for an active request for this email address
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(id)')
             ->from($db->quoteName('#__privacy_requests'))
             ->where($db->quoteName('email') . ' = :email')
