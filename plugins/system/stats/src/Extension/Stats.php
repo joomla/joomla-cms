@@ -477,7 +477,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
         $paramsJson = $this->params->toString('JSON');
         $db         = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = :params')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -603,7 +603,7 @@ final class Stats extends CMSPlugin implements SubscriberInterface
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('enabled') . ' = 0')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))

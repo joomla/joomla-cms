@@ -26,6 +26,9 @@ use Joomla\Database\ParameterType;
  * Handle the versioning of content items
  *
  * @since  4.0.0
+ *
+ * @deprecated  6.0.0  will be removed in 8.0 without direct replacement,
+ *              use the new versioning concept (LINK TO DOCUMENTATION)
  */
 class Versioning
 {
@@ -43,7 +46,7 @@ class Versioning
     {
         $db     = Factory::getDbo();
         $itemid = $typeAlias . '.' . $id;
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
             ->from($db->quoteName('#__history', 'h'))
             ->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
@@ -69,7 +72,7 @@ class Versioning
     {
         $db     = Factory::getDbo();
         $itemid = $typeAlias . '.' . $id;
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $query->delete($db->quoteName('#__history'))
             ->where($db->quoteName('item_id') . ' = :item_id')
             ->bind(':item_id', $itemid, ParameterType::STRING);

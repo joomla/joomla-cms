@@ -714,7 +714,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         $userIds = ArrayHelper::toInteger($userIds);
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Update the reset flag
         $query->update($db->quoteName('#__users'))
@@ -797,7 +797,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
              * unless we are moving the user to a new group.
              */
             if ($doDelete === 'group') {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->select($db->quoteName('user_id'))
                     ->from($db->quoteName('#__user_usergroup_map'))
                     ->whereIn($db->quoteName('user_id'), $userIds);
@@ -840,7 +840,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                     ->bind(':group_id', $groupId, ParameterType::INTEGER);
                 $db->setQuery($query);
             } elseif ($doDelete === 'all') {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->delete($db->quoteName('#__user_usergroup_map'))
                     ->whereIn($db->quoteName('user_id'), $userIds);
             }
@@ -857,7 +857,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         // Assign the users to the group if requested.
         if (isset($doAssign)) {
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // First, we need to check if the user is already assigned to a group
             $query->select($db->quoteName('user_id'))
