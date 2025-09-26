@@ -42,7 +42,7 @@ class ComponentsField extends ListField
     protected function getOptions()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('name', 'text'),

@@ -461,7 +461,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Purge the database session table if we are changing to the database handler.
         if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database') {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__session'))
                 ->where($db->quoteName('time') . ' < ' . (time() - 1));
             $db->setQuery($query);
@@ -474,7 +474,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 // If we are are using the session handler, purge the extra columns, otherwise truncate the whole session table
                 if ($data['session_handler'] === 'database') {
                     $revisedDbo->setQuery(
-                        $revisedDbo->getQuery(true)
+                        $revisedDbo->createQuery()
                             ->update('#__session')
                             ->set(
                                 [
@@ -1034,7 +1034,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $db = $this->getDatabase();
 
             // Get the asset id by the name of the component.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('name') . ' = :component')
