@@ -55,7 +55,8 @@ Joomla.checkInputs = function() {
   // Check admin password length
   const adminPassword = document.getElementById('jform_admin_password');
   if (adminPassword && adminPassword.value.length < 12) {
-    Joomla.renderMessages({'error': ['Admin password must be at least 12 characters long']});
+    Joomla.renderMessages({'error': [Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH')]});
+    adminPassword.focus();
     return;
   }
 
@@ -170,6 +171,15 @@ Joomla.checkDbCredentials = function() {
     document.getElementById('jform_site_name').focus();
   }
 
+  // Clear error messages when password becomes valid
+  if (document.getElementById('jform_admin_password')) {
+    document.getElementById('jform_admin_password').addEventListener('input', function(e) {
+      if (e.target.value.length >= 12) {
+        Joomla.removeMessages();
+      }
+    });
+  }
+
   // Select language
   var languageEl = document.getElementById('jform_language');
 
@@ -206,7 +216,8 @@ Joomla.checkDbCredentials = function() {
       // Check admin password length
       const adminPassword = document.getElementById('jform_admin_password');
       if (adminPassword && adminPassword.value.length < 12) {
-        Joomla.renderMessages({'error': ['Admin password must be at least 12 characters long']});
+        Joomla.renderMessages({'error': [Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH')]});
+        adminPassword.focus();
         return;
       }
       if (Joomla.checkFormField(['#jform_admin_user', '#jform_admin_email', '#jform_admin_password'])) {
