@@ -52,12 +52,20 @@ Joomla.setlanguage = function(form) {
 
 Joomla.checkInputs = function() {
   document.getElementById('jform_admin_password2').value = document.getElementById('jform_admin_password').value;
-  // Check admin password length
+
+  // Check admin password length and spaces
   const adminPassword = document.getElementById('jform_admin_password');
-  if (adminPassword && adminPassword.value.length < 12) {
-    Joomla.renderMessages({'error': [Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH')]});
-    adminPassword.focus();
-    return;
+  if (adminPassword) {
+    if (adminPassword.value.indexOf(' ') !== -1) {
+      Joomla.renderMessages({'error': [Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD')]});
+      adminPassword.focus();
+      return;
+    }
+    if (adminPassword.value.length < 12) {
+      Joomla.renderMessages({'error': [Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH')]});
+      adminPassword.focus();
+      return;
+    }
   }
 
   var inputs = [].slice.call(document.querySelectorAll('input[type="password"], input[type="text"], input[type="email"], select')),
@@ -174,6 +182,15 @@ Joomla.checkDbCredentials = function() {
   // Clear error messages when password becomes valid
   if (document.getElementById('jform_admin_password')) {
     document.getElementById('jform_admin_password').addEventListener('input', function(e) {
+      if (e.target.value.length >= 12 && e.target.value.indexOf(' ') === -1) {
+        Joomla.removeMessages();
+      }
+    });
+  }
+
+  // Clear error messages when password becomes valid
+  if (document.getElementById('jform_admin_password')) {
+    document.getElementById('jform_admin_password').addEventListener('input', function(e) {
       if (e.target.value.length >= 12) {
         Joomla.removeMessages();
       }
@@ -213,13 +230,22 @@ Joomla.checkDbCredentials = function() {
   if (document.getElementById('step2')) {
     document.getElementById('step2').addEventListener('click', function(e) {
       e.preventDefault();
-      // Check admin password length
+
+      // Check admin password length and spaces
       const adminPassword = document.getElementById('jform_admin_password');
-      if (adminPassword && adminPassword.value.length < 12) {
-        Joomla.renderMessages({'error': [Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH')]});
-        adminPassword.focus();
-        return;
+      if (adminPassword) {
+        if (adminPassword.value.indexOf(' ') !== -1) {
+          Joomla.renderMessages({'error': [Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD')]});
+          adminPassword.focus();
+          return;
+        }
+        if (adminPassword.value.length < 12) {
+          Joomla.renderMessages({'error': [Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH')]});
+          adminPassword.focus();
+          return;
+        }
       }
+
       if (Joomla.checkFormField(['#jform_admin_user', '#jform_admin_email', '#jform_admin_password'])) {
         if (document.getElementById('installStep3')) {
           document.getElementById('installStep3').classList.add('active');
