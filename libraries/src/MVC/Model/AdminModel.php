@@ -510,7 +510,7 @@ abstract class AdminModel extends FormModel
                 $dbType = strtolower($db->getServerType());
 
                 // Copy rules
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->clear()
                     ->update($db->quoteName('#__assets', 't'));
 
@@ -886,7 +886,7 @@ abstract class AdminModel extends FormModel
                     // Multilanguage: if associated, delete the item in the _associations table
                     if ($this->associationsContext && Associations::isEnabled()) {
                         $db    = $this->getDatabase();
-                        $query = $db->getQuery(true)
+                        $query = $db->createQuery()
                             ->select(
                                 [
                                     'COUNT(*) AS ' . $db->quoteName('count'),
@@ -909,7 +909,7 @@ abstract class AdminModel extends FormModel
                         $row = $db->loadAssoc();
 
                         if (!empty($row['count'])) {
-                            $query = $db->getQuery(true)
+                            $query = $db->createQuery()
                                 ->delete($db->quoteName('#__associations'))
                                 ->where(
                                     [
@@ -1392,7 +1392,7 @@ abstract class AdminModel extends FormModel
             // Get associationskey for edited item
             $db    = $this->getDatabase();
             $id    = (int) $table->$key;
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('key'))
                 ->from($db->quoteName('#__associations'))
                 ->where($db->quoteName('context') . ' = :context')
@@ -1404,7 +1404,7 @@ abstract class AdminModel extends FormModel
 
             if ($associations || $oldKey !== null) {
                 // Deleting old associations for the associated items
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__associations'))
                     ->where($db->quoteName('context') . ' = :context')
                     ->bind(':context', $this->associationsContext);
@@ -1433,7 +1433,7 @@ abstract class AdminModel extends FormModel
             if (\count($associations) > 1) {
                 // Adding new association for these items
                 $key   = md5(json_encode($associations));
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__associations'))
                     ->columns(
                         [

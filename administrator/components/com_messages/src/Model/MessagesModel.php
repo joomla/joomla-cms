@@ -108,7 +108,7 @@ class MessagesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $user  = $this->getCurrentUser();
         $id    = (int) $user->id;
 
@@ -179,7 +179,7 @@ class MessagesModel extends ListModel
     public function purge(int $userId): void
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['cfg_name', 'cfg_value']))
             ->from($db->quoteName('#__messages_cfg'))
             ->where(
@@ -206,7 +206,7 @@ class MessagesModel extends ListModel
             // Purge old messages at day set in message configuration
             $past = Factory::getDate(time() - $purge * 86400)->toSql();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__messages'))
                 ->where(
                     [

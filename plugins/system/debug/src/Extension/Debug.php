@@ -500,7 +500,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
                 if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0)))) {
                     try {
-                        $queryInstance = $db->getQuery(true);
+                        $queryInstance = $db->createQuery();
                         $queryInstance->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
 
                         if ($boundParams[$k]) {
