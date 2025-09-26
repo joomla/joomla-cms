@@ -44,6 +44,7 @@ Text::script('NOTICE');
 Text::script('MESSAGE');
 
 // Add strings for JavaScript error translations.
+Text::script('JFIELD_PASSWORD_SPACES_IN_PASSWORD');
 Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
 Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
 Text::script('JLIB_JS_AJAX_ERROR_OTHER');
