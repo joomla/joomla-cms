@@ -129,7 +129,7 @@ class UpdateModel extends BaseDatabaseModel
 
         $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('us') . '.*')
             ->from($db->quoteName('#__update_sites_extensions', 'map'))
             ->join(
@@ -203,7 +203,7 @@ class UpdateModel extends BaseDatabaseModel
     {
         $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
@@ -227,7 +227,7 @@ class UpdateModel extends BaseDatabaseModel
             $updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, Updater::STABILITY_STABLE);
 
             // Fetch the update information from the database.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__updates'))
                 ->where($db->quoteName('extension_id') . ' = :id')
@@ -273,7 +273,7 @@ class UpdateModel extends BaseDatabaseModel
         // Fetch the update information from the database.
         $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__updates'))
             ->where($db->quoteName('extension_id') . ' = :id')
@@ -353,7 +353,7 @@ class UpdateModel extends BaseDatabaseModel
         $update_site->update_site_id       = 1;
         $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__updates'))
             ->where($db->quoteName('update_site_id') . ' = 1');
         $db->setQuery($query);
@@ -986,7 +986,7 @@ ENDDATA;
          * we can assume that it was (badly) uninstalled.
          * If it isn't, add an entry to extensions.
          */
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('file'))
@@ -1674,7 +1674,7 @@ ENDDATA;
     public function getNonCoreExtensions()
     {
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -1722,7 +1722,7 @@ ENDDATA;
     public function getNonCorePlugins($folderFilter = ['system', 'user', 'authentication', 'actionlog', 'multifactorauth'])
     {
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             $db->quoteName('ex.name') . ', ' .
@@ -1821,7 +1821,7 @@ ENDDATA;
     {
         $id    = (int) $extensionID;
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -2006,7 +2006,7 @@ ENDDATA;
     public function isTemplateActive($template)
     {
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             $db->quoteName(
@@ -2035,7 +2035,7 @@ ENDDATA;
         $menu = false;
 
         if (\count($ids)) {
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select(
                 'COUNT(*)'
@@ -2343,7 +2343,7 @@ ENDDATA;
 
         $params = $params->toString();
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true)
+        $query  = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = :params')
             ->where($db->quoteName('type') . ' = ' . $db->quote('component'))

@@ -63,7 +63,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($publicKeyCredentialId);
-        $query        = $db->getQuery(true)
+        $query        = $db->createQuery()
             ->select($db->quoteName('credential'))
             ->from($db->quoteName('#__webauthn_credentials'))
             ->where($db->quoteName('id') . ' = :credentialId')
@@ -99,7 +99,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         /** @var DatabaseInterface $db */
         $db         = $this->getDatabase();
         $userHandle = $publicKeyCredentialUserEntity->getId();
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__webauthn_credentials'))
             ->where($db->quoteName('user_id') . ' = :user_id')
@@ -200,7 +200,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         // Try to find an existing record
         try {
-            $query     = $db->getQuery(true)
+            $query     = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__webauthn_credentials'))
                 ->where($db->quoteName('id') . ' = :credentialId')
@@ -260,7 +260,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         /** @var DatabaseInterface $db */
         $db         = $this->getDatabase();
         $userHandle = $this->getHandleFromUserId($userId);
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__webauthn_credentials'))
             ->where($db->quoteName('user_id') . ' = :user_id')
@@ -328,7 +328,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($credentialId);
-        $query        = $db->getQuery(true)
+        $query        = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__webauthn_credentials'))
             ->where($db->quoteName('id') . ' = :credentialId')
@@ -384,7 +384,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($credentialId);
-        $query        = $db->getQuery(true)
+        $query        = $db->createQuery()
             ->delete($db->quoteName('#__webauthn_credentials'))
             ->where($db->quoteName('id') . ' = :credentialId')
             ->bind(':credentialId', $credentialId);
@@ -466,7 +466,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $db = $this->getDatabase();
 
         // Check that the userHandle does exist in the database
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__webauthn_credentials'))
             ->where($db->quoteName('user_id') . ' = ' . $db->q($userHandle));
@@ -482,7 +482,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         }
 
         // Prepare the query
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select([$db->quoteName('id')])
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('block') . ' = 0')

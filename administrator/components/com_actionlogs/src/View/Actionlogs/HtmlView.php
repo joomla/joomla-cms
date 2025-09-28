@@ -79,11 +79,6 @@ class HtmlView extends ListView
 
         // Load all actionlog plugins language files
         ActionlogsHelper::loadActionLogPluginsLanguage();
-
-        // Add form control fields
-        $this->filterForm
-            ->addControlField('task', '')
-            ->addControlField('boxchecked', '0');
     }
 
     /**
