@@ -162,7 +162,7 @@ jobs:
           MARIADB_ROOT_PASSWORD: joomla_ut
           MARIADB_DATABASE: test_joomla
       postgres:
-        image: postgres:12-alpine
+        image: postgres:18-alpine
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: joomla_ut
@@ -320,7 +320,7 @@ jobs:
           MARIADB_ROOT_PASSWORD: joomla_ut
           MARIADB_DATABASE: test_joomla
       postgres:
-        image: postgres:12-alpine
+        image: postgres:18-alpine
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: joomla_ut
