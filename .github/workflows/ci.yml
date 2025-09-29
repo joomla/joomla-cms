@@ -135,18 +135,30 @@ jobs:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4']
         config:
-          - file: 'phpunit.xml.dist'
-            my_version: '8.4'
-          - file: 'phpunit.xml.dist'
-            my_version: '8.0.13'
-          - file: 'phpunit-maria.xml.dist'
-            maria_version: '12.0'
-          - file: 'phpunit-maria.xml.dist'
-            maria_version: '10.4'
-          - file: 'phpunit-pgsql.xml.dist'
-            pg_version: '12.0'
-          - file: 'phpunit-pgsql.xml.dist'
-            pg_version: '18.0'
+          - my_version: '8.4'
+            engine: 'mysqli'
+            host: 'mysql'
+            user: 'joomla_ut'
+          - my_version: '8.0.13'
+            engine: 'mysqli'
+            host: 'mysql'
+            user: 'joomla_ut'
+          - maria_version: '12.0'
+            engine: 'mysqli'
+            host: 'maria'
+            user: 'joomla_ut'
+          - maria_version: '10.4'
+            engine: 'mysqli'
+            host: 'maria'
+            user: 'joomla_ut'
+          - pg_version: '12.0'
+            engine: 'pgsql'
+            host: 'postgres'
+            user: 'root'
+          - pg_version: '18.0'
+            engine: 'pgsql'
+            host: 'postgres'
+            user: 'root'
     steps:
       - uses: actions/checkout@v4
       - name: Start LDAP container
@@ -158,9 +170,15 @@ jobs:
           path: libraries/vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
       - name: Run Integration tests
+        env:
+          JTEST_DB_ENGINE: ${{ matrix.config.engine }}
+          JTEST_DB_HOST: ${{ matrix.config.host }}
+          JTEST_DB_USER: ${{ matrix.config.user }}
+          JTEST_DB_NAME: test_joomla
+          JTEST_DB_PASSWORD: joomla_ut
         run: |
          sleep 3
-          ./libraries/vendor/bin/phpunit --testsuite Integration --configuration ${{ matrix.config.file }}
+          ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit.xml.dist
       - name: Stop LDAP container
         uses: docker://docker
         with:
