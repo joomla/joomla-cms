@@ -56,13 +56,17 @@ Joomla.checkInputs = function() {
   // Check admin password length and spaces
   const adminPassword = document.getElementById('jform_admin_password');
   if (adminPassword) {
+    const errors = [];
+    
     if (adminPassword.value.indexOf(' ') !== -1) {
-      Joomla.renderMessages({'error': [Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD')]});
-      adminPassword.focus();
-      return;
+      errors.push(Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD'));
     }
     if (adminPassword.value.length < 12) {
-      Joomla.renderMessages({'error': [Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH')]});
+      errors.push(Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH'));
+    }
+    
+    if (errors.length > 0) {
+      Joomla.renderMessages({'error': errors});
       adminPassword.focus();
       return;
     }
@@ -179,20 +183,26 @@ Joomla.checkDbCredentials = function() {
     document.getElementById('jform_site_name').focus();
   }
 
-  // Clear error messages when password becomes valid
+  // Remove specific error messages when password issues are fixed
   if (document.getElementById('jform_admin_password')) {
     document.getElementById('jform_admin_password').addEventListener('input', function(e) {
-      if (e.target.value.length >= 12 && e.target.value.indexOf(' ') === -1) {
-        Joomla.removeMessages();
+      const value = e.target.value;
+      const hasSpaces = value.indexOf(' ') !== -1;
+      const isLongEnough = value.length >= 12;
+      
+      // Rebuild error messages with only remaining issues
+      const errors = [];
+      if (hasSpaces) {
+        errors.push(Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD'));
       }
-    });
-  }
-
-  // Clear error messages when password becomes valid
-  if (document.getElementById('jform_admin_password')) {
-    document.getElementById('jform_admin_password').addEventListener('input', function(e) {
-      if (e.target.value.length >= 12) {
-        Joomla.removeMessages();
+      if (!isLongEnough) {
+        errors.push(Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH'));
+      }
+      
+      // Clear all messages first, then show remaining errors
+      Joomla.removeMessages();
+      if (errors.length > 0) {
+        Joomla.renderMessages({'error': errors});
       }
     });
   }
@@ -234,13 +244,17 @@ Joomla.checkDbCredentials = function() {
       // Check admin password length and spaces
       const adminPassword = document.getElementById('jform_admin_password');
       if (adminPassword) {
+        const errors = [];
+        
         if (adminPassword.value.indexOf(' ') !== -1) {
-          Joomla.renderMessages({'error': [Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD')]});
-          adminPassword.focus();
-          return;
+          errors.push(Joomla.Text._('JFIELD_PASSWORD_SPACES_IN_PASSWORD'));
         }
         if (adminPassword.value.length < 12) {
-          Joomla.renderMessages({'error': [Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH')]});
+          errors.push(Joomla.Text._('INSTL_ADMIN_PASSWORD_LENGTH'));
+        }
+        
+        if (errors.length > 0) {
+          Joomla.renderMessages({'error': errors});
           adminPassword.focus();
           return;
         }
