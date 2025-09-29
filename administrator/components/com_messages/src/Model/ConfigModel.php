@@ -63,7 +63,7 @@ class ConfigModel extends FormModel
         $userid = (int) $this->getState('user.id');
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('cfg_name'),
@@ -130,7 +130,7 @@ class ConfigModel extends FormModel
         $db = $this->getDatabase();
 
         if ($userId = (int) $this->getState('user.id')) {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__messages_cfg'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $userId, ParameterType::INTEGER);
@@ -145,7 +145,7 @@ class ConfigModel extends FormModel
             }
 
             if (\count($data)) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__messages_cfg'))
                     ->columns(
                         [

@@ -90,7 +90,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
     {
         // Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('update_site_id'))
             ->from($db->quoteName('#__update_sites'))
@@ -221,7 +221,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         // update sites for it
         if ($eid && $removed) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $eid   = (int) $eid;
 
             $query->delete($db->quoteName('#__update_sites_extensions'))
@@ -241,10 +241,10 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
             if (\is_array($results)) {
                 // So we need to delete the update sites and their associated updates
-                $updatesite_delete = $db->getQuery(true);
+                $updatesite_delete = $db->createQuery();
                 $updatesite_delete->delete($db->quoteName('#__update_sites'));
 
-                $updatesite_query = $db->getQuery(true);
+                $updatesite_query = $db->createQuery();
                 $updatesite_query->select($db->quoteName('update_site_id'))
                     ->from($db->quoteName('#__update_sites'));
 

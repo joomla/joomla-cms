@@ -95,10 +95,5 @@ class HtmlView extends ListView
             $this->filterForm
                 ->addControlField('forcedLanguage', $forcedLanguage);
         }
-
-        // Add form control fields
-        $this->filterForm
-            ->addControlField('task', '')
-            ->addControlField('boxchecked', '0');
     }
 }
