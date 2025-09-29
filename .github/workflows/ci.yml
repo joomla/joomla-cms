@@ -134,7 +134,19 @@ jobs:
     strategy:
       matrix:
         php_version: ['8.1', '8.2', '8.3', '8.4']
-        config: ['phpunit.xml.dist', 'phpunit-pgsql.xml.dist']
+        config:
+          - file: 'phpunit.xml.dist'
+            my_version: '8.4'
+          - file: 'phpunit.xml.dist'
+            my_version: '8.0.13'
+          - file: 'phpunit-maria.xml.dist'
+            maria_version: '12.0'
+          - file: 'phpunit-maria.xml.dist'
+            maria_version: '10.4'
+          - file: 'phpunit-pgsql.xml.dist'
+            pg_version: '12.0'
+          - file: 'phpunit-pgsql.xml.dist'
+            pg_version: '18.0'
     steps:
       - uses: actions/checkout@v4
       - name: Start LDAP container
@@ -148,21 +160,28 @@ jobs:
       - name: Run Integration tests
         run: |
          sleep 3
-          ./libraries/vendor/bin/phpunit --testsuite Integration --configuration ${{ matrix.config }}
+          ./libraries/vendor/bin/phpunit --testsuite Integration --configuration ${{ matrix.config.file }}
       - name: Stop LDAP container
         uses: docker://docker
         with:
           args: docker kill openldap
     services:
       mysql:
-        image: mariadb
+        image: mysql:${{ matrix.config.my_version || '8.4' }}
+        env:
+          MYSQL_USER: joomla_ut
+          MYSQL_PASSWORD: joomla_ut
+          MYSQL_ROOT_PASSWORD: joomla_ut
+          MYSQL_DATABASE: test_joomla
+      maria:
+        image: mariadb:${{ matrix.config.maria_version || '12.0' }}
         env:
           MARIADB_USER: joomla_ut
           MARIADB_PASSWORD: joomla_ut
           MARIADB_ROOT_PASSWORD: joomla_ut
           MARIADB_DATABASE: test_joomla
       postgres:
-        image: postgres:12-alpine
+        image: postgres:${{ matrix.config.pg_version || '18' }}-alpine
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: joomla_ut

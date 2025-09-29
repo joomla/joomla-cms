@@ -14,5 +14,6 @@ crowdin.yml
 package.json
 package-lock.json
 phpunit.xml.dist
+phpunit-maria.xml.dist
 phpunit-pgsql.xml.dist
 tests/System/images
