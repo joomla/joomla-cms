@@ -211,7 +211,7 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $params = $this->getItemArray('params', $this->paramTable, 'extension_id', $id);
 
         return $params[$name];
     }
@@ -262,7 +262,7 @@ class InstallerScript
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
-            ->where('id = :id')
+            ->where('extension_id = :id')
             ->bind(':params', $paramsString)
             ->bind(':id', $id, ParameterType::INTEGER);
 
