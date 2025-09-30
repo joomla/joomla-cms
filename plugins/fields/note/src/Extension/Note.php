@@ -47,7 +47,6 @@ final class Note extends FieldsPlugin implements SubscriberInterface
             return;
         }
 
-        $form->removeField('default_value');
         $form->removeField('required');
         $form->removeField('hint', 'params');
         $form->removeField('class', 'params');
