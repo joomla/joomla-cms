@@ -211,7 +211,9 @@ class InstallerScript
             return false;
         }
 
-        $params = $this->getItemArray('params', $this->paramTable, 'extension_id', $id);
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
+
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         return $params[$name];
     }
@@ -235,6 +237,8 @@ class InstallerScript
             // Return false if there is no valid item given
             return false;
         }
+
+        $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
 
         $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
 
@@ -262,7 +266,7 @@ class InstallerScript
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
-            ->where('extension_id = :id')
+            ->where($column . ' = :id')
             ->bind(':params', $paramsString)
             ->bind(':id', $id, ParameterType::INTEGER);
 
