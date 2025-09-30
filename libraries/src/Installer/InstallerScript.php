@@ -240,7 +240,7 @@ class InstallerScript
 
         $column = ($this->paramTable === '#__extensions') ? 'extension_id' : 'id';
 
-        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        $params = $this->getItemArray('params', $this->paramTable, $column, $id);
 
         if ($paramArray) {
             foreach ($paramArray as $name => $value) {
