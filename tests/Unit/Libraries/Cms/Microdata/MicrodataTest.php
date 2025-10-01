@@ -929,7 +929,6 @@ class MicrodataTest extends UnitTestCase
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new \ReflectionClass($microdata);
         $method          = $reflectionClass->getMethod('getExpectedDisplayType');
-        $method->setAccessible(true);
 
         $this->assertEquals('normal', $method->invoke($microdata, 'Article', 'articleBody'));
         $this->assertEquals('nested', $method->invoke($microdata, 'Article', 'about'));
