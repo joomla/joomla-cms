@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95e906098fa0ae0266476cc3d6808885",
+    "content-hash": "80faf005f2cef80140dceb49f0f66b38",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1694,16 +1694,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "3.0.4",
+            "version": "3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "5bbb666ffefdbb32a7ced83bb83c99d1faffbc45"
+                "reference": "06c9e672d15099622dbb56c8e2a7461ce26d37f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/5bbb666ffefdbb32a7ced83bb83c99d1faffbc45",
-                "reference": "5bbb666ffefdbb32a7ced83bb83c99d1faffbc45",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/06c9e672d15099622dbb56c8e2a7461ce26d37f6",
+                "reference": "06c9e672d15099622dbb56c8e2a7461ce26d37f6",
                 "shasum": ""
             },
             "require": {
@@ -1745,9 +1745,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/3.0.4"
+                "source": "https://github.com/joomla-framework/filter/tree/3.0.5"
             },
-            "time": "2025-07-19T18:49:49+00:00"
+            "time": "2025-09-30T15:42:09+00:00"
         },
         {
             "name": "joomla/http",
@@ -10166,9 +10166,9 @@
         "ext-gd": "*",
         "ext-dom": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1.0"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
