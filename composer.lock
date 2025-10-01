@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb4d6cde1886d554211c2e47e0baa723",
+    "content-hash": "3c516a57df3c204224433b43ace0157c",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1779,16 +1779,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "3.0.2",
+            "version": "3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "0dac6380db52a3d72124c422060bd8b2a56015fe"
+                "reference": "06c9e672d15099622dbb56c8e2a7461ce26d37f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/0dac6380db52a3d72124c422060bd8b2a56015fe",
-                "reference": "0dac6380db52a3d72124c422060bd8b2a56015fe",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/06c9e672d15099622dbb56c8e2a7461ce26d37f6",
+                "reference": "06c9e672d15099622dbb56c8e2a7461ce26d37f6",
                 "shasum": ""
             },
             "require": {
@@ -1797,8 +1797,8 @@
             },
             "require-dev": {
                 "joomla/language": "^3.0",
-                "phan/phan": "^5.4.2",
-                "phpstan/phpstan": "^1.10.7",
+                "phpstan/phpstan": "1.12.27",
+                "phpstan/phpstan-deprecation-rules": "1.2.1",
                 "phpunit/phpunit": "^9.5.28",
                 "squizlabs/php_codesniffer": "^3.7.2"
             },
@@ -1830,19 +1830,9 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/3.0.2"
+                "source": "https://github.com/joomla-framework/filter/tree/3.0.5"
             },
-            "funding": [
-                {
-                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/joomla",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-08-20T15:37:54+00:00"
+            "time": "2025-09-30T15:42:09+00:00"
         },
         {
             "name": "joomla/http",
