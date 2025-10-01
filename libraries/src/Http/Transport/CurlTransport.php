@@ -189,9 +189,6 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         // Get the request information.
         $info = curl_getinfo($ch);
 
-        // Close the connection.
-        curl_close($ch);
-
         $response = $this->getResponse($content, $info);
 
         // Manually follow redirects if server doesn't allow to follow location using curl
