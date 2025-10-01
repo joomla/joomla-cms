@@ -26,6 +26,7 @@
  *
  * data-max-results="30" The maximum amount of search results to be displayed.
  * data-max-render="30"  The maximum amount of items to be rendered, critical for large lists.
+ * data-fuse-threshold="0.3" The threshold value for Choices.js fuzzy search (default: 0.3).
  */
 window.customElements.define('joomla-field-fancy-select', class extends HTMLElement {
   // Attributes to monitor
@@ -122,6 +123,10 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     // Init Choices
     // eslint-disable-next-line no-undef
+
+    // Allow configurable fuzzy search threshold (default 0.3)
+    const threshold = parseFloat(this.select.dataset.fuseThreshold);
+
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
       searchPlaceholderValue: this.searchPlaceholder,
@@ -132,7 +137,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       renderSelectedChoices: 'always',
       shouldSort: false,
       fuseOptions: {
-        threshold: 0.3, // Strict search
+        threshold: Number.isNaN(threshold) ? 0.3 : threshold,
       },
       noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
       noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
