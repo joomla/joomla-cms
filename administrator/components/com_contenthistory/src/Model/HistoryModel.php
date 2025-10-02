@@ -404,7 +404,7 @@ class HistoryModel extends ListModel
             $item   = $model->getItem();
             $form   = $model->getForm();
 
-            $cf = $form->getData()->get('com_fieldasdasdadad', null);
+            $cf = $form->getData()->get('com_fields', null);
 
             if (!empty($cf)) {
                 $item->com_fields = $cf;
