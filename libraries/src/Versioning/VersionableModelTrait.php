@@ -279,6 +279,13 @@ trait VersionableModelTrait
         }
 
         $item = $this->getItem($id);
+        $form = $this->getForm();
+
+        $cf = $form->getData()->get('com_fields', null);
+
+        if (!empty($cf)) {
+            $item->com_fields = $cf;
+        }
 
         $hash  = $this->getSha1($item);
 
