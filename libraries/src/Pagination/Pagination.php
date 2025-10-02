@@ -570,32 +570,22 @@ class Pagination
 
         $limits[] = HTMLHelper::_('select.option', '50', Text::_('J50'));
         $limits[] = HTMLHelper::_('select.option', '100', Text::_('J100'));
+        $limits[] = HTMLHelper::_('select.option', '200', Text::_('J200'));
+        $limits[] = HTMLHelper::_('select.option', '500', Text::_('J500'));
         $limits[] = HTMLHelper::_('select.option', '0', Text::_('JALL'));
 
         $selected = $this->viewall ? 0 : $this->limit;
 
         // Build the select list.
-        if ($this->app->isClient('administrator')) {
-            $html = HTMLHelper::_(
-                'select.genericlist',
-                $limits,
-                $this->prefix . 'limit',
-                'class="form-select" onchange="Joomla.submitform();"',
-                'value',
-                'text',
-                $selected
-            );
-        } else {
-            $html = HTMLHelper::_(
-                'select.genericlist',
-                $limits,
-                $this->prefix . 'limit',
-                'class="form-select" onchange="this.form.submit()"',
-                'value',
-                'text',
-                $selected
-            );
-        }
+        $html = HTMLHelper::_(
+            'select.genericlist',
+            $limits,
+            $this->prefix . 'limit',
+            'class="form-select" onchange="Joomla.submitform();"',
+            'value',
+            'text',
+            $selected
+        );
 
         return $html;
     }
