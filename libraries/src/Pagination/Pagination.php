@@ -598,6 +598,7 @@ class Pagination
                 $selected
             );
         }
+
         return $html;
     }
 
