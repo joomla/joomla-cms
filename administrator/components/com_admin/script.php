@@ -170,7 +170,7 @@ class JoomlaInstallerScript
         try {
             // Get the params for the stats plugin
             $params = $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->select($db->quoteName('params'))
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -192,7 +192,7 @@ class JoomlaInstallerScript
 
         $params = json_encode($params);
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = ' . $db->quote($params))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
@@ -295,7 +295,7 @@ class JoomlaInstallerScript
 
         foreach ($extensions as $extension) {
             $row = $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->select('*')
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote($extension['type']))
@@ -319,7 +319,7 @@ class JoomlaInstallerScript
 
                 // Unlock and unprotect the plugin so we can uninstall it
                 $db->setQuery(
-                    $db->getQuery(true)
+                    $db->createQuery()
                         ->update($db->quoteName('#__extensions'))
                         ->set($db->quoteName('locked') . ' = 0')
                         ->set($db->quoteName('protected') . ' = 0')
@@ -351,7 +351,7 @@ class JoomlaInstallerScript
 
         // Attempt to refresh manifest caches
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from('#__extensions');
 
@@ -450,6 +450,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2025-02-09.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2025-02-22.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2025-03-14.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.3.4-2025-09-19.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-04-23.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-05-10.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.4.0-2025-08-02.sql',
@@ -487,6 +488,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/5.3.0-2025-02-22.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.3.0-2025-03-14.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.3.1-2025-04-27.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.3.4-2025-09-19.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-04-23.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-05-10.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.4.0-2025-08-02.sql',
@@ -981,6 +983,67 @@ class JoomlaInstallerScript
             '/modules/mod_login/mod_login.php',
             '/modules/mod_menu/mod_menu.php',
             '/modules/mod_whosonline/mod_whosonline.php',
+            // From 6.0.0-beta2 to 6.0.0-beta3
+            '/media/templates/site/cassiopeia/css/global/colors_custom.css',
+            '/media/templates/site/cassiopeia/css/global/colors_custom.min.css',
+            '/media/templates/site/cassiopeia/css/global/colors_custom.min.css.gz',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.css',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.min.css',
+            '/media/templates/site/cassiopeia/css/global/font_advanced.min.css.gz',
+            '/media/templates/site/cassiopeia/scss/global/colors_custom.scss',
+            '/media/templates/site/cassiopeia/scss/global/font_advanced.scss',
+            // From 6.0.0-beta3 to 6.0.0-rc1
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_2_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_3_steps.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4.ini',
+            '/administrator/language/en-GB/guidedtours.joomla_whatsnew_5_4_steps.ini',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/CachedWordInflector.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/GenericLanguageInflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Inflector.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Language.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/LanguageInflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/NoopWordInflector.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Pattern.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Patterns.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Ruleset.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Substitution.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Substitutions.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Transformation.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Transformations.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/Inflectible.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/InflectorFactory.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/Rules.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish/Uninflected.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Word.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/RulesetInflector.php',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/WordInflector.php',
+            '/media/com_guidedtours/images/5_2/enhancedtourheader.png',
+            '/media/com_guidedtours/images/5_2/mailtemplate.png',
+            '/media/com_guidedtours/images/5_3/filesdirectory.jpg',
+            '/media/com_guidedtours/images/5_4/automated-updates.jpg',
         ];
 
         $folders = [
@@ -1032,6 +1095,20 @@ class JoomlaInstallerScript
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Common/Inflector',
             '/libraries/vendor/doctrine/inflector/lib/Doctrine/Common',
             '/libraries/src/Adapter',
+            // From 6.0.0-beta3 to 6.0.0-rc1
+            '/media/com_guidedtours/images/5_4',
+            '/media/com_guidedtours/images/5_3',
+            '/media/com_guidedtours/images/5_2',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Turkish',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Spanish',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/Portuguese',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/NorwegianBokmal',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/French',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules/English',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector/Rules',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine/Inflector',
+            '/libraries/vendor/doctrine/inflector/lib/Doctrine',
+            '/libraries/vendor/doctrine/inflector/lib',
         ];
 
         $status['files_checked']   = $files;

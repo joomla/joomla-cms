@@ -244,7 +244,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         if ($userId) {
             // Remove user's consent
-            $query = $this->getDatabase()->getQuery(true)
+            $query = $this->getDatabase()->createQuery()
                 ->delete($this->getDatabase()->quoteName('#__privacy_consents'))
                 ->where($this->getDatabase()->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $userId, ParameterType::INTEGER);
@@ -348,7 +348,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         }
 
         // Check if the article exists in database and is published
-        $query = $this->getDatabase()->getQuery(true)
+        $query = $this->getDatabase()->createQuery()
             ->select($this->getDatabase()->quoteName(['id', 'state']))
             ->from($this->getDatabase()->quoteName('#__content'))
             ->where($this->getDatabase()->quoteName('id') . ' = :id')
@@ -404,7 +404,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
     {
         $userId = (int) $userId;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
 
         $query->select('COUNT(*)')
             ->from($db->quoteName('#__privacy_consents'))

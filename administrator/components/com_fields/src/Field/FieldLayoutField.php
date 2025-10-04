@@ -51,7 +51,7 @@ class FieldLayoutField extends FormField
         if ($extension) {
             // Get the database object and a new query object.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Build the query.
             $query->select('element, name')

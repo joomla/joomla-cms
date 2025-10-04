@@ -202,7 +202,7 @@ class FieldModel extends AdminModel
         }
 
         // First delete all assigned categories
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->delete('#__fields_categories')
             ->where($db->quoteName('field_id') . ' = :fieldid')
             ->bind(':fieldid', $id, ParameterType::INTEGER);
@@ -239,7 +239,7 @@ class FieldModel extends AdminModel
                 $names = array_column((array) $newParams, 'value');
 
                 $fieldId = (int) $field->id;
-                $query   = $db->getQuery(true);
+                $query   = $db->createQuery();
                 $query->delete($db->quoteName('#__fields_values'))
                     ->where($db->quoteName('field_id') . ' = :fieldid')
                     ->bind(':fieldid', $fieldId, ParameterType::INTEGER);
@@ -407,7 +407,7 @@ class FieldModel extends AdminModel
             }
 
             $db      = $this->getDatabase();
-            $query   = $db->getQuery(true);
+            $query   = $db->createQuery();
             $fieldId = (int) $result->id;
             $query->select($db->quoteName('category_id'))
                 ->from($db->quoteName('#__fields_categories'))
@@ -491,7 +491,7 @@ class FieldModel extends AdminModel
 
             if (!empty($pks)) {
                 // Delete Values
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->delete($db->quoteName('#__fields_values'))
                     ->whereIn($db->quoteName('field_id'), $pks);
@@ -499,7 +499,7 @@ class FieldModel extends AdminModel
                 $db->setQuery($query)->execute();
 
                 // Delete Assigned Categories
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->delete($db->quoteName('#__fields_categories'))
                     ->whereIn($db->quoteName('field_id'), $pks);
@@ -643,7 +643,7 @@ class FieldModel extends AdminModel
 
             // Deleting the existing record as it is a reset
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->delete($db->quoteName('#__fields_values'))
                 ->where($db->quoteName('field_id') . ' = :fieldid')
@@ -727,7 +727,7 @@ class FieldModel extends AdminModel
         if (!\array_key_exists($key, $this->valueCache)) {
             // Create the query
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select($db->quoteName(['field_id', 'value']))
                 ->from($db->quoteName('#__fields_values'))
@@ -782,12 +782,12 @@ class FieldModel extends AdminModel
     {
         // Delete with inner join is not possible so we need to do a subquery
         $db          = $this->getDatabase();
-        $fieldsQuery = $db->getQuery(true);
+        $fieldsQuery = $db->createQuery();
         $fieldsQuery->select($db->quoteName('id'))
             ->from($db->quoteName('#__fields'))
             ->where($db->quoteName('context') . ' = :context');
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->delete($db->quoteName('#__fields_values'))
             ->where($db->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
@@ -1162,7 +1162,7 @@ class FieldModel extends AdminModel
             if ($user->authorise('core.create', $component . '.fieldgroup.' . $value)) {
                 // Find all assigned categories to this field
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->select($db->quoteName('category_id'))
                     ->from($db->quoteName('#__fields_categories'))

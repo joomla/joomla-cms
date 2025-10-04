@@ -122,7 +122,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $now      = Factory::getDate()->toSql();
         $period   = '-' . ($expire - $remind);
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
 
         $query->select($db->quoteName(['r.id', 'r.user_id', 'u.email']))
             ->from($db->quoteName('#__privacy_consents', 'r'))
@@ -210,7 +210,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $now    = Factory::getDate()->toSql();
         $period = '-' . $expire;
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
 
         $query->select($db->quoteName(['id', 'user_id']))
             ->from($db->quoteName('#__privacy_consents'))
@@ -237,7 +237,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
         foreach ($users as $user) {
             $userId = (int) $user->id;
-            $query  = $db->getQuery(true)
+            $query  = $db->createQuery()
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = 0')
                 ->where($db->quoteName('id') . ' = :userid')

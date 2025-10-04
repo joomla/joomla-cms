@@ -430,10 +430,10 @@ final class Authentication
         $repository = $this->credentialsRepository;
 
         return new PublicKeyCredentialUserEntity(
-            $user->username,
-            $repository->getHandleFromUserId($user->id),
-            $user->name,
-            $this->getAvatar($user, 64)
+            (string) $user->username,
+            (string) $repository->getHandleFromUserId($user->id),
+            (string) $user->name,
+            $user->username ? $this->getAvatar($user, 64) : ''
         );
     }
 

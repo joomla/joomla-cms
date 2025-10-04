@@ -228,7 +228,7 @@ class Helper
         static $types;
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Check if the types are loaded.
         if (empty($types)) {
@@ -321,7 +321,7 @@ class Helper
         $db = Factory::getDbo();
 
         // Create the query to load all the common terms for the language.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('term'))
             ->from($db->quoteName('#__finder_terms_common'))
             ->where($db->quoteName('language') . ' = ' . $db->quote($lang));

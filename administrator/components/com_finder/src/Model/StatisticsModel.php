@@ -36,7 +36,7 @@ class StatisticsModel extends BaseDatabaseModel
     {
         // Initialise
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $data  = new \stdClass();
 
         $query->select('COUNT(term_id)')

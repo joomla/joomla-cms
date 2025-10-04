@@ -121,7 +121,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
             'mc_dsc' => 'a.modified',
             'c_dsc'  => 'a.created',
             'p_dsc'  => 'a.publish_up',
-            'random' => $db->getQuery(true)->rand(),
+            'random' => $db->createQuery()->rand(),
         ];
 
         $ordering = ArrayHelper::getValue($order_map, $params->get('ordering', 'p_dsc'), 'a.publish_up');
