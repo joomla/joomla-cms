@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
 $prefix: "";
 
@@ -110,18 +112,18 @@ $colors: (
   white-offset:                    #fefefe,
   focus:                           #39f,
   focus-shadow:                    0 0 0 .2rem #eaeaea,
-  toggle-color:                    $white, //used in sidebar
+  toggle-color:                    $white, // used in sidebar
 ) !default;
 
 $cassiopeia-colors: (
   template-sidebar-bg:                 var(--template-bg-dark-80),
   template-sidebar-font-color:         $white,
   template-sidebar-link-color:         $white,
-  template-bg-light:                   #f0f4fb, //light background color, frontend dashboard background
+  template-bg-light:                   #f0f4fb, // light background color, frontend dashboard background
   template-text-light:                 $white,
   template-special-color:              #132f53,
   template-link-color:                 #2a69b8,
-  template-link-hover-color:           darken(#2a69b8, 20%),
+  template-link-hover-color:           color.adjust(#2a69b8, $lightness: -20%),
   template-contrast:                   #2a69b8,
   template-bg-dark:                    hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:                  hsl(var(--hue), 40%, 97%),

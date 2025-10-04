@@ -259,7 +259,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     {
         $previous = $this->_layout;
 
-        if (strpos($layout, ':') === false) {
+        if (!str_contains($layout, ':')) {
             $this->_layout = $layout;
         } else {
             // Convert parameter to array based on :
@@ -312,7 +312,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      *
      * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
      *
-     * @return  string  The output of the the template script.
+     * @return  string  The output of the template script.
      *
      * @since   3.0
      * @throws  \Exception
@@ -358,12 +358,12 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $this->_template = Path::find($this->_path['template'], $filetofind);
 
         // If alternate layout can't be found, fall back to default layout
-        if ($this->_template == false) {
+        if ($this->_template === false) {
             $filetofind      = $this->_createFileName('', ['name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)]);
             $this->_template = Path::find($this->_path['template'], $filetofind);
         }
 
-        if ($this->_template != false) {
+        if ($this->_template !== false) {
             // Unset so as not to introduce into template scope
             unset($tpl, $file);
 

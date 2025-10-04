@@ -20,7 +20,7 @@ use Joomla\CMS\Session\Session;
 /** @var \Joomla\Component\Workflow\Administrator\View\Stages\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -149,11 +149,8 @@ if ($saveOrder) {
                     <?php echo $this->pagination->getListFooter(); ?>
 
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <input type="hidden" name="workflow_id" value="<?php echo (int) $this->workflowID ?>">
-                <input type="hidden" name="extension" value="<?php echo $this->extension ?>">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

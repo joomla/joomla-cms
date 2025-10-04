@@ -30,9 +30,9 @@ final class UserGroupBeforeDeleteEvent extends ModelBeforeDeleteEvent
      * @var array
      *
      * @since  5.0.0
-     * @deprecated 5.0 will be removed in 6.0
+     * @deprecated 5.0 will be removed in 7.0
      *
-     * @TODO: In Joomla 6 the event should use 'context', 'subject' only
+     * @TODO: In Joomla 7 the event should use 'context', 'subject' only
      */
     protected $legacyArgumentsOrder = ['data', 'context', 'subject'];
 }

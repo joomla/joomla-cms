@@ -82,7 +82,7 @@ trait FormBehaviorTrait
 
         try {
             $formFactory = $this->getFormFactory();
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             $formFactory = Factory::getContainer()->get(FormFactoryInterface::class);
         }
 
@@ -93,12 +93,12 @@ trait FormBehaviorTrait
         }
 
         // Load the data.
-        if (substr($source, 0, 1) === '<') {
-            if ($form->load($source, false, $xpath) == false) {
+        if (str_starts_with($source, '<')) {
+            if (!$form->load($source, false, $xpath)) {
                 throw new \RuntimeException('Form::loadForm could not load form');
             }
         } else {
-            if ($form->loadFile($source, false, $xpath) == false) {
+            if (!$form->loadFile($source, false, $xpath)) {
                 throw new \RuntimeException('Form::loadForm could not load file');
             }
         }
@@ -162,7 +162,7 @@ trait FormBehaviorTrait
             'onContentPrepareData',
             new Model\PrepareDataEvent('onContentPrepareData', [
                 'context' => $context,
-                'data'    => &$data, // @todo: Remove reference in Joomla 6, see PrepareDataEvent::__constructor()
+                'data'    => &$data, // @todo: Remove reference in Joomla 7, see PrepareDataEvent::__constructor()
                 'subject' => new \stdClass(),
             ])
         )->getArgument('data', $data);

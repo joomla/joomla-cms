@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Language\Text;
@@ -27,6 +26,7 @@ use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -164,7 +164,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // Get a generic TableExtension instance for use if not already loaded
         if (!($this->extension instanceof TableInterface)) {
-            $this->extension = Table::getInstance('extension');
+            $this->extension = Table::getInstance('Extension');
         }
 
         // Sanity check, make sure the type is set by taking the adapter name from the class name
@@ -190,7 +190,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      */
     protected function canUninstallPackageChild($packageId)
     {
-        $package = Table::getInstance('extension');
+        $package = new Extension(Factory::getDbo());
 
         // If we can't load this package ID, we have a corrupt database
         if (!$package->load((int) $packageId)) {
@@ -996,6 +996,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         // Create a new instance
         $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
+
+        if (method_exists($this->parent->manifestClass, 'setApplication')) {
+            $this->parent->manifestClass->setApplication(Factory::getApplication());
+        }
 
         // Set the database
         if ($this->parent->manifestClass instanceof DatabaseAwareInterface) {

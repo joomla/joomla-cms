@@ -25,6 +25,7 @@ use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Component\Finder\Site\Helper\FinderHelper;
+use Joomla\Component\Finder\Site\Model\SearchModel;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -138,24 +139,53 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $app          = Factory::getApplication();
         $this->params = $app->getParams();
 
+        /** @var SearchModel $model */
+        $model = $this->getModel();
+
         // Get view data.
-        $this->state = $this->get('State');
-        $this->query = $this->get('Query');
+        $this->state = $model->getState();
+        $this->query = $model->getQuery();
         \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
-        $this->results = $this->get('Items');
+        $this->results = $model->getItems();
         \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
-        $this->sortOrderFields = $this->get('sortOrderFields');
+        $this->sortOrderFields = $model->getSortOrderFields();
         \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderSortOrderFields') : null;
-        $this->total = $this->get('Total');
+        $this->total = $model->getTotal();
         \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
-        $this->pagination = $this->get('Pagination');
+        $this->pagination = $model->getPagination();
         \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
 
+        $input = $app->getInput()->get;
+
+        // Add additional parameters
+        $queryParameterList = [
+            'f'  => 'int',
+            't'  => 'array',
+            'q'  => 'string',
+            'l'  => 'cmd',
+            'd1' => 'string',
+            'd2' => 'string',
+            'w1' => 'string',
+            'w2' => 'string',
+            'o'  => 'word',
+            'od' => 'word',
+        ];
+
+        foreach ($queryParameterList as $parameter => $filter) {
+            $value = $input->get($parameter, null, $filter);
+
+            if (\is_null($value)) {
+                continue;
+            }
+
+            $this->pagination->setAdditionalUrlParam($parameter, $value);
+        }
+
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -178,8 +208,9 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         if (\is_array($this->results)) {
             $dispatcher = $this->getDispatcher();
 
-            // Import Finder plugins
+            // Import Content and Finder plugins
             PluginHelper::importPlugin('finder', null, true, $dispatcher);
+            PluginHelper::importPlugin('content', null, true, $dispatcher);
 
             foreach ($this->results as $result) {
                 $dispatcher->dispatch('onFinderResult', new ResultEvent('onFinderResult', [
@@ -268,7 +299,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $filetofind = $this->_createFileName('template', ['name' => $file]);
         $exists     = Path::find($this->_path['template'], $filetofind);
 
-        return ($exists ? $layout : 'result');
+        return $exists ? $layout : 'result';
     }
 
     /**

@@ -72,12 +72,12 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      * The namespace must be like:
      * Joomla\Component\Content
      *
-     * @param   string                $namespace  The namespace
-     * @param   LoggerInterface|null  $logger     A logging instance to inject into the controller if required
+     * @param   string            $namespace  The namespace
+     * @param   ?LoggerInterface  $logger     A logging instance to inject into the controller if required
      *
      * @since   4.0.0
      */
-    public function __construct($namespace, LoggerInterface $logger = null)
+    public function __construct($namespace, ?LoggerInterface $logger = null)
     {
         $this->namespace = $namespace;
         $this->logger    = $logger;
@@ -144,7 +144,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         if (!$prefix) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Calling %s() without a prefix is deprecated.',
                     __METHOD__
                 ),
@@ -171,8 +171,8 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         if ($model instanceof DatabaseAwareInterface) {
             try {
                 $model->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
-                @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            } catch (DatabaseNotFoundException) {
+                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                 $model->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -202,7 +202,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         if (!$prefix) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Calling %s() without a prefix is deprecated.',
                     __METHOD__
                 ),
@@ -248,7 +248,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         if (!$prefix) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Calling %s() without a prefix is deprecated.',
                     __METHOD__
                 ),
@@ -267,8 +267,8 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $db = \array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
-            @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+        } catch (DatabaseNotFoundException) {
+            @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -321,7 +321,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setFormFactory($this->getFormFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -343,7 +343,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setDispatcher($this->getDispatcher());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -365,7 +365,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setSiteRouter($this->getSiteRouter());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -387,7 +387,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setCacheControllerFactory($this->getCacheControllerFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -409,7 +409,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setUserFactory($this->getUserFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -431,7 +431,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setMailerFactory($this->getMailerFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }

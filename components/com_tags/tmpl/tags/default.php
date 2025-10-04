@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+/** @var \Joomla\Component\Tags\Site\View\Tags\HtmlView $this */
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 $description      = $this->params->get('all_tags_description');
 $descriptionImage = $this->params->get('all_tags_description_image');

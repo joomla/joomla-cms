@@ -17,7 +17,12 @@ describe('Test that contact categories API endpoint', () => {
   });
 
   it('can create a category', () => {
-    cy.api_post('/contacts/categories', { title: 'automated test contact category', description: 'automated test contact category description' })
+    cy.api_post('/contacts/categories', {
+      title: 'automated test contact category',
+      description: 'automated test contact category description',
+      parent_id: 1,
+      extension: 'com_contacts',
+    })
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')

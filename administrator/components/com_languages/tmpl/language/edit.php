@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Languages\Administrator\View\Language\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_languages.admin-language-edit-change-flag');
@@ -83,6 +83,5 @@ $wa->useScript('keepalive')
 
     <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
-    <input type="hidden" name="task" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

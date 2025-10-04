@@ -21,12 +21,12 @@ use Joomla\CMS\Session\Session;
 /** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
@@ -187,17 +187,12 @@ if ($saveOrder && !empty($this->items)) {
 
                     <?php // Load the batch processing form. ?>
                     <?php
-                    if (
-                        $user->authorise('core.create', 'com_contact')
-                        && $user->authorise('core.edit', 'com_contact')
-                        && $user->authorise('core.edit.state', 'com_contact')
-                    ) : ?>
+                    if ($this->batchAllowed) : ?>
                         <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

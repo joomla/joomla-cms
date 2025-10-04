@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Plugins\Administrator\View\Plugin\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -134,6 +134,5 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
 
-    <input type="hidden" name="task" value="">
-    <?php echo HTMLHelper::_('form.token'); ?>
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

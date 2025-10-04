@@ -10,14 +10,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Privacy\Site\View\Confirm\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -30,7 +29,7 @@ $wa->useScript('keepalive')
             </h1>
         </div>
     <?php endif; ?>
-    <form action="<?php echo Route::_('index.php?option=com_privacy&task=request.confirm'); ?>" method="post" class="form-validate form-horizontal well">
+    <form action="<?php echo Route::_('index.php?task=request.confirm'); ?>" method="post" class="form-validate form-horizontal well">
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <fieldset>
                 <?php if (!empty($fieldset->label)) : ?>
@@ -46,6 +45,7 @@ $wa->useScript('keepalive')
                 </button>
             </div>
         </div>
-        <?php echo HTMLHelper::_('form.token'); ?>
+
+        <?php echo $this->form->renderControlFields(); ?>
     </form>
 </div>

@@ -149,7 +149,7 @@ final class MetadataManager
      */
     public function deletePriorTo($time)
     {
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->delete($this->db->quoteName('#__session'))
             ->where($this->db->quoteName('time') . ' < :time')
             ->bind(':time', $time, ParameterType::INTEGER);
@@ -158,7 +158,7 @@ final class MetadataManager
 
         try {
             $this->db->execute();
-        } catch (ExecutionFailureException $exception) {
+        } catch (ExecutionFailureException) {
             // Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
         }
     }
@@ -174,7 +174,7 @@ final class MetadataManager
      */
     private function checkSessionRecordExists(string $sessionId): int
     {
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('session_id'))
             ->from($this->db->quoteName('#__session'))
             ->where($this->db->quoteName('session_id') . ' = :session_id')
@@ -185,7 +185,7 @@ final class MetadataManager
 
         try {
             $exists = $this->db->loadResult();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return self::$sessionRecordUnknown;
         }
 
@@ -208,7 +208,7 @@ final class MetadataManager
      */
     private function createSessionRecord(SessionInterface $session, User $user)
     {
-        $query = $this->db->getQuery(true);
+        $query = $this->db->createQuery();
 
         $time = $session->isNew() ? time() : $session->get('session.timer.start');
 
@@ -233,7 +233,7 @@ final class MetadataManager
         $sessionId   = $session->getId();
         $userIsGuest = $user->guest;
         $userId      = $user->id;
-        $username    = $user->username === null ? '' : $user->username;
+        $username    = $user->username ?? '';
 
         $query->bind(':session_id', $sessionId)
             ->bind(':guest', $userIsGuest, ParameterType::INTEGER)
@@ -258,7 +258,7 @@ final class MetadataManager
 
         try {
             $this->db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // This failure isn't critical, we can go on without the metadata
         }
     }
@@ -275,7 +275,7 @@ final class MetadataManager
      */
     private function updateSessionRecord(SessionInterface $session, User $user)
     {
-        $query = $this->db->getQuery(true);
+        $query = $this->db->createQuery();
 
         $time = time();
 
@@ -290,7 +290,7 @@ final class MetadataManager
         $sessionId   = $session->getId();
         $userIsGuest = $user->guest;
         $userId      = $user->id;
-        $username    = $user->username === null ? '' : $user->username;
+        $username    = $user->username ?? '';
 
         $query->bind(':session_id', $sessionId)
             ->bind(':guest', $userIsGuest, ParameterType::INTEGER)
@@ -314,7 +314,7 @@ final class MetadataManager
 
         try {
             $this->db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // This failure isn't critical, we can go on without the metadata
         }
     }

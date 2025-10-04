@@ -12,13 +12,13 @@ namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
+use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -70,14 +70,13 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state      = $this->get('State');
-        $this->items      = $this->get('Items');
-        $this->pagination = $this->get('Pagination');
+        /** @var HistoryModel $model */
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->state      = $model->getState();
+        $this->items      = $model->getItems();
+        $this->pagination = $model->getPagination();
 
         $this->toolbar = $this->addToolbar();
 
@@ -101,7 +100,7 @@ class HtmlView extends BaseHtmlView
 
         // Clean up input to ensure a clean url.
         $filter     = InputFilter::getInstance();
-        $aliasArray = explode('.', $this->state->item_id);
+        $aliasArray = explode('.', $this->state->get('item_id'));
 
         if ($aliasArray[1] === 'category') {
             $option = 'com_categories';

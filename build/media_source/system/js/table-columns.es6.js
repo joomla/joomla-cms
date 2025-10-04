@@ -8,7 +8,7 @@ class TableColumns {
     this.storageKey = `joomla-tablecolumns-${this.tableName}`;
 
     this.$headers = [].slice.call($table.querySelector('thead tr').children);
-    this.$rows = [].slice.call($table.querySelectorAll('tbody tr'));
+    this.$rows = $table.querySelectorAll('tbody tr');
     this.listOfHidden = [];
 
     // Load previous state
@@ -198,7 +198,6 @@ if (window.innerWidth > 992) {
       return;
     }
 
-    /* eslint-disable-next-line no-new */
     new TableColumns($table, tableName);
   });
 }

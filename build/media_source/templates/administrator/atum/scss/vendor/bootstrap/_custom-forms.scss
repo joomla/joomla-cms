@@ -5,7 +5,7 @@
 }
 
 .form-select {
-  max-width: $input-max-width;
+  max-inline-size: $input-max-width;
   cursor: pointer;
   background: $form-select-background;
   border: $form-select-border;
@@ -22,7 +22,7 @@
 
       &:checked {
         color: var(--template-text-light);
-        background-color: var(--template-bg-dark) !important;
+        background-color: var(--template-contrast) !important;
       }
     }
   }

@@ -137,7 +137,7 @@ class LoginModel extends FormModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('language'))
             ->from($db->quoteName('#__menu'))
             ->where($db->quoteName('client_id') . ' = 0')
@@ -148,7 +148,7 @@ class LoginModel extends FormModel
 
         try {
             return $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return '';
         }
     }

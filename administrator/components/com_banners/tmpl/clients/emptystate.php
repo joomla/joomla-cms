@@ -17,8 +17,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'textPrefix' => 'COM_BANNERS_CLIENT',
     'formURL'    => 'index.php?option=com_banners&view=clients',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners:_Clients',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Banners:_Clients',
     'icon'       => 'icon-bookmark banners',
+
+    'controlFields' => $this->filterForm->renderControlFields(),
 ];
 
 if (count($this->getCurrentUser()->getAuthorisedCategories('com_banners', 'core.create')) > 0) {

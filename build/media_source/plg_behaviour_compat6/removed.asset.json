@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_behaviour_compat6",
+  "version": "6.0.0",
+  "description": "Joomla CMS Removed Assets b/c entries, the entries are only placeholders without functionality.",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "wcpolyfill",
+      "type": "script",
+      "uri": ""
+    }
+  ]
+}

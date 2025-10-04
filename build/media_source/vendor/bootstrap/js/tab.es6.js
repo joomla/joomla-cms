@@ -47,15 +47,13 @@ Joomla.initialiseTabs = (el, options) => {
 
             ul.appendChild(li);
 
-            // eslint-disable-next-line no-new
             new window.bootstrap.Tab(li);
           }
         });
       }
     }
   } else {
-    Array.from(document.querySelectorAll(`${el} a`))
-      .map((tab) => new window.bootstrap.Tab(tab, options));
+    document.querySelectorAll(`${el} a`).forEach((tab) => new window.bootstrap.Tab(tab, options));
   }
 };
 

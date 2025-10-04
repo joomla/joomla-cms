@@ -18,10 +18,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
-/** @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
+/** @var \Joomla\Component\Privacy\Administrator\View\Requests\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -123,8 +123,6 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 
         <?php endif; ?>
 
-        <input type="hidden" name="task" value="" />
-        <input type="hidden" name="boxchecked" value="0" />
-        <?php echo HTMLHelper::_('form.token'); ?>
+        <?php echo $this->filterForm->renderControlFields(); ?>
     </div>
 </form>

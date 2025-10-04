@@ -16,19 +16,18 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
-use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
-/** @var HtmlView $this */
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')
     ->useScript('bootstrap.popover')
     ->useScript('bootstrap.tab');
 
 // Text::script doesn't have a sprintf equivalent so work around this
-$this->document->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
+$this->getDocument()->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
 // Push Joomla! Update client-side error messages
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');

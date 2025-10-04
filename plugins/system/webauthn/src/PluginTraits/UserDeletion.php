@@ -59,14 +59,14 @@ trait UserDeletion
             /** @var DatabaseInterface $db */
             $db = Factory::getContainer()->get(DatabaseInterface::class);
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__webauthn_credentials'))
                 ->where($db->quoteName('user_id') . ' = :userId')
                 ->bind(':userId', $userId);
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Don't worry if this fails
             }
 

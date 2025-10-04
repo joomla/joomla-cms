@@ -20,14 +20,15 @@ extract($displayData);
 /**
  * Layout variables
  *
- * @var   array    $options     JS options for editor
- * @var   Registry $params      Plugin parameters
- * @var   string   $id          The id of the input
- * @var   string   $name        The name of the input
- * @var   integer  $cols        Textarea cols attribute
- * @var   integer  $rows        Textarea rows attribute
- * @var   string   $content     The value
- * @var   string   $buttons     Editor XTD buttons
+ * @var   \Joomla\CMS\Layout\FileLayout $this
+ * @var   object                        $options     JS options for editor
+ * @var   Registry                      $params      Plugin parameters
+ * @var   string                        $id          The id of the input
+ * @var   string                        $name        The name of the input
+ * @var   integer                       $cols        Textarea cols attribute
+ * @var   integer                       $rows        Textarea rows attribute
+ * @var   string                        $content     The value
+ * @var   string                        $buttons     Editor XTD buttons
  */
 
 $option  = ' options="' . $this->escape(json_encode($options)) . '"';

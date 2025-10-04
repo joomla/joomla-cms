@@ -107,7 +107,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $model->setState('list.ordering', $ordering);
 
         if (trim($ordering) === 'rand()') {
-            $model->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+            $model->setState('list.ordering', $this->getDatabase()->createQuery()->rand());
         } else {
             $direction = $params->get('direction', 1) ? 'DESC' : 'ASC';
             $model->setState('list.direction', $direction);
@@ -138,7 +138,8 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             // Remove any images belongs to the text
             if (!$params->get('image')) {
-                $item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
+                // Remove any images and empty links from the intro text
+                $item->introtext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->introtext);
             }
 
             // Show the Intro/Full image field of the article

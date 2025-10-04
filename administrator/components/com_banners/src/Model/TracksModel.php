@@ -14,8 +14,10 @@ use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\String\StringHelper;
@@ -42,11 +44,12 @@ class TracksModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -60,7 +63,7 @@ class TracksModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -87,7 +90,7 @@ class TracksModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -95,7 +98,7 @@ class TracksModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -199,7 +202,7 @@ class TracksModel extends ListModel
         if ($allow) {
             // Delete tracks from this banner
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__banner_tracks'));
 
             // Filter by type
@@ -220,7 +223,7 @@ class TracksModel extends ListModel
                     ->bind(':end', $end);
             }
 
-            $subQuery = $db->getQuery(true);
+            $subQuery = $db->createQuery();
             $subQuery->select($db->quoteName('id'))
                 ->from($db->quoteName('#__banners'));
 
@@ -341,7 +344,7 @@ class TracksModel extends ListModel
 
         if ($categoryId) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__categories'))
                 ->where($db->quoteName('id') . ' = :categoryId')
@@ -375,7 +378,7 @@ class TracksModel extends ListModel
 
         if ($clientId) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('name'))
                 ->from($db->quoteName('#__banner_clients'))
                 ->where($db->quoteName('id') . ' = :clientId')

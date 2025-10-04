@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -19,7 +18,7 @@ use Joomla\CMS\Router\Route;
 $expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->usePreset('com_languages.overrider')
@@ -83,10 +82,7 @@ $wa->useScript('keepalive')
                 </span>
             </fieldset>
 
-            <input type="hidden" name="task" value="">
-            <input type="hidden" name="id" value="<?php echo $this->item->key; ?>">
-
-            <?php echo HTMLHelper::_('form.token'); ?>
+            <?php echo $this->form->renderControlFields(); ?>
         </div>
     </div>
 </form>

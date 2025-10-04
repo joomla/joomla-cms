@@ -18,7 +18,7 @@ use Joomla\CMS\Table\Nested;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
@@ -54,12 +54,12 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
     /**
      * Constructor
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_tags.tag';
 
@@ -174,7 +174,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
 
         if ($this->id) {
             // Existing item
-            $this->modified_user_id = $user->get('id');
+            $this->modified_user_id = $user->id;
             $this->modified_time    = $date->toSql();
         } else {
             // New tag. A tag created and created_by field can be set by the user,
@@ -184,7 +184,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
             }
 
             if (empty($this->created_user_id)) {
-                $this->created_user_id = $user->get('id');
+                $this->created_user_id = $user->id;
             }
 
             if (!(int) $this->modified_time) {
@@ -197,7 +197,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
         }
 
         // Verify that the alias is unique
-        $table = new static($this->getDbo());
+        $table = new static($this->getDatabase());
 
         if ($table->load(['alias' => $this->alias]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));

@@ -32,6 +32,13 @@
 		/>
 
 		<menuitem
+			title="MOD_MENU_HELP_PROGRAMMERS"
+			type="url"
+			target="_blank"
+			link="https://manual.joomla.org"
+		/>
+
+		<menuitem
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM"
 			type="url"
 			target="_blank"

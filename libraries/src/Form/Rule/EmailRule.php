@@ -58,7 +58,7 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
      * @since   1.7.0
      * @throws  \UnexpectedValueException
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
@@ -161,10 +161,12 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
         if ($unique && !$multiple) {
             // Get the database object and a new query object.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Get the extra field check attribute.
-            $userId = ($form instanceof Form) ? (int) $form->getValue('id') : 0;
+            $userId = ($form instanceof Form) && $form->getValue('id')
+                ? (int) $form->getValue('id')
+                : (($input instanceof Registry) ? (int) $input->get('id') : 0);
 
             // Build the query.
             $query->select('COUNT(*)')

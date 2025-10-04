@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Installer\Administrator\View\Discover\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -121,9 +121,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php endif; ?>
-                    <input type="hidden" name="task" value="">
-                    <input type="hidden" name="boxchecked" value="0">
-                    <?php echo HTMLHelper::_('form.token'); ?>
+
+                    <?php echo $this->filterForm->renderControlFields(); ?>
                 </div>
             </div>
         </div>

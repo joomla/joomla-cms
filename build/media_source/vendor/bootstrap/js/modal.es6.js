@@ -14,7 +14,6 @@ Joomla.initialiseModal = (modal, options) => {
     return;
   }
 
-  // eslint-disable-next-line no-new
   new window.bootstrap.Modal(modal, options);
 
   // Comply with the Joomla API - Bound element.open/close
@@ -50,7 +49,6 @@ Joomla.initialiseModal = (modal, options) => {
         idFieldArr[0] = idFieldArr[0].replace(/&quot;/g, '"');
 
         if (!document.getElementById(idFieldArr[1])) {
-          // eslint-disable-next-line no-new-func
           const fn = new Function(`return ${idFieldArr[0]}`); // This is UNSAFE!!!!
           el = fn.call(null);
         } else {
@@ -128,9 +126,17 @@ Joomla.iframeButtonClick = (options) => {
     throw new Error('Selector is missing');
   }
 
+  // Backward compatibility for older buttons
+  const old2newBtn = {
+    '#closeBtn': '#closeBtn, #toolbar-cancel>button',
+    '#saveBtn': '#saveBtn, #toolbar-save>button',
+    '#applyBtn': '#applyBtn, #toolbar-apply>button',
+  };
+
   const iframe = document.querySelector(`${options.iframeSelector} iframe`);
   if (iframe) {
-    const button = iframe.contentWindow.document.querySelector(options.buttonSelector);
+    const selector = old2newBtn[options.buttonSelector] ? old2newBtn[options.buttonSelector] : options.buttonSelector;
+    const button = iframe.contentWindow.document.querySelector(selector);
     if (button) {
       button.click();
     }
@@ -150,8 +156,7 @@ if (Joomla && Joomla.getOptions) {
         focus: opt.focus ? opt.focus : true,
       };
 
-      Array.from(document.querySelectorAll(modal))
-        .map((modalEl) => Joomla.initialiseModal(modalEl, options));
+      document.querySelectorAll(modal).forEach((modalEl) => Joomla.initialiseModal(modalEl, options));
     });
   }
 }

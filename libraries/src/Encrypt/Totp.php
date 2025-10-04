@@ -180,7 +180,7 @@ class Totp
      */
     public function getUrl($user, $hostname, $secret)
     {
-        $url        = sprintf("otpauth://totp/%s@%s?secret=%s", $user, $hostname, $secret);
+        $url        = \sprintf("otpauth://totp/%s@%s?secret=%s", $user, $hostname, $secret);
         $encoder    = "https://chart.googleapis.com/chart?chs=200x200&chld=Q|2&cht=qr&chl=";
         $encoderURL = $encoder . urlencode($url);
 

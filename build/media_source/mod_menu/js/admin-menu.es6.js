@@ -4,7 +4,6 @@
  */
 
 document.querySelectorAll('ul.main-nav').forEach((menu) => {
-  // eslint-disable-next-line no-new, no-undef
   new MetisMenu(menu);
 });
 
@@ -112,13 +111,13 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     }));
   };
 
-  mainNav.querySelectorAll('li.parent > a').forEach((parent) => {
+  document.querySelectorAll('ul.main-nav li.parent > a').forEach((parent) => {
     parent.addEventListener('click', openToggle);
     parent.addEventListener('keyup', openToggle);
   });
 
   // Menu close
-  mainNav.querySelectorAll('li.parent .close').forEach((subMenu) => {
+  document.querySelectorAll('ul.main-nav li.parent .close').forEach((subMenu) => {
     subMenu.addEventListener('click', () => {
       mainNav.querySelectorAll('.open').forEach((menuChild) => menuChild.classList.remove('open'));
       mainNav.classList.remove('child-open');

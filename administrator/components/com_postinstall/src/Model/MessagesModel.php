@@ -68,7 +68,7 @@ class MessagesModel extends BaseDatabaseModel
         $db = $this->getDatabase();
         $id = (int) $id;
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('postinstall_message_id'),
@@ -110,7 +110,7 @@ class MessagesModel extends BaseDatabaseModel
         $db = $this->getDatabase();
         $id = (int) $id;
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 0')
@@ -135,7 +135,7 @@ class MessagesModel extends BaseDatabaseModel
         $db = $this->getDatabase();
         $id = (int) $id;
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 2')
@@ -160,7 +160,7 @@ class MessagesModel extends BaseDatabaseModel
         $db = $this->getDatabase();
         $id = (int) $id;
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 1')
@@ -187,7 +187,7 @@ class MessagesModel extends BaseDatabaseModel
         $cacheId = 'postinstall_messages.' . $eid;
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('postinstall_message_id'),
@@ -244,7 +244,7 @@ class MessagesModel extends BaseDatabaseModel
     public function getItemsCount()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('language_extension'),
@@ -296,7 +296,7 @@ class MessagesModel extends BaseDatabaseModel
         $db  = $this->getDatabase();
         $eid = (int) $eid;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('name'),
@@ -345,7 +345,7 @@ class MessagesModel extends BaseDatabaseModel
         $db  = $this->getDatabase();
         $eid = (int) $eid;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 1')
             ->where($db->quoteName('extension_id') . ' = :eid')
@@ -372,7 +372,7 @@ class MessagesModel extends BaseDatabaseModel
         $db  = $this->getDatabase();
         $eid = (int) $eid;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 0')
             ->where($db->quoteName('extension_id') . ' = :eid')
@@ -453,7 +453,7 @@ class MessagesModel extends BaseDatabaseModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__postinstall_messages'))
             ->group($db->quoteName('extension_id'));
@@ -508,8 +508,7 @@ class MessagesModel extends BaseDatabaseModel
      * enabled             Must be 1 for this message to be enabled. If you omit it, it defaults to 1.
      *
      * condition_file      The RAD path to a PHP file containing a PHP function which determines whether this message should be shown to
-     *                     the user. @see FOFTemplateUtils::parsePath() for RAD path format. Joomla! will include this file before calling
-     *                     the condition_method.
+     *                     the user. Joomla! will include this file before calling the condition_method.
      *                     Example:   admin://components/com_foobar/helpers/postinstall.php
      *
      * condition_method    The name of a PHP function which will be used to determine whether to show this message to the user. This must be
@@ -669,7 +668,7 @@ class MessagesModel extends BaseDatabaseModel
         $extensionId = (int) $options['extension_id'];
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName($tableName))
             ->where(
@@ -702,7 +701,7 @@ class MessagesModel extends BaseDatabaseModel
             }
 
             // Otherwise it's not the same row. Remove the old row before insert a new one.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName($tableName))
                 ->where(
                     [

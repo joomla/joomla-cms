@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,7 +26,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  4.0.0
  */
-final class Override extends CMSPlugin
+final class Override extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -37,6 +38,25 @@ final class Override extends CMSPlugin
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   5.2.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onExtensionBeforeUpdate'    => 'onExtensionBeforeUpdate',
+            'onExtensionAfterUpdate'     => 'onExtensionAfterUpdate',
+            'onJoomlaBeforeUpdate'       => 'onJoomlaBeforeUpdate',
+            'onJoomlaAfterUpdate'        => 'onJoomlaAfterUpdate',
+            'onInstallerBeforeInstaller' => 'onInstallerBeforeInstaller',
+            'onInstallerAfterInstaller'  => 'onInstallerAfterInstaller',
+        ];
+    }
 
     /**
      * Method to get com_templates model instance.
@@ -155,7 +175,7 @@ final class Override extends CMSPlugin
         try {
             /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $templateModel */
             $templateModel = $this->getModel();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 
@@ -278,7 +298,7 @@ final class Override extends CMSPlugin
         $db = $this->getDatabase();
 
         // Create a new query object.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select($db->quoteName('hash_id'))
@@ -325,7 +345,7 @@ final class Override extends CMSPlugin
         $db = $this->getDatabase();
 
         // Create an insert query.
-        $insertQuery = $db->getQuery(true)
+        $insertQuery = $db->createQuery()
             ->insert($db->quoteName('#__template_overrides'))
             ->columns($db->quoteName($columns));
 
@@ -340,7 +360,7 @@ final class Override extends CMSPlugin
             }
 
             if ($this->load($pk->id, $pk->extension_id)) {
-                $updateQuery = $db->getQuery(true)
+                $updateQuery = $db->createQuery()
                     ->update($db->quoteName('#__template_overrides'))
                     ->set(
                         [

@@ -46,7 +46,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
         $db   = $this->getDatabase();
         $user = $app->getIdentity();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
             ->order($db->quoteName('a.registerDate') . ' DESC')
             ->from($db->quoteName('#__users', 'a'));
@@ -69,7 +69,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
 
         try {
             return (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return [];

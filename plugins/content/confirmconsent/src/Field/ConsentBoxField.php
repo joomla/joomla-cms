@@ -112,7 +112,7 @@ class ConsentBoxField extends CheckboxesField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -242,7 +242,7 @@ class ConsentBoxField extends CheckboxesField
         $db = $this->getDatabase();
 
         // Get the info from the article
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'catid', 'language']))
             ->from($db->quoteName('#__content'))
             ->where($db->quoteName('id') . ' = ' . (int) $this->articleid);
@@ -250,7 +250,7 @@ class ConsentBoxField extends CheckboxesField
 
         try {
             $article = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Something at the database layer went wrong
             return Route::_(
                 'index.php?option=com_content&view=article&id='
@@ -320,7 +320,7 @@ class ConsentBoxField extends CheckboxesField
 
             if (Multilanguage::isEnabled()) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName(['id', 'language']))
                     ->from($db->quoteName('#__menu'))
                     ->where($db->quoteName('id') . ' = :id')

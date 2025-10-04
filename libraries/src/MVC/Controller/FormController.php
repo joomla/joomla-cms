@@ -101,10 +101,10 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      */
     public function __construct(
         $config = [],
-        MVCFactoryInterface $factory = null,
+        ?MVCFactoryInterface $factory = null,
         ?CMSWebApplicationInterface $app = null,
         ?Input $input = null,
-        FormFactoryInterface $formFactory = null
+        ?FormFactoryInterface $formFactory = null
     ) {
         parent::__construct($config, $factory, $app, $input);
 
@@ -566,7 +566,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $urlVar = $key;
         }
 
-        $recordId = $this->input->getInt($urlVar);
+        $recordId = (int) $this->input->getInt($urlVar);
 
         // Populate the row id from the session.
         $data[$key] = $recordId;

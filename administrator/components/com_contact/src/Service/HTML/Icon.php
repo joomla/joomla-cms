@@ -100,7 +100,7 @@ class Icon
      */
     public function edit($contact, $params, $attribs = [], $legacy = false)
     {
-        $user = Factory::getUser();
+        $user = Factory::getApplication()->getIdentity();
         $uri  = Uri::getInstance();
 
         // Ignore if in a popup window.
@@ -118,7 +118,7 @@ class Icon
             property_exists($contact, 'checked_out')
             && property_exists($contact, 'checked_out_time')
             && !\is_null($contact->checked_out)
-            && $contact->checked_out !== $user->get('id')
+            && $contact->checked_out !== $user->id
         ) {
             $checkoutUser = $this->getUserFactory()->loadUserById($contact->checked_out);
             $date         = HTMLHelper::_('date', $contact->checked_out_time);

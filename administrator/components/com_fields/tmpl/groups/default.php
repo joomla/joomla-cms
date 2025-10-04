@@ -22,13 +22,13 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 /** @var \Joomla\Component\Fields\Administrator\View\Groups\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 
 $component = '';
 $parts     = FieldsHelper::extract($this->state->get('filter.context'));
@@ -178,9 +178,8 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                         <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
-                <input type="hidden" name="task" value="">
-                <input type="hidden" name="boxchecked" value="0">
-                <?php echo HTMLHelper::_('form.token'); ?>
+
+                <?php echo $this->filterForm->renderControlFields(); ?>
             </div>
         </div>
     </div>

@@ -43,7 +43,7 @@ class TimeRule extends FormRule
      *
      * @throws \Exception
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): bool
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null): bool
     {
         // Check if the field is required.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
@@ -86,7 +86,7 @@ class TimeRule extends FormRule
         }
 
         // If min and max is set
-        if (isset($element['min']) && isset($element['max'])) {
+        if (isset($element['min'], $element['max'])) {
             $min = $element['min'][0] . $element['min'][1];
             $max = $element['max'][0] . $element['max'][1];
 

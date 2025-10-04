@@ -48,7 +48,7 @@ document.addEventListener('onMediaFileSelected', async (e) => {
     images, audios, videos, documents,
   } = supportedExtensions;
 
-  if (Joomla.selectedMediaFile.path) {
+  if (Joomla.selectedMediaFile.path && Joomla.selectedMediaFile.type === 'file') {
     let type;
     if (images.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'images';
@@ -113,7 +113,6 @@ const getImageSize = (url) => new Promise((resolve, reject) => {
     resolve(true);
   };
   img.onerror = () => {
-    // eslint-disable-next-line prefer-promise-reject-errors
     reject(false);
   };
 });
@@ -123,7 +122,6 @@ const insertAsImage = async (media, editor, fieldClass) => {
     const { rootFull } = Joomla.getOptions('system.paths');
     const parts = media.url.split(rootFull);
     if (parts.length > 1) {
-      // eslint-disable-next-line prefer-destructuring
       Joomla.selectedMediaFile.url = parts[1];
       if (media.thumb_path) {
         Joomla.selectedMediaFile.thumb = media.thumb_path;
@@ -188,7 +186,6 @@ const insertAsImage = async (media, editor, fieldClass) => {
       if (Joomla.selectedMediaFile.width === 0 || Joomla.selectedMediaFile.height === 0) {
         try {
           await getImageSize(Joomla.selectedMediaFile.url);
-          // eslint-disable-next-line no-empty
         } catch (err) {
           Joomla.selectedMediaFile.height = 0;
           Joomla.selectedMediaFile.width = 0;
@@ -205,7 +202,6 @@ const insertAsOther = (media, editor, fieldClass, type) => {
     const { rootFull } = Joomla.getOptions('system.paths');
     const parts = media.url.split(rootFull);
     if (parts.length > 1) {
-      // eslint-disable-next-line prefer-destructuring
       Joomla.selectedMediaFile.url = parts[1];
     } else {
       Joomla.selectedMediaFile.url = media.url;
@@ -240,11 +236,11 @@ const insertAsOther = (media, editor, fieldClass, type) => {
   <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
 </video>`;
           }
-        } else if (Joomla.editors.instances[editor].getSelection() !== '') {
-          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
+        } else if (editorInst.getSelection() !== '') {
+          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${editorInst.getSelection()}</a>`;
         } else {
-          const name = /([\w-]+)\./.exec(Joomla.selectedMediaFile.url);
-          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name[1])}</a>`;
+          const name = Joomla.selectedMediaFile.url.substr(0, Joomla.selectedMediaFile.url.lastIndexOf('.')).replace(/%20/g, ' ').split('/').pop();
+          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name)}</a>`;
         }
       }
 

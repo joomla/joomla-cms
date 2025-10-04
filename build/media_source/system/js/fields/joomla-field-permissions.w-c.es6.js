@@ -32,7 +32,7 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
    * Lifecycle
    */
   connectedCallback() {
-    this.buttons = [].slice.call(document.querySelectorAll(`[${this.buttonDataSelector}]`));
+    this.buttons = document.querySelectorAll(`[${this.buttonDataSelector}]`);
     if (this.buttons) {
       this.buttons.forEach((button) => {
         button.addEventListener('change', this.onDropdownChange);
@@ -124,7 +124,6 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
         try {
           response = JSON.parse(data);
         } catch (e) {
-          // eslint-disable-next-line no-console
           console.error(e);
         }
 

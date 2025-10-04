@@ -53,7 +53,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
      *
      * @since   1.5
      */
-    public function onUserAuthenticate(AuthenticationEvent $event)
+    public function onUserAuthenticate(AuthenticationEvent $event): void
     {
         $credentials = $event->getCredentials();
         $response    = $event->getAuthenticationResponse();
@@ -69,7 +69,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'password']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
