@@ -144,7 +144,8 @@ class Icon
      *
      * @return  string  The HTML markup for the popup link
      *
-     * @since  4.0.0
+     * @since       4.0.0
+     * @deprecated  6.0 will be removed in 7.0 without replacement
      */
     public function print_screen($params, $legacy = false)
     {
