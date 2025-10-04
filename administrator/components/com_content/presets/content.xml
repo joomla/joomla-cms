@@ -27,14 +27,6 @@
 			quicktask="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
 			quicktask-title="COM_CONTENT_MENUS_NEW_CATEGORY"
 		/>
-
-		<menuitem
-			title="COM_CONTENT_MENUS_FEATURED"
-			type="component"
-			element="com_content"
-			link="index.php?option=com_content&amp;view=articles&amp;filter[featured]=1"
-			class="class:featured"
-		/>
 	</menuitem>
 
 	<menuitem
