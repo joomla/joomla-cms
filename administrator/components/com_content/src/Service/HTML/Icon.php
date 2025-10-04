@@ -135,4 +135,21 @@ class Icon
 
         return $output;
     }
+
+    /**
+     * Method to generate a link to print an article
+     *
+     * @param   Registry  $params  The item parameters
+     * @param   boolean   $legacy  True to use legacy images, false to use icomoon based graphic
+     *
+     * @return  string  The HTML markup for the popup link
+     *
+     * @since  4.0.0
+     */
+    public function print_screen($params, $legacy = false)
+    {
+        $text = LayoutHelper::render('joomla.content.icons.print_screen', ['params' => $params, 'legacy' => $legacy]);
+
+        return '<button type="button" onclick="window.print();return false;">' . $text . '</button>';
+    }
 }
