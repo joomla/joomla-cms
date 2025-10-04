@@ -369,7 +369,7 @@ class ContactModel extends AdminModel implements VersionableModelInterface
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__contact_details'));
                 $db->setQuery($query);
@@ -479,7 +479,7 @@ class ContactModel extends AdminModel implements VersionableModelInterface
         try {
             $db = $this->getDatabase();
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query->update($db->quoteName('#__contact_details'));
             $query->set($db->quoteName('featured') . ' = :featured');
             $query->whereIn($db->quoteName('id'), $pks);

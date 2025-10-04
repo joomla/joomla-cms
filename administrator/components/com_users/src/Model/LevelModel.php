@@ -52,7 +52,7 @@ class LevelModel extends AdminModel
             if ($table->load($pk)) {
                 // Check if the access level is being used.
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('DISTINCT access');
 
                 // Get all tables that have the access field

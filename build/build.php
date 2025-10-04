@@ -112,7 +112,6 @@ function clean_checkout(string $dir)
     run_and_check('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
-    run_and_check('find libraries/vendor -name build.xml | xargs rm -rf -');
     run_and_check('find libraries/vendor -name infection.json.dist | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpbench.json | xargs rm -rf -');
     run_and_check('find libraries/vendor -name phpstan.neon.dist | xargs rm -rf -');
@@ -343,10 +342,9 @@ if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
     exit(1);
 }
 
-run_and_check('npm install --unsafe-perm');
-
+// Install dependencies and build the media assets
 // Create version entries of the urls inside the static css files
-run_and_check('npm run cssversioning');
+run_and_check('npm ci');
 
 // Create gzipped version of the static assets
 run_and_check('npm run gzip');
@@ -442,7 +440,6 @@ $doNotPackage = [
     // Media Manager Node Assets
     'administrator/components/com_media/resources',
     'build',
-    'build.xml',
     'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',

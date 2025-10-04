@@ -83,10 +83,5 @@ class HtmlView extends ListView
             unset($this->activeFilters['language']);
             $this->filterForm->removeField('language', 'filter');
         }
-
-        // Add form control fields
-        $this->filterForm
-            ->addControlField('task', '')
-            ->addControlField('boxchecked', '0');
     }
 }

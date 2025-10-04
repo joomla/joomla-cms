@@ -129,7 +129,7 @@ class DatabaseModelTest extends UnitTestCase
     {
         $db = $this->createStub(DatabaseInterface::class);
         $db->method('loadObjectList')->willReturn([1]);
-        $db->method('getQuery')->willReturn($this->getQueryStub($db));
+        $db->method('createQuery')->willReturn($this->getQueryStub($db));
 
         $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
             public function _getList($query, $limitstart = 0, $limit = 0)

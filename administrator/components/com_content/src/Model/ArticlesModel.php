@@ -198,7 +198,7 @@ class ArticlesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $user  = $this->getCurrentUser();
 
         $params = ComponentHelper::getParams('com_content');
@@ -287,7 +287,7 @@ class ArticlesModel extends ListModel
 
         // Join over the associations.
         if (Associations::isEnabled()) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
                 ->from($db->quoteName('#__associations', 'asso1'))
                 ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
@@ -414,7 +414,7 @@ class ArticlesModel extends ListModel
 
             if ($authorId === 0) {
                 // Only show deleted authors' articles
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__users'));
 
@@ -440,7 +440,7 @@ class ArticlesModel extends ListModel
                 $authorId = array_filter($authorId);
 
                 // Subquery for deleted users
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__users'));
 
@@ -528,7 +528,7 @@ class ArticlesModel extends ListModel
                 $includeNone = true;
             }
 
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
                 ->where(
@@ -545,7 +545,7 @@ class ArticlesModel extends ListModel
             );
 
             if ($includeNone) {
-                $subQuery2 = $db->getQuery(true)
+                $subQuery2 = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
@@ -563,7 +563,7 @@ class ArticlesModel extends ListModel
             $tag = (int) $tag;
 
             if ($tag === 0) {
-                $subQuery = $db->getQuery(true)
+                $subQuery = $db->createQuery()
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
@@ -665,7 +665,7 @@ class ArticlesModel extends ListModel
             if (\count($stage_ids) || \count($workflow_ids)) {
                 Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query  ->select(
                     [

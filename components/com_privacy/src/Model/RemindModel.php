@@ -70,7 +70,7 @@ class RemindModel extends AdminModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['r.id', 'r.user_id', 'r.token']));
         $query->from($db->quoteName('#__privacy_consents', 'r'));
         $query->join(
