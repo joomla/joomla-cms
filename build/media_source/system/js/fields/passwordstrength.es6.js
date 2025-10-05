@@ -144,7 +144,6 @@ class PasswordStrength {
       meter.value = initialVal;
 
       const label = document.createElement('output');
-      label.setAttribute('class', 'text-center w-100');
       label.setAttribute('id', `password-${index}`);
       label.setAttribute('for', field.id);
 
