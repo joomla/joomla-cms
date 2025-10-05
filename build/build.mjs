@@ -13,7 +13,6 @@
  * node build.mjs --com-media        will compile the media manager Vue application
  * node build.mjs --watch-com-media  will watch and compile the media manager Vue application
  * node build.mjs --gzip             will create gzip files for all the minified stylesheets and scripts.
- * node build.mjs --cssversioning    will update all the url entries providing accurate versions for stylesheets.
  * node build.mjs --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
@@ -34,10 +33,10 @@ import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs'
 import { watching } from './build-modules-js/watch.mjs';
 import { mediaManager, watchMediaManager } from './build-modules-js/javascript/build-com_media-js.mjs';
 import { compressFiles } from './build-modules-js/compress.mjs';
-import { cssVersioning } from './build-modules-js/css-versioning.mjs';
 import { versioning } from './build-modules-js/versioning.mjs';
 import { Timer } from './build-modules-js/utils/timer.mjs';
 import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
+import { cssVersioningVendor } from './build-modules-js/stylesheets/css-versioning.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -104,10 +103,6 @@ Program.allowUnknownOption()
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
   .option(
-    '--cssversioning',
-    'Update all the url() versions on their relative stylesheet files',
-  )
-  .option(
     '--versioning',
     'Update all the .js/.css versions on their relative joomla.assets.json',
   )
@@ -130,6 +125,7 @@ if (cliOptions.copyAssets) {
     .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
+    .then(() => cssVersioningVendor())
     .then(() => minifyVendor())
     .catch((error) => handleError(error, 1));
 }
@@ -185,11 +181,6 @@ if (cliOptions.versioning) {
   versioning().catch((err) => handleError(err, 1));
 }
 
-// Update the url() versions in the .css files
-if (cliOptions.cssversioning) {
-  cssVersioning().catch((err) => handleError(err, 1));
-}
-
 // Prepare the repo for dev work
 if (cliOptions.prepare) {
   const bench = new Timer('Build');
@@ -201,6 +192,7 @@ if (cliOptions.prepare) {
     .then(() => minifyVendor())
     .then(() => createErrorPages(options))
     .then(() => stylesheets(options, Program.args[0]))
+    .then(() => cssVersioningVendor())
     .then(() => scripts(options, Program.args[0]))
     .then(() => mediaManager())
     .then(() => bootstrapJs())
