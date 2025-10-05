@@ -10,10 +10,10 @@
 namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Http\HttpFactory;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -66,7 +66,7 @@ class LanguagesModel extends ListModel
     private function getUpdateSite()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('us.location'))
             ->from($db->quoteName('#__extensions', 'e'))
             ->where($db->quoteName('e.type') . ' = ' . $db->quote('package'))
@@ -135,7 +135,7 @@ class LanguagesModel extends ListModel
         }
 
         try {
-            $response = HttpFactory::getHttp()->get($updateSite);
+            $response = (new HttpFactory())->getHttp()->get($updateSite);
         } catch (\RuntimeException) {
             $response = null;
         }

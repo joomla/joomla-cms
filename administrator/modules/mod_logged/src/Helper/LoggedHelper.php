@@ -44,7 +44,7 @@ class LoggedHelper
     public function getUsers(Registry $params, CMSApplication $app, DatabaseInterface $db): mixed
     {
         $user  = $app->getIdentity();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('s.time, s.client_id, u.id, u.name, u.username')
             ->from('#__session AS s')
             ->join('RIGHT', '#__users AS u ON s.userid = u.id')

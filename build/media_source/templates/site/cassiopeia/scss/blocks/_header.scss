@@ -83,6 +83,34 @@
       display: flex;
       flex: 1 1 0%;
       flex-direction: row;
+      :where(.mod-menu__sub:not(.mod-menu__sub *)) {
+        position: absolute;
+        top: 100%;
+        z-index: 1001;
+        display: block;
+        min-width: 12rem;
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+      }
+    }
+
+    @include media-breakpoint-down(lg) {
+      &.mod-list > li > a:hover {
+        text-decoration: underline;
+      }
+      .mod-menu__sub {
+        a,
+        span {
+          color: $white;
+        }
+      }
+    }
+
+    .mod-menu__sub {
+      a:hover {
+        text-decoration: underline;
+      }
     }
 
     > li {
@@ -137,6 +165,9 @@
       > ul {
         display: none;
         color: $gray-900;
+      }
+      > [aria-hidden="false"] {
+        display: block;
       }
     }
   }

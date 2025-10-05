@@ -118,7 +118,7 @@ class ContentType extends Table
     public function getTypeId($typeAlias)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName('type_id'))
             ->from($db->quoteName($this->_tbl))
             ->where($db->quoteName('type_alias') . ' = :type_alias')
@@ -144,14 +144,25 @@ class ContentType extends Table
 
         if (\is_object($tableInfo) && isset($tableInfo->special)) {
             if (\is_object($tableInfo->special) && isset($tableInfo->special->type, $tableInfo->special->prefix)) {
-                $class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
+                if (isset($tableInfo->special->class)) {
+                    $class = $tableInfo->special->class;
+
+                    if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
+                        // This isn't an instance of TableInterface. Stop.
+                        throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
+                    }
+
+                    return $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+                }
+
+                $class = rtrim($tableInfo->special->prefix, '\\') . '\\' . $tableInfo->special->type;
 
                 if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
                     // This isn't an instance of TableInterface. Stop.
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }
 
-                $result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+                $result = new $class($this->getDbo());
             }
         }
 

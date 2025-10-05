@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
@@ -55,7 +55,7 @@ class ExtensionAdapter extends UpdateAdapter
 
         switch ($name) {
             case 'UPDATE':
-                $this->currentUpdate                 = Table::getInstance('update');
+                $this->currentUpdate                 = new Update($this->db);
                 $this->currentUpdate->update_site_id = $this->updateSiteId;
                 $this->currentUpdate->detailsurl     = $this->_url;
                 $this->currentUpdate->folder         = '';
@@ -134,7 +134,7 @@ class ExtensionAdapter extends UpdateAdapter
 
                     // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
                     if (isset($this->currentUpdate->supported_databases)) {
-                        $db           = Factory::getDbo();
+                        $db           = $this->db;
                         $dbType       = strtolower($db->getServerType());
                         $dbVersion    = $db->getVersion();
                         $supportedDbs = $this->currentUpdate->supported_databases;
@@ -274,6 +274,12 @@ class ExtensionAdapter extends UpdateAdapter
         if ($response === false) {
             return false;
         }
+
+        /**
+         * Unset the latest update which might have been found for a previous update site, avoid
+         * strange issue reported at https://github.com/joomla/joomla-cms/issues/46066
+         */
+        unset($this->latest);
 
         if (\array_key_exists('minimum_stability', $options)) {
             $this->minimum_stability = $options['minimum_stability'];

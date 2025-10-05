@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
@@ -29,7 +30,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class BannerModel extends AdminModel
+class BannerModel extends AdminModel implements VersionableModelInterface
 {
     use VersionableModelTrait;
 
@@ -82,7 +83,7 @@ class BannerModel extends AdminModel
         // Initialise clicks and impmade
         $db    = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
                 ->update($db->quoteName('#__banners'))
                 ->set($db->quoteName('clicks') . ' = 0')
                 ->set($db->quoteName('impmade') . ' = 0')
@@ -264,7 +265,7 @@ class BannerModel extends AdminModel
                 $filters     = (array) $app->getUserState('com_banners.banners.filter');
                 $filterCatId = $filters['category_id'] ?? null;
 
-                $data->set('catid', $app->getInput()->getInt('catid', $filterCatId));
+                $data->catid = $app->getInput()->getInt('catid', $filterCatId);
             }
         }
 
@@ -352,7 +353,7 @@ class BannerModel extends AdminModel
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__banners'));
 
