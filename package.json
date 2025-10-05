@@ -34,7 +34,8 @@
     "cypress:run": "cypress run --config-file cypress.config.mjs"
   },
   "browserslist": [
-    "baseline widely available"
+    "last 2 major version",
+    "not ie < 11"
   ],
   "dependencies": {
     "@claviska/jquery-minicolors": "^2.3.6",
