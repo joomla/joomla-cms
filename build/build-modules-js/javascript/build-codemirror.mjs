@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 
+import { babel } from '@rollup/plugin-babel';
 import cliProgress from 'cli-progress';
 import { rolldown as rollup } from 'rolldown';
 import { transform } from 'esbuild';
@@ -20,9 +21,28 @@ import {
 const buildModule = async (module, externalModules, destFile) => {
   const build = await rollup({
     input: module,
-    define: { preventAssignment: JSON.stringify('always'), 'process.env.NODE_ENV': JSON.stringify('production')},
+    define: { preventAssignment: JSON.stringify('true'), 'process.env.NODE_ENV': JSON.stringify('production')},
     external: externalModules || [],
-    plugins: [],
+    plugins: [
+      babel({
+        exclude: 'node_modules/core-js/**',
+        babelHelpers: 'bundled',
+        babelrc: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: {
+                browsers: ['baseline widely available'],
+              },
+              loose: true,
+              bugfixes: true,
+              ignoreBrowserslistConfig: false,
+            },
+          ],
+        ],
+      }),
+    ],
   });
 
   await build.write({

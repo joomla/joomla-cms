@@ -59,15 +59,7 @@ export const handleESMFile = async (file) => {
             '@babel/preset-env',
             {
               targets: {
-                browsers: [
-                  '> 1%',
-                  'not op_mini all',
-                  /** https://caniuse.com/es6-module */
-                  'chrome >= 61',
-                  'safari >= 11',
-                  'edge >= 16',
-                  'Firefox >= 60',
-                ],
+                browsers: ['baseline widely available'],
               },
               loose: true,
               bugfixes: true,
