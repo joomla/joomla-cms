@@ -81,7 +81,7 @@ final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
         $this->logTask(\sprintf('Delete Logs after %d days', $daysToDeleteAfter));
         $now               = Factory::getDate()->toSql();
         $db                = $this->getDatabase();
-        $query             = $db->getQuery(true);
+        $query             = $db->createQuery();
 
         if ($daysToDeleteAfter > 0) {
             $days = -1 * $daysToDeleteAfter;

@@ -141,7 +141,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         // Check if the article was featured and update the #__content_frontpage table
         if ($table->featured == 1) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('featured_up'),
@@ -155,7 +155,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             $featured = $db->setQuery($query)->loadObject();
 
             if ($featured) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__content_frontpage'))
                     ->values(':newId, 0, :featuredUp, :featuredDown')
                     ->bind(':newId', $newId, ParameterType::INTEGER)
@@ -411,7 +411,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
                 if ($item->featured) {
                     // Get featured dates.
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select(
                             [
                                 $db->quoteName('featured_up'),
@@ -875,7 +875,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__content'))
                 ->set($db->quoteName('featured') . ' = :featured')
                 ->whereIn($db->quoteName('id'), $pks)
@@ -886,14 +886,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
             if ($value === 0) {
                 // Adjust the mapping table.
                 // Clear the existing features settings.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__content_frontpage'))
                     ->whereIn($db->quoteName('content_id'), $pks);
                 $db->setQuery($query);
                 $db->execute();
             } else {
                 // First, we find out which of our new featured articles are already featured.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('content_id'))
                     ->from($db->quoteName('#__content_frontpage'))
                     ->whereIn($db->quoteName('content_id'), $pks);
@@ -903,7 +903,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
                 // Update old featured articles
                 if (\count($oldFeatured)) {
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->update($db->quoteName('#__content_frontpage'))
                         ->set(
                             [
@@ -923,7 +923,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
 
                 // Featuring.
                 if ($newFeatured) {
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->insert($db->quoteName('#__content_frontpage'))
                         ->columns(
                             [
@@ -1106,7 +1106,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface, Version
         if ($return) {
             // Now check to see if this articles was featured if so delete it from the #__content_frontpage table
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__content_frontpage'))
                 ->whereIn($db->quoteName('content_id'), $pks);
             $db->setQuery($query);

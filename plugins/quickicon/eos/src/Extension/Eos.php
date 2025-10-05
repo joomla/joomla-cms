@@ -139,7 +139,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     {
         $params = $this->params->toString('JSON');
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true)
+        $query  = $db->createQuery()
             ->update($db->quoteName('#__extensions'))
             ->set($db->quoteName('params') . ' = :params')
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))

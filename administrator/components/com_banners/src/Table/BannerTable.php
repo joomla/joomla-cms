@@ -69,7 +69,7 @@ class BannerTable extends Table implements VersionableTableInterface
     {
         $id    = (int) $this->id;
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__banners'))
             ->set($db->quoteName('clicks') . ' = ' . $db->quoteName('clicks') . ' + 1')
             ->where($db->quoteName('id') . ' = :id')
@@ -220,6 +220,15 @@ class BannerTable extends Table implements VersionableTableInterface
     {
         $db = $this->getDatabase();
 
+        // Verify that the alias is unique
+        $table = new self($db, $this->getDispatcher());
+
+        if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
+            $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
+
+            return false;
+        }
+
         if (empty($this->id)) {
             $purchaseType = $this->purchase_type;
 
@@ -263,15 +272,6 @@ class BannerTable extends Table implements VersionableTableInterface
 
             if (!$oldrow->load($this->id) && $oldrow->getError()) {
                 $this->setError($oldrow->getError());
-            }
-
-            // Verify that the alias is unique
-            $table = new self($db, $this->getDispatcher());
-
-            if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
-                $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
-
-                return false;
             }
 
             // Store the new row

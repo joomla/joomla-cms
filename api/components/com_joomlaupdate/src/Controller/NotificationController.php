@@ -11,6 +11,7 @@
 namespace Joomla\Component\Joomlaupdate\Api\Controller;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Joomlaupdate\Administrator\Model\NotificationModel;
 use Joomla\Component\Joomlaupdate\Api\View\Updates\JsonapiView;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -50,10 +51,11 @@ class NotificationController extends BaseController
         $this->validateUpdateToken();
 
         $fromVersion = $this->input->json->getString('fromVersion', null);
+        $toVersion   = $this->input->json->getString('toVersion', null);
 
         $view = $this->prepareView();
 
-        $view->notification('failed', $fromVersion);
+        $view->notification('failed', $fromVersion, $toVersion);
 
         return $this;
     }
@@ -70,10 +72,11 @@ class NotificationController extends BaseController
         $this->validateUpdateToken();
 
         $fromVersion = $this->input->json->getString('fromVersion', null);
+        $toVersion   = $this->input->json->getString('toVersion', null);
 
         $view = $this->prepareView();
 
-        $view->notification('success', $fromVersion);
+        $view->notification('success', $fromVersion, $toVersion);
 
         return $this;
     }
@@ -101,7 +104,7 @@ class NotificationController extends BaseController
             throw new \RuntimeException($e->getMessage());
         }
 
-        /** @var UpdateModel $model */
+        /** @var NotificationModel $model */
         $model = $this->getModel('Notification', 'Administrator', ['ignore_request' => true, 'state' => $this->modelState]);
 
         if (!$model) {
