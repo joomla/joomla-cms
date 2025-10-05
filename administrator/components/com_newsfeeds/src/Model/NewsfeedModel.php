@@ -311,7 +311,7 @@ class NewsfeedModel extends AdminModel implements VersionableModelInterface
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__newsfeeds'));
                 $db->setQuery($query);

@@ -92,7 +92,7 @@ class ContentHelper
             case 'tag_assigments':
                 $recid_col = 'ct.' . $config->group_col;
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->from($db->quoteName('#__contentitem_tag_map', 'ct'))
                     ->join(
                         'INNER',
@@ -106,7 +106,7 @@ class ContentHelper
             case 'category_or_group':
                 $recid_col = 'c.' . $config->group_col;
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->from($db->quoteName($related_tbl, 'c'));
                 break;
 
@@ -244,7 +244,7 @@ class ContentHelper
     public static function getLanguageId($langCode)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('lang_id'))
             ->from($db->quoteName('#__languages'))
             ->where($db->quoteName('lang_code') . ' = :language')

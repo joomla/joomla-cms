@@ -45,7 +45,7 @@ class LogtypeField extends ListField
     public function getOptions()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension'))
             ->from($db->quoteName('#__action_logs_extensions'));
 

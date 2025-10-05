@@ -215,7 +215,7 @@ class Menu extends Nested
                 } elseif ($this->language === '*' && $this->id != 0) {
                     // When editing an item with All language check if there are more menu items with the same alias in any language.
                     $id    = (int) $this->id;
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select('id')
                         ->from($db->quoteName('#__menu'))
                         ->where($db->quoteName('parent_id') . ' = 1')

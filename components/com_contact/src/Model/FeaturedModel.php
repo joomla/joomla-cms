@@ -89,7 +89,7 @@ class FeaturedModel extends ListModel
 
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select required fields from the categories.
         $query->select($this->getState('list.select', 'a.*'))

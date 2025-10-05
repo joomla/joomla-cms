@@ -106,6 +106,14 @@ class ListView extends HtmlView
     protected $supportsBatch = true;
 
     /**
+     * The flag which determine if the current user is allowed to perform batch actions. It is
+     * used in layout to determine if we need to render batch layout
+     *
+     * @var boolean
+     */
+    protected $batchAllowed = false;
+
+    /**
      * Holds the extension for categories, if available
      *
      * @var string
@@ -187,7 +195,7 @@ class ListView extends HtmlView
         // Prepare view data
         $this->initializeView();
 
-        if (!\count($this->items) && \is_callable([$model, 'IsEmptyState']) && $this->isEmptyState = $model->getIsEmptyState()) {
+        if (!\count($this->items) && \is_callable([$model, 'getIsEmptyState']) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
@@ -227,6 +235,11 @@ class ListView extends HtmlView
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
     }
 
     /**
@@ -242,7 +255,7 @@ class ListView extends HtmlView
         $user  = $this->getCurrentUser();
 
         /**
-         * @var Toolbar $toolbar
+         * @var \Joomla\CMS\Toolbar\Toolbar $toolbar
          */
         $toolbar = $this->getDocument()->getToolbar();
 
@@ -257,7 +270,7 @@ class ListView extends HtmlView
         }
 
         if (!$this->isEmptyState && $canDo->get('core.edit.state')) {
-            /** @var  DropdownButton $dropdown */
+            /** @var  \Joomla\CMS\Toolbar\Button\DropdownButton $dropdown */
             $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
@@ -299,6 +312,8 @@ class ListView extends HtmlView
                     ->modalWidth('800px')
                     ->modalHeight('fit-content')
                     ->listCheck(true);
+
+                $this->batchAllowed = true;
             }
         }
 

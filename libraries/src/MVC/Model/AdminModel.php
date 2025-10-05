@@ -26,7 +26,6 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelInterface;
-use Joomla\CMS\Versioning\Versioning;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -511,7 +510,7 @@ abstract class AdminModel extends FormModel
                 $dbType = strtolower($db->getServerType());
 
                 // Copy rules
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->clear()
                     ->update($db->quoteName('#__assets', 't'));
 
@@ -887,7 +886,7 @@ abstract class AdminModel extends FormModel
                     // Multilanguage: if associated, delete the item in the _associations table
                     if ($this->associationsContext && Associations::isEnabled()) {
                         $db    = $this->getDatabase();
-                        $query = $db->getQuery(true)
+                        $query = $db->createQuery()
                             ->select(
                                 [
                                     'COUNT(*) AS ' . $db->quoteName('count'),
@@ -910,7 +909,7 @@ abstract class AdminModel extends FormModel
                         $row = $db->loadAssoc();
 
                         if (!empty($row['count'])) {
-                            $query = $db->getQuery(true)
+                            $query = $db->createQuery()
                                 ->delete($db->quoteName('#__associations'))
                                 ->where(
                                     [
@@ -953,14 +952,30 @@ abstract class AdminModel extends FormModel
                         return false;
                     }
 
+                    if (Factory::getApplication()->isClient('api')) {
+                        $session = Factory::getApplication()->getSession();
+                        $session->set('http_status_code_409', true);
+                    }
+
                     Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
                     return false;
                 }
             } else {
-                $this->setError($table->getError());
+                $error = $this->getError();
+                if ($error) {
+                    $this->setError($table->getError());
 
-                return false;
+                    return false;
+                }
+                if (Factory::getApplication()->isClient('api')) {
+                    $session = Factory::getApplication()->getSession();
+                    $session->set('http_status_code_409', true);
+                }
+
+                Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+                return true;
             }
         }
 
@@ -1377,7 +1392,7 @@ abstract class AdminModel extends FormModel
             // Get associationskey for edited item
             $db    = $this->getDatabase();
             $id    = (int) $table->$key;
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('key'))
                 ->from($db->quoteName('#__associations'))
                 ->where($db->quoteName('context') . ' = :context')
@@ -1389,7 +1404,7 @@ abstract class AdminModel extends FormModel
 
             if ($associations || $oldKey !== null) {
                 // Deleting old associations for the associated items
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->delete($db->quoteName('#__associations'))
                     ->where($db->quoteName('context') . ' = :context')
                     ->bind(':context', $this->associationsContext);
@@ -1418,7 +1433,7 @@ abstract class AdminModel extends FormModel
             if (\count($associations) > 1) {
                 // Adding new association for these items
                 $key   = md5(json_encode($associations));
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__associations'))
                     ->columns(
                         [
@@ -1449,11 +1464,10 @@ abstract class AdminModel extends FormModel
             // Merge table data and data so that we write all data to the history
             $tableData = ArrayHelper::fromObject($table);
 
-            $historyData = array_merge($tableData, $data);
+            $historyData = array_merge($data, $tableData);
 
             // We have to set the key for new items, would be always 0 otherwise
             $historyData[$key] = $this->getState($this->getName() . '.id');
-
 
             $this->saveHistory($historyData, $context);
         }
@@ -1744,26 +1758,5 @@ abstract class AdminModel extends FormModel
         );
 
         return true;
-    }
-
-    /**
-     * Method to save the history.
-     *
-     * @param   array   $data     The form data.
-     * @param   string  $context  The model context.
-     *
-     * @return  boolean  True on success, False on error.
-     *
-     * @since   6.0.0
-     */
-    protected function saveHistory(array $data, string $context)
-    {
-        $id = $this->getState($this->getName() . '.id');
-
-        $versionNote = \array_key_exists('version_note', $data) ? $data['version_note'] : '';
-
-        $result = Versioning::store($context, $id, ArrayHelper::toObject($data), $versionNote);
-
-        return $result;
     }
 }
