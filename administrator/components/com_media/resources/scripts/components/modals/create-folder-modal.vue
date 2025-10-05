@@ -81,6 +81,7 @@
 
 <script>
 import * as types from '../../store/mutation-types.es6';
+import translate from '../../plugins/translate.es6'
 import MediaModal from './modal.vue';
 
 export default {

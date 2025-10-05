@@ -1,12 +1,10 @@
-import { sep } from 'node:path';
-
-import recursive from 'recursive-readdir';
-import pkg from 'fs-extra';
+import { join, sep } from 'node:path';
+import { stat } from 'node:fs/promises';
+import { readdirSync } from 'node:fs';
 
 import { handleScssFile } from './stylesheets/handle-scss.mjs';
 import { handleCssFile } from './stylesheets/handle-css.mjs';
 
-const { stat } = pkg;
 const RootPath = process.cwd();
 
 /**
@@ -19,14 +17,17 @@ const RootPath = process.cwd();
  *         css files to have ext: .css
  * Ignores scss files that their filename starts with `_`
  *
- * @param {object} options  The options
- * @param {string} path     The folder that needs to be compiled, optional
+ * @param {string|Array} path     The folder that needs to be compiled, optional
+ *
+ * @returns {Promise}
  */
-export const stylesheets = async (options, path) => {
-  const files = [];
+export const stylesheets = async (path) => {
+  let files = [];
   let folders = [];
 
-  if (path) {
+  if (Array.isArray(path)) {
+    path.filter((file) => file.endsWith('.css') || file.endsWith('.scss')).forEach((file) => files.push(file));
+  } else if (path) {
     const stats = await stat(`${RootPath}/${path}`);
 
     if (stats.isDirectory()) {
@@ -34,8 +35,7 @@ export const stylesheets = async (options, path) => {
     } else if (stats.isFile()) {
       files.push(`${RootPath}/${path}`);
     } else {
-      console.error(`Unknown path ${path}`);
-      process.exitCode = 1;
+      throw new Error(`Unknown path ${path}`);
     }
   } else {
     folders = [
@@ -47,20 +47,23 @@ export const stylesheets = async (options, path) => {
     ];
   }
 
-  const folderPromises = [];
-
-  // Loop to get the files that should be compiled via parameter
-  for (const folder of folders) {
-    folderPromises.push(recursive(folder, ['!*.+(scss|css)']));
+  if (folders.length) {
+    // Loop to get the files that should be compiled via parameter
+    for (const folder of folders) {
+      const filesLocal = readdirSync(folder, { recursive: true })
+        .filter((file) => file.endsWith('.scss') || file.endsWith('.css'))
+        .map((file) => join(folder, file));
+        for (const file of filesLocal) {
+          files.push(file);
+        }
+    }
   }
-
-  const computedFiles = await Promise.all(folderPromises);
 
   const cssFilesPromises = [];
   const scssFilesPromises = [];
 
   // Loop to get the files that should be compiled via parameter
-  [].concat(...computedFiles).forEach((file) => {
+  files.forEach((file) => {
     if (file.endsWith('.css') && !file.endsWith('.min.css')) {
       cssFilesPromises.push(handleCssFile(file));
     }
@@ -72,17 +75,13 @@ export const stylesheets = async (options, path) => {
         return;
       }
 
-      files.push(file);
+      const outputFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
+        .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)
+        .replace('.scss', '.css');
+
+      scssFilesPromises.push(handleScssFile(file, outputFile));
     }
   });
 
-  for (const file of files) {
-    const outputFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
-      .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)
-      .replace('.scss', '.css');
-
-    scssFilesPromises.push(handleScssFile(file, outputFile));
-  }
-
-  return Promise.all([...cssFilesPromises, ...scssFilesPromises]);
+  return Promise.all([...cssFilesPromises, ...scssFilesPromises]).catch((err) => { throw new Error(err); });
 };

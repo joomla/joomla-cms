@@ -1,16 +1,12 @@
 import { dirname, join } from 'node:path';
 import { createRequire } from 'node:module';
-import { existsSync } from 'node:fs';
-
-import pkg from 'fs-extra';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { cpSync as copy, existsSync } from 'node:fs';
 
 import { tinyMCE } from './exemptions/tinymce.mjs';
 import { resolvePackageFile } from './common/resolve-package.cjs';
 
 const require = createRequire(import.meta.url);
-const {
-  copy, mkdirs, mkdir, ensureDir, writeFile,
-} = pkg;
 
 const RootPath = process.cwd();
 
@@ -26,8 +22,10 @@ const copyFilesTo = async (files, srcDir, destDir) => {
   const copyPromises = [];
 
   async function doTheCopy(source, dest) {
-    await ensureDir(dirname(dest));
-    await copy(source, dest, { preserveTimestamps: true });
+    if (!existsSync(dirname(dest))) {
+      await mkdir(dirname(dest), { recursive: true, mode: 0o755 });
+    }
+    await copy(source, dest, { preserveTimestamps: true, recursive: true });
   }
 
   // Copy each file
@@ -54,7 +52,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
   if (packageName === 'tinymce') {
     promises.push(tinyMCE(packageName, moduleOptions.version));
   } else {
-    await mkdirs(join(mediaVendorPath, vendorName));
+    await mkdir(join(mediaVendorPath, vendorName), { recursive: true, mode: 0o755 });
 
     ['js', 'css', 'filesExtra'].forEach((type) => {
       if (!vendor[type]) return;
@@ -70,7 +68,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
     await copy(
       `${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`,
       `${dest}/${options.settings.vendors[packageName].licenseFilename}`,
-      { preserveTimestamps: true },
+      { preserveTimestamps: true, recursive: true },
     );
   }
 

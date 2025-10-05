@@ -33,7 +33,7 @@ export const compressFiles = async (enableBrotli = false) => {
   const files = await Promise.all(paths.map((path) => getFiles(`${path}`)));
   [].concat(...files).map((file) => compressTasks.push(compressFile(file, enableBrotli)));
 
-  await Promise.all(compressTasks);
+  await Promise.all(compressTasks).catch((err) => { throw new Error(err); });
   console.log('✅ Done 👍');
   bench.stop();
 };

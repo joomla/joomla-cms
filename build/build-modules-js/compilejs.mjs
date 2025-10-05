@@ -1,8 +1,6 @@
 import { stat } from 'node:fs/promises';
-import { sep } from 'node:path';
-
-import recursive from 'recursive-readdir';
-
+import { join, sep } from 'node:path';
+import { readdirSync } from 'node:fs';
 import { handleES5File } from './javascript/handle-es5.mjs';
 import { handleESMFile } from './javascript/compile-to-es2017.mjs';
 
@@ -19,15 +17,17 @@ const RootPath = process.cwd();
  *         ES5 files to have ext: .es5.js
  *         WC/CE files to have ext: .w-c.es6.js
  *
- * @param { object } options The options from settings.json
- * @param { string } path    The folder that needs to be compiled, optional
- * @param { string } mode    esm for ES2017, es5 for ES5, both for both
+ * @param {string|Array} path    The folder that needs to be compiled, optional
+ *
+ * @returns {Promise}
  */
-export const scripts = async (options, path) => {
-  const files = [];
+export const scripts = async (path) => {
+  let files = [];
   let folders = [];
 
-  if (path) {
+  if (Array.isArray(path)) {
+    path.filter((file) => file.endsWith('.mjs') || file.endsWith('.js')).forEach((file) => files.push(file));
+  } else if (path) {
     const stats = await stat(`${RootPath}/${path}`);
 
     if (stats.isDirectory()) {
@@ -35,8 +35,7 @@ export const scripts = async (options, path) => {
     } else if (stats.isFile()) {
       files.push(`${RootPath}/${path}`);
     } else {
-      console.error(`Unknown path ${path}`);
-      process.exitCode = 1;
+      throw new Error(`Unknown path ${path}`);
     }
   } else {
     folders = [
@@ -45,20 +44,23 @@ export const scripts = async (options, path) => {
     ];
   }
 
-  const folderPromises = [];
-
-  // Loop to get the files that should be compiled via parameter
-  for (const folder of folders) {
-    folderPromises.push(recursive(folder, ['!*.+(m|js)']));
+  if (folders.length) {
+    // Loop to get the files that should be compiled via parameter
+    for (const folder of folders) {
+      const filesLocal = readdirSync(folder, { recursive: true })
+        .filter((file) => file.endsWith('.mjs') || file.endsWith('.js'))
+        .map((fileName) => join(folder, fileName))
+        for (const file of filesLocal) {
+          files.push(file);
+        }
+    }
   }
 
-  const computedFiles = await Promise.all(folderPromises);
-  const computedFilesFlat = [].concat(...computedFiles);
   const jsFilesPromises = [];
   const esmFilesPromises = [];
 
   // Loop to get the files that should be compiled via parameter
-  computedFilesFlat.forEach((file) => {
+  files.forEach((file) => {
     if (file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) {
       return;
     }
@@ -70,5 +72,5 @@ export const scripts = async (options, path) => {
     }
   });
 
-  Promise.all([...jsFilesPromises, ...esmFilesPromises]);
+  return Promise.all([...jsFilesPromises, ...esmFilesPromises]).catch((err) => { throw new Error(err); });
 };

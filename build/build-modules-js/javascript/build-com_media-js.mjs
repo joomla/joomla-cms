@@ -1,17 +1,9 @@
-import { writeFile, copyFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-import { rollup, watch } from 'rollup';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
+import { rolldown as rollup, watch } from 'rolldown';
 import { babel } from '@rollup/plugin-babel';
 import VuePlugin from 'rollup-plugin-vue';
-import commonjs from '@rollup/plugin-commonjs';
-import dotenv from 'dotenv';
-
-import { minifyCode } from './minify.mjs';
-
-dotenv.config({ quiet: true });
+import vue from '@vitejs/plugin-vue';
 
 const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
 const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';
@@ -21,22 +13,18 @@ export const mediaManager = async () => {
 
   const bundle = await rollup({
     input: resolve(inputJS),
+    define: {
+      //'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+      __VUE_OPTIONS_API__: JSON.stringify(isProduction),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(isProduction),
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(isProduction),
+    },
     plugins: [
-      VuePlugin({
-        target: 'browser',
+      vue({
+        include: /.*\.vue$/,
+        isProduction: isProduction,
         css: false,
-        compileTemplate: true,
-        template: {
-          isProduction,
-        },
-      }),
-      nodeResolve(),
-      commonjs(),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify((process.env.NODE_ENV && process.env.NODE_ENV.toLocaleLowerCase()) || 'production'),
-        __VUE_OPTIONS_API__: true,
-        __VUE_PROD_DEVTOOLS__: !isProduction,
-        preventAssignment: true,
+        exposeFilename: false,
       }),
       babel({
         exclude: 'node_modules/core-js/**',
@@ -58,7 +46,7 @@ export const mediaManager = async () => {
                 ],
               },
               loose: true,
-              bugfixes: false,
+              bugfixes: true,
               ignoreBrowserslistConfig: true,
             },
           ],
@@ -67,24 +55,18 @@ export const mediaManager = async () => {
     ],
   });
 
-  bundle
-    .write({
-      format: 'es',
-      sourcemap: !isProduction ? 'inline' : false,
-      file: 'media/com_media/js/media-manager.js',
-    })
-    .then((value) => (isProduction ? minifyCode(value.output[0].code) : value.output[0]))
-    .then((content) => {
-      if (isProduction) {
-        console.log('✅ ES2017 Media Manager ready');
-        return writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
-      }
-      console.log('✅ ES2017 Media Manager ready');
-      return copyFile(resolve('media/com_media/js/media-manager.js'), resolve('media/com_media/js/media-manager.min.js'));
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  bundle.write({
+    format: 'es',
+    sourcemap: !isProduction ? 'inline' : false,
+    file: 'media/com_media/js/media-manager.js',
+  }).catch((error) => { throw new Error(error); });
+
+  bundle.write({
+    format: 'es',
+    minify: true,
+    sourcemap: !isProduction ? 'inline' : false,
+    file: 'media/com_media/js/media-manager.min.js',
+  }).catch((error) => { throw new Error(error); });
 
   // closes the bundle
   await bundle.close();
@@ -95,22 +77,18 @@ export const watchMediaManager = async () => {
   console.log('=========');
   const watcher = watch({
     input: resolve(inputJS),
+    define: {
+      //'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+      __VUE_OPTIONS_API__: JSON.stringify(isProduction),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(isProduction),
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(isProduction),
+    },
     plugins: [
-      VuePlugin({
-        target: 'browser',
+      vue({
+        include: /.*\.vue$/,
+        isProduction: isProduction,
         css: false,
-        compileTemplate: true,
-        template: {
-          isProduction: true,
-        },
-      }),
-      nodeResolve(),
-      commonjs(),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('development'),
-        __VUE_OPTIONS_API__: true,
-        __VUE_PROD_DEVTOOLS__: true,
-        preventAssignment: true,
+        exposeFilename: false,
       }),
       babel({
         exclude: 'node_modules/core-js/**',
@@ -125,14 +103,14 @@ export const watchMediaManager = async () => {
                   '> 1%',
                   'not op_mini all',
                   /** https://caniuse.com/es6-module */
-                  'chrome 61',
-                  'safari 11',
-                  'edge 16',
-                  'Firefox 60',
+                  'chrome >= 61',
+                  'safari >= 11',
+                  'edge >= 16',
+                  'Firefox >= 60',
                 ],
               },
               loose: true,
-              bugfixes: false,
+              bugfixes: true,
               ignoreBrowserslistConfig: true,
             },
           ],
@@ -155,7 +133,7 @@ export const watchMediaManager = async () => {
 
   watcher.on('event', ({ code, result, error }) => {
     if (result) result.close();
-    if (error) console.log(error);
+    if (error) throw new Error(error);
     if (code === 'BUNDLE_END') console.log('Files updated ✅');
   });
 };

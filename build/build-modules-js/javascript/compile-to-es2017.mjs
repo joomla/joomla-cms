@@ -1,8 +1,7 @@
 import { writeFile } from 'node:fs/promises';
 import { basename, sep, resolve } from 'node:path';
 
-import { rollup } from 'rollup';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { rolldown as rollup } from 'rolldown';
 import { babel } from '@rollup/plugin-babel';
 
 import { minifyCode } from './minify.mjs';
@@ -43,7 +42,7 @@ const collectExternals = () => {
  * @param file the full path to the file + filename + extension
  */
 export const handleESMFile = async (file) => {
-  const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
+  const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`build${sep}media_source`, `media`);
 
   // Make sure externals are collected
   collectExternals();
@@ -51,7 +50,6 @@ export const handleESMFile = async (file) => {
   const bundle = await rollup({
     input: resolve(file),
     plugins: [
-      nodeResolve({ preferBuiltins: false }),
       babel({
         exclude: 'node_modules/core-js/**',
         babelHelpers: 'bundled',
@@ -71,8 +69,9 @@ export const handleESMFile = async (file) => {
                   'Firefox >= 60',
                 ],
               },
-              bugfixes: true,
               loose: true,
+              bugfixes: true,
+              ignoreBrowserslistConfig: true,
             },
           ],
         ],
@@ -93,7 +92,7 @@ export const handleESMFile = async (file) => {
       return writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
     })
     .catch((error) => {
-      console.error(error);
+      throw new Error(error);
     });
 
   // closes the bundle

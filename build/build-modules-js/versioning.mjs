@@ -122,7 +122,7 @@ export const versioning = async () => {
     tasks.push(fixVersion(directory));
   });
 
-  await Promise.all(tasks);
+  await Promise.all(tasks).catch((err) => { throw new Error(err); });
 
   bench.stop();
 };

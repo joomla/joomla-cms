@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import translate from '../../../plugins/translate.es6'
+
 export default {
   name: 'MediaBrowserActionItemEdit',
   props: {

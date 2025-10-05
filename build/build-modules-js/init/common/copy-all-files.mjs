@@ -1,6 +1,5 @@
 import { join } from 'node:path';
-
-import { copy } from 'fs-extra';
+import { cpSync as copy } from 'node:fs';
 
 const RootPath = process.cwd();
 
@@ -20,6 +19,7 @@ export const copyAllFiles = async (dirName, name, type) => {
     join(RootPath, `media/vendor/${name.replace(/.+\//, '')}/${type}`),
     {
       preserveTimestamps: true,
+      recursive: true,
     },
   );
 };

@@ -1,7 +1,7 @@
-import { sep, basename } from 'node:path';
+import { join, sep, basename } from 'node:path';
 import { lstat, readFile, writeFile } from 'node:fs/promises';
+import { readdirSync } from 'node:fs';
 
-import recursive from 'recursive-readdir';
 import { transform } from 'esbuild';
 
 const RootPath = process.cwd();
@@ -81,11 +81,17 @@ export const minifyVendor = async () => {
   const folderPromises = [];
   const filesPromises = [];
 
-  folders.map((folder) => folderPromises.push(recursive(folder, ['!*.+(js)'])));
+  folders.map((folder) =>
+			folderPromises.push(
+				readdirSync(folder, { recursive: true })
+					.filter((file) => file.endsWith('.js'))
+					.map((file) => join(folder, file)),
+			),
+		);
 
   const computedFiles = await Promise.all(folderPromises);
   allFiles = [...allFiles, ...[].concat(...computedFiles)];
   allFiles.map((file) => filesPromises.push(minifyJS(file)));
 
-  return Promise.all(filesPromises);
+  await Promise.all(filesPromises);
 };

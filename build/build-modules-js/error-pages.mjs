@@ -1,10 +1,11 @@
 import {
   access, mkdir, readFile, writeFile,
 } from 'node:fs/promises';
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { dirname } from 'node:path';
 
 import Ini from 'ini';
-import Recurs from 'recursive-readdir';
 import { transform } from 'esbuild';
 import { transform as transformCss } from 'lightningcss';
 
@@ -102,18 +103,15 @@ export const createErrorPages = async (options) => {
     }
   };
 
-  const files = await Recurs(dir);
+  const files = readdirSync(dir, { recursive: true })
+    .filter((file) => !file.endsWith('langmetadata.xml') && file.endsWith('.ini'))
+    .map((file) => join(dir, file));
+
   files.sort().forEach((file) => {
-    if (file.endsWith('langmetadata.xml')) {
-      return;
-    }
     iniFilesProcess.push(processIni(file));
   });
 
-  await Promise.all(iniFilesProcess).catch((err) => {
-    console.error(err);
-    process.exitCode = -1;
-  });
+  await Promise.all(iniFilesProcess).catch((err) => { throw new Error(err); });
 
   const processPage = async (name) => {
     const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
@@ -157,8 +155,5 @@ export const createErrorPages = async (options) => {
 
   Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));
 
-  return Promise.all(processPages).catch((err) => {
-    console.error(err);
-    process.exitCode = -1;
-  });
+  return Promise.all(processPages).catch((err) => { throw new Error(err); })
 };

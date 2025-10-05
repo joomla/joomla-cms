@@ -77,6 +77,7 @@ import * as types from '../../store/mutation-types.es6';
 import MediaBrowserTable from './table/table.vue';
 import MediaBrowserItem from './items/item.es6';
 import MediaInfobar from '../infobar/infobar.vue';
+import translate from '../../plugins/translate.es6'
 
 function sortArray(array, by, direction) {
   return array.sort((a, b) => {

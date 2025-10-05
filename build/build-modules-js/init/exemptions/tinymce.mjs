@@ -1,12 +1,10 @@
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { cpSync as copy, rmSync as removeSync} from 'node:fs';
 import { join } from 'node:path';
-
-import pkg from 'fs-extra';
 
 import { copyAllFiles } from '../common/copy-all-files.mjs';
 
-const { copy, removeSync } = pkg;
 const RootPath = process.cwd();
 const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
 
@@ -80,9 +78,9 @@ export const tinyMCE = async (packageName, version) => {
   await writeFile(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'utf8', mode: 0o644 });
 
   // Restore our code on the vendor folders
-  await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), { preserveTimestamps: true });
+  await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), { preserveTimestamps: true, recursive: true });
   // Drop the template plugin
   if (existsSync(join(RootPath, 'media/vendor/tinymce/plugins/template'))) {
-    removeSync(join(RootPath, 'media/vendor/tinymce/plugins/template'));
+    removeSync(join(RootPath, 'media/vendor/tinymce/plugins/template'), { recursive: true, force: true } );
   }
 };

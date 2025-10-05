@@ -1,11 +1,7 @@
 import { join } from 'node:path';
-
-import pkg from 'fs-extra';
+import { stat, mkdir, cp as copy, rm as remove } from 'node:fs/promises';
 
 const RootPath = process.cwd();
-const {
-  stat, mkdir, copy, remove,
-} = pkg;
 
 /**
  * Method that will erase the media/vendor folder
@@ -33,11 +29,10 @@ export const cleanVendors = async () => {
     await mkdir(join(RootPath, 'media/vendor/debugbar'), { recursive: true, mode: 0o755 });
 
     // Copy some assets from a PHP package
-    await copy(join(RootPath, 'libraries/vendor/php-debugbar/php-debugbar/src/DebugBar/Resources'), join(RootPath, 'media/vendor/debugbar'), { preserveTimestamps: true });
-    await remove(join(RootPath, 'media/vendor/debugbar/vendor/font-awesome'));
-    await remove(join(RootPath, 'media/vendor/debugbar/vendor/jquery'));
+    await copy(join(RootPath, 'libraries/vendor/php-debugbar/php-debugbar/src/DebugBar/Resources'), join(RootPath, 'media/vendor/debugbar'), { preserveTimestamps: true, recursive: true });
+    await remove(join(RootPath, 'media/vendor/debugbar/vendor/font-awesome'), { recursive: true, force: true });
+    await remove(join(RootPath, 'media/vendor/debugbar/vendor/jquery'), { recursive: true, force: true });
   } else {
-    console.error("You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN'T installed all its front end assets");
-    process.exitCode = 1;
+    throw new Error("You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN'T installed all its front end assets");
   }
 };

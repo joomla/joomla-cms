@@ -124,6 +124,7 @@
 
 <script>
 import * as types from '../../../store/mutation-types.es6';
+import translate from '../../../plugins/translate.es6'
 import MediaBrowserItemRow from './row.vue';
 
 export default {

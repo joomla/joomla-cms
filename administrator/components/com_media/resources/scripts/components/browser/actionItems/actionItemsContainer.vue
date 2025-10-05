@@ -147,6 +147,7 @@
 <script>
 import * as types from '../../../store/mutation-types.es6';
 import api from '../../../app/Api.es6';
+import translate from '../../../plugins/translate.es6'
 
 import MediaBrowserActionItemEdit from './edit.vue';
 import MediaBrowserActionItemDelete from './delete.vue';

@@ -1,20 +1,20 @@
 import { writeFile } from 'node:fs/promises';
-import { dirname, sep } from 'node:path';
+import { existsSync, mkdirSync } from 'node:fs';
+import { basename, dirname, sep } from 'node:path';
 
 import rtlcss from 'rtlcss';
-import { ensureDir } from 'fs-extra';
 import { transform as transformCss, Features, composeVisitors } from 'lightningcss';
 import { compileAsync } from 'sass-embedded';
 import { urlVersioning } from './css-versioning.mjs';
 
-const getOutputFile = (file) => file.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
+const getOutputFile = (file) => file.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css').replace(`build${sep}media_source`, `media`);
 
 export const handleScssFile = async (file) => {
   let contents;
   const cssFile = getOutputFile(file);
 
   try {
-    const { css } = await compileAsync(file);
+    const { css } = await compileAsync(file, { silenceDeprecations: ['color-functions', 'import', 'global-builtin'] });
     contents = css.toString();
   } catch (error) {
     const message = `Error in file: ${file}\n${error.formatted || error.message}`;
@@ -31,7 +31,9 @@ export const handleScssFile = async (file) => {
   contents = contents.startsWith('@charset "UTF-8";\n') ? contents.replace('@charset "UTF-8";\n', '') : contents;
 
   // Ensure the folder exists or create it
-  await ensureDir(dirname(cssFile), {});
+  if (!existsSync(dirname(cssFile))) {
+    mkdirSync(dirname(cssFile), { recursive: true, mode: 0o755 });
+  }
 
   const { code: css } = transformCss({
     code: Buffer.from(contents),
@@ -57,13 +59,11 @@ ${css}`,
     visitor: composeVisitors([urlVersioning(cssFile)]), // Adds a hash to the url() parts of the static css
   });
 
-  // Ensure the folder exists or create it
-  await ensureDir(dirname(cssFile.replace('.css', '.min.css')), {});
   await writeFile(
     cssFile.replace('.css', '.min.css'),
     `@charset "UTF-8";${cssMin}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 
-  console.log(`✅ SCSS File compiled: ${cssFile}`);
+  console.log(`✅ SCSS File compiled: ${basename(cssFile)}`);
 };

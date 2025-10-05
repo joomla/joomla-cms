@@ -29,7 +29,7 @@ export const compressFile = async (file, enableBrotli) => {
       }
       console.log(file);
     } catch (err) {
-      console.info(`Error on ${file}: ${err.code}`);
+      throw new Error(`Error on ${file}: ${err.code}`);
     }
   }
 };

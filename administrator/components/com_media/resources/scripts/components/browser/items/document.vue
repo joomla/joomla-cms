@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import translate from '../../../plugins/translate.es6'
 import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {

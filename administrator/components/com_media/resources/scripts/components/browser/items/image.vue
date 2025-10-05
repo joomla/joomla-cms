@@ -53,6 +53,8 @@
 
 <script>
 import api from '../../../app/Api.es6';
+import translate from '../../../plugins/translate.es6'
+
 import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {

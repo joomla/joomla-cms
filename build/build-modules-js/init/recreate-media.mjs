@@ -1,12 +1,13 @@
-import {
-  stat, readFile, writeFile, readdir,
-} from 'node:fs/promises';
-import { join, extname } from 'node:path';
+import { stat, readFile, readdir, writeFile } from 'node:fs/promises';
+import { copyFileSync, existsSync, mkdirSync, rmSync } from 'node:fs';
+import { join, extname, sep } from 'node:path';
 
-import pkg from 'fs-extra';
-import recursive from 'recursive-readdir';
+import { localisePackages } from './localise-packages.mjs';
+import { minifyVendor } from './minify-vendor.mjs';
+import { patchPackages } from './patches.mjs';
+import { cleanVendors } from './cleanup-media.mjs';
+import { cssVersioningVendor } from '../stylesheets/css-versioning.mjs';
 
-const { copy, existsSync, emptyDirSync } = pkg;
 const RootPath = process.cwd();
 const knownDirs = [
   'templates/site/cassiopeia',
@@ -57,24 +58,33 @@ export const recreateMediaFolder = async (options) => {
   [...options.settings.cleanUpFolders, ...installedVendors].forEach((folder) => {
     const folderPath = join(`${RootPath}/media`, folder);
     if (existsSync(folderPath)) {
-      emptyDirSync(folderPath);
+      rmSync(folderPath, { recursive: true, force: true });
+      mkdirSync(folderPath, { recursive: true, mode: 0o755 });
     }
   });
 
   console.log('Recreating the media folder...');
 
-  const filterFunc = async (src) => {
-    const fileStat = await stat(src);
-    if (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css')) {
-      return false;
+const entries = (await readdir('build/media_source', { recursive: true })).map((fileName) => join('build/media_source', fileName)).filter((file) => !file.endsWith('.DS_Store'));
+  for (const entry of entries) {
+    const fullPath = entry.replace(`build${sep}media_source`, 'media');
+    if (entry && !existsSync(fullPath) && (await stat(entry)).isDirectory()) {
+      mkdirSync(fullPath, { recursive: true, mode: 0o755 });
+      continue;
     }
+    if (entry && (await stat(entry)).isFile() && (extname(entry) === '.js' || extname(entry) === '.css')) {
+      continue;
+    }
+    if (entry && (await stat(entry)).isFile()) {
+      copyFileSync(entry, fullPath);
+    }
+  }
 
-    return true;
-  };
-
-  await copy(join(RootPath, 'build/media_source'), join(RootPath, 'media'), { filter: filterFunc, preserveTimestamps: true });
-
-  const SCSSMediafolders = await recursive(join(RootPath, 'media/templates'), ['!*.+(scss)']);
+  //const SCSSMediafolders = await recursive(join(RootPath, 'media/templates'), ['!*.+(scss)']);
+  const mediaTemplatesPath = join(RootPath, 'media/templates');
+  const SCSSMediafolders = (await readdir(mediaTemplatesPath, { recursive: true }))
+    .filter((file) => extname(file) === '.scss')
+    .map((file) => join(mediaTemplatesPath, file));
 
   // Patch the scss files
   Object.keys(SCSSMediafolders).forEach(async (file) => {
@@ -82,4 +92,12 @@ export const recreateMediaFolder = async (options) => {
     // Transform this `../../../../../../media/` to `../../../../`
     await writeFile(SCSSMediafolders[file], contents.replace(/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/media\//g, '../../../../'));
   });
+
+  await localisePackages(options);
+  await patchPackages(options);
+  await cleanVendors();
+  await minifyVendor();
+  await cssVersioningVendor();
+
+  return entries;
 };

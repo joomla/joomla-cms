@@ -16,7 +16,6 @@
  * node build.mjs --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
-import { createRequire } from 'node:module';
 import { Command } from 'commander';
 import semver from 'semver';
 
@@ -25,10 +24,6 @@ import { createErrorPages } from './build-modules-js/error-pages.mjs';
 import { stylesheets } from './build-modules-js/compilecss.mjs';
 import { scripts } from './build-modules-js/compilejs.mjs';
 import { bootstrapJs } from './build-modules-js/javascript/build-bootstrap-js.mjs';
-import { localisePackages } from './build-modules-js/init/localise-packages.mjs';
-import { minifyVendor } from './build-modules-js/init/minify-vendor.mjs';
-import { patchPackages } from './build-modules-js/init/patches.mjs';
-import { cleanVendors } from './build-modules-js/init/cleanup-media.mjs';
 import { recreateMediaFolder } from './build-modules-js/init/recreate-media.mjs';
 import { watching } from './build-modules-js/watch.mjs';
 import { mediaManager, watchMediaManager } from './build-modules-js/javascript/build-com_media-js.mjs';
@@ -36,17 +31,17 @@ import { compressFiles } from './build-modules-js/compress.mjs';
 import { versioning } from './build-modules-js/versioning.mjs';
 import { Timer } from './build-modules-js/utils/timer.mjs';
 import { compileCodemirror } from './build-modules-js/javascript/build-codemirror.mjs';
-import { cssVersioningVendor } from './build-modules-js/stylesheets/css-versioning.mjs';
-
-const require = createRequire(import.meta.url);
 
 // The settings
-const options = require('../package.json');
-const settings = require('./build-modules-js/settings.json');
+import options from '../package.json' with { type: 'json' };
+import settings from './build-modules-js/settings.json' with { type: 'json' };
 
 const handleError = (err, terminateCode) => {
+  if (terminateCode === 1) {
+    throw new Error(err);
+  }
+
   console.error(err);
-  process.exitCode = terminateCode;
 };
 
 if (semver.gte(semver.minVersion(options.engines.node), semver.clean(process.version))) {
@@ -68,7 +63,7 @@ const allowedVersion = () => {
   if (!semver.satisfies(process.version.substring(1), options.engines.node)) {
     handleError(
       `Command line tools require Node Version ${options.engines.node} but found ${process.version}`,
-      -1,
+      1,
     );
   }
 };
@@ -122,11 +117,6 @@ const cliOptions = Program.opts();
 if (cliOptions.copyAssets) {
   allowedVersion();
   recreateMediaFolder(options)
-    .then(() => cleanVendors())
-    .then(() => localisePackages(options))
-    .then(() => patchPackages(options))
-    .then(() => cssVersioningVendor())
-    .then(() => minifyVendor())
     .catch((error) => handleError(error, 1));
 }
 
@@ -186,17 +176,16 @@ if (cliOptions.prepare) {
   const bench = new Timer('Build');
   allowedVersion();
   recreateMediaFolder(options)
-    .then(() => cleanVendors())
-    .then(() => localisePackages(options))
-    .then(() => patchPackages(options))
-    .then(() => minifyVendor())
+    .then((files) =>
+      Promise.all([
+          scripts(files),
+          stylesheets(files),
+          bootstrapJs(),
+          compileCodemirror(),
+          mediaManager(),
+        ]),
+      )
     .then(() => createErrorPages(options))
-    .then(() => stylesheets(options, Program.args[0]))
-    .then(() => cssVersioningVendor())
-    .then(() => scripts(options, Program.args[0]))
-    .then(() => mediaManager())
-    .then(() => bootstrapJs())
-    .then(() => compileCodemirror())
     .then(() => bench.stop('Build'))
-    .catch((err) => handleError(err, -1));
+    .catch((err) => { throw new Error(err); });
 }

@@ -6,27 +6,23 @@ import { writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 
 import cliProgress from 'cli-progress';
-import { rollup } from 'rollup';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
+import { rolldown as rollup } from 'rolldown';
 import { transform } from 'esbuild';
 
 const require = createRequire(import.meta.url);
 
-const {
+import {
   resolvePackageFile,
   getPackagesUnderScope,
-} = require('../init/common/resolve-package.cjs');
+} from '../init/common/resolve-package.cjs';
 
 // Build the module
 const buildModule = async (module, externalModules, destFile) => {
   const build = await rollup({
     input: module,
+    define: { preventAssignment: JSON.stringify('always'), 'process.env.NODE_ENV': JSON.stringify('production')},
     external: externalModules || [],
-    plugins: [
-      nodeResolve(),
-      replace({ preventAssignment: true, 'process.env.NODE_ENV': '"production"' }),
-    ],
+    plugins: [],
   });
 
   await build.write({

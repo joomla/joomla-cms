@@ -1,19 +1,18 @@
-import { dirname, sep } from 'node:path';
+import { basename, dirname, sep } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
+import { existsSync, mkdirSync } from 'node:fs';
 
-import pkg from 'fs-extra';
 import { transform as transformCss, composeVisitors } from 'lightningcss';
 import { urlVersioning } from './css-versioning.mjs';
 
-const {
-  readFile, writeFile, ensureDir,
-} = pkg;
-
 export const handleCssFile = async (file) => {
-  const outputFile = file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
+  const outputFile = file.replace(`build${sep}media_source`, `media`);
   try {
     // CSS file, we will process the file and then minify it in place
     // Ensure that the directories exist or create them
-    await ensureDir(dirname(outputFile), { recursive: true, mode: 0o755 });
+    if (!existsSync(dirname(outputFile))) {
+      mkdirSync(dirname(outputFile), { recursive: true, mode: 0o755 });
+    }
 
     let content = await readFile(file, { encoding: 'utf8' });
 
@@ -48,8 +47,8 @@ ${css}`,
     // Save minified css file
     await writeFile(outputFile.replace('.css', '.min.css'), `@charset "UTF-8";${cssMin}`, { encoding: 'utf8', mode: 0o644 });
 
-    console.log(`✅ CSS file copied/minified: ${file}`);
+    console.log(`✅ CSS file copied/minified: ${basename(file)}`);
   } catch (err) {
-    console.log(err);
+    throw new Error(err);
   }
 };

@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import translate from '../../plugins/translate.es6';
 import navigable from '../../mixins/navigable.es6';
 
 export default {

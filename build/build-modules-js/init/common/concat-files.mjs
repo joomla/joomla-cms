@@ -1,4 +1,5 @@
-import { readFile, writeFile, existsSync } from 'fs-extra';
+import { readFile, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 
 const RootPath = process.cwd();
 
