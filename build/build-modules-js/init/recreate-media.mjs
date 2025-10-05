@@ -80,7 +80,6 @@ const entries = (await readdir('build/media_source', { recursive: true })).map((
     }
   }
 
-  //const SCSSMediafolders = await recursive(join(RootPath, 'media/templates'), ['!*.+(scss)']);
   const mediaTemplatesPath = join(RootPath, 'media/templates');
   const SCSSMediafolders = (await readdir(mediaTemplatesPath, { recursive: true }))
     .filter((file) => extname(file) === '.scss')

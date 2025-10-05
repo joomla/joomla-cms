@@ -7,6 +7,7 @@
     "type": "git",
     "url": "https://github.com/joomla/joomla-cms.git"
   },
+  "type": "module",
   "engines": {
     "node": ">=20.10.0",
     "npm": ">=10.1.0"
