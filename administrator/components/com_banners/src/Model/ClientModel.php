@@ -150,26 +150,43 @@ class ClientModel extends AdminModel
     {
         $table = $this->getTable();
 
-        // Check for duplicate name BEFORE saving
-        if (isset($data['name']) && !empty($data['name']))
-        {
-            $existing = $this->getTable();
+        // If saving as copy or duplicate exists, generate a unique name
+        if (isset($data['name'])) {
+            $table->load(['name' => $data['name']]);
 
-            // Load a record with the same name
-            if ($existing->load(['name' => $data['name']]))
-            {
-                // If this is a new record or a copy, block it
-                if (empty($data['id']) || (int) $existing->id !== (int) $data['id'])
-                {
-                    $this->setError(\Joomla\CMS\Language\Text::_('COM_BANNERS_CLIENT_ERROR_DUPLICATE_NAME'));
-                    return false; // Stop saving
-                }
+            // Only modify name if it's a duplicate
+            if ($table->id) {
+                $data['name'] = $this->generateUniqueName($data['name']);
             }
         }
 
-        // No duplicate found, continue saving
         return parent::save($data);
     }
+
+
+
+    /**
+ * Generate a unique client name if it already exists.
+ *
+ * @param string $name The original client name
+ *
+ * @return string Unique client name
+ */
+    protected function generateUniqueName($name)
+    {
+        $table = $this->getTable();
+        $baseName = $name;
+        $i = 2;
+
+        // Keep appending numbers until the name is unique
+        while ($table->load(['name' => $name])) {
+            $name = $baseName . ' (' . $i . ')';
+            $i++;
+        }
+
+        return $name;
+    }
+
 
 
 
