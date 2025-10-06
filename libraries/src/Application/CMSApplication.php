@@ -301,8 +301,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $this->setupLogging();
             $this->createExtensionNamespaceMap();
 
-            // Trigger the onBeforeExecute event
+            // Load the behaviour plugins
+            PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
+
+            // Load the system plugins
             PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+
+            // Trigger the onBeforeExecute event
             $this->dispatchEvent(
                 'onBeforeExecute',
                 new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
@@ -815,9 +820,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         $this->set('editor', $editor);
-
-        // Load the behaviour plugins
-        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
 
         // Trigger the onAfterInitialise event.
         $this->dispatchEvent(
