@@ -256,7 +256,7 @@ abstract class WebApplication extends AbstractWebApplication
     /**
      * Method to get the application document object.
      *
-     * @return  Document  The document object
+     * @return  ?Document  The document object
      *
      * @since   1.7.3
      */
@@ -268,7 +268,7 @@ abstract class WebApplication extends AbstractWebApplication
     /**
      * Method to get the application language object.
      *
-     * @return  Language  The language object
+     * @return  ?Language  The language object
      *
      * @since   1.7.3
      */
