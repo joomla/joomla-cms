@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelTrait;
+use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -135,4 +136,41 @@ class ClientModel extends AdminModel
     {
         $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
     }
+
+        /**
+     * Override save to prevent duplicate client names when saving as copy.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean  True on success, false on failure.
+     *
+     * @since   5.3.5
+     */
+    public function save($data)
+    {
+        $table = $this->getTable();
+
+        // Check for duplicate name BEFORE saving
+        if (isset($data['name']) && !empty($data['name']))
+        {
+            $existing = $this->getTable();
+
+            // Load a record with the same name
+            if ($existing->load(['name' => $data['name']]))
+            {
+                // If this is a new record or a copy, block it
+                if (empty($data['id']) || (int) $existing->id !== (int) $data['id'])
+                {
+                    $this->setError(\Joomla\CMS\Language\Text::_('COM_BANNERS_CLIENT_ERROR_DUPLICATE_NAME'));
+                    return false; // Stop saving
+                }
+            }
+        }
+
+        // No duplicate found, continue saving
+        return parent::save($data);
+    }
+
+
+
 }
