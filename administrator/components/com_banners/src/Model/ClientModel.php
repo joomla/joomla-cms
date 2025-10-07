@@ -137,14 +137,14 @@ class ClientModel extends AdminModel
         $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
     }
 
-        /**
+    /**
      * Override save to prevent duplicate client names when saving as copy.
      *
      * @param   array  $data  The form data.
      *
      * @return  boolean  True on success, false on failure.
      *
-     * @since   5.3.5
+     * @since   __DEPLOY_VERSION__
      */
     public function save($data)
     {
@@ -166,12 +166,13 @@ class ClientModel extends AdminModel
 
 
     /**
- * Generate a unique client name if it already exists.
- *
- * @param string $name The original client name
- *
- * @return string Unique client name
- */
+     * Generate a unique client name if it already exists.
+     *
+     * @param string $name The original client name
+     *
+     * @return string Unique client name
+     * @since   __DEPLOY_VERSION__
+     */
     protected function generateUniqueName($name)
     {
         $table = $this->getTable();
@@ -186,8 +187,4 @@ class ClientModel extends AdminModel
 
         return $name;
     }
-
-
-
-
 }
