@@ -475,7 +475,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         foreach ($list as $key => $item) {
             switch ($type) {
                 case 'month_year':
-                    $month_year = StringHelper::substr($item->$field, 0, 7);
+                    $month_year = StringHelper::substr($item->$field, 0, 7,'UTF-8');
 
                     if (!isset($grouped[$month_year])) {
                         $grouped[$month_year] = [];
@@ -485,7 +485,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
                     break;
 
                 default:
-                    $year = StringHelper::substr($item->$field, 0, 4);
+                    $year = StringHelper::substr($item->$field, 0, 4,'UTF-8');
 
                     if (!isset($grouped[$year])) {
                         $grouped[$year] = [];
