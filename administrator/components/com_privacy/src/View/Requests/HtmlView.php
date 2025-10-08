@@ -144,9 +144,9 @@ class HtmlView extends BaseHtmlView
         if (Factory::getApplication()->get('mailonline', 1)) {
             $toolbar->addNew('request.add');
         } else {
-        // Display a message if mail is not enabled
-        Factory::getApplication()->enqueueMessage(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'), 'error');
-    }
+            // Display a message if mail is not enabled
+            Factory::getApplication()->enqueueMessage(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'), 'error');
+        }
 
         $toolbar->preferences('com_privacy');
         $toolbar->help('Privacy:_Information_Requests');
