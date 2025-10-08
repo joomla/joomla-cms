@@ -13,6 +13,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
@@ -279,6 +280,13 @@ trait VersionableModelTrait
         }
 
         $item = $this->getItem($id);
+        $form = $this->getForm();
+
+        $cf = $form->getData()->get('com_fields', null);
+
+        if (!empty($cf)) {
+            $item->com_fields = $cf;
+        }
 
         $hash  = $this->getSha1($item);
 
@@ -371,6 +379,35 @@ trait VersionableModelTrait
 
         $historyTable->version_data = json_encode($data);
         $historyTable->version_note = $note;
+
+        $model = Factory::getApplication()->bootComponent($extension)->getMVCFactory()->createModel($type, 'Administrator');
+
+        if ($model instanceof VersionableModelInterface) {
+            $path = JPATH_BASE . '/components/' . $extension;
+
+            Form::addFormPath($path . '/forms');
+            Form::addFormPath($path . '/models/forms');
+            Form::addFieldPath($path . '/models/fields');
+            Form::addFormPath($path . '/model/form');
+            Form::addFieldPath($path . '/model/field');
+
+            // This is needed to make sure the model has called populateState
+            $tmp = $model->getState();
+
+            // Now we can set the article.id and it is not overwritten later by populateState
+            $model->setState('article.id', $id);
+
+            $item   = $model->getItem();
+            $form   = $model->getForm();
+
+            $cf = $form->getData()->get('com_fields', null);
+
+            if (!empty($cf)) {
+                $item->com_fields = $cf;
+            }
+
+            $hash = $model->getSha1($item);
+        }
 
         // Don't save if hash already exists and same version note
         $historyTable->sha1_hash = $hash;
