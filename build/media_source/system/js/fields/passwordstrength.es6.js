@@ -49,7 +49,6 @@ class PasswordStrength {
     score += this.constructor.calc(value, /[a-z]/g, this.lowercase, mods);
     score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
     score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods);
-    // eslint-disable-next-line no-useless-escape
     score += this.constructor.calc(
       value,
       /[@$!#?=;:*\-_€%&()`´+[\]{}'"\\|,.<>/~^]/g,

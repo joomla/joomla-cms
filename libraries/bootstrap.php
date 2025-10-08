@@ -10,14 +10,6 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Set the platform root path as a constant if necessary.
- *
- * @deprecated 4.4.0 will be removed in 6.0
- *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
- **/
-defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
-
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 

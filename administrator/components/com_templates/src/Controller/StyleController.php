@@ -58,9 +58,9 @@ class StyleController extends FormController
             $item = $model->getItem($this->app->getTemplate(true)->id);
 
             // Setting received params
-            $item->set('params', $data);
+            $item->params = $data;
 
-            $data = $item->getProperties();
+            $data = get_object_vars($item);
             unset($data['xml']);
 
             $key = $table->getKeyName();

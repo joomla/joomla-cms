@@ -105,7 +105,7 @@ class TransitionModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  \Joomla\CMS\Object\CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */

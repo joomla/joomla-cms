@@ -28,9 +28,9 @@
 }
 
 .choices__inner {
-  min-height: 42px;
+  min-block-size: 42px;
   padding: .1rem 1rem;
-  margin-bottom: 0;
+  margin-block-end: 0;
   font-size: 1rem;
   border: none;
   border-radius: 0;
@@ -38,7 +38,7 @@
 
 .choices__input {
   padding: 0;
-  margin-bottom: 0;
+  margin-block-end: 0;
   font-size: 1rem;
   background-color: transparent;
 
@@ -120,10 +120,7 @@
 
   &::before {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     display: block;
     text-align: center;
     text-indent: 0;
@@ -196,10 +193,10 @@
 
   .choices__button_joomla {
     position: absolute;
-    top: 50%;
+    inset-block-start: 50%;
     inset-inline-end: 0;
-    width: 20px;
-    height: 20px;
+    inline-size: 20px;
+    block-size: 20px;
     padding: 0;
     margin-block-start: -10px;
     margin-inline-end: 50px;

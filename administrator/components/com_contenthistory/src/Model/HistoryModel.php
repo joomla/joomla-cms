@@ -13,6 +13,7 @@ namespace Joomla\Component\Contenthistory\Administrator\Model;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -21,6 +22,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 
@@ -326,7 +328,7 @@ class HistoryModel extends ListModel
     {
         // Create a new query object.
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $itemId = $this->getState('item_id');
 
         // Select the required fields from the table.
@@ -377,13 +379,49 @@ class HistoryModel extends ListModel
     {
         $result    = false;
         $item_id   = Factory::getApplication()->getInput()->getCmd('item_id', '');
-        $typeAlias = explode('.', $item_id);
-        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
+
+        [$extension, $type, $id] = explode('.', $item_id);
+
+        $app = Factory::getApplication();
+
+        $model = $app->bootComponent($extension)->getMVCFactory()->createModel($type, 'Administrator');
+
+        if ($model instanceof VersionableModelInterface) {
+            $path = JPATH_BASE . '/components/' . $extension;
+
+            Form::addFormPath($path . '/forms');
+            Form::addFormPath($path . '/models/forms');
+            Form::addFieldPath($path . '/models/fields');
+            Form::addFormPath($path . '/model/form');
+            Form::addFieldPath($path . '/model/field');
+
+            // This is needed to make sure the model has called populateState
+            $tmp = $model->getState();
+
+            // Now we can set the article.id and it is not overwritten later by populateState
+            $model->setState('article.id', $id);
+
+            $item   = $model->getItem();
+            $form   = $model->getForm();
+
+            $cf = $form->getData()->get('com_fields', null);
+
+            if (!empty($cf)) {
+                $item->com_fields = $cf;
+            }
+
+            $result = $model->getSha1($item);
+
+            return $result;
+        }
+
+        // Legacy code for history concept before 6.0.0, deprecated 6.0.0 will be removed with 8.0.0
+        Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $extension . '/tables');
         $typeTable = $this->getTable('ContentType');
-        $typeTable->load(['type_alias' => $typeAlias[0] . '.' . $typeAlias[1]]);
+        $typeTable->load(['type_alias' => $extension . '.' . $type]);
         $contentTable = $typeTable->getContentTable();
 
-        if ($contentTable && $contentTable->load($typeAlias[2])) {
+        if ($contentTable && $contentTable->load($id)) {
             $helper = new CMSHelper();
 
             $dataObject = $helper->getDataObject($contentTable);
