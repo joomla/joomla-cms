@@ -47,7 +47,7 @@ class Filter
     public function slider($options = [])
     {
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $user   = Factory::getUser();
         $groups = implode(',', $user->getAuthorisedViewLevels());
         $html   = '';
@@ -69,7 +69,7 @@ class Filter
 
             try {
                 $filter = $db->loadObject();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return null;
             }
 
@@ -100,7 +100,7 @@ class Filter
 
         try {
             $branches = $db->loadObjectList('id');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return null;
         }
 
@@ -141,7 +141,7 @@ class Filter
 
             try {
                 $nodes = $db->loadObjectList('id');
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return null;
             }
 
@@ -225,7 +225,7 @@ class Filter
             $branches = $cache->get($cacheId);
         } else {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Load the predefined filter if specified.
             if (!empty($idxQuery->filter)) {
@@ -238,7 +238,7 @@ class Filter
 
                 try {
                     $filter = $db->loadObject();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return null;
                 }
 
@@ -273,7 +273,7 @@ class Filter
 
             try {
                 $branches = $db->loadObjectList('id');
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return null;
             }
 
@@ -321,7 +321,7 @@ class Filter
 
                 try {
                     $bv->nodes = $db->loadObjectList('id');
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return null;
                 }
 

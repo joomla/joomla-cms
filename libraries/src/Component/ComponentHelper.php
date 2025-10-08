@@ -382,7 +382,7 @@ class ComponentHelper
     {
         $loader = function () {
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))
                 ->where(
@@ -408,7 +408,7 @@ class ComponentHelper
 
         try {
             static::$components = $cache->get($loader, [], __METHOD__);
-        } catch (CacheExceptionInterface $e) {
+        } catch (CacheExceptionInterface) {
             static::$components = $loader();
         }
 

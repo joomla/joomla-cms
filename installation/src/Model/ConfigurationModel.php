@@ -99,7 +99,7 @@ class ConfigurationModel extends BaseInstallationModel
             }
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('extension_id')
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
@@ -287,7 +287,7 @@ class ConfigurationModel extends BaseInstallationModel
 
         foreach ($updatesArray as $table => $fields) {
             foreach ($fields as $field) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->update($db->quoteName($table))
                     ->set($db->quoteName($field) . ' = ' . $db->quote($userId))
                     ->where($db->quoteName($field) . ' != 0')
@@ -371,6 +371,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('captcha', '0');
         $registry->set('list_limit', 20);
         $registry->set('access', 1);
+        $registry->set('frontediting', 1);
 
         // Debug settings.
         $registry->set('debug', false);
@@ -401,6 +402,12 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Locale settings.
         $registry->set('offset', 'UTC');
+
+        // CORS settings.
+        $registry->set('cors', false);
+        $registry->set('cors_allow_origin', '*');
+        $registry->set('cors_allow_methods', '');
+        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
 
         // Mail settings.
         $registry->set('mailonline', true);
@@ -502,7 +509,7 @@ class ConfigurationModel extends BaseInstallationModel
         date_default_timezone_set('UTC');
         $installdate = date('Y-m-d H:i:s');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('id') . ' = ' . $db->quote($userId));
@@ -563,7 +570,7 @@ class ConfigurationModel extends BaseInstallationModel
 
             // Synch the sequence if pgsql
             if (($db->getServerType() === 'postgresql') && (!$result)) {
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(' . $db->quoteName('id') . ') + 1 AS ' . $db->quoteName('id'))
                     ->from($db->quoteName('#__users'));
                 $db->setQuery($query);

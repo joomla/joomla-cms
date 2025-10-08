@@ -17,6 +17,7 @@ use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
 use Joomla\CMS\Event\Application\AfterRespondEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
@@ -31,7 +32,6 @@ use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -48,6 +48,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -168,7 +169,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  object.  If the argument is a Input object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                  object.  If the argument is a Registry object that object will become the
@@ -249,10 +250,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
         ];
 
-        // For empty queue, if messages exists in the session, enqueue them first.
-        $messages = $this->getMessageQueue();
-
-        if (!\in_array($message, $this->messageQueue)) {
+        // Get the messages of the session and add the new message if it is not already in the queue.
+        if (!\in_array($message, $this->getMessageQueue())) {
             // Enqueue the message.
             $this->messageQueue[] = $message;
         }
@@ -301,6 +300,16 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $this->sanityCheckSystemVariables();
             $this->setupLogging();
             $this->createExtensionNamespaceMap();
+
+            // Trigger the onBeforeExecute event
+            PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+            $this->dispatchEvent(
+                'onBeforeExecute',
+                new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+            );
+
+            // Mark beforeExecute in the profiler.
+            JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
             // Perform application routines.
             $this->doExecute();
@@ -498,7 +507,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 Log::WARNING,
                 'deprecated'
             );
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -811,7 +820,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
 
         // Trigger the onAfterInitialise event.
-        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterInitialise',
             new AfterInitialiseEvent('onAfterInitialise', ['subject' => $this])
@@ -829,7 +837,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     public function isHttpsForced($clientId = null)
     {
-        $clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+        $clientId = (int) ($clientId ?? $this->getClientId());
         $forceSsl = (int) $this->get('force_ssl');
 
         if ($clientId === 0 && $forceSsl === 2) {
@@ -957,7 +965,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $user->cookieLogin = true;
             }
 
-            if (\in_array(false, $results, true) == false) {
+            if (!\in_array(false, $results, true)) {
                 $options['user']         = $user;
                 $options['responseType'] = $response->type;
 
@@ -1286,23 +1294,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $session = $this->getSession();
 
         return $session::checkToken($method);
-    }
-
-    /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacements
-     */
-    public function isCli()
-    {
-        return false;
     }
 
     /**

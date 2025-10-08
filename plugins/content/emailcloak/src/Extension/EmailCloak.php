@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Content\EmailCloak\Extension;
 
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\CustomFields\AfterPrepareFieldEvent;
 use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -38,8 +39,9 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onContentPrepare' => 'onContentPrepare',
-            'onFinderResult'   => 'onFinderResult',
+            'onContentPrepare'                => 'onContentPrepare',
+            'onFinderResult'                  => 'onFinderResult',
+            'onCustomFieldsAfterPrepareField' => 'onCustomFieldsAfterPrepareField',
         ];
     }
 
@@ -97,6 +99,27 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * Plugin that cloaks all emails in a custom field.
+     *
+     * @param   AfterPrepareFieldEvent  $event  Event instance
+     *
+     * @return  void
+     */
+    public function onCustomFieldsAfterPrepareField(AfterPrepareFieldEvent $event)
+    {
+        // If the value is empty then there is nothing to do
+        if (empty($event->getValue())) {
+            return;
+        }
+
+        $text = $this->cloak($event->getValue());
+
+        if ($text) {
+            $event->updateValue($text);
+        }
+    }
+
+    /**
      * Generate a search pattern based on link and text.
      *
      * @param   string  $link  The target of an email link.
@@ -137,7 +160,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
         $mode = $mode === 1;
 
         // Example: any@example.org
-        $searchEmail = "([\p{L}\p{N}\.\'\-\+]+\@(?:[\.\-\p{L}\p{N}]+\.)+(?:[\-\p{L}\p{N}]{2,24}))";
+        $searchEmail = "([\p{L}\p{N}\.\'\-\+\_]+\@(?:[\.\-\p{L}\p{N}]+\.)+(?:[\-\p{L}\p{N}]{2,24}))";
 
         // Example: any@example.org?subject=anyText
         $searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';

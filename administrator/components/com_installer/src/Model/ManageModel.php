@@ -253,7 +253,7 @@ class ManageModel extends InstallerModel
             $langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
             $rowtype    = Text::_($langstring);
 
-            if (strpos($rowtype, $langstring) !== false) {
+            if (str_contains($rowtype, $langstring)) {
                 $rowtype = $row->type;
             }
 
@@ -306,7 +306,7 @@ class ManageModel extends InstallerModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->select('2*protected+(1-protected)*enabled AS status')
             ->from('#__extensions')
@@ -395,7 +395,7 @@ class ManageModel extends InstallerModel
         // Get the changelog URL
         $eid   = (int) $eid;
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [

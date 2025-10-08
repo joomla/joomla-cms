@@ -30,7 +30,7 @@ describe('Test in backend that the custom tags list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
 
-      cy.get('#system-message-container').contains('Tag published').should('exist');
+      cy.checkForSystemMessage('Tag published');
     });
   });
 
@@ -42,7 +42,7 @@ describe('Test in backend that the custom tags list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
 
-      cy.get('#system-message-container').contains('Tag unpublished').should('exist');
+      cy.checkForSystemMessage('Tag unpublished');
     });
   });
 
@@ -54,7 +54,7 @@ describe('Test in backend that the custom tags list', () => {
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
 
-      cy.get('#system-message-container').contains('Tag trashed').should('exist');
+      cy.checkForSystemMessage('Tag trashed');
     });
   });
 
@@ -67,7 +67,7 @@ describe('Test in backend that the custom tags list', () => {
       cy.clickToolbarButton('empty trash');
       cy.clickDialogConfirm(true);
 
-      cy.get('#system-message-container').contains('Tag deleted').should('exist');
+      cy.checkForSystemMessage('Tag deleted');
     });
   });
 });

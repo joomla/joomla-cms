@@ -264,7 +264,7 @@ abstract class Mfa
 
         /** @var DatabaseInterface $db */
         $db    = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__user_mfa'))
             ->where($db->quoteName('user_id') . ' = :user_id')
@@ -272,7 +272,7 @@ abstract class Mfa
 
         try {
             $ids = $db->setQuery($query)->loadColumn() ?: [];
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $ids = [];
         }
 

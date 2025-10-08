@@ -207,7 +207,7 @@ class Task implements LoggerAwareInterface
         }
 
         $this->snapshot['status']      = Status::RUNNING;
-        $this->snapshot['taskStart']   = $this->snapshot['taskStart'] ?? microtime(true);
+        $this->snapshot['taskStart']   ??= microtime(true);
         $this->snapshot['netDuration'] = 0;
 
         /** @var ExecuteTaskEvent $event */
@@ -305,9 +305,9 @@ class Task implements LoggerAwareInterface
     public function acquireLock(): bool
     {
         $db    = $this->db;
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $id    = $this->get('id');
-        $now   = Factory::getDate('now', 'GMT');
+        $now   = Factory::getDate('now', 'UTC');
 
         $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
         $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
@@ -333,7 +333,7 @@ class Task implements LoggerAwareInterface
         try {
             $db->lockTable('#__scheduler_tasks');
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         } finally {
             $db->unlockTables();
@@ -361,7 +361,7 @@ class Task implements LoggerAwareInterface
     public function releaseLock(bool $update = true): bool
     {
         $db    = $this->db;
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $id    = $this->get('id');
 
         $query->update($db->quoteName('#__scheduler_tasks', 't'))
@@ -395,7 +395,7 @@ class Task implements LoggerAwareInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -433,7 +433,7 @@ class Task implements LoggerAwareInterface
     public function skipExecution(): void
     {
         $db    = $this->db;
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $id       = $this->get('id');
         $nextExec = (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec(true, true);
@@ -446,7 +446,7 @@ class Task implements LoggerAwareInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
         }
 
         $this->set('next_execution', $nextExec);

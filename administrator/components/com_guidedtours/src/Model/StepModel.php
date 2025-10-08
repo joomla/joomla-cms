@@ -81,7 +81,7 @@ class StepModel extends AdminModel
         $tour->load($data['tour_id']);
 
         // Language keys must include GUIDEDTOUR to prevent save issues
-        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
+        if (str_contains($data['description'], 'GUIDEDTOUR')) {
             $data['description'] = strip_tags($data['description']);
         }
 
@@ -98,7 +98,7 @@ class StepModel extends AdminModel
         }
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             $data['published'] = 0;
@@ -129,7 +129,7 @@ class StepModel extends AdminModel
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__guidedtour_steps'));
                 $db->setQuery($query);

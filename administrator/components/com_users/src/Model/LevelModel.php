@@ -52,7 +52,7 @@ class LevelModel extends AdminModel
             if ($table->load($pk)) {
                 // Check if the access level is being used.
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('DISTINCT access');
 
                 // Get all tables that have the access field
@@ -68,7 +68,7 @@ class LevelModel extends AdminModel
                      * than the 'access' field they are on their own unfortunately.
                      * Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
                      */
-                    if (strpos($checktable, $prefix) === 0 && isset($fields['access'])) {
+                    if (str_starts_with($checktable, $prefix) && isset($fields['access'])) {
                         // Lookup the distinct values of the field.
                         $query->clear('from')
                             ->from($db->quoteName($checktable));

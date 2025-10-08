@@ -142,7 +142,7 @@ class ContactComponent extends MVCComponent implements
      */
     protected function getTableNameForSection(?string $section = null)
     {
-        return ($section === 'category' ? 'categories' : 'contact_details');
+        return $section === 'category' ? 'categories' : 'contact_details';
     }
 
     /**

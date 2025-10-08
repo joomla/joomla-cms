@@ -225,10 +225,10 @@ class Image
     private static function getOrientationString(int $width, int $height): string
     {
         switch (true) {
-            case ($width > $height):
+            case $width > $height:
                 return self::ORIENTATION_LANDSCAPE;
 
-            case ($width < $height):
+            case $width < $height:
                 return self::ORIENTATION_PORTRAIT;
 
             default:
@@ -365,27 +365,6 @@ class Image
         }
 
         return $thumbsCreated;
-    }
-
-    /**
-     * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
-     *
-     * @param   mixed    $thumbSizes       string or array of strings. Example: $thumbSizes = ['150x75','250x150'];
-     * @param   integer  $creationMethod   1-3 resize $scaleMethod | 4 create cropping
-     * @param   string   $thumbsFolder     destination thumbs folder. null generates a thumbs folder in the image folder
-     *
-     * @return  array
-     *
-     * @since   2.5.0
-     * @throws  \LogicException
-     * @throws  \InvalidArgumentException
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Use \Joomla\CMS\Image\createThumbnails instead
-     */
-    public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
-    {
-        return $this->createThumbnails($thumbSizes, $creationMethod, $thumbsFolder, false);
     }
 
     /**
@@ -1080,7 +1059,7 @@ class Image
     protected function sanitizeHeight($height, $width)
     {
         // If no height was given we will assume it is a square and use the width.
-        $height = ($height === null) ? $width : $height;
+        $height = $height ?? $width;
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height)) {
@@ -1119,7 +1098,7 @@ class Image
     protected function sanitizeWidth($width, $height)
     {
         // If no width was given we will assume it is a square and use the height.
-        $width = ($width === null) ? $height : $width;
+        $width = $width ?? $height;
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width)) {

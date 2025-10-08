@@ -160,6 +160,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var TemplateModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $app               = Factory::getApplication();
         $this->file        = $app->getInput()->get('file', '');
@@ -191,7 +192,7 @@ class HtmlView extends BaseHtmlView
             try {
                 $this->image = $model->getImage();
                 $this->type  = 'image';
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
                 $this->type = 'home';
             }
@@ -207,13 +208,6 @@ class HtmlView extends BaseHtmlView
 
         $this->overridesList = $model->getOverridesList();
         $this->id            = $this->state->get('extension.id');
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            $app->enqueueMessage(implode("\n", $errors));
-
-            return false;
-        }
 
         $this->addToolbar();
 
