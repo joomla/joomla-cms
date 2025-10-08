@@ -437,7 +437,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         /**
-         * The mfa/captive view page and captive,validate task also needs to be always accessible.
+         * The mfa/captive view page and "captive.validate" task also needs to be always accessible.
          */
         if (
             $this->input->getCmd('option', '') === 'com_users'
