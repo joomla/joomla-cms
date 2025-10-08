@@ -11,10 +11,10 @@
 namespace Joomla\Component\Banners\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelTrait;
-use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -163,14 +163,13 @@ class ClientModel extends AdminModel
         return parent::save($data);
     }
 
-
-
     /**
      * Generate a unique client name if it already exists.
      *
      * @param string $name The original client name
      *
      * @return string Unique client name
+     
      * @since   __DEPLOY_VERSION__
      */
     protected function generateUniqueName($name)
