@@ -32,7 +32,7 @@ final class Note extends FieldsPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   6.0.0
      */
     public function prepareForm(PrepareFormEvent $event)
     {
