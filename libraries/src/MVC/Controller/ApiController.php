@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -18,8 +19,9 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Model\State;
 use Joomla\CMS\MVC\View\JsonApiView;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Input\Input;
-use Joomla\String\Inflector;
+use Joomla\Registry\Registry;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -108,7 +110,7 @@ class ApiController extends BaseController
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
-        $this->modelState = new State();
+        $this->modelState = new Registry();
 
         parent::__construct($config, $factory, $app, $input);
 
@@ -165,7 +167,8 @@ class ApiController extends BaseController
             throw new \RuntimeException($e->getMessage());
         }
 
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
 
         // Create the model, ignoring request data so we can safely set the state in the request from the controller
         $model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
@@ -287,7 +290,8 @@ class ApiController extends BaseController
             $id = $this->input->get('id', 0, 'int');
         }
 
-        $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $modelName = $this->input->get('model', $inflector->singularize($this->contentType));
 
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
         $model = $this->getModel($modelName, '', ['ignore_request' => true]);
@@ -300,6 +304,23 @@ class ApiController extends BaseController
         if (!$model->delete($id)) {
             if ($model->getError() !== false) {
                 throw new \RuntimeException($model->getError(), 500);
+            }
+
+            // If the model has set a 409 status code in the session, we return a 409 http status codee
+            if ($this->app->getSession()->get('http_status_code_409', false)) {
+                $this->app->getSession()->clear('http_status_code_409');
+                $this->app->setHeader('status', 409, true);
+                $this->app->setHeader('Content-Type', 'application/json');
+                $this->app->sendHeaders();
+                $body = [
+                    'status'  => 'Conflict',
+                    'code'    => 409,
+                    'message' => 'Resource not in state that can be deleted, must be trashed before it can be deleted',
+                ];
+                echo new JsonResponse($body);
+                $this->app->close();
+            } else {
+                throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DELETE'), 500);
             }
         }
 
@@ -337,7 +358,8 @@ class ApiController extends BaseController
     public function edit()
     {
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel(Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $model     = $this->getModel($inflector->singularize($this->contentType));
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
@@ -386,7 +408,8 @@ class ApiController extends BaseController
     protected function save($recordKey = null)
     {
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel(Inflector::singularize($this->contentType));
+        $inflector = InflectorFactory::create()->build();
+        $model     = $this->getModel($inflector->singularize($this->contentType));
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));

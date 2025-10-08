@@ -456,7 +456,7 @@ class SysinfoModel extends BaseDatabaseModel
     {
         $installed = [];
         $db        = $this->getDatabase();
-        $query     = $db->getQuery(true)
+        $query     = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);

@@ -21,7 +21,6 @@ use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
@@ -171,7 +170,7 @@ abstract class UserHelper
         if (!\in_array($groupId, $user->groups)) {
             // Check whether the group exists.
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__usergroups'))
                 ->where($db->quoteName('id') . ' = :groupId')
@@ -287,7 +286,7 @@ abstract class UserHelper
 
         // Get the titles for the user groups.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__usergroups'))
             ->whereIn($db->quoteName('id'), $user->groups);
@@ -337,7 +336,7 @@ abstract class UserHelper
         // Get the dispatcher and load the user's plugins.
         PluginHelper::importPlugin('user');
 
-        $data     = new CMSObject();
+        $data     = new \stdClass();
         $data->id = $userId;
 
         // Trigger the data preparation event.
@@ -360,7 +359,7 @@ abstract class UserHelper
         $db       = Factory::getDbo();
 
         // Let's get the id of the user we want to activate
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('activation') . ' = :activation')
@@ -405,7 +404,7 @@ abstract class UserHelper
     {
         // Initialise some variables
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
@@ -603,7 +602,7 @@ abstract class UserHelper
         try {
             $userId = (int) $userId;
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('session_id'))
                 ->from($db->quoteName('#__session'))
                 ->where($db->quoteName('userid') . ' = :userid')
@@ -644,7 +643,7 @@ abstract class UserHelper
 
         try {
             $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->delete($db->quoteName('#__session'))
                     ->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
             )->execute();

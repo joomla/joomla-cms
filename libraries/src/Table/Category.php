@@ -112,7 +112,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 
         if ($this->parent_id > 1) {
             // Build the query to get the asset id for the parent category.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('asset_id'))
                 ->from($db->quoteName('#__categories'))
                 ->where($db->quoteName('id') . ' = :parentId')
@@ -127,7 +127,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         } elseif ($assetId === null) {
             // This is a category that needs to parent with the extension.
             // Build the query to get the asset id for the parent category.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))
                 ->where($db->quoteName('name') . ' = :extension')
