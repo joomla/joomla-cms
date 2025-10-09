@@ -13,7 +13,6 @@ namespace Joomla\Component\Finder\Administrator\View\Index;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
@@ -137,6 +136,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var IndexModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->total         = $model->getTotal();
@@ -156,11 +156,6 @@ class HtmlView extends BaseHtmlView
             $this->filterForm->removeField('language', 'filter');
         }
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
         // Check that the content - finder plugin is enabled
         if (!PluginHelper::isEnabled('content', 'finder')) {
             $this->finderPluginId = FinderHelper::getFinderPluginId();
@@ -170,6 +165,11 @@ class HtmlView extends BaseHtmlView
         if (!PluginHelper::getPlugin('finder')) {
             $this->finderPlugins = false;
         }
+
+        // Add form control fields
+        $this->filterForm
+            ->addControlField('task', '')
+            ->addControlField('boxchecked', '0');
 
         // Configure the toolbar.
         $this->addToolbar();

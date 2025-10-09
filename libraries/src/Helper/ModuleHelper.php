@@ -208,7 +208,7 @@ abstract class ModuleHelper
         // If the $module is nulled it will return an empty content, otherwise it will render the module normally.
         $brEvent = $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
             'subject'    => $module,
-            'attributes' => &$attribs, // @todo: Remove reference in Joomla 6, see BeforeRenderModuleEvent::__constructor()
+            'attributes' => &$attribs, // @todo: Remove reference in Joomla 7, see BeforeRenderModuleEvent::__constructor()
         ]));
         // Get final attributes
         $attribs = $brEvent->getArgument('attributes', $attribs);
@@ -374,7 +374,7 @@ abstract class ModuleHelper
         $modules    = [];
 
         $modules = $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
-            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see PrepareModuleListEvent::__constructor()
+            'modules' => &$modules, // @todo: Remove reference in Joomla 7, see PrepareModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         // If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
@@ -383,13 +383,13 @@ abstract class ModuleHelper
         }
 
         $modules = $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
-            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterModuleListEvent::__constructor()
+            'modules' => &$modules, // @todo: Remove reference in Joomla 7, see AfterModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         $modules = static::cleanModuleList($modules);
 
         $modules = $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
-            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterCleanModuleListEvent::__constructor()
+            'modules' => &$modules, // @todo: Remove reference in Joomla 7, see AfterCleanModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         return $modules;
@@ -411,7 +411,7 @@ abstract class ModuleHelper
         $cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
 
         $db      = Factory::getDbo();
-        $query   = $db->getQuery(true);
+        $query   = $db->createQuery();
         $nowDate = Factory::getDate()->toSql();
 
         $query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))

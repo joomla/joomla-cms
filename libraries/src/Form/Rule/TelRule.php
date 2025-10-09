@@ -77,7 +77,7 @@ class TelRule extends FormRule
             $regex = $regexarray[$plan];
 
             // Test the value against the regular expression.
-            if (preg_match($regex, $value) == false) {
+            if (!preg_match($regex, $value)) {
                 return false;
             }
         } else {
@@ -89,7 +89,7 @@ class TelRule extends FormRule
             $cleanvalue = preg_replace('/[+. \-(\)]/', '', $value);
             $regex      = '/^[0-9]{7,15}?$/';
 
-            if (preg_match($regex, $cleanvalue) == true) {
+            if (preg_match($regex, $cleanvalue)) {
                 return true;
             }
 

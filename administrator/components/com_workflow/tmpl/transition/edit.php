@@ -68,6 +68,6 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
     <?php echo $this->form->getInput('workflow_id'); ?>
-    <input type="hidden" name="task" value="transition.edit" />
-    <?php echo HTMLHelper::_('form.token'); ?>
+
+    <?php echo $this->form->renderControlFields(); ?>
 </form>

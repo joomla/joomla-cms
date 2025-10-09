@@ -20,7 +20,7 @@ describe('Install Joomla', () => {
     cy.installJoomla(config);
 
     // Disable compat plugin
-    cy.db_enableExtension(0, 'plg_behaviour_compat');
+    cy.db_enableExtension(0, 'plg_behaviour_compat6');
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
