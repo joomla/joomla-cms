@@ -161,7 +161,7 @@ abstract class AbstractMenu
     {
         $result = null;
 
-        if (isset($id, $this->getMenu()[$id])) {
+        if (isset($this->getMenu()[$id])) {
             $result = &$this->getMenu()[$id];
         }
 
@@ -180,7 +180,7 @@ abstract class AbstractMenu
      */
     public function setDefault($id, $language = '*')
     {
-        if (isset($id, $this->getMenu()[$id])) {
+        if (isset($this->getMenu()[$id])) {
             $this->default[$language] = $id;
 
             return true;
@@ -225,7 +225,7 @@ abstract class AbstractMenu
      */
     public function setActive($id)
     {
-        if (isset($id, $this->getMenu()[$id])) {
+        if (isset($this->getMenu()[$id])) {
             $this->active = $id;
 
             return $this->getMenu()[$id];
