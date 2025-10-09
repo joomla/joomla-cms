@@ -125,7 +125,14 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // eslint-disable-next-line no-undef
 
     // Allow configurable fuzzy search threshold (default 0.3)
-    const threshold = parseFloat(this.select.dataset.fuseThreshold);
+    let threshold = 0.3;
+
+    if (this.select.dataset.fuseThreshold !== undefined) {
+      const parsed = parseFloat(this.select.dataset.fuseThreshold);
+      if (!Number.isNaN(parsed)) {
+        threshold = parsed;
+      }
+    }
 
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
@@ -137,7 +144,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       renderSelectedChoices: 'always',
       shouldSort: false,
       fuseOptions: {
-        threshold: Number.isNaN(threshold) ? 0.3 : threshold,
+        threshold
       },
       noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
       noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
